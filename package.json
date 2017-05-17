@@ -10,7 +10,7 @@
     "immutable": "^3.8.1",
     "react": "16.0.0-alpha.6",
     "react-native": "^0.44.0",
-    "react-native-sound": "../../react-native-sound",
+    "react-native-sound": "^0.10.1",
     "react-native-video": "../../react-native-video",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
