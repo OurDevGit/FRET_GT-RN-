@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { View, Button, Text, Picker } from "react-native";
 import Video from "react-native-video";
+import Sound from "react-native-sound";
 import PlaybackTimeline from "./PlaybackTimeline";
 
 class MediaPlayer extends Component {
@@ -8,7 +9,7 @@ class MediaPlayer extends Component {
     isVideo: false,
     videoDuration: 0,
     playbackProgress: 0.0,
-    playbackRate: 0.25
+    playbackRate: 1
   };
 
   render() {
@@ -26,6 +27,8 @@ class MediaPlayer extends Component {
               this.setState({
                 isVideo: true
               });
+
+              this.stopMusic();
             }}
           />
           <Button
@@ -34,6 +37,8 @@ class MediaPlayer extends Component {
               this.setState({
                 isVideo: false
               });
+
+              this.playMusic();
             }}
           />
         </View>
@@ -85,6 +90,17 @@ class MediaPlayer extends Component {
     );
   }
 
+  componentDidMount() {
+    console.log("MediaPlayer did mount");
+    requestAnimationFrame(this.handleAnimationFrame);
+  }
+
+  componentDidUpdate() {
+    if (this.song) {
+      this.song.setSpeed(this.state.playbackRate);
+    }
+  }
+
   handleBackPress = () => {};
 
   handleForwardPress = () => {};
@@ -113,6 +129,79 @@ class MediaPlayer extends Component {
     this.setState({
       playbackRate: rate
     });
+  };
+
+  handleAnimationFrame = timestamp => {
+    requestAnimationFrame(this.handleAnimationFrame);
+
+    if (this.song) {
+      this.song.getCurrentTime(seconds => {
+        this.setState({
+          playbackProgress: seconds / this.song.getDuration()
+        });
+      });
+    }
+  };
+
+  playMusic = () => {
+    console.log("playMusic()");
+
+    this.setState({
+      isVideo: false
+    });
+
+    // const file = require("../../tank.mp3");
+    // console.log(file);
+
+    this.stopMusic();
+
+    this.song = new Sound("abc.m4a", Sound.MAIN_BUNDLE, (error, props) => {
+      console.log("sound init handler");
+
+      if (error) {
+        console.log("failed to load the sound", error);
+        return;
+      }
+      // loaded successfully
+      console.log(
+        "duration in seconds: " +
+          this.song.getDuration() +
+          "number of channels: " +
+          this.song.getNumberOfChannels()
+      );
+
+      // this.setState({
+      //   isPlayingMusic: true
+      // });
+
+      this.song.setSpeed(this.state.playbackRate);
+      this.song.play(success => {
+        if (success) {
+          console.log("successfully finished playing");
+        } else {
+          console.log("playback failed due to audio decoding errors");
+        }
+
+        // this.setState({
+        //   isPlayingMusic: false
+        // });
+      });
+    });
+  };
+
+  stopMusic = () => {
+    console.log("stopMusic()");
+
+    if (this.song) {
+      this.song.stop();
+      this.song.release();
+    } else {
+      console.log("no song instance?!");
+    }
+
+    // this.setState({
+    //   isPlayingMusic: false
+    // });
   };
 }
 
