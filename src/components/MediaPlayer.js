@@ -7,6 +7,7 @@ import PlaybackTimeline from "./PlaybackTimeline";
 class MediaPlayer extends Component {
   state = {
     isVideo: false,
+    isPlaying: false,
     videoDuration: 0,
     playbackProgress: 0.0,
     playbackRate: 1
@@ -25,7 +26,8 @@ class MediaPlayer extends Component {
             title="Video"
             onPress={() => {
               this.setState({
-                isVideo: true
+                isVideo: true,
+                playbackRate: 1
               });
 
               this.stopMusic();
@@ -35,7 +37,8 @@ class MediaPlayer extends Component {
             title="Music"
             onPress={() => {
               this.setState({
-                isVideo: false
+                isVideo: false,
+                playbackRate: 1
               });
 
               this.playMusic();
@@ -56,7 +59,7 @@ class MediaPlayer extends Component {
                 //progressUpdateInterval={2000}
                 onLoad={this.handleVideoLoad}
                 onProgress={this.handleVideoProgress}
-                rate={0.5}
+                rate={this.state.playbackRate}
               />
             : <View />}
           <PlaybackTimeline
@@ -82,8 +85,8 @@ class MediaPlayer extends Component {
             </View>
 
             <Button title="-10" onPress={this.handleBackPress} />
-            <Button title="Toggle" onPress={this.handleForwardPress} />
-            <Button title="+10" onPress={this.handleTogglePress} />
+            <Button title="Toggle" onPress={this.handleTogglePress} />
+            <Button title="+10" onPress={this.handleForwardPress} />
           </View>
         </View>
       </View>
@@ -95,17 +98,60 @@ class MediaPlayer extends Component {
     requestAnimationFrame(this.handleAnimationFrame);
   }
 
-  componentDidUpdate() {
-    if (this.song) {
-      this.song.setSpeed(this.state.playbackRate);
+  componentDidUpdate(prevProps, prevState) {
+    // if we're playing and the playback rate changed
+    if (
+      this.state.isPlaying &&
+      prevState.playbackRate !== this.state.playbackRate
+    ) {
+      // music
+      if (this.state.isVideo === false) {
+        this.song.setSpeed(this.state.playbackRate);
+      }
+
+      // video
     }
   }
 
-  handleBackPress = () => {};
+  handleBackPress = () => {
+    if (this.state.isVideo === false) {
+      if (this.song) {
+        this.song.getCurrentTime(seconds => {
+          this.song.setCurrentTime(seconds - 10);
+        });
+      }
+    }
+  };
 
-  handleForwardPress = () => {};
+  handleForwardPress = () => {
+    if (this.state.isVideo === false) {
+      if (this.song) {
+        this.song.getCurrentTime(seconds => {
+          this.song.setCurrentTime(seconds + 10);
+        });
+      }
+    }
+  };
 
-  handleTogglePress = () => {};
+  handleTogglePress = () => {
+    console.log("toggle press");
+    if (this.state.isVideo === false) {
+      if (this.song) {
+        if (this.state.isPlaying === true) {
+          this.song.pause();
+          this.setState({
+            isPlaying: false
+          });
+        } else {
+          console.log("playing song");
+          this.song.play();
+          this.setState({
+            isPlaying: true
+          });
+        }
+      }
+    }
+  };
 
   handleVideoProgress = progress => {
     const proportion = progress.currentTime / this.state.videoDuration;
@@ -121,7 +167,13 @@ class MediaPlayer extends Component {
   };
 
   handleScrub = progress => {
-    this.videoPlayer.seek(progress * this.state.videoDuration);
+    if (this.state.isVideo === true) {
+      this.videoPlayer.seek(progress * this.state.videoDuration);
+    } else {
+      if (this.song) {
+        this.song.setCurrentTime(progress * this.song.getDuration());
+      }
+    }
   };
 
   handleRateChange = rate => {
@@ -134,12 +186,14 @@ class MediaPlayer extends Component {
   handleAnimationFrame = timestamp => {
     requestAnimationFrame(this.handleAnimationFrame);
 
-    if (this.song) {
-      this.song.getCurrentTime(seconds => {
-        this.setState({
-          playbackProgress: seconds / this.song.getDuration()
+    if (this.state.isVideo === false) {
+      if (this.song) {
+        this.song.getCurrentTime(seconds => {
+          this.setState({
+            playbackProgress: seconds / this.song.getDuration()
+          });
         });
-      });
+      }
     }
   };
 
@@ -170,11 +224,12 @@ class MediaPlayer extends Component {
           this.song.getNumberOfChannels()
       );
 
-      // this.setState({
-      //   isPlayingMusic: true
-      // });
+      this.setState({
+        isPlaying: true
+      });
 
       this.song.setSpeed(this.state.playbackRate);
+      console.log("playMusic playing");
       this.song.play(success => {
         if (success) {
           console.log("successfully finished playing");
@@ -182,9 +237,9 @@ class MediaPlayer extends Component {
           console.log("playback failed due to audio decoding errors");
         }
 
-        // this.setState({
-        //   isPlayingMusic: false
-        // });
+        this.setState({
+          isPlaying: false
+        });
       });
     });
   };
@@ -199,9 +254,9 @@ class MediaPlayer extends Component {
       console.log("no song instance?!");
     }
 
-    // this.setState({
-    //   isPlayingMusic: false
-    // });
+    this.setState({
+      isPlaying: false
+    });
   };
 }
 
