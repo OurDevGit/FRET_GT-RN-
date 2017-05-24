@@ -27,7 +27,8 @@ class MediaPlayer extends Component {
             onPress={() => {
               this.setState({
                 isVideo: true,
-                playbackRate: 1
+                playbackRate: 1,
+                isPlaying: true
               });
 
               this.stopMusic();
@@ -53,13 +54,17 @@ class MediaPlayer extends Component {
                 }}
                 source={require("../../test-small.mp4")}
                 style={{
+                  position: "relative",
                   width: 200,
-                  height: 112.5
+                  height: 112.5,
+                  left: 0,
+                  top: 0
                 }}
-                //progressUpdateInterval={2000}
+                resizeMode="contain"
                 onLoad={this.handleVideoLoad}
                 onProgress={this.handleVideoProgress}
                 rate={this.state.playbackRate}
+                paused={this.state.isPlaying === false}
               />
             : <View />}
           <PlaybackTimeline
@@ -85,7 +90,10 @@ class MediaPlayer extends Component {
             </View>
 
             <Button title="-10" onPress={this.handleBackPress} />
-            <Button title="Toggle" onPress={this.handleTogglePress} />
+            <Button
+              title={this.state.isPlaying ? "Pause" : "Play"}
+              onPress={this.handleTogglePress}
+            />
             <Button title="+10" onPress={this.handleForwardPress} />
           </View>
         </View>
@@ -99,6 +107,8 @@ class MediaPlayer extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // console.log(this.state);
+
     // if we're playing and the playback rate changed
     if (
       this.state.isPlaying &&
@@ -120,6 +130,12 @@ class MediaPlayer extends Component {
           this.song.setCurrentTime(seconds - 10);
         });
       }
+    } else {
+      if (this.videoPlayer) {
+        const currentSeconds =
+          this.state.playbackProgress * this.state.videoDuration;
+        this.videoPlayer.seek(currentSeconds - 10);
+      }
     }
   };
 
@@ -129,6 +145,12 @@ class MediaPlayer extends Component {
         this.song.getCurrentTime(seconds => {
           this.song.setCurrentTime(seconds + 10);
         });
+      }
+    } else {
+      if (this.videoPlayer) {
+        const currentSeconds =
+          this.state.playbackProgress * this.state.videoDuration;
+        this.videoPlayer.seek(currentSeconds + 10);
       }
     }
   };
@@ -150,6 +172,11 @@ class MediaPlayer extends Component {
           });
         }
       }
+    } else {
+      // console.log()
+      this.setState({
+        isPlaying: !this.state.isPlaying
+      });
     }
   };
 
@@ -162,7 +189,8 @@ class MediaPlayer extends Component {
 
   handleVideoLoad = videoDetails => {
     this.setState({
-      videoDuration: videoDetails.duration
+      videoDuration: videoDetails.duration,
+      isPlaying: true
     });
   };
 
@@ -254,9 +282,11 @@ class MediaPlayer extends Component {
       console.log("no song instance?!");
     }
 
-    this.setState({
-      isPlaying: false
-    });
+    if (this.state.isVideo === false) {
+      this.setState({
+        isPlaying: false
+      });
+    }
   };
 }
 

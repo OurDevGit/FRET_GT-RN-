@@ -3,15 +3,13 @@ import { View } from "react-native";
 import { Provider } from "react-redux";
 import AdContainer from "./AdContainer";
 import MediaPlayer from "./MediaPlayer";
-// import VideoPlayer from "./VideoPlayer";
 
 const Root = ({ store }) => (
   <Provider store={store}>
-    <View style={{ backgroundColor: "#333", flexGrow: 1 }}>
+    <View style={{ backgroundColor: "#ddd", flexGrow: 1 }}>
 
       <AdContainer />
       <MediaPlayer />
-      {/*<VideoPlayer />*/}
     </View>
   </Provider>
 );
