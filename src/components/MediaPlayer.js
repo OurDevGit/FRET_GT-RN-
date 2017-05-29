@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Button, Text, Picker } from "react-native";
-import Video from "react-native-video";
+//import Video from "react-native-video";
 import Sound from "react-native-sound";
 import PlaybackTimeline from "./PlaybackTimeline";
 
@@ -48,24 +48,8 @@ class MediaPlayer extends Component {
         </View>
         <View style={{ alignItems: "center" }}>
           {this.state.isVideo === true
-            ? <Video
-                ref={ref => {
-                  this.videoPlayer = ref;
-                }}
-                source={require("../../test-small.mp4")}
-                style={{
-                  position: "relative",
-                  width: 200,
-                  height: 112.5,
-                  left: 0,
-                  top: 0
-                }}
-                resizeMode="contain"
-                onLoad={this.handleVideoLoad}
-                onProgress={this.handleVideoProgress}
-                rate={this.state.playbackRate}
-                paused={this.state.isPlaying === false}
-              />
+            ? 
+            <View />
             : <View />}
           <PlaybackTimeline
             progress={this.state.playbackProgress}
