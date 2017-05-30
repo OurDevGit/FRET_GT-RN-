@@ -24,7 +24,7 @@ const parse = (filename) => {
   midi.tracks.forEach(track => {
     if (track[0].text !== undefined) {
 
-      if (track[0].text.includes("FMP -") && track[0].text !== "FMP - Jam Bar" && track[0].text === "FMP - Rhythm Guitar (Tune 1/2 Step Flat)") {
+      if (track[0].text.includes("FMP -") && track[0].text !== "FMP - Jam Bar") {
         var guitarTrack = new MidiNoteTrack(track, timingTrack.secondsForTicks)
         console.log("Guitar: ", guitarTrack.name)
         console.log(guitarTrack.notes)
