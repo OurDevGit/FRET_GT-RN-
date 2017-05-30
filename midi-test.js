@@ -104,8 +104,8 @@ const doMFP = () => {
   // ✔︎ tracks
   // ✔︎ markers
   // ✔︎ patterns / jambar
-  // notes
   // tuning
+  // notes
   // rpn
 
   var file = require("fs").readFileSync(`${filename}.mid`, "binary");
@@ -188,7 +188,7 @@ const doMFP = () => {
 
   if (tuningTracks.length > 0) {
     console.log("TUNING: ")
-    const stringOffset = [24, 19, 15, 10, 5, 0]
+    const stringOffset = [64, 59, 55, 50, 45, 40]
 
     tuningTracks.forEach(track => {
 
@@ -206,29 +206,26 @@ const doMFP = () => {
           }
         }
 
-
         if (event.deltaTime !== undefined) {
           totalEventBeats += (event.deltaTime / midi.header.ticksPerBeat)
         }
         
         if (event.subtype === "noteOn") {
-            event.begin = totalEventBeats
-            notesOn.push(event)
+            if (event.velocity > 0) {
+              event.begin = timeForBeats(totalEventBeats)
+              notesOn.push(event)
+            }
           } else if (event.subtype === "noteOff") {
-            //console.log(notesOn)
             for (var i = 0; i < notesOn.length; i++) {
               var noteOn = notesOn[i]
 
               if (event.channel === noteOn.channel && event.noteNumber == noteOn.noteNumber) {
-                
                 var note = {}
                 note.string = noteOn.channel - 10
-                console.log(noteOn.noteNumber, (40 + stringOffset[noteOn.channel - 10]))
-                note.fret = noteOn.noteNumber - (40 + stringOffset[noteOn.channel - 10])
-                note.on = noteOn.velocity > 0
-                note.number = noteOn.noteNumber
+                note.fret = noteOn.noteNumber - stringOffset[note.string]
                 note.begin = noteOn.begin
-                note.end = totalEventBeats
+                note.end = timeForBeats(totalEventBeats)
+                console.log('string: ', note.string, '; fret: ', note.fret, '; begin: ', note.begin, '; end: ', note.end)
                 
                 notes.push(note)
                 notesOn.splice(i, 0)
@@ -236,7 +233,6 @@ const doMFP = () => {
               }
             }
           }
-          
       });
 
       //console.log(notes)
