@@ -13,7 +13,7 @@ function MidiNoteTrack(track, secondsForTicks) {
       if (event.text !== undefined) {
         
         // removing track info from track name
-        var edited = event.text.replace("T - ", "")
+        var edited = event.text.replace("FMP - ", "")
         edited = edited.replace("T - ", "")
         this.name = edited
 
@@ -23,12 +23,37 @@ function MidiNoteTrack(track, secondsForTicks) {
           var str = edited.substr(index)
           str = str.replace("(Capo ", "")
           str = str.replace(")", "")
+          
           this.capo = parseInt(str)
+          edited = edited.substr(index)
         }
-        
 
+        // determine tuning by (Tune ...) string in name
+        if (edited.includes("(Tune ")) {
+          var index = edited.indexOf("(Tune ")
+          var str = edited.substr(index)
+          str = str.replace("(Tune ", "")
+          str = str.replace(")", "")
 
-        
+          this.tuning = str
+          edited = edited.substr(index)
+        }
+
+        // determine tuning by (DADG) string in name
+        if (edited.includes("(")) {
+          var index = edited.indexOf("(")
+          var str = edited.substr(index)
+          str = str.replace("(", "")
+          str = str.replace(")", "")
+
+          this.fullTuning = str
+          edited = edited.substr(index)
+        }
+
+        this.isBass = edited.includes("Bass")
+
+        // removing all extra info from track name
+        this.shortName = edited
       }
 
       if (event.deltaTime !== undefined) {
