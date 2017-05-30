@@ -2,73 +2,69 @@
 // private
 var tempos = []
 var ticksPerBeat = 0
-
+var secondsPerTick = 0
+var totalTicks = 0
+var totalSeconds = 0
+var markers = []
 
 module.exports = TimingTrack
 
-function TimingTrack(track, headerTicksPerBeat) {
-	
-  var markers = []
-  var microsecondsPerBeat = 0
-  var totalEventTime = 0
+function TimingTrack(track, header) {
+	ticksPerBeat = header.ticksPerBeat
 
-  ticksPerBeat = headerTicksPerBeat
-
-  console.log("MARKERS: ")
   track.forEach((event, index) => {
     if (event.subtype === "timeSignature") {
       var tempo = track[index + 2]
-      if (tempo.microsecondsPerBeat !== undefined) {
-        microsecondsPerBeat = tempo.microsecondsPerBeat
+      if (tempo.secondsPerTick !== undefined) {
+        secondsPerTick = tempo.microsecondsPerBeat / ticksPerBeat
       }
     }
     
     if (event.deltaTime !== undefined) {
-      var beats = event.deltaTime / ticksPerBeat
-      var seconds = beats * microsecondsPerBeat / 1000000
+      totalTicks += event.deltaTime
+      totalSeconds += event.deltaTime * secondsPerTick
 
-      totalEventTime += seconds
-
-      tempos.push({microsecondsPerBeat : microsecondsPerBeat, beats: beats})
+      //console.log('ticks: ', event.deltaTime, '; rate: ', secondsPerTick)
+      tempos.push({rate : secondsPerTick, ticks: event.deltaTime})
 
       if (event.microsecondsPerBeat !== undefined) {
-        microsecondsPerBeat = event.microsecondsPerBeat
+        secondsPerTick = event.microsecondsPerBeat / ticksPerBeat
       }
     }
 
     if (event.type === "meta" && event.text !== undefined) {
       if (event.text.includes("FMP -")) {
         var name = event.text.replace("FMP - ", "")
-        markers.push({name: name, time: totalEventTime})
-        console.log(`marker: ${name}; time: ${totalEventTime};`)
+        markers.push({name: name, time: totalSeconds})
       }
     }
   });
-
 }
 
-TimingTrack.prototype.timeForBeats = (beats) => {
+TimingTrack.prototype.markers = markers
+
+TimingTrack.prototype.secondsForTicks = (ticks) => {
   var microseconds = 0
-  var totalBeats = 0
+  var totalTicks = 0
   
   for (var i = 0; i < tempos.length; i++) {
     var tempo = tempos[i]
     
-    if (beats > totalBeats + tempo.beats) {
-      microseconds += (tempo.beats * tempo.microsecondsPerBeat)
-      totalBeats += tempo.beats
+    if (ticks > totalTicks + tempo.ticks) {
+      microseconds += (tempo.ticks * tempo.rate)
+      totalTicks += tempo.ticks
     } else {
-      var diff = beats - totalBeats
-      microseconds += (diff * tempo.microsecondsPerBeat)
-      totalBeats += tempo.beats
+      var diff = ticks - totalTicks
+      microseconds += (diff * tempo.rate)
+      totalTicks += tempo.ticks
       break
     }
   }
-
-  if (beats > totalBeats) {
+  
+  if (ticks > totalTicks) {
     var lastTempo = tempos[tempos.length - 1]
-    var diff = beats - totalBeats
-    microseconds += (diff * lastTempo.microsecondsPerBeat)
+    var diff = ticks - totalTicks
+    microseconds += (diff * lastTempo.rate)
   }
 
   return microseconds / 1000000

@@ -1,16 +1,7 @@
 const midiFileParser = require("midi-file-parser");
 const fs = require("fs");
 const MidiTimingTrack = require("./midi-timing-track")
-
-function arrayBuffer(buffer) {
-  var ab = new ArrayBuffer(buffer.length);
-  var view = new Uint8Array(ab);
-
-  for (var i = 0; i < buffer.length; ++i) {
-    view[i] = buffer[i];
-  }
-  return ab;
-}
+const MidiPatternTrack = require("./midi-pattern-track")
 
 const parse = (filename) => {
   // ✔︎ time/beats
@@ -25,9 +16,35 @@ const parse = (filename) => {
   var midi = midiFileParser(file);
   fs.writeFileSync(`./${filename}.json`, JSON.stringify(midi, null, 2));
 
-  var timingTrack = new MidiTimingTrack(midi.tracks[0], midi.header.ticksPerBeat)
+  var timingTrack = new MidiTimingTrack(midi.tracks[0], midi.header)
+  var markers = timingTrack.markers
+  var patterns = []
+  //console.log("MARKERS: ")
+  //console.log(markers)
+  //console.log(" ")
 
-  console.log(" ")
+  midi.tracks.forEach(track => {
+    if (track[0].text !== undefined) {
+
+      if (track[0].text.includes("FMP -") && track[0].text !== "FMP - Jam Bar") {
+        
+      }
+
+      if (track[0].text.includes("T -")) {
+
+      }
+
+      if (track[0].text.includes("FMP - Jam Bar")) {
+        var patternTrack = new MidiPatternTrack(track, timingTrack.secondsForTicks)
+        patterns = patternTrack.patterns
+        console.log("JAM BAR: ")
+        console.log(patterns)
+        console.log(" ")
+      }
+    }
+  })
+
+/*
   var guitarTracks = midi.tracks.filter(arr => {
     return (arr[0].text.includes("FMP -") && arr[0].text !== "FMP - Jam Bar")
   })
@@ -36,30 +53,7 @@ const parse = (filename) => {
     return arr[0].text.includes("T -")
   })
 
-  var jamBarTracks = midi.tracks.filter(arr => {
-    return arr[0].text.includes("FMP - Jam Bar")
-  })
-
-  if (jamBarTracks.length > 0) {
-    console.log("JAMBAR: ")
-    totalEventBeats = 0
-    
-    var track = jamBarTracks[0]
-    track.forEach(event => {
-      if (event.deltaTime !== undefined) {
-        totalEventBeats += (event.deltaTime / midi.header.ticksPerBeat)
-      }
-
-      if (event.subtype === "text" && event.text !== undefined) {
-        if (event.text.includes("@IMP_PATTERN_SCALE")) {
-          var beats = event.deltaTime / midi.header.ticksPerBeat
-          var time = timingTrack.timeForBeats(totalEventBeats)
-          var arr = event.text.split(':');
-          console.log(`jambar key: ${arr[2]} scale: ${arr[1]}; time: ${time}`)
-        }
-      }
-    });
-  }
+  
 
   if (tuningTracks.length > 0) {
     console.log("TUNING: ")
@@ -111,7 +105,7 @@ const parse = (filename) => {
       });
     });
   }
-
+*/
   midi.tracks.forEach(track => {
     track.forEach(event => {
       if (event.subtype !== "noteOn" && event.subtype !== "noteOff") {
