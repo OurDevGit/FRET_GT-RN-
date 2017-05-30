@@ -1,6 +1,7 @@
 const midiFileParser = require("midi-file-parser");
 const fs = require("fs");
 const MidiTimingTrack = require("./midi-timing-track")
+const MidiNoteTrack = require("./midi-note-track")
 const MidiPatternTrack = require("./midi-pattern-track")
 
 const parse = (filename) => {
@@ -31,7 +32,10 @@ const parse = (filename) => {
       }
 
       if (track[0].text.includes("T -")) {
-
+        var tuningTrack = new MidiNoteTrack(track, timingTrack.secondsForTicks)
+        console.log("TUNING: ", tuningTrack.name)
+        console.log(tuningTrack.notes)
+        console.log(" ")
       }
 
       if (track[0].text.includes("FMP - Jam Bar")) {
@@ -43,69 +47,7 @@ const parse = (filename) => {
       }
     }
   })
-
-/*
-  var guitarTracks = midi.tracks.filter(arr => {
-    return (arr[0].text.includes("FMP -") && arr[0].text !== "FMP - Jam Bar")
-  })
-
-  var tuningTracks = midi.tracks.filter(arr => {
-    return arr[0].text.includes("T -")
-  })
-
   
-
-  if (tuningTracks.length > 0) {
-    console.log("TUNING: ")
-    const stringOffset = [64, 59, 55, 50, 45, 40]
-
-    tuningTracks.forEach(track => {
-
-      var totalEventBeats = 0
-      var notes = []
-      var notesOn = []
-      
-      track.forEach(event => {
-        
-        //console.log(event)
-        if (event.text !== undefined) {
-          if (event.text.includes("T - ")) {
-            var name = event.text.replace("T - ", "")
-            console.log(`Tuning Track: ${name}`)
-          }
-        }
-
-        if (event.deltaTime !== undefined) {
-          totalEventBeats += (event.deltaTime / midi.header.ticksPerBeat)
-        }
-        
-        if (event.subtype === "noteOn") {
-            if (event.velocity > 0) {
-              event.begin = timingTrack.timeForBeats(totalEventBeats)
-              notesOn.push(event)
-            }
-          } else if (event.subtype === "noteOff") {
-            for (var i = 0; i < notesOn.length; i++) {
-              var noteOn = notesOn[i]
-
-              if (event.channel === noteOn.channel && event.noteNumber == noteOn.noteNumber) {
-                var note = {}
-                note.string = noteOn.channel - 10
-                note.fret = noteOn.noteNumber - stringOffset[note.string]
-                note.begin = noteOn.begin
-                note.end = timingTrack.timeForBeats(totalEventBeats)
-                console.log('string: ', note.string, '; fret: ', note.fret, '; begin: ', note.begin, '; end: ', note.end)
-                
-                notes.push(note)
-                notesOn.splice(i, 0)
-                break
-              }
-            }
-          }
-      });
-    });
-  }
-*/
   midi.tracks.forEach(track => {
     track.forEach(event => {
       if (event.subtype !== "noteOn" && event.subtype !== "noteOff") {
