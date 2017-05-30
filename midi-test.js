@@ -186,7 +186,62 @@ const doMFP = () => {
     });
   }
 
+  if (tuningTracks.length > 0) {
+    console.log("TUNING: ")
+    const stringOffset = [24, 19, 15, 10, 5, 0]
 
+    tuningTracks.forEach(track => {
+
+      var totalEventBeats = 0
+      var notes = []
+      var notesOn = []
+      
+      track.forEach(event => {
+        
+        //console.log(event)
+        if (event.text !== undefined) {
+          if (event.text.includes("T - ")) {
+            var name = event.text.replace("T - ", "")
+            console.log(`Tuning Track: ${name}`)
+          }
+        }
+
+
+        if (event.deltaTime !== undefined) {
+          totalEventBeats += (event.deltaTime / midi.header.ticksPerBeat)
+        }
+        
+        if (event.subtype === "noteOn") {
+            event.begin = totalEventBeats
+            notesOn.push(event)
+          } else if (event.subtype === "noteOff") {
+            //console.log(notesOn)
+            for (var i = 0; i < notesOn.length; i++) {
+              var noteOn = notesOn[i]
+
+              if (event.channel === noteOn.channel && event.noteNumber == noteOn.noteNumber) {
+                
+                var note = {}
+                note.string = noteOn.channel - 10
+                console.log(noteOn.noteNumber, (40 + stringOffset[noteOn.channel - 10]))
+                note.fret = noteOn.noteNumber - (40 + stringOffset[noteOn.channel - 10])
+                note.on = noteOn.velocity > 0
+                note.number = noteOn.noteNumber
+                note.begin = noteOn.begin
+                note.end = totalEventBeats
+                
+                notes.push(note)
+                notesOn.splice(i, 0)
+                break
+              }
+            }
+          }
+          
+      });
+
+      //console.log(notes)
+    });
+  }
 
   midi.tracks.forEach(track => {
     track.forEach(event => {
