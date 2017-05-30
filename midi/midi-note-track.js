@@ -8,84 +8,93 @@ module.exports = MidiNoteTrack
 
 function MidiNoteTrack(track, secondsForTicks) {
   this.notes = []
-
-	track.forEach(event => {
-      if (event.text !== undefined) {
-        
-        // removing track info from track name
-        var edited = event.text.replace("FMP - ", "")
-        edited = edited.replace("T - ", "")
-        this.name = edited
-
-        // determine capo by (Capo ...) string in name
-        if (edited.includes("(Capo ")) {
-          var index = edited.indexOf("(Capo ")
-          var str = edited.substr(index)
-          str = str.replace("(Capo ", "")
-          str = str.replace(")", "")
-          
-          this.capo = parseInt(str)
-          edited = edited.substr(index)
-        }
-
-        // determine tuning by (Tune ...) string in name
-        if (edited.includes("(Tune ")) {
-          var index = edited.indexOf("(Tune ")
-          var str = edited.substr(index)
-          str = str.replace("(Tune ", "")
-          str = str.replace(")", "")
-
-          this.tuning = str
-          edited = edited.substr(index)
-        }
-
-        // determine tuning by (DADG) string in name
-        if (edited.includes("(")) {
-          var index = edited.indexOf("(")
-          var str = edited.substr(index)
-          str = str.replace("(", "")
-          str = str.replace(")", "")
-
-          this.fullTuning = str
-          edited = edited.substr(index)
-        }
-
-        this.isBass = edited.includes("Bass")
-
-        // removing all extra info from track name
-        this.shortName = edited
-      }
-
-      if (event.deltaTime !== undefined) {
-        totalTicks += event.deltaTime
-      }
+  this.fineTuneVal = 2424
+  
+	track.forEach((event, index) => {
+    if (event.text !== undefined) {
       
-      if (event.subtype === "noteOn") {
-        if (event.velocity > 0) {
-          event.begin = secondsForTicks(totalTicks)
-          notesOn.push(event)
-        }
-      } else if (event.subtype === "noteOff") {
-        for (var i = 0; i < notesOn.length; i++) {
-          var noteOn = notesOn[i]
+      // removing track info from track name
+      var edited = event.text.replace("FMP - ", "")
+      edited = edited.replace("T - ", "")
+      edited = edited.replace("Gtr", "Guitar ")
+      this.name = edited
 
-          if (event.channel === noteOn.channel && event.noteNumber == noteOn.noteNumber) {
-            var note = {}
-            note.string = noteOn.channel - 10
-            note.fret = noteOn.noteNumber - stringOffset[note.string]
-            note.begin = noteOn.begin
-            note.end = secondsForTicks(totalTicks)
-
-            this.notes.push(note)
-            notesOn.splice(i, 1)
-            break
-          }
-        }
-      } else if (event.subtype === "controller") {
-        // console.log({
-        //   type: event.controllerType,
-        //   track: event.value
-        // });
+      // determine capo by (Capo ...) string in name
+      if (edited.includes("(Capo ")) {
+        var capoIndex = edited.indexOf("(Capo ")
+        var str = edited.substr(capoIndex)
+        str = str.replace("(Capo ", "")
+        str = str.replace(")", "")
+        
+        this.capo = parseInt(str)
+        edited = edited.substr(capoIndex)
       }
-    });
+
+      // determine tuning by (Tune ...) string in name
+      if (edited.includes("(Tune ")) {
+        var tuneIndex = edited.indexOf("(Tune ")
+        var str = edited.substr(tuneIndex)
+        str = str.replace("(Tune ", "")
+        str = str.replace(")", "")
+
+        this.tuning = str
+        edited = edited.substr(tuneIndex)
+      }
+
+      // determine tuning by (DADG) string in name
+      if (edited.includes("(")) {
+        var parenIndex = edited.indexOf("(")
+        var str = edited.substr(parenIndex)
+        str = str.replace("(", "")
+        str = str.replace(")", "")
+
+        this.fullTuning = str
+        edited = edited.substr(parenIndex)
+      }
+
+      this.isBass = edited.includes("Bass")
+
+      // removing all extra info from track name
+      this.shortName = edited
+    }
+
+    if (event.deltaTime !== undefined) {
+      totalTicks += event.deltaTime
+    }
+    
+    if (event.subtype === "noteOn" && event.velocity > 0) {
+      event.begin = secondsForTicks(totalTicks)
+      notesOn.push(event)
+    } else if (event.subtype === "noteOff") {
+      for (var i = 0; i < notesOn.length; i++) {
+        var noteOn = notesOn[i]
+
+        if (event.channel === noteOn.channel && event.noteNumber == noteOn.noteNumber) {
+          var note = {}
+          note.string = noteOn.channel - 10
+          note.fret = noteOn.noteNumber - stringOffset[note.string]
+          note.begin = noteOn.begin
+          note.end = secondsForTicks(totalTicks)
+
+          this.notes.push(note)
+          notesOn.splice(i, 1)
+        }
+      }
+    } else if (event.subtype === "controller") {
+      //console.log("controller event")
+      if (event.controllerType === 101) {
+        var rpn101 = track[index].value
+        var rpn100 = track[index + 1].value
+        var val6 = track[index + 2].value
+        var val38 = track[index + 3].value
+
+        // 0, 1 is fine tuning
+        if (rpn101 === 0 && rpn100 === 1) {
+          var leftBits = parseInt(val6) << 7
+          var rightBits = parseInt(val38)
+          this.fineTuneVal = leftBits | rightBits
+        }
+      }
+    }
+  });
 }
