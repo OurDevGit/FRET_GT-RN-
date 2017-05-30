@@ -1,47 +1,37 @@
 
-// private
 var tempos = []
-var ticksPerBeat = 0
-var secondsPerTick = 0
-var totalTicks = 0
-var totalSeconds = 0
-var markers = []
 
 module.exports = TimingTrack
 
 function TimingTrack(track, header) {
-	ticksPerBeat = header.ticksPerBeat
-
+  this.markers = []
+  var microsecondsPerTick = 0
+  var totalTicks = 0
+	
   track.forEach((event, index) => {
     if (event.subtype === "timeSignature") {
       var tempo = track[index + 2]
       if (tempo.secondsPerTick !== undefined) {
-        secondsPerTick = tempo.microsecondsPerBeat / ticksPerBeat
+        secondsPerTick = tempo.microsecondsPerBeat / header.ticksPerBeat
       }
     }
     
     if (event.deltaTime !== undefined) {
       totalTicks += event.deltaTime
-      totalSeconds += event.deltaTime * secondsPerTick
-
-      //console.log('ticks: ', event.deltaTime, '; rate: ', secondsPerTick)
-      tempos.push({rate : secondsPerTick, ticks: event.deltaTime})
+      tempos.push({rate : microsecondsPerTick, ticks: event.deltaTime})
 
       if (event.microsecondsPerBeat !== undefined) {
-        secondsPerTick = event.microsecondsPerBeat / ticksPerBeat
+        microsecondsPerTick = event.microsecondsPerBeat / header.ticksPerBeat
       }
     }
 
-    if (event.type === "meta" && event.text !== undefined) {
-      if (event.text.includes("FMP -")) {
-        var name = event.text.replace("FMP - ", "")
-        markers.push({name: name, time: totalSeconds})
-      }
+    if (event.type === "meta" && event.text !== undefined && event.text.includes("FMP -")) {
+      var name = event.text.replace("FMP - ", "")
+      var time = this.secondsForTicks(totalTicks)
+      this.markers.push({name: name, time: time})
     }
   });
 }
-
-TimingTrack.prototype.markers = markers
 
 TimingTrack.prototype.secondsForTicks = (ticks) => {
   var microseconds = 0

@@ -1,14 +1,13 @@
 
-// private
-const stringOffset = [64, 59, 55, 50, 45, 40]
-var notesOn = []
-var totalTicks = 0
-
 module.exports = MidiNoteTrack
 
 function MidiNoteTrack(track, secondsForTicks) {
   this.notes = []
-  this.fineTuneVal = 2424
+  this.fineTuneVal = undefined
+
+  var notesOn = []
+  var totalTicks = 0
+  const stringOffset = [64, 59, 55, 50, 45, 40]
   
 	track.forEach((event, index) => {
     if (event.text !== undefined) {
@@ -23,8 +22,7 @@ function MidiNoteTrack(track, secondsForTicks) {
       if (edited.includes("(Capo ")) {
         var capoIndex = edited.indexOf("(Capo ")
         var str = edited.substr(capoIndex)
-        str = str.replace("(Capo ", "")
-        str = str.replace(")", "")
+        str = str.replace("(Capo ", "").replace(")", "")
         
         this.capo = parseInt(str)
         edited = edited.substr(capoIndex)
@@ -34,8 +32,7 @@ function MidiNoteTrack(track, secondsForTicks) {
       if (edited.includes("(Tune ")) {
         var tuneIndex = edited.indexOf("(Tune ")
         var str = edited.substr(tuneIndex)
-        str = str.replace("(Tune ", "")
-        str = str.replace(")", "")
+        str = str.replace("(Tune ", "").replace(")", "")
 
         this.tuning = str
         edited = edited.substr(tuneIndex)
@@ -45,8 +42,7 @@ function MidiNoteTrack(track, secondsForTicks) {
       if (edited.includes("(")) {
         var parenIndex = edited.indexOf("(")
         var str = edited.substr(parenIndex)
-        str = str.replace("(", "")
-        str = str.replace(")", "")
+        str = str.replace("(", "").replace(")", "")
 
         this.fullTuning = str
         edited = edited.substr(parenIndex)
@@ -62,9 +58,12 @@ function MidiNoteTrack(track, secondsForTicks) {
       totalTicks += event.deltaTime
     }
     
+    // setting noteOn from event, waiting for corresponding noteOff
     if (event.subtype === "noteOn" && event.velocity > 0) {
       event.begin = secondsForTicks(totalTicks)
       notesOn.push(event)
+    
+    // combining noteOn and noteOff into full note object
     } else if (event.subtype === "noteOff") {
       for (var i = 0; i < notesOn.length; i++) {
         var noteOn = notesOn[i]
@@ -80,20 +79,19 @@ function MidiNoteTrack(track, secondsForTicks) {
           notesOn.splice(i, 1)
         }
       }
-    } else if (event.subtype === "controller") {
-      //console.log("controller event")
-      if (event.controllerType === 101) {
-        var rpn101 = track[index].value
-        var rpn100 = track[index + 1].value
-        var val6 = track[index + 2].value
-        var val38 = track[index + 3].value
+    
+    // fine tuning value for track
+    } else if (event.subtype === "controller" && event.controllerType === 101) {
+      var rpn101 = track[index].value
+      var rpn100 = track[index + 1].value
+      var val6 = track[index + 2].value
+      var val38 = track[index + 3].value
 
-        // 0, 1 is fine tuning
-        if (rpn101 === 0 && rpn100 === 1) {
-          var leftBits = parseInt(val6) << 7
-          var rightBits = parseInt(val38)
-          this.fineTuneVal = leftBits | rightBits
-        }
+      // 0, 1 is fine tuning
+      if (rpn101 === 0 && rpn100 === 1) {
+        var leftBits = parseInt(val6) << 7
+        var rightBits = parseInt(val38)
+        this.fineTuneVal = leftBits | rightBits
       }
     }
   });

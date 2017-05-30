@@ -1,11 +1,9 @@
 
-// private
-var totalTicks = 0
-
 module.exports = MidiPatternTrack
 
 function MidiPatternTrack(track, secondsForTicks) {
   this.patterns = []
+  var totalTicks = 0
 
 	track.forEach(event => {
       if (event.deltaTime !== undefined) {
