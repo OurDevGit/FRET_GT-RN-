@@ -11,11 +11,24 @@ function MidiNoteTrack(track, secondsForTicks) {
 
 	track.forEach(event => {
       if (event.text !== undefined) {
-        if (event.text.includes("T - ")) {
-          this.name = event.text.replace("T - ", "")
-        } else if (event.text.includes("FMP - ")) {
-          this.name = event.text.replace("T - ", "")
-        } 
+        
+        // removing track info from track name
+        var edited = event.text.replace("T - ", "")
+        edited = edited.replace("T - ", "")
+        this.name = edited
+
+        // determine capo by (Capo ...) string in name
+        if (edited.includes("(Capo ")) {
+          var index = edited.indexOf("(Capo ")
+          var str = edited.substr(index)
+          str = str.replace("(Capo ", "")
+          str = str.replace(")", "")
+          this.capo = parseInt(str)
+        }
+        
+
+
+        
       }
 
       if (event.deltaTime !== undefined) {
@@ -44,10 +57,10 @@ function MidiNoteTrack(track, secondsForTicks) {
           }
         }
       } else if (event.subtype === "controller") {
-          /*console.log({
-            type: event.controllerType,
-            track: event.value
-          });*/
-        }
+        // console.log({
+        //   type: event.controllerType,
+        //   track: event.value
+        // });
+      }
     });
 }

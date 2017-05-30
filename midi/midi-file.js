@@ -26,9 +26,9 @@ const parse = (filename) => {
 
       if (track[0].text.includes("FMP -") && track[0].text !== "FMP - Jam Bar") {
         var guitarTrack = new MidiNoteTrack(track, timingTrack.secondsForTicks)
-        console.log("Guitar: ", guitarTrack.name)
-        console.log(guitarTrack.notes)
-        console.log(" ")
+        // console.log("Guitar: ", guitarTrack.name)
+        // console.log(guitarTrack.notes)
+        // console.log(" ")
         guitarTracks.push(guitarTrack)
       }
 
