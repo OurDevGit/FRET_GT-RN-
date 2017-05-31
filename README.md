@@ -39,6 +39,6 @@ TODO: Fill this out!
 > Flexbox works the same way in React Native as it does in CSS on the web, with a few exceptions. The defaults are different, with **flexDirection defaulting to column instead of row**, and the **flex parameter only supporting a single number**.
 
 ## Useful Flexbox pages:
-[Flexbox Patterns](http://www.flexboxpatterns.com/home)  
 [CSSReference.io](http://cssreference.io/flexbox/)  
+[Flexbox Patterns](http://www.flexboxpatterns.com/home)  
 [Flexbox Cheatsheet](http://yoksel.github.io/flex-cheatsheet/)  
