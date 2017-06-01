@@ -70,6 +70,7 @@ function MidiNoteTrack(track, secondsForTicks) {
 
         if (event.channel === noteOn.channel && event.noteNumber == noteOn.noteNumber) {
           var note = {}
+          note.track = this.name
           note.string = noteOn.channel - 10
           note.fret = noteOn.noteNumber - stringOffset[note.string]
           note.begin = noteOn.begin

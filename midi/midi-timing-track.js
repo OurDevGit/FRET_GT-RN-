@@ -11,7 +11,7 @@ function TimingTrack(track, header) {
   track.forEach((event, index) => {
     if (event.subtype === "timeSignature") {
       var tempo = track[index + 2]
-      if (tempo.secondsPerTick !== undefined) {
+      if (tempo.microsecondsPerTick !== undefined) {
         secondsPerTick = tempo.microsecondsPerBeat / header.ticksPerBeat
       }
     }

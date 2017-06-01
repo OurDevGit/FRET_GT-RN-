@@ -3,51 +3,68 @@ const fs = require("fs");
 const MidiTimingTrack = require("./midi-timing-track")
 const MidiNoteTrack = require("./midi-note-track")
 const MidiPatternTrack = require("./midi-pattern-track")
+var notes = []
 
-const parse = (filename) => {
+module.exports = MidiFile
+
+function MidiFile(filename) {
+  this.markers
+  this.patterns = []
+  this.tuningTracks = []
+  this.guitarTracks = []
+  this.firstNote
+  this.lastNote
+
   var file = require("fs").readFileSync(`${filename}.mid`, "binary");
   var midi = midiFileParser(file);
   fs.writeFileSync(`./${filename}.json`, JSON.stringify(midi, null, 2));
 
   var timingTrack = new MidiTimingTrack(midi.tracks[0], midi.header)
-  var markers = timingTrack.markers
-  var patterns = []
-  var tuningTracks = []
-  var guitarTracks = []
-  console.log("MARKERS: ")
-  console.log(markers)
-  console.log(" ")
+  this.markers = timingTrack.markers
 
-  midi.tracks.forEach((track, index) => {
-    if (track[0].text !== undefined) {
+  midi.tracks.forEach((arr, index) => {
+    if (arr[0].text !== undefined) {
 
-      if (track[0].text.includes("FMP -") && track[0].text !== "FMP - Jam Bar") {
-        var guitarTrack = new MidiNoteTrack(track, timingTrack.secondsForTicks)
-        guitarTracks.push(guitarTrack)
-        console.log(`Guitar: ${guitarTrack.name}`)
-        console.log(`number of notes: ${guitarTrack.notes.length}`)
-        console.log(` `)
+      // load guitar tracks
+      if (arr[0].text.includes("FMP -") && arr[0].text !== "FMP - Jam Bar") {
+        var track = new MidiNoteTrack(arr, timingTrack.secondsForTicks)
+        notes = notes.concat(track.notes)
+        delete track.notes
+        this.guitarTracks.push(track)
       }
 
-      if (track[0].text.includes("T -")) {
-        var tuningTrack = new MidiNoteTrack(track, timingTrack.secondsForTicks)
-        tuningTracks.push(tuningTrack)
-        console.log(`Tuning: ${tuningTrack.name}`)
-        console.log(`number of notes: ${tuningTrack.notes.length}`)
-        console.log(`fineTuning: ${tuningTrack.fineTuneVal}`)
-        console.log(` `)
-        
+      // load tuning tracks
+      if (arr[0].text.includes("T -")) {
+        var track = new MidiNoteTrack(arr, timingTrack.secondsForTicks)
+        this.tuningTracks.push(track)
       }
 
-      if (track[0].text.includes("FMP - Jam Bar")) {
-        var patternTrack = new MidiPatternTrack(track, timingTrack.secondsForTicks)
-        patterns = patternTrack.patterns
-        console.log(`JAM BAR`)
-        console.log(`patterns: ${patterns}`)
-        console.log(` `)
+      // load jambar track
+      if (arr[0].text.includes("FMP - Jam Bar")) {
+        var patternTrack = new MidiPatternTrack(arr, timingTrack.secondsForTicks)
+        this.patterns = patternTrack.patterns
       }
     }
   })
+
+  var beginnings = notes.sort((a, b) => {
+    return a.begin - b.begin
+  })
+  this.firstNote = beginnings[0]
+
+  var endings = notes.sort((a, b) => {
+    return b.end - a.end
+  })
+  this.lastNote = endings[0]
 };
 
-parse("../rpn_test_dyer_maker");
+MidiFile.prototype.notesForTime = (time) => {
+  var matching = notes.filter(note => {
+    return note.begin <= time && note.end > time
+  })
+
+  return matching
+}
+
+var file = new MidiFile("../rpn_test_dyer_maker")
+console.log(file.firstNote)
