@@ -1,4 +1,4 @@
-# Getting Going
+# React and React Native
 
 ## First Time
 1. `npm install -g react-native-cli`
@@ -33,4 +33,12 @@ TODO: Fill this out!
 1. Install `react-native-git-upgrade` globally with NPM
 1. run `react-native-git-upgrade`
 
-## Add Flexbox links here
+# Flexbox
+
+[React Native uses Flexbox for layout](https://facebook.github.io/react-native/docs/flexbox.html). There is one caveat:
+> Flexbox works the same way in React Native as it does in CSS on the web, with a few exceptions. The defaults are different, with **flexDirection defaulting to column instead of row**, and the **flex parameter only supporting a single number**.
+
+## Useful Flexbox pages:
+[CSSReference.io](http://cssreference.io/flexbox/)  
+[Flexbox Patterns](http://www.flexboxpatterns.com/home)  
+[Flexbox Cheatsheet](http://yoksel.github.io/flex-cheatsheet/)  
