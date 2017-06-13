@@ -6,7 +6,12 @@
 1. `react-native link`
 
 ## Developing
-1. start your emulator _(TODO: write emulator section)_ or connect device over USB _(TODO: write device debugging section)_
+1. start your emulator or connect device over USB
+    1. start your emulator
+        1. `cd ~/Library/Android/sdk/tools`
+        1. `emulator -list-avds`
+        1. `emulator @[DEVICE_NAME]`
+    1. connect to device  _(TODO: write device debugging section)_
 1. `npm start`
 1. `react-native run-android`
 1. `react-native log-android` (optional)
