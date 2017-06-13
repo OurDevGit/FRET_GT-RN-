@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="70" height="200" viewBox="0 0 70 200">
+  <defs>
+    <rect id="fretboardguitar-b" width="70" height="1" y="37"/>
+    <filter id="fretboardguitar-a" width="102.9%" height="500%" x="-1.4%" y="-100%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.405683877 0"/>
+    </filter>
+    <rect id="fretboardguitar-d" width="70" height="1" y="66"/>
+    <filter id="fretboardguitar-c" width="102.9%" height="500%" x="-1.4%" y="-100%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.405683877 0"/>
+    </filter>
+    <rect id="fretboardguitar-f" width="70" height="1" y="94"/>
+    <filter id="fretboardguitar-e" width="102.9%" height="500%" x="-1.4%" y="-100%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.405683877 0"/>
+    </filter>
+    <rect id="fretboardguitar-h" width="70" height="1" y="123"/>
+    <filter id="fretboardguitar-g" width="102.9%" height="500%" x="-1.4%" y="-100%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.405683877 0"/>
+    </filter>
+    <rect id="fretboardguitar-j" width="70" height="1" y="151"/>
+    <filter id="fretboardguitar-i" width="102.9%" height="500%" x="-1.4%" y="-100%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.405683877 0"/>
+    </filter>
+    <rect id="fretboardguitar-l" width="70" height="1" y="180"/>
+    <filter id="fretboardguitar-k" width="102.9%" height="500%" x="-1.4%" y="-100%" filterUnits="objectBoundingBox">
+      <feOffset dy="2" in="SourceAlpha" result="shadowOffsetOuter1"/>
+      <feColorMatrix in="shadowOffsetOuter1" values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.405683877 0"/>
+    </filter>
+  </defs>
+  <g fill="none" fill-rule="evenodd">
+    <rect width="70" height="200" fill="#E4D9BC"/>
+    <rect width="70" height="168" y="25" fill="#322F29"/>
+    <rect width="8" height="168" x="62" y="25" fill="#D8D8D8"/>
+    <path stroke="#BDBABA" stroke-linecap="square" d="M64.5 25.5L64.5 192.5M67.5 25.5L67.5 192.5"/>
+    <use fill="#000" filter="url(#fretboardguitar-a)" xlink:href="#fretboardguitar-b"/>
+    <use fill="#F0EBEB" xlink:href="#fretboardguitar-b"/>
+    <use fill="#000" filter="url(#fretboardguitar-c)" xlink:href="#fretboardguitar-d"/>
+    <use fill="#F0EBEB" xlink:href="#fretboardguitar-d"/>
+    <use fill="#000" filter="url(#fretboardguitar-e)" xlink:href="#fretboardguitar-f"/>
+    <use fill="#F0EBEB" xlink:href="#fretboardguitar-f"/>
+    <g>
+      <use fill="#000" filter="url(#fretboardguitar-g)" xlink:href="#fretboardguitar-h"/>
+      <use fill="#F0EBEB" xlink:href="#fretboardguitar-h"/>
+    </g>
+    <g>
+      <use fill="#000" filter="url(#fretboardguitar-i)" xlink:href="#fretboardguitar-j"/>
+      <use fill="#F0EBEB" xlink:href="#fretboardguitar-j"/>
+    </g>
+    <g>
+      <use fill="#000" filter="url(#fretboardguitar-k)" xlink:href="#fretboardguitar-l"/>
+      <use fill="#F0EBEB" xlink:href="#fretboardguitar-l"/>
+    </g>
+  </g>
+</svg>

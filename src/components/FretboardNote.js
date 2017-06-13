@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-const size = 12;
+const size = 16;
 
 const FretboardNote = () => (
   <View
@@ -13,7 +13,7 @@ const FretboardNote = () => (
       alignItems: "center"
     }}
   >
-    <Text style={{ fontSize: 7 }}>C♭</Text>
+    <Text style={{ fontSize: 10 }}>C♭</Text>
   </View>
 );
 

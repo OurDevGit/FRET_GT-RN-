@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Image } from "react-native";
-import FretboardString from "./FretboardString";
+import FretboardFret from "./FretboardFret";
 
-const fb = require("../fretboard.png");
+const fb = require("../images/fretboard.png");
 
 class Fretboard extends React.Component {
   state = {
@@ -12,6 +12,13 @@ class Fretboard extends React.Component {
   render() {
     const { imageLayoutWidth, imageAspectRatio } = this.state;
     const imageHeight = imageLayoutWidth * imageAspectRatio;
+
+    var frets = [];
+    var range = 23;
+    for (var i = 0; i < range; i++) {
+      frets.push(<FretboardFret key={i} index={i} />)
+    }
+
     return (
       <View
         style={{
@@ -30,13 +37,8 @@ class Fretboard extends React.Component {
           onImageLayout={this.onImageLayout}
           onLoad={this.onLoad}
         >
-          <View style={{ top: 23, left: 35, width: 548 }}>
-            <FretboardString />
-            <FretboardString />
-            <FretboardString />
-            <FretboardString />
-            <FretboardString />
-            <FretboardString />
+          <View style={{ top: 23, left: 0, paddingRight: 8, paddingLeft: 8, flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
+            {frets}
           </View>
         </Image>
       </View>

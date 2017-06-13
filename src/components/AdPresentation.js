@@ -3,7 +3,7 @@ import { TouchableOpacity, Image, StyleSheet } from "react-native";
 
 const AdPresentation = ({ onTap, imageUrl }) => (
   <TouchableOpacity onPress={onTap} style={{}}>
-    <Image style={styles.banner} source={require("../topiPhone.png")}>
+    <Image style={styles.banner} source={require("../images/topiPhone.png")}>
       <Image
         style={styles.ad}
         source={{
