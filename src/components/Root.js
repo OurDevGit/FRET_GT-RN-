@@ -8,8 +8,8 @@ import Fretboard from "./Fretboard";
 const Root = ({ store }) => (
   <Provider store={store}>
     <View style={{ backgroundColor: "#ddd", flexGrow: 1 }}>
-
       <AdContainer />
+      <MediaPlayer />
       <Fretboard />
     </View>
   </Provider>

@@ -7,12 +7,17 @@
     "test": "jest"
   },
   "dependencies": {
+    "base-64": "^0.1.0",
+    "base64-arraybuffer": "^0.1.5",
+    "immutable": "^3.8.1",
     "midi-file-parser": "^1.0.0",
     "midi-player-js": "^1.1.1",
     "midiconvert": "^0.4.1",
     "react": "^16.0.0-alpha.6",
     "react-native": "^0.44.2",
     "react-native-activity-indicator": "0.0.2",
+    "react-native-fetch-blob": "^0.10.5",
+    "react-native-fs": "^2.3.3",
     "react-native-sound": "^0.10.1",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",

@@ -1,8 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { View, Button, Text, Picker } from "react-native";
-//import Video from "react-native-video";
+import Video from "react-native-video";
 import Sound from "react-native-sound";
+
+import * as actions from "../redux/actions";
 import PlaybackTimeline from "./PlaybackTimeline";
+import MidiParser from "../midi-parser";
 
 class MediaPlayer extends Component {
   state = {
@@ -42,6 +46,7 @@ class MediaPlayer extends Component {
                 playbackRate: 1
               });
 
+              this.loadMidi("dyer.mid");
               this.playMusic();
             }}
           />
@@ -209,6 +214,13 @@ class MediaPlayer extends Component {
     }
   };
 
+  loadMidi = path => {
+    MidiParser(path)
+    .then(midi => {
+      this.props.updateMidiData(midi);
+    })
+  }
+
   playMusic = () => {
     console.log("playMusic()");
 
@@ -216,12 +228,12 @@ class MediaPlayer extends Component {
       isVideo: false
     });
 
-    // const file = require("../../tank.mp3");
-    // console.log(file);
+    // const file = require("../test/dyer.m4a");
+    // console.log("file: ", file);
 
     this.stopMusic();
 
-    this.song = new Sound("abc.m4a", Sound.MAIN_BUNDLE, (error, props) => {
+    this.song = new Sound("dyer_audio.m4a", Sound.MAIN_BUNDLE, (error, props) => {
       console.log("sound init handler");
 
       if (error) {
@@ -274,4 +286,4 @@ class MediaPlayer extends Component {
   };
 }
 
-export default MediaPlayer;
+export default connect(null, actions)(MediaPlayer);

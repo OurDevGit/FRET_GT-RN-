@@ -37,7 +37,7 @@ class Fretboard extends React.Component {
           onImageLayout={this.onImageLayout}
           onLoad={this.onLoad}
         >
-          <View style={{ top: 23, left: 0, paddingRight: 8, paddingLeft: 8, flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
+          <View style={{ top: 23, left: 0, marginRight: 8, marginLeft: 8, flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
             {frets}
           </View>
         </Image>

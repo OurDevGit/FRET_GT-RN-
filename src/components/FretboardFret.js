@@ -10,7 +10,7 @@ const FretboardFret = ({ style }) => (
     <View style={background} />
     <View style={bar} />
     <View
-      style={{ marginLeft: "-10%", paddingTop: 4, paddingBottom: 4, flex: 1, flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}
+      style={{ marginLeft: "-10%", flex: 1, flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}
     >
       <FretboardNote index={0} />
       <FretboardNote index={1} />
