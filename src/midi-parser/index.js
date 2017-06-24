@@ -8,6 +8,7 @@ import noteTrack from './note-track'
 import patternTrack from './pattern-track'
 
 module.exports = filename => {
+  
   const path = RNFetchBlob.fs.asset(filename)
   return RNFetchBlob.fs.readFile(path, 'base64')
   .then(data => {
@@ -61,9 +62,7 @@ module.exports = filename => {
         guitarTracks: List(guitarTracks),
         tuningTracks: List(tuningTracks),
         patterns: List(patterns),
-        notes: Set(notes),
-        firstNote: firstNote,
-        lastNote: lastNote
+        notes: Set(notes)
       }
   })
 }

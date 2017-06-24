@@ -1,6 +1,6 @@
 import { List } from 'immutable'
 
-const markers = (state = [], action) => {
+const markers = (state = List(), action) => {
   switch (action.type) {
     case 'UPDATE_MIDI_DATA':
       console.log("MARKERS: ", action.payload.markers)
