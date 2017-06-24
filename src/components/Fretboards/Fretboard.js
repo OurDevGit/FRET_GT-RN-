@@ -1,8 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
 import { View, Image } from "react-native";
 
-import * as actions from "../redux/actions";
-import { getTrackNotesForTimeSelector, getTrackFretRangeSelector } from '../selectors'
+import * as actions from "../../redux/actions";
+import { getTrackNotesForTimeSelector, getTrackFretRangeSelector } from '../../selectors'
 
 import FretboardFret from "./FretboardFret";
 

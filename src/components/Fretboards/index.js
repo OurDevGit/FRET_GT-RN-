@@ -13,7 +13,7 @@ class FretboardsContainer extends React.Component {
   render() {
     return (
       <FlatList 
-        style={{ top: 23, left: 0, marginRight: 8, marginLeft: 8, flex: 1, backgroundColor: "#FF0000" }}
+        style={{ top: 23, left: 0, marginRight: 8, marginLeft: 8, flex: 1}}
         horizontal={true}
         data={ this.props.tracks } 
         renderItem={({ item }) => (
@@ -27,7 +27,7 @@ class FretboardsContainer extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    tracks
+    tracks: state.props
   };
 };
 
