@@ -21,7 +21,7 @@ const Fretboard = ({ track, range }) => (
       flexGrow: 1
     }}
   >
-    <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
+    <View style={{ top: 23, left: 0, marginRight: 8, marginLeft: 8, flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
       {fretsForRange(range)}
     </View>
   </View>

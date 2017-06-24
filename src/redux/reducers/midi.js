@@ -1,6 +1,6 @@
 import { List, Set } from 'immutable'
 
-const markers = (state = List(), action) => {
+exports.markers = (state = List(), action) => {
   switch (action.type) {
     case 'UPDATE_MIDI_DATA':
       return  action.payload.markers
@@ -9,7 +9,7 @@ const markers = (state = List(), action) => {
   }
 }
 
-const guitarTracks = (state = List(), action) => {
+exports.guitarTracks = (state = List(), action) => {
   switch (action.type) {
     case 'UPDATE_MIDI_DATA':
       return  action.payload.guitarTracks
@@ -18,7 +18,7 @@ const guitarTracks = (state = List(), action) => {
   }
 }
 
-const tuningTracks = (state = List(), action) => {
+exports.tuningTracks = (state = List(), action) => {
   switch (action.type) {
     case 'UPDATE_MIDI_DATA':
       return  action.payload.tuningTracks
@@ -27,7 +27,7 @@ const tuningTracks = (state = List(), action) => {
   }
 }
 
-const patterns = (state = List(), action) => {
+exports.patterns = (state = List(), action) => {
   switch (action.type) {
     case 'UPDATE_MIDI_DATA':
       return  action.payload.patterns
@@ -36,7 +36,7 @@ const patterns = (state = List(), action) => {
   }
 }
 
-const notes = (state = Set(), action) => {
+exports.notes = (state = Set(), action) => {
   switch (action.type) {
     case 'UPDATE_MIDI_FILE':
       return  action.payload.notes
@@ -44,5 +44,3 @@ const notes = (state = Set(), action) => {
       return state
   }
 }
-
-export default { markers, guitarTracks, tuningTracks, patterns, notes }

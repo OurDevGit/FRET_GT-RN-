@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { FlatList } from "react-native";
 
-import * as actions from "../redux/actions";
+import * as actions from "../../redux/actions";
 import Fretboard from "./Fretboard";
 
 class FretboardsContainer extends React.Component {
@@ -13,9 +13,10 @@ class FretboardsContainer extends React.Component {
   render() {
     return (
       <FlatList 
-        style={{ top: 23, left: 0, marginRight: 8, marginLeft: 8, flex: 1 }}
+        style={{ top: 23, left: 0, marginRight: 8, marginLeft: 8, flex: 1, backgroundColor: "#FF0000" }}
         horizontal={true}
-        data={ this.props.tracks } renderItem={({ item }) => (
+        data={ this.props.tracks } 
+        renderItem={({ item }) => (
           <Fretboard track={item} />
         )}
       >
