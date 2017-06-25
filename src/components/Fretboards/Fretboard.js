@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Image } from "react-native";
-
+import { View } from "react-native";
+/*
 import * as actions from "../../redux/actions";
 import { getTrackNotesForTimeSelector, getTrackFretRangeSelector } from '../../selectors'
 
@@ -39,4 +39,20 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Fretboard);
+export default connect(mapStateToProps, actions)(Fretbox);
+*/
+const Fretbox = ({ color, style }) => (
+  <View
+    style={{
+      ...style,
+      backgroundColor: color || "#666666"
+    }}
+  >
+  {console.log("FRET STYLE: ", {
+      ...style,
+      backgroundColor: color || "#666666"
+    })}
+  </View>
+);
+
+export default Fretbox
