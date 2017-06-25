@@ -1,33 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View } from "react-native";
-/*
+import { View, Text } from "react-native";
+
 import * as actions from "../../redux/actions";
 import { getTrackNotesForTimeSelector, getTrackFretRangeSelector } from '../../selectors'
 
 import FretboardFret from "./FretboardFret";
 
-const fretsForRange = range => {
+const fretsForRange = (range, style) => {
   var frets = [];
   var first = range !== undefined ? range.first : 0
   var last = range !== undefined ? range.last : 23
   
   for (var i = first; i <= last; i++) {
-    frets.push(<FretboardFret key={i} index={i} />)
+    frets.push(<FretboardFret key={i} index={i} style={{ height: style.height }} />)
   }
   return frets
 }
 
-const Fretboard = ({ track, range }) => (
+const Fretboard = ({ style, track, range }) => (
   <View
     style={{
-      overflow: "hidden",
-      flexGrow: 1,
-      backgroundColor: "#FF0000"
+      ...style, backgroundColor: "#E6D9B9",
     }}
   >
+    <Text style={{ height: 24 }} >{track.name}</Text>
     <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
-      {fretsForRange(range)}
+      {fretsForRange(range, style)}
     </View>
   </View>
 );
@@ -39,20 +38,4 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(Fretbox);
-*/
-const Fretbox = ({ color, style }) => (
-  <View
-    style={{
-      ...style,
-      backgroundColor: color || "#666666"
-    }}
-  >
-  {console.log("FRET STYLE: ", {
-      ...style,
-      backgroundColor: color || "#666666"
-    })}
-  </View>
-);
-
-export default Fretbox
+export default connect(mapStateToProps, actions)(Fretboard);
