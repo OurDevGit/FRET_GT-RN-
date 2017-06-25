@@ -1,7 +1,7 @@
 import createCachedSelector from 're-reselect'
 
-const getTimeSelector = state => state.time
-const getNotesSelector = state => state.notes
+const getTimeSelector = state => state.get("time")
+const getNotesSelector = state => state.get("notes")
 const getTrackNameSelector = (_, props) => props.track.name
 
 exports.getTrackNotesForTimeSelector = createCachedSelector(
@@ -17,14 +17,19 @@ exports.getTrackNotesForTimeSelector = createCachedSelector(
 
 exports.getTrackFretRangeSelector = createCachedSelector(
   [ getNotesSelector, getTrackNameSelector ],
-  (time, notes, track) => {
-    const frets = note.reduce(note => {
-      return note.fret
-    }).sort((a, b) => {
-      return a - b
-    })
+  (notes, track) => {
+    
+    if (notes.count() === 0) {
+      return { first: 0, last: 23}
+    } else {
+      const frets = notes.reduce(note => {
+        return note.fret
+      }).sort((a, b) => {
+        return a - b
+      })
 
-    return { first: frets[0], last: frets[frets.length - 1]}
+      return { first: frets[0], last: frets[frets.length - 1]}
+    }
   }
 )(
   (state, props) => props.track.name,

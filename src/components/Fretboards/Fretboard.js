@@ -9,7 +9,10 @@ import FretboardFret from "./FretboardFret";
 
 const fretsForRange = range => {
   var frets = [];
-  for (var i = range.first; i <= range.last; i++) {
+  var first = range !== undefined ? range.first : 0
+  var last = range !== undefined ? range.last : 23
+  
+  for (var i = first; i <= last; i++) {
     frets.push(<FretboardFret key={i} index={i} />)
   }
   return frets
@@ -19,10 +22,11 @@ const Fretboard = ({ track, range }) => (
   <View
     style={{
       overflow: "hidden",
-      flexGrow: 1
+      flexGrow: 1,
+      backgroundColor: "#FF0000"
     }}
   >
-    <View style={{ top: 23, left: 0, marginRight: 8, marginLeft: 8, flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
+    <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
       {fretsForRange(range)}
     </View>
   </View>
