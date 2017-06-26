@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 
 import * as actions from "../../redux/actions";
 import Fretboard from "./Fretboard";
+import EmptyFretboard from "./EmptyFretboard";
 
 const keyExtractor = (item, index) => index
 
@@ -13,29 +14,37 @@ class FretboardsContainer extends React.Component {
     width: 0,
     selectedIndex: 0,
   };
-
+  
   render() {
+    
     return (
-      <FlatList 
-        style={{ top: 20, left: 0, marginRight: 8, marginLeft: 8, flex: 1, backgroundColor: "#E6D9B9"}}
-        horizontal
-        pagingEnabled
-        directionalLockEnabled
-        removeClippedSubviews={false}
-        keyExtractor={keyExtractor}
-        data={ this.props.tracks.toJS() }
-        onLayout={this.adjustPageSize.bind(this)}
-        ListEmptyComponent={() => (
-          <Fretboard style={{ width: this.state.width, height: this.state.height }} />
-        )}
-        renderItem={({ item }) => (
-          <Fretboard track={item} style={{ width: this.state.width, height: this.state.height }} />
-        )}
-      >
-      </FlatList>
+      <View style={{ flex: 1, marginVertical: 10, backgroundColor: "#E6D9B9"}}>
+        {(this.props.tracks.length === 0) ? 
+        <EmptyFretboard />
+        :
+        <FlatList 
+          horizontal
+          pagingEnabled
+          directionalLockEnabled
+          removeClippedSubviews={false}
+          initialNumToRender={1}
+          keyExtractor={keyExtractor}
+          data={ this.props.tracks }
+          onLayout={this.adjustPageSize.bind(this)}
+          ListEmptyComponent={() => (
+            <EmptyFretboard />
+          )}
+          renderItem={({ item }) => (
+            <Fretboard track={item} style={{ width: this.state.width, height: this.state.height }} />
+          )}
+        >
+        </FlatList>
+        }
+
+      </View>
     );
   }
-
+  
   adjustPageSize(e) {
     this.setState({
       height: e.nativeEvent.layout.height,
@@ -46,7 +55,7 @@ class FretboardsContainer extends React.Component {
 
 const mapStateToProps = (state, props) => {
   return {
-    tracks: state.get("guitarTracks")
+    tracks: state.get("guitarTracks").toJS()
   };
 };
 

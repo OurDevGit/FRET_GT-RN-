@@ -217,7 +217,7 @@ class MediaPlayer extends Component {
   loadMidi = path => {
     MidiParser(path)
     .then(midi => {
-      //this.props.updateMidiData(midi);
+      this.props.updateMidiData(midi);
     })
   }
 

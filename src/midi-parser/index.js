@@ -1,7 +1,6 @@
 import RNFetchBlob from 'react-native-fetch-blob'
 import { decode } from 'base-64'
 import midiFileParser from 'midi-file-parser'
-import { List, Set } from 'immutable'
 
 import timingTrack from './timing-track'
 import noteTrack from './note-track'
@@ -47,22 +46,12 @@ module.exports = filename => {
       }
     })
   
-    var beginnings = notes.sort((a, b) => {
-      return a.begin - b.begin
-    })
-    var firstNote = beginnings[0]
-
-    var endings = notes.sort((a, b) => {
-      return b.end - a.end
-    })
-    var lastNote = endings[0]
-
     return { 
-        markers: List(markers),
-        guitarTracks: List(guitarTracks),
-        tuningTracks: List(tuningTracks),
-        patterns: List(patterns),
-        notes: Set(notes)
+        markers,
+        guitarTracks,
+        tuningTracks,
+        patterns,
+        notes
       }
   })
 }
