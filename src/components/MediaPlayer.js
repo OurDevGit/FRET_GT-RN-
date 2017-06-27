@@ -8,6 +8,8 @@ import * as actions from "../redux/actions";
 import PlaybackTimeline from "./PlaybackTimeline";
 import MidiParser from "../midi-parser";
 
+const prevSeconds = 0
+
 class MediaPlayer extends Component {
   state = {
     isVideo: false,
@@ -209,6 +211,11 @@ class MediaPlayer extends Component {
           this.setState({
             playbackProgress: seconds / this.song.getDuration()
           });
+
+          if (seconds !== prevSeconds) {
+            this.props.updateTime(seconds)
+            prevSeconds = seconds
+          }
         });
       }
     }

@@ -3,7 +3,6 @@ module.exports = (track, secondsForTicks) => {
   var name, shortName, notes, tuning, fullTuning, fineTuneVal, capo, isBass
     
   notes = []
-  fineTuneVal = undefined
 
   var notesOn = []
   var totalTicks = 0
@@ -24,7 +23,10 @@ module.exports = (track, secondsForTicks) => {
         var str = edited.substr(capoIndex)
         str = str.replace("(Capo ", "").replace(")", "")
         
-        capo = parseInt(str)
+        if (parseInt(str) !== undefined) {
+          capo = parseInt(str)
+        }
+        
         edited = edited.substr(capoIndex)
       }
 
@@ -68,14 +70,14 @@ module.exports = (track, secondsForTicks) => {
       for (var i = 0; i < notesOn.length; i++) {
         var noteOn = notesOn[i]
 
-        if (event.channel === noteOn.channel && event.noteNumber == noteOn.noteNumber) {
+        if (event.channel === noteOn.channel && event.noteNumber === noteOn.noteNumber) {
           var note = {}
           note.track = name
           note.string = noteOn.channel - 10
           note.fret = noteOn.noteNumber - stringOffset[note.string]
           note.begin = noteOn.begin
           note.end = secondsForTicks(totalTicks)
-
+          
           notes.push(note)
           notesOn.splice(i, 1)
         }
@@ -97,14 +99,15 @@ module.exports = (track, secondsForTicks) => {
     }
   });
 
-  return {
-    name,
-    shortName,
-    notes,
-    tuning,
-    fullTuning,
-    fineTuneVal,
-    capo,
-    isBass
+  var returnObj = { name, shortName, notes, tuning, fullTuning, isBass }
+
+  if (capo !== undefined) {
+    returnObj.capo = capo
   }
+
+  if (fineTuneVal !== undefined) {
+    returnObj.fineTuneVal = fineTuneVal
+  }
+
+  return returnObj
 }

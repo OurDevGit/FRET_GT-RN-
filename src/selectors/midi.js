@@ -9,7 +9,7 @@ exports.getTrackNotesForTimeSelector = createCachedSelector(
   (time, notes, track) => {
     return notes.filter(note => {
       return note.begin <= time && note.end > time && note.name === track.name
-    }) 
+    })
   }
 )(
   (state, props) => props.track.name,
@@ -22,13 +22,14 @@ exports.getTrackFretRangeSelector = createCachedSelector(
     if (notes.count() === 0) {
       return { first: 0, last: 23}
     } else {
-      const frets = notes.reduce(note => {
+      
+      const frets = notes.map(note => {
         return note.fret
       }).sort((a, b) => {
         return a - b
       })
-
-      return { first: frets[0], last: frets[frets.length - 1]}
+      
+      return { first: frets.first(), last: frets.last()}
     }
   }
 )(

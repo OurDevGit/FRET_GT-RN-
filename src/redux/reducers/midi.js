@@ -38,7 +38,7 @@ exports.patterns = (state = List(), action) => {
 
 exports.notes = (state = Set(), action) => {
   switch (action.type) {
-    case 'UPDATE_MIDI_FILE':
+    case 'UPDATE_MIDI_DATA':
       return  Set(action.payload.notes)
     default:
       return state

@@ -7,18 +7,26 @@ import { getTrackNotesForTimeSelector, getTrackFretRangeSelector } from '../../s
 
 import FretboardFret from "./FretboardFret";
 
-const fretsForRange = (range, style) => {
+const fretsForRange = (track, range, notes, style) => {
   var frets = [];
-  var first = range !== undefined ? range.first : 0
-  var last = range !== undefined ? range.last : 23
-  
+  var first = 0 // range !== undefined ? range.first : 0  // save for SMART Fretboards
+  var last = 23 // range !== undefined ? range.last : 23  // save for SMART Fretboards
+  //console.log("BOARD NOTES: ", notes.toJS())
   for (var i = first; i <= last; i++) {
-    frets.push(<FretboardFret key={i} index={i} style={{ height: style.height }} />)
+    const fretNotes = notes.filter(note => note.fret === i)
+    frets.push(
+    <FretboardFret
+      key={i}
+      index={i}
+      isBass={track.isBass}
+      notes={fretNotes}
+      style={{ height: style.height }}
+    />)
   }
   return frets
 }
 
-const Fretboard = ({ style, track, range }) => (
+const Fretboard = ({ style, track, range, notes }) => (
   <View
     style={{
       ...style, backgroundColor: "#E6D9B9",
@@ -26,7 +34,7 @@ const Fretboard = ({ style, track, range }) => (
   >
     <Text style={{ height: 24 }} >{track.name}</Text>
     <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
-      {fretsForRange(range, style)}
+      {fretsForRange(track, range, notes, style)}
     </View>
   </View>
 );

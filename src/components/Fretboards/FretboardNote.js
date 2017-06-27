@@ -1,21 +1,25 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-const size = 15;
-
-const FretboardNote = () => (
+const FretboardNote = ({ isVisible }) => (
   <View
     style={{
-      width: size,
-      height: size,
-      marginTop: 2,
-      marginBottom: 2,
-      backgroundColor: "#17A3E3",
-      borderRadius: size / 2,
-      alignItems: "center"
+      width: "50%",
+      aspectRatio: 1
     }}
   >
-    <Text style={{ fontSize: 10 }}>C♭</Text>
+    {isVisible &&
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "#17A3E3",
+          borderRadius:8,
+          alignItems: "center"
+        }}
+      >
+        <Text style={{ fontSize: 10 }}>C♭</Text>
+      </View>
+    }
   </View>
 );
 

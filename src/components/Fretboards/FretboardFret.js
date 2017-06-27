@@ -5,25 +5,27 @@ import FretboardNote from "./FretboardNote";
 const background = { position: "absolute", width: "100%", height: "100%", backgroundColor: 'black' }
 const bar = { position: "absolute", right: 0, width: 3, height: "100%", backgroundColor: '#CCCCCC' }
 
-const notes = (isBass, isEmpty) => {
+const noteViews = (fretIndex, isEmpty, isBass, notes) => {
   if (isEmpty === undefined) {
     var num = isBass ? 4 : 6
-    var arr = []
+    var noteViews = []
+    
     for (var i = 0; i <= num; i++) {
-      arr.push(<FretboardNote key={i} index={i} />)
+      const matching = notes.filter(note => note.string === i)
+      noteViews.push(<FretboardNote key={i} index={i} isVisible={matching.count() > 0} />)
     }
-    return arr
+    return noteViews
   }
 }
 
-const FretboardFret = ({ style, empty }) => (
+const FretboardFret = ({ index, empty, isBass, notes, style }) => (
   <View style={{ ...style, flex: 1 }}>
     <View style={background} />
     <View style={bar} />
     <View
-      style={{ marginLeft: "-10%", flex: 1, flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}
+      style={{ flex: 1, justifyContent: "space-between", alignItems: "center", marginLeft: -3 }}
     >
-      {notes(false, empty)}
+      {noteViews(index, empty, isBass, notes)}
     </View>
   </View>
 );
