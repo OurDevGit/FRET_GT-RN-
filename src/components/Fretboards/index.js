@@ -31,6 +31,7 @@ class FretboardsContainer extends React.Component {
           keyExtractor={keyExtractor}
           data={ this.props.tracks }
           onLayout={this.adjustPageSize.bind(this)}
+          onMomentumScrollEnd={this.onScrollEnd.bind(this)}
           ListEmptyComponent={() => (
             <EmptyFretboard />
           )}
@@ -50,6 +51,15 @@ class FretboardsContainer extends React.Component {
       height: e.nativeEvent.layout.height,
       width: e.nativeEvent.layout.width,
     });
+  }
+
+  onScrollEnd(e) {
+    let contentOffset = e.nativeEvent.contentOffset;
+    let viewSize = e.nativeEvent.layoutMeasurement;
+
+    // Divide the horizontal offset by the width of the view to see which page is visible
+    let boardIndex = Math.floor(contentOffset.x / viewSize.width);
+    console.log('scrolled to fretboard ', boardIndex);
   }
 }
 

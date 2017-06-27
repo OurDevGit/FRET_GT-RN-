@@ -11,7 +11,7 @@ const fretsForRange = (track, range, notes, style) => {
   var frets = [];
   var first = 0 // range !== undefined ? range.first : 0  // save for SMART Fretboards
   var last = 23 // range !== undefined ? range.last : 23  // save for SMART Fretboards
-  //console.log("BOARD NOTES: ", notes.toJS())
+  
   for (var i = first; i <= last; i++) {
     const fretNotes = notes.filter(note => note.fret === i)
     frets.push(
