@@ -5,7 +5,7 @@ import FretboardFret from "./FretboardFret";
 const fretsForRange = style => {
   var frets = [];
   for (var i = 0; i <= 23; i++) {
-    frets.push(<FretboardFret key={i} index={i} style={{ flex: 1 }} empty />)
+    frets.push(<FretboardFret key={i} index={i} style={{ flex: 1 }} />)
   }
   return frets
 }

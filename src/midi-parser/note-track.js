@@ -1,8 +1,9 @@
+import { Set } from 'immutable'
 
 module.exports = (track, secondsForTicks) => {
   var name, shortName, notes, tuning, fullTuning, fineTuneVal, capo, isBass
     
-  notes = []
+  notes = Map()
 
   var notesOn = []
   var totalTicks = 0
@@ -72,13 +73,24 @@ module.exports = (track, secondsForTicks) => {
 
         if (event.channel === noteOn.channel && event.noteNumber === noteOn.noteNumber) {
           var note = {}
-          note.track = name
-          note.string = noteOn.channel - 10
           note.fret = noteOn.noteNumber - stringOffset[note.string]
+          note.string = noteOn.channel - 10
           note.begin = noteOn.begin
           note.end = secondsForTicks(totalTicks)
-          
-          notes.push(note)
+
+          if (notes.getIn([track.name]) === undefined) {
+            notes = notes.setIn([track.name], Map())
+          }
+
+          if (notes.getIn([track.name, note.fret]) === undefined) {
+            notes = notes.setIn([track.name, note.fret], Map())
+          }
+
+          if (notes.getIn([track.name, note.fret, note.string]) === undefined) {
+            notes = notes.setIn([track.name, note.fret, note.string], Set())
+          }
+
+          notes = notes.updateIn([track.name, note.fret, note.string], notesSet => notesSet.add(note))
           notesOn.splice(i, 1)
         }
       }

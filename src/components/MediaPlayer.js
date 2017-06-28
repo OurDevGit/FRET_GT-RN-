@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { View, Button, Text, Picker } from "react-native";
-import Video from "react-native-video";
+//import Video from "react-native-video";
 import Sound from "react-native-sound";
 
 import * as actions from "../redux/actions";
+import { loadMidi } from "../selectors";
 import PlaybackTimeline from "./PlaybackTimeline";
-import MidiParser from "../midi-parser";
 
 const prevSeconds = 0
 
@@ -48,7 +48,7 @@ class MediaPlayer extends Component {
                 playbackRate: 1
               });
 
-              this.loadMidi("dyer.mid");
+              this.handleLoadMidi("dyer.mid");
               this.playMusic();
             }}
           />
@@ -221,8 +221,8 @@ class MediaPlayer extends Component {
     }
   };
 
-  loadMidi = path => {
-    MidiParser(path)
+  handleLoadMidi = path => {
+    loadMidi(path)
     .then(midi => {
       this.props.updateMidiData(midi);
     })

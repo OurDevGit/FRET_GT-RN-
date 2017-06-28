@@ -1,7 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
 import { View, Text } from "react-native";
+import { hasNoteForTimeSelector } from '../../selectors'
 
-const FretboardNote = ({ isVisible }) => (
+const FretboardNote = ({ track, fret, string, isVisible }) => (
   <View
     style={{
       width: "50%",
@@ -23,4 +25,10 @@ const FretboardNote = ({ isVisible }) => (
   </View>
 );
 
-export default FretboardNote;
+const mapStateToProps = (state, props) => {
+  return {
+    isVisible: hasNoteForTimeSelector(state, props)
+  };
+};
+
+export default connect(mapStateToProps, undefined)(FretboardNote);

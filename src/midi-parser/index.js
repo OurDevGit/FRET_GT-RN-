@@ -18,7 +18,7 @@ module.exports = filename => {
     var guitarTracks = []
     var tuningTracks = []
     var patterns = []
-    var notes = []
+    var notes = {}
     var firstNote
     var lastNote
 
@@ -28,7 +28,7 @@ module.exports = filename => {
         // load guitar tracks
         if (arr[0].text.includes("FMP -") && arr[0].text !== "FMP - Jam Bar") {
           var track = noteTrack(arr, secondsForTicks)
-          notes = notes.concat(track.notes)
+          notes[track.name] = track.notes
           delete track.notes
           guitarTracks.push(track)
         }

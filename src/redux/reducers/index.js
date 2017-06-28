@@ -3,7 +3,7 @@ import {
 } from 'redux-immutable';
 import ad from './ad'
 import time from './time'
-import { markers, guitarTracks, tuningTracks, patterns, notes } from './midi'
+import { markers, guitarTracks, tuningTracks, patterns } from './midi'
 
 const appReducer = combineReducers({
   ad,
@@ -11,8 +11,7 @@ const appReducer = combineReducers({
   markers,
   guitarTracks,
   tuningTracks,
-  patterns,
-  notes
+  patterns
 })
 
 export default appReducer

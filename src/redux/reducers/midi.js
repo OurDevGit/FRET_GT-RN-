@@ -1,4 +1,4 @@
-import { List, Set } from 'immutable'
+import { List } from 'immutable'
 
 exports.markers = (state = List(), action) => {
   switch (action.type) {
@@ -31,15 +31,6 @@ exports.patterns = (state = List(), action) => {
   switch (action.type) {
     case 'UPDATE_MIDI_DATA':
       return  List(action.payload.patterns)
-    default:
-      return state
-  }
-}
-
-exports.notes = (state = Set(), action) => {
-  switch (action.type) {
-    case 'UPDATE_MIDI_DATA':
-      return  Set(action.payload.notes)
     default:
       return state
   }
