@@ -8,7 +8,7 @@ import EmptyFretboard from "./EmptyFretboard";
 
 const keyExtractor = (item, index) => index
 
-class FretboardsContainer extends React.Component {
+class FretboardsContainer extends React.PureComponent {
   state = {
     height: 0,
     width: 0,
@@ -16,7 +16,7 @@ class FretboardsContainer extends React.Component {
   };
   
   render() {
-    
+    console.log("rendering fretboards")
     return (
       <View style={{ flex: 1, marginVertical: 10, backgroundColor: "#E6D9B9"}}>
         {(this.props.tracks.length === 0) ? 

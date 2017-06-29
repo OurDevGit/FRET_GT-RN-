@@ -1,4 +1,4 @@
-import { Set } from 'immutable'
+import { Map, Set } from 'immutable'
 
 module.exports = (track, secondsForTicks) => {
   var name, shortName, notes, tuning, fullTuning, fineTuneVal, capo, isBass
