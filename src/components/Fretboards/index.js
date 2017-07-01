@@ -4,7 +4,6 @@ import { View, FlatList } from "react-native";
 
 import * as actions from "../../redux/actions";
 import Fretboard from "./Fretboard";
-import EmptyFretboard from "./EmptyFretboard";
 
 const keyExtractor = (item, index) => index
 
@@ -16,12 +15,9 @@ class FretboardsContainer extends React.PureComponent {
   };
   
   render() {
-    console.log("rendering fretboards")
+    // console.log("rendering fretboards with tracks: \n", this.props.tracks.toJS())
     return (
       <View style={{ flex: 1, marginVertical: 10, backgroundColor: "#E6D9B9"}}>
-        {(this.props.tracks.length === 0) ? 
-        <EmptyFretboard />
-        :
         <FlatList 
           horizontal
           pagingEnabled
@@ -29,19 +25,17 @@ class FretboardsContainer extends React.PureComponent {
           removeClippedSubviews={false}
           initialNumToRender={1}
           keyExtractor={keyExtractor}
-          data={ this.props.tracks }
+          data={ this.props.tracks.toJS() }
           onLayout={this.adjustPageSize.bind(this)}
           onMomentumScrollEnd={this.onScrollEnd.bind(this)}
           ListEmptyComponent={() => (
-            <EmptyFretboard />
+            <Fretboard style={{ width: this.state.width, height: this.state.height }}/>
           )}
           renderItem={({ item }) => (
             <Fretboard track={item} style={{ width: this.state.width, height: this.state.height }} />
           )}
         >
         </FlatList>
-        }
-
       </View>
     );
   }
@@ -65,7 +59,7 @@ class FretboardsContainer extends React.PureComponent {
 
 const mapStateToProps = (state, props) => {
   return {
-    tracks: state.get("guitarTracks").toJS()
+    tracks: state.get("guitarTracks")
   };
 };
 

@@ -1,10 +1,9 @@
 import { Map, Set } from 'immutable'
 
 module.exports = (track, secondsForTicks) => {
-  var name, shortName, notes, tuning, fullTuning, fineTuneVal, capo, isBass
+  var name, shortName, tuning, fullTuning, fineTuneVal, capo, isBass, firstFret, lastFret
     
-  notes = Map()
-
+  var notes = Map()
   var notesOn = []
   var totalTicks = 0
   const stringOffset = [64, 59, 55, 50, 45, 40]
@@ -72,26 +71,26 @@ module.exports = (track, secondsForTicks) => {
         var noteOn = notesOn[i]
 
         if (event.channel === noteOn.channel && event.noteNumber === noteOn.noteNumber) {
-          var note = {}
-          note.fret = noteOn.noteNumber - stringOffset[note.string]
-          note.string = noteOn.channel - 10
-          note.begin = noteOn.begin
-          note.end = secondsForTicks(totalTicks)
+          
+          const string = noteOn.channel - 10
+          const fret = noteOn.noteNumber - stringOffset[string]
+          const note = Map({begin: noteOn.begin, end: secondsForTicks(totalTicks)})
 
-          if (notes.getIn([track.name]) === undefined) {
-            notes = notes.setIn([track.name], Map())
+          if (notes.getIn([fret, string]) === undefined) {
+            notes = notes.setIn([fret, string], Set())
           }
+          
+          notes = notes.updateIn([fret, string], notesSet => notesSet.add(note))
 
-          if (notes.getIn([track.name, note.fret]) === undefined) {
-            notes = notes.setIn([track.name, note.fret], Map())
-          }
-
-          if (notes.getIn([track.name, note.fret, note.string]) === undefined) {
-            notes = notes.setIn([track.name, note.fret, note.string], Set())
-          }
-
-          notes = notes.updateIn([track.name, note.fret, note.string], notesSet => notesSet.add(note))
           notesOn.splice(i, 1)
+
+          if (firstFret === undefined || firstFret > fret) {
+            firstFret = fret
+          }
+
+          if (lastFret === undefined || lastFret < fret) {
+            lastFret = fret
+          }
         }
       }
     
@@ -111,7 +110,15 @@ module.exports = (track, secondsForTicks) => {
     }
   });
 
-  var returnObj = { name, shortName, notes, tuning, fullTuning, isBass }
+  if (firstFret === undefined) {
+    firstFret = 0
+  }
+
+  if (lastFret === undefined) {
+    firstFret = 23
+  }
+
+  var returnObj = { name, shortName, notes, tuning, fullTuning, isBass, firstFret, lastFret }
 
   if (capo !== undefined) {
     returnObj.capo = capo

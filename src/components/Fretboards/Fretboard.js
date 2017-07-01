@@ -3,45 +3,49 @@ import { connect } from "react-redux";
 import { View, Text } from "react-native";
 
 import * as actions from "../../redux/actions";
-import { getTrackFretRangeSelector } from '../../selectors'
-
 import FretboardFret from "./FretboardFret";
 
-const fretsForRange = (track, range, style) => {
+const fretsForRange = (style, track) => {
   var frets = [];
-  var first = 0 // range !== undefined ? range.first : 0  // save for SMART Fretboards
-  var last = 23 // range !== undefined ? range.last : 23  // save for SMART Fretboards
+  var first = 0 // track.firstFret : 0  // save for SMART Fretboards
+  var last = 23 // track.lastFret : 23  // save for SMART Fretboards
+  var trackName
+  var isBass = false
+
+  if (track !== undefined) {
+    trackName = track.name
+    isBass = track.isBass
+  }
   
   for (var i = first; i <= last; i++) {
     frets.push(
     <FretboardFret
       key={i}
       index={i}
-      track={track.name}
-      isBass={track.isBass}
+      track={trackName}
+      isBass={isBass}
       style={{ height: style.height }}
     />)
   }
   return frets
 }
 
-const Fretboard = ({ style, track, range }) => (
+const Fretboard = ({ style, track }) => (
   <View
     style={{
       ...style, backgroundColor: "#E6D9B9",
     }}
   >
-    <Text style={{ height: 24 }} >{track.name}</Text>
+    {track !== undefined ?
+      <Text style={{ height: 24 }} >{track.name}</Text>
+    : <Text style={{ height: 24 }} > </Text>
+    }
+    
     <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
-      {fretsForRange(track, range, style)}
+      {fretsForRange(style, track)}
     </View>
   </View>
 );
 
-const mapStateToProps = (state, props) => {
-  return {
-    range: getTrackFretRangeSelector(state, props)
-  };
-};
-
-export default connect(mapStateToProps, actions)(Fretboard);
+// keep connect since we will need buttons for SMART and Tuner
+export default connect(undefined, actions)(Fretboard);
