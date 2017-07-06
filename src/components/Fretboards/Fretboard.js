@@ -6,7 +6,7 @@ import * as actions from "../../redux/actions";
 import FretboardFret from "./FretboardFret";
 
 const boardName = track => {
-  return track === undefined ? "Test Board" : track.name
+  return track === undefined ? " " : track.name
 }
 
 const fretsForRange = (style, track) => {
