@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import FretboardNote from "./FretboardNote";
 
 const background = { position: "absolute", width: "100%", height: "100%", backgroundColor: 'black' }
@@ -17,13 +17,22 @@ const noteViews = (fretIndex,  track, isBass) => {
   }
 }
 
+const fretName = index => {
+  return index === 0 ? "Nut" : index
+}
+
 const FretboardFret = ({ index, track, isBass, style }) => (
   <View style={{ ...style, flex: 1 }}>
-    <View style={background} />
-    <View style={bar} />
-    <View style={{ flex: 1, paddingVertical: 10, justifyContent: "space-between", alignItems: "center", marginLeft: -3 }} >
-      {noteViews(index, track, isBass)}
+    <Text style={{ width: "100%", height: 12, fontSize: 10, marginBottom: 4, textAlign: "center", backgroundColor: "#E6D9B9" }} >{fretName(index)}</Text>
+    <View style={{ flex: 1}}>
+      <View style={background} />
+      <View style={bar} />
+      
+      <View style={{ flex: 1, paddingVertical: 10, justifyContent: "space-between", alignItems: "center", marginLeft: -3 }} >
+        {noteViews(index, track, isBass)}
+      </View>
     </View>
+    
   </View>
 );
 

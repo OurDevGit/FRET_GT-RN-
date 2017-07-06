@@ -5,6 +5,10 @@ import { View, Text } from "react-native";
 import * as actions from "../../redux/actions";
 import FretboardFret from "./FretboardFret";
 
+const boardName = track => {
+  return track === undefined ? "Test Board" : track.name
+}
+
 const fretsForRange = (style, track) => {
   var frets = [];
   var first = 0 // track.firstFret : 0  // save for SMART Fretboards
@@ -41,11 +45,7 @@ const Fretboard = ({ style, track }) => (
       backgroundColor: "#E6D9B9",
     }}
   >
-    {track !== undefined ?
-      <Text style={{ height: 24 }} >{track.name}</Text>
-    : <Text style={{ height: 24 }} > </Text>
-    }
-    
+    <Text style={{ height: 20, marginTop: -2 }} >{boardName(track)}</Text>
     <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
       {fretsForRange(style, track)}
     </View>
