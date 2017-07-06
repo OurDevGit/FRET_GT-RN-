@@ -24,7 +24,7 @@ const fretsForRange = (style, track) => {
       index={i}
       track={trackName}
       isBass={isBass}
-      style={{ height: style.height }}
+      style={{ flex: 1 }}
     />)
   }
   return frets
@@ -33,7 +33,12 @@ const fretsForRange = (style, track) => {
 const Fretboard = ({ style, track }) => (
   <View
     style={{
-      ...style, backgroundColor: "#E6D9B9",
+      ...style, 
+      paddingTop: 10, 
+      paddingRight: 10, 
+      paddingBottom: 20,
+      paddingLeft: 10, 
+      backgroundColor: "#E6D9B9",
     }}
   >
     {track !== undefined ?

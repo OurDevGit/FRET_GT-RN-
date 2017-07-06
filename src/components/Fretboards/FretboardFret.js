@@ -21,7 +21,7 @@ const FretboardFret = ({ index, track, isBass, style }) => (
   <View style={{ ...style, flex: 1 }}>
     <View style={background} />
     <View style={bar} />
-    <View style={{ flex: 1, justifyContent: "space-between", alignItems: "center", marginLeft: -3 }} >
+    <View style={{ flex: 1, paddingVertical: 10, justifyContent: "space-between", alignItems: "center", marginLeft: -3 }} >
       {noteViews(index, track, isBass)}
     </View>
   </View>

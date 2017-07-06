@@ -17,7 +17,7 @@ class FretboardsContainer extends React.PureComponent {
   render() {
     // console.log("rendering fretboards with tracks: \n", this.props.tracks.toJS())
     return (
-      <View style={{ flex: 1, marginVertical: 10, backgroundColor: "#E6D9B9"}}>
+      <View style={{ width: "100%", aspectRatio: 4, backgroundColor: "#E6D9B9"}}>
         <FlatList 
           horizontal
           pagingEnabled
