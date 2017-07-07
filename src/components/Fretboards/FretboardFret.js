@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import FretboardNote from "./FretboardNote";
-
+import FretMarkers from "./FretboardMarkers";
 
 const bar = { position: "absolute", right: 0, width: 4, height: "100%", backgroundColor: '#CCCCCC' }
 
@@ -34,6 +34,7 @@ const FretboardFret = ({ index, track, isBass, style }) => (
     <View style={{ flex: 1}}>
       <View style={backgroundStyle(index)} />
       <View style={bar} />
+      <FretMarkers fretIndex={index}/>
       
       <View style={{ width: "100%", height: "100%", paddingVertical: 3, justifyContent: "space-between", alignItems: "center", marginLeft: -3 }} >
         {noteViews(index, track, isBass)}
