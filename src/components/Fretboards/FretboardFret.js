@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import FretboardNote from "./FretboardNote";
 import FretMarkers from "./FretboardMarkers";
 
+
 const bar = { position: "absolute", right: 0, width: 4, height: "100%", backgroundColor: '#CCCCCC' }
 
 const backgroundStyle = fretIndex => {
