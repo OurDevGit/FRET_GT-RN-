@@ -3,17 +3,29 @@ import { connect } from "react-redux";
 import { View, Text } from "react-native";
 import { hasNoteForTimeSelector } from '../../selectors'
 
-const FretboardNote = ({ track, fret, string, isVisible }) => (
+const FretboardNote = ({ track, fret, string, stringWidth, isVisible }) => (
   <View
     style={{
-      width: "50%",
-      aspectRatio: 1
+      flex: 1,
+      alignItems: "center"
     }}
   >
+    <View
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: stringWidth,
+        marginTop: 7,
+        backgroundColor: "#CCCCCC"
+      }}
+      
+    />
     {isVisible &&
       <View
         style={{
-          flex: 1,
+          position: "absolute",
+          width: "50%",
+          aspectRatio: 1,
           backgroundColor: "#17A3E3",
           borderRadius:8,
           alignItems: "center"

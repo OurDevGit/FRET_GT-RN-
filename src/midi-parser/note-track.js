@@ -20,34 +20,34 @@ module.exports = (track, secondsForTicks) => {
       // determine capo by (Capo ...) string in name
       if (edited.includes("(Capo ")) {
         var capoIndex = edited.indexOf("(Capo ")
-        var str = edited.substr(capoIndex)
+        var str = edited.slice(capoIndex, edited.length)
         str = str.replace("(Capo ", "").replace(")", "")
         
         if (parseInt(str) !== undefined) {
           capo = parseInt(str)
         }
         
-        edited = edited.substr(capoIndex)
+        edited = edited.slice(0, capoIndex)
       }
 
       // determine tuning by (Tune ...) string in name
       if (edited.includes("(Tune ")) {
-        var tuneIndex = edited.indexOf("(Tune ")
-        var str = edited.substr(tuneIndex)
-        str = str.replace("(Tune ", "").replace(")", "")
-
+        var tuneIndex = edited.indexOf(" (Tune ")
+        var str = edited.slice(tuneIndex, edited.length)
+        str = str.replace(" (Tune ", "").replace(")", "")
+        
         tuning = str
-        edited = edited.substr(tuneIndex)
+        edited = edited.slice(0, tuneIndex)
       }
 
       // determine tuning by (DADG) string in name
       if (edited.includes("(")) {
-        var parenIndex = edited.indexOf("(")
-        var str = edited.substr(parenIndex)
-        str = str.replace("(", "").replace(")", "")
+        var parenIndex = edited.indexOf(" (")
+        var str = edited.slice(parenIndex, edited.length)
+        str = str.replace(" (", "").replace(")", "")
 
         fullTuning = str
-        edited = edited.substr(parenIndex)
+        edited = edited.slice(0, parenIndex)
       }
 
       isBass = edited.includes("Bass")
