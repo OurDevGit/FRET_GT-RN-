@@ -3,8 +3,10 @@ import { connect } from "react-redux";
 import { View, Text } from "react-native";
 import { hasNoteForTimeSelector } from '../../selectors'
 
+// TODO: IMPLEMENT TUNING ADJUSTMENT AND NOTATION SETTINGS
+
 const roots = ["E", "B", "G", "D", "A", "E"]
-const scale = notation => {
+const scaleForNotation = notation => {
   switch (notation) {
     case "sharps":
       return ["E", "F", "F♯", "G", "G♯", "A", "A♯", "B", "C", "C♯", "D", "D♯"]
@@ -13,12 +15,9 @@ const scale = notation => {
   }
 }
 
-// TODO: FINISH THIS PART
 const noteName = (fret, string) => {
-  console.log(fret, string)
   const defaultName = roots[string]
-  console.log(defaultName)
-  console.log(roots[string])
+  const scale = scaleForNotation()
   const index = scale.indexOf(defaultName) || 0
   const adjusted = fret + index// + adjustment
   var remainder = adjusted % scale.length
