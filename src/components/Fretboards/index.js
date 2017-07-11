@@ -1,50 +1,32 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, FlatList } from "react-native";
+import { View } from "react-native";
+import PageControl from "react-native-page-control";
+import Container from "./Container";
 
-import * as actions from "../../redux/actions";
-import Fretboard from "./Fretboard";
-
-const keyExtractor = (item, index) => index
-
-class FretboardsContainer extends React.PureComponent {
+class FretboardsRoot extends React.PureComponent {
   state = {
-    height: 0,
-    width: 0,
     selectedIndex: 0,
   };
   
   render() {
-    // console.log("rendering fretboards with tracks: \n", this.props.tracks.toJS())
+    console.log("rendering index", this.state.selectedIndex)
     return (
       <View style={{ width: "100%", aspectRatio: 4, backgroundColor: "#E6D9B9"}}>
-        <FlatList 
-          horizontal
-          pagingEnabled
-          directionalLockEnabled
-          removeClippedSubviews={false}
-          initialNumToRender={1}
-          keyExtractor={keyExtractor}
-          data={ this.props.tracks.toJS() }
-          onLayout={this.adjustPageSize.bind(this)}
-          onMomentumScrollEnd={this.onScrollEnd.bind(this)}
-          ListEmptyComponent={() => (
-            <Fretboard style={{ width: this.state.width, height: this.state.height }}/>
-          )}
-          renderItem={({ item }) => (
-            <Fretboard track={item} style={{ width: this.state.width, height: this.state.height }} />
-          )}
-        >
-        </FlatList>
+        <Container tracks={this.props.tracks} onScrollEnd={this.onScrollEnd.bind(this)} />
+        <PageControl 
+          style={{position:'absolute', left:0, right:0, bottom:7}}
+          numberOfPages={this.props.tracks.count()}
+          currentPage={this.state.selectedIndex}
+          hidesForSinglePage={true}
+          pageIndicatorTintColor='gray'
+          currentPageIndicatorTintColor='white'
+          indicatorStyle={{borderRadius: 5}} 
+          currentIndicatorStyle={{borderRadius: 5}}
+          indicatorSize={{width:8, height:8}} 
+        />
       </View>
     );
-  }
-  
-  adjustPageSize(e) {
-    this.setState({
-      height: e.nativeEvent.layout.height,
-      width: e.nativeEvent.layout.width,
-    });
   }
 
   onScrollEnd(e) {
@@ -52,8 +34,8 @@ class FretboardsContainer extends React.PureComponent {
     let viewSize = e.nativeEvent.layoutMeasurement;
 
     // Divide the horizontal offset by the width of the view to see which page is visible
-    let boardIndex = Math.floor(contentOffset.x / viewSize.width);
-    console.log('scrolled to fretboard ', boardIndex);
+    let page = Math.floor(contentOffset.x / viewSize.width);
+    this.setState({ selectedIndex: page });
   }
 }
 
@@ -63,6 +45,6 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(FretboardsContainer);
+export default connect(mapStateToProps, null)(FretboardsRoot);
 
 
