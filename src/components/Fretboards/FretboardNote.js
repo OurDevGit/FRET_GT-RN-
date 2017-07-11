@@ -39,13 +39,25 @@ const FretboardNote = ({ track, fret, string, stringWidth, isVisible }) => (
     <View
       style={{
         position: "absolute",
-        width: "100%",
+        top: 7 + stringWidth,
+        left: -12,
+        width: fret < 22 ? "150%" : "100%",
         height: stringWidth,
-        marginTop: 7,
+        backgroundColor: "#222222"
+      }}
+    />
+
+    <View
+      style={{
+        position: "absolute",
+        top: 7,
+        left: -12,
+        width: fret < 22 ? "150%" : "100%",
+        height: stringWidth,
         backgroundColor: "#CCCCCC"
       }}
-      
     />
+
     {isVisible &&
       <View
         style={{
