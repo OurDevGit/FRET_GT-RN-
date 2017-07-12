@@ -16,7 +16,7 @@
 1. `react-native run-android`
 1. `react-native log-android` (optional)
 
-The general development is:
+The general development cycle is:
 1. Make some changes
 1. Reload in the app (on emulator or device).  
     **Tip:** You can enable "Live Reload" and "Hot Reloading" in the RN app menu. Both are ways to make it so you don't have to manually reload every time. They work differently both have their own pro's/con's
@@ -37,6 +37,17 @@ TODO: Fill this out!
 ## Upgrading to the latest React Native
 1. Install `react-native-git-upgrade` globally with NPM
 1. run `react-native-git-upgrade`
+
+# Keeping your environment and development tools up to date
+1. Update Android Studio every once in a while by opening. It will prompt you for updates when opening.2
+1. In Android Studio, go to the menu
+    1. Tools -> Android -> SDK Manager
+    1. Under Android SDK, choose the SDK Tools tabs and find updates
+1. To update to the latest React Native (can be dangerous), run `react-native-git-upgrade`
+
+# When things don't work
+## Try:
+1. `rm -rf node_modules` + `npm install` and redo `npm start`
 
 # Flexbox
 
