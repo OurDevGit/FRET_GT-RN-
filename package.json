@@ -22,6 +22,7 @@
     "react-native-linear-gradient": "^2.0.0",
     "react-native-page-control": "^1.0.7",
     "react-native-sound": "^0.10.1",
+    "react-native-video": "big-swing/react-native-video",
     "react-redux": "^5.0.5",
     "redux": "^3.6.0",
     "redux-immutable": "^4.0.0",
