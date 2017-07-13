@@ -6,6 +6,7 @@ import Sound from "react-native-sound";
 
 import * as actions from "../redux/actions";
 import { loadMidi } from "../selectors";
+import { playerBackground } from "../design"
 import PlaybackTimeline from "./PlaybackTimeline";
 
 const prevSeconds = 0;
@@ -33,7 +34,7 @@ class MediaPlayer extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, backgroundColor: playerBackground, margin: 4, borderRadius: 6 }}>
         <View
           style={{
             flex: 1,
@@ -72,7 +73,7 @@ class MediaPlayer extends Component {
                 this.player = ref;
               }}
               rate={this.state.playbackRate}
-              source={require("../../test-media/test-small.mp4")}
+              //source={require("../../test-media/test-small.mp4")}
               style={styles.backgroundVideo}
             />
           : <View />}

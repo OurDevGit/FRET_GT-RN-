@@ -15,7 +15,7 @@ class Root extends Component {
     const { store } = this.props;
     return (
       <Provider store={store}>
-        <View style={{ backgroundColor: "#ddd", flexGrow: 1 }}>
+        <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <StatusBar hidden />
           <AdContainer onToggleLibrary={this.handleToggleLibrary} />
           <MediaPlayer />
