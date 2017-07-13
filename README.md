@@ -48,7 +48,7 @@ TODO: Fill this out!
 # When things don't work
 ## Try:
 1. `rm -rf node_modules` + `npm install` and redo `npm start`
-1. `./gradlew clean`
+1. `cd android` then `./gradlew clean`
 
 # Flexbox
 
