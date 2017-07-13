@@ -4,9 +4,10 @@ import { View, Button, Text, Picker, StyleSheet } from "react-native";
 import Video from "react-native-video";
 import Sound from "react-native-sound";
 
-import * as actions from "../redux/actions";
-import { loadMidi } from "../selectors";
-import { playerBackground } from "../design"
+import * as actions from "../../redux/actions";
+import { loadMidi } from "../../selectors";
+import { playerBackground } from "../../design"
+import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
 
 const prevSeconds = 0;
@@ -34,39 +35,9 @@ class MediaPlayer extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: playerBackground, margin: 4, borderRadius: 6 }}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "row",
-            justifyContent: "space-around"
-          }}
-        >
-          <Button
-            title="Video"
-            onPress={() => {
-              this.setState({
-                isVideo: true,
-                playbackRate: 1,
-                isPlaying: true
-              });
-
-              this.stopMusic();
-            }}
-          />
-          <Button
-            title="Music"
-            onPress={() => {
-              this.setState({
-                isVideo: false,
-                playbackRate: 1
-              });
-
-              this.handleLoadMidi("dyer.mid");
-              this.playMusic();
-            }}
-          />
-        </View>
+      <View style={{ flex: 1, backgroundColor: playerBackground, margin: 4, padding: 2, borderRadius: 6 }}>
+        <PlaybackPrimary handleMusicPress={this.handleMusicPress.bind(this)} handleVideoPress={this.handleVideoPress.bind(this)} />
+        
         {this.state.isVideo
           ? <Video
               ref={ref => {
@@ -166,6 +137,28 @@ class MediaPlayer extends Component {
       }
     }
   };
+
+  // TODO: integrate into library and remove
+  handleMusicPress = () => {
+    this.setState({
+      isVideo: false,
+      playbackRate: 1
+    });
+
+    this.handleLoadMidi("dyer.mid");
+    this.playMusic();
+  }
+
+  // TODO: integrate into library and remove
+  handleVideoPress = () => {
+    this.setState({
+      isVideo: true,
+      playbackRate: 1,
+      isPlaying: true
+    });
+
+    this.stopMusic();
+  }
 
   handleTogglePress = () => {
     console.log("toggle press");

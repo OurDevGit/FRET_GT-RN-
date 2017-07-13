@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, StatusBar } from "react-native";
 import { Provider } from "react-redux";
 import AdContainer from "./AdContainer";
-import MediaPlayer from "./MediaPlayer";
+import MediaPlayer from "./Playback";
 import FretboardsContainer from "./Fretboards";
 import Library from "./Library";
 
