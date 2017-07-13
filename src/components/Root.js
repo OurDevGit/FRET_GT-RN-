@@ -6,6 +6,21 @@ import MediaPlayer from "./Playback";
 import FretboardsContainer from "./Fretboards";
 import Library from "./Library";
 
+const testSongs = [
+  {
+    name: "Song 1",
+    file: "song1.m4a"
+  },
+  {
+    name: "Song 2",
+    file: "song2.m4a"
+  },
+  {
+    name: "Song 3",
+    file: "song3.m4a"
+  }
+];
+
 class Root extends Component {
   state = {
     libIsOpen: false
@@ -23,6 +38,7 @@ class Root extends Component {
           <Library
             isOpen={this.state.libIsOpen}
             onSelect={this.handleSelectSong}
+            songs={testSongs}
           />
         </View>
       </Provider>
@@ -36,7 +52,7 @@ class Root extends Component {
   };
 
   handleSelectSong = songIndex => {
-    console.log(songIndex);
+    console.log(testSongs[songIndex]);
     this.setState({
       libIsOpen: false
     });
