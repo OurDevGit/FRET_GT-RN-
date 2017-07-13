@@ -6,8 +6,8 @@ function* fetchAd(action) {
 
   try {
     const ad = yield call(Api.fetchAd);
-    // console.log('got ad')
-    // console.log(ad)
+    // console.log("got ad");
+    // console.log(ad);
     yield put({ type: "AD_FETCH_SUCCEEDED", payload: ad });
   } catch (e) {
     console.log(`error fetching ad`);
