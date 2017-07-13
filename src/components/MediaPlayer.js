@@ -1,14 +1,26 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, Button, Text, Picker } from "react-native";
-//import Video from "react-native-video";
+import { View, Button, Text, Picker, StyleSheet } from "react-native";
+import Video from "react-native-video";
 import Sound from "react-native-sound";
 
 import * as actions from "../redux/actions";
 import { loadMidi } from "../selectors";
 import PlaybackTimeline from "./PlaybackTimeline";
 
-const prevSeconds = 0
+const prevSeconds = 0;
+
+const styles = StyleSheet.create({
+  backgroundVideo: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    width: 320,
+    height: 240
+  }
+});
 
 class MediaPlayer extends Component {
   state = {
@@ -54,11 +66,18 @@ class MediaPlayer extends Component {
             }}
           />
         </View>
+        {this.state.isVideo
+          ? <Video
+              ref={ref => {
+                this.player = ref;
+              }}
+              rate={this.state.playbackRate}
+              source={require("../../test-media/test-small.mp4")}
+              style={styles.backgroundVideo}
+            />
+          : <View />}
         <View style={{ alignItems: "center" }}>
-          {this.state.isVideo === true
-            ? 
-            <View />
-            : <View />}
+          {this.state.isVideo === true ? <View /> : <View />}
           <PlaybackTimeline
             progress={this.state.playbackProgress}
             onScrub={this.handleScrub}
@@ -214,8 +233,8 @@ class MediaPlayer extends Component {
           });
 
           if (seconds !== prevSeconds) {
-            this.props.updateTime(seconds)
-            prevSeconds = seconds
+            this.props.updateTime(seconds);
+            prevSeconds = seconds;
           }
         });
       }
@@ -223,11 +242,10 @@ class MediaPlayer extends Component {
   };
 
   handleLoadMidi = path => {
-    loadMidi(path)
-    .then(midi => {
+    loadMidi(path).then(midi => {
       this.props.updateMidiData(midi);
-    })
-  }
+    });
+  };
 
   playMusic = () => {
     console.log("playMusic()");
@@ -241,39 +259,43 @@ class MediaPlayer extends Component {
 
     this.stopMusic();
 
-    this.song = new Sound("dyer_audio.m4a", Sound.MAIN_BUNDLE, (error, props) => {
-      console.log("sound init handler");
+    this.song = new Sound(
+      "dyer_audio.m4a",
+      Sound.MAIN_BUNDLE,
+      (error, props) => {
+        console.log("sound init handler");
 
-      if (error) {
-        console.log("failed to load the sound", error);
-        return;
-      }
-      // loaded successfully
-      console.log(
-        "duration in seconds: " +
-          this.song.getDuration() +
-          "number of channels: " +
-          this.song.getNumberOfChannels()
-      );
-
-      this.setState({
-        isPlaying: true
-      });
-
-      this.song.setSpeed(this.state.playbackRate);
-      console.log("playMusic playing");
-      this.song.play(success => {
-        if (success) {
-          console.log("successfully finished playing");
-        } else {
-          console.log("playback failed due to audio decoding errors");
+        if (error) {
+          console.log("failed to load the sound", error);
+          return;
         }
+        // loaded successfully
+        console.log(
+          "duration in seconds: " +
+            this.song.getDuration() +
+            "number of channels: " +
+            this.song.getNumberOfChannels()
+        );
 
         this.setState({
-          isPlaying: false
+          isPlaying: true
         });
-      });
-    });
+
+        this.song.setSpeed(this.state.playbackRate);
+        console.log("playMusic playing");
+        this.song.play(success => {
+          if (success) {
+            console.log("successfully finished playing");
+          } else {
+            console.log("playback failed due to audio decoding errors");
+          }
+
+          this.setState({
+            isPlaying: false
+          });
+        });
+      }
+    );
   };
 
   stopMusic = () => {
