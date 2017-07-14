@@ -20,7 +20,10 @@ class Root extends Component {
       <Provider store={store}>
         <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <StatusBar hidden />
-          <AdContainer onToggleLibrary={this.handleToggleLibrary} />
+          <AdContainer
+            onToggleLibrary={this.handleToggleLibrary}
+            libIsOpen={this.state.libIsOpen}
+          />
           <Playback song={this.state.song} />
           <FretboardsContainer />
           <Library
