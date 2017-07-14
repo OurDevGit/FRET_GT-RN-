@@ -102,7 +102,7 @@ class MediaPlayer extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.song.name !== this.props.song.name) {
-      this.resetSong();
+      this.resetSong(newProps.song);
     }
   }
 
@@ -123,13 +123,15 @@ class MediaPlayer extends Component {
     }
   }
 
-  resetSong = () => {
+  resetSong = song => {
     this.setState({
       playbackProgress: 0
     });
 
     this.stopMusic();
     this.songSound = undefined;
+
+    this.handleLoadMidi(song.midi);
   };
 
   handleBackPress = () => {
@@ -280,8 +282,6 @@ class MediaPlayer extends Component {
     // console.log("playing");
 
     this.stopMusic();
-
-    this.handleLoadMidi(this.props.song.midi);
 
     this.songSound = new Sound(
       this.props.song.audio,
