@@ -45,9 +45,13 @@ class MediaPlayer extends Component {
         }}
       >
         <PlaybackPrimary
-          handleMusicPress={this.handleMusicPress.bind(this)}
-          handleVideoPress={this.handleVideoPress.bind(this)}
           title={this.props.song.name}
+          isPlaying={this.state.isPlaying}
+          handlePreviousPress={this.handlePreviousPress.bind(this)}
+          handleBackPress={this.handleBackPress.bind(this)}
+          handlePlayPausePress={this.handlePlayPausePress.bind(this)}
+          handleForwardPress={this.handleForwardPress.bind(this)}
+          handleNextPress={this.handleNextPress.bind(this)}
         />
 
         {this.state.isVideo
@@ -87,7 +91,7 @@ class MediaPlayer extends Component {
             <Button title="-10" onPress={this.handleBackPress} />
             <Button
               title={this.state.isPlaying ? "Pause" : "Play"}
-              onPress={this.handleTogglePress}
+              onPress={this.handlePlayPausePress}
             />
             <Button title="+10" onPress={this.handleForwardPress} />
           </View>
@@ -132,60 +136,27 @@ class MediaPlayer extends Component {
     this.songSound = undefined;
   };
 
+  handlePreviousPress = () => {
+    // TODO: hook up with markers
+  };
+  
   handleBackPress = () => {
     if (this.state.isVideo === false) {
       if (this.songSound) {
         this.songSound.getCurrentTime(seconds => {
-          this.songSound.setCurrentTime(seconds - 10);
+          this.songSound.setCurrentTime(seconds - 5);
         });
       }
     } else {
       if (this.videoPlayer) {
         const currentSeconds =
           this.state.playbackProgress * this.state.videoDuration;
-        this.videoPlayer.seek(currentSeconds - 10);
+        this.videoPlayer.seek(currentSeconds - 5);
       }
     }
   };
 
-  handleForwardPress = () => {
-    if (this.state.isVideo === false) {
-      if (this.songSound) {
-        this.songSound.getCurrentTime(seconds => {
-          this.songSound.setCurrentTime(seconds + 10);
-        });
-      }
-    } else {
-      if (this.videoPlayer) {
-        const currentSeconds =
-          this.state.playbackProgress * this.state.videoDuration;
-        this.videoPlayer.seek(currentSeconds + 10);
-      }
-    }
-  };
-
-  // TODO: integrate into library and remove
-  handleMusicPress = () => {
-    this.setState({
-      isVideo: false,
-      playbackRate: 1
-    });
-
-    this.playMusic();
-  };
-
-  // TODO: integrate into library and remove
-  handleVideoPress = () => {
-    this.setState({
-      isVideo: true,
-      playbackRate: 1,
-      isPlaying: true
-    });
-
-    this.stopMusic();
-  };
-
-  handleTogglePress = () => {
+  handlePlayPausePress = () => {
     if (this.state.isVideo === false) {
       if (this.songSound) {
         if (this.state.isPlaying === true) {
@@ -209,6 +180,26 @@ class MediaPlayer extends Component {
         isPlaying: !this.state.isPlaying
       });
     }
+  };
+
+  handleForwardPress = () => {
+    if (this.state.isVideo === false) {
+      if (this.songSound) {
+        this.songSound.getCurrentTime(seconds => {
+          this.songSound.setCurrentTime(seconds + 30);
+        });
+      }
+    } else {
+      if (this.videoPlayer) {
+        const currentSeconds =
+          this.state.playbackProgress * this.state.videoDuration;
+        this.videoPlayer.seek(currentSeconds + 30);
+      }
+    }
+  };
+
+  handleNextPress = () => {
+    // TODO: hook up with markers
   };
 
   handleVideoProgress = progress => {
