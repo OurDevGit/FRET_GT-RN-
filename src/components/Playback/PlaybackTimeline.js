@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { View, Dimensions } from "react-native";
+import { PrimaryBlue } from "../../design"
 import Playhead from "./Playhead";
 
 class PlaybackTimeline extends Component {
@@ -25,7 +26,7 @@ class PlaybackTimeline extends Component {
             position: "absolute",
             height: 1,
             width: "100%",
-            backgroundColor: "#fff",
+            backgroundColor: PrimaryBlue,
             top: "50%",
             marginTop: -0.5
           }}

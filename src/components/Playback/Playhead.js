@@ -5,10 +5,10 @@ import { View, PanResponder } from "react-native";
 const styles = {
   circle: {
     position: "absolute",
-    width: 20,
-    height: 20,
-    borderRadius: 20 / 2,
-    backgroundColor: "red"
+    width: 18,
+    height: 18,
+    borderRadius: 18 / 2,
+    backgroundColor: "black"
   }
 };
 
