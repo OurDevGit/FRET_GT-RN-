@@ -8,22 +8,21 @@ import Library from "./Library";
 
 const testSongs = [
   {
-    name: "Song 1",
-    file: "song1.m4a"
+    name: "Bad Moon Rising",
+    audio: "bad_moon_rising.m4a",
+    midi: "bad_moon_rising.mid"
   },
   {
-    name: "Song 2",
-    file: "song2.m4a"
-  },
-  {
-    name: "Song 3",
-    file: "song3.m4a"
+    name: "Autumn Leaves",
+    audio: "autumn_leaves.m4a",
+    midi: "autumn_leaves.mid"
   }
 ];
 
 class Root extends Component {
   state = {
-    libIsOpen: false
+    libIsOpen: false,
+    song: testSongs[0]
   };
 
   render() {
@@ -33,7 +32,7 @@ class Root extends Component {
         <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <StatusBar hidden />
           <AdContainer onToggleLibrary={this.handleToggleLibrary} />
-          <MediaPlayer />
+          <MediaPlayer song={this.state.song} />
           <FretboardsContainer />
           <Library
             isOpen={this.state.libIsOpen}
@@ -54,7 +53,8 @@ class Root extends Component {
   handleSelectSong = songIndex => {
     console.log(testSongs[songIndex]);
     this.setState({
-      libIsOpen: false
+      libIsOpen: false,
+      song: testSongs[songIndex]
     });
   };
 }

@@ -6,7 +6,7 @@ import Sound from "react-native-sound";
 
 import * as actions from "../../redux/actions";
 import { loadMidi } from "../../selectors";
-import { playerBackground } from "../../design"
+import { playerBackground } from "../../design";
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
 
@@ -35,9 +35,20 @@ class MediaPlayer extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: playerBackground, margin: 4, padding: 2, borderRadius: 6 }}>
-        <PlaybackPrimary handleMusicPress={this.handleMusicPress.bind(this)} handleVideoPress={this.handleVideoPress.bind(this)} />
-        
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: playerBackground,
+          margin: 4,
+          padding: 2,
+          borderRadius: 6
+        }}
+      >
+        <PlaybackPrimary
+          handleMusicPress={this.handleMusicPress.bind(this)}
+          handleVideoPress={this.handleVideoPress.bind(this)}
+        />
+
         {this.state.isVideo
           ? <Video
               ref={ref => {
@@ -87,6 +98,10 @@ class MediaPlayer extends Component {
   componentDidMount() {
     console.log("MediaPlayer did mount");
     requestAnimationFrame(this.handleAnimationFrame);
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log(newProps);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -147,7 +162,7 @@ class MediaPlayer extends Component {
 
     this.handleLoadMidi("dyer.mid");
     this.playMusic();
-  }
+  };
 
   // TODO: integrate into library and remove
   handleVideoPress = () => {
@@ -158,7 +173,7 @@ class MediaPlayer extends Component {
     });
 
     this.stopMusic();
-  }
+  };
 
   handleTogglePress = () => {
     console.log("toggle press");
