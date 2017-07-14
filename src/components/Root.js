@@ -8,22 +8,46 @@ import Library from "./Library";
 
 const testSongs = [
   {
-    name: "Song 1",
-    file: "song1.m4a"
+    name: "A Day in the Life",
+    audio: "a_day_in_the_life_a.m4a",
+    midi: "a_day_in_the_life_m.mid"
   },
   {
-    name: "Song 2",
-    file: "song2.m4a"
+    name: "Autumn Leaves",
+    audio: "autumn_leaves_a.m4a",
+    midi: "autumn_leaves_m.mid"
   },
   {
-    name: "Song 3",
-    file: "song3.m4a"
+    name: "Bad Moon Rising",
+    audio: "bad_moon_rising_a.m4a",
+    midi: "bad_moon_rising_m.mid"
+  },
+  {
+    name: "Cliffs of Dover",
+    audio: "cliffs_of_dover_a.m4a",
+    midi: "cliffs_of_dover_m.mid"
+  },
+  {
+    name: "Crossfire",
+    audio: "crossfire_a.m4a",
+    midi: "crossfire_m.mid"
+  },
+  {
+    name: "D'yer Maker",
+    audio: "dyer_audio_a.m4a",
+    midi: "dyer_data_m.mid"
+  },
+  {
+    name: "Sultans of Swing",
+    audio: "sultans_of_swing_a.m4a",
+    midi: "sultans_of_swing_m.mid"
   }
 ];
 
 class Root extends Component {
   state = {
-    libIsOpen: false
+    libIsOpen: false,
+    song: testSongs[0]
   };
 
   render() {
@@ -33,7 +57,7 @@ class Root extends Component {
         <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <StatusBar hidden />
           <AdContainer onToggleLibrary={this.handleToggleLibrary} />
-          <MediaPlayer />
+          <MediaPlayer song={this.state.song} />
           <FretboardsContainer />
           <Library
             isOpen={this.state.libIsOpen}
@@ -52,9 +76,9 @@ class Root extends Component {
   };
 
   handleSelectSong = songIndex => {
-    console.log(testSongs[songIndex]);
     this.setState({
-      libIsOpen: false
+      libIsOpen: false,
+      song: testSongs[songIndex]
     });
   };
 }
