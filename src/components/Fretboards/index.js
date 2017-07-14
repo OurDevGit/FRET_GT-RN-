@@ -34,7 +34,8 @@ class FretboardsRoot extends React.PureComponent {
     let viewSize = e.nativeEvent.layoutMeasurement;
 
     // Divide the horizontal offset by the width of the view to see which page is visible
-    let page = Math.floor(contentOffset.x / viewSize.width);
+    let page = Math.round(contentOffset.x / viewSize.width);
+    console.log(e.nativeEvent.contentOffset, e.nativeEvent.layoutMeasurement, page)
     this.setState({ selectedIndex: page });
   }
 }
