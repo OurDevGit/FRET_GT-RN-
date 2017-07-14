@@ -47,6 +47,7 @@ class MediaPlayer extends Component {
         <PlaybackPrimary
           handleMusicPress={this.handleMusicPress.bind(this)}
           handleVideoPress={this.handleVideoPress.bind(this)}
+          title={this.props.song.name}
         />
 
         {this.state.isVideo
@@ -96,11 +97,13 @@ class MediaPlayer extends Component {
   }
 
   componentDidMount() {
-    console.log("MediaPlayer did mount");
     requestAnimationFrame(this.handleAnimationFrame);
   }
 
   componentWillReceiveProps(newProps) {
+    if (newProps.song.name !== this.props.song.name) {
+      this.resetSong();
+    }
     console.log(newProps);
   }
 
@@ -114,18 +117,27 @@ class MediaPlayer extends Component {
     ) {
       // music
       if (this.state.isVideo === false) {
-        this.song.setSpeed(this.state.playbackRate);
+        this.songSound.setSpeed(this.state.playbackRate);
       }
 
       // video
     }
   }
 
+  resetSong = () => {
+    this.setState({
+      playbackProgress: 0
+    });
+
+    this.stopMusic();
+    this.songSound = undefined;
+  };
+
   handleBackPress = () => {
     if (this.state.isVideo === false) {
-      if (this.song) {
-        this.song.getCurrentTime(seconds => {
-          this.song.setCurrentTime(seconds - 10);
+      if (this.songSound) {
+        this.songSound.getCurrentTime(seconds => {
+          this.songSound.setCurrentTime(seconds - 10);
         });
       }
     } else {
@@ -139,9 +151,9 @@ class MediaPlayer extends Component {
 
   handleForwardPress = () => {
     if (this.state.isVideo === false) {
-      if (this.song) {
-        this.song.getCurrentTime(seconds => {
-          this.song.setCurrentTime(seconds + 10);
+      if (this.songSound) {
+        this.songSound.getCurrentTime(seconds => {
+          this.songSound.setCurrentTime(seconds + 10);
         });
       }
     } else {
@@ -160,7 +172,7 @@ class MediaPlayer extends Component {
       playbackRate: 1
     });
 
-    this.handleLoadMidi("dyer.mid");
+    this.handleLoadMidi(this.props.song.midi);
     this.playMusic();
   };
 
@@ -177,20 +189,23 @@ class MediaPlayer extends Component {
 
   handleTogglePress = () => {
     console.log("toggle press");
+    console.log(this.state);
     if (this.state.isVideo === false) {
-      if (this.song) {
+      if (this.songSound) {
         if (this.state.isPlaying === true) {
-          this.song.pause();
+          this.songSound.pause();
           this.setState({
             isPlaying: false
           });
         } else {
           console.log("playing song");
-          this.song.play();
+          this.songSound.play();
           this.setState({
             isPlaying: true
           });
         }
+      } else {
+        this.playMusic();
       }
     } else {
       // console.log()
@@ -218,8 +233,8 @@ class MediaPlayer extends Component {
     if (this.state.isVideo === true) {
       this.videoPlayer.seek(progress * this.state.videoDuration);
     } else {
-      if (this.song) {
-        this.song.setCurrentTime(progress * this.song.getDuration());
+      if (this.songSound) {
+        this.songSound.setCurrentTime(progress * this.songSound.getDuration());
       }
     }
   };
@@ -234,11 +249,15 @@ class MediaPlayer extends Component {
   handleAnimationFrame = timestamp => {
     requestAnimationFrame(this.handleAnimationFrame);
 
+    if (this.songSound === undefined || this.songSound === null) {
+      return;
+    }
+
     if (this.state.isVideo === false) {
-      if (this.song) {
-        this.song.getCurrentTime(seconds => {
+      if (this.songSound) {
+        this.songSound.getCurrentTime(seconds => {
           this.setState({
-            playbackProgress: seconds / this.song.getDuration()
+            playbackProgress: seconds / this.songSound.getDuration()
           });
 
           if (seconds !== prevSeconds) {
@@ -266,10 +285,12 @@ class MediaPlayer extends Component {
     // const file = require("../test/dyer.m4a");
     // console.log("file: ", file);
 
+    console.log("playing");
+
     this.stopMusic();
 
-    this.song = new Sound(
-      "dyer_audio.m4a",
+    this.songSound = new Sound(
+      this.props.song.audio,
       Sound.MAIN_BUNDLE,
       (error, props) => {
         console.log("sound init handler");
@@ -281,18 +302,18 @@ class MediaPlayer extends Component {
         // loaded successfully
         console.log(
           "duration in seconds: " +
-            this.song.getDuration() +
+            this.songSound.getDuration() +
             "number of channels: " +
-            this.song.getNumberOfChannels()
+            this.songSound.getNumberOfChannels()
         );
 
         this.setState({
           isPlaying: true
         });
 
-        this.song.setSpeed(this.state.playbackRate);
+        this.songSound.setSpeed(this.state.playbackRate);
         console.log("playMusic playing");
-        this.song.play(success => {
+        this.songSound.play(success => {
           if (success) {
             console.log("successfully finished playing");
           } else {
@@ -310,9 +331,9 @@ class MediaPlayer extends Component {
   stopMusic = () => {
     console.log("stopMusic()");
 
-    if (this.song) {
-      this.song.stop();
-      this.song.release();
+    if (this.songSound) {
+      this.songSound.stop();
+      this.songSound.release();
     } else {
       console.log("no song instance?!");
     }
