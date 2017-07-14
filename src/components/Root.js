@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, StatusBar } from "react-native";
 import { Provider } from "react-redux";
 import AdContainer from "./AdContainer";
-import MediaPlayer from "./Playback";
+import Playback from "./Playback";
 import FretboardsContainer from "./Fretboards";
 import Library from "./Library";
 
@@ -20,8 +20,11 @@ class Root extends Component {
       <Provider store={store}>
         <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <StatusBar hidden />
-          <AdContainer onToggleLibrary={this.handleToggleLibrary} />
-          <MediaPlayer song={this.state.song} />
+          <AdContainer
+            onToggleLibrary={this.handleToggleLibrary}
+            libIsOpen={this.state.libIsOpen}
+          />
+          <Playback song={this.state.song} />
           <FretboardsContainer />
           <Library
             isOpen={this.state.libIsOpen}

@@ -10,7 +10,8 @@ const Library = ({ isOpen, onSelect, songs }) =>
       width,
       height: "100%",
       position: "absolute",
-      right: isOpen ? 0 : 0 - width
+      left: isOpen ? 0 : 0 - width,
+      zIndex: 10000
     }}
   >
     <FlatList
