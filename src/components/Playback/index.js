@@ -28,7 +28,7 @@ class MediaPlayer extends Component {
   state = {
     isVideo: false,
     isPlaying: false,
-    videoDuration: 0,
+    mediaDuration: 0,
     playbackProgress: 0.0,
     playbackRate: 1
   };
@@ -54,22 +54,23 @@ class MediaPlayer extends Component {
           handleNextPress={this.handleNextPress.bind(this)}
         />
 
-        {this.state.isVideo
-          ? <Video
-              ref={ref => {
-                this.player = ref;
-              }}
-              rate={this.state.playbackRate}
-              //source={require("../../test-media/test-small.mp4")}
-              style={styles.backgroundVideo}
-            />
-          : <View />}
-        <View style={{ alignItems: "center" }}>
-          {this.state.isVideo === true ? <View /> : <View />}
-          <PlaybackTimeline
-            progress={this.state.playbackProgress}
-            onScrub={this.handleScrub}
+        {this.state.isVideo &&
+          <Video
+            ref={ref => { this.player = ref; }}
+            rate={this.state.playbackRate}
+            style={styles.backgroundVideo}
           />
+        }
+
+        <PlaybackTimeline
+          progress={this.state.playbackProgress}
+          duration={this.state.mediaDuration}
+          onScrub={this.handleScrub}
+        />
+
+        <View style={{ alignItems: "center" }}>
+          
+
           <View
             style={{
               flexDirection: "row",
@@ -151,8 +152,7 @@ class MediaPlayer extends Component {
       }
     } else {
       if (this.videoPlayer) {
-        const currentSeconds =
-          this.state.playbackProgress * this.state.videoDuration;
+        const currentSeconds = this.state.playbackProgress * this.state.mediaDuration;
         this.videoPlayer.seek(currentSeconds - 5);
       }
     }
@@ -193,8 +193,7 @@ class MediaPlayer extends Component {
       }
     } else {
       if (this.videoPlayer) {
-        const currentSeconds =
-          this.state.playbackProgress * this.state.videoDuration;
+        const currentSeconds = this.state.playbackProgress * this.state.MediaDuration;
         this.videoPlayer.seek(currentSeconds + 30);
       }
     }
@@ -205,7 +204,7 @@ class MediaPlayer extends Component {
   };
 
   handleVideoProgress = progress => {
-    const proportion = progress.currentTime / this.state.videoDuration;
+    const proportion = progress.currentTime / this.state.mediaDuration;
     this.setState({
       playbackProgress: proportion
     });
@@ -213,7 +212,7 @@ class MediaPlayer extends Component {
 
   handleVideoLoad = videoDetails => {
     this.setState({
-      videoDuration: videoDetails.duration,
+      mediaDuration: videoDetails.duration,
       isPlaying: true
     });
   };
@@ -293,7 +292,8 @@ class MediaPlayer extends Component {
         // );
 
         this.setState({
-          isPlaying: true
+          isPlaying: true,
+          mediaDuration: this.songSound.getDuration()
         });
 
         this.songSound.setSpeed(this.state.playbackRate);
