@@ -34,6 +34,47 @@ const fretsForRange = (style, track) => {
   return frets
 }
 
+const strings = (track) => {
+  var views = []
+  var isBass = false
+
+  if (track !== undefined) {
+    isBass = track.isBass
+  }
+
+  var count = isBass ? 4 : 6
+  var stringWidth = isBass ? 2 : 1
+  
+  for (var i = 0; i < count; i++) {
+    views.push(
+    <View key={i} style={{ flex: 1, alignItems: "center" }}>
+      <View
+        style={{
+          position: "absolute",
+          top: 7 + stringWidth,
+          left: 0,
+          width: "100%",
+          height: stringWidth,
+          backgroundColor: "#222222"
+        }}
+      />
+
+      <View
+        style={{
+          position: "absolute",
+          top: 7,
+          left: 0,
+          width: "100%",
+          height: stringWidth,
+          backgroundColor: "#CCCCCC"
+        }}
+      />
+    </View>)
+  }
+
+  return views
+}
+
 const Fretboard = ({ style, track }) => (
   <View
     style={{
@@ -45,9 +86,14 @@ const Fretboard = ({ style, track }) => (
       backgroundColor: "#E6D9B9",
     }}
   >
+    
     <Text style={{ height: 20, marginTop: -2 }} >{boardName(track)}</Text>
-    <View style={{ flex: 1, flexDirection: 'row', justifyContent: "space-between" }}>
+    <View style={{ position: "absolute", top: 25, left: 10, width: "100%", height: "88%", flexDirection: 'row', justifyContent: "space-between" }}>
       {fretsForRange(style, track)}
+    </View>
+
+    <View style={{ position: "absolute", top: 40, left: 10, width: "100%", height: "78%", flexDirection: 'column', justifyContent: "space-between", paddingVertical: 3 }}>
+      {strings(track)}
     </View>
   </View>
 );
