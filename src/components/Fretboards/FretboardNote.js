@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { View, Text } from "react-native";
 import { hasNoteForTimeSelector } from '../../selectors'
 
@@ -21,6 +20,8 @@ const noteName = (fret, string) => {
   const index = scale.indexOf(defaultName) || 0
   const adjusted = fret + index// + adjustment
   var remainder = adjusted % scale.length
+
+  console.log(noteName)
   
   if (remainder < 0) {
       remainder = scale.count + remainder
@@ -29,35 +30,8 @@ const noteName = (fret, string) => {
   return scale[remainder]
 }
 
-const FretboardNote = ({ track, fret, string, stringWidth, isVisible }) => (
-  <View
-    style={{
-      flex: 1,
-      alignItems: "center"
-    }}
-  >
-    <View
-      style={{
-        position: "absolute",
-        top: 7 + stringWidth,
-        left: -12,
-        width: fret < 22 ? "150%" : "100%",
-        height: stringWidth,
-        backgroundColor: "#222222"
-      }}
-    />
-
-    <View
-      style={{
-        position: "absolute",
-        top: 7,
-        left: -12,
-        width: fret < 22 ? "150%" : "100%",
-        height: stringWidth,
-        backgroundColor: "#CCCCCC"
-      }}
-    />
-
+const FretboardNote = ({ fret, string, isVisible }) => (
+  <View style={{ flex: 1, alignItems: "center" }} >
     {isVisible &&
       <View
         style={{
@@ -66,19 +40,14 @@ const FretboardNote = ({ track, fret, string, stringWidth, isVisible }) => (
           aspectRatio: 1,
           backgroundColor: "#17A3E3",
           borderRadius:8,
-          alignItems: "center"
+          alignItems: "center",
+          
         }}
       >
-        <Text style={{ fontSize: 10 }}>{noteName(fret, string)}</Text>
-      </View>
-    }
+      <Text style={{ fontSize: 10 }}>{noteName(fret, string)}</Text>
+      </View>}
+    
   </View>
 );
 
-const mapStateToProps = (state, props) => {
-  return {
-    isVisible: hasNoteForTimeSelector(state, props)
-  };
-};
-
-export default connect(mapStateToProps, undefined)(FretboardNote);
+export default FretboardNote;

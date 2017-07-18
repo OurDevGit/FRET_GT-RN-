@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect'
-import { Map, Set } from 'immutable'
+import { Map } from 'immutable'
 import MidiParser from "../midi-parser";
 
 const getTrackNameSelector = (_, props) => props.track
 const getFretSelector = (_, props) => props.fret
-const getStringSelector = (_, props) => props.string
+
 var notes = Map()
 
 exports.loadMidi = (path) => {
@@ -16,10 +16,10 @@ exports.loadMidi = (path) => {
   })
 };
 
-exports.notesForTrack = createSelector(
-  getTrackNameSelector, getFretSelector, getStringSelector,
-  (track) => {
-    return notes.getIn([track, fret, string]) || Set()
+exports.notesForTrackAtFret = createSelector(
+  getTrackNameSelector, getFretSelector,
+  (track, fret) => {
+    return notes.getIn([track, fret]) || Map()
   }
 );
 

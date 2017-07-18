@@ -25,7 +25,7 @@ const fretsForRange = (style, track) => {
     frets.push(
     <FretboardFret
       key={i}
-      index={i}
+      fret={i}
       track={trackName}
       isBass={isBass}
       style={{ flex: 1 }}
