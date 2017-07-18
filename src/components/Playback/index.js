@@ -82,11 +82,8 @@ class MediaPlayer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps.song)
     if (newProps.song.name !== this.props.song.name) {
       this.resetSong(newProps.song);
-
-
     }
   }
 
@@ -129,7 +126,6 @@ class MediaPlayer extends Component {
   };
 
   loadMusic = audio => {
-    console.log("load music", audio)
     this.songSound = new Sound(
       audio,
       Sound.MAIN_BUNDLE,
@@ -177,7 +173,6 @@ class MediaPlayer extends Component {
             isPlaying: false
           });
         } else {
-          console.log("playing song");
           this.songSound.play();
           this.setState({
             isPlaying: true
