@@ -40,12 +40,13 @@ class PlaybackTimeline extends Component {
               marginTop: -0.5
             }}
           />
-          <Playhead
-            duration={this.props.duration}
-            onScrub={this.props.onScrub}
-            width={this.state.layout.width - 18}
-          />
         </View>
+        <Playhead
+          left={this.state.layout.x - 9}
+          width={this.state.layout.width}
+          duration={this.props.duration}
+          onScrub={this.props.onScrub}
+        />
         <PlaybackCounter type="remaining" duration={this.props.duration} />
       </View>
     );

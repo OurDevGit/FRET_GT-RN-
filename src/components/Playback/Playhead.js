@@ -25,7 +25,12 @@ class Playhead extends Component {
       ...styles.circle,
       left: this.state.left
     };
-    return <View style={styleWithLeft} {...this._panResponder.panHandlers} />;
+    
+    return (
+      <View style={{position: "absolute", top: 0, left: this.props.left, width: this.props.width, height: 18}}>
+        <View style={styleWithLeft} {...this._panResponder.panHandlers} />
+      </View>
+    );
   }
 
   componentWillMount() {
@@ -82,6 +87,7 @@ class Playhead extends Component {
       const {time, progress, duration} = payload
 
       if (this.state.ignoreTimeProgress === false) {
+        const left = 
         this.setState({ left: this.props.width * progress})
       }
     })
