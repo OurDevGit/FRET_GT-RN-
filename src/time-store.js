@@ -49,6 +49,8 @@ module.exports.subscribeToTimeUpdates = callback => {
   callbacks.push(callback)
 }
 
-module.exports.clear = callback => {
+module.exports.clearTimeStore = callback => {
+  currentTime = 0
+  duration = 0
   callbacks = []
 }

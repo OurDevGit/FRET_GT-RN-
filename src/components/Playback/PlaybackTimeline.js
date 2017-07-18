@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { View, Dimensions, Text } from "react-native";
 
-import { getCurrentTime } from "../../time-store";
 import { PrimaryBlue } from "../../design"
 
 import Playhead from "./Playhead";

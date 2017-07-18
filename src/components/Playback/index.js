@@ -7,7 +7,7 @@ import Sound from "react-native-sound";
 import * as actions from "../../redux/actions";
 import { loadMidi } from "../../selectors";
 import { playerBackground } from "../../design";
-import { getCurrentTime, getDuration, getProgress, setCurrentTime, setDuration, setProgress } from "../../time-store";
+import { getCurrentTime, getDuration, getProgress, setCurrentTime, setDuration, setProgress, clearTimeStore } from "../../time-store";
 
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
@@ -106,10 +106,9 @@ class MediaPlayer extends Component {
   resetSong = song => {
     this.stopMusic();
     this.songSound = undefined;
-    setCurrentTime(0)
-    setDuration(0)
 
     this.setState({ file: undefined })
+    clearTimeStore()
 
     this.handleLoadMidi(song.midi);
   };
