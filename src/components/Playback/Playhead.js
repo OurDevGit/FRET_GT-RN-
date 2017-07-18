@@ -16,7 +16,8 @@ const styles = {
 class Playhead extends Component {
   state = {
     dragLeft: 0,
-    left: 0
+    left: 0,
+    ignoreTimeProgress: false
   };
 
   render() {
@@ -40,13 +41,11 @@ class Playhead extends Component {
         // what is happening!
 
         // gestureState.d{x,y} will be set to zero now
-        console.log("grant!");
-
         this.setState({
-          dragLeft: this.props.left
+          dragLeft: this.state.left
         });
 
-        this.props.onPanStart();
+        this.handlePanStart();
       },
       onPanResponderMove: (evt, gestureState) => {
         // The most recent move distance is gestureState.move{X,Y}
@@ -54,21 +53,21 @@ class Playhead extends Component {
         // The accumulated gesture distance since becoming responder is
         // gestureState.d{x,y}
 
-        this.props.onPan(this.state.dragLeft + gestureState.dx);
+        this.handlePan(this.state.dragLeft + gestureState.dx);
       },
       onPanResponderTerminationRequest: (evt, gestureState) => true,
       onPanResponderRelease: (evt, gestureState) => {
         // The user has released all touches while this view is the
         // responder. This typically means a gesture has succeeded
 
-        this.props.onPanEnd();
+        this.handlePanEnd();
       },
       onPanResponderTerminate: (evt, gestureState) => {
         // Another component has become the responder, so this gesture
         // should be cancelled
 
-        this.props.onPan(this.state.dragLeft);
-        this.props.onPanEnd();
+        this.handlePan(this.state.dragLeft);
+        this.handlePanEnd();
       },
       onShouldBlockNativeResponder: (evt, gestureState) => {
         // Returns whether this component should block native components from becoming the JS
@@ -81,7 +80,10 @@ class Playhead extends Component {
   updateTimeSubscription() {
     subscribeToTimeUpdates((payload) => {
       const {time, progress, duration} = payload
-      this.setState({ left: this.props.width * progress})
+
+      if (this.state.ignoreTimeProgress === false) {
+        this.setState({ left: this.props.width * progress})
+      }
     })
   }
 
@@ -94,12 +96,26 @@ class Playhead extends Component {
       this.updateTimeSubscription()
     }
   }
+
+  handlePan = x => {
+    var progress = x > 0 ? x / this.props.width : 0;
+    progress = Math.max(progress, 0)
+    progress = Math.min(progress, 1)
+    this.setState({ left: this.props.width * progress})
+    this.props.onScrub(progress);
+  };
+
+  handlePanStart = () => {
+    this.setState({ ignoreTimeProgress: true });
+  };
+
+  handlePanEnd = () => {
+    this.setState({ ignoreTimeProgress: false });
+  };
 }
 
 Playhead.propTypes = {
-  onPan: PropTypes.func.isRequired,
-  onPanStart: PropTypes.func.isRequired,
-  onPanEnd: PropTypes.func.isRequired,
+  onScrub: PropTypes.func.isRequired,
   width: PropTypes.number.isRequired
 };
 

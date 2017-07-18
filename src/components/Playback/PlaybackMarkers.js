@@ -22,27 +22,25 @@ const abbreviation = (markerName, index) => {
   }
 }
 
-const buttonsForMarkers = (duration, markers, onMarkerPress) => {
-  var buttons = [];
+const buttonsForMarkers = (left, width, duration, markers, onMarkerPress) => {
+  var operationalWidth = width - (left * 2)
 
-  for (var i = 0; i < markers.length; i++) {
-    var marker = markers[i]
-    var x = (marker.time / duration) - 20
-    // console.log(marker.name, marker.time, duration, x)
-    buttons.push(
-    <TouchableOpacity key={marker.name} style={{ position: "absolute", top: 0, left: x, width: 40, alignItems: "center", backgroundColor: "#CCC" }} onPress={() => { onMarkerPress(marker)}} >
+  var buttons = markers.map((marker, index) => {
+    var percent = marker.time / duration
+    var x = left - 15 + (operationalWidth * percent)
+    return (
+    <TouchableOpacity key={marker.name} style={{ position: "absolute", top: 0, left: x, width: 30, alignItems: "center" }} onPress={() => { onMarkerPress(marker)}} >
       <View style={{ width: 2, height: 10, backgroundColor: PrimaryBlue }}/>
-      <Text style={{ fontSize: 14 }}>{abbreviation(marker.name, i)}</Text>
+      <Text style={{ fontSize: 14 }}>{abbreviation(marker.name, index)}</Text>
     </TouchableOpacity>)
-  }
+  })
 
-  // console.log(buttons)
   return buttons
 }
 
-const PlaybackMarkers = ({ duration, markers, onMarkerPress }) => (
-  <View style={{ flex: 1, flexDirection: "row", marginTop: 10 }} >
-    {buttonsForMarkers(duration, markers, onMarkerPress)}
+const PlaybackMarkers = ({ left, width, height, duration, markers, onMarkerPress }) => (
+  <View style={{ position: "absolute", top: 10, left: 0, width: width, height: height + 10 }} >
+    {buttonsForMarkers(left, width, duration, markers, onMarkerPress)}
   </View>
 );
 

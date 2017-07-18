@@ -11,23 +11,25 @@ import PlaybackMarkers from "./PlaybackMarkers";
 class PlaybackTimeline extends Component {
   state = {
     layout: { width: 1 },
-    progress: this.props.progress,
-    ignorePropsProgress: false
+    containerLayout: { width: 1 }
   };
 
   render() {
     return (
-      <View style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "flex-start", marginHorizontal: 10, marginTop: 8 }}>
+      <View 
+        style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "flex-start", marginHorizontal: 10, marginTop: 8 }}
+        onLayout={this.handleContainerLayout}
+      >
+        <PlaybackMarkers 
+          left={this.state.layout.x}
+          width={this.state.containerLayout.width}
+          height={this.state.containerLayout.height - this.state.layout.height}
+          duration={this.props.duration}
+          markers={this.props.markers.toJS()}
+          onMarkerPress={this.props.onMarkerPress}
+        />
         <PlaybackCounter type="elapsed" duration={this.props.duration} />
-        <View
-          style={{ flex: 1 }}
-          onLayout={this.handleLayout}
-        >
-          <PlaybackMarkers 
-            duration={this.props.duration}
-            markers={this.props.markers.toJS()}
-            onMarkerPress={this.props.onMarkerPress}
-          />
+        <View style={{ flex: 1, height: 18 }} onLayout={this.handleLayout} >
           <View
             style={{
               position: "absolute",
@@ -40,10 +42,8 @@ class PlaybackTimeline extends Component {
           />
           <Playhead
             duration={this.props.duration}
-            onPan={this.handlePlayheadPan}
-            onPanStart={this.handlePlayheadPanStart}
-            onPanEnd={this.handlePlayheadPanEnd}
-            width={this.state.layout.width}
+            onScrub={this.props.onScrub}
+            width={this.state.layout.width - 18}
           />
         </View>
         <PlaybackCounter type="remaining" duration={this.props.duration} />
@@ -51,43 +51,9 @@ class PlaybackTimeline extends Component {
     );
   }
 
-  componentWillReceiveProps(newProps) {
-    if (
-      newProps.progress != this.state.progress &&
-      this.state.ignorePropsProgress === false
-    ) {
-      const openGap = (this.state.layout.width - 20) / this.state.layout.width;
-
-      this.setState({
-        progress: newProps.progress * openGap
-      });
-    }
-  }
-
-  handlePlayheadPan = x => {
-    // console.log(Dimensions.get("#PlaybackTimeline"));
-
-    var progress = x > 0 ? x / this.state.layout.width : 0;
-    if (x > this.state.layout.width - 20) {
-      progress = (this.state.layout.width - 20) / this.state.layout.width;
-    }
-
+  handleContainerLayout = e => {
     this.setState({
-      progress
-    });
-
-    this.props.onScrub(progress);
-  };
-
-  handlePlayheadPanStart = () => {
-    this.setState({
-      ignorePropsProgress: true
-    });
-  };
-
-  handlePlayheadPanEnd = () => {
-    this.setState({
-      ignorePropsProgress: false
+      containerLayout: { ...e.nativeEvent.layout }
     });
   };
 

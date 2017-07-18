@@ -34,7 +34,6 @@ class MediaPlayer extends Component {
   };
 
   render() {
-    console.log("rendering playback")
     return (
       <View
         style={{
@@ -205,7 +204,10 @@ class MediaPlayer extends Component {
   };
 
   handleMarkerPress = marker => {
-
+    if (this.songSound) {
+      console.log(marker.time)
+      this.songSound.setCurrentTime(marker.time);
+    }
   }
 
   handleVideoProgress = progress => {
