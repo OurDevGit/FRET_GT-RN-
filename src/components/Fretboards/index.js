@@ -10,7 +10,6 @@ class FretboardsRoot extends React.PureComponent {
   };
   
   render() {
-    console.log("rendering index", this.state.selectedIndex)
     return (
       <View style={{ width: "100%", aspectRatio: 4, backgroundColor: "#E6D9B9"}}>
         <Container tracks={this.props.tracks} onScrollEnd={this.onScrollEnd.bind(this)} />

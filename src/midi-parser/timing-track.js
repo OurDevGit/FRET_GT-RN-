@@ -1,33 +1,34 @@
 // returns markers and function to convert ticks to seconds for all other tracks
+import { Map, List } from 'immutable'
 
 module.exports = (track, header) => {
   var microsecondsPerTick = 0
   var totalTicks = 0
-  var tempos = []
-  var markers = []
+  var tempos = List()
+  var markers = List()
 
   secondsForTicks = ticks => {
     var microseconds = 0
     var totalTicks = 0
     
-    for (var i = 0; i < tempos.length; i++) {
-      var tempo = tempos[i]
+    for (var i = 0; i < tempos.count(); i++) {
+      var tempo = tempos.get(i)
       
       if (ticks > totalTicks + tempo.ticks) {
-        microseconds += (tempo.ticks * tempo.rate)
-        totalTicks += tempo.ticks
+        microseconds += (tempo.get("ticks") * tempo.get("rate"))
+        totalTicks += tempo.get("ticks")
       } else {
         var diff = ticks - totalTicks
-        microseconds += (diff * tempo.rate)
-        totalTicks += tempo.ticks
+        microseconds += (diff * tempo.get("rate"))
+        totalTicks += tempo.get("ticks")
         break
       }
     }
     
     if (ticks > totalTicks) {
-      var lastTempo = tempos[tempos.length - 1]
+      var lastTempo = tempos.last()
       var diff = ticks - totalTicks
-      microseconds += (diff * lastTempo.rate)
+      microseconds += (diff * lastTempo.get("rate"))
     }
 
     return microseconds / 1000000
@@ -43,7 +44,7 @@ module.exports = (track, header) => {
     
     if (event.deltaTime !== undefined) {
       totalTicks += event.deltaTime
-      tempos.push({rate : microsecondsPerTick, ticks: event.deltaTime})
+      tempos = tempos.push(Map({rate : microsecondsPerTick, ticks: event.deltaTime}))
 
       if (event.microsecondsPerBeat !== undefined) {
         microsecondsPerTick = event.microsecondsPerBeat / header.ticksPerBeat
@@ -53,7 +54,7 @@ module.exports = (track, header) => {
     if (event.type === "meta" && event.text !== undefined && event.text.includes("FMP -")) {
       var name = event.text.replace("FMP - ", "")
       var time = secondsForTicks(totalTicks)
-      markers.push({name: name, time: time})
+      markers = markers.push(Map({name: name, time: time}))
     }
   });
 

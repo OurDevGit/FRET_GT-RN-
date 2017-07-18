@@ -7,11 +7,11 @@ import Sound from "react-native-sound";
 import * as actions from "../../redux/actions";
 import { loadMidi } from "../../selectors";
 import { playerBackground } from "../../design";
+import { getCurrentTime, getDuration, getProgress, setCurrentTime, setDuration, setProgress } from "../../time-store";
+
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
-
-const prevSeconds = 0;
 
 const styles = StyleSheet.create({
   backgroundVideo: {
@@ -29,9 +29,8 @@ class MediaPlayer extends Component {
   state = {
     isVideo: false,
     isPlaying: false,
-    mediaDuration: 0,
-    playbackProgress: 0.0,
-    playbackRate: 1
+    playbackRate: 1,
+    file: undefined
   };
 
   render() {
@@ -64,9 +63,9 @@ class MediaPlayer extends Component {
         }
 
         <PlaybackTimeline
-          progress={this.state.playbackProgress}
-          duration={this.state.mediaDuration}
+          markers={this.props.markers}
           onScrub={this.handleScrub}
+          onMarkerPress={this.handleMarkerPress}
         />
 
         <PlaybackSecondary
@@ -105,12 +104,12 @@ class MediaPlayer extends Component {
   }
 
   resetSong = song => {
-    this.setState({
-      playbackProgress: 0
-    });
-
     this.stopMusic();
     this.songSound = undefined;
+    setCurrentTime(0)
+    setDuration(0)
+
+    this.setState({ file: undefined })
 
     this.handleLoadMidi(song.midi);
   };
@@ -122,14 +121,11 @@ class MediaPlayer extends Component {
   handleBackPress = () => {
     if (this.state.isVideo === false) {
       if (this.songSound) {
-        this.songSound.getCurrentTime(seconds => {
-          this.songSound.setCurrentTime(seconds - 5);
-        });
+        this.songSound.setCurrentTime(getCurrentTime() - 5);
       }
     } else {
       if (this.videoPlayer) {
-        const currentSeconds = this.state.playbackProgress * this.state.mediaDuration;
-        this.videoPlayer.seek(currentSeconds - 5);
+        this.videoPlayer.seek(getCurrentTime() - 5);
       }
     }
   };
@@ -163,14 +159,11 @@ class MediaPlayer extends Component {
   handleForwardPress = () => {
     if (this.state.isVideo === false) {
       if (this.songSound) {
-        this.songSound.getCurrentTime(seconds => {
-          this.songSound.setCurrentTime(seconds + 30);
-        });
+        this.songSound.setCurrentTime(getCurrentTime() + 30);
       }
     } else {
       if (this.videoPlayer) {
-        const currentSeconds = this.state.playbackProgress * this.state.MediaDuration;
-        this.videoPlayer.seek(currentSeconds + 30);
+        this.videoPlayer.seek(getCurrentTime() + 30);
       }
     }
   };
@@ -179,26 +172,24 @@ class MediaPlayer extends Component {
     // TODO: hook up with markers
   };
 
+  handleMarkerPress = marker => {
+
+  }
+
   handleVideoProgress = progress => {
-    const proportion = progress.currentTime / this.state.mediaDuration;
-    this.setState({
-      playbackProgress: proportion
-    });
+    setProgress(progress)
   };
 
   handleVideoLoad = videoDetails => {
-    this.setState({
-      mediaDuration: videoDetails.duration,
-      isPlaying: true
-    });
+    setDuration(videoDetails.duration)
   };
 
   handleScrub = progress => {
     if (this.state.isVideo === true) {
-      this.videoPlayer.seek(progress * this.state.videoDuration);
+      this.videoPlayer.seek(progress * getDuration());
     } else {
       if (this.songSound) {
-        this.songSound.setCurrentTime(progress * this.songSound.getDuration());
+        this.songSound.setCurrentTime(progress * getDuration());
       }
     }
   };
@@ -216,14 +207,7 @@ class MediaPlayer extends Component {
     if (this.state.isVideo === false) {
       if (this.songSound) {
         this.songSound.getCurrentTime(seconds => {
-          this.setState({
-            playbackProgress: seconds / this.songSound.getDuration()
-          });
-
-          if (seconds !== prevSeconds) {
-            this.props.updateTime(seconds);
-            prevSeconds = seconds;
-          }
+          setCurrentTime(seconds);
         });
       }
     }
@@ -266,10 +250,10 @@ class MediaPlayer extends Component {
         //     "number of channels: " +
         //     this.songSound.getNumberOfChannels()
         // );
-
+        setDuration(this.songSound.getDuration())
         this.setState({
           isPlaying: true,
-          mediaDuration: this.songSound.getDuration()
+          file: this.props.song.audio
         });
 
         this.songSound.setSpeed(this.state.playbackRate);
@@ -305,4 +289,10 @@ class MediaPlayer extends Component {
   };
 }
 
-export default connect(null, actions)(MediaPlayer);
+const mapStateToProps = (state, props) => {
+  return {
+    markers: state.get("markers")
+  };
+};
+
+export default connect(mapStateToProps, actions)(MediaPlayer);

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import { View, PanResponder } from "react-native";
+import { subscribeToTimeUpdates } from "../../time-store";
 
 const styles = {
   circle: {
@@ -14,13 +15,14 @@ const styles = {
 
 class Playhead extends Component {
   state = {
-    dragLeft: 0
+    dragLeft: 0,
+    left: 0
   };
 
   render() {
     const styleWithLeft = {
       ...styles.circle,
-      left: this.props.left
+      left: this.state.left
     };
     return <View style={styleWithLeft} {...this._panResponder.panHandlers} />;
   }
@@ -75,13 +77,20 @@ class Playhead extends Component {
       }
     });
   }
+
+  componentDidMount() {
+    subscribeToTimeUpdates((payload) => {
+      const {time, progress, duration} = payload
+      this.setState({ left: this.props.width * progress})
+    })
+  }
 }
 
 Playhead.propTypes = {
   onPan: PropTypes.func.isRequired,
   onPanStart: PropTypes.func.isRequired,
   onPanEnd: PropTypes.func.isRequired,
-  left: PropTypes.number.isRequired
+  width: PropTypes.number.isRequired
 };
 
 export default Playhead;
