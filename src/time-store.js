@@ -14,18 +14,26 @@ var updateSubscribers = () => {
 // setters
 
 module.exports.setCurrentTime = time => {
-  currentTime = time
-  updateSubscribers()
+  if (currentTime !== time) {
+    currentTime = time
+    updateSubscribers()
+  }
 }
 
 module.exports.setDuration = time => {
-  duration = time
-  updateSubscribers()
+  if (duration !== time) {
+    duration = time
+    updateSubscribers()
+  }
+  
 }
 
 module.exports.setProgress = percent => {
-  currentTime = percent * duration
-  updateSubscribers()
+  var newTime = percent * duration
+  if (currentTime !== newTime) {
+    currentTime = newTime
+    updateSubscribers()
+  }
 }
 
 // getters

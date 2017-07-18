@@ -16,7 +16,6 @@ class PlaybackTimeline extends Component {
   };
 
   render() {
-    console.log("rendering PlaybackTimeline")
     return (
       <View style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "flex-start", marginHorizontal: 10, marginTop: 8 }}>
         <PlaybackCounter type="elapsed" />

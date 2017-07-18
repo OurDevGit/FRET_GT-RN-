@@ -63,6 +63,7 @@ class MediaPlayer extends Component {
         }
 
         <PlaybackTimeline
+          duration={getDuration()}
           markers={this.props.markers}
           onScrub={this.handleScrub}
           onMarkerPress={this.handleMarkerPress}
@@ -83,6 +84,8 @@ class MediaPlayer extends Component {
   componentWillReceiveProps(newProps) {
     if (newProps.song.name !== this.props.song.name) {
       this.resetSong(newProps.song);
+
+
     }
   }
 
@@ -218,6 +221,11 @@ class MediaPlayer extends Component {
     });
   };
 
+  loadMusic = () => {
+    
+
+  }
+
   playMusic = () => {
     // console.log("playMusic()");
 
@@ -250,6 +258,7 @@ class MediaPlayer extends Component {
         //     this.songSound.getNumberOfChannels()
         // );
         setDuration(this.songSound.getDuration())
+        console.log("duration", this.songSound.getDuration())
         this.setState({
           isPlaying: true,
           file: this.props.song.audio
