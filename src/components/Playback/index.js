@@ -82,6 +82,7 @@ class MediaPlayer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    console.log(newProps.song)
     if (newProps.song.name !== this.props.song.name) {
       this.resetSong(newProps.song);
 
@@ -107,14 +108,49 @@ class MediaPlayer extends Component {
   }
 
   resetSong = song => {
-    this.stopMusic();
-    this.songSound = undefined;
 
-    this.setState({ file: undefined })
+    if (this.songSound) {
+      this.songSound.stop();
+      this.songSound.release();
+    }
+
+    this.songSound = undefined;
+    this.setState({ file: undefined, isPlaying: false })
     clearTimeStore()
 
+    this.loadMusic(song.audio)
     this.handleLoadMidi(song.midi);
   };
+
+  handleLoadMidi = path => {
+    loadMidi(path).then(midi => {
+      this.props.updateMidiData(midi);
+    });
+  };
+
+  loadMusic = audio => {
+    console.log("load music", audio)
+    this.songSound = new Sound(
+      audio,
+      Sound.MAIN_BUNDLE,
+      (error, props) => {
+        // console.log("sound init handler");
+        if (error) {
+          console.log("failed to load the sound", error);
+          return;
+        } else {
+          setDuration(this.songSound.getDuration())
+
+          this.setState({
+            isPlaying: false,
+            file: audio
+          });
+
+          this.songSound.setSpeed(this.state.playbackRate);
+        }
+      }
+    );
+  }
 
   handlePreviousPress = () => {
     // TODO: hook up with markers
@@ -147,8 +183,6 @@ class MediaPlayer extends Component {
             isPlaying: true
           });
         }
-      } else {
-        this.playMusic();
       }
     } else {
       // console.log()
@@ -212,87 +246,6 @@ class MediaPlayer extends Component {
           setCurrentTime(seconds);
         });
       }
-    }
-  };
-
-  handleLoadMidi = path => {
-    loadMidi(path).then(midi => {
-      this.props.updateMidiData(midi);
-    });
-  };
-
-  loadMusic = () => {
-    
-
-  }
-
-  playMusic = () => {
-    // console.log("playMusic()");
-
-    this.setState({
-      isVideo: false
-    });
-
-    // const file = require("../test/dyer.m4a");
-    // console.log("file: ", file);
-
-    // console.log("playing");
-
-    this.stopMusic();
-
-    this.songSound = new Sound(
-      this.props.song.audio,
-      Sound.MAIN_BUNDLE,
-      (error, props) => {
-        console.log("sound init handler");
-
-        if (error) {
-          console.log("failed to load the sound", error);
-          return;
-        }
-        // loaded successfully
-        // console.log(
-        //   "duration in seconds: " +
-        //     this.songSound.getDuration() +
-        //     "number of channels: " +
-        //     this.songSound.getNumberOfChannels()
-        // );
-        setDuration(this.songSound.getDuration())
-        console.log("duration", this.songSound.getDuration())
-        this.setState({
-          isPlaying: true,
-          file: this.props.song.audio
-        });
-
-        this.songSound.setSpeed(this.state.playbackRate);
-        // console.log("playMusic playing");
-        this.songSound.play(success => {
-          if (success) {
-            console.log("successfully finished playing");
-          } else {
-            console.log("playback failed due to audio decoding errors");
-          }
-
-          this.setState({
-            isPlaying: false
-          });
-        });
-      }
-    );
-  };
-
-  stopMusic = () => {
-    // console.log("stopMusic()");
-
-    if (this.songSound) {
-      this.songSound.stop();
-      this.songSound.release();
-    }
-
-    if (this.state.isVideo === false) {
-      this.setState({
-        isPlaying: false
-      });
     }
   };
 }

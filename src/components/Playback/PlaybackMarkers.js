@@ -28,7 +28,7 @@ const buttonsForMarkers = (duration, markers, onMarkerPress) => {
   for (var i = 0; i < markers.length; i++) {
     var marker = markers[i]
     var x = (marker.time / duration) - 20
-    console.log(marker.name, marker.time, duration, x)
+    // console.log(marker.name, marker.time, duration, x)
     buttons.push(
     <TouchableOpacity key={marker.name} style={{ position: "absolute", top: 0, left: x, width: 40, alignItems: "center", backgroundColor: "#CCC" }} onPress={() => { onMarkerPress(marker)}} >
       <View style={{ width: 2, height: 10, backgroundColor: PrimaryBlue }}/>
