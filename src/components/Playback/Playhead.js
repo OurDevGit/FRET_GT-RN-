@@ -78,11 +78,21 @@ class Playhead extends Component {
     });
   }
 
-  componentDidMount() {
+  updateTimeSubscription() {
     subscribeToTimeUpdates((payload) => {
       const {time, progress, duration} = payload
       this.setState({ left: this.props.width * progress})
     })
+  }
+
+  componentDidMount() {
+    this.updateTimeSubscription()
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.duration !== this.props.duration) {
+      this.updateTimeSubscription()
+    }
   }
 }
 

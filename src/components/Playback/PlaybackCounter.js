@@ -11,7 +11,7 @@ class PlaybackCounter extends Component {
     return <Text style={{ width: 40, height: 20, marginHorizontal: 15, textAlign: "center" }}>{this.state.time}</Text>
   }
 
-  componentDidMount() {
+  updateTimeSubscription() {
     subscribeToTimeUpdates((payload) => {
       const {time, progress, duration} = payload
 
@@ -22,6 +22,16 @@ class PlaybackCounter extends Component {
         this.setState({ time: "-" + this.formattedTime(t)})
       }
     })
+  }
+
+  componentDidMount() {
+    this.updateTimeSubscription()
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.duration !== this.props.duration) {
+      this.updateTimeSubscription()
+    }
   }
 
   formattedTime = time => {

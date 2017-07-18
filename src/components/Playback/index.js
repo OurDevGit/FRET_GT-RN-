@@ -34,6 +34,7 @@ class MediaPlayer extends Component {
   };
 
   render() {
+    console.log("rendering playback")
     return (
       <View
         style={{

@@ -18,11 +18,9 @@ class PlaybackTimeline extends Component {
   render() {
     return (
       <View style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "flex-start", marginHorizontal: 10, marginTop: 8 }}>
-        <PlaybackCounter type="elapsed" />
+        <PlaybackCounter type="elapsed" duration={this.props.duration} />
         <View
-          style={{
-            flex: 1, overflow: "visible"
-          }}
+          style={{ flex: 1 }}
           onLayout={this.handleLayout}
         >
           <PlaybackMarkers 
@@ -41,13 +39,14 @@ class PlaybackTimeline extends Component {
             }}
           />
           <Playhead
+            duration={this.props.duration}
             onPan={this.handlePlayheadPan}
             onPanStart={this.handlePlayheadPanStart}
             onPanEnd={this.handlePlayheadPanEnd}
             width={this.state.layout.width}
           />
         </View>
-        <PlaybackCounter type="remaining" />
+        <PlaybackCounter type="remaining" duration={this.props.duration} />
       </View>
     );
   }

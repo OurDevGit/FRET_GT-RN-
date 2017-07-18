@@ -55,6 +55,10 @@ module.exports.getProgress = () => {
 // register callbacks
 module.exports.subscribeToTimeUpdates = callback => {
   callbacks.push(callback)
+
+  var progress = duration > 0 ? currentTime / duration : 0
+  var payload = {time: currentTime, progress: progress, duration: duration}
+  callback(payload)
 }
 
 module.exports.clearTimeStore = callback => {
