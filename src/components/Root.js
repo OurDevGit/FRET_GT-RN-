@@ -3,9 +3,9 @@ import { View, StatusBar } from "react-native";
 import { Provider } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
-import FretboardsContainer from "./Fretboards";
+// import FretboardsContainer from "./Fretboards";
 import Library from "./Library";
-
+// <FretboardsContainer />
 import testSongs from "../testSongs";
 
 class Root extends Component {
@@ -25,7 +25,7 @@ class Root extends Component {
             libIsOpen={this.state.libIsOpen}
           />
           <Playback song={this.state.song} />
-          <FretboardsContainer />
+          
           <Library
             isOpen={this.state.libIsOpen}
             onSelect={this.handleSelectSong}

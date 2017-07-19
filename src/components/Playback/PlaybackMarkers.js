@@ -27,7 +27,7 @@ const abbreviation = (markerName, index) => {
 const buttonsForMarkers = (left, width, duration, markers, onMarkerPress) => {
   var operationalWidth = width - (left * 2)
   abbreviations = markers.map(marker => marker.name.charAt(0))
-
+  
   var buttons = markers.map((marker, index) => {
     var percent = marker.time / duration
     var x = left - 15 + (operationalWidth * percent)

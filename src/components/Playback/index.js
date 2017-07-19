@@ -1,16 +1,17 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, Button, Text, Picker, StyleSheet } from "react-native";
+import { View, Button, Text, StyleSheet } from "react-native";
 import Video from "react-native-video";
 import Sound from "react-native-sound";
 
 import * as actions from "../../redux/actions";
 import { loadMidi } from "../../selectors";
 import { playerBackground } from "../../design";
-import { getCurrentTime, getDuration, getProgress, setCurrentTime, setDuration, setProgress, clearTimeStore } from "../../time-store";
-
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
+import PlaybackSecondary from "./PlaybackSecondary";
+
+const prevSeconds = 0;
 
 const styles = StyleSheet.create({
   backgroundVideo: {
@@ -28,8 +29,9 @@ class MediaPlayer extends Component {
   state = {
     isVideo: false,
     isPlaying: false,
-    playbackRate: 1,
-    file: undefined
+    mediaDuration: 0,
+    playbackProgress: 0.0,
+    playbackRate: 1
   };
 
   render() {
@@ -62,41 +64,17 @@ class MediaPlayer extends Component {
         }
 
         <PlaybackTimeline
-          duration={getDuration()}
+          progress={this.state.playbackProgress}
+          duration={this.state.mediaDuration}
           markers={this.props.markers}
           onScrub={this.handleScrub}
           onMarkerPress={this.handleMarkerPress}
         />
 
-        <View style={{ alignItems: "center" }}>
-          
-
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-around"
-            }}
-          >
-            <View style={{ width: 100, height: 50 }}>
-              <Picker
-                selectedValue={this.state.playbackRate}
-                onValueChange={this.handleRateChange}
-                mode="dropdown"
-              >
-                <Picker.Item label="1x" value={1} />
-                <Picker.Item label="0.25x" value={0.25} />
-                <Picker.Item label="0.5x" value={0.5} />
-              </Picker>
-            </View>
-
-            <Button title="-10" onPress={this.handleBackPress} />
-            <Button
-              title={this.state.isPlaying ? "Pause" : "Play"}
-              onPress={this.handlePlayPausePress}
-            />
-            <Button title="+10" onPress={this.handleForwardPress} />
-          </View>
-        </View>
+        <PlaybackSecondary
+          rate={this.state.playbackRate}
+          handleRateChange={this.handleRateChange}
+        />
       </View>
     );
   }
@@ -129,21 +107,19 @@ class MediaPlayer extends Component {
   }
 
   resetSong = song => {
-
     if (this.songSound) {
       this.songSound.stop();
       this.songSound.release();
     }
 
     this.songSound = undefined;
-    this.setState({ file: undefined, isPlaying: false })
-    clearTimeStore()
+    this.setState({ file: undefined, isPlaying: false, playbackProgress: 0 })
 
     this.loadMusic(song.audio)
-    this.handleLoadMidi(song.midi);
+    this.loadMidi(song.midi);
   };
 
-  handleLoadMidi = path => {
+  loadMidi = path => {
     loadMidi(path).then(midi => {
       this.props.updateMidiData(midi);
     });
@@ -159,11 +135,10 @@ class MediaPlayer extends Component {
           console.log("failed to load the sound", error);
           return;
         } else {
-          setDuration(this.songSound.getDuration())
-
           this.setState({
             isPlaying: false,
-            file: audio
+            file: audio,
+            mediaDuration: this.songSound.getDuration()
           });
 
           this.songSound.setSpeed(this.state.playbackRate);
@@ -179,11 +154,14 @@ class MediaPlayer extends Component {
   handleBackPress = () => {
     if (this.state.isVideo === false) {
       if (this.songSound) {
-        this.songSound.setCurrentTime(getCurrentTime() - 5);
+        this.songSound.getCurrentTime(seconds => {
+          this.songSound.setCurrentTime(seconds - 5);
+        });
       }
     } else {
       if (this.videoPlayer) {
-        this.videoPlayer.seek(getCurrentTime() - 5);
+        const currentSeconds = this.state.playbackProgress * this.state.mediaDuration;
+        this.videoPlayer.seek(currentSeconds - 5);
       }
     }
   };
@@ -197,11 +175,14 @@ class MediaPlayer extends Component {
             isPlaying: false
           });
         } else {
+          console.log("playing song");
           this.songSound.play();
           this.setState({
             isPlaying: true
           });
         }
+      } else {
+        this.playMusic();
       }
     } else {
       // console.log()
@@ -214,40 +195,51 @@ class MediaPlayer extends Component {
   handleForwardPress = () => {
     if (this.state.isVideo === false) {
       if (this.songSound) {
-        this.songSound.setCurrentTime(getCurrentTime() + 30);
+        this.songSound.getCurrentTime(seconds => {
+          this.songSound.setCurrentTime(seconds + 30);
+        });
       }
     } else {
       if (this.videoPlayer) {
-        this.videoPlayer.seek(getCurrentTime() + 30);
+        const currentSeconds = this.state.playbackProgress * this.state.MediaDuration;
+        this.videoPlayer.seek(currentSeconds + 30);
       }
     }
   };
 
-  handleNextPress = () => {
-    // TODO: hook up with markers
+  handleNextPress = marker => {
+    if (this.songSound) {
+      console.log(marker.time)
+      this.songSound.setCurrentTime(marker.time);
+    }
   };
 
   handleMarkerPress = marker => {
     if (this.songSound) {
-      console.log(marker.time)
       this.songSound.setCurrentTime(marker.time);
     }
   }
 
   handleVideoProgress = progress => {
-    setProgress(progress)
+    const proportion = progress.currentTime / this.state.mediaDuration;
+    this.setState({
+      playbackProgress: proportion
+    });
   };
 
   handleVideoLoad = videoDetails => {
-    setDuration(videoDetails.duration)
+    this.setState({
+      mediaDuration: videoDetails.duration,
+      isPlaying: true
+    });
   };
 
   handleScrub = progress => {
     if (this.state.isVideo === true) {
-      this.videoPlayer.seek(progress * getDuration());
+      this.videoPlayer.seek(progress * this.state.videoDuration);
     } else {
       if (this.songSound) {
-        this.songSound.setCurrentTime(progress * getDuration());
+        this.songSound.setCurrentTime(progress * this.songSound.getDuration());
       }
     }
   };
@@ -265,7 +257,13 @@ class MediaPlayer extends Component {
     if (this.state.isVideo === false) {
       if (this.songSound) {
         this.songSound.getCurrentTime(seconds => {
-          setCurrentTime(seconds);
+          this.setState({
+            playbackProgress: seconds / this.songSound.getDuration()
+          });
+          if (seconds !== prevSeconds) {
+            this.props.updateTime(seconds);
+            prevSeconds = seconds;
+          }
         });
       }
     }
