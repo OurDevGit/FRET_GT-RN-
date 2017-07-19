@@ -93,10 +93,7 @@ class MediaPlayer extends Component {
     // console.log(this.state);
 
     // if we're playing and the playback rate changed
-    if (
-      this.state.isPlaying &&
-      prevState.playbackRate !== this.state.playbackRate
-    ) {
+    if (this.state.isPlaying && prevState.playbackRate !== this.state.playbackRate) {
       // music
       if (this.state.isVideo === false) {
         this.songSound.setSpeed(this.state.playbackRate);
@@ -148,7 +145,28 @@ class MediaPlayer extends Component {
   }
 
   handlePreviousPress = () => {
-    // TODO: hook up with markers
+    const { markers } = this.props
+
+    if (this.state.isVideo === false) {
+      if (this.songSound) {
+        this.songSound.getCurrentTime(seconds => {
+          if (markers.count() === 0 || markers.first().time > seconds) {
+            this.songSound.setCurrentTime(0);
+          } else {
+            for (let marker of markers.reverse()) {
+              if (marker.time + 1 < seconds) {
+                this.songSound.setCurrentTime(marker.time);
+                break
+              }
+            }
+          }
+        });
+      }
+    } else {
+      if (this.videoPlayer) {
+        // handle video
+      }
+    }
   };
   
   handleBackPress = () => {
@@ -208,15 +226,33 @@ class MediaPlayer extends Component {
   };
 
   handleNextPress = marker => {
-    if (this.songSound) {
-      console.log(marker.time)
-      this.songSound.setCurrentTime(marker.time);
+    const { markers } = this.props
+
+    if (this.state.isVideo === false) {
+      if (this.songSound) {
+        this.songSound.getCurrentTime(seconds => {
+          if (markers.count() === 0 || markers.last().time < seconds) {
+            this.songSound.setCurrentTime(0);
+          } else {
+            for (let marker of markers) {
+              if (marker.time > seconds) {
+                this.songSound.setCurrentTime(marker.time);
+                break
+              }
+            }
+          }
+        });
+      }
+    } else {
+      if (this.videoPlayer) {
+        // handle video
+      }
     }
   };
 
-  handleMarkerPress = marker => {
+  handleMarkerPress = time => {
     if (this.songSound) {
-      this.songSound.setCurrentTime(marker.time);
+      this.songSound.setCurrentTime(time);
     }
   }
 

@@ -29,7 +29,7 @@ class PlaybackTimeline extends Component {
           width={this.state.containerLayout.width}
           height={this.state.containerLayout.height - this.state.layout.height}
           duration={this.props.duration}
-          markers={this.props.markers.toJS()}
+          markers={this.props.markers}
           onMarkerPress={this.props.onMarkerPress}
         />
         <Text style={{ width: 40, height: 20, marginHorizontal: 15, textAlign: "center" }}>{elapsed}</Text>

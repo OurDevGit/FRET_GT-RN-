@@ -1,5 +1,23 @@
 // returns markers and function to convert ticks to seconds for all other tracks
 
+var abbreviations = []
+const abbreviation = (first, index) => {
+  if (index < abbreviations.length) {
+    let matchingBelow = abbreviations.slice(0, index).filter(name => name === first)
+    let matchingAbove = abbreviations.slice(index, abbreviations.length).filter(name => name === first)
+
+    if (matchingBelow.length > 0) {
+      return first + (matchingBelow.length + 1)
+    } else if (matchingAbove.length > 1) {
+      return first + "1"
+    } else {
+      return first
+    }
+  } else {
+    return first
+  }
+}
+
 module.exports = (track, header) => {
   var microsecondsPerTick = 0
   var totalTicks = 0
@@ -57,7 +75,11 @@ module.exports = (track, header) => {
     }
   });
 
-  
+  abbreviations = markers.map(marker => marker.name.charAt(0))
+
+  for (var i = 0; i < markers.length; i++) {
+    markers[i].abbreviation = abbreviation(markers[i].name.charAt(0), i)
+  }
 
   return { markers: markers, secondsForTicks: secondsForTicks }
 }
