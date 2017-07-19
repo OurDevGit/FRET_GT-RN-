@@ -25,9 +25,9 @@ const fretsForRange = (style, track) => {
     frets.push(
     <FretboardFret
       key={i}
-      fret={i}
       track={trackName}
       isBass={isBass}
+      fret={i}
       style={{ flex: 1 }}
     />)
   }
@@ -91,7 +91,7 @@ const Fretboard = ({ style, track }) => (
     <View style={{ position: "absolute", top: 25, left: 10, width: "100%", height: "88%", flexDirection: 'row', justifyContent: "space-between" }}>
       {fretsForRange(style, track)}
     </View>
-
+    
     <View style={{ position: "absolute", top: 40, left: 10, width: "100%", height: "78%", flexDirection: 'column', justifyContent: "space-between", paddingVertical: 3 }}>
       {strings(track)}
     </View>
