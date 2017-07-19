@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, Button, Text, StyleSheet } from "react-native";
+import { View, Button, Text, Picker, StyleSheet } from "react-native";
 import Video from "react-native-video";
 import Sound from "react-native-sound";
 
@@ -11,7 +11,6 @@ import { getCurrentTime, getDuration, getProgress, setCurrentTime, setDuration, 
 
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
-import PlaybackSecondary from "./PlaybackSecondary";
 
 const styles = StyleSheet.create({
   backgroundVideo: {
@@ -69,10 +68,35 @@ class MediaPlayer extends Component {
           onMarkerPress={this.handleMarkerPress}
         />
 
-        <PlaybackSecondary
-          rate={this.state.playbackRate}
-          handleRateChange={this.handleRateChange}
-        />
+        <View style={{ alignItems: "center" }}>
+          
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-around"
+            }}
+          >
+            <View style={{ width: 100, height: 50 }}>
+              <Picker
+                selectedValue={this.state.playbackRate}
+                onValueChange={this.handleRateChange}
+                mode="dropdown"
+              >
+                <Picker.Item label="1x" value={1} />
+                <Picker.Item label="0.25x" value={0.25} />
+                <Picker.Item label="0.5x" value={0.5} />
+              </Picker>
+            </View>
+
+            <Button title="-10" onPress={this.handleBackPress} />
+            <Button
+              title={this.state.isPlaying ? "Pause" : "Play"}
+              onPress={this.handlePlayPausePress}
+            />
+            <Button title="+10" onPress={this.handleForwardPress} />
+          </View>
+        </View>
       </View>
     );
   }
