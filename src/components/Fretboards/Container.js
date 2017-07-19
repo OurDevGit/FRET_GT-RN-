@@ -4,6 +4,7 @@ import { View, FlatList } from "react-native";
 import Fretboard from "./Fretboard";
 
 const keyExtractor = (item, index) => index
+const emptyTrack = {name: undefined, isBass:false}
 
 class FretboardsContainer extends React.Component {
   state = {
@@ -25,7 +26,7 @@ class FretboardsContainer extends React.Component {
           onLayout={this.adjustPageSize.bind(this)}
           onMomentumScrollEnd={this.props.onScrollEnd}
           ListEmptyComponent={() => (
-            <Fretboard style={{ width: this.state.width, height: this.state.height }}/>
+            <Fretboard track={emptyTrack} style={{ width: this.state.width, height: this.state.height }}/>
           )}
           renderItem={({ item }) => (
             <Fretboard track={item} style={{ width: this.state.width, height: this.state.height }} />
