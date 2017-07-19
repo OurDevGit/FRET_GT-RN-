@@ -3,10 +3,27 @@ import { connect } from "react-redux";
 import { View, Text } from "react-native";
 
 import * as actions from "../../redux/actions";
+import FretboardFretBackground from "./FretboardFretBackground";
 import FretboardFret from "./FretboardFret";
 
 const boardName = track => {
   return track === undefined ? " " : track.name
+}
+
+const fretBackgroundsForRange = (style, track) => {
+  var frets = [];
+  var first = 0 // track.firstFret : 0  // save for SMART Fretboards
+  var last = 23 // track.lastFret : 23  // save for SMART Fretboards
+  
+  for (var i = first; i <= last; i++) {
+    frets.push(
+    <FretboardFretBackground
+      key={i}
+      fret={i}
+      style={{ flex: 1 }}
+    />)
+  }
+  return frets
 }
 
 const fretsForRange = (style, track) => {
@@ -89,11 +106,15 @@ const Fretboard = ({ style, track }) => (
     
     <Text style={{ height: 20, marginTop: -2 }} >{boardName(track)}</Text>
     <View style={{ position: "absolute", top: 25, left: 10, width: "100%", height: "88%", flexDirection: 'row', justifyContent: "space-between" }}>
-      {fretsForRange(style, track)}
+      {fretBackgroundsForRange(style, track)}
     </View>
     
     <View style={{ position: "absolute", top: 40, left: 10, width: "100%", height: "78%", flexDirection: 'column', justifyContent: "space-between", paddingVertical: 3 }}>
       {strings(track)}
+    </View>
+
+    <View style={{ position: "absolute", top: 25, left: 10, width: "100%", height: "88%", flexDirection: 'row', justifyContent: "space-between" }}>
+      {fretsForRange(style, track)}
     </View>
   </View>
 );

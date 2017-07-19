@@ -51,7 +51,7 @@ module.exports = (track, header) => {
     }
 
     if (event.type === "meta" && event.text !== undefined && event.text.includes("FMP -")) {
-      var name = event.text.replace("FMP - ", "")
+      var name = event.text.replace("FMP -  ", "").replace("FMP - ", "")
       var time = secondsForTicks(totalTicks)
       markers.push({name: name, time: time})
     }

@@ -19,7 +19,7 @@ const PlaybackPrimary = ({
   >
     <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-around", alignItems: "center" }}>
       <View style={{ flex: 1, aspectRatio: 1, margin: 7, backgroundColor: "#222222" }} />
-      <Text style={{ flex: 1 }}>Media info</Text>
+      <Text style={{ flex: 1 }}>{title}</Text>
     </View>
     
     <View style={{ flex: 2, flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
