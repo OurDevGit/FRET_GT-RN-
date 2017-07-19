@@ -35,6 +35,7 @@ class MediaPlayer extends Component {
   };
 
   render() {
+    const mediaTitle = this.props.song !== undefined ? this.props.song.name : ""
     return (
       <View
         style={{
@@ -46,7 +47,7 @@ class MediaPlayer extends Component {
         }}
       >
         <PlaybackPrimary
-          title={this.props.song.name}
+          title={mediaTitle}
           isPlaying={this.state.isPlaying}
           handlePreviousPress={this.handlePreviousPress.bind(this)}
           handleBackPress={this.handleBackPress.bind(this)}
@@ -84,7 +85,10 @@ class MediaPlayer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    if (newProps.song.name !== this.props.song.name) {
+    const oldName = this.props.song !== undefined ? this.props.song.name : ""
+    const newName = newProps.song !== undefined ? newProps.song.name : ""
+    
+    if (oldName !== newName) {
       this.resetSong(newProps.song);
     }
   }

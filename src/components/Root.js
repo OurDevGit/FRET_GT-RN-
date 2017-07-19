@@ -11,7 +11,7 @@ import testSongs from "../testSongs";
 class Root extends Component {
   state = {
     libIsOpen: false,
-    song: testSongs[0]
+    song: undefined
   };
 
   render() {
