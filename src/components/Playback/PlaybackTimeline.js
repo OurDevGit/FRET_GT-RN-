@@ -16,7 +16,6 @@ class PlaybackTimeline extends Component {
   };
 
   render() {
-    console.log(this.state.progress, this.props.duration)
     const elapsed = this.formattedTime(this.props.duration * this.state.progress)
     const remaining = this.formattedTime(this.props.duration - (this.props.duration * this.state.progress))
 
@@ -34,7 +33,7 @@ class PlaybackTimeline extends Component {
           onMarkerPress={this.props.onMarkerPress}
         />
         <Text style={{ width: 40, height: 20, marginHorizontal: 15, textAlign: "center" }}>{elapsed}</Text>
-        <View style={{ flex: 1, height: 18, backgroundColor: "red" }} onLayout={this.handleLayout} >
+        <View style={{ flex: 1, height: 18 }} onLayout={this.handleLayout} >
           <View
             style={{
               position: "absolute",
