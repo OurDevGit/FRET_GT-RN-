@@ -50,7 +50,7 @@ class PlaybackTimeline extends Component {
           onPanStart={this.handlePlayheadPanStart}
           onPanEnd={this.handlePlayheadPanEnd}
           scrollLeft={this.state.progress * this.state.layout.width}
-          containerLeft={this.state.layout.x - 9}
+          containerLeft={this.state.layout.x !== undefined ? this.state.layout.x - 9 : -1000}
         />
         <Text style={{ width: 40, height: 20, marginHorizontal: 15, textAlign: "center" }}>{"-" + remaining}</Text>
       </View>
