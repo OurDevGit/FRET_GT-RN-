@@ -99,7 +99,7 @@ class PlaybackTimeline extends Component {
   };
 
   formattedTime = time => {
-    if (time === undefined || time === 0) return "00:00"
+    if (time === undefined || time === 0 || this.props.duration === 0) return "00:00"
     var minutes = Math.floor(time / 60);
     if (minutes < 10) minutes = "0" + minutes;
 

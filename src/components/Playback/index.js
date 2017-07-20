@@ -5,7 +5,7 @@ import Video from "react-native-video";
 import Sound from "react-native-sound";
 
 import * as actions from "../../redux/actions";
-import { loadMidi } from "../../selectors";
+import { loadMidi, clearMidi } from "../../selectors";
 import { playerBackground } from "../../design";
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
@@ -114,10 +114,16 @@ class MediaPlayer extends Component {
     }
 
     this.songSound = undefined;
-    this.setState({ file: undefined, isPlaying: false, playbackProgress: 0 })
-
+    this.setState({ 
+      file: undefined, 
+      isPlaying: false, 
+      playbackProgress: 0,
+      mediaDuration: 0
+    })
+    this.props.clearMidiData();
     this.loadMusic(song.audio)
     this.loadMidi(song.midi);
+    clearMidi()
   };
 
   loadMidi = path => {

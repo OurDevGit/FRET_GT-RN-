@@ -18,6 +18,10 @@ exports.loadMidi = (path) => {
   })
 };
 
+exports.clearMidi = () => {
+  notes = Map();
+};
+
 exports.hasNoteForTimeSelector = createSelector(
   getTimeSelector, getTrackNameSelector, getFretSelector, getStringSelector,
   (time, track, fret, string) => {

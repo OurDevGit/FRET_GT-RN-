@@ -14,25 +14,29 @@ class PlaybackMarkers extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !nextProps.markers.equals(this.props.markers)
+    return !nextProps.markers.equals(this.props.markers) || nextProps.duration !== this.props.duration
   }
 
   buttonsForMarkers(left, width, duration, markers, onMarkerPress) {
-    var buttons = []
-    var operationalWidth = width - (left * 2)
-    
-    var buttons = markers.map((marker, index) => {
-      var percent = marker.time / duration
-      var x = left - 15 + (operationalWidth * percent)
+    if (duration > 0 && markers.count() > 0) {
+      var buttons = []
+      var operationalWidth = width - (left * 2)
       
-      return (
-      <TouchableOpacity key={marker.name} style={{ position: "absolute", top: 0, left: x, width: 30, alignItems: "center" }} onPress={() => { onMarkerPress(marker.time)}} >
-        <View style={{ width: 2, height: 10, backgroundColor: PrimaryBlue }}/>
-        <Text style={{ fontSize: 12 }}>{marker.abbreviation}</Text>
-      </TouchableOpacity>)
-    })
-    
-    return buttons
+      var buttons = markers.map((marker, index) => {
+        var percent = marker.time / duration
+        var x = left - 15 + (operationalWidth * percent)
+        
+        return (
+        <TouchableOpacity key={marker.name} style={{ position: "absolute", top: 0, left: x, width: 30, alignItems: "center" }} onPress={() => { onMarkerPress(marker.time)}} >
+          <View style={{ width: 2, height: 10, backgroundColor: PrimaryBlue }}/>
+          <Text style={{ fontSize: 12 }}>{marker.abbreviation}</Text>
+        </TouchableOpacity>)
+      })
+      
+      return buttons
+    } else {
+      return <View />
+    }
   }
 }
 

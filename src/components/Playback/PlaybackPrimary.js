@@ -45,7 +45,7 @@ const PlaybackPrimary = ({
     </View>
 
     <View style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}>
-      <Text style={{ color: PrimaryBlue, fontSize: 14, textAlign: "center", marginBottom: -15 }}>Volume</Text>
+      <Text style={{ color: PrimaryBlue, fontSize: 12, textAlign: "center", marginBottom: -15 }}>Volume</Text>
       <Slider style={{ flex: 1 }} />
     </View>
 
