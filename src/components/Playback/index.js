@@ -119,16 +119,16 @@ class MediaPlayer extends Component {
     }
 
     this.songSound = undefined;
-    this.setState({ 
-      file: undefined, 
-      isPlaying: false, 
+    this.setState({
+      file: undefined,
+      isPlaying: false,
       playbackProgress: 0,
       mediaDuration: 0
-    })
+    });
     this.props.clearMidiData();
-    this.loadMusic(song.audio)
+    this.loadMusic(song.audio);
     this.loadMidi(song.midi);
-    clearMidi()
+    clearMidi();
   };
 
   loadMidi = path => {
@@ -150,12 +150,11 @@ class MediaPlayer extends Component {
           mediaDuration: this.songSound.getDuration()
         });
 
-          this.songSound.setSpeed(this.state.playbackRate);
-          this.songSound.pause();
-        }
+        // this.songSound.setSpeed(this.state.playbackRate);
+        // this.songSound.pause();
       }
-    )
-  }
+    });
+  };
 
   handlePreviousPress = () => {
     const { markers } = this.props;
@@ -199,25 +198,31 @@ class MediaPlayer extends Component {
   };
 
   handlePlayPausePress = () => {
+    console.log("play/pause tap");
     if (this.state.isVideo === false) {
+      console.log("sound mode");
       if (this.songSound) {
+        console.log("has sound object");
         if (this.state.isPlaying === true) {
+          console.log("pausing");
+          this.songSound.setSpeed(0);
           this.songSound.pause();
           this.setState({
             isPlaying: false
           });
         } else {
           console.log("playing song");
+          this.songSound.setSpeed(this.state.playbackRate);
           this.songSound.play();
           this.setState({
             isPlaying: true
           });
         }
       } else {
-        this.playMusic();
+        console.log("no song loaded");
       }
     } else {
-      // console.log()
+      console.log("video mode?");
       this.setState({
         isPlaying: !this.state.isPlaying
       });
