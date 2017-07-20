@@ -56,6 +56,8 @@ TODO: Fill this out!
 * `react-native run-android --variant=release` to test the build  
 * `open android/app/build/outputs/apk/` to find the release apk
 
+Version is set via `package.json` with [this technique](https://medium.com/@andr3wjack/versioning-react-native-apps-407469707661)
+
 # Flexbox
 
 [React Native uses Flexbox for layout](https://facebook.github.io/react-native/docs/flexbox.html). There is one caveat:
