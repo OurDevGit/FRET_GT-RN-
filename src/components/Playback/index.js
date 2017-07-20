@@ -35,7 +35,8 @@ class MediaPlayer extends Component {
   };
 
   render() {
-    const mediaTitle = this.props.song !== undefined ? this.props.song.name : ""
+    const mediaTitle =
+      this.props.song !== undefined ? this.props.song.name : "";
     return (
       <View
         style={{
@@ -49,20 +50,21 @@ class MediaPlayer extends Component {
         <PlaybackPrimary
           title={mediaTitle}
           isPlaying={this.state.isPlaying}
-          handlePreviousPress={this.handlePreviousPress.bind(this)}
-          handleBackPress={this.handleBackPress.bind(this)}
-          handlePlayPausePress={this.handlePlayPausePress.bind(this)}
-          handleForwardPress={this.handleForwardPress.bind(this)}
-          handleNextPress={this.handleNextPress.bind(this)}
+          handlePreviousPress={this.handlePreviousPress}
+          handleBackPress={this.handleBackPress}
+          handlePlayPausePress={this.handlePlayPausePress}
+          handleForwardPress={this.handleForwardPress}
+          handleNextPress={this.handleNextPress}
         />
 
         {this.state.isVideo &&
           <Video
-            ref={ref => { this.player = ref; }}
+            ref={ref => {
+              this.player = ref;
+            }}
             rate={this.state.playbackRate}
             style={styles.backgroundVideo}
-          />
-        }
+          />}
 
         <PlaybackTimeline
           progress={this.state.playbackProgress}
@@ -85,19 +87,22 @@ class MediaPlayer extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const oldName = this.props.song !== undefined ? this.props.song.name : ""
-    const newName = newProps.song !== undefined ? newProps.song.name : ""
-    
+    const oldName = this.props.song !== undefined ? this.props.song.name : "";
+    const newName = newProps.song !== undefined ? newProps.song.name : "";
+
     if (oldName !== newName) {
       this.resetSong(newProps.song);
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // console.log(this.state);
+    // console.debug(this.state);
 
     // if we're playing and the playback rate changed
-    if (this.state.isPlaying && prevState.playbackRate !== this.state.playbackRate) {
+    if (
+      this.state.isPlaying &&
+      prevState.playbackRate !== this.state.playbackRate
+    ) {
       // music
       if (this.state.isVideo === false) {
         this.songSound.setSpeed(this.state.playbackRate);
@@ -114,9 +119,9 @@ class MediaPlayer extends Component {
     }
 
     this.songSound = undefined;
-    this.setState({ file: undefined, isPlaying: false, playbackProgress: 0 })
+    this.setState({ file: undefined, isPlaying: false, playbackProgress: 0 });
 
-    this.loadMusic(song.audio)
+    this.loadMusic(song.audio);
     this.loadMidi(song.midi);
   };
 
@@ -127,30 +132,27 @@ class MediaPlayer extends Component {
   };
 
   loadMusic = audio => {
-    this.songSound = new Sound(
-      audio,
-      Sound.MAIN_BUNDLE,
-      (error, props) => {
-        // console.log("sound init handler");
-        if (error) {
-          console.log("failed to load the sound", error);
-          return;
-        } else {
-          this.setState({
-            isPlaying: false,
-            file: audio,
-            mediaDuration: this.songSound.getDuration()
-          });
+    this.songSound = new Sound(audio, Sound.MAIN_BUNDLE, (error, props) => {
+      // console.log("sound init handler");
+      if (error) {
+        console.log("failed to load the sound", error);
+        return;
+      } else {
+        this.setState({
+          isPlaying: false,
+          file: audio,
+          mediaDuration: this.songSound.getDuration()
+        });
 
           this.songSound.setSpeed(this.state.playbackRate);
           this.songSound.pause();
         }
       }
-    );
-  }
+    });
+  };
 
   handlePreviousPress = () => {
-    const { markers } = this.props
+    const { markers } = this.props;
 
     if (this.state.isVideo === false) {
       if (this.songSound) {
@@ -161,7 +163,7 @@ class MediaPlayer extends Component {
             for (let marker of markers.reverse()) {
               if (marker.time + 1 < seconds) {
                 this.songSound.setCurrentTime(marker.time);
-                break
+                break;
               }
             }
           }
@@ -173,7 +175,7 @@ class MediaPlayer extends Component {
       }
     }
   };
-  
+
   handleBackPress = () => {
     if (this.state.isVideo === false) {
       if (this.songSound) {
@@ -183,7 +185,8 @@ class MediaPlayer extends Component {
       }
     } else {
       if (this.videoPlayer) {
-        const currentSeconds = this.state.playbackProgress * this.state.mediaDuration;
+        const currentSeconds =
+          this.state.playbackProgress * this.state.mediaDuration;
         this.videoPlayer.seek(currentSeconds - 5);
       }
     }
@@ -224,14 +227,15 @@ class MediaPlayer extends Component {
       }
     } else {
       if (this.videoPlayer) {
-        const currentSeconds = this.state.playbackProgress * this.state.MediaDuration;
+        const currentSeconds =
+          this.state.playbackProgress * this.state.MediaDuration;
         this.videoPlayer.seek(currentSeconds + 30);
       }
     }
   };
 
   handleNextPress = marker => {
-    const { markers } = this.props
+    const { markers } = this.props;
 
     if (this.state.isVideo === false) {
       if (this.songSound) {
@@ -242,7 +246,7 @@ class MediaPlayer extends Component {
             for (let marker of markers) {
               if (marker.time > seconds) {
                 this.songSound.setCurrentTime(marker.time);
-                break
+                break;
               }
             }
           }
@@ -259,7 +263,7 @@ class MediaPlayer extends Component {
     if (this.songSound) {
       this.songSound.setCurrentTime(time);
     }
-  }
+  };
 
   handleVideoProgress = progress => {
     const proportion = progress.currentTime / this.state.mediaDuration;
@@ -286,7 +290,6 @@ class MediaPlayer extends Component {
   };
 
   handleRateChange = rate => {
-    console.log(`new rate: ${rate}`);
     this.setState({
       playbackRate: rate
     });
