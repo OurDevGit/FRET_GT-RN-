@@ -3,7 +3,7 @@ import { View, Picker } from "react-native";
 
 const PlaybackSecondary = ({ rate, handleRateChange }) => (
   <View style={{ width: "100%", height: 30, flexDirection: "row", alignContent: "flex-start" }} >
-    <View style={{ width: 100, height: "100%", marginTop: -10, marginBottom: -5 }}>
+    <View style={{ width: 110, height: "100%", marginTop: -10, marginBottom: -5 }}>
       <Picker selectedValue={rate} onValueChange={handleRateChange} mode="dropdown" >
         <Picker.Item label="125%" value={1.25} />
         <Picker.Item label="120%" value={1.2} />

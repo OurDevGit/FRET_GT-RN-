@@ -2,7 +2,7 @@ import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
 import { PrimaryBlue } from "../../design"
 
-const buttonStyle = { width: 50, aspectRatio: 1, marginHorizontal: 5, color: PrimaryBlue, fontSize: 24, fontWeight: "bold", textAlign: "center" }
+const buttonStyle = { flex: 1, minWidth: 50, marginHorizontal: 5, color: PrimaryBlue, fontSize: 24, lineHeight: 32, fontWeight: "bold", textAlign: "center", justifyContent: "center", alignItems: "center" }
 const textStyle = { color: PrimaryBlue, fontSize: 20 }
 
 const PlaybackPrimary = ({ 
@@ -45,7 +45,7 @@ const PlaybackPrimary = ({
     </View>
 
     <View style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}>
-      <Text style={{ color: PrimaryBlue, fontSize: 14, textAlign: "center", marginBottom: -20 }}>Volume</Text>
+      <Text style={{ color: PrimaryBlue, fontSize: 14, textAlign: "center", marginBottom: -15 }}>Volume</Text>
       <Slider style={{ flex: 1 }} />
     </View>
 

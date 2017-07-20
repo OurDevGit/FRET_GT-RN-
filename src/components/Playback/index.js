@@ -143,6 +143,7 @@ class MediaPlayer extends Component {
           });
 
           this.songSound.setSpeed(this.state.playbackRate);
+          this.songSound.pause();
         }
       }
     );

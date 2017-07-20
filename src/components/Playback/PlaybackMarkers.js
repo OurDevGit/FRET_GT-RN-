@@ -28,7 +28,7 @@ class PlaybackMarkers extends React.Component {
       return (
       <TouchableOpacity key={marker.name} style={{ position: "absolute", top: 0, left: x, width: 30, alignItems: "center" }} onPress={() => { onMarkerPress(marker.time)}} >
         <View style={{ width: 2, height: 10, backgroundColor: PrimaryBlue }}/>
-        <Text style={{ fontSize: 14 }}>{marker.abbreviation}</Text>
+        <Text style={{ fontSize: 12 }}>{marker.abbreviation}</Text>
       </TouchableOpacity>)
     })
     

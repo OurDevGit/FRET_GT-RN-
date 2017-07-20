@@ -21,7 +21,7 @@ class PlaybackTimeline extends Component {
 
     return (
       <View 
-        style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "flex-start", marginHorizontal: 10, marginTop: 8 }}
+        style={{ flex: 1, flexDirection: "row", justifyContent: "center", alignItems: "flex-start", marginHorizontal: 10, marginTop: 8, marginBottom: -10 }}
         onLayout={this.handleContainerLayout}
       >
         <PlaybackMarkers 
