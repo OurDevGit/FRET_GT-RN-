@@ -32,6 +32,7 @@ class MediaPlayer extends Component {
     isPlaying: false,
     mediaDuration: 0,
     playbackProgress: 0.0,
+    playbackSeconds: 0.0,
     playbackRate: 1,
     seek: 0
   };
@@ -108,7 +109,8 @@ class MediaPlayer extends Component {
 
   handleMusicProgress = (seconds, duration) => {
     this.setState({
-      playbackProgress: seconds / duration
+      playbackProgress: seconds / duration,
+      playbackSeconds: seconds
     });
 
     if (seconds !== this.prevSeconds) {
@@ -119,25 +121,24 @@ class MediaPlayer extends Component {
 
   handlePreviousPress = () => {
     const { markers } = this.props;
+    const seconds = this.state.playbackSeconds;
+    console.log("prev");
 
-    if (this.state.isVideo === false) {
-      if (this.songSound) {
-        this.songSound.getCurrentTime(seconds => {
-          if (markers.count() === 0 || markers.first().time > seconds) {
-            this.songSound.setCurrentTime(0);
-          } else {
-            for (let marker of markers.reverse()) {
-              if (marker.time + 1 < seconds) {
-                this.songSound.setCurrentTime(marker.time);
-                break;
-              }
-            }
-          }
-        });
-      }
+    console.log(markers);
+    console.log(seconds);
+
+    if (markers.count() === 0 || markers.first().time > seconds) {
+      this.songSound.setCurrentTime(0);
     } else {
-      if (this.videoPlayer) {
-        // handle video
+      console.log("set prev marker");
+      for (let marker of markers.reverse()) {
+        if (marker.time + 1 < seconds) {
+          console.log("setting state");
+          this.setState({
+            seek: marker.time
+          });
+          break;
+        }
       }
     }
   };
