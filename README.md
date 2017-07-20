@@ -1,4 +1,4 @@
-# React and React Native
+# Developing
 
 ## First Time
 1. `npm install -g react-native-cli`
@@ -47,8 +47,13 @@ TODO: Fill this out!
 
 # When things don't work
 ## Try:
-1. `rm -rf node_modules` + `npm install` and redo `npm start`
+1. `rm -rf node_modules && npm install` and then `npm start`
 1. `cd android` then `./gradlew clean`
+
+# Release Build
+* `cd android && ./gradlew assembleRelease && cd ..`  
+* `react-native run-android --variant=release` to test the build  
+* `open android/app/build/outputs/apk/` to find the release apk
 
 # Flexbox
 
