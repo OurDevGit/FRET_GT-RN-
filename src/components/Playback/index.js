@@ -154,8 +154,8 @@ class MediaPlayer extends Component {
           this.songSound.pause();
         }
       }
-    });
-  };
+    )
+  }
 
   handlePreviousPress = () => {
     const { markers } = this.props;

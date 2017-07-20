@@ -22,7 +22,7 @@ class Playhead extends Component {
       ...styles.circle,
       left: this.props.scrollLeft
     };
-    // console.log(this.props.scrollLeft)
+    console.log(this.props.scrollLeft)
     return (
       <View style={{position: "absolute", top: 0, left: this.props.containerLeft, width: this.props.width, height: 18}}>
         <View style={styleWithLeft} {...this._panResponder.panHandlers} />
