@@ -51,7 +51,8 @@ TODO: Fill this out!
 1. `cd android` then `./gradlew clean`
 
 # Release Build
-* `cd android && ./gradlew assembleRelease && cd ..`  
+* `cd android && ./gradlew assembleRelease && cd ..` 
+    * Fish: `cd android; and ./gradlew assembleRelease; and cd ..`
 * `react-native run-android --variant=release` to test the build  
 * `open android/app/build/outputs/apk/` to find the release apk
 
