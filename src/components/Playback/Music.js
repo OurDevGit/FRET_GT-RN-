@@ -35,6 +35,13 @@ class Music extends React.Component {
         this.songSound.setSpeed(newProps.rate);
       }
     }
+
+    // new seek
+    if (newProps.seek !== this.props.seek) {
+      if (this.songSound) {
+        this.songSound.setCurrentTime(newProps.seek);
+      }
+    }
   }
 
   componentWillUnmount() {

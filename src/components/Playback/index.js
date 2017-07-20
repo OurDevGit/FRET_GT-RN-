@@ -32,7 +32,8 @@ class MediaPlayer extends Component {
     isPlaying: false,
     mediaDuration: 0,
     playbackProgress: 0.0,
-    playbackRate: 1
+    playbackRate: 1,
+    seek: 0
   };
 
   render() {
@@ -49,6 +50,7 @@ class MediaPlayer extends Component {
         }}
       >
         <Music
+          seek={this.state.seek}
           rate={this.state.playbackRate}
           isPlaying={this.state.isPlaying}
           song={this.props.song}
@@ -105,6 +107,10 @@ class MediaPlayer extends Component {
   };
 
   handleMusicProgress = (seconds, duration) => {
+    this.setState({
+      playbackProgress: seconds / duration
+    });
+
     if (seconds !== this.prevSeconds) {
       this.props.updateTime(seconds);
       this.prevSeconds = seconds;
@@ -201,9 +207,10 @@ class MediaPlayer extends Component {
   };
 
   handleMarkerPress = time => {
-    if (this.songSound) {
-      this.songSound.setCurrentTime(time);
-    }
+    console.log(time);
+    this.setState({
+      seek: time
+    });
   };
 
   // handleVideoProgress = progress => {
