@@ -2,24 +2,24 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { View, StyleSheet } from "react-native";
-import Video from "react-native-video";
+// import Video from "react-native-video";
 
 import * as actions from "../../redux/actions";
 import { playerBackground } from "../../design";
 
 import Song from "./Song";
 
-const styles = StyleSheet.create({
-  backgroundVideo: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    width: 320,
-    height: 240
-  }
-});
+// const styles = StyleSheet.create({
+//   backgroundVideo: {
+//     position: "absolute",
+//     top: 0,
+//     left: 0,
+//     bottom: 0,
+//     right: 0,
+//     width: 320,
+//     height: 240
+//   }
+// });
 
 class MediaPlayer extends Component {
   state = {
@@ -58,7 +58,7 @@ MediaPlayer.propTypes = {
   updateTime: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   return {
     markers: state.get("markers")
   };

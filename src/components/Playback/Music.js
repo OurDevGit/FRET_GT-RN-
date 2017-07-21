@@ -1,13 +1,12 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import PropTypes from "prop-types";
 import Sound from "react-native-sound";
 
-var songSound = null;
-
 class Music extends React.Component {
+  songSound = null;
+
   render() {
-    const { rate, isPlaying, song } = this.props;
     return <View />;
   }
 
@@ -44,16 +43,8 @@ class Music extends React.Component {
     }
   }
 
-  componentWillUnmount() {
-    console.log("Music will unmount!");
-    console.log("Music will unmount!");
-    console.log("Music will unmount!");
-    console.log("Music will unmount!");
-  }
-
   setPlaying = isPlaying => {
     if (this.songSound) {
-      console.log("has sound object");
       if (isPlaying === true) {
         this.songSound.setSpeed(this.props.rate);
         this.songSound.play();
@@ -89,23 +80,18 @@ class Music extends React.Component {
           file: audio,
           mediaDuration: duration
         });
-
-        // this.songSound.setSpeed(this.state.playbackRate);
-        // this.songSound.pause();
       }
     });
   };
 
-  handleAnimationFrame = timestamp => {
+  handleAnimationFrame = () => {
     requestAnimationFrame(this.handleAnimationFrame);
 
-    // if (this.state.isVideo === false) {
     if (this.songSound) {
       this.songSound.getCurrentTime(seconds => {
         this.props.onProgress(seconds, this.songSound.getDuration());
       });
     }
-    // }
   };
 }
 
