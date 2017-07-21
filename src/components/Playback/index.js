@@ -201,13 +201,9 @@ class MediaPlayer extends Component {
   // };
 
   handleScrub = progress => {
-    if (this.state.isVideo === true) {
-      this.videoPlayer.seek(progress * this.state.videoDuration);
-    } else {
-      if (this.songSound) {
-        this.songSound.setCurrentTime(progress * this.songSound.getDuration());
-      }
-    }
+    this.setState({
+      seek: progress * this.state.mediaDuration
+    });
   };
 
   handleRateChange = rate => {
