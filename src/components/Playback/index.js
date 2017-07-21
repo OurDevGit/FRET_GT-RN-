@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { View, Button, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Video from "react-native-video";
 
 import * as actions from "../../redux/actions";
@@ -37,13 +37,15 @@ class MediaPlayer extends Component {
           borderRadius: 6
         }}
       >
-        <Song
-          song={this.props.song}
-          updateMidiData={this.props.updateMidiData}
-          clearMidiData={this.props.clearMidiData}
-          markers={this.props.markers}
-          updateTime={this.props.updateTime}
-        />
+        {this.props.song !== undefined && this.props.song !== null
+          ? <Song
+              song={this.props.song}
+              updateMidiData={this.props.updateMidiData}
+              clearMidiData={this.props.clearMidiData}
+              markers={this.props.markers}
+              updateTime={this.props.updateTime}
+            />
+          : <View />}
       </View>
     );
   }
