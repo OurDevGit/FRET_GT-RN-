@@ -37,7 +37,7 @@ class Music extends React.Component {
     }
 
     // new seek
-    if (newProps.seek !== this.props.seek) {
+    if (newProps.seek !== this.props.seek && newProps.seek !== -1) {
       if (this.songSound) {
         this.songSound.setCurrentTime(newProps.seek);
       }

@@ -12,8 +12,6 @@ import PlaybackSecondary from "./PlaybackSecondary";
 import Music from "./Music";
 import Midi from "./Midi";
 
-var prevSeconds = 0;
-
 const styles = StyleSheet.create({
   backgroundVideo: {
     position: "absolute",
@@ -34,7 +32,7 @@ class MediaPlayer extends Component {
     playbackProgress: 0.0,
     playbackSeconds: 0.0,
     playbackRate: 1,
-    seek: 0
+    seek: -1
   };
 
   render() {
@@ -108,32 +106,32 @@ class MediaPlayer extends Component {
   };
 
   handleMusicProgress = (seconds, duration) => {
-    this.setState({
-      playbackProgress: seconds / duration,
-      playbackSeconds: seconds
-    });
+    const progress = seconds / duration;
+    if (
+      progress != this.state.playbackProgress ||
+      seconds !== this.state.seconds
+    ) {
+      this.setState({
+        playbackProgress: progress,
+        playbackSeconds: seconds,
+        seek: -1
+      });
 
-    if (seconds !== this.prevSeconds) {
       this.props.updateTime(seconds);
-      this.prevSeconds = seconds;
     }
   };
 
   handlePreviousPress = () => {
     const { markers } = this.props;
     const seconds = this.state.playbackSeconds;
-    console.log("prev");
-
-    console.log(markers);
-    console.log(seconds);
 
     if (markers.count() === 0 || markers.first().time > seconds) {
-      this.songSound.setCurrentTime(0);
+      this.setState({
+        seek: 0
+      });
     } else {
-      console.log("set prev marker");
       for (let marker of markers.reverse()) {
         if (marker.time + 1 < seconds) {
-          console.log("setting state");
           this.setState({
             seek: marker.time
           });
@@ -144,65 +142,39 @@ class MediaPlayer extends Component {
   };
 
   handleBackPress = () => {
-    if (this.state.isVideo === false) {
-      if (this.songSound) {
-        this.songSound.getCurrentTime(seconds => {
-          this.songSound.setCurrentTime(seconds - 5);
-        });
-      }
-    } else {
-      if (this.videoPlayer) {
-        const currentSeconds =
-          this.state.playbackProgress * this.state.mediaDuration;
-        this.videoPlayer.seek(currentSeconds - 5);
-      }
-    }
+    this.setState({
+      seek: this.state.playbackSeconds - 5
+    });
   };
 
   handlePlayPausePress = () => {
-    console.log("play/pause tap");
     this.setState({
       isPlaying: !this.state.isPlaying
     });
   };
 
   handleForwardPress = () => {
-    if (this.state.isVideo === false) {
-      if (this.songSound) {
-        this.songSound.getCurrentTime(seconds => {
-          this.songSound.setCurrentTime(seconds + 30);
-        });
-      }
-    } else {
-      if (this.videoPlayer) {
-        const currentSeconds =
-          this.state.playbackProgress * this.state.MediaDuration;
-        this.videoPlayer.seek(currentSeconds + 30);
-      }
-    }
+    this.setState({
+      seek: this.state.playbackSeconds + 30
+    });
   };
 
   handleNextPress = marker => {
     const { markers } = this.props;
+    const seconds = this.state.playbackSeconds;
 
-    if (this.state.isVideo === false) {
-      if (this.songSound) {
-        this.songSound.getCurrentTime(seconds => {
-          if (markers.count() === 0 || markers.last().time < seconds) {
-            this.songSound.setCurrentTime(0);
-          } else {
-            for (let marker of markers) {
-              if (marker.time > seconds) {
-                this.songSound.setCurrentTime(marker.time);
-                break;
-              }
-            }
-          }
-        });
-      }
+    if (markers.count() === 0 || markers.last().time < seconds) {
+      this.setState({
+        seek: 0
+      });
     } else {
-      if (this.videoPlayer) {
-        // handle video
+      for (let marker of markers) {
+        if (marker.time > seconds) {
+          this.setState({
+            seek: marker.time
+          });
+          break;
+        }
       }
     }
   };
