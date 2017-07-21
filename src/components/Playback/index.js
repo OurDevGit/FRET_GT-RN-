@@ -11,6 +11,7 @@ import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
 import Music from "./Music";
 import Midi from "./Midi";
+import Song from "./Song";
 
 const styles = StyleSheet.create({
   backgroundVideo: {
