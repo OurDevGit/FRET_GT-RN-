@@ -3,7 +3,7 @@ import { View, FlatList, Text, Button } from "react-native";
 
 const width = 100;
 
-const Library = ({ isOpen, onSelect, songs }) =>
+const Library = ({ isOpen, onSelect, media }) =>
   <View
     style={{
       backgroundColor: "#fff",
@@ -15,7 +15,7 @@ const Library = ({ isOpen, onSelect, songs }) =>
     }}
   >
     <FlatList
-      data={songs.map(song => Object.assign(song, { key: song.name }))}
+      data={media.map(song => Object.assign(song, { key: song.name }))}
       renderItem={item =>
         <Button title={item.item.name} onPress={() => onSelect(item.index)} />}
     />

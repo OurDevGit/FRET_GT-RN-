@@ -1,0 +1,173 @@
+{
+  "totalDuration" : 127.9195862529196,
+  "midiTimes" : [
+    {
+      "tracks" : [
+        "Guitar"
+      ],
+      "end" : 67.62500033333333,
+      "begin" : 11.70833333333333,
+      "name" : "1_1"
+    },
+    {
+      "tracks" : [
+        "G Minor Pentatonic Scale"
+      ],
+      "end" : 84,
+      "begin" : 67.625,
+      "name" : "1_2"
+    },
+    {
+      "tracks" : [
+
+      ],
+      "end" : 127.919,
+      "begin" : 84,
+      "name" : "1_3"
+    }
+  ],
+  "name" : "Getting Started with Guitar Tunes",
+  "quickLoops" : [
+
+  ],
+  "chapters" : [
+    {
+      "uniqueId" : 1,
+      "name" : "Getting Started with Guitar Tunes",
+      "children" : [
+        {
+          "type" : 0,
+          "tracks" : [
+            "Guitar"
+          ],
+          "mediaName" : "1_1",
+          "parentId" : 1,
+          "uniqueId" : 2,
+          "children" : [
+
+          ],
+          "begin" : 12.933823,
+          "end" : 39.707302,
+          "duration" : 26.773479,
+          "name" : "Open Library"
+        },
+        {
+          "type" : 0,
+          "tracks" : [
+            "Guitar"
+          ],
+          "mediaName" : "1_1",
+          "parentId" : 1,
+          "uniqueId" : 3,
+          "children" : [
+
+          ],
+          "begin" : 39.707302,
+          "end" : 48.242088,
+          "duration" : 8.534786000000004,
+          "name" : "Play Controls"
+        },
+        {
+          "type" : 0,
+          "tracks" : [
+            "Guitar"
+          ],
+          "mediaName" : "1_1",
+          "parentId" : 1,
+          "uniqueId" : 4,
+          "children" : [
+
+          ],
+          "begin" : 48.242088,
+          "end" : 56.515226,
+          "duration" : 8.273137999999996,
+          "name" : "Multiple Fretboards"
+        },
+        {
+          "type" : 0,
+          "tracks" : [
+            "Guitar"
+          ],
+          "mediaName" : "1_1",
+          "parentId" : 1,
+          "uniqueId" : 5,
+          "children" : [
+
+          ],
+          "begin" : 56.515226,
+          "end" : 67.625,
+          "duration" : 11.109774,
+          "name" : "Tempo Control"
+        },
+        {
+          "type" : 0,
+          "tracks" : [
+            "G Minor Pentatonic Scale"
+          ],
+          "mediaName" : "1_2",
+          "parentId" : 1,
+          "uniqueId" : 6,
+          "children" : [
+
+          ],
+          "begin" : 67.625,
+          "end" : 84,
+          "duration" : 16.375,
+          "name" : "JAMBar"
+        },
+        {
+          "type" : 0,
+          "tracks" : [
+
+          ],
+          "mediaName" : "1_3",
+          "parentId" : 1,
+          "uniqueId" : 7,
+          "children" : [
+
+          ],
+          "begin" : 84,
+          "end" : 110.38259,
+          "duration" : 26.38258999999999,
+          "name" : "Tuner"
+        },
+        {
+          "type" : 0,
+          "tracks" : [
+
+          ],
+          "mediaName" : "1_3",
+          "parentId" : 1,
+          "uniqueId" : 8,
+          "children" : [
+
+          ],
+          "begin" : 110.38259,
+          "end" : 115.231727,
+          "duration" : 4.849137000000013,
+          "name" : "Volume Control"
+        },
+        {
+          "type" : 0,
+          "tracks" : [
+
+          ],
+          "mediaName" : "1_3",
+          "parentId" : 1,
+          "uniqueId" : 9,
+          "children" : [
+
+          ],
+          "begin" : 115.231727,
+          "end" : 127.9195862529196,
+          "duration" : 12.68785925291958,
+          "name" : "Favorite"
+        }
+      ],
+      "begin" : 0,
+      "duration" : 127.9195862529196,
+      "end" : 127.9195862529196,
+      "type" : 4
+    }
+  ]
+}

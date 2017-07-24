@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StatusBar } from "react-native";
+import { View, StatusBar, Button } from "react-native";
 import { Provider } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
@@ -7,11 +7,16 @@ import FretboardsContainer from "./Fretboards";
 import Library from "./Library";
 
 import testSongs from "../testSongs";
+import testVideos from "../testVideos";
+
+const testMedia = [...testVideos, ...testSongs];
 
 class Root extends Component {
   state = {
     libIsOpen: false,
-    song: undefined
+    song: null,
+    video: null,
+    showAd: true
   };
 
   render() {
@@ -20,17 +25,20 @@ class Root extends Component {
       <Provider store={store}>
         <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <StatusBar hidden />
-          <AdContainer
-            onToggleLibrary={this.handleToggleLibrary}
-            libIsOpen={this.state.libIsOpen}
-          />
-          <Playback song={this.state.song} />
+
+          {this.state.showAd &&
+            <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
+          <Playback song={this.state.song} video={this.state.video} />
           <FretboardsContainer />
           <Library
             isOpen={this.state.libIsOpen}
-            onSelect={this.handleSelectSong}
-            songs={testSongs}
+            onSelect={this.handleSelectMedia}
+            media={testMedia}
           />
+          <View style={{ position: "absolute", left: 5, top: 5 }}>
+            {!this.state.libIsOpen &&
+              <Button title="Lib" onPress={this.handleToggleLibrary} />}
+          </View>
         </View>
       </Provider>
     );
@@ -42,11 +50,24 @@ class Root extends Component {
     });
   };
 
-  handleSelectSong = songIndex => {
-    this.setState({
-      libIsOpen: false,
-      song: testSongs[songIndex]
-    });
+  handleSelectMedia = mediaIndex => {
+    const media = testMedia[mediaIndex];
+
+    if (media.type === "song") {
+      this.setState({
+        libIsOpen: false,
+        song: media,
+        video: null,
+        showAd: true
+      });
+    } else if (media.type === "video") {
+      this.setState({
+        libIsOpen: false,
+        song: null,
+        video: media,
+        showAd: false
+      });
+    }
   };
 }
 

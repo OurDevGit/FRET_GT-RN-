@@ -56,15 +56,6 @@ class Song extends React.Component {
           handleNextPress={this.handleNextPress}
         />
 
-        {this.state.isVideo &&
-          <Video
-            ref={ref => {
-              this.player = ref;
-            }}
-            rate={this.state.playbackRate}
-            style={styles.backgroundVideo}
-          />}
-
         <PlaybackTimeline
           progress={this.state.playbackProgress}
           duration={this.state.mediaDuration}

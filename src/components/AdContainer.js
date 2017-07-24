@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, StyleSheet, Button, Text, View } from "react-native";
+import { Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
@@ -7,12 +7,9 @@ import AdPresentation from "./AdPresentation";
 
 class AdContainer extends Component {
   render() {
-    const { ad, libIsOpen } = this.props;
+    const { ad } = this.props;
     return (
       <Image style={styles.banner} source={require("../images/topiPhone.png")}>
-        {!libIsOpen
-          ? <Button title="Lib" onPress={this.props.onToggleLibrary} />
-          : <View />}
         <AdPresentation onTap={this.handleTap} imageUrl={ad.get("phone")} />
       </Image>
     );
@@ -26,8 +23,7 @@ class AdContainer extends Component {
 }
 
 AdContainer.propTypes = {
-  ad: PropTypes.object.isRequired,
-  onToggleLibrary: PropTypes.func.isRequired
+  ad: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -35,12 +31,6 @@ const styles = StyleSheet.create({
     height: 70,
     width: "100%",
     flexDirection: "row"
-  },
-  libButton: {
-    right: 0,
-    top: 10,
-    margin: 10,
-    padding: 10
   }
 });
 

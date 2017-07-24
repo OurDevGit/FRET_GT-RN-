@@ -1,25 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { View, StyleSheet } from "react-native";
-// import Video from "react-native-video";
+import { View } from "react-native";
 
 import * as actions from "../../redux/actions";
 import { playerBackground } from "../../design";
 
 import Song from "./Song";
-
-// const styles = StyleSheet.create({
-//   backgroundVideo: {
-//     position: "absolute",
-//     top: 0,
-//     left: 0,
-//     bottom: 0,
-//     right: 0,
-//     width: 320,
-//     height: 240
-//   }
-// });
+import Video from "./Video";
 
 class MediaPlayer extends Component {
   state = {
@@ -46,6 +34,9 @@ class MediaPlayer extends Component {
               updateTime={this.props.updateTime}
             />
           : <View />}
+        {this.props.video !== undefined && this.props.video !== null
+          ? <Video video={this.props.video} />
+          : <View />}
       </View>
     );
   }
@@ -53,9 +44,11 @@ class MediaPlayer extends Component {
 
 MediaPlayer.propTypes = {
   song: PropTypes.object,
+  video: PropTypes.object,
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
-  updateTime: PropTypes.func.isRequired
+  updateTime: PropTypes.func.isRequired,
+  markers: PropTypes.object
 };
 
 const mapStateToProps = state => {
