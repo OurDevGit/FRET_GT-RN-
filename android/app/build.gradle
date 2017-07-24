@@ -141,6 +141,11 @@ android {
             }
         }
     }
+
+    // https://stackoverflow.com/a/33359656/5421
+    aaptOptions {
+        noCompress "json"
+    }
 }
 
 dependencies {
