@@ -29,7 +29,13 @@ class MediaPlayer extends Component {
           />}
         {this.props.video !== undefined &&
           this.props.video !== null &&
-          <Video video={this.props.video} markers={this.props.makers} />}
+          <Video
+            video={this.props.video}
+            markers={this.props.makers}
+            updateMidiData={this.props.updateMidiData}
+            clearMidiData={this.props.clearMidiData}
+            updateTime={this.props.updateTime}
+          />}
       </View>
     );
   }

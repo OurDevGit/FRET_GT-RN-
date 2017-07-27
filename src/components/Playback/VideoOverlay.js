@@ -55,7 +55,7 @@ class VideoOverlay extends React.Component {
           }}
         >
           <View style={{ flexDirection: "row" }}>
-            <View style={{ width: 80 }}>
+            <View style={{ width: 120 }}>
               <ChapterPicker
                 chapters={this.props.chapters}
                 currentChapter={this.props.currentChapter}

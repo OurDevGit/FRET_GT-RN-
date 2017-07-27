@@ -15,16 +15,25 @@ class Midi extends React.Component {
   }
 
   resetMidi = midi => {
+    console.debug("resetting midi");
     this.props.clearMidiData();
     this.loadMidi(midi);
     this.props.clearMidi();
   };
 
   loadMidi = path => {
+    console.debug("loading midi");
     console.debug({ path });
-    this.props.loadMidi(path).then(midi => {
-      this.props.onData(midi);
-    });
+    this.props
+      .loadMidi(path)
+      .then(midi => {
+        console.debug({ midi });
+        this.props.onData(midi);
+      })
+      .catch(err => {
+        console.debug("error loading midi");
+        console.log(err);
+      });
   };
 }
 

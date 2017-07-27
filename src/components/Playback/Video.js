@@ -4,8 +4,11 @@ import PropTypes from "prop-types";
 
 import RNFetchBlob from "react-native-fetch-blob";
 import Video from "react-native-video";
-import VideoOverlay from "./VideoOverlay";
 
+import VideoOverlay from "./VideoOverlay";
+import Midi from "./Midi";
+
+import { loadMidi, clearMidi } from "../../selectors";
 import { allChapters, chapterFromTime } from "./ChapterSelectors.js";
 
 class Vid extends React.Component {
@@ -23,7 +26,8 @@ class Vid extends React.Component {
     currentChapter: {},
     midiTimes: [],
     title: "Loading...",
-    quickLoops: []
+    quickLoops: [],
+    mediaName: ""
   };
 
   render() {
@@ -39,6 +43,13 @@ class Vid extends React.Component {
           justifyContent: "center"
         }}
       >
+        <Midi
+          midi={`${this.state.mediaName}.midi`}
+          onData={this.props.updateMidiData}
+          clearMidiData={this.props.clearMidiData}
+          clearMidi={clearMidi}
+          loadMidi={loadMidi}
+        />
         <Video
           ref={ref => {
             this.player = ref;
@@ -47,7 +58,6 @@ class Vid extends React.Component {
           source={require("../../lesson.mp4")}
           paused={this.state.paused}
           rate={this.state.playbackRate}
-          repeat={false}
           resizeMode="stretch"
           onLoad={this.handleVideoLoad}
           onProgress={this.handleProgress}
@@ -138,18 +148,36 @@ class Vid extends React.Component {
       progress.currentTime,
       this.state.chapters
     );
-    // console.log(chapter);
+
+    if (
+      currentChapter.uniqueId &&
+      currentChapter !== this.state.currentChapter
+    ) {
+      console.log("new chapter");
+
+      if (currentChapter.mediaName) {
+        console.log(currentChapter.mediaName);
+      }
+    }
 
     this.setState({
       mediaDuration: progress.playableDuration,
       playbackSeconds: progress.currentTime,
       playbackProgress: progress.currentTime / progress.playableDuration,
-      currentChapter
+      currentChapter,
+      mediaName: currentChapter.mediaName
     });
+
+    this.props.updateTime(progress.currentTime);
   };
 
   handleEnd = () => {
     console.log("video ended");
+    this.setState({
+      paused: true
+    });
+
+    this.player.seek(0);
   };
 
   handleError = err => {
@@ -159,12 +187,18 @@ class Vid extends React.Component {
   handleSeek = seconds => {
     console.log(`seeking to ${seconds}`);
     this.player.seek(seconds);
+    this.setState({
+      paused: false
+    });
   };
 }
 
 Vid.propTypes = {
   video: PropTypes.object,
-  markers: PropTypes.object
+  markers: PropTypes.object,
+  updateMidiData: PropTypes.func.isRequired,
+  clearMidiData: PropTypes.func.isRequired,
+  updateTime: PropTypes.func.isRequired
 };
 
 export default Vid;
