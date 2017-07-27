@@ -50,7 +50,7 @@ class Song extends React.Component {
             onData={this.handleMusicData}
           />
           <Midi
-            song={this.props.song}
+            midi={this.props.song.midi}
             onData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
             clearMidi={clearMidi}
