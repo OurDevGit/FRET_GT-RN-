@@ -95,7 +95,6 @@ class Vid extends React.Component {
   }
 
   componentWillReceiveProps(newProps) {
-    // console.log(newProps);
     this.handleNewVideo();
   }
 
@@ -148,17 +147,6 @@ class Vid extends React.Component {
       progress.currentTime,
       this.state.chapters
     );
-
-    if (
-      currentChapter.uniqueId &&
-      currentChapter !== this.state.currentChapter
-    ) {
-      console.log("new chapter");
-
-      if (currentChapter.mediaName) {
-        console.log(currentChapter.mediaName);
-      }
-    }
 
     this.setState({
       mediaDuration: progress.playableDuration,

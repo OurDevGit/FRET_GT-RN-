@@ -18,7 +18,15 @@ export const allChapters = chapters => {
   for (var key in chapters) {
     if (chapters.hasOwnProperty(key)) {
       var element = chapters[key];
-      chaps = chaps.concat(element.children);
+      // chaps.push({ ...element.children[0], name: element.name });  // parent element
+      chaps = chaps.concat(
+        element.children.map(child => {
+          return {
+            ...child,
+            name: `   ${child.name}`
+          };
+        })
+      );
     }
   }
 
