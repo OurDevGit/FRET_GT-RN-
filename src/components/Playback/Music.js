@@ -14,6 +14,11 @@ class Music extends React.Component {
     requestAnimationFrame(this.handleAnimationFrame);
   }
 
+  componentWillUnmount() {
+    console.debug("Music did unmount");
+    this.resetSong();
+  }
+
   componentWillReceiveProps(newProps) {
     // new song
     const oldName = this.props.song !== undefined ? this.props.song.name : "";
@@ -62,7 +67,9 @@ class Music extends React.Component {
       this.songSound = null;
     }
 
-    this.loadMusic(song.audio);
+    if (song) {
+      this.loadMusic(song.audio);
+    }
   };
 
   loadMusic = audio => {

@@ -1,37 +1,12 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Button } from "react-native";
+import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import PropTypes from "prop-types";
 
 import RNFetchBlob from "react-native-fetch-blob";
-
 import Video from "react-native-video";
+import VideoOverlay from "./VideoOverlay";
 
-// import PlaybackPrimary from "./PlaybackPrimary";
-// import PlaybackTimeline from "./PlaybackTimeline";
-// import PlaybackSecondary from "./PlaybackSecondary";
-// import Midi from "./Midi";
-
-// import { loadMidi, clearMidi } from "../../selectors";
-
-const styles = StyleSheet.create({
-  backgroundVideo: {
-    height: "100%"
-  },
-  fullScreen: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0
-  },
-  controls: {
-    flex: 1,
-    backgroundColor: "transparent",
-    position: "absolute",
-    justifyContent: "center",
-    alignItems: "center"
-  }
-});
+import { allChapters, chapterFromTime } from "./ChapterSelectors.js";
 
 class Vid extends React.Component {
   state = {
@@ -42,7 +17,13 @@ class Vid extends React.Component {
     playbackRate: 1,
     seek: -1,
     videoUri: null,
-    paused: false
+    paused: false,
+    naturalSize: { height: 240, width: 320 },
+    chapters: [],
+    currentChapter: {},
+    midiTimes: [],
+    title: "Loading...",
+    quickLoops: []
   };
 
   render() {
@@ -53,52 +34,137 @@ class Vid extends React.Component {
       <View
         style={{
           flex: 1,
-          justifyContent: "center",
-          alignItems: "center"
+          backgroundColor: "#00f",
+          alignItems: "center",
+          justifyContent: "center"
         }}
       >
-        <TouchableOpacity
-          style={styles.fullScreen}
-          onPress={() => this.setState({ paused: !this.state.paused })}
+        <Video
+          ref={ref => {
+            this.player = ref;
+          }}
+          style={{ width: 320, height: 240 }}
+          source={require("../../lesson.mp4")}
+          paused={this.state.paused}
+          rate={this.state.playbackRate}
+          repeat={false}
+          resizeMode="stretch"
+          onLoad={this.handleVideoLoad}
+          onProgress={this.handleProgress}
+          onEnd={this.handleEnd}
+          onError={this.handleError}
+          onTimedMetadata={metaData => console.log({ metaData })}
+        />
+        <View
+          style={{
+            position: "absolute",
+            backgroundColor: "transparent",
+            height: "100%",
+            width: "100%"
+          }}
         >
-          <Video
-            style={styles.backgroundVideo}
-            source={require("../../lesson.mp4")}
-            paused={this.state.paused}
-            resizeMode="stretch"
+          <VideoOverlay
+            title={this.state.title}
+            chapters={this.state.chapters}
+            currentChapter={this.state.currentChapter}
+            onClose={this.handleVideoClose}
+            markers={this.props.markers}
+            onRateChange={this.handleRateChange}
+            rate={this.state.playbackRate}
+            duration={this.state.mediaDuration}
+            progress={this.state.playbackProgress}
+            onSeek={this.handleSeek}
           />
-        </TouchableOpacity>
-        <View style={styles.controls}>
-          <Button title="Button 1" />
         </View>
       </View>
     );
   }
 
   componentWillMount() {
-    const path = RNFetchBlob.fs.asset("config.json");
+    this.handleNewVideo();
+  }
+
+  componentWillReceiveProps(newProps) {
+    // console.log(newProps);
+    this.handleNewVideo();
+  }
+
+  loadJSON = fileName => {
+    const path = RNFetchBlob.fs.asset(fileName);
     RNFetchBlob.fs
       .readFile(path, "utf8")
       .then(json => {
         const j = JSON.parse(json);
-        console.debug(j);
+
+        this.setState({
+          title: j.name || "",
+          chapters: j.chapters,
+          midiTimes: j.midiTimes || [],
+          quickLoops: j.quickLoops || []
+        });
       })
       .catch(err => {
         console.error(err);
       });
+  };
+
+  handleVideoClose = () => {};
+
+  handleRateChange = rate => {
+    this.setState({
+      playbackRate: rate
+    });
+  };
+
+  handleNewVideo = () => {
+    this.loadJSON("config.json");
 
     this.setState({
       videoUri: RNFetchBlob.fs.asset("lesson.mp4")
     });
-  }
+  };
 
-  componentWillReceiveProps(newProps) {
-    console.log(newProps);
-  }
+  handleVideoLoad = details => {
+    console.log("handleVideoLoad");
+    this.setState({
+      mediaDuration: details.duration,
+      naturalSize: details.naturalSize
+    });
+  };
+
+  handleProgress = progress => {
+    // const { currentTime, playableDuration } = progress.currentTime;
+    const currentChapter = chapterFromTime(
+      progress.currentTime,
+      this.state.chapters
+    );
+    // console.log(chapter);
+
+    this.setState({
+      mediaDuration: progress.playableDuration,
+      playbackSeconds: progress.currentTime,
+      playbackProgress: progress.currentTime / progress.playableDuration,
+      currentChapter
+    });
+  };
+
+  handleEnd = () => {
+    console.log("video ended");
+  };
+
+  handleError = err => {
+    console.error(err);
+  };
+
+  handleSeek = seconds => {
+    console.log(`seeking to ${seconds}`);
+    this.player.seek(seconds);
+  };
 }
 
 Vid.propTypes = {
-  video: PropTypes.object
+  video: PropTypes.object,
+  markers: PropTypes.object
 };
 
 export default Vid;
