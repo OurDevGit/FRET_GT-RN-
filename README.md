@@ -47,8 +47,10 @@ TODO: Fill this out!
 
 # When things don't work
 ## Try:
+1. `watchman watch-del-all`
+1. `rm -rf $TMPDIR/react-*`
+1. `cd android` then `./gradlew clean` then `cd ..`
 1. `rm -rf node_modules && npm install` and then `npm start`
-1. `cd android` then `./gradlew clean`
 
 # Release Build
 * `cd android && ./gradlew assembleRelease && cd ..` 

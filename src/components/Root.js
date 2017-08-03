@@ -9,6 +9,8 @@ import Library from "./Library";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
+import PaintCode from "./PaintCode.js";
+
 const testMedia = [...testVideos, ...testSongs];
 
 class Root extends Component {
@@ -39,6 +41,22 @@ class Root extends Component {
             {!this.state.libIsOpen &&
               <Button title="Lib" onPress={this.handleToggleLibrary} />}
           </View>
+          <PaintCode
+            drawMethod="BtnPlay"
+            drawArgs={[
+              "isPressed",
+              "isShowingPause",
+              "redValue",
+              "greenValue",
+              "blueValue"
+            ]}
+            isPressed={false}
+            isShowingPause={false}
+            redValue={1}
+            greenValue={0.35}
+            blueValue={0.75}
+            style={{ height: 25, backgroundColor: "white" }}
+          />
         </View>
       </Provider>
     );

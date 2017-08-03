@@ -150,7 +150,6 @@ android {
 
 dependencies {
     compile project(':react-native-video')
-    compile project(':react-native-linear-gradient')
     compile project(':react-native-sound')
     compile project(':react-native-fetch-blob')
     compile fileTree(dir: "libs", include: ["*.jar"])
