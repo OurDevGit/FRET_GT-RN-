@@ -24,8 +24,8 @@ module.exports = filename => {
         // load guitar tracks
         if (arr[0].text.includes("FMP -") && arr[0].text !== "FMP - Jam Bar") {
           var track = noteTrack(arr, secondsForTicks);
-          notes = notes.set(track.name, track.notes);
-          delete track.notes;
+          notes = notes.set(track.get("name"), track.get("notes"));
+          track = track.delete("notes");
           guitarTracks = guitarTracks.push(track);
         }
 

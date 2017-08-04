@@ -5,6 +5,7 @@ import AdContainer from "./AdContainer";
 import Playback from "./Playback";
 import FretboardsContainer from "./Fretboards";
 import Library from "./Library";
+import TrackSelector from "./TrackSelector";
 
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
@@ -18,20 +19,30 @@ class Root extends Component {
     libIsOpen: false,
     song: null,
     video: null,
-    showAd: true
+    showAd: true,
+    layout: { width: 1, height: 1 }
   };
 
   render() {
     const { store } = this.props;
+    const aspectRatio = this.state.layout.width / this.state.layout.height;
+    const supportsMultipleFretboards = aspectRatio < 1.6;
+
     return (
       <Provider store={store}>
-        <View style={{ backgroundColor: "white", flexGrow: 1 }}>
+        <View
+          style={{ backgroundColor: "white", flexGrow: 1 }}
+          onLayout={this.handleLayout}
+        >
           <StatusBar hidden />
 
           {this.state.showAd &&
             <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
           <Playback song={this.state.song} video={this.state.video} />
-          <FretboardsContainer />
+          <FretboardsContainer
+            deviceWidth={this.state.layout.width}
+            supportsMultipleFretboards={supportsMultipleFretboards}
+          />
           <Library
             isOpen={this.state.libIsOpen}
             onSelect={this.handleSelectMedia}
@@ -41,6 +52,9 @@ class Root extends Component {
             {!this.state.libIsOpen &&
               <Button title="Lib" onPress={this.handleToggleLibrary} />}
           </View>
+
+          {supportsMultipleFretboards && <TrackSelector />}
+
           <PaintCode
             drawMethod="BtnPlay"
             drawArgs={[
@@ -86,6 +100,12 @@ class Root extends Component {
         showAd: false
       });
     }
+  };
+
+  handleLayout = e => {
+    this.setState({
+      layout: { ...e.nativeEvent.layout }
+    });
   };
 }
 

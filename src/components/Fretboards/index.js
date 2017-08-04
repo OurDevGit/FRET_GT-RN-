@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
-import PageControl from "react-native-page-control";
-import Container from "./Container";
+import VerticalContainer from "./HorizontalContainer";
+import HorizontalContainer from "./HorizontalContainer";
 
 class FretboardsRoot extends React.PureComponent {
   state = {
@@ -10,25 +10,24 @@ class FretboardsRoot extends React.PureComponent {
   };
 
   render() {
+    const { supportsMultipleFretboards, deviceWidth, tracks } = this.props;
     return (
       <View
-        style={{ width: "100%", aspectRatio: 4, backgroundColor: "#E6D9B9" }}
+        style={{ width: "100%", aspectRatio: 4.5, backgroundColor: "#E6D9B9" }}
       >
-        <Container
-          tracks={this.props.tracks}
-          onScrollEnd={this.onScrollEnd.bind(this)}
-        />
-        <PageControl
-          style={{ position: "absolute", left: 0, right: 0, bottom: 7 }}
-          numberOfPages={this.props.tracks.count()}
-          currentPage={this.state.selectedIndex}
-          hidesForSinglePage={true}
-          pageIndicatorTintColor="gray"
-          currentPageIndicatorTintColor="white"
-          indicatorStyle={{ borderRadius: 5 }}
-          currentIndicatorStyle={{ borderRadius: 5 }}
-          indicatorSize={{ width: 8, height: 8 }}
-        />
+        {supportsMultipleFretboards
+          ? <VerticalContainer
+              deviceWidth={deviceWidth}
+              tracks={tracks}
+              currentPage={this.state.selectedIndex}
+              onScrollEnd={this.onScrollEnd.bind(this)}
+            />
+          : <HorizontalContainer
+              deviceWidth={deviceWidth}
+              tracks={tracks}
+              currentPage={this.state.selectedIndex}
+              onScrollEnd={this.onScrollEnd.bind(this)}
+            />}
       </View>
     );
   }
