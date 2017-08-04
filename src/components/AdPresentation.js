@@ -3,21 +3,14 @@ import PropTypes from "prop-types";
 import { TouchableOpacity, Image, StyleSheet } from "react-native";
 
 const AdPresentation = ({ onTap, imageUrl }) =>
-  <TouchableOpacity onPress={onTap} style={{ height: "100%", flex: 1 }}>
+  <TouchableOpacity onPress={onTap} style={{ flex: 1 }}>
     <Image
-      style={styles.ad}
+      style={{ flex: 1, marginVertical: 10 }}
       source={{
         uri: imageUrl
       }}
-      resizeMode="center"
+      resizeMode="contain"
     />
   </TouchableOpacity>;
-
-const styles = StyleSheet.create({
-  ad: {
-    top: 0,
-    height: 70
-  }
-});
 
 export default AdPresentation;
