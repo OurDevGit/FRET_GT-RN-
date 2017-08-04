@@ -26,7 +26,8 @@ class Root extends Component {
   render() {
     const { store } = this.props;
     const aspectRatio = this.state.layout.width / this.state.layout.height;
-    const supportsMultipleFretboards = aspectRatio < 1.6;
+    const supportsMultipleFretboards =
+      this.state.layout.width > 1 && aspectRatio < 1.6;
 
     return (
       <Provider store={store}>

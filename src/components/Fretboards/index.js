@@ -17,7 +17,9 @@ class FretboardsRoot extends React.PureComponent {
       tracks,
       visibleTracks
     } = this.props;
-    var boardHeight = deviceWidth * 0.16;
+    var boardHeight = supportsMultipleFretboards
+      ? deviceWidth * 0.16
+      : deviceHeight * 0.44;
 
     if (visibleTracks.count() === 4) {
       boardHeight = (deviceHeight - 100) / 4;
@@ -38,8 +40,6 @@ class FretboardsRoot extends React.PureComponent {
           ? <VerticalContainer
               deviceWidth={deviceWidth}
               tracks={visibleTracks}
-              currentPage={this.state.selectedIndex}
-              onScrollEnd={this.onScrollEnd.bind(this)}
             />
           : <HorizontalContainer
               deviceWidth={deviceWidth}

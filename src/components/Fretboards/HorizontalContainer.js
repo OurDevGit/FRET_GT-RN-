@@ -18,13 +18,11 @@ class FretboardsContainer extends React.Component {
       width: this.state.width,
       height: this.state.height,
       paddingTop: "0.5%",
-      paddingBottom: "1%",
+      paddingBottom: 20,
       paddingHorizontal: "1%"
     };
     return (
-      <View
-        style={{ width: "100%", aspectRatio: 4, backgroundColor: "#E6D9B9" }}
-      >
+      <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <FlatList
             horizontal
