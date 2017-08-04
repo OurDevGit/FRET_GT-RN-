@@ -35,7 +35,8 @@ class TrackSelector extends Component {
           style={{
             flex: 1,
             paddingHorizontal: 10,
-            marginHorizontal: 0
+            marginHorizontal: 0,
+            maxWidth: "40%"
           }}
           onPress={() => {
             this.handleClick(track);
