@@ -12,10 +12,12 @@ class TrackSelector extends Component {
       <View
         style={{
           width: "100%",
-          height: 50,
+          height: 45,
           paddingVertical: 6,
           flexDirection: "row",
-          justifyContent: "center"
+          justifyContent: "center",
+          borderTopWidth: 1,
+          borderTopColor: "#555555"
         }}
       >
         {this.buttons()}
@@ -55,7 +57,7 @@ class TrackSelector extends Component {
               style={{
                 textAlign: "center",
                 color: trackIsVisible ? PrimaryGold : "white",
-                fontSize: 22
+                fontSize: 18
               }}
             >
               {track.get("name")}

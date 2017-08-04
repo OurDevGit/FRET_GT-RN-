@@ -14,6 +14,13 @@ class FretboardsContainer extends React.Component {
   };
 
   render() {
+    const boardStyle = {
+      width: this.state.width,
+      height: this.state.height,
+      paddingTop: "0.5%",
+      paddingBottom: "1%",
+      paddingHorizontal: "1%"
+    };
     return (
       <View
         style={{ width: "100%", aspectRatio: 4, backgroundColor: "#E6D9B9" }}
@@ -33,13 +40,13 @@ class FretboardsContainer extends React.Component {
               <Fretboard
                 track={emptyTrack}
                 boardWidth={this.state.width}
-                style={{ width: this.state.width, height: this.state.height }}
+                style={boardStyle}
               />}
             renderItem={({ item }) =>
               <Fretboard
                 track={item}
                 boardWidth={this.state.width}
-                style={{ width: this.state.width, height: this.state.height }}
+                style={boardStyle}
               />}
           />
         </View>

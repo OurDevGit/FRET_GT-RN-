@@ -41,6 +41,7 @@ class Root extends Component {
           <Playback song={this.state.song} video={this.state.video} />
           <FretboardsContainer
             deviceWidth={this.state.layout.width}
+            deviceHeight={this.state.layout.height}
             supportsMultipleFretboards={supportsMultipleFretboards}
           />
           <Library
@@ -69,7 +70,7 @@ class Root extends Component {
             redValue={1}
             greenValue={0.35}
             blueValue={0.75}
-            style={{ height: 25, backgroundColor: "white" }}
+            style={{ height: 25, backgroundColor: "white", height: 0 }}
           />
         </View>
       </Provider>

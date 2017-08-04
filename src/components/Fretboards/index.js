@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
-import VerticalContainer from "./HorizontalContainer";
+import VerticalContainer from "./VerticalContainer";
 import HorizontalContainer from "./HorizontalContainer";
 
 class FretboardsRoot extends React.PureComponent {
@@ -10,15 +10,34 @@ class FretboardsRoot extends React.PureComponent {
   };
 
   render() {
-    const { supportsMultipleFretboards, deviceWidth, tracks } = this.props;
+    const {
+      supportsMultipleFretboards,
+      deviceWidth,
+      deviceHeight,
+      tracks,
+      visibleTracks
+    } = this.props;
+    var boardHeight = deviceWidth * 0.16;
+
+    if (visibleTracks.count() === 4) {
+      boardHeight = (deviceHeight - 100) / 4;
+    }
+
+    const height = supportsMultipleFretboards
+      ? boardHeight * visibleTracks.count()
+      : boardHeight;
     return (
       <View
-        style={{ width: "100%", aspectRatio: 4.3, backgroundColor: "#E6D9B9" }}
+        style={{
+          width: "100%",
+          height: height,
+          backgroundColor: "#E6D9B9"
+        }}
       >
         {supportsMultipleFretboards
           ? <VerticalContainer
               deviceWidth={deviceWidth}
-              tracks={tracks}
+              tracks={visibleTracks}
               currentPage={this.state.selectedIndex}
               onScrollEnd={this.onScrollEnd.bind(this)}
             />
@@ -44,7 +63,8 @@ class FretboardsRoot extends React.PureComponent {
 
 const mapStateToProps = state => {
   return {
-    tracks: state.get("guitarTracks")
+    tracks: state.get("guitarTracks"),
+    visibleTracks: state.get("visibleTracks")
   };
 };
 

@@ -4,7 +4,10 @@ import { View } from "react-native";
 const strings = (track, boardWidth) => {
   var views = [];
   var count = track.isBass ? 4 : 6;
-  var stringWidth = track.isBass ? boardWidth * 0.002 : boardWidth * 0.0015;
+  var stringWidth = Math.round(
+    track.isBass ? boardWidth * 0.002 : boardWidth * 0.0015
+  );
+  console.log(stringWidth);
 
   for (var i = 0; i < count; i++) {
     views.push(
@@ -26,7 +29,7 @@ const strings = (track, boardWidth) => {
         <View
           style={{
             width: "100%",
-            height: stringWidth,
+            height: 1,
             backgroundColor: "#222222"
           }}
         />
@@ -45,7 +48,7 @@ const FretboardStrings = ({ track, boardWidth }) =>
       left: 0,
       width: "100%",
       height: "100%",
-      paddingVertical: track.isBass ? boardWidth * 0.008 : boardWidth * 0.007,
+      paddingVertical: track.isBass ? boardWidth * 0.005 : boardWidth * 0.003,
       flexDirection: "column",
       justifyContent: "space-between"
     }}

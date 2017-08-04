@@ -9,7 +9,14 @@ class AdContainer extends Component {
   render() {
     const { ad } = this.props;
     return (
-      <Image style={styles.banner} source={require("../images/topiPhone.png")}>
+      <Image
+        style={{
+          height: this.props.visibleTracks.count() > 3 ? 0 : 80,
+          width: "100%",
+          flexDirection: "row"
+        }}
+        source={require("../images/topiPhone.png")}
+      >
         <AdPresentation onTap={this.handleTap} imageUrl={ad.get("phone")} />
       </Image>
     );
@@ -26,17 +33,10 @@ AdContainer.propTypes = {
   ad: PropTypes.object.isRequired
 };
 
-const styles = StyleSheet.create({
-  banner: {
-    height: 70,
-    width: "100%",
-    flexDirection: "row"
-  }
-});
-
 const mapStateToProps = (state, ownProps) => {
   return {
-    ad: state.get("ad")
+    ad: state.get("ad"),
+    visibleTracks: state.get("visibleTracks")
   };
 };
 

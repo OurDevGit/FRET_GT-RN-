@@ -13,14 +13,14 @@ const FretboardNote = ({ notation, boardWidth, isVisible }) =>
     {isVisible &&
       <View
         style={{
-          width: "58%",
+          width: "45%",
           aspectRatio: 1,
           backgroundColor: "#17A3E3",
           borderRadius: boardWidth * 0.012,
           alignItems: "center"
         }}
       >
-        <Text style={{ fontSize: boardWidth * 0.015 }}>
+        <Text style={{ fontSize: boardWidth * 0.012 }}>
           {notation}
         </Text>
       </View>}

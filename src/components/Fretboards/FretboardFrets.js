@@ -81,7 +81,7 @@ const FretboardFrets = ({ track, boardWidth }) =>
       left: 0,
       width: "100%",
       height: "100%",
-      paddingVertical: track.isBass ? boardWidth * 0.008 : boardWidth * 0.007,
+      paddingVertical: track.isBass ? boardWidth * 0.005 : boardWidth * 0.003,
       flexDirection: "row",
       justifyContent: "space-between"
     }}
