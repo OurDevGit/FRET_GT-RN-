@@ -13,7 +13,7 @@ class FretboardsRoot extends React.PureComponent {
     const { supportsMultipleFretboards, deviceWidth, tracks } = this.props;
     return (
       <View
-        style={{ width: "100%", aspectRatio: 4.5, backgroundColor: "#E6D9B9" }}
+        style={{ width: "100%", aspectRatio: 4.3, backgroundColor: "#E6D9B9" }}
       >
         {supportsMultipleFretboards
           ? <VerticalContainer

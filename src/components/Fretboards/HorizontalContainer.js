@@ -27,18 +27,18 @@ class FretboardsContainer extends React.Component {
             initialNumToRender={1}
             keyExtractor={keyExtractor}
             data={this.props.tracks.toJS()}
-            onLayout={this.adjustPageSize.bind(this)}
+            onLayout={this.handleLayout.bind(this)}
             onMomentumScrollEnd={this.props.onScrollEnd}
             ListEmptyComponent={() =>
               <Fretboard
-                deviceWidth={this.props.deviceWidth}
                 track={emptyTrack}
+                boardWidth={this.state.width}
                 style={{ width: this.state.width, height: this.state.height }}
               />}
             renderItem={({ item }) =>
               <Fretboard
-                deviceWidth={this.props.deviceWidth}
                 track={item}
+                boardWidth={this.state.width}
                 style={{ width: this.state.width, height: this.state.height }}
               />}
           />
@@ -66,7 +66,7 @@ class FretboardsContainer extends React.Component {
     );
   }
 
-  adjustPageSize(e) {
+  handleLayout(e) {
     this.setState({
       height: e.nativeEvent.layout.height,
       width: e.nativeEvent.layout.width
