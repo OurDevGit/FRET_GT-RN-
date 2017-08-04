@@ -11,15 +11,6 @@ exports.markers = (state = List(), action) => {
   }
 };
 
-const test = List([
-  Map({ name: "Guitar 1" }),
-  Map({ name: "Guitar 2" }),
-  Map({ name: "The Best Soloist Around" }),
-  Map({ name: "Bass" }),
-  Map({ name: "Easy Chords" })
-]);
-const visible = List([Map({ name: "Guitar 1" })]);
-
 exports.guitarTracks = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
