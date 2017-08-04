@@ -12,6 +12,7 @@ class Music extends React.Component {
 
   componentDidMount() {
     requestAnimationFrame(this.handleAnimationFrame);
+    this.resetSong(this.props.song);
   }
 
   componentWillUnmount() {

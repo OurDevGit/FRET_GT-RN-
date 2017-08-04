@@ -7,7 +7,6 @@ const strings = (track, boardWidth) => {
   var stringWidth = Math.round(
     track.isBass ? boardWidth * 0.002 : boardWidth * 0.0015
   );
-  console.log(stringWidth);
 
   for (var i = 0; i < count; i++) {
     views.push(

@@ -32,12 +32,13 @@ class PlaybackMarkers extends React.Component {
 
     return (
       !nextProps.markers.equals(this.props.markers) ||
-      nextProps.duration !== this.props.duration
+      nextProps.duration !== this.props.duration ||
+      nextProps.width !== this.props.width
     );
   }
 
   buttonsForMarkers(left, width, duration, markers, onMarkerPress) {
-    if (markers && duration > 0 && markers.count() > 0) {
+    if (markers && duration > 0 && markers.count() > 0 && width > 0) {
       var buttons = [];
       var operationalWidth = width - left * 2;
 

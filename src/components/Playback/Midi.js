@@ -7,6 +7,10 @@ class Midi extends React.Component {
     return <View />;
   }
 
+  componentDidMount() {
+    this.resetMidi(this.props.midi);
+  }
+
   componentWillReceiveProps(newProps) {
     if (newProps.midi !== this.props.midi) {
       console.debug({ newProps });
