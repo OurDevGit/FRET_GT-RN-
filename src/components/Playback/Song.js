@@ -98,19 +98,27 @@ class Song extends React.Component {
     });
   };
 
-  handleMusicProgress = (seconds, duration) => {
-    const progress = seconds / duration;
-    if (
-      progress != this.state.playbackProgress ||
-      seconds !== this.state.seconds
-    ) {
-      this.setState({
-        playbackProgress: progress,
-        playbackSeconds: seconds,
-        seek: -1
-      });
+  handleMusicProgress = (musicSeconds, duration) => {
+    const { loopIsEnabled, currentLoop, updateTime } = this.props;
+    const { playbackProgress, seconds } = this.state;
+    const progress = musicSeconds / duration;
+    if (progress != playbackProgress || musicSeconds !== seconds) {
+      const loopBegin = currentLoop.get("begin") || -1;
+      const loopEnd = currentLoop.get("end") || duration + 1;
 
-      this.props.updateTime(seconds);
+      if (loopIsEnabled && musicSeconds >= loopEnd && loopBegin > -1) {
+        this.setState({
+          seek: loopBegin
+        });
+      } else {
+        this.setState({
+          playbackProgress: progress,
+          playbackSeconds: musicSeconds,
+          seek: -1
+        });
+
+        updateTime(musicSeconds);
+      }
     }
   };
 

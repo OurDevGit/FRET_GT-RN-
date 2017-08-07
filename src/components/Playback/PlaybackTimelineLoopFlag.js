@@ -6,7 +6,7 @@ const LoopFlag = ({ type, left }) =>
     style={{
       position: "absolute",
       top: 0,
-      left: left - 10,
+      left: left - 5,
       width: 20,
       height: 20
     }}
