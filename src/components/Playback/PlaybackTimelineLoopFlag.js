@@ -1,21 +1,19 @@
 import React from "react";
 import { View, Text } from "react-native";
 
-const LoopFlag = ({ type, left, containerLeft }) =>
+const LoopFlag = ({ type, left }) =>
   <View
     style={{
       position: "absolute",
       top: 0,
-      left: this.props.containerLeft,
+      left: left - 10,
       width: 20,
       height: 20
     }}
   >
-    <View style={styleWithLeft} {...this._panResponder.panHandlers}>
-      <Text style={buttonStyle}>
-        {type === "left" ? `|>` : `<|`}
-      </Text>
-    </View>
+    <Text style={{ width: 20, height: 20 }}>
+      {type === "begin" ? `|>` : `<|`}
+    </Text>
   </View>;
 
 export default LoopFlag;

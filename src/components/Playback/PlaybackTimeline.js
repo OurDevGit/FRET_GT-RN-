@@ -22,6 +22,7 @@ class PlaybackTimeline extends Component {
 
     const elapsed = this.formattedTime(duration * progress);
     const remaining = this.formattedTime(duration - duration * progress);
+
     const begin = (currentLoop.get("begin") || -1) / duration;
     const end = (currentLoop.get("end") || -1) / duration;
 
@@ -87,18 +88,10 @@ class PlaybackTimeline extends Component {
         </Text>
 
         {begin > 0 &&
-          <LoopFlag
-            type="begin"
-            left={begin * layout.width}
-            containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
-          />}
+          <LoopFlag type="begin" left={layout.x + begin * layout.width} />}
 
         {end > 0 &&
-          <LoopFlag
-            type="end"
-            left={end * layout.width}
-            containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
-          />}
+          <LoopFlag type="end" left={layout.x + end * layout.width} />}
       </View>
     );
   }
