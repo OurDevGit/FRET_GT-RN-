@@ -76,6 +76,13 @@ class PlaybackTimeline extends Component {
             }}
           />
         </View>
+
+        {begin > 0 &&
+          <LoopFlag type="begin" left={layout.x + begin * layout.width} />}
+
+        {end > 0 &&
+          <LoopFlag type="end" left={layout.x + end * layout.width} />}
+
         <Playhead
           onPan={this.handlePlayheadPan}
           onPanStart={this.handlePlayheadPanStart}
@@ -93,12 +100,6 @@ class PlaybackTimeline extends Component {
         >
           {"-" + remaining}
         </Text>
-
-        {begin > 0 &&
-          <LoopFlag type="begin" left={layout.x + begin * layout.width} />}
-
-        {end > 0 &&
-          <LoopFlag type="end" left={layout.x + end * layout.width} />}
       </View>
     );
   }

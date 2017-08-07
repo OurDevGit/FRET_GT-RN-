@@ -185,6 +185,7 @@ class Song extends React.Component {
   // TIMELINE METHODS
 
   handleMarkerPress = time => {
+    this.props.clearCurrentLoop();
     this.setState({
       seek: time
     });

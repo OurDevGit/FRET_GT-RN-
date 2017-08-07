@@ -30,6 +30,7 @@ class MediaPlayer extends Component {
             loopIsEnabled={this.props.loopIsEnabled}
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
+            clearCurrentLoop={this.props.clearCurrentLoop}
           />}
         {this.props.video !== undefined &&
           this.props.video !== null &&
@@ -43,6 +44,7 @@ class MediaPlayer extends Component {
             loopIsEnabled={this.props.loopIsEnabled}
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
+            clearCurrentLoop={this.props.clearCurrentLoop}
           />}
       </View>
     );
