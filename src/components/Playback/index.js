@@ -61,7 +61,8 @@ MediaPlayer.propTypes = {
   currentLoop: PropTypes.object,
   loopIsEnabled: PropTypes.bool,
   enableLoop: PropTypes.func.isRequired,
-  setCurrentLoop: PropTypes.func.isRequired
+  setCurrentLoop: PropTypes.func.isRequired,
+  clearCurrentLoop: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
