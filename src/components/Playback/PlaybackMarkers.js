@@ -10,7 +10,8 @@ class PlaybackMarkers extends React.Component {
       height,
       duration,
       markers,
-      onMarkerPress
+      onMarkerPress,
+      onMarkerLongPress
     } = this.props;
     return (
       <View
@@ -22,7 +23,14 @@ class PlaybackMarkers extends React.Component {
           height: height + 10
         }}
       >
-        {this.buttonsForMarkers(left, width, duration, markers, onMarkerPress)}
+        {this.buttonsForMarkers(
+          left,
+          width,
+          duration,
+          markers,
+          onMarkerPress,
+          onMarkerLongPress
+        )}
       </View>
     );
   }
@@ -37,7 +45,14 @@ class PlaybackMarkers extends React.Component {
     );
   }
 
-  buttonsForMarkers(left, width, duration, markers, onMarkerPress) {
+  buttonsForMarkers(
+    left,
+    width,
+    duration,
+    markers,
+    onMarkerPress,
+    onMarkerLongPress
+  ) {
     if (markers && duration > 0 && markers.count() > 0 && width > 0) {
       var buttons = [];
       var operationalWidth = width - left * 2;
@@ -45,6 +60,8 @@ class PlaybackMarkers extends React.Component {
       var buttons = markers.map((marker, index) => {
         var percent = marker.time / duration;
         var x = left - 15 + operationalWidth * percent;
+        var end =
+          index < markers.count() - 1 ? markers.get(index + 1).time : duration;
 
         return (
           <TouchableOpacity
@@ -58,6 +75,9 @@ class PlaybackMarkers extends React.Component {
             }}
             onPress={() => {
               onMarkerPress(marker.time);
+            }}
+            onLongPress={() => {
+              onMarkerLongPress(marker.time, end);
             }}
           >
             <View

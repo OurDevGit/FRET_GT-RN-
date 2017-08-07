@@ -74,6 +74,7 @@ class Song extends React.Component {
             currentLoop={this.props.currentLoop}
             onScrub={this.handleScrub}
             onMarkerPress={this.handleMarkerPress}
+            onMarkerLongPress={this.handleMarkerLongPress}
           />
 
           <PlaybackSecondary
@@ -186,6 +187,14 @@ class Song extends React.Component {
   handleMarkerPress = time => {
     this.setState({
       seek: time
+    });
+  };
+
+  handleMarkerLongPress = (begin, end) => {
+    const loop = Map({ begin, end });
+    this.props.setCurrentLoop(loop);
+    this.setState({
+      seek: begin
     });
   };
 

@@ -17,7 +17,13 @@ class PlaybackTimeline extends Component {
   };
 
   render() {
-    const { duration, markers, currentLoop, onMarkerPress } = this.props;
+    const {
+      duration,
+      markers,
+      currentLoop,
+      onMarkerPress,
+      onMarkerLongPress
+    } = this.props;
     const { progress, layout, containerLayout } = this.state;
 
     const elapsed = this.formattedTime(duration * progress);
@@ -46,6 +52,7 @@ class PlaybackTimeline extends Component {
           duration={duration}
           markers={markers}
           onMarkerPress={onMarkerPress}
+          onMarkerLongPress={onMarkerLongPress}
         />
         <Text
           style={{
