@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
 import PropTypes from "prop-types";
+import { Map } from "immutable";
 
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
@@ -70,13 +71,20 @@ class Song extends React.Component {
             progress={this.state.playbackProgress}
             duration={this.state.mediaDuration}
             markers={this.props.markers}
+            currentLoop={this.props.currentLoop}
             onScrub={this.handleScrub}
             onMarkerPress={this.handleMarkerPress}
           />
 
           <PlaybackSecondary
             rate={this.state.playbackRate}
+            loopIsEnabled={this.props.loopIsEnabled}
             onRateChange={this.handleRateChange}
+            onLoopEnable={this.handleLoopEnable}
+            onLoopBegin={this.handleLoopBegin}
+            onLoopEnd={this.handleLoopEnd}
+            onLoopSave={this.handleLoopSave}
+            onDisplayLoops={this.handleDisplayLoops}
           />
         </View>
       </View>
@@ -106,6 +114,7 @@ class Song extends React.Component {
     }
   };
 
+  // PLAYBACK METHODS
   handlePreviousPress = () => {
     const { markers } = this.props;
     const seconds = this.state.playbackSeconds;
@@ -164,6 +173,8 @@ class Song extends React.Component {
     }
   };
 
+  // TIMELINE METHODS
+
   handleMarkerPress = time => {
     this.setState({
       seek: time
@@ -181,6 +192,29 @@ class Song extends React.Component {
       playbackRate: rate
     });
   };
+
+  // LOOP METHODS
+
+  handleLoopEnable = () => {
+    this.props.enableLoop(!this.props.loopIsEnabled);
+  };
+
+  handleLoopBegin = () => {
+    const loop = this.props.currentLoop.set(
+      "begin",
+      this.state.playbackSeconds
+    );
+    this.props.setCurrentLoop(loop);
+  };
+
+  handleLoopEnd = () => {
+    const loop = this.props.currentLoop.set("end", this.state.playbackSeconds);
+    this.props.setCurrentLoop(loop);
+  };
+
+  handleLoopSave = () => {};
+
+  handleDisplayLoops = bool => {};
 }
 
 Song.propTypes = {

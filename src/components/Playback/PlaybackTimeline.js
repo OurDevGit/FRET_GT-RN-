@@ -6,6 +6,7 @@ import { PrimaryBlue } from "../../design";
 
 import Playhead from "./Playhead";
 import PlaybackMarkers from "./PlaybackMarkers";
+import LoopFlag from "./PlaybackTimelineLoopFlag.js";
 
 class PlaybackTimeline extends Component {
   state = {
@@ -16,12 +17,13 @@ class PlaybackTimeline extends Component {
   };
 
   render() {
-    const elapsed = this.formattedTime(
-      this.props.duration * this.state.progress
-    );
-    const remaining = this.formattedTime(
-      this.props.duration - this.props.duration * this.state.progress
-    );
+    const { duration, markers, currentLoop, onMarkerPress } = this.props;
+    const { progress, layout, containerLayout } = this.state;
+
+    const elapsed = this.formattedTime(duration * progress);
+    const remaining = this.formattedTime(duration - duration * progress);
+    const begin = (currentLoop.get("begin") || -1) / duration;
+    const end = (currentLoop.get("end") || -1) / duration;
 
     return (
       <View
@@ -37,12 +39,12 @@ class PlaybackTimeline extends Component {
         onLayout={this.handleContainerLayout}
       >
         <PlaybackMarkers
-          left={this.state.layout.x}
-          width={this.state.containerLayout.width}
-          height={this.state.containerLayout.height - this.state.layout.height}
-          duration={this.props.duration}
-          markers={this.props.markers}
-          onMarkerPress={this.props.onMarkerPress}
+          left={layout.x}
+          width={containerLayout.width}
+          height={containerLayout.height - layout.height}
+          duration={duration}
+          markers={markers}
+          onMarkerPress={onMarkerPress}
         />
         <Text
           style={{
@@ -70,10 +72,8 @@ class PlaybackTimeline extends Component {
           onPan={this.handlePlayheadPan}
           onPanStart={this.handlePlayheadPanStart}
           onPanEnd={this.handlePlayheadPanEnd}
-          scrollLeft={this.state.progress * this.state.layout.width}
-          containerLeft={
-            this.state.layout.x !== undefined ? this.state.layout.x - 9 : -1000
-          }
+          scrollLeft={progress * layout.width}
+          containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
         />
         <Text
           style={{
@@ -85,6 +85,20 @@ class PlaybackTimeline extends Component {
         >
           {"-" + remaining}
         </Text>
+
+        {begin > 0 &&
+          <LoopFlag
+            type="begin"
+            left={begin * layout.width}
+            containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
+          />}
+
+        {end > 0 &&
+          <LoopFlag
+            type="end"
+            left={end * layout.width}
+            containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
+          />}
       </View>
     );
   }

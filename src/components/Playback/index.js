@@ -26,6 +26,10 @@ class MediaPlayer extends Component {
             clearMidiData={this.props.clearMidiData}
             markers={this.props.markers}
             updateTime={this.props.updateTime}
+            currentLoop={this.props.currentLoop}
+            loopIsEnabled={this.props.loopIsEnabled}
+            enableLoop={this.props.enableLoop}
+            setCurrentLoop={this.props.setCurrentLoop}
           />}
         {this.props.video !== undefined &&
           this.props.video !== null &&
@@ -35,6 +39,10 @@ class MediaPlayer extends Component {
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
             updateTime={this.props.updateTime}
+            currentLoop={this.props.currentLoop}
+            loopIsEnabled={this.props.loopIsEnabled}
+            enableLoop={this.props.enableLoop}
+            setCurrentLoop={this.props.setCurrentLoop}
           />}
       </View>
     );
@@ -47,12 +55,18 @@ MediaPlayer.propTypes = {
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
   updateTime: PropTypes.func.isRequired,
-  markers: PropTypes.object
+  markers: PropTypes.object,
+  currentLoop: PropTypes.object,
+  loopIsEnabled: PropTypes.bool,
+  enableLoop: PropTypes.func.isRequired,
+  setCurrentLoop: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
-    markers: state.get("markers")
+    markers: state.get("markers"),
+    currentLoop: state.get("currentLoop"),
+    loopIsEnabled: state.get("loopIsEnabled")
   };
 };
 

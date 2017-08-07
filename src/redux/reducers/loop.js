@@ -1,17 +1,21 @@
-exports.currentLoop = (state = undefined, action) => {
+import { Map } from "immutable";
+
+exports.currentLoop = (state = Map(), action) => {
   switch (action.type) {
     case "SET_CURRENT_LOOP":
       return action.payload;
     case ("CLEAR_CURRENT_LOOP", "CLEAR_MIDI_DATA"):
-      return undefined;
+      return Map();
     default:
       return state;
   }
 };
 
-exports.loopIsActive = (state = false, action) => {
+exports.loopIsEnabled = (state = false, action) => {
   switch (action.type) {
-    case ("ENABLE_LOOP", "SET_CURRENT_LOOP"):
+    case "ENABLE_LOOP":
+      return action.payload;
+    case "SET_CURRENT_LOOP":
       return true;
     case "DISABLE_LOOP":
       return false;

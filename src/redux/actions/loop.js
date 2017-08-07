@@ -1,9 +1,6 @@
-export const enableLoop = () => ({
-  type: "ENABLE_LOOP"
-});
-
-export const disableLoop = () => ({
-  type: "DISABLE_LOOP"
+export const enableLoop = bool => ({
+  type: "ENABLE_LOOP",
+  payload: bool
 });
 
 export const setCurrentLoop = loop => ({

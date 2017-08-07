@@ -8,7 +8,7 @@ import {
   tuningTracks,
   patterns
 } from "./midi";
-import { currentLoop, loopIsActive } from "./loop";
+import { currentLoop, loopIsEnabled } from "./loop";
 
 const appReducer = combineReducers({
   ad,
@@ -19,7 +19,7 @@ const appReducer = combineReducers({
   tuningTracks,
   patterns,
   currentLoop,
-  loopIsActive
+  loopIsEnabled
 });
 
 export default appReducer;
