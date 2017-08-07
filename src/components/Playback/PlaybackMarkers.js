@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import { View, Button, Text, TouchableOpacity } from "react-native";
 import { PrimaryBlue } from "../../design";
+import MarkerFull from "./MarkerFull";
+import MarkerAbbreviated from "./MarkerAbbreviated";
+import MarkerCompact from "./MarkerCompact";
 
 class PlaybackMarkers extends React.Component {
   render() {
@@ -26,6 +29,7 @@ class PlaybackMarkers extends React.Component {
         {this.buttonsForMarkers(
           left,
           width,
+          height,
           duration,
           markers,
           onMarkerPress,
@@ -41,13 +45,15 @@ class PlaybackMarkers extends React.Component {
     return (
       !nextProps.markers.equals(this.props.markers) ||
       nextProps.duration !== this.props.duration ||
-      nextProps.width !== this.props.width
+      nextProps.width !== this.props.width ||
+      nextProps.height !== this.props.height
     );
   }
 
   buttonsForMarkers(
     left,
     width,
+    height,
     duration,
     markers,
     onMarkerPress,
@@ -62,32 +68,39 @@ class PlaybackMarkers extends React.Component {
         var x = left - 15 + operationalWidth * percent;
         var end =
           index < markers.count() - 1 ? markers.get(index + 1).time : duration;
+        console.log("height", height);
 
-        return (
-          <TouchableOpacity
-            key={marker.name}
-            style={{
-              position: "absolute",
-              top: 0,
-              left: x,
-              width: 30,
-              alignItems: "center"
-            }}
-            onPress={() => {
-              onMarkerPress(marker.time);
-            }}
-            onLongPress={() => {
-              onMarkerLongPress(marker.time, end);
-            }}
-          >
-            <View
-              style={{ width: 2, height: 10, backgroundColor: PrimaryBlue }}
+        if (height > 200) {
+          return (
+            <MarkerAbbreviated
+              key={marker.name}
+              marker={marker}
+              left={x}
+              onMarkerPress={onMarkerPress}
+              onMarkerLongPress={onMarkerLongPress}
             />
-            <Text style={{ fontSize: 12 }}>
-              {marker.abbreviation}
-            </Text>
-          </TouchableOpacity>
-        );
+          );
+        } else if (height > 40) {
+          return (
+            <MarkerAbbreviated
+              key={marker.name}
+              marker={marker}
+              left={x}
+              onMarkerPress={onMarkerPress}
+              onMarkerLongPress={onMarkerLongPress}
+            />
+          );
+        } else if (height > 200) {
+          return (
+            <MarkerAbbreviated
+              key={marker.name}
+              marker={marker}
+              left={x}
+              onMarkerPress={onMarkerPress}
+              onMarkerLongPress={onMarkerLongPress}
+            />
+          );
+        }
       });
 
       return buttons;
