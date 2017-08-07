@@ -10,6 +10,8 @@ import java.lang.Double;
 import java.lang.reflect.*;
 import java.lang.reflect.Method;
 import android.view.View;
+import android.graphics.RectF;
+import android.graphics.PointF;
 import jdk.internal.dynalink.linker.MethodTypeConversionStrategy;
 import android.util.Log;
 import android.util.AttributeSet;
@@ -17,15 +19,17 @@ import android.content.Context;
 import android.graphics.Canvas;
 import com.facebook.react.bridge.ReadableType;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 
 public class BSPaintCodeView extends View {
 
   public String drawMethod = "BtnLoopLeft";
   public ReadableArray drawArgs;
+  public String styleKitClass = "com.guitartunes.GuitarTunesStyleKit";
 
   private static final Map<String, String[]> paintCodeTypes;
   static {
-    // TODO: handle PC types PointF, RectF, ResizingBehavior
+    // TODO: handle PC types String
     /*
     public enum ResizingBehavior {
         AspectFit, //!< The content is proportionally resized to fit into the target rectangle.
@@ -39,6 +43,7 @@ public class BSPaintCodeView extends View {
     aMap.put(ReadableType.Boolean.toString(), new String[] { "boolean" });
     aMap.put(ReadableType.Number.toString(), new String[] { "float" });
     aMap.put(ReadableType.String.toString(), new String[] { "string" });
+    aMap.put(ReadableType.Map.toString(), new String[] { "class android.graphics.RectF" });
     // aMap.put(ReadableType.Map.toString(), new String[] { "map" });
     // aMap.put(ReadableType.Array.toString(), new String[] { "array" });
     paintCodeTypes = Collections.unmodifiableMap(aMap);
@@ -53,55 +58,51 @@ public class BSPaintCodeView extends View {
     super.onDraw(canvas);
 
     String methodName = "draw" + this.drawMethod;
-    Class clazz = GuitarTunesStyleKit.class;
+    try {
+      Class clazz = Class.forName(this.styleKitClass); //GuitarTunesStyleKit.class;
 
-    Method[] allMethods = clazz.getMethods();
-    Method foundMethod = null;
+      Method[] allMethods = clazz.getMethods();
+      Method foundMethod = null;
 
-    foundMethod = findCanvasOnlyMatch(allMethods, methodName);
+      foundMethod = findCanvasOnlyMatch(allMethods, methodName);
 
-    if (foundMethod != null) {
-      Log.w("BSPaintCodeView", "found a matching draw method.");
+      if (foundMethod != null) {
+        Log.w("BSPaintCodeView", "found a matching draw method.");
 
-      try {
-        ArrayList drawArgsList = this.drawArgs.toArrayList();
-        drawArgsList.add(0, canvas); // make param 0 the Canvas object
-        ArrayList paintCodeArgs = convertArgs(drawArgsList);
+        try {
+          ArrayList drawArgsList = this.drawArgs.toArrayList();
+          drawArgsList.add(0, canvas); // make param 0 the Canvas object
+          ArrayList paintCodeArgs = convertArgs(drawArgsList);
 
-        foundMethod.invoke(null, paintCodeArgs.toArray());
-      } catch (InvocationTargetException e) {
-        e.printStackTrace();
-      } catch (IllegalAccessException e) {
-        e.printStackTrace();
+          Log.d("onDraw", "dynamically invoking " + foundMethod.toString() + " with: " + paintCodeArgs.toString());
+
+          foundMethod.invoke(null, paintCodeArgs.toArray());
+        } catch (InvocationTargetException e) {
+          e.printStackTrace();
+        } catch (IllegalAccessException e) {
+          e.printStackTrace();
+        }
+      } else {
+        Log.w("BSPaintCodeView", "no matching draw method found.");
+        // TODO: Inform the user that their draw method couldn't be found
       }
-    } else {
-      Log.w("BSPaintCodeView", "no matching draw method found.");
-      // TODO: Inform the user that their draw method couldn't be found
+    } catch (ClassNotFoundException e) {
+      Log.e("onDraw", e.toString());
     }
-
-    // GuitarTunesStyleKit.drawBtnLoopRight(canvas);
-    // GuitarTunesStyleKit.drawBtnSettings(canvas, true);
-    // Boolean arg = false;
-    // if (this.drawArgs != null) {
-    //   Log.d("PC View", "using drawArgs");
-    //   arg = this.drawArgs.getBoolean(0);
-    // } else {
-    //   Log.d("PC View", "NOT using drawArgs");
-    // }
-    // GuitarTunesStyleKit.drawPreviewPlay(canvas, arg);
   }
 
+  // Look for a matching method which takes Canvas as arg 1 (but does not take Context as arg 2)
   private Method findCanvasOnlyMatch(Method[] allMethods, String methodName) {
-    // Method foundMethod = null;
-
     // Look for a matching method
     for (Method method : allMethods) {
       // check method name
       if (method.getName().equals(methodName)) {
         Type[] methodParamTypes = method.getGenericParameterTypes();
+        Log.d("findCanvasOnlyMatch", methodParamTypes.toString());
 
         // check it has the same number of params (not counting Canvas as param 1)
-        if (methodParamTypes.length == this.drawArgs.size() + 1) {
+        if (methodParamTypes.length == this.drawArgs.size() + 1
+            && methodParamTypes[0].toString().equals("class android.graphics.Canvas")) {
           boolean isMatch = true;
           int i = 0;
 
@@ -109,7 +110,7 @@ public class BSPaintCodeView extends View {
           for (Type t : methodParamTypes) {
             String methodType = t.toString();
             String argType = this.drawArgs.getType(i).toString();
-            if (methodType.equalsIgnoreCase("class android.graphics.Canvas") && i == 0) {
+            if (methodType.equals("class android.graphics.Canvas") && i == 0) {
               // ignore the first param if it's Canvas
             } else {
               // if there is a type mis-match, then this isn't the right match
@@ -130,8 +131,99 @@ public class BSPaintCodeView extends View {
             // foundMethod = method;
             return method;
           }
+        } else {
+          Log.d("findCanvasOnlyMatch", "method was not a Canvas-only method");
+          Log.d("findCanvasOnlyMatch", method.getName());
         }
       }
+    }
+
+    Log.d("findCanvasOnlyMatch", "never found a match for " + methodName);
+    return null;
+  }
+
+  private boolean isPoint(Object object) {
+    if (object instanceof HashMap) {
+      return isPoint((HashMap) object);
+    } else {
+      return false;
+    }
+  }
+
+  private boolean isRect(Object object) {
+    if (object instanceof HashMap) {
+      return isRect((HashMap) object);
+    } else {
+      return false;
+    }
+  }
+
+  private boolean isResizingBehavior(Object object) {
+    if (object instanceof String) {
+      return isResizingBehavior((String) object);
+    } else {
+      return false;
+    }
+  }
+
+  private boolean isPoint(HashMap map) {
+    return (map.containsKey("x") && map.containsKey("y") && map.size() == 2);
+  }
+
+  private boolean isRect(HashMap map) {
+    return (map.containsKey("left") && map.containsKey("top") && map.containsKey("right") && map.containsKey("bottom")
+        && map.size() == 4);
+  }
+
+  private boolean isResizingBehavior(String str) {
+    return (str.equals("ResizingBehavior.AspectFit") || str.equals("ResizingBehavior.AspectFill")
+        || str.equals("ResizingBehavior.Stretch") || str.equals("ResizingBehavior.Center"));
+  }
+
+  private RectF makeRectF(HashMap map) {
+    if (isRect(map)) {
+      Double left = (Double) map.get("left");
+      Double top = (Double) map.get("top");
+      Double right = (Double) map.get("right");
+      Double bottom = (Double) map.get("bottom");
+      RectF newRect = new RectF(left.floatValue(), top.floatValue(), right.floatValue(), bottom.floatValue());
+      return newRect;
+    } else {
+      return null;
+    }
+  }
+
+  private PointF makePointF(HashMap map) {
+    if (isPoint(map)) {
+      Double x = (Double) map.get("x");
+      Double y = (Double) map.get("y");
+
+      PointF newPoint = new PointF(x.floatValue(), y.floatValue());
+      return newPoint;
+    } else {
+      return null;
+    }
+  }
+
+  // https://stackoverflow.com/questions/3735927/java-instantiating-an-enum-using-reflection
+  private Object makeResizingBehavior(String behavior) {
+    Log.d("makeResizingBehavior", "here we go: " + behavior);
+
+    try {
+      Class klass = Class.forName(this.styleKitClass + "$ResizingBehavior");
+      Field field = klass.getDeclaredField("AspectFit");
+      if (field.getType().isEnum()) {
+        Log.d("makeResizingBehavior", "is Enum!");
+        Object resizeBehavior = Enum.valueOf((Class<Enum>) field.getType(), "AspectFit");
+        Log.d("makeResizingBehavior", resizeBehavior.toString());
+        return resizeBehavior;
+      }
+    } catch (ClassNotFoundException e) {
+      Log.d("makeResizingBehavior", "Couldn't create ResizingBehavior class for " + this.styleKitClass);
+    } catch (NoSuchFieldException e) {
+      Log.d("makeResizingBehavior", "ResizingBehavior getDeclareField failed...");
+      Log.e("makeResizingBehavior", e.toString());
+      return null;
     }
 
     return null;
@@ -140,35 +232,71 @@ public class BSPaintCodeView extends View {
   private ArrayList convertArgs(ArrayList args) {
 
     ArrayList<Object> newArgs = new ArrayList<>(args.size());
+
+    // iterate through the args and replace them one by one
     for (Object object : args) {
       Log.d("iterating args", object.getClass().getName());
-      if (object.getClass().getName().equals("java.lang.Float")) {
+      // ResizingBehavior
+      if (isResizingBehavior(object)) {
+        Log.d("convertArgs", "is a ResizingBehavior String");
+        Object resizingBehavior = makeResizingBehavior((String) object);
+        Log.d("convertArgs", "made it!");
+        newArgs.add(resizingBehavior);
+      } else if (object.getClass().getName().equals("java.lang.Float")) {
         Log.d("iterating args", "converting Float");
         newArgs.add(((Float) object).floatValue());
+
+        // Double to float
       } else if (object.getClass().getName().equals("java.lang.Double")) {
         Log.d("iterating args", "converting Double");
         newArgs.add(((Double) object).floatValue());
+
+        // Boolean to boolean
       } else if (object.getClass().getName().equals("java.lang.Boolean")) {
         Log.d("iterating args", "converting Boolean");
         newArgs.add(((Boolean) object).booleanValue());
+      } else if (isPoint(object)) {
+        Log.d("convertArgs", "Doing Point");
+        HashMap point = (HashMap) object;
+        PointF jPoint = makePointF(point);
+        newArgs.add(jPoint);
+      } else if (isRect(object)) {
+        Log.d("convertArgs", "Doing HashMap");
+        HashMap rect = (HashMap) object;
+        RectF jRect = makeRectF(rect);
+        newArgs.add(jRect);
       } else {
+        Log.w("convertArgs", "adding arg object without converting it: " + object.toString());
+        Log.w("convertArgs", "adding arg object without converting it: " + object.getClass().getName());
+        // Log.w("convertArgs", "adding arg object without converting it: " + object.getTypeName());
         newArgs.add(object);
       }
     }
 
     return newArgs;
+
   }
 
   private boolean propertyMatches(String paintCodeParam, String jsProp) {
+    Log.d("propertyMatches", paintCodeParam);
+    Log.d("propertyMatches", jsProp);
     String[] pcTypes = BSPaintCodeView.paintCodeTypes.get(jsProp);
-    boolean doesMatch = Arrays.asList(pcTypes).contains(paintCodeParam.toLowerCase());
 
-    if (doesMatch) {
-      Log.d("propertyMatches", "found match: " + paintCodeParam + " / " + jsProp);
+    if (pcTypes == null) {
+      Log.d("propertyMatches", "no matching types found for " + jsProp + "!");
+      return false;
     } else {
-      Log.d("propertyMatches", "found MISmatch: " + paintCodeParam + " / " + jsProp);
+      return true;
     }
 
-    return doesMatch;
+    // boolean doesMatch = Arrays.asList(pcTypes).contains(paintCodeParam.toLowerCase());
+
+    // if (doesMatch) {
+    //   Log.d("propertyMatches", "found match: " + paintCodeParam + " / " + jsProp);
+    // } else {
+    //   Log.d("propertyMatches", "found MISmatch: " + paintCodeParam + " / " + jsProp);
+    // }
+
+    // return doesMatch;
   }
 }
