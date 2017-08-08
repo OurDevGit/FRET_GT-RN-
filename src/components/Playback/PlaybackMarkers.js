@@ -6,34 +6,17 @@ import MarkerAbbreviated from "./MarkerAbbreviated";
 
 class PlaybackMarkers extends React.Component {
   render() {
-    const {
-      left,
-      width,
-      height,
-      duration,
-      markers,
-      onMarkerPress,
-      onMarkerLongPress
-    } = this.props;
     return (
       <View
         style={{
           position: "absolute",
           top: 10,
           left: 0,
-          width: width,
-          height: height + 10
+          width: this.props.width,
+          height: this.props.height + 10
         }}
       >
-        {this.buttonsForMarkers(
-          left,
-          width,
-          height,
-          duration,
-          markers,
-          onMarkerPress,
-          onMarkerLongPress
-        )}
+        {this.buttonsForMarkers()}
       </View>
     );
   }
@@ -49,15 +32,17 @@ class PlaybackMarkers extends React.Component {
     );
   }
 
-  buttonsForMarkers(
-    left,
-    width,
-    height,
-    duration,
-    markers,
-    onMarkerPress,
-    onMarkerLongPress
-  ) {
+  buttonsForMarkers() {
+    const {
+      left,
+      width,
+      height,
+      duration,
+      markers,
+      onMarkerPress,
+      onMarkerLongPress
+    } = this.props;
+
     if (markers && duration > 0 && markers.count() > 0 && width > 0) {
       var buttons = [];
       var operationalWidth = width - left * 2;
@@ -69,9 +54,9 @@ class PlaybackMarkers extends React.Component {
           index < markers.count() - 1 ? markers.get(index + 1).time : duration;
         console.log("height", height);
 
-        if (height > 200) {
+        if (height > 100) {
           return (
-            <MarkerAbbreviated
+            <MarkerFull
               key={marker.name}
               marker={marker}
               left={x}
@@ -79,17 +64,7 @@ class PlaybackMarkers extends React.Component {
               onMarkerLongPress={onMarkerLongPress}
             />
           );
-        } else if (height > 40) {
-          return (
-            <MarkerAbbreviated
-              key={marker.name}
-              marker={marker}
-              left={x}
-              onMarkerPress={onMarkerPress}
-              onMarkerLongPress={onMarkerLongPress}
-            />
-          );
-        } else if (height > 200) {
+        } else {
           return (
             <MarkerAbbreviated
               key={marker.name}
