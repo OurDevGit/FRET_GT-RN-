@@ -6,6 +6,9 @@ import { Map } from "immutable";
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
+import PlaybackCompact from "./Compact";
+import PlaybackTimelineCompact from "./Compact/Timeline";
+
 import Music from "./Music";
 import Midi from "./Midi";
 import { playerBackground } from "../../design";
@@ -26,68 +29,90 @@ class Song extends React.Component {
   render() {
     const mediaTitle =
       this.props.song !== undefined ? this.props.song.name : "";
+    const isCompact = this.props.height < 100;
 
     return (
       <View
         style={{
-          flex: 1
+          flex: 1,
+          backgroundColor: playerBackground,
+          margin: 4,
+          padding: 2,
+          borderRadius: 6
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: playerBackground,
-            margin: 4,
-            padding: 2,
-            borderRadius: 6
-          }}
-        >
-          <Music
-            seek={this.state.seek}
-            rate={this.state.playbackRate}
-            isPlaying={this.state.isPlaying}
-            song={this.props.song}
-            onProgress={this.handleMusicProgress}
-            onData={this.handleMusicData}
-          />
-          <Midi
-            midi={this.props.song.midi}
-            onData={this.props.updateMidiData}
-            clearMidiData={this.props.clearMidiData}
-            clearMidi={clearMidi}
-            loadMidi={loadMidi}
-          />
-          <PlaybackPrimary
-            title={mediaTitle}
-            isPlaying={this.state.isPlaying}
-            handlePreviousPress={this.handlePreviousPress}
-            handleBackPress={this.handleBackPress}
-            handlePlayPausePress={this.handlePlayPausePress}
-            handleForwardPress={this.handleForwardPress}
-            handleNextPress={this.handleNextPress}
-          />
+        <Music
+          seek={this.state.seek}
+          rate={this.state.playbackRate}
+          isPlaying={this.state.isPlaying}
+          song={this.props.song}
+          onProgress={this.handleMusicProgress}
+          onData={this.handleMusicData}
+        />
+        <Midi
+          midi={this.props.song.midi}
+          onData={this.props.updateMidiData}
+          clearMidiData={this.props.clearMidiData}
+          clearMidi={clearMidi}
+          loadMidi={loadMidi}
+        />
 
-          <PlaybackTimeline
-            progress={this.state.playbackProgress}
-            duration={this.state.mediaDuration}
-            markers={this.props.markers}
-            currentLoop={this.props.currentLoop}
-            onScrub={this.handleScrub}
-            onMarkerPress={this.handleMarkerPress}
-            onMarkerLongPress={this.handleMarkerLongPress}
-          />
-
-          <PlaybackSecondary
-            rate={this.state.playbackRate}
-            loopIsEnabled={this.props.loopIsEnabled}
-            onRateChange={this.handleRateChange}
-            onLoopEnable={this.handleLoopEnable}
-            onLoopBegin={this.handleLoopBegin}
-            onLoopEnd={this.handleLoopEnd}
-            onLoopSave={this.handleLoopSave}
-            onDisplayLoops={this.handleDisplayLoops}
-          />
-        </View>
+        {isCompact
+          ? <View style={{ flex: 1 }}>
+              <PlaybackCompact
+                title={mediaTitle}
+                isPlaying={this.state.isPlaying}
+                rate={this.state.playbackRate}
+                loopIsEnabled={this.props.loopIsEnabled}
+                onPreviousPress={this.handlePreviousPress}
+                onBackPress={this.handleBackPress}
+                onPlayPausePress={this.handlePlayPausePress}
+                onForwardPress={this.handleForwardPress}
+                onNextPress={this.handleNextPress}
+                onRateChange={this.handleRateChange}
+                onLoopEnable={this.handleLoopEnable}
+                onDisplayLoops={this.handleDisplayLoops}
+              />
+              <PlaybackTimelineCompact
+                progress={this.state.playbackProgress}
+                duration={this.state.mediaDuration}
+                markers={this.props.markers}
+                currentLoop={this.props.currentLoop}
+                onScrub={this.handleScrub}
+                onMarkerPress={this.handleMarkerPress}
+                onMarkerLongPress={this.handleMarkerLongPress}
+              />
+            </View>
+          : <View style={{ flex: 1 }}>
+              <PlaybackPrimary
+                title={mediaTitle}
+                isPlaying={this.state.isPlaying}
+                onPreviousPress={this.handlePreviousPress}
+                onBackPress={this.handleBackPress}
+                onPlayPausePress={this.handlePlayPausePress}
+                onForwardPress={this.handleForwardPress}
+                onNextPress={this.handleNextPress}
+              />
+              <PlaybackTimeline
+                progress={this.state.playbackProgress}
+                duration={this.state.mediaDuration}
+                markers={this.props.markers}
+                currentLoop={this.props.currentLoop}
+                onScrub={this.handleScrub}
+                onMarkerPress={this.handleMarkerPress}
+                onMarkerLongPress={this.handleMarkerLongPress}
+              />
+              <PlaybackSecondary
+                rate={this.state.playbackRate}
+                loopIsEnabled={this.props.loopIsEnabled}
+                onRateChange={this.handleRateChange}
+                onLoopEnable={this.handleLoopEnable}
+                onLoopBegin={this.handleLoopBegin}
+                onLoopEnd={this.handleLoopEnd}
+                onLoopSave={this.handleLoopSave}
+                onDisplayLoops={this.handleDisplayLoops}
+              />
+            </View>}
       </View>
     );
   }

@@ -1,0 +1,82 @@
+import React, { Component } from "react";
+import { View, TouchableOpacity } from "react-native";
+import { PrimaryBlue } from "../../../design";
+
+class PlaybackMarkers extends React.Component {
+  render() {
+    return (
+      <View
+        style={{
+          position: "absolute",
+          top: 10,
+          left: 0,
+          width: this.props.width,
+          height: this.props.height + 10
+        }}
+      >
+        {this.buttonsForMarkers()}
+      </View>
+    );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (!nextProps.markers) return false;
+
+    return (
+      !nextProps.markers.equals(this.props.markers) ||
+      nextProps.duration !== this.props.duration ||
+      nextProps.width !== this.props.width ||
+      nextProps.height !== this.props.height
+    );
+  }
+
+  buttonsForMarkers() {
+    const {
+      left,
+      width,
+      height,
+      duration,
+      markers,
+      onMarkerPress,
+      onMarkerLongPress
+    } = this.props;
+
+    if (markers && duration > 0 && markers.count() > 0 && width > 0) {
+      var buttons = [];
+      var operationalWidth = width - left * 2;
+
+      var buttons = markers.map((marker, index) => {
+        var percent = marker.time / duration;
+        var x = left - 15 + operationalWidth * percent;
+        var end =
+          index < markers.count() - 1 ? markers.get(index + 1).time : duration;
+        console.log("height", height);
+
+        <TouchableOpacity
+          key={marker.name}
+          style={{
+            position: "absolute",
+            top: 0,
+            left: left,
+            width: 30,
+            alignItems: "center"
+          }}
+          onPress={() => {
+            onMarkerPress(marker.time);
+          }}
+          onLongPress={() => {
+            onMarkerLongPress(marker.time, end);
+          }}
+        >
+          <View style={{ width: 2, height: 10, backgroundColor: "red" }} />
+        </TouchableOpacity>;
+      });
+
+      return buttons;
+    } else {
+      return <View />;
+    }
+  }
+}
+
+export default PlaybackMarkers;

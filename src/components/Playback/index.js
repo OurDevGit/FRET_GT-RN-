@@ -10,18 +10,20 @@ import Video from "./Video";
 
 class MediaPlayer extends Component {
   state = {
-    isVideo: false
+    isVideo: false,
+    layout: { width: 1, height: 1 }
   };
 
   render() {
     // console.log({ song: this.props.song });
     // console.log({ vid: this.props.video });
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }} onLayout={this.handleLayout}>
         {this.props.song !== undefined &&
           this.props.song !== null &&
           <Song
             song={this.props.song}
+            height={this.state.layout.height}
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
             markers={this.props.markers}
@@ -36,6 +38,7 @@ class MediaPlayer extends Component {
           this.props.video !== null &&
           <Video
             video={this.props.video}
+            height={this.state.layout.height}
             markers={this.props.makers}
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
@@ -49,6 +52,15 @@ class MediaPlayer extends Component {
       </View>
     );
   }
+
+  handleLayout = e => {
+    this.setState({
+      layout: {
+        width: e.nativeEvent.layout.width,
+        height: e.nativeEvent.layout.height
+      }
+    });
+  };
 }
 
 MediaPlayer.propTypes = {

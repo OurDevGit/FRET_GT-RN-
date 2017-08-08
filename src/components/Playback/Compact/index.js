@@ -1,6 +1,8 @@
 import React from "react";
-import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
-import { PrimaryBlue } from "../../design";
+import { View, Picker, Text, TouchableOpacity } from "react-native";
+
+import RatePicker from "../RatePicker";
+import { PrimaryBlue } from "../../../design";
 
 const buttonStyle = {
   flex: 1,
@@ -16,14 +18,19 @@ const buttonStyle = {
 };
 const textStyle = { color: PrimaryBlue, fontSize: 20 };
 
-const PlaybackPrimary = ({
+const PlaybackCompact = ({
   title,
   isPlaying,
+  rate,
+  loopIsEnabled,
   onPreviousPress,
   onBackPress,
   onPlayPausePress,
   onForwardPress,
-  onNextPress
+  onNextPress,
+  onRateChange,
+  onLoopEnable,
+  onDisplayLoops
 }) =>
   <View
     style={{
@@ -33,27 +40,6 @@ const PlaybackPrimary = ({
       alignItems: "center"
     }}
   >
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center"
-      }}
-    >
-      <View
-        style={{
-          flex: 1,
-          aspectRatio: 1,
-          margin: 7,
-          backgroundColor: "#222222"
-        }}
-      />
-      <Text style={{ flex: 1 }}>
-        {title}
-      </Text>
-    </View>
-
     <View
       style={{
         flex: 2,
@@ -91,21 +77,39 @@ const PlaybackPrimary = ({
       </TouchableOpacity>
     </View>
 
+    <Text style={{ flex: 1 }}>
+      {title}
+    </Text>
+
     <View
-      style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
+      style={{
+        flex: 2,
+        flexDirection: "row",
+        justifyContent: "space-around",
+        alignItems: "center"
+      }}
     >
-      <Text
+      <View
         style={{
-          color: PrimaryBlue,
-          fontSize: 12,
-          textAlign: "center",
-          marginBottom: -15
+          width: 110,
+          height: "100%",
+          marginTop: -10,
+          marginBottom: -5
         }}
       >
-        Volume
-      </Text>
-      <Slider style={{ flex: 1 }} />
+        <RatePicker rate={rate} onRateChange={onRateChange} />
+      </View>
+
+      <TouchableOpacity onPress={onNextPress}>
+        <Text style={buttonStyle}>
+          {loopIsEnabled ? "Loop ON" : "Loop OFF"}
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={onNextPress}>
+        <Text style={buttonStyle}>My Loops</Text>
+      </TouchableOpacity>
     </View>
   </View>;
 
-export default PlaybackPrimary;
+export default PlaybackCompact;

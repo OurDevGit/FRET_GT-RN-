@@ -3,7 +3,6 @@ import { View, Button, Text, TouchableOpacity } from "react-native";
 import { PrimaryBlue } from "../../design";
 import MarkerFull from "./MarkerFull";
 import MarkerAbbreviated from "./MarkerAbbreviated";
-import MarkerCompact from "./MarkerCompact";
 
 class PlaybackMarkers extends React.Component {
   render() {
