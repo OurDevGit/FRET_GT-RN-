@@ -36,9 +36,9 @@ class Song extends React.Component {
         style={{
           flex: 1,
           backgroundColor: playerBackground,
-          margin: 4,
-          padding: 2,
-          borderRadius: 6
+          margin: isCompact ? 0 : 4,
+          padding: isCompact ? 0 : 2,
+          borderRadius: isCompact ? 0 : 6
         }}
       >
         <Music

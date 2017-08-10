@@ -8,10 +8,10 @@ class PlaybackMarkers extends React.Component {
       <View
         style={{
           position: "absolute",
-          top: 10,
+          bottom: 0,
           left: 0,
           width: this.props.width,
-          height: this.props.height + 10
+          height: 20
         }}
       >
         {this.buttonsForMarkers()}
@@ -47,29 +47,39 @@ class PlaybackMarkers extends React.Component {
 
       var buttons = markers.map((marker, index) => {
         var percent = marker.time / duration;
-        var x = left - 15 + operationalWidth * percent;
+        var x = width * percent;
+        console.log("left", x);
         var end =
           index < markers.count() - 1 ? markers.get(index + 1).time : duration;
-        console.log("height", height);
 
-        <TouchableOpacity
-          key={marker.name}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: left,
-            width: 30,
-            alignItems: "center"
-          }}
-          onPress={() => {
-            onMarkerPress(marker.time);
-          }}
-          onLongPress={() => {
-            onMarkerLongPress(marker.time, end);
-          }}
-        >
-          <View style={{ width: 2, height: 10, backgroundColor: "red" }} />
-        </TouchableOpacity>;
+        return (
+          <TouchableOpacity
+            key={marker.name}
+            style={{
+              position: "absolute",
+              bottom: 0,
+              left: x - 15,
+              width: 30,
+              height: 20,
+              alignItems: "center"
+            }}
+            onPress={() => {
+              onMarkerPress(marker.time);
+            }}
+            onLongPress={() => {
+              onMarkerLongPress(marker.time, end);
+            }}
+          >
+            <View
+              style={{
+                width: 2,
+                height: 10,
+                marginTop: 10,
+                backgroundColor: PrimaryBlue
+              }}
+            />
+          </TouchableOpacity>
+        );
       });
 
       return buttons;

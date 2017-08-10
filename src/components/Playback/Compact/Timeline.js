@@ -35,32 +35,18 @@ class PlaybackTimeline extends Component {
           flex: 1,
           flexDirection: "row",
           justifyContent: "center",
-          alignItems: "flex-start",
-          marginHorizontal: 10,
-          marginTop: 8,
-          marginBottom: -10
+          alignItems: "flex-end"
         }}
         onLayout={this.handleContainerLayout}
       >
-        <PlaybackMarkers
-          left={layout.x}
-          width={containerLayout.width}
-          height={containerLayout.height - layout.height}
-          duration={duration}
-          markers={markers}
-          onMarkerPress={onMarkerPress}
-          onMarkerLongPress={onMarkerLongPress}
-        />
-
         <View style={{ flex: 1, height: 18 }} onLayout={this.handleLayout}>
           <View
             style={{
               position: "absolute",
-              height: 1,
+              height: 2,
               width: "100%",
               backgroundColor: PrimaryBlue,
-              top: 10,
-              marginTop: -0.5
+              bottom: 0
             }}
           />
         </View>
@@ -77,6 +63,16 @@ class PlaybackTimeline extends Component {
           onPanEnd={this.handlePlayheadPanEnd}
           scrollLeft={progress * layout.width}
           containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
+        />
+
+        <PlaybackMarkers
+          left={layout.x}
+          width={containerLayout.width}
+          height={containerLayout.height - layout.height}
+          duration={duration}
+          markers={markers}
+          onMarkerPress={onMarkerPress}
+          onMarkerLongPress={onMarkerLongPress}
         />
       </View>
     );
