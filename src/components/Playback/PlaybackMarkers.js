@@ -52,13 +52,13 @@ class PlaybackMarkers extends React.Component {
         var x = left - 15 + operationalWidth * percent;
         var end =
           index < markers.count() - 1 ? markers.get(index + 1).time : duration;
-        console.log("height", height);
 
         if (height > 100) {
           return (
             <MarkerFull
               key={marker.name}
               marker={marker}
+              end={end}
               left={x}
               onMarkerPress={onMarkerPress}
               onMarkerLongPress={onMarkerLongPress}
@@ -69,6 +69,7 @@ class PlaybackMarkers extends React.Component {
             <MarkerAbbreviated
               key={marker.name}
               marker={marker}
+              end={end}
               left={x}
               onMarkerPress={onMarkerPress}
               onMarkerLongPress={onMarkerLongPress}

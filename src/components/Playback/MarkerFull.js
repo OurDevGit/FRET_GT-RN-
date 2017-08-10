@@ -2,34 +2,60 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { PrimaryBlue } from "../../design";
 
-const Marker = ({ marker, left, onMarkerPress, onMarkerLongPress }) =>
-  <TouchableOpacity
-    key={marker.name}
-    style={{
-      position: "absolute",
-      top: 0,
-      left: left,
-      height: "100%",
-      alignItems: "flex-end"
-    }}
-    onPress={() => {
-      onMarkerPress(marker.time);
-    }}
-    onLongPress={() => {
-      onMarkerLongPress(marker.time, end);
-    }}
-  >
-    <View style={{ width: 2, height: 15, backgroundColor: PrimaryBlue }} />
-    <Text
-      style={{
-        fontSize: 16,
-        marginTop: 10,
-        textAlign: "right",
-        transform: [{ rotate: "-45deg" }]
-      }}
-    >
-      {marker.name}
-    </Text>
-  </TouchableOpacity>;
+class Marker extends React.Component {
+  state = {
+    width: 0
+  };
+
+  render() {
+    const { marker, left, end, onMarkerPress, onMarkerLongPress } = this.props;
+    const adjustedLeft = left - (this.state.width - 30) / 2;
+    return (
+      <TouchableOpacity
+        key={marker.name}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: adjustedLeft,
+          height: "100%",
+          alignItems: "center"
+        }}
+        onLayout={this.handleLayout}
+        onPress={() => {
+          onMarkerPress(marker.time);
+        }}
+        onLongPress={() => {
+          onMarkerLongPress(marker.time, end);
+        }}
+      >
+        <View style={{ width: 2, height: 15, backgroundColor: PrimaryBlue }} />
+        <View
+          style={{
+            flexDirection: "row",
+            transform: [{ rotate: "-45deg" }]
+          }}
+        >
+          <Text style={{ fontSize: 18 }}>
+            {marker.name}
+          </Text>
+          <Text
+            style={{
+              fontSize: 18,
+              color: "rgba(0, 0, 0, 0.0)"
+            }}
+          >
+            {marker.name}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+
+  handleLayout = e => {
+    this.setState({
+      width: e.nativeEvent.layout.width
+    });
+  };
+}
 
 export default Marker;
