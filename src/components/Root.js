@@ -10,7 +10,8 @@ import TrackSelector from "./TrackSelector";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
-import PaintCode from "./PaintCode.js";
+import PaintCode from "./StyleKit/PaintCode.js";
+import { BtnBuy } from "./StyleKit";
 
 const testMedia = [...testVideos, ...testSongs];
 
@@ -64,6 +65,7 @@ class Root extends Component {
               // flex: 1
             }}
           >
+            <BtnBuy text="$1.99" fontSize={12} width={50} height={25} />
             <PaintCode
               // drawBuyButton(Canvas canvas, Context context, String priceText, float fontSize, String topText, String bottomText)
               drawMethod="BuyButton"

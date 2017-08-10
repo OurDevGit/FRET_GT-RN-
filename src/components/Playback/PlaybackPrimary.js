@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
 import { PrimaryBlue } from "../../design";
+import { BtnPlay } from "../StyleKit";
 
 const buttonStyle = {
   flex: 1,
@@ -59,9 +60,17 @@ const PlaybackPrimary = ({
         flex: 2,
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        backgroundColor: "blue"
       }}
     >
+      <BtnPlay
+        isPressed={false}
+        isShowingPause={false}
+        color={PrimaryBlue}
+        style={{ width: 50, height: 50, backgroundColor: "red" }}
+      />
+
       <TouchableOpacity onPress={onPreviousPress}>
         <Text style={buttonStyle}>{`<<`}</Text>
       </TouchableOpacity>
