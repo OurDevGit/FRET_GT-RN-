@@ -58,11 +58,10 @@ class PlaybackTimeline extends Component {
           <LoopFlag type="end" left={layout.x + end * layout.width} />}
 
         <Playline
+          scrollLeft={progress * layout.width}
           onPan={this.handlePlayheadPan}
           onPanStart={this.handlePlayheadPanStart}
           onPanEnd={this.handlePlayheadPanEnd}
-          scrollLeft={progress * layout.width}
-          containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
         />
 
         <PlaybackMarkers
@@ -94,6 +93,7 @@ class PlaybackTimeline extends Component {
 
     this.setState({ progress });
     this.props.onScrub(progress);
+    console.log("pan progress", progress);
   };
 
   handlePlayheadPanStart = () => {
