@@ -3,5 +3,3 @@ import PaintCodeButton from "./PaintCodeButton";
 
 module.exports.PaintCode = PaintCode;
 module.exports.PaintCodeButton = PaintCodeButton;
-
-export * from "./Utils";

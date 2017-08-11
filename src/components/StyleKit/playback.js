@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { PaintCode, PaintCodeButton, hexToRgb } from "./lib";
+import { PaintCode, PaintCodeButton } from "./lib";
 
-module.exports.BtnPlay = ({ isPressed, isShowingPause, color, style }) => {
-  const rgb = hexToRgb(color);
+export const BtnPlay = props => {
   return (
     <PaintCodeButton
       //drawBtnPlay(Canvas canvas, boolean isPressed, boolean isShowingPause, float redValue, float greenValue, float blueValue) {
@@ -14,12 +13,7 @@ module.exports.BtnPlay = ({ isPressed, isShowingPause, color, style }) => {
         "greenValue",
         "blueValue"
       ]}
-      isPressed={isPressed}
-      isShowingPause={isShowingPause}
-      redValue={rgb.r}
-      greenValue={rgb.g}
-      blueValue={rgb.b}
-      style={style}
+      {...props}
     />
   );
 };

@@ -64,10 +64,10 @@ const PlaybackPrimary = ({
       }}
     >
       <BtnPlay
-        isPressed={false}
-        isShowingPause={false}
+        isShowingPause={isPlaying}
         color={PrimaryBlue}
         style={{ width: 50, height: 50 }}
+        onPress={onPlayPausePress}
       />
 
       <TouchableOpacity onPress={onPreviousPress}>
