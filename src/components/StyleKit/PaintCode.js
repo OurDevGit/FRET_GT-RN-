@@ -5,58 +5,55 @@ import BSTestView from "./BSTestView";
 
 class PaintCode extends Component {
   state = {
-    // nativeProps: {},
     nativeArgs: []
   };
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <BSTestView
         drawMethod={this.props.drawMethod}
         drawArgs={this.state.nativeArgs}
-        style={this.props.style}
+        style={{ width: 50, height: 50, ...this.props.style }}
       />
     );
   }
 
   componentWillMount() {
-    // const nativeProps = this.makeNativeProps(this.props);
     const nativeArgs = this.makeNativeArgs(this.props, this.props.drawArgs);
 
     const newState = {
-      // nativeProps,
       nativeArgs
     };
 
-    console.log({ newState });
+    // console.log({ newState });
 
     this.setState(newState);
   }
 
   componentWillReceiveProps(newProps) {
-    // const nativeProps = this.makeNativeProps(newProps);
     const nativeArgs = this.makeNativeArgs(newProps, this.props.drawArgs);
 
     const newState = {
-      // nativeProps,
       nativeArgs
     };
 
-    console.log({ newState });
+    // console.log({ newState });
 
     this.setState(newState);
   }
 
-  // makeNativeProps = props => {
-  //   var nativeProps = { ...props };
-  //   delete nativeProps.drawMethod;
-  //   delete nativeProps.style;
-
-  //   return nativeProps;
-  // };
-
   makeNativeArgs = (props, args = []) => {
+    // allow the user to not specify drawArgs if there is only 1 prop
+    if (args.length === 0) {
+      for (key in props) {
+        if (key !== "drawMethod" && key !== "style") {
+          const singleArg = [props[key]];
+          return singleArg;
+        }
+      }
+    }
+
     const nativeArgs = args.map(arg => {
       const p = props[arg];
       return p !== undefined ? p : null;
