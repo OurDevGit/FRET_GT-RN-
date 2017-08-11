@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { View } from "react-native";
 import { PaintCode, PaintCodeButton } from "./lib";
 
 export const BtnPlay = props => {
@@ -33,12 +34,14 @@ export const BtnBuy = ({ text, fontSize, width, height }) => {
   );
 };
 
-export const Heart = ({ isPressed }) => {
+export const Heart = () => {
   return (
-    <PaintCode
-      drawMethod="BtnFavorite"
-      isPressed={isPressed}
-      style={{ width: 20, height: 20 }}
-    />
+    //drawBtnPlayiPhone(Canvas canvas, boolean isPressed, boolean isShowingPause, float redValue, float greenValue, float blueValue)
+    <View>
+      <PaintCodeButton
+        drawMethod="BtnFavorite"
+        style={{ width: 20, height: 20 }}
+      />
+    </View>
   );
 };
