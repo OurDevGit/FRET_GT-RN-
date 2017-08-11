@@ -60,15 +60,14 @@ const PlaybackPrimary = ({
         flex: 2,
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "blue"
+        alignItems: "flex-start"
       }}
     >
       <BtnPlay
         isPressed={false}
         isShowingPause={false}
         color={PrimaryBlue}
-        style={{ width: 50, height: 50, backgroundColor: "red" }}
+        style={{ width: 50, height: 50 }}
       />
 
       <TouchableOpacity onPress={onPreviousPress}>

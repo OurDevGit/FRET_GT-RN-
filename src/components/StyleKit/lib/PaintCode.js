@@ -10,7 +10,7 @@ class PaintCode extends Component {
   };
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
     return (
       <BSTestView
         drawMethod={this.props.drawMethod}
@@ -29,7 +29,7 @@ class PaintCode extends Component {
       nativeArgs
     };
 
-    console.log({ newState });
+    // console.log({ newState });
 
     this.setState(newState);
   }
@@ -43,7 +43,7 @@ class PaintCode extends Component {
       nativeArgs
     };
 
-    console.log({ newState });
+    // console.log({ newState });
 
     this.setState(newState);
   }

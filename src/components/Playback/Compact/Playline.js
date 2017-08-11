@@ -9,7 +9,6 @@ class Playline extends Component {
   };
 
   render() {
-    console.log(this.props.scrollLeft);
     return (
       <View
         style={{
