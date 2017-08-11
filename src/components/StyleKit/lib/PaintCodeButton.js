@@ -5,13 +5,13 @@ import PaintCode from "./PaintCode";
 
 class PaintCodeButton extends Component {
   state = {
-    // nativeProps: {},
-    nativeArgs: [],
-    isPressed: false
+    isPressed: false,
+    redValue: 1,
+    greenValue: 0,
+    blueValue: 1
   };
 
   render() {
-    // console.log(this.state);
     return (
       <TouchableWithoutFeedback
         onPressIn={this.handleTouchDown}
@@ -22,52 +22,27 @@ class PaintCodeButton extends Component {
           {...{ ...this.props, ...this.state }}
           drawArgs={this.state.buttonArgs}
         />
-        {/* <BSTestView
-          drawMethod={this.props.drawMethod}
-          drawArgs={this.state.nativeArgs}
-          style={this.props.style}
-        /> */}
       </TouchableWithoutFeedback>
     );
   }
 
   componentWillMount() {
-    const nativeArgs = this.makeNativeArgs(this.props, this.props.drawArgs);
-    this.setState({ nativeArgs });
+    this.setState(this.makeColor(this.props));
   }
 
   componentWillReceiveProps(newProps) {
-    const nativeArgs = this.makeNativeArgs(newProps, this.props.drawArgs);
-    this.setState({ nativeArgs });
+    this.setState(this.makeColor(newProps));
   }
 
-  makeNativeArgs = (props, args = []) => {
-    const nativeArgs = args.map(arg => {
-      var p = props[arg];
+  makeColor = props => {
+    const hex = this.props.color || "#ff00ff";
+    const rgb = this.hexToRgb(hex);
 
-      if (arg === "isPressed") {
-        p = this.state.isPressed;
-      }
-
-      const hex = this.props.color || "#111111";
-      const rgb = this.hexToRgb(hex);
-
-      if (arg === "redValue") {
-        p = rgb.r;
-      }
-
-      if (arg === "greenValue") {
-        p = rgb.g;
-      }
-
-      if (arg === "blueValue") {
-        p = rgb.b;
-      }
-
-      return p !== undefined ? p : null;
-    });
-
-    return nativeArgs;
+    return {
+      redValue: rgb.r,
+      greenValue: rgb.g,
+      blueValue: rgb.b
+    };
   };
 
   hexToRgb = hex => {
