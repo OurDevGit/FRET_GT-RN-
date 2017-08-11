@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { View } from "react-native";
 import { PaintCode, PaintCodeButton } from "./lib";
 
 export const BtnPlay = props => {
@@ -17,123 +18,30 @@ export const BtnPlay = props => {
     />
   );
 };
-/*
-public static void drawBtnRewind(Canvas canvas, Context context, boolean isPressed, float redValue, float greenValue, float blueValue)
-public static void drawBtnForward(Canvas canvas, Context context, boolean isPressed, float redValue, float greenValue, float blueValue)
-public static void drawBtnLoopRight(Canvas canvas)
-public static void drawBtnLoopLeft(Canvas canvas)
-public static void drawBtnLoop(Canvas canvas, boolean isPressed, boolean loopsEnabled)
-public static void drawSeekSlider(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue, boolean isConnected, float percent, PointF scrollSize, float loopLeft, float loopRight, boolean loopsEnabled, boolean isCompact)
-public static void drawBtnSettings(Canvas canvas, boolean isPressed)
-public static void drawBtnLibrary(Canvas canvas, boolean isPressed)
-public static void drawBtnPrevious(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue)
-public static void drawBtnNext(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue)
-public static void drawBtnPlus(Canvas canvas, boolean isPressed)
-public static void drawBtnGuitarPart(Canvas canvas, RectF frame, boolean isPressed)
-public static void drawMarkerLine(Canvas canvas)
-public static void drawPlaybackBG(Canvas canvas, RectF frame)
-public static void drawMarkerLine(Canvas canvas)
-public static void drawPlaybackBG(Canvas canvas, RectF frame)
-public static void drawBtnFavorite(Canvas canvas, boolean isPressed)
-public static void drawBtnTuner(Canvas canvas, boolean hasAlternateTuning)
-public static void drawTempoHeader(Canvas canvas, RectF frame)
-public static void drawBtnPreviousCompact(Canvas canvas, RectF frame, boolean isPressed)
-public static void drawBtnNextCompact(Canvas canvas, RectF frame, boolean isPressed)
-public static void drawBtnPlayCompact(Canvas canvas, RectF frame, boolean isPressed, boolean isShowingPause)
-public static void drawBtnForwardCompact(Canvas canvas, RectF frame, boolean isPressed)
-public static void drawBtnRewindCompact(Canvas canvas, RectF frame, boolean isPressed)
-public static void drawSeekSliderCompact(Canvas canvas, float percent, PointF scrollSize, float loopLeft, float loopRight, boolean loopsEnabled)
-public static void drawMarkerLineCompact(Canvas canvas)
-public static void drawBtnLibraryCompact(Canvas canvas, RectF frame, boolean isPressed)
-public static void drawBtnItunes(Canvas canvas)
-public static void drawBtnItunesCompact(Canvas canvas)
-public static void drawBtnFretlightStatus(Canvas canvas, Context context, RectF frame, boolean isPressed, float redValue, float greenValue, float blueValue, float connectedDevices)
-public static void drawBtnGuitarIdentify(Canvas canvas, Context context, boolean isPressed)
-public static void drawIconStatusConnected(Canvas canvas)
-public static void drawBtnStatusLefty(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnStatusBass(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnGuitarAssignAll(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnNextiPhone(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue)
-public static void drawBtnPlayiPhone(Canvas canvas, boolean isPressed, boolean isShowingPause, float redValue, float greenValue, float blueValue)
-public static void drawBtnRewindiPhone(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue)
-public static void drawBtnForwardiPhone(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue)
-public static void drawBtnPreviousiPhone(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue)
-public static void drawIPhoneBtnFretlightStatus(Canvas canvas, Context context, boolean isPressed, float redValue, float greenValue, float blueValue, float connectedDevices)
-public static void drawMarkerLineiPhone(Canvas canvas)
-public static void drawFormField(Canvas canvas, RectF frame)
-public static void drawIPhoneBtnTempo(Canvas canvas, Context context, boolean isPressed, boolean isAlt, float rate)
-public static void drawIPhoneVolumeIcon(Canvas canvas)
-public static void drawIPhoneBtnLoopToggle(Canvas canvas, boolean isPressed, boolean isAlt, boolean loopsEnabled)
-public static void drawIPhoneBtnLoopSave(Canvas canvas, boolean isPressed, boolean isAlt)
-public static void drawIPhoneBtnMyLoops(Canvas canvas, boolean isPressed, boolean isAlt)
-public static void drawBtnIphoneItunes(Canvas canvas)
-public static void drawDownloadProgress(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue, PointF scrollSize, float progress) 
-public static void drawBtnLibraryIntro(Canvas canvas, boolean isPressed)
-public static void drawBtnTwitter(Canvas canvas, boolean isPressed)
-public static void drawBtnFacebook(Canvas canvas, boolean isPressed)
-public static void drawBtnMail(Canvas canvas, boolean isPressed)
-public static void drawBtnFacebookDark(Canvas canvas, boolean isPressed)
-public static void drawBtnTwitterDark(Canvas canvas, boolean isPressed)
-public static void drawBtnLibraryIntroiPhone(Canvas canvas, boolean isPressed)
-public static void drawBtnStepNext(Canvas canvas, RectF frame, boolean isPressed)
-public static void drawBtnStepPrev(Canvas canvas, RectF frame, boolean isPressed)
-public static void drawIPhoneBtnFullScreen(Canvas canvas)
-public static void drawBtnFullscreen(Canvas canvas) 
-public static void drawBtnFretboard(Canvas canvas, boolean isPressed)
-public static void drawBtnChordsAndScales(Canvas canvas, boolean isChordsAndScales)
-public static void drawBtnStepNextCS(Canvas canvas, boolean isPressed)
-public static void drawBtnStepPrevCS(Canvas canvas, boolean isPressed)
-public static void drawJambarBG(Canvas canvas, RectF frame)
-public static void drawJambarBGIphone(Canvas canvas, RectF frame)
-public static void drawJambarLens(Canvas canvas, RectF frame) 
-public static void drawJambarLensWide(Canvas canvas, RectF frame)
-public static void drawBtnWindowed(Canvas canvas)
-public static void drawBtnMailSignup(Canvas canvas, boolean isPressed)
-public static void drawBtnHome(Canvas canvas, boolean isHome)
-public static void drawBtnMediaAll(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnMediaFavorites(Canvas canvas, boolean isPressed)
-public static void drawBtnMediaNew(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnMediaArtists(Canvas canvas, boolean isPressed)
-public static void drawBtnMediaGenres(Canvas canvas, boolean isPressed)
-public static void drawBtnMediaBass(Canvas canvas, boolean isPressed)
-public static void drawBtnMediasEasy(Canvas canvas, boolean isPressed)
-public static void drawBtnMediaSongs(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnMediaJamAlongs(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnMediaLessons(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnCloudDownload(Canvas canvas)
-public static void drawBtnCloudDownload(Canvas canvas, RectF targetFrame, ResizingBehavior resizing)
-public static void drawIndeterminateCircle(Canvas canvas, float angle)
-public static void drawIndeterminateCircle(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, float angle)
-public static void drawLibraryHeader(Canvas canvas, RectF frame)
-public static void drawCircularProgress(Canvas canvas, float angle)
-public static void drawCircularProgress(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, float angle)
-public static void drawBuyButton(Canvas canvas, Context context, String priceText, float fontSize, String topText, String bottomText)
-public static void drawBuyButton(Canvas canvas, Context context, RectF targetFrame, ResizingBehavior resizing, String priceText, float fontSize, String topText, String bottomText)
-public static void drawBtnFavoriteSmall(Canvas canvas, boolean isPressed)
-public static void drawBtnTrashCan(Canvas canvas)
-public static void drawBtnTrashCan(Canvas canvas, RectF targetFrame, ResizingBehavior resizing)
-public static void drawPreviewProgress(Canvas canvas, float angle)
-public static void drawPreviewProgress(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, float angle)
-public static void drawPreviewPlay(Canvas canvas, boolean isShowingPause)
-public static void drawPreviewPlay(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isShowingPause)
-public static void drawBtnDetails(Canvas canvas, Context context, boolean isPressed)
-public static void drawBtnTuningNote(Canvas canvas, Context context, boolean isPressed, String note)
-public static void drawTunerBG(Canvas canvas, RectF frame, float tuningDistance)
-public static void drawTunerNeedle(Canvas canvas, RectF frame)
-public static void drawTunerAudial(Canvas canvas, RectF frame, boolean isBass, float selectedString)
-public static void drawTunerAudialGuitarString(Canvas canvas)
-public static void drawTunerAudialGuitarString(Canvas canvas, RectF targetFrame, ResizingBehavior resizing)
-public static void drawTunerAudialGuitarStringGlow(Canvas canvas)
-public static void drawTunerAudialGuitarStringGlow(Canvas canvas, RectF targetFrame, ResizingBehavior resizing)
-public static void drawTunerAudialBassString(Canvas canvas)
-public static void drawTunerAudialBassString(Canvas canvas, RectF targetFrame, ResizingBehavior resizing)
-public static void drawSMARTFret(Canvas canvas, Context context, RectF frame, boolean isBass, boolean hasCapo, float fretNum, float fretLabelSize)
-public static void drawFretNote(Canvas canvas, Context context, String note, boolean isRoot)
-public static void drawSMARTGuitarString(Canvas canvas) 
-public static void drawSMARTGuitarString(Canvas canvas, RectF targetFrame, ResizingBehavior resizing) 
-public static void drawSMARTBassString(Canvas canvas)
-public static void drawSMARTBassString(Canvas canvas, RectF targetFrame, ResizingBehavior resizing)
-public static void drawSMARTFretNote(Canvas canvas, Context context, RectF frame, String note, float noteLabelSize, boolean isRoot)
-public static void drawBtnSignupGreen(Canvas canvas, Context context, RectF frame, boolean isPressed, String btnTitle)
-public static void drawBtnSignupGreenIPhone(Canvas canvas, Context context, RectF frame, boolean isPressed, String btnTitle)
-*/
+
+export const BtnBuy = ({ text, fontSize, width, height }) => {
+  return (
+    <PaintCode
+      // drawBuyButton(Canvas canvas, Context context, String priceText, float fontSize, String topText, String bottomText)
+      drawMethod="BuyButton"
+      drawArgs={["priceText", "fontSize", "topText", "bottomText"]}
+      priceText="$1.99"
+      fontSize={12}
+      topText=""
+      bottomText=""
+      style={{ width: 50, height: 25 }}
+    />
+  );
+};
+
+export const Heart = () => {
+  return (
+    //drawBtnPlayiPhone(Canvas canvas, boolean isPressed, boolean isShowingPause, float redValue, float greenValue, float blueValue)
+    <View>
+      <PaintCodeButton
+        drawMethod="BtnFavorite"
+        style={{ width: 20, height: 20 }}
+      />
+    </View>
+  );
+};
