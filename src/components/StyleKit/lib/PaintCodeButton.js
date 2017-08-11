@@ -18,7 +18,10 @@ class PaintCodeButton extends Component {
         onPressOut={this.handleTouchUp}
         style={{ flex: 1 }}
       >
-        <PaintCode {{...this.props, ...this.state}} drawArgs={this.state.buttonArgs} />
+        <PaintCode
+          {...{ ...this.props, ...this.state }}
+          drawArgs={this.state.buttonArgs}
+        />
         {/* <BSTestView
           drawMethod={this.props.drawMethod}
           drawArgs={this.state.nativeArgs}
