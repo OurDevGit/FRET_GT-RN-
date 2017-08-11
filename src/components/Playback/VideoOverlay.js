@@ -42,7 +42,7 @@ class VideoOverlay extends React.Component {
             {this.props.title}
           </Text>
           <TouchableOpacity>
-            <Heart isPressed={false} />
+            <Heart />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
