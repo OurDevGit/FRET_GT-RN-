@@ -6,6 +6,8 @@ import RatePicker from "./RatePicker";
 import ChapterPicker from "./ChapterPicker";
 import PlaybackTimeline from "./PlaybackTimeline";
 
+import { Heart } from "../StyleKit";
+
 const styles = StyleSheet.create({
   controls: {
     flex: 1,
@@ -40,7 +42,7 @@ class VideoOverlay extends React.Component {
             {this.props.title}
           </Text>
           <TouchableOpacity>
-            <Text>Heart</Text>
+            <Heart isPressed={false} />
           </TouchableOpacity>
         </View>
         <TouchableOpacity
@@ -78,6 +80,7 @@ class VideoOverlay extends React.Component {
               markers={this.props.markers}
               onScrub={this.handleScrub}
               onMarkerPress={this.handleMarkerPress}
+              currentLoop={this.props.currentLoop}
             />
           </View>
           <View

@@ -84,6 +84,7 @@ class Vid extends React.Component {
             duration={this.state.mediaDuration}
             progress={this.state.playbackProgress}
             onSeek={this.handleSeek}
+            currentLoop={this.props.currentLoop}
           />
         </View>
       </View>
