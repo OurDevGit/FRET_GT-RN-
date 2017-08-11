@@ -10,9 +10,6 @@ import TrackSelector from "./TrackSelector";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
-import PaintCode from "./StyleKit/PaintCode.js";
-import { BtnBuy } from "./StyleKit";
-
 const testMedia = [...testVideos, ...testSongs];
 
 class Root extends Component {
@@ -57,60 +54,6 @@ class Root extends Component {
           </View>
 
           {supportsMultipleFretboards && <TrackSelector />}
-
-          <View
-            style={{
-              flexDirection: "row",
-              backgroundColor: "white"
-              // flex: 1
-            }}
-          >
-            <BtnBuy text="$1.99" fontSize={12} width={50} height={25} />
-            <PaintCode
-              // drawBuyButton(Canvas canvas, Context context, String priceText, float fontSize, String topText, String bottomText)
-              drawMethod="BuyButton"
-              drawArgs={["priceText", "fontSize", "topText", "bottomText"]}
-              priceText="$1.99"
-              fontSize={12}
-              topText=""
-              bottomText=""
-              style={{ width: 50, height: 25 }}
-            />
-
-            <PaintCode
-              drawMethod="IndeterminateCircle"
-              drawArgs={["angle"]}
-              angle={3}
-              style={{ height: 25, width: 25 }}
-            />
-            <PaintCode
-              // drawBtnCloudDownload(Canvas canvas, RectF targetFrame, ResizingBehavior resizing) {
-              drawMethod="BtnCloudDownload"
-              drawArgs={["targetFrame", "resizing"]}
-              targetFrame={{ left: 0, top: 0, right: 50, bottom: 50 }}
-              resizing="ResizingBehavior.AspectFit"
-              style={{ height: 25, width: 25 }}
-            />
-            <PaintCode
-              // drawDownloadProgress(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue, PointF scrollSize, float progress)
-              drawMethod="DownloadProgress"
-              drawArgs={[
-                "isPressed",
-                "redValue",
-                "greenValue",
-                "blueValue",
-                "scrollSize",
-                "progress"
-              ]}
-              isPressed={false}
-              redValue={0.5}
-              blueValue={0.5}
-              greenValue={1}
-              scrollSize={{ x: 200, y: 10 }}
-              progress={0.25}
-              style={{ height: 25, width: 200 }}
-            />
-          </View>
         </View>
       </Provider>
     );
