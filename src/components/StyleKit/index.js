@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import PaintCode from "./PaintCode.js";
+import PaintCode from "./PaintCode";
+export * from "./Heart";
 
 const hexToRgb = hex => {
   var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
