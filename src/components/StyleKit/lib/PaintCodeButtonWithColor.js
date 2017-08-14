@@ -11,7 +11,7 @@ class PaintCodeButtonWithColor extends Component {
 
   render() {
     const pcbProps = { ...this.props, ...this.state };
-    console.log(pcbProps);
+    // console.log(pcbProps);
     return <PaintCodeButton {...pcbProps} />;
   }
 

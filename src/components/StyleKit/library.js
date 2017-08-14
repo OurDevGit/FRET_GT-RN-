@@ -1,9 +1,10 @@
-/*import React, { Component } from "react";
-import { PaintCode, PCButton, hexToRbg } from "./lib";
+import React, { Component } from "react";
+import { View } from "react-native";
+import { PaintCode, PaintCodeButton, PaintCodeButtonWithColor } from "./lib";
 
-module.exports.BtnBuy = ({ text, fontSize, width, height }) => {
+export const BtnBuy = ({ text, fontSize, width, height }) => {
   return (
-    <PaintCode
+    <PaintCodeButton
       // drawBuyButton(Canvas canvas, Context context, String priceText, float fontSize, String topText, String bottomText)
       drawMethod="BuyButton"
       drawArgs={["priceText", "fontSize", "topText", "bottomText"]}
@@ -15,4 +16,3 @@ module.exports.BtnBuy = ({ text, fontSize, width, height }) => {
     />
   );
 };
-*/

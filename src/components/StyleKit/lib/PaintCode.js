@@ -14,7 +14,12 @@ class PaintCode extends Component {
       <BSTestView
         drawMethod={this.props.drawMethod}
         drawArgs={this.state.nativeArgs}
-        style={{ width: 50, height: 50, ...this.props.style }}
+        style={{
+          width: 50,
+          height: 50,
+          ...this.props.style,
+          backgroundColor: "blue"
+        }}
       />
     );
   }
