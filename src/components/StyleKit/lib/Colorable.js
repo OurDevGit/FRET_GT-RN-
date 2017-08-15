@@ -12,8 +12,8 @@ export const gtPcColorable = WrappedComponent => {
     };
 
     render() {
-      const stateProps = { ...this.props, ...this.state };
-      return <WrappedComponent {...pcbProps} />;
+      const propsWithState = { ...this.props, ...this.state };
+      return <WrappedComponent {...propsWithState} />;
     }
 
     handlePressIn = () => {

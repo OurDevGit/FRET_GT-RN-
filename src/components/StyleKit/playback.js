@@ -8,8 +8,10 @@ import {
 
 export const BtnPlay = props => {
   // return <View />;
-  const MyComp = gtPcPressable(
-    BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue
+  const MyComp = gtPcColorable(
+    gtPcPressable(
+      BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue
+    )
   );
 
   return <MyComp {...props} />;
