@@ -44,6 +44,7 @@ class PaintCode extends Component {
     };
 
     // console.log({ newState });
+    // console.log({ newProps });
 
     this.setState(newState);
   }
@@ -74,3 +75,10 @@ PaintCode.propTypes = {
 };
 
 export default PaintCode;
+
+export const ResizingBehavior = {
+  AspectFit: "ResizingBehavior.AspectFit",
+  AspectFill: "ResizingBehavior.AspectFill",
+  Stretch: "ResizingBehavior.Stretch",
+  Center: "ResizingBehavior.Center"
+};
