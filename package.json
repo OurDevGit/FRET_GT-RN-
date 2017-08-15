@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
-    "test": "jest"
+    "test": "jest",
+    "stylekit": "node makeStyleKit.js -j /com/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js"
   },
   "dependencies": {
     "base-64": "^0.1.0",
@@ -31,9 +32,10 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
-    "eslint-config-prettier": "^2.3.0",
     "babel-jest": "20.0.3",
     "babel-preset-react-native": "2.0.0",
+    "commander": "^2.11.0",
+    "eslint-config-prettier": "^2.3.0",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-alpha.12"
   },
