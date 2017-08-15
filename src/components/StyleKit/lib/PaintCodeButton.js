@@ -1,57 +1,54 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, TouchableWithoutFeedback } from "react-native";
+import {
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  TouchableNativeFeedback,
+  View
+} from "react-native";
 import PaintCode from "./PaintCode";
 
-class PaintCodeButton extends Component {
-  state = {
-    isPressed: false
-  };
-
-  render() {
-    const pcbProps = {
-      ...{ drawArgs: ["isPressed"] },
-      ...this.props,
-      ...this.state
+export const gtPcButton = WrappedComponent => {
+  return class extends Component {
+    state = {
+      isPressed: false
     };
-    console.log(pcbProps);
-    // console.log("touchable");
-    return (
-      <TouchableWithoutFeedback
-        onPressIn={this.handleTouchDown}
-        onPressOut={this.handleTouchUp}
-      >
-        <View
-          style={{
-            ...this.props.style,
-            justifyContent: "center",
-            alignContent: "center",
-            backgroundColor: "red"
-          }}
+
+    render() {
+      const pcbProps = {
+        ...this.props,
+        ...this.state
+      };
+
+      delete pcbProps.onPress;
+
+      return (
+        <TouchableWithoutFeedback
+          onPressIn={this.handlePressIn}
+          onPress={this.handlePress}
+          style={{ flex: 1 }}
         >
-          <PaintCode drawArgs={this.state.buttonArgs} {...pcbProps} />
-        </View>
-      </TouchableWithoutFeedback>
-    );
-  }
-
-  handleTouchDown = () => {
-    console.log("down");
-    this.setState({ isPressed: true });
-  };
-
-  handleTouchUp = () => {
-    this.setState({ isPressed: false });
-    console.log("up", this.props.onPress);
-    if (this.props.onPress !== undefined) {
-      this.props.onPress();
+          <View>
+            <WrappedComponent {...pcbProps} />
+          </View>
+        </TouchableWithoutFeedback>
+      );
     }
+
+    handlePressIn = () => {
+      console.log("press in");
+      this.setState({ isPressed: true });
+    };
+
+    handlePress = e => {
+      console.log("press complete");
+
+      this.setState({ isPressed: false });
+
+      if (typeof this.props.onPress === "function") {
+        console.log("running onPress(e)");
+        this.props.onPress(e);
+      }
+    };
   };
-}
-
-PaintCodeButton.propTypes = {
-  drawMethod: PropTypes.string.isRequired,
-  drawArgs: PropTypes.arrayOf(PropTypes.string)
 };
-
-export default PaintCodeButton;

@@ -2,52 +2,65 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import PaintCodeButton from "./PaintCodeButton";
 
-class PaintCodeButtonWithColor extends Component {
-  state = {
-    redValue: 1,
-    greenValue: 0,
-    blueValue: 1
-  };
+// TODO: this hasn't been tested yet! So it may be broken or incomplete
 
-  render() {
-    const pcbProps = { ...this.props, ...this.state };
-    // console.log(pcbProps);
-    return <PaintCodeButton {...pcbProps} />;
-  }
+export const gtPcColor = WrappedComponent => {
+  return class extends Component {
+    state = {
+      redValue: 1,
+      greenValue: 0,
+      blueValue: 1
+    };
 
-  componentWillMount() {
-    this.setState(this.makeColor(this.props));
-  }
+    render() {
+      const stateProps = { ...this.props, ...this.state };
+      return <WrappedComponent {...pcbProps} />;
+    }
 
-  componentWillReceiveProps(newProps) {
-    this.setState(this.makeColor(newProps));
-  }
+    handlePressIn = () => {
+      console.log("press in");
+      this.setState({ isPressed: true });
+    };
 
-  makeColor = props => {
-    const hex = this.props.color || "#ff00ff";
-    const rgb = this.hexToRgb(hex);
+    handlePress = e => {
+      console.log("press complete");
 
-    return {
-      redValue: rgb.r,
-      greenValue: rgb.g,
-      blueValue: rgb.b
+      this.setState({ isPressed: false });
+
+      if (typeof this.props.onPress === "function") {
+        console.log("running onPress(e)");
+        this.props.onPress(e);
+      }
+    };
+
+    componentWillMount() {
+      this.setState(this.makeColor(this.props));
+    }
+
+    componentWillReceiveProps(newProps) {
+      this.setState(this.makeColor(newProps));
+    }
+
+    makeColor = props => {
+      const hex = this.props.color || "#ff00ff";
+      const rgb = this.hexToRgb(hex);
+
+      return {
+        redValue: rgb.r,
+        greenValue: rgb.g,
+        blueValue: rgb.b
+      };
+    };
+
+    hexToRgb = hex => {
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result
+        ? {
+            r: parseInt(result[1], 16) / 255,
+            g: parseInt(result[2], 16) / 255,
+            b: parseInt(result[3], 16) / 255
+          }
+        : null;
     };
   };
-
-  hexToRgb = hex => {
-    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-      ? {
-          r: parseInt(result[1], 16) / 255,
-          g: parseInt(result[2], 16) / 255,
-          b: parseInt(result[3], 16) / 255
-        }
-      : null;
-  };
-}
-
-PaintCodeButtonWithColor.propTypes = {
-  color: PropTypes.string.isRequired
 };
-
-export default PaintCodeButtonWithColor;

@@ -1,2 +1,3 @@
-export * from "./library.js";
-export * from "./playback.js";
+export * from "./library";
+export * from "./playback";
+export * from "./styleKitComponents";

@@ -41,9 +41,7 @@ class VideoOverlay extends React.Component {
           <Text style={{ flex: 1, textAlign: "center" }}>
             {this.props.title}
           </Text>
-          <TouchableOpacity>
-            <Heart />
-          </TouchableOpacity>
+          <Heart onPress={() => console.log("Heart Press!")} />
         </View>
         <TouchableOpacity
           onPress={() => console.debug("touch middle")}
