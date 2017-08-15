@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import BSTestView from "./BSTestView";
 
-class PaintCode extends Component {
+export const PaintCode = class extends Component {
   state = {
     nativeArgs: []
   };
@@ -17,8 +17,7 @@ class PaintCode extends Component {
         style={{
           width: 50,
           height: 50,
-          ...this.props.style,
-          backgroundColor: "blue"
+          ...this.props.style
         }}
       />
     );
@@ -67,14 +66,12 @@ class PaintCode extends Component {
 
     return nativeArgs;
   };
-}
+};
 
 PaintCode.propTypes = {
   drawMethod: PropTypes.string.isRequired,
   drawArgs: PropTypes.arrayOf(PropTypes.string)
 };
-
-export default PaintCode;
 
 export const ResizingBehavior = {
   AspectFit: "ResizingBehavior.AspectFit",

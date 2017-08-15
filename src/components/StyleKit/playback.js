@@ -1,26 +1,21 @@
 import React, { Component } from "react";
 import { View } from "react-native";
-import { PaintCode, PaintCodeButton, gtPcButton } from "./lib";
-import { BtnFavorite_isPressed } from "./styleKitComponents";
+import { gtPcPressable, gtPcColorable } from "./lib";
+import {
+  BtnFavorite_isPressed,
+  BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue
+} from "./styleKitComponents";
 
 export const BtnPlay = props => {
-  return (
-    <PaintCodeButtonWithColor
-      //drawBtnPlay(Canvas canvas, boolean isPressed, boolean isShowingPause, float redValue, float greenValue, float blueValue) {
-      drawMethod="BtnPlay"
-      drawArgs={[
-        "isPressed",
-        "isShowingPause",
-        "redValue",
-        "greenValue",
-        "blueValue"
-      ]}
-      {...props}
-    />
+  // return <View />;
+  const MyComp = gtPcPressable(
+    BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue
   );
+
+  return <MyComp {...props} />;
 };
 
-export const Heart = () => {
-  const BtnFavorite = gtPcButton(BtnFavorite_isPressed);
-  return <BtnFavorite style={{ width: 20, height: 20 }} />;
+export const Heart = props => {
+  const BtnFavorite = gtPcPressable(BtnFavorite_isPressed);
+  return <BtnFavorite style={{ width: 20, height: 20 }} {...props} />;
 };

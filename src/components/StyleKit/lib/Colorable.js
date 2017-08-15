@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import PaintCodeButton from "./PaintCodeButton";
 
 // TODO: this hasn't been tested yet! So it may be broken or incomplete
 
-export const gtPcColor = WrappedComponent => {
+export const gtPcColorable = WrappedComponent => {
   return class extends Component {
     state = {
       redValue: 1,

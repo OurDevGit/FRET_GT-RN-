@@ -1,14 +1,7 @@
-import PaintCode from "./PaintCode";
-import PaintCodeButton, { gtPcButton } from "./PaintCodeButton";
-import PaintCodeButtonWithColor, {
-  gtPcColor
-} from "./PaintCodeButtonWithColor";
+// export PaintCode from "./PaintCode";
 
-module.exports.PaintCode = PaintCode;
-module.exports.PaintCodeButton = PaintCodeButton;
-module.exports.gtPcButton = gtPcButton;
-module.exports.gtPcColor = gtPcColor;
-module.exports.PaintCodeButtonWithColor = PaintCodeButtonWithColor;
-// module.exports.makeGtPcButton = makeGtPcButton;
+// module.exports.PaintCode = PaintCode;
 
-// export default { PaintCode, PaintCodeButton };
+export * from "./PaintCode";
+export * from "./Pressable";
+export * from "./Colorable";

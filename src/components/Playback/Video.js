@@ -38,7 +38,7 @@ class Vid extends React.Component {
       <View
         style={{
           flex: 1,
-          backgroundColor: "#00f",
+          backgroundColor: "#000",
           alignItems: "center",
           justifyContent: "center"
         }}

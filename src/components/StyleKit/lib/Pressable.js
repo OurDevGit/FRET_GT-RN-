@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import PaintCode from "./PaintCode";
 
-export const gtPcButton = WrappedComponent => {
+export const gtPcPressable = WrappedComponent => {
   return class extends Component {
     state = {
       isPressed: false
@@ -36,17 +36,13 @@ export const gtPcButton = WrappedComponent => {
     }
 
     handlePressIn = () => {
-      console.log("press in");
       this.setState({ isPressed: true });
     };
 
     handlePress = e => {
-      console.log("press complete");
-
       this.setState({ isPressed: false });
 
       if (typeof this.props.onPress === "function") {
-        console.log("running onPress(e)");
         this.props.onPress(e);
       }
     };
