@@ -261,7 +261,12 @@ class Song extends React.Component {
 }
 
 Song.propTypes = {
-  song: PropTypes.object
+  song: PropTypes.object,
+  height: PropTypes.number,
+  clearCurrentLoop: PropTypes.func,
+  updateMidiData: PropTypes.func,
+  clearMidiData: PropTypes.func,
+  loopIsEnabled: PropTypes.bool
 };
 
 export default Song;
