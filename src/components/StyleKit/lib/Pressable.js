@@ -25,6 +25,7 @@ export const gtPcPressable = WrappedComponent => {
       return (
         <TouchableWithoutFeedback
           onPressIn={this.handlePressIn}
+          onPressOut={this.handlePressOut}
           onPress={this.handlePress}
           style={{ flex: 1 }}
         >
@@ -36,10 +37,17 @@ export const gtPcPressable = WrappedComponent => {
     }
 
     handlePressIn = () => {
+      // console.log("press in");
       this.setState({ isPressed: true });
     };
 
+    handlePressOut = () => {
+      // console.log("press out");
+      this.setState({ isPressed: false });
+    };
+
     handlePress = e => {
+      // console.log("press done");
       this.setState({ isPressed: false });
 
       if (typeof this.props.onPress === "function") {
