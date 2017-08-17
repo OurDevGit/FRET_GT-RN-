@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
+import { pure } from "recompose";
 
 import RatePicker from "../RatePicker";
 import { PrimaryBlue } from "../../../design";
@@ -112,4 +113,4 @@ const PlaybackCompact = ({
     </View>
   </View>;
 
-export default PlaybackCompact;
+export default pure(PlaybackCompact);
