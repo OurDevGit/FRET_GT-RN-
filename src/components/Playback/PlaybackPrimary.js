@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
+import { pure } from "recompose";
 import { PrimaryBlue } from "../../design";
 import { BtnPlay } from "../StyleKit";
 
@@ -116,4 +117,4 @@ const PlaybackPrimary = ({
     </View>
   </View>;
 
-export default PlaybackPrimary;
+export default pure(PlaybackPrimary);
