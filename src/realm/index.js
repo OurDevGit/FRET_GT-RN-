@@ -28,12 +28,10 @@ const schemas = [
 // the first schema to update to is the current schema version
 // since the first schema in our array is at
 let nextSchemaIndex = Realm.schemaVersion(Realm.defaultPath);
-console.log({ nextSchemaIndex });
 
 var realm = null;
 
 if (nextSchemaIndex === -1) {
-  console.log("first realm");
   // const schema = schemas[schemas.length - 1];
   // console.debug(schema);
   realm = new Realm({ schema: schema0 });
@@ -54,3 +52,7 @@ if (nextSchemaIndex === -1) {
 //   .catch(err => console.error(err));
 
 export default realm;
+
+export const realmify = WrappedComponent => {
+  return <WrappedComponent />;
+};
