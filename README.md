@@ -46,7 +46,7 @@ TODO: Fill this out!
 1. To update to the latest React Native (can be dangerous), run `react-native-git-upgrade`
 
 # When things don't work
-## Try:
+## Try (`npm run clean` does the first 3 of these all together):
 1. `watchman watch-del-all`
 1. `rm -rf $TMPDIR/react-*`
 1. `cd android` then `./gradlew clean` then `cd ..`
