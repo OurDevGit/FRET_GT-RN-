@@ -27,6 +27,7 @@ class MediaPlayer extends Component {
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
             markers={this.props.markers}
+            updateTime={this.props.updateTime}
             currentLoop={this.props.currentLoop}
             loopIsEnabled={this.props.loopIsEnabled}
             enableLoop={this.props.enableLoop}
@@ -41,6 +42,7 @@ class MediaPlayer extends Component {
             markers={this.props.makers}
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
+            updateTime={this.props.updateTime}
             currentLoop={this.props.currentLoop}
             loopIsEnabled={this.props.loopIsEnabled}
             enableLoop={this.props.enableLoop}
@@ -66,6 +68,7 @@ MediaPlayer.propTypes = {
   video: PropTypes.object,
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
+  updateTime: PropTypes.func.isRequired,
   markers: PropTypes.object,
   currentLoop: PropTypes.object,
   loopIsEnabled: PropTypes.bool,

@@ -1,5 +1,6 @@
 import { combineReducers } from "redux-immutable";
 import ad from "./ad";
+import time from "./time";
 import {
   markers,
   guitarTracks,
@@ -11,6 +12,7 @@ import { currentLoop, loopIsEnabled } from "./loop";
 
 const appReducer = combineReducers({
   ad,
+  time,
   markers,
   guitarTracks,
   visibleTracks,

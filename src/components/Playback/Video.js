@@ -156,6 +156,8 @@ class Vid extends React.Component {
       currentChapter,
       mediaName: currentChapter.mediaName
     });
+
+    this.props.updateTime(progress.currentTime);
   };
 
   handleEnd = () => {
@@ -184,7 +186,8 @@ Vid.propTypes = {
   video: PropTypes.object,
   markers: PropTypes.object,
   updateMidiData: PropTypes.func.isRequired,
-  clearMidiData: PropTypes.func.isRequired
+  clearMidiData: PropTypes.func.isRequired,
+  updateTime: PropTypes.func.isRequired
 };
 
 export default Vid;

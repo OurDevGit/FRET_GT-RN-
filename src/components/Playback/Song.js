@@ -125,7 +125,7 @@ class Song extends React.Component {
   };
 
   handleMusicProgress = (musicSeconds, duration) => {
-    const { loopIsEnabled, currentLoop } = this.props;
+    const { loopIsEnabled, currentLoop, updateTime } = this.props;
     const { playbackProgress, seconds } = this.state;
     const progress = musicSeconds / duration;
     if (progress != playbackProgress || musicSeconds !== seconds) {
@@ -142,6 +142,8 @@ class Song extends React.Component {
           playbackSeconds: musicSeconds,
           seek: -1
         });
+
+        updateTime(musicSeconds);
       }
     }
   };
