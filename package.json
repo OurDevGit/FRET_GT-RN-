@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "test": "jest",
-    "stylekit": "node makeStyleKit.js -j /com/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js"
+    "stylekit": "node makeStyleKit.js -j /com/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
+    "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd .."
   },
   "dependencies": {
     "base-64": "^0.1.0",
@@ -24,6 +25,7 @@
     "react-native-sound": "^0.10.1",
     "react-native-video": "big-swing/react-native-video",
     "react-redux": "^5.0.5",
+    "realm": "^1.10.3",
     "redux": "^3.6.0",
     "redux-immutable": "^4.0.0",
     "redux-logger": "^3.0.6",

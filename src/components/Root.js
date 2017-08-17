@@ -10,6 +10,8 @@ import TrackSelector from "./TrackSelector";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
+import realm from "../realm";
+
 const testMedia = [...testVideos, ...testSongs];
 
 class Root extends Component {
@@ -57,6 +59,20 @@ class Root extends Component {
         </View>
       </Provider>
     );
+  }
+
+  componentDidMount() {
+    // try {
+    //   realm.write(() => {
+    //     realm.create("Category", { id: "1" });
+    //   });
+    // } catch (err) {
+    //   console.error(err);
+    // }
+
+    let categories = realm.objects("Category");
+    console.debug(JSON.stringify(categories[0], null, 2));
+    console.debug(categories[0]);
   }
 
   handleToggleLibrary = () => {
