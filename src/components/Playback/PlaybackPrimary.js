@@ -87,8 +87,8 @@ const PlaybackPrimary = ({
 
       <BtnPlay
         isShowingPause={isPlaying}
-        style={{ width: 50, height: 50 }}
-        size={{ width: 44, height: 44 }}
+        style={{ width: 100, height: 100, backgroundColor: "red" }}
+        size={{ width: 200, height: 200 }}
         color={PrimaryBlue}
         onPress={onPlayPausePress}
       />
