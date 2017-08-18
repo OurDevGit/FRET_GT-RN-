@@ -2,7 +2,14 @@ import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
 import { pure } from "recompose";
 import { PrimaryBlue } from "../../design";
-import { BtnPlay, ResizingBehavior } from "../StyleKit";
+import {
+  BtnPrevious,
+  BtnRewind,
+  BtnPlay,
+  BtnForward,
+  BtnNext,
+  ResizingBehavior
+} from "../StyleKit";
 
 const buttonStyle = {
   flex: 1,
@@ -64,42 +71,41 @@ const PlaybackPrimary = ({
         alignItems: "flex-start"
       }}
     >
-      <BtnPlay
-        isShowingPause={isPlaying}
-        color={PrimaryBlue}
+      <BtnPrevious
         style={{ width: 50, height: 50 }}
-        onPress={onPlayPausePress}
-        resizing={ResizingBehavior.AspectFit}
         size={{ width: 44, height: 44 }}
+        color={PrimaryBlue}
+        onPress={onPreviousPress}
       />
 
-      <TouchableOpacity onPress={onPreviousPress}>
-        <Text style={buttonStyle}>{`<<`}</Text>
-      </TouchableOpacity>
+      <BtnRewind
+        style={{ width: 50, height: 50 }}
+        size={{ width: 44, height: 44 }}
+        color={PrimaryBlue}
+        onPress={onBackPress}
+      />
 
-      <TouchableOpacity onPress={onBackPress}>
-        <Text style={buttonStyle}>
-          {`<`}
-          <Text style={textStyle}>5</Text>
-        </Text>
-      </TouchableOpacity>
+      <BtnPlay
+        isShowingPause={isPlaying}
+        style={{ width: 50, height: 50 }}
+        size={{ width: 44, height: 44 }}
+        color={PrimaryBlue}
+        onPress={onPlayPausePress}
+      />
 
-      <TouchableOpacity onPress={onPlayPausePress}>
-        <Text style={buttonStyle}>
-          {isPlaying ? `||` : `>`}
-        </Text>
-      </TouchableOpacity>
+      <BtnForward
+        style={{ width: 50, height: 50 }}
+        size={{ width: 44, height: 44 }}
+        color={PrimaryBlue}
+        onPress={onForwardPress}
+      />
 
-      <TouchableOpacity onPress={onForwardPress}>
-        <Text style={buttonStyle}>
-          <Text style={textStyle}>30</Text>
-          {`>`}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={onNextPress}>
-        <Text style={buttonStyle}>{`>>`}</Text>
-      </TouchableOpacity>
+      <BtnNext
+        style={{ width: 50, height: 50 }}
+        size={{ width: 44, height: 44 }}
+        color={PrimaryBlue}
+        onPress={onNextPress}
+      />
     </View>
 
     <View
