@@ -79,3 +79,15 @@ export const ResizingBehavior = {
   Stretch: "ResizingBehavior.Stretch",
   Center: "ResizingBehavior.Center"
 };
+
+export const SizePropType = PropTypes.shape({
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired
+});
+
+export const ResizingBehaviorPropType = PropTypes.oneOf([
+  ResizingBehavior.AspectFill,
+  ResizingBehavior.AspectFit,
+  ResizingBehavior.Center,
+  ResizingBehavior.Stretch
+]);

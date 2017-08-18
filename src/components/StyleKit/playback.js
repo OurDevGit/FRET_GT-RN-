@@ -7,7 +7,11 @@ import {
   BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue,
   BtnPlay_targetFrame_resizing_isPressed_isShowingPause_redValue_greenValue_blueValue
 } from "./styleKitComponents";
-import { ResizingBehavior } from "./lib";
+import {
+  ResizingBehavior,
+  SizePropType,
+  ResizingBehaviorPropType
+} from "./lib";
 
 export const BtnPlay = props => {
   // return <View />;
@@ -30,20 +34,6 @@ export const BtnPlay = props => {
 
   return <Comp {...frameProps} />;
 };
-
-// TODO: we should put these prop types somewhere more central so that other PC components can use them
-
-const SizePropType = PropTypes.shape({
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired
-});
-
-const ResizingBehaviorPropType = PropTypes.oneOf([
-  ResizingBehavior.AspectFill,
-  ResizingBehavior.AspectFit,
-  ResizingBehavior.Center,
-  ResizingBehavior.Stretch
-]);
 
 BtnPlay.propTypes = {
   size: SizePropType,
