@@ -10,22 +10,22 @@ import TrackSelector from "./TrackSelector";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
-import { realmify, realmComp } from "../realm";
+// import { realmify } from "../realm";
 
 const testMedia = [...testVideos, ...testSongs];
 
-const mapQueriesToProps = realm => {
-  console.log("mapping queries to props!");
-  return {
-    categories: realm.objects("Category")
-  };
-};
-
-const Tester = props =>
-  <Text>
-    {JSON.stringify(props.categories[0])}
-  </Text>;
-const TestText = realmify(mapQueriesToProps)(Tester);
+// const mapQueriesToProps = realm => {
+//   console.log("mapping queries to props!");
+//   return {
+//     categories: realm.objects("Category")
+//   };
+// };
+//
+// const Tester = props =>
+//   <Text>
+//     {JSON.stringify(props.categories[0])}
+//   </Text>;
+// const TestText = realmify(mapQueriesToProps)(Tester);
 
 class Root extends Component {
   state = {
