@@ -59,6 +59,9 @@ public class BSPaintCodeView extends View {
   protected void onDraw(Canvas canvas) {
     super.onDraw(canvas);
 
+    float displayDensity = getResources().getDisplayMetrics().density;
+    canvas.scale(displayDensity, displayDensity);
+
     String methodName = "draw" + this.drawMethod;
     try {
       Class clazz = Class.forName(this.styleKitClass);
