@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
-import { gtPcPressable, gtPcColorable } from "./lib";
+import { gtPcPressable, gtPcColorable, gtPcSizeable } from "./lib";
 import {
   BtnFavorite_isPressed,
   BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue,
@@ -14,25 +14,15 @@ import {
 } from "./lib";
 
 export const BtnPlay = props => {
-  // return <View />;
-  const Comp = gtPcColorable(
-    gtPcPressable(
-      // BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue
-      BtnPlay_targetFrame_resizing_isPressed_isShowingPause_redValue_greenValue_blueValue
+  const Comp = gtPcSizeable(
+    gtPcColorable(
+      gtPcPressable(
+        BtnPlay_targetFrame_resizing_isPressed_isShowingPause_redValue_greenValue_blueValue
+      )
     )
   );
 
-  const frameProps = {
-    ...props,
-    targetFrame: {
-      left: 0,
-      top: 0,
-      right: props.size.width,
-      bottom: props.size.height
-    }
-  };
-
-  return <Comp {...frameProps} />;
+  return <Comp {...props} />;
 };
 
 BtnPlay.propTypes = {

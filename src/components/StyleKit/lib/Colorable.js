@@ -16,22 +16,6 @@ export const gtPcColorable = WrappedComponent => {
       return <WrappedComponent {...propsWithState} />;
     }
 
-    handlePressIn = () => {
-      console.log("press in");
-      this.setState({ isPressed: true });
-    };
-
-    handlePress = e => {
-      console.log("press complete");
-
-      this.setState({ isPressed: false });
-
-      if (typeof this.props.onPress === "function") {
-        console.log("running onPress(e)");
-        this.props.onPress(e);
-      }
-    };
-
     componentWillMount() {
       this.setState(this.makeColor(this.props));
     }
