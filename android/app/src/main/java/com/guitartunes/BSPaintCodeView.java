@@ -52,6 +52,7 @@ public class BSPaintCodeView extends View {
 
   public BSPaintCodeView(Context context) {
     super(context);
+    this.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
     this.ctx = context;
   }
 
