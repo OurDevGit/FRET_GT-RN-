@@ -61,14 +61,17 @@ public class BSPaintCodeView extends View {
 
     String methodName = "draw" + this.drawMethod;
     try {
-      Class clazz = Class.forName(this.styleKitClass); //GuitarTunesStyleKit.class;
+      Class clazz = Class.forName(this.styleKitClass);
 
       Method[] allMethods = clazz.getMethods();
       Method foundMethod = null;
       boolean usesContext = false;
 
+      Log.d("BSPaintCodeView", "onDraw: " + methodName);
+
       foundMethod = findCanvasOnlyMatch(allMethods, methodName);
       if (foundMethod == null) {
+        Log.d("BSPaintCodeView", "Canvas-only not found, looking for Context version");
         foundMethod = findContextMatch(allMethods, methodName);
         usesContext = true;
       }
@@ -84,7 +87,8 @@ public class BSPaintCodeView extends View {
           }
           ArrayList paintCodeArgs = convertArgs(drawArgsList);
 
-          Log.d("onDraw", "dynamically invoking " + foundMethod.toString() + " with: " + paintCodeArgs.toString());
+          Log.d("BSPaintCodeView",
+              "dynamically invoking " + foundMethod.toString() + " with: " + paintCodeArgs.toString());
 
           foundMethod.invoke(null, paintCodeArgs.toArray());
         } catch (InvocationTargetException e) {
@@ -97,7 +101,7 @@ public class BSPaintCodeView extends View {
         // TODO: Inform the user that their draw method couldn't be found
       }
     } catch (ClassNotFoundException e) {
-      Log.e("onDraw", e.toString());
+      Log.e("BSPaintCodeView", e.toString());
     }
   }
 
@@ -126,54 +130,6 @@ public class BSPaintCodeView extends View {
       Log.d("findCanvasOnlyMatch", "no method found");
     }
     return foundMethod;
-
-    // // Look for a matching method
-    // for (Method method : allMethods) {
-    //   // check method name
-    //   if (method.getName().equals(methodName)) {
-    //     Type[] methodParamTypes = method.getGenericParameterTypes();
-    //     Log.d("findCanvasOnlyMatch", methodParamTypes.toString());
-
-    //     // check it has the same number of params (not counting Canvas as param 1)
-    //     if (methodParamTypes.length == this.drawArgs.size() + args.length
-    //         && methodParamTypes[0].toString().equals(args[0])) {
-    //       boolean isMatch = true;
-    //       int i = 0;
-
-    //       // check that each param has the same type as the passed drawArgs
-    //       for (Type t : methodParamTypes) {
-    //         String methodType = t.toString();
-    //         String argType = this.drawArgs.getType(i).toString();
-    //         if (methodType.equals("class android.graphics.Canvas") && i == 0) {
-    //           // ignore the first param if it's Canvas
-    //         } else {
-    //           // if there is a type mis-match, then this isn't the right match
-    //           if (propertyMatches(methodType, argType) == false) {
-    //             // if (methodType.equalsIgnoreCase(argType) == false) {
-    //             Log.d("match checker", "mis-match");
-    //             Log.d("match checker", methodType);
-    //             Log.d("match checker", argType);
-    //             isMatch = false;
-    //           }
-
-    //           i += 1;
-    //         }
-    //       }
-
-    //       // if we matched, use this Method
-    //       if (isMatch) {
-    //         // foundMethod = method;
-    //         return method;
-    //       }
-    //     } else {
-    //       Log.d("findCanvasOnlyMatch", "method was not a Canvas-only method");
-    //       Log.d("findCanvasOnlyMatch", method.getName());
-    //     }
-    //   }
-    // }
-
-    // Log.d("findCanvasOnlyMatch", "never found a match for " + methodName);
-    // return null;
   }
 
   private Method findMatchWithDefaults(Method[] allMethods, String methodName, String[] defaultArgs) {
