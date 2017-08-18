@@ -1,4 +1,5 @@
 import React from "react";
+import { pure } from "recompose";
 import { View, Text } from "react-native";
 
 const LoopFlag = ({ type, left }) =>
@@ -16,4 +17,4 @@ const LoopFlag = ({ type, left }) =>
     </Text>
   </View>;
 
-export default LoopFlag;
+export default pure(LoopFlag);

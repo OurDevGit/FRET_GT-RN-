@@ -1,4 +1,5 @@
 import React from "react";
+import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 
 import RatePicker from "./RatePicker";
@@ -68,6 +69,4 @@ const PlaybackSecondary = ({
     </TouchableOpacity>
   </View>;
 
-export default PlaybackSecondary;
-
-// hold down marker for loop
+export default pure(PlaybackSecondary);
