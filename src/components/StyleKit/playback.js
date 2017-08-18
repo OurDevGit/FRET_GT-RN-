@@ -3,14 +3,16 @@ import { View } from "react-native";
 import { gtPcPressable, gtPcColorable } from "./lib";
 import {
   BtnFavorite_isPressed,
-  BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue
+  BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue,
+  BtnPlay_targetFrame_resizing_isPressed_isShowingPause_redValue_greenValue_blueValue
 } from "./styleKitComponents";
 
 export const BtnPlay = props => {
   // return <View />;
   const Comp = gtPcColorable(
     gtPcPressable(
-      BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue
+      // BtnPlay_isPressed_isShowingPause_redValue_greenValue_blueValue
+      BtnPlay_targetFrame_resizing_isPressed_isShowingPause_redValue_greenValue_blueValue
     )
   );
 

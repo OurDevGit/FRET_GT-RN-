@@ -2,7 +2,7 @@ import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
 import { pure } from "recompose";
 import { PrimaryBlue } from "../../design";
-import { BtnPlay } from "../StyleKit";
+import { BtnPlay, ResizingBehavior } from "../StyleKit";
 
 const buttonStyle = {
   flex: 1,
@@ -69,6 +69,8 @@ const PlaybackPrimary = ({
         color={PrimaryBlue}
         style={{ width: 50, height: 50 }}
         onPress={onPlayPausePress}
+        resizing={ResizingBehavior.AspectFit}
+        targetFrame={{ left: 0, top: 0, right: 44, bottom: 44 }}
       />
 
       <TouchableOpacity onPress={onPreviousPress}>
