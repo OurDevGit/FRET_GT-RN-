@@ -252,22 +252,24 @@ public class BSPaintCodeView extends View {
 
   // https://stackoverflow.com/questions/3735927/java-instantiating-an-enum-using-reflection
   private Object makeResizingBehavior(String behavior) {
-    Log.d("makeResizingBehavior", "here we go: " + behavior);
+    Log.d("BSPaintCodeView", "making resizing behavior: " + behavior);
+    String behaviorVal = behavior.split("\\.")[1];
 
     try {
       Class klass = Class.forName(this.styleKitClass + "$ResizingBehavior");
-      Field field = klass.getDeclaredField("AspectFit");
+      Field field = klass.getDeclaredField(behaviorVal);
+
       if (field.getType().isEnum()) {
-        Log.d("makeResizingBehavior", "is Enum!");
-        Object resizeBehavior = Enum.valueOf((Class<Enum>) field.getType(), "AspectFit");
-        Log.d("makeResizingBehavior", resizeBehavior.toString());
+        Log.d("BSPaintCodeView", "is Enum!");
+        Object resizeBehavior = Enum.valueOf((Class<Enum>) field.getType(), behaviorVal);
+        Log.d("BSPaintCodeView", resizeBehavior.toString());
         return resizeBehavior;
       }
     } catch (ClassNotFoundException e) {
-      Log.d("makeResizingBehavior", "Couldn't create ResizingBehavior class for " + this.styleKitClass);
+      Log.d("BSPaintCodeView", "Couldn't create ResizingBehavior class for " + this.styleKitClass);
     } catch (NoSuchFieldException e) {
-      Log.d("makeResizingBehavior", "ResizingBehavior getDeclareField failed...");
-      Log.e("makeResizingBehavior", e.toString());
+      Log.d("BSPaintCodeView", "ResizingBehavior getDeclareField failed...");
+      Log.e("BSPaintCodeView", e.toString());
       return null;
     }
 
