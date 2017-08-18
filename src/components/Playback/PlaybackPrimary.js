@@ -70,7 +70,7 @@ const PlaybackPrimary = ({
         style={{ width: 50, height: 50 }}
         onPress={onPlayPausePress}
         resizing={ResizingBehavior.AspectFit}
-        targetFrame={{ left: 0, top: 0, right: 44, bottom: 44 }}
+        size={{ width: 44, height: 44 }}
       />
 
       <TouchableOpacity onPress={onPreviousPress}>
