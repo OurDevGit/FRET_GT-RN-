@@ -1,3 +1,4 @@
+import React from "react";
 import Realm from "realm";
 import Media from "./Media";
 import Category from "./Category";
@@ -7,6 +8,8 @@ import Pattern from "./Pattern";
 import PatternNote from "./PatternNote";
 import PatternReference from "./PatternReference";
 import PatternRoot from "./PatternRoot";
+
+import { mapProps, withProps } from "recompose";
 
 const schema0 = [
   Media,
@@ -20,39 +23,35 @@ const schema0 = [
 ];
 const migrationFunction1 = (oldRealm, newRealm) => {};
 
-const schemas = [
-  // { schema: schema1, schemaVersion: 1 } //,
-  // { schema: schema2, schemaVersion: 2, migration: migrationFunction1 },
-];
-
-// the first schema to update to is the current schema version
-// since the first schema in our array is at
-let nextSchemaIndex = Realm.schemaVersion(Realm.defaultPath);
-
-var realm = null;
-
-if (nextSchemaIndex === -1) {
-  // const schema = schemas[schemas.length - 1];
-  // console.debug(schema);
-  realm = new Realm({ schema: schema0 });
-} else {
-  realm = new Realm({ schema: schema0 });
-}
-
-// while (nextSchemaIndex < schemas.length) {
-//   const migratedRealm = new Realm(schemas[nextSchemaIndex++]);
-//   migratedRealm.close();
-// }
-
-// // open the Realm with the latest schema
-// Realm.open(schemas[schemas.length - 1])
-//   .then(realm => {
-//     console.debug(realm);
-//   })
-//   .catch(err => console.error(err));
-
+const realm = new Realm({ schema: schema0 });
 export default realm;
 
-export const realmify = WrappedComponent => {
-  return <WrappedComponent />;
+// export const realmComp = WrappedComponent => withProps(WrappedComponent);
+//   return class extends React.Component {
+//     render() {
+//       return <WrappedComponent />;
+//     }
+//   };
+// };
+
+export const realmify = (mapQueries, makeMutations = () => {}) => {
+  console.debug("realmify");
+
+  const queries = mapQueries(realm);
+  const mutations = makeMutations(realm);
+
+  console.debug("hi 2");
+
+  const realmProps = { ...queries, ...mutations };
+
+  return withProps({ ...realmProps });
+
+  // return WrappedComponent => {
+  //   console.debug("Wrapped!");
+  //   return <WrappedComponent {...{ ...queries, ...mutations }} />;
+  // };
+
+  // return function(WrappedComponent)
 };
+
+// export const mapQueriesToProps = mapProps(props => );

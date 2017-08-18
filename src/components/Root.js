@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, StatusBar, Button } from "react-native";
+import { View, StatusBar, Button, Text } from "react-native";
 import { Provider } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
@@ -10,9 +10,22 @@ import TrackSelector from "./TrackSelector";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
-import realm from "../realm";
+import { realmify, realmComp } from "../realm";
 
 const testMedia = [...testVideos, ...testSongs];
+
+const mapQueriesToProps = realm => {
+  console.log("mapping queries to props!");
+  return {
+    categories: realm.objects("Category")
+  };
+};
+
+const Tester = props =>
+  <Text>
+    {JSON.stringify(props.categories[0])}
+  </Text>;
+const TestText = realmify(mapQueriesToProps)(Tester);
 
 class Root extends Component {
   state = {
@@ -36,7 +49,12 @@ class Root extends Component {
           onLayout={this.handleLayout}
         >
           <StatusBar hidden />
-
+          {/* <Text>Test!</Text>
+          <Text>Test!</Text>
+          <Text>Test!</Text>
+          <Text>Test!</Text>
+          <Text>Test!</Text>
+          <TestText /> */}
           {this.state.showAd &&
             <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
           <Playback song={this.state.song} video={this.state.video} />
@@ -61,19 +79,7 @@ class Root extends Component {
     );
   }
 
-  componentDidMount() {
-    // try {
-    //   realm.write(() => {
-    //     realm.create("Category", { id: "1" });
-    //   });
-    // } catch (err) {
-    //   console.error(err);
-    // }
-
-    let categories = realm.objects("Category");
-    console.debug(JSON.stringify(categories[0], null, 2));
-    console.debug(categories[0]);
-  }
+  componentDidMount() {}
 
   handleToggleLibrary = () => {
     this.setState({
