@@ -10,22 +10,9 @@ import TrackSelector from "./TrackSelector";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
-// import { realmify } from "../realm";
+import RealmTester from "./RealmTester";
 
 const testMedia = [...testVideos, ...testSongs];
-
-// const mapQueriesToProps = realm => {
-//   console.log("mapping queries to props!");
-//   return {
-//     categories: realm.objects("Category")
-//   };
-// };
-//
-// const Tester = props =>
-//   <Text>
-//     {JSON.stringify(props.categories[0])}
-//   </Text>;
-// const TestText = realmify(mapQueriesToProps)(Tester);
 
 class Root extends Component {
   state = {
@@ -49,12 +36,7 @@ class Root extends Component {
           onLayout={this.handleLayout}
         >
           <StatusBar hidden />
-          {/* <Text>Test!</Text>
-          <Text>Test!</Text>
-          <Text>Test!</Text>
-          <Text>Test!</Text>
-          <Text>Test!</Text>
-          <TestText /> */}
+          {/* <RealmTester /> */}
           {this.state.showAd &&
             <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
           <Playback song={this.state.song} video={this.state.video} />
