@@ -30,8 +30,9 @@ class PlaybackTimeline extends Component {
     const elapsed = this.formattedTime(duration * progress);
     const remaining = this.formattedTime(duration - duration * progress);
 
-    const begin = (currentLoop.get("begin") || -1) / duration;
-    const end = (currentLoop.get("end") || -1) / duration;
+    const loop = currentLoop.toJS() || { begin: -1, end: -1 };
+    const beginLeft = loop.begin / duration;
+    const endLeft = loop.end / duration;
 
     return (
       <View
@@ -81,18 +82,18 @@ class PlaybackTimeline extends Component {
           />
         </View>
 
-        {begin > 0 &&
+        {currentLoop.get("begin") !== undefined &&
           <LoopFlag
             type="begin"
             isEnabled={loopIsEnabled}
-            left={layout.x + begin * layout.width}
+            left={layout.x + beginLeft * layout.width}
           />}
 
-        {end > 0 &&
+        {currentLoop.get("end") !== undefined &&
           <LoopFlag
             type="end"
             isEnabled={loopIsEnabled}
-            left={layout.x + end * layout.width}
+            left={layout.x + endLeft * layout.width}
           />}
 
         <Playhead

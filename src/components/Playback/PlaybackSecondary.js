@@ -70,8 +70,16 @@ const PlaybackSecondary = ({
       </Text>
     </TouchableOpacity>
 
-    <LoopLeft style={{ width: 35, height: 35 }} onPress={onLoopBegin} />
-    <LoopRight style={{ width: 35, height: 35 }} onPress={onLoopEnd} />
+    <LoopLeft
+      style={{ width: 35, height: 35 }}
+      isEnabled={true}
+      onPress={onLoopBegin}
+    />
+    <LoopRight
+      style={{ width: 35, height: 35 }}
+      isEnabled={true}
+      onPress={onLoopEnd}
+    />
 
     <TouchableOpacity onPress={onLoopSave}>
       <Text style={buttonStyle}>Save Loop</Text>

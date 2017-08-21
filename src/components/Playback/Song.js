@@ -133,12 +133,11 @@ class Song extends React.Component {
     const { playbackProgress, seconds } = this.state;
     const progress = musicSeconds / duration;
     if (progress != playbackProgress || musicSeconds !== seconds) {
-      const loopBegin = currentLoop.get("begin") || -1;
-      const loopEnd = currentLoop.get("end") || duration + 1;
+      const loop = currentLoop.toJS() || { begin: -1, end: duration };
 
-      if (loopIsEnabled && musicSeconds >= loopEnd && loopBegin > -1) {
+      if (loopIsEnabled && musicSeconds >= loop.end && loop.begin > -1) {
         this.setState({
-          seek: loopBegin
+          seek: loop.begin
         });
       } else {
         this.setState({
@@ -248,15 +247,22 @@ class Song extends React.Component {
   };
 
   handleLoopBegin = () => {
-    const loop = this.props.currentLoop.set(
-      "begin",
-      this.state.playbackSeconds
-    );
+    const begin = this.state.playbackSeconds;
+    const end = this.props.currentLoop.get("end") || this.props.duration;
+
+    var loop = this.props.currentLoop.set("begin", begin);
+    loop = begin > end ? loop.delete("end") : loop;
+
     this.props.setCurrentLoop(loop);
   };
 
   handleLoopEnd = () => {
-    const loop = this.props.currentLoop.set("end", this.state.playbackSeconds);
+    const begin = this.props.currentLoop.get("begin") || this.props.duration;
+    const end = this.state.playbackSeconds;
+
+    var loop = this.props.currentLoop.set("end", end);
+    loop = begin > end ? loop.set("begin", 0) : loop;
+
     this.props.setCurrentLoop(loop);
   };
 
