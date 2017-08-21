@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { View } from "react-native";
 import { gtPcPressable, gtPcColorable, gtPcSizeable } from "./lib";
 import {
-  BtnFavorite_isPressed,
   BtnPrevious_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   BtnRewind_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   BtnPlay_targetFrame_resizing_isPressed_isShowingPause_redValue_greenValue_blueValue,
@@ -74,11 +73,6 @@ export const BtnNext = props => {
   );
 
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
-};
-
-export const Heart = props => {
-  const BtnFavorite = gtPcPressable(BtnFavorite_isPressed);
-  return <BtnFavorite style={{ width: 20, height: 20 }} {...props} />;
 };
 
 BtnPrevious.propTypes = {

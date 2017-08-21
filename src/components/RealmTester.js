@@ -4,6 +4,11 @@ import { v4 as uuid } from "uuid";
 
 import realm, { realmify } from "../realm";
 
+// Enable this to wipe Realm
+// realm.write(() => {
+//   realm.deleteAll();
+// });
+
 const mapQueriesToProps = realm => {
   return {
     categories: realm.objects("Category")
