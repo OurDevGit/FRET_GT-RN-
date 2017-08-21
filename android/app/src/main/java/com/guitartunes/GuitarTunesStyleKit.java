@@ -3486,7 +3486,6 @@ public class GuitarTunesStyleKit {
     private static class CacheForJambarLens {
         private static Paint paint = new Paint();
         private static PaintCodeGradient jambarLensGradient = null;
-        private static RectF group = new RectF();
         private static RectF rectangleRect = new RectF();
         private static Path rectanglePath = new Path();
         private static RectF rectanglePathBounds = new RectF();
@@ -3498,7 +3497,7 @@ public class GuitarTunesStyleKit {
     }
     
     
-    public static void drawJambarLens(Canvas canvas, RectF frame) {
+    public static void drawJambarLens(Canvas canvas) {
         // General Declarations
         Paint paint = CacheForJambarLens.paint;
         
@@ -3517,18 +3516,9 @@ public class GuitarTunesStyleKit {
         
         // Group
         {
-            RectF group = CacheForJambarLens.group;
-            group.set(frame.left + (float) Math.floor(frame.width() * 0.00006f + 0.5f) + 0f,
-                frame.top + (float) Math.floor(frame.height() * 0.00451f + 0.39f) + 0.11f,
-                frame.left + (float) Math.floor(frame.width() * 1.00006f + 0.5f) + 0f,
-                frame.top + (float) Math.floor(frame.height() * 1.00451f + 0.39f) + 0.11f);
-            
             // Rectangle
             RectF rectangleRect = CacheForJambarLens.rectangleRect;
-            rectangleRect.set(group.left,
-                group.top,
-                group.left + (float) Math.floor(group.width() + 0.5f),
-                group.top + (float) Math.floor(group.height() + 0.5f));
+            rectangleRect.set(0f, 0.11f, 44f, 25.11f);
             Path rectanglePath = CacheForJambarLens.rectanglePath;
             rectanglePath.reset();
             rectanglePath.moveTo(rectangleRect.left, rectangleRect.top);
@@ -3547,14 +3537,11 @@ public class GuitarTunesStyleKit {
             
             // bottom
             RectF bottomRect = CacheForJambarLens.bottomRect;
-            bottomRect.set(group.left,
-                group.top + (float) Math.floor(group.height() * 0.97549f + 0.11f) + 0.39f,
-                group.left + (float) Math.floor(group.width() + 0.5f),
-                group.top + (float) Math.floor(group.height() * 0.97553f + 0.11f) + 0.39f);
+            bottomRect.set(0f, 24.5f, 44f, 24.5f);
             Path bottomPath = CacheForJambarLens.bottomPath;
             bottomPath.reset();
-            bottomPath.moveTo(group.left, group.top + group.height() * 0.97553f);
-            bottomPath.cubicTo(group.left + group.width() * 0.73502f, group.top + group.height() * 0.97553f, group.left + group.width(), group.top + group.height() * 0.97553f, group.left + group.width(), group.top + group.height() * 0.97553f);
+            bottomPath.moveTo(0f, 24.5f);
+            bottomPath.cubicTo(32.34f, 24.5f, 44f, 24.5f, 44f, 24.5f);
             
             paint.reset();
             paint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -3574,14 +3561,11 @@ public class GuitarTunesStyleKit {
             
             // top
             RectF topRect = CacheForJambarLens.topRect;
-            topRect.set(group.left,
-                group.top + (float) Math.floor(group.height() * 0.01549f + 0.11f) + 0.39f,
-                group.left + (float) Math.floor(group.width() + 0.5f),
-                group.top + (float) Math.floor(group.height() * 0.01553f + 0.11f) + 0.39f);
+            topRect.set(0f, 0.5f, 44f, 0.5f);
             Path topPath = CacheForJambarLens.topPath;
             topPath.reset();
-            topPath.moveTo(group.left, group.top + group.height() * 0.01553f);
-            topPath.cubicTo(group.left + group.width() * 0.73502f, group.top + group.height() * 0.01553f, group.left + group.width(), group.top + group.height() * 0.01553f, group.left + group.width(), group.top + group.height() * 0.01553f);
+            topPath.moveTo(0f, 0.5f);
+            topPath.cubicTo(32.34f, 0.5f, 44f, 0.5f, 44f, 0.5f);
             
             paint.reset();
             paint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -3604,7 +3588,6 @@ public class GuitarTunesStyleKit {
     private static class CacheForJambarLensWide {
         private static Paint paint = new Paint();
         private static PaintCodeGradient jambarLensGradientWide = null;
-        private static RectF group = new RectF();
         private static RectF rectangleRect = new RectF();
         private static Path rectanglePath = new Path();
         private static RectF rectanglePathBounds = new RectF();
@@ -3616,7 +3599,7 @@ public class GuitarTunesStyleKit {
     }
     
     
-    public static void drawJambarLensWide(Canvas canvas, RectF frame) {
+    public static void drawJambarLensWide(Canvas canvas) {
         // General Declarations
         Paint paint = CacheForJambarLensWide.paint;
         
@@ -3635,18 +3618,9 @@ public class GuitarTunesStyleKit {
         
         // Group
         {
-            RectF group = CacheForJambarLensWide.group;
-            group.set(frame.left + (float) Math.floor(frame.width() * -0.00455f - 0.27f) + 0.77f,
-                frame.top + (float) Math.floor(frame.height() * 0.02122f - 0.03f) + 0.53f,
-                frame.left + (float) Math.floor(frame.width() * 0.99545f - 0.27f) + 0.77f,
-                frame.top + (float) Math.floor(frame.height() * 1.02122f - 0.03f) + 0.53f);
-            
             // Rectangle
             RectF rectangleRect = CacheForJambarLensWide.rectangleRect;
-            rectangleRect.set(group.left,
-                group.top,
-                group.left + (float) Math.floor(group.width() + 0.5f),
-                group.top + (float) Math.floor(group.height() + 0.5f));
+            rectangleRect.set(-0.23f, 0.53f, 43.77f, 25.53f);
             Path rectanglePath = CacheForJambarLensWide.rectanglePath;
             rectanglePath.reset();
             rectanglePath.moveTo(rectangleRect.left, rectangleRect.top);
@@ -3665,14 +3639,11 @@ public class GuitarTunesStyleKit {
             
             // bottom
             RectF bottomRect = CacheForJambarLensWide.bottomRect;
-            bottomRect.set(group.left,
-                group.top + (float) Math.floor(group.height() * 0.97549f + 0.11f) + 0.39f,
-                group.left + (float) Math.floor(group.width() + 0.5f),
-                group.top + (float) Math.floor(group.height() * 0.97553f + 0.11f) + 0.39f);
+            bottomRect.set(-0.23f, 24.92f, 43.77f, 24.92f);
             Path bottomPath = CacheForJambarLensWide.bottomPath;
             bottomPath.reset();
-            bottomPath.moveTo(group.left, group.top + group.height() * 0.97553f);
-            bottomPath.cubicTo(group.left + group.width() * 0.73502f, group.top + group.height() * 0.97553f, group.left + group.width(), group.top + group.height() * 0.97553f, group.left + group.width(), group.top + group.height() * 0.97553f);
+            bottomPath.moveTo(-0.23f, 24.92f);
+            bottomPath.cubicTo(32.11f, 24.92f, 43.77f, 24.92f, 43.77f, 24.92f);
             
             paint.reset();
             paint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -3692,14 +3663,11 @@ public class GuitarTunesStyleKit {
             
             // top
             RectF topRect = CacheForJambarLensWide.topRect;
-            topRect.set(group.left,
-                group.top + (float) Math.floor(group.height() * 0.01549f + 0.11f) + 0.39f,
-                group.left + (float) Math.floor(group.width() + 0.5f),
-                group.top + (float) Math.floor(group.height() * 0.01553f + 0.11f) + 0.39f);
+            topRect.set(-0.23f, 0.92f, 43.77f, 0.92f);
             Path topPath = CacheForJambarLensWide.topPath;
             topPath.reset();
-            topPath.moveTo(group.left, group.top + group.height() * 0.01553f);
-            topPath.cubicTo(group.left + group.width() * 0.73502f, group.top + group.height() * 0.01553f, group.left + group.width(), group.top + group.height() * 0.01553f, group.left + group.width(), group.top + group.height() * 0.01553f);
+            topPath.moveTo(-0.23f, 0.92f);
+            topPath.cubicTo(32.11f, 0.92f, 43.77f, 0.92f, 43.77f, 0.92f);
             
             paint.reset();
             paint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -3877,6 +3845,100 @@ public class GuitarTunesStyleKit {
                 canvas.restore();
             }
         }
+        
+        canvas.restore();
+    }
+    
+    private static class CacheForBtnLoopRightCompact {
+        private static Paint paint = new Paint();
+        private static RectF originalFrame = new RectF(0f, 0f, 44f, 30f);
+        private static RectF resizedFrame = new RectF();
+        private static RectF triangle1Rect = new RectF();
+        private static Path triangle1Path = new Path();
+    }
+    
+    public static void drawBtnLoopRightCompact(Canvas canvas) {
+        GuitarTunesStyleKit.drawBtnLoopRightCompact(canvas, new RectF(0f, 0f, 44f, 30f), ResizingBehavior.AspectFit);
+    }
+    
+    public static void drawBtnLoopRightCompact(Canvas canvas, RectF targetFrame, ResizingBehavior resizing) {
+        // General Declarations
+        Paint paint = CacheForBtnLoopRightCompact.paint;
+        
+        // Local Colors
+        int loopColor = Color.argb(255, 197, 7, 7);
+        
+        // Resize to Target Frame
+        canvas.save();
+        RectF resizedFrame = CacheForBtnLoopRightCompact.resizedFrame;
+        GuitarTunesStyleKit.resizingBehaviorApply(resizing, CacheForBtnLoopRightCompact.originalFrame, targetFrame, resizedFrame);
+        canvas.translate(resizedFrame.left, resizedFrame.top);
+        canvas.scale(resizedFrame.width() / 44f, resizedFrame.height() / 30f);
+        
+        // Triangle-1
+        RectF triangle1Rect = CacheForBtnLoopRightCompact.triangle1Rect;
+        triangle1Rect.set(10f, 10f, 44f, 30f);
+        Path triangle1Path = CacheForBtnLoopRightCompact.triangle1Path;
+        triangle1Path.reset();
+        triangle1Path.moveTo(10f, 30f);
+        triangle1Path.lineTo(44f, 30f);
+        triangle1Path.lineTo(44f, 10f);
+        triangle1Path.lineTo(10f, 30f);
+        triangle1Path.close();
+        
+        paint.reset();
+        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        triangle1Path.setFillType(Path.FillType.EVEN_ODD);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(loopColor);
+        canvas.drawPath(triangle1Path, paint);
+        
+        canvas.restore();
+    }
+    
+    private static class CacheForBtnLoopLeftCompact {
+        private static Paint paint = new Paint();
+        private static RectF originalFrame = new RectF(0f, 0f, 44f, 30f);
+        private static RectF resizedFrame = new RectF();
+        private static RectF triangle1Rect = new RectF();
+        private static Path triangle1Path = new Path();
+    }
+    
+    public static void drawBtnLoopLeftCompact(Canvas canvas) {
+        GuitarTunesStyleKit.drawBtnLoopLeftCompact(canvas, new RectF(0f, 0f, 44f, 30f), ResizingBehavior.AspectFit);
+    }
+    
+    public static void drawBtnLoopLeftCompact(Canvas canvas, RectF targetFrame, ResizingBehavior resizing) {
+        // General Declarations
+        Paint paint = CacheForBtnLoopLeftCompact.paint;
+        
+        // Local Colors
+        int loopColorGreen = Color.argb(255, 63, 160, 55);
+        
+        // Resize to Target Frame
+        canvas.save();
+        RectF resizedFrame = CacheForBtnLoopLeftCompact.resizedFrame;
+        GuitarTunesStyleKit.resizingBehaviorApply(resizing, CacheForBtnLoopLeftCompact.originalFrame, targetFrame, resizedFrame);
+        canvas.translate(resizedFrame.left, resizedFrame.top);
+        canvas.scale(resizedFrame.width() / 44f, resizedFrame.height() / 30f);
+        
+        // Triangle-1
+        RectF triangle1Rect = CacheForBtnLoopLeftCompact.triangle1Rect;
+        triangle1Rect.set(0f, 10f, 34f, 30f);
+        Path triangle1Path = CacheForBtnLoopLeftCompact.triangle1Path;
+        triangle1Path.reset();
+        triangle1Path.moveTo(34f, 30f);
+        triangle1Path.lineTo(0f, 30f);
+        triangle1Path.lineTo(0f, 10f);
+        triangle1Path.lineTo(34f, 30f);
+        triangle1Path.close();
+        
+        paint.reset();
+        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        triangle1Path.setFillType(Path.FillType.EVEN_ODD);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(loopColorGreen);
+        canvas.drawPath(triangle1Path, paint);
         
         canvas.restore();
     }

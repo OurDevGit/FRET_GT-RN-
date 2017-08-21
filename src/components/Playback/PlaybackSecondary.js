@@ -10,9 +10,8 @@ const buttonStyle = {
   minWidth: 50,
   height: 30,
   marginHorizontal: 5,
-  fontSize: 24,
-  lineHeight: 32,
-  fontWeight: "bold",
+  fontSize: 20,
+  lineHeight: 20,
   textAlign: "center",
   justifyContent: "center",
   alignItems: "center"
@@ -33,23 +32,39 @@ const PlaybackSecondary = ({
       height: 35,
       flexDirection: "row",
       justifyContent: "space-between",
-      alignContent: "flex-start"
+      alignContent: "center"
     }}
   >
     <View
       style={{
-        width: 110,
-        height: "100%",
-        marginTop: -10,
-        marginBottom: -5
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center"
       }}
     >
-      <RatePicker rate={rate} onRateChange={onRateChange} />
+      <Text
+        style={{
+          fontSize: 20,
+          lineHeight: 20
+        }}
+      >
+        Tempo:
+      </Text>
+      <View
+        style={{
+          width: 110,
+          height: "100%",
+          marginTop: -10,
+          marginBottom: -5
+        }}
+      >
+        <RatePicker rate={rate} onRateChange={onRateChange} />
+      </View>
     </View>
 
     <TouchableOpacity onPress={onLoopEnable}>
       <Text style={buttonStyle}>
-        {loopIsEnabled ? `( )` : `(/)`}
+        {loopIsEnabled ? "Loop ON" : "Loop OFF"}
       </Text>
     </TouchableOpacity>
 
@@ -57,11 +72,11 @@ const PlaybackSecondary = ({
     <LoopRight style={{ width: 35, height: 35 }} onPress={onLoopEnd} />
 
     <TouchableOpacity onPress={onLoopSave}>
-      <Text style={buttonStyle}>{`(✔︎)`}</Text>
+      <Text style={buttonStyle}>Save Loop</Text>
     </TouchableOpacity>
 
     <TouchableOpacity onPress={onDisplayLoops}>
-      <Text style={buttonStyle}>{`(my)`}</Text>
+      <Text style={buttonStyle}>My Loops</Text>
     </TouchableOpacity>
   </View>;
 
