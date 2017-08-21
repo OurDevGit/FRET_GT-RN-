@@ -54,7 +54,7 @@ const PlaybackSecondary = ({
         style={{
           width: 110,
           height: "100%",
-          marginTop: -10,
+          marginTop: -13,
           marginBottom: -5
         }}
       >

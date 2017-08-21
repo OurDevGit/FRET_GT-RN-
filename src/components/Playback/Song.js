@@ -22,6 +22,7 @@ class Song extends React.Component {
     mediaDuration: 0,
     playbackProgress: 0.0,
     playbackSeconds: 0.0,
+    musicRate: 1,
     playbackRate: 1,
     seek: -1
   };
@@ -43,7 +44,7 @@ class Song extends React.Component {
       >
         <Music
           seek={this.state.seek}
-          rate={this.state.playbackRate}
+          rate={this.state.musicRate}
           isPlaying={this.state.isPlaying}
           song={this.props.song}
           onProgress={this.handleMusicProgress}
@@ -177,7 +178,8 @@ class Song extends React.Component {
 
   handlePlayPausePress = () => {
     this.setState({
-      isPlaying: !this.state.isPlaying
+      isPlaying: !this.state.isPlaying,
+      musicRate: this.state.playbackRate
     });
   };
 
