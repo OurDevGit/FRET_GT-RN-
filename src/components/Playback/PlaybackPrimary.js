@@ -7,8 +7,7 @@ import {
   BtnRewind,
   BtnPlay,
   BtnForward,
-  BtnNext,
-  ResizingBehavior
+  BtnNext
 } from "../StyleKit";
 
 const buttonStyle = {

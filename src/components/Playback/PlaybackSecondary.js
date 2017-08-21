@@ -1,6 +1,7 @@
 import React from "react";
 import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
+import { LoopLeft, LoopRight } from "../StyleKit";
 
 import RatePicker from "./RatePicker";
 
@@ -29,7 +30,7 @@ const PlaybackSecondary = ({
 }) =>
   <View
     style={{
-      height: 30,
+      height: 35,
       flexDirection: "row",
       justifyContent: "space-between",
       alignContent: "flex-start"
@@ -52,13 +53,8 @@ const PlaybackSecondary = ({
       </Text>
     </TouchableOpacity>
 
-    <TouchableOpacity onPress={onLoopBegin}>
-      <Text style={buttonStyle}>{`|>`}</Text>
-    </TouchableOpacity>
-
-    <TouchableOpacity onPress={onLoopEnd}>
-      <Text style={buttonStyle}>{`<|`}</Text>
-    </TouchableOpacity>
+    <LoopLeft style={{ width: 35, height: 35 }} onPress={onLoopBegin} />
+    <LoopRight style={{ width: 35, height: 35 }} onPress={onLoopEnd} />
 
     <TouchableOpacity onPress={onLoopSave}>
       <Text style={buttonStyle}>{`(✔︎)`}</Text>

@@ -58,21 +58,24 @@ class PlaybackTimeline extends Component {
           style={{
             width: 40,
             height: 20,
+            marginTop: 15,
             marginHorizontal: 15,
             textAlign: "center"
           }}
         >
           {elapsed}
         </Text>
-        <View style={{ flex: 1, height: 18 }} onLayout={this.handleLayout}>
+        <View
+          style={{ flex: 1, top: 15, height: 18 }}
+          onLayout={this.handleLayout}
+        >
           <View
             style={{
               position: "absolute",
               height: 1,
               width: "100%",
               backgroundColor: PrimaryBlue,
-              top: 10,
-              marginTop: -0.5
+              top: 10
             }}
           />
         </View>
@@ -94,6 +97,7 @@ class PlaybackTimeline extends Component {
           style={{
             width: 40,
             height: 20,
+            marginTop: 15,
             marginHorizontal: 15,
             textAlign: "center"
           }}

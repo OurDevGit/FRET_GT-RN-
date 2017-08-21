@@ -10,7 +10,7 @@ class PlaybackMarkers extends React.Component {
       <View
         style={{
           position: "absolute",
-          top: 10,
+          top: 25,
           left: 0,
           width: this.props.width,
           height: this.props.height + 10

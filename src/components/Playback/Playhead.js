@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { View, PanResponder } from "react-native";
 
 const styles = {
   circle: {
     position: "absolute",
+    top: 15,
     width: 18,
     height: 18,
     borderRadius: 18 / 2,
@@ -24,7 +25,15 @@ class Playhead extends Component {
     };
     // console.log(this.props.scrollLeft, this.props.containerLeft)
     return (
-      <View style={{position: "absolute", top: 0, left: this.props.containerLeft, width: this.props.width, height: 18}}>
+      <View
+        style={{
+          position: "absolute",
+          top: 0,
+          left: this.props.containerLeft,
+          width: this.props.width,
+          height: 18
+        }}
+      >
         <View style={styleWithLeft} {...this._panResponder.panHandlers} />
       </View>
     );
