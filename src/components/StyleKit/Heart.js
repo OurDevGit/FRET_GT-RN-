@@ -1,9 +1,8 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { BtnFavorite_isPressed } from "./styleKitComponents";
-import { gtPcPressable, gtPcColorable, gtPcSizeable } from "./lib";
+import { gtPcSizeable } from "./lib";
 import { realmify } from "../../realm";
-import { mapProps } from "recompose";
 
 const SizeableFavorite = gtPcSizeable(BtnFavorite_isPressed);
 
