@@ -38,7 +38,26 @@ export const realmify = (mapQueries, makeMutations = () => {}) => {
   console.debug("realmify");
 
   var queries = mapQueries(realm);
-  const mutations = makeMutations(realm);
+  var mutations = makeMutations({
+    realm,
+    delete: obj => {
+      realm.delete(obj);
+    },
+    create: (className, obj) => {
+      realm.create(className, obj);
+    }
+  });
+
+  for (key in mutations) {
+    let func = mutations[key];
+    if (typeof func === "function") {
+      mutations[key] = (...rest) => {
+        realm.write(() => {
+          func(...rest);
+        });
+      };
+    }
+  }
 
   const queriesWrapper = lifecycle({
     state: { queries, mutations },
