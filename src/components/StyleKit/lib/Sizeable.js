@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { View } from "react-native";
 
 export const gtPcSizeable = WrappedComponent => {
   return class extends Component {
@@ -9,7 +10,7 @@ export const gtPcSizeable = WrappedComponent => {
     };
 
     render() {
-      const frameProps = {
+      var frameProps = {
         ...this.props,
         targetFrame: {
           left: 0,
@@ -18,21 +19,21 @@ export const gtPcSizeable = WrappedComponent => {
           bottom: this.state.height
         }
       };
-
-      return <WrappedComponent {...frameProps} />;
+      delete frameProps.style;
+      console.log(this.state.width, this.state.height);
+      return (
+        <View style={this.props.style} onLayout={this.handleLayout.bind(this)}>
+          <WrappedComponent {...frameProps} />
+        </View>
+      );
     }
 
-    componentWillMount() {
-      this.setState(this.makeSize(this.props));
+    handleLayout(e) {
+      console.log(e.nativeEvent.layout.height);
+      this.setState({
+        height: e.nativeEvent.layout.height,
+        width: e.nativeEvent.layout.width
+      });
     }
-
-    componentWillReceiveProps(newProps) {
-      this.setState(this.makeSize(newProps));
-    }
-
-    makeSize = props => {
-      const size = props.style || { width: 44, height: 44 };
-      return { width: size.width, height: size.height };
-    };
   };
 };
