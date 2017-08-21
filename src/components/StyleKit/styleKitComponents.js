@@ -145,27 +145,27 @@ export const BtnForward_targetFrame_resizing_isPressed_redValue_greenValue_blueV
   {...props}
 />
 
-export const BtnLoopRight = props => <PaintCode
+export const BtnLoopRight_isEnabled = props => <PaintCode
   drawMethod="BtnLoopRight"
-  drawArgs={[]}
+  drawArgs={["isEnabled"]}
   {...props}
 />
 
-export const BtnLoopRight_targetFrame_resizing = props => <PaintCode
+export const BtnLoopRight_targetFrame_resizing_isEnabled = props => <PaintCode
   drawMethod="BtnLoopRight"
-  drawArgs={["targetFrame","resizing"]}
+  drawArgs={["targetFrame","resizing","isEnabled"]}
   {...props}
 />
 
-export const BtnLoopLeft = props => <PaintCode
+export const BtnLoopLeft_isEnabled = props => <PaintCode
   drawMethod="BtnLoopLeft"
-  drawArgs={[]}
+  drawArgs={["isEnabled"]}
   {...props}
 />
 
-export const BtnLoopLeft_targetFrame_resizing = props => <PaintCode
+export const BtnLoopLeft_targetFrame_resizing_isEnabled = props => <PaintCode
   drawMethod="BtnLoopLeft"
-  drawArgs={["targetFrame","resizing"]}
+  drawArgs={["targetFrame","resizing","isEnabled"]}
   {...props}
 />
 
@@ -307,15 +307,15 @@ export const BtnFretboard_targetFrame_resizing_isPressed = props => <PaintCode
   {...props}
 />
 
-export const JambarLens_frame = props => <PaintCode
+export const JambarLens = props => <PaintCode
   drawMethod="JambarLens"
-  drawArgs={["frame"]}
+  drawArgs={[]}
   {...props}
 />
 
-export const JambarLensWide_frame = props => <PaintCode
+export const JambarLensWide = props => <PaintCode
   drawMethod="JambarLensWide"
-  drawArgs={["frame"]}
+  drawArgs={[]}
   {...props}
 />
 
@@ -328,6 +328,30 @@ export const BtnExitFullscreen = props => <PaintCode
 export const BtnExitFullscreen_targetFrame_resizing = props => <PaintCode
   drawMethod="BtnExitFullscreen"
   drawArgs={["targetFrame","resizing"]}
+  {...props}
+/>
+
+export const BtnLoopRightCompact_isEnabled = props => <PaintCode
+  drawMethod="BtnLoopRightCompact"
+  drawArgs={["isEnabled"]}
+  {...props}
+/>
+
+export const BtnLoopRightCompact_targetFrame_resizing_isEnabled = props => <PaintCode
+  drawMethod="BtnLoopRightCompact"
+  drawArgs={["targetFrame","resizing","isEnabled"]}
+  {...props}
+/>
+
+export const BtnLoopLeftCompact_isEnabled = props => <PaintCode
+  drawMethod="BtnLoopLeftCompact"
+  drawArgs={["isEnabled"]}
+  {...props}
+/>
+
+export const BtnLoopLeftCompact_targetFrame_resizing_isEnabled = props => <PaintCode
+  drawMethod="BtnLoopLeftCompact"
+  drawArgs={["targetFrame","resizing","isEnabled"]}
   {...props}
 />
 

@@ -79,6 +79,7 @@ class Song extends React.Component {
                 duration={this.state.mediaDuration}
                 markers={this.props.markers}
                 currentLoop={this.props.currentLoop}
+                loopIsEnabled={this.props.loopIsEnabled}
                 onScrub={this.handleScrub}
                 onMarkerPress={this.handleMarkerPress}
                 onMarkerLongPress={this.handleMarkerLongPress}
@@ -99,6 +100,7 @@ class Song extends React.Component {
                 duration={this.state.mediaDuration}
                 markers={this.props.markers}
                 currentLoop={this.props.currentLoop}
+                loopIsEnabled={this.props.loopIsEnabled}
                 onScrub={this.handleScrub}
                 onMarkerPress={this.handleMarkerPress}
                 onMarkerLongPress={this.handleMarkerLongPress}

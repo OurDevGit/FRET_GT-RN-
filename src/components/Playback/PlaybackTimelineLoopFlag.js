@@ -3,7 +3,7 @@ import { pure } from "recompose";
 import { View } from "react-native";
 import { LoopLeft, LoopRight } from "../StyleKit";
 
-const LoopFlag = ({ type, left }) =>
+const LoopFlag = ({ type, left, isEnabled }) =>
   <View
     style={{
       position: "absolute",
@@ -14,8 +14,8 @@ const LoopFlag = ({ type, left }) =>
     }}
   >
     {type === "begin"
-      ? <LoopLeft style={{ width: 30, height: 30 }} />
-      : <LoopRight style={{ width: 30, height: 30 }} />}
+      ? <LoopLeft isEnabled={isEnabled} style={{ width: 30, height: 30 }} />
+      : <LoopRight isEnabled={isEnabled} style={{ width: 30, height: 30 }} />}
   </View>;
 
 export default pure(LoopFlag);

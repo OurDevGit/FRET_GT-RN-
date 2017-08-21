@@ -17,6 +17,7 @@ class MediaPlayer extends Component {
   render() {
     // console.log({ song: this.props.song });
     // console.log({ vid: this.props.video });
+
     return (
       <View style={{ flex: 1 }} onLayout={this.handleLayout}>
         {this.props.song !== undefined &&

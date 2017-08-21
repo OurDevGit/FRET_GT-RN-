@@ -1547,16 +1547,19 @@ public class GuitarTunesStyleKit {
         private static Path triangle1Path = new Path();
     }
     
-    public static void drawBtnLoopRight(Canvas canvas) {
-        GuitarTunesStyleKit.drawBtnLoopRight(canvas, new RectF(0f, 0f, 44f, 44f), ResizingBehavior.AspectFit);
+    public static void drawBtnLoopRight(Canvas canvas, boolean isEnabled) {
+        GuitarTunesStyleKit.drawBtnLoopRight(canvas, new RectF(0f, 0f, 44f, 44f), ResizingBehavior.AspectFit, isEnabled);
     }
     
-    public static void drawBtnLoopRight(Canvas canvas, RectF targetFrame, ResizingBehavior resizing) {
+    public static void drawBtnLoopRight(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isEnabled) {
         // General Declarations
         Paint paint = CacheForBtnLoopRight.paint;
         
         // Local Colors
         int loopColor = Color.argb(255, 197, 7, 7);
+        
+        // Local Variables
+        float opacity = isEnabled ? 1f : 0.5f;
         
         // Resize to Target Frame
         canvas.save();
@@ -1566,41 +1569,49 @@ public class GuitarTunesStyleKit {
         canvas.scale(resizedFrame.width() / 44f, resizedFrame.height() / 44f);
         
         // Stroke-
-        RectF strokeRect = CacheForBtnLoopRight.strokeRect;
-        strokeRect.set(43f, 3f, 43f, 42f);
-        Path strokePath = CacheForBtnLoopRight.strokePath;
-        strokePath.reset();
-        strokePath.moveTo(43f, 3f);
-        strokePath.lineTo(43f, 42f);
-        
-        paint.reset();
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paint.setStrokeWidth(2f);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        canvas.save();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(loopColor);
-        canvas.drawPath(strokePath, paint);
+        canvas.saveLayerAlpha(null, (int) (opacity * 255f), Canvas.ALL_SAVE_FLAG);
+        {
+            RectF strokeRect = CacheForBtnLoopRight.strokeRect;
+            strokeRect.set(43f, 3f, 43f, 40f);
+            Path strokePath = CacheForBtnLoopRight.strokePath;
+            strokePath.reset();
+            strokePath.moveTo(43f, 3f);
+            strokePath.lineTo(43f, 40f);
+            
+            paint.reset();
+            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+            paint.setStrokeWidth(2f);
+            paint.setStrokeJoin(Paint.Join.ROUND);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            canvas.save();
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(loopColor);
+            canvas.drawPath(strokePath, paint);
+            canvas.restore();
+        }
         canvas.restore();
         
         // Triangle-1
-        RectF triangle1Rect = CacheForBtnLoopRight.triangle1Rect;
-        triangle1Rect.set(20f, 3f, 42f, 21f);
-        Path triangle1Path = CacheForBtnLoopRight.triangle1Path;
-        triangle1Path.reset();
-        triangle1Path.moveTo(20f, 11.94f);
-        triangle1Path.lineTo(42f, 21f);
-        triangle1Path.lineTo(42f, 3f);
-        triangle1Path.lineTo(20f, 11.94f);
-        triangle1Path.close();
-        
-        paint.reset();
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        triangle1Path.setFillType(Path.FillType.EVEN_ODD);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(loopColor);
-        canvas.drawPath(triangle1Path, paint);
+        canvas.saveLayerAlpha(null, (int) (opacity * 255f), Canvas.ALL_SAVE_FLAG);
+        {
+            RectF triangle1Rect = CacheForBtnLoopRight.triangle1Rect;
+            triangle1Rect.set(20f, 3f, 42f, 21f);
+            Path triangle1Path = CacheForBtnLoopRight.triangle1Path;
+            triangle1Path.reset();
+            triangle1Path.moveTo(20f, 11.94f);
+            triangle1Path.lineTo(42f, 21f);
+            triangle1Path.lineTo(42f, 3f);
+            triangle1Path.lineTo(20f, 11.94f);
+            triangle1Path.close();
+            
+            paint.reset();
+            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+            triangle1Path.setFillType(Path.FillType.EVEN_ODD);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(loopColor);
+            canvas.drawPath(triangle1Path, paint);
+        }
+        canvas.restore();
         
         canvas.restore();
     }
@@ -1615,16 +1626,19 @@ public class GuitarTunesStyleKit {
         private static Path triangle1Path = new Path();
     }
     
-    public static void drawBtnLoopLeft(Canvas canvas) {
-        GuitarTunesStyleKit.drawBtnLoopLeft(canvas, new RectF(0f, 0f, 44f, 44f), ResizingBehavior.AspectFit);
+    public static void drawBtnLoopLeft(Canvas canvas, boolean isEnabled) {
+        GuitarTunesStyleKit.drawBtnLoopLeft(canvas, new RectF(0f, 0f, 44f, 44f), ResizingBehavior.AspectFit, isEnabled);
     }
     
-    public static void drawBtnLoopLeft(Canvas canvas, RectF targetFrame, ResizingBehavior resizing) {
+    public static void drawBtnLoopLeft(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isEnabled) {
         // General Declarations
         Paint paint = CacheForBtnLoopLeft.paint;
         
         // Local Colors
         int loopColorGreen = Color.argb(255, 63, 160, 55);
+        
+        // Local Variables
+        float opacity = isEnabled ? 1f : 0.5f;
         
         // Resize to Target Frame
         canvas.save();
@@ -1634,41 +1648,49 @@ public class GuitarTunesStyleKit {
         canvas.scale(resizedFrame.width() / 44f, resizedFrame.height() / 44f);
         
         // Stroke-
-        RectF strokeRect = CacheForBtnLoopLeft.strokeRect;
-        strokeRect.set(1.3f, 3f, 1.3f, 42f);
-        Path strokePath = CacheForBtnLoopLeft.strokePath;
-        strokePath.reset();
-        strokePath.moveTo(1.3f, 3f);
-        strokePath.lineTo(1.3f, 42f);
-        
-        paint.reset();
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        paint.setStrokeWidth(2f);
-        paint.setStrokeJoin(Paint.Join.ROUND);
-        paint.setStrokeCap(Paint.Cap.ROUND);
-        canvas.save();
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(loopColorGreen);
-        canvas.drawPath(strokePath, paint);
+        canvas.saveLayerAlpha(null, (int) (opacity * 255f), Canvas.ALL_SAVE_FLAG);
+        {
+            RectF strokeRect = CacheForBtnLoopLeft.strokeRect;
+            strokeRect.set(1.3f, 3f, 1.3f, 40f);
+            Path strokePath = CacheForBtnLoopLeft.strokePath;
+            strokePath.reset();
+            strokePath.moveTo(1.3f, 3f);
+            strokePath.lineTo(1.3f, 40f);
+            
+            paint.reset();
+            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+            paint.setStrokeWidth(2f);
+            paint.setStrokeJoin(Paint.Join.ROUND);
+            paint.setStrokeCap(Paint.Cap.ROUND);
+            canvas.save();
+            paint.setStyle(Paint.Style.STROKE);
+            paint.setColor(loopColorGreen);
+            canvas.drawPath(strokePath, paint);
+            canvas.restore();
+        }
         canvas.restore();
         
         // Triangle-1
-        RectF triangle1Rect = CacheForBtnLoopLeft.triangle1Rect;
-        triangle1Rect.set(2f, 3f, 24f, 21f);
-        Path triangle1Path = CacheForBtnLoopLeft.triangle1Path;
-        triangle1Path.reset();
-        triangle1Path.moveTo(24f, 12f);
-        triangle1Path.lineTo(2f, 21f);
-        triangle1Path.lineTo(2f, 3f);
-        triangle1Path.lineTo(24f, 12f);
-        triangle1Path.close();
-        
-        paint.reset();
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        triangle1Path.setFillType(Path.FillType.EVEN_ODD);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(loopColorGreen);
-        canvas.drawPath(triangle1Path, paint);
+        canvas.saveLayerAlpha(null, (int) (opacity * 255f), Canvas.ALL_SAVE_FLAG);
+        {
+            RectF triangle1Rect = CacheForBtnLoopLeft.triangle1Rect;
+            triangle1Rect.set(2.3f, 3f, 24.3f, 21f);
+            Path triangle1Path = CacheForBtnLoopLeft.triangle1Path;
+            triangle1Path.reset();
+            triangle1Path.moveTo(24.3f, 12f);
+            triangle1Path.lineTo(2.3f, 21f);
+            triangle1Path.lineTo(2.3f, 3f);
+            triangle1Path.lineTo(24.3f, 12f);
+            triangle1Path.close();
+            
+            paint.reset();
+            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+            triangle1Path.setFillType(Path.FillType.EVEN_ODD);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(loopColorGreen);
+            canvas.drawPath(triangle1Path, paint);
+        }
+        canvas.restore();
         
         canvas.restore();
     }
@@ -3857,16 +3879,19 @@ public class GuitarTunesStyleKit {
         private static Path triangle1Path = new Path();
     }
     
-    public static void drawBtnLoopRightCompact(Canvas canvas) {
-        GuitarTunesStyleKit.drawBtnLoopRightCompact(canvas, new RectF(0f, 0f, 44f, 30f), ResizingBehavior.AspectFit);
+    public static void drawBtnLoopRightCompact(Canvas canvas, boolean isEnabled) {
+        GuitarTunesStyleKit.drawBtnLoopRightCompact(canvas, new RectF(0f, 0f, 44f, 30f), ResizingBehavior.AspectFit, isEnabled);
     }
     
-    public static void drawBtnLoopRightCompact(Canvas canvas, RectF targetFrame, ResizingBehavior resizing) {
+    public static void drawBtnLoopRightCompact(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isEnabled) {
         // General Declarations
         Paint paint = CacheForBtnLoopRightCompact.paint;
         
         // Local Colors
         int loopColor = Color.argb(255, 197, 7, 7);
+        
+        // Local Variables
+        float opacity = isEnabled ? 1f : 0.5f;
         
         // Resize to Target Frame
         canvas.save();
@@ -3876,22 +3901,26 @@ public class GuitarTunesStyleKit {
         canvas.scale(resizedFrame.width() / 44f, resizedFrame.height() / 30f);
         
         // Triangle-1
-        RectF triangle1Rect = CacheForBtnLoopRightCompact.triangle1Rect;
-        triangle1Rect.set(10f, 10f, 44f, 30f);
-        Path triangle1Path = CacheForBtnLoopRightCompact.triangle1Path;
-        triangle1Path.reset();
-        triangle1Path.moveTo(10f, 30f);
-        triangle1Path.lineTo(44f, 30f);
-        triangle1Path.lineTo(44f, 10f);
-        triangle1Path.lineTo(10f, 30f);
-        triangle1Path.close();
-        
-        paint.reset();
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        triangle1Path.setFillType(Path.FillType.EVEN_ODD);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(loopColor);
-        canvas.drawPath(triangle1Path, paint);
+        canvas.saveLayerAlpha(null, (int) (opacity * 255f), Canvas.ALL_SAVE_FLAG);
+        {
+            RectF triangle1Rect = CacheForBtnLoopRightCompact.triangle1Rect;
+            triangle1Rect.set(10f, 10f, 44f, 30f);
+            Path triangle1Path = CacheForBtnLoopRightCompact.triangle1Path;
+            triangle1Path.reset();
+            triangle1Path.moveTo(10f, 30f);
+            triangle1Path.lineTo(44f, 30f);
+            triangle1Path.lineTo(44f, 10f);
+            triangle1Path.lineTo(10f, 30f);
+            triangle1Path.close();
+            
+            paint.reset();
+            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+            triangle1Path.setFillType(Path.FillType.EVEN_ODD);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(loopColor);
+            canvas.drawPath(triangle1Path, paint);
+        }
+        canvas.restore();
         
         canvas.restore();
     }
@@ -3904,16 +3933,19 @@ public class GuitarTunesStyleKit {
         private static Path triangle1Path = new Path();
     }
     
-    public static void drawBtnLoopLeftCompact(Canvas canvas) {
-        GuitarTunesStyleKit.drawBtnLoopLeftCompact(canvas, new RectF(0f, 0f, 44f, 30f), ResizingBehavior.AspectFit);
+    public static void drawBtnLoopLeftCompact(Canvas canvas, boolean isEnabled) {
+        GuitarTunesStyleKit.drawBtnLoopLeftCompact(canvas, new RectF(0f, 0f, 44f, 30f), ResizingBehavior.AspectFit, isEnabled);
     }
     
-    public static void drawBtnLoopLeftCompact(Canvas canvas, RectF targetFrame, ResizingBehavior resizing) {
+    public static void drawBtnLoopLeftCompact(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isEnabled) {
         // General Declarations
         Paint paint = CacheForBtnLoopLeftCompact.paint;
         
         // Local Colors
         int loopColorGreen = Color.argb(255, 63, 160, 55);
+        
+        // Local Variables
+        float opacity = isEnabled ? 1f : 0.5f;
         
         // Resize to Target Frame
         canvas.save();
@@ -3923,22 +3955,26 @@ public class GuitarTunesStyleKit {
         canvas.scale(resizedFrame.width() / 44f, resizedFrame.height() / 30f);
         
         // Triangle-1
-        RectF triangle1Rect = CacheForBtnLoopLeftCompact.triangle1Rect;
-        triangle1Rect.set(0f, 10f, 34f, 30f);
-        Path triangle1Path = CacheForBtnLoopLeftCompact.triangle1Path;
-        triangle1Path.reset();
-        triangle1Path.moveTo(34f, 30f);
-        triangle1Path.lineTo(0f, 30f);
-        triangle1Path.lineTo(0f, 10f);
-        triangle1Path.lineTo(34f, 30f);
-        triangle1Path.close();
-        
-        paint.reset();
-        paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        triangle1Path.setFillType(Path.FillType.EVEN_ODD);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(loopColorGreen);
-        canvas.drawPath(triangle1Path, paint);
+        canvas.saveLayerAlpha(null, (int) (opacity * 255f), Canvas.ALL_SAVE_FLAG);
+        {
+            RectF triangle1Rect = CacheForBtnLoopLeftCompact.triangle1Rect;
+            triangle1Rect.set(0f, 10f, 34f, 30f);
+            Path triangle1Path = CacheForBtnLoopLeftCompact.triangle1Path;
+            triangle1Path.reset();
+            triangle1Path.moveTo(34f, 30f);
+            triangle1Path.lineTo(0f, 30f);
+            triangle1Path.lineTo(0f, 10f);
+            triangle1Path.lineTo(34f, 30f);
+            triangle1Path.close();
+            
+            paint.reset();
+            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+            triangle1Path.setFillType(Path.FillType.EVEN_ODD);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(loopColorGreen);
+            canvas.drawPath(triangle1Path, paint);
+        }
+        canvas.restore();
         
         canvas.restore();
     }

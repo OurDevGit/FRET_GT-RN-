@@ -4,8 +4,8 @@ import { View } from "react-native";
 import { gtPcPressable, gtPcSizeable } from "./lib";
 import {
   BtnPrevious_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
-  BtnLoopLeft_targetFrame_resizing,
-  BtnLoopRight_targetFrame_resizing
+  BtnLoopLeft_targetFrame_resizing_isEnabled,
+  BtnLoopRight_targetFrame_resizing_isEnabled
 } from "./styleKitComponents";
 import {
   ResizingBehavior,
@@ -14,11 +14,15 @@ import {
 } from "./lib";
 
 export const LoopLeft = props => {
-  const Comp = gtPcSizeable(gtPcPressable(BtnLoopLeft_targetFrame_resizing));
+  const Comp = gtPcSizeable(
+    gtPcPressable(BtnLoopLeft_targetFrame_resizing_isEnabled)
+  );
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
 
 export const LoopRight = props => {
-  const Comp = gtPcSizeable(gtPcPressable(BtnLoopRight_targetFrame_resizing));
+  const Comp = gtPcSizeable(
+    gtPcPressable(BtnLoopRight_targetFrame_resizing_isEnabled)
+  );
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };

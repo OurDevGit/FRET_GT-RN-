@@ -9,7 +9,8 @@ const buttonStyle = {
   flex: 1,
   minWidth: 50,
   height: 30,
-  marginHorizontal: 5,
+  marginHorizontal: 6,
+  paddingTop: 4,
   fontSize: 20,
   lineHeight: 20,
   textAlign: "center",
@@ -44,6 +45,7 @@ const PlaybackSecondary = ({
     >
       <Text
         style={{
+          paddingTop: 5,
           fontSize: 20,
           lineHeight: 20
         }}
@@ -54,7 +56,7 @@ const PlaybackSecondary = ({
         style={{
           width: 110,
           height: "100%",
-          marginTop: -13,
+          marginTop: -8,
           marginBottom: -5
         }}
       >

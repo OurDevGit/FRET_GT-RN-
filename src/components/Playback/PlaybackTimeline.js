@@ -21,6 +21,7 @@ class PlaybackTimeline extends Component {
       duration,
       markers,
       currentLoop,
+      loopIsEnabled,
       onMarkerPress,
       onMarkerLongPress
     } = this.props;
@@ -81,10 +82,19 @@ class PlaybackTimeline extends Component {
         </View>
 
         {begin > 0 &&
-          <LoopFlag type="begin" left={layout.x + begin * layout.width} />}
+          <LoopFlag
+            type="begin"
+            isEnabled={loopIsEnabled}
+            left={layout.x + begin * layout.width}
+          />}
 
         {end > 0 &&
-          <LoopFlag type="end" left={layout.x + end * layout.width} />}
+          <LoopFlag
+            type="end"
+            isEnabled={loopIsEnabled}
+            isEnabled={loopIsEnabled}
+            left={layout.x + end * layout.width}
+          />}
 
         <Playhead
           onPan={this.handlePlayheadPan}

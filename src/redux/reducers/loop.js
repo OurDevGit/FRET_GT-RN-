@@ -11,7 +11,7 @@ exports.currentLoop = (state = Map(), action) => {
   }
 };
 
-exports.loopIsEnabled = (state = false, action) => {
+exports.loopIsEnabled = (state = true, action) => {
   switch (action.type) {
     case "ENABLE_LOOP":
       return action.payload;
