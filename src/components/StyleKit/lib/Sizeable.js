@@ -31,7 +31,7 @@ export const gtPcSizeable = WrappedComponent => {
     }
 
     makeSize = props => {
-      const size = props.size || { width: 44, height: 44 };
+      const size = props.style || { width: 44, height: 44 };
       return { width: size.width, height: size.height };
     };
   };

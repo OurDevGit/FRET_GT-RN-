@@ -24,6 +24,7 @@ const buttonStyle = {
   alignItems: "center"
 };
 const textStyle = { color: PrimaryBlue, fontSize: 20 };
+const primaryStyle = { width: 50, height: 50, marginHorizontal: 10 };
 
 const PlaybackPrimary = ({
   title,
@@ -72,40 +73,31 @@ const PlaybackPrimary = ({
       }}
     >
       <BtnPrevious
-        style={{ width: 50, height: 50 }}
-        size={{ width: 44, height: 44 }}
+        style={primaryStyle}
         color={PrimaryBlue}
         onPress={onPreviousPress}
       />
 
       <BtnRewind
-        style={{ width: 50, height: 50 }}
-        size={{ width: 44, height: 44 }}
+        style={primaryStyle}
         color={PrimaryBlue}
         onPress={onBackPress}
       />
 
       <BtnPlay
         isShowingPause={isPlaying}
-        style={{ width: 100, height: 100, backgroundColor: "red" }}
-        size={{ width: 100, height: 100 }}
+        style={primaryStyle}
         color={PrimaryBlue}
         onPress={onPlayPausePress}
       />
 
       <BtnForward
-        style={{ width: 50, height: 50 }}
-        size={{ width: 44, height: 44 }}
+        style={primaryStyle}
         color={PrimaryBlue}
         onPress={onForwardPress}
       />
 
-      <BtnNext
-        style={{ width: 50, height: 50 }}
-        size={{ width: 44, height: 44 }}
-        color={PrimaryBlue}
-        onPress={onNextPress}
-      />
+      <BtnNext style={primaryStyle} color={PrimaryBlue} onPress={onNextPress} />
     </View>
 
     <View
