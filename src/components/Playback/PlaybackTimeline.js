@@ -92,7 +92,6 @@ class PlaybackTimeline extends Component {
           <LoopFlag
             type="end"
             isEnabled={loopIsEnabled}
-            isEnabled={loopIsEnabled}
             left={layout.x + end * layout.width}
           />}
 
@@ -128,14 +127,28 @@ class PlaybackTimeline extends Component {
   }
 
   handlePlayheadPan = x => {
-    // console.log(Dimensions.get("#PlaybackTimeline"));
+    const {
+      duration,
+      currentLoop,
+      loopIsEnabled,
+      onLoopEnable,
+      onScrub
+    } = this.props;
 
     var progress = x > 0 ? x / this.state.layout.width : 0;
     progress = Math.max(progress, 0);
     progress = Math.min(progress, 1);
 
+    var time = progress * duration;
+    const begin = currentLoop.get("begin") || 0;
+    const end = currentLoop.get("end") || duration;
+
+    if ((time < begin || time > end) && loopIsEnabled) {
+      onLoopEnable(false);
+    }
+
     this.setState({ progress });
-    this.props.onScrub(progress);
+    onScrub(progress);
   };
 
   handlePlayheadPanStart = () => {

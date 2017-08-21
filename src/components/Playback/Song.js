@@ -104,6 +104,7 @@ class Song extends React.Component {
                 onScrub={this.handleScrub}
                 onMarkerPress={this.handleMarkerPress}
                 onMarkerLongPress={this.handleMarkerLongPress}
+                onLoopEnable={this.handleLoopEnable}
               />
               <PlaybackSecondary
                 rate={this.state.playbackRate}
