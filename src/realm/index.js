@@ -9,7 +9,7 @@ import PatternNote from "./PatternNote";
 import PatternReference from "./PatternReference";
 import PatternRoot from "./PatternRoot";
 
-import { mapProps, withProps } from "recompose";
+import { mapProps, withProps, lifecycle, compose } from "recompose";
 
 const schema0 = [
   Media,
@@ -37,21 +37,32 @@ export default realm;
 export const realmify = (mapQueries, makeMutations = () => {}) => {
   console.debug("realmify");
 
-  const queries = mapQueries(realm);
+  var queries = mapQueries(realm);
   const mutations = makeMutations(realm);
 
-  console.debug("hi 2");
+  const queriesWrapper = lifecycle({
+    state: { queries, mutations },
+    componentDidMount() {
+      // put a listener on each key so that when updates come through, we update the props
+      for (key in queries) {
+        queries[key].addListener((objs, changes) => {
+          // update this key with the latest
+          queries[key] = objs;
+          this.setState({ queries });
+        });
+      }
+    },
+    componentWillUnmount() {
+      console.debug("queriesWrapper will umount!");
+      for (key in queries) {
+        queries[key].removeAllListeners();
+      }
+    }
+  });
 
   const realmProps = { ...queries, ...mutations };
 
-  return withProps({ ...realmProps });
-
-  // return WrappedComponent => {
-  //   console.debug("Wrapped!");
-  //   return <WrappedComponent {...{ ...queries, ...mutations }} />;
-  // };
-
-  // return function(WrappedComponent)
+  return compose(queriesWrapper, withProps({ ...realmProps }));
 };
 
 // export const mapQueriesToProps = mapProps(props => );
