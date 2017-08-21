@@ -31,9 +31,6 @@ class Vid extends React.Component {
   };
 
   render() {
-    // const mediaTitle =
-    //   this.props.video !== undefined ? this.props.video.name : "";
-
     return (
       <View
         style={{
@@ -74,6 +71,7 @@ class Vid extends React.Component {
           }}
         >
           <VideoOverlay
+            id={this.props.video.id}
             title={this.state.title}
             chapters={this.state.chapters}
             currentChapter={this.state.currentChapter}

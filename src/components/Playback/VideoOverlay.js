@@ -41,7 +41,7 @@ class VideoOverlay extends React.Component {
           <Text style={{ flex: 1, textAlign: "center" }}>
             {this.props.title}
           </Text>
-          <Heart onPress={() => console.log("Heart Press!")} />
+          <Heart mediaId={this.props.id} />
         </View>
         <TouchableOpacity
           onPress={() => console.debug("touch middle")}
@@ -116,7 +116,8 @@ VideoOverlay.propTypes = {
   onSeek: PropTypes.func.isRequired,
   rate: PropTypes.number.isRequired,
   duration: PropTypes.number,
-  progress: PropTypes.number
+  progress: PropTypes.number,
+  id: PropTypes.string
 };
 
 export default VideoOverlay;

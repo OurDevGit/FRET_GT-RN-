@@ -8,6 +8,7 @@ import Pattern from "./Pattern";
 import PatternNote from "./PatternNote";
 import PatternReference from "./PatternReference";
 import PatternRoot from "./PatternRoot";
+import Favorite from "./Favorite";
 
 import { mapProps, withProps, lifecycle, compose } from "recompose";
 
@@ -19,7 +20,8 @@ const schema0 = [
   Pattern,
   PatternNote,
   PatternReference,
-  PatternRoot
+  PatternRoot,
+  Favorite
 ];
 const migrationFunction1 = (oldRealm, newRealm) => {};
 
@@ -35,8 +37,6 @@ export default realm;
 // };
 
 export const realmify = (mapQueries, makeMutations = () => {}) => {
-  console.debug("realmify");
-
   var queries = mapQueries(realm);
   var mutations = makeMutations({
     realm,
