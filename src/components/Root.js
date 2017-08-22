@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, StatusBar, Button, Text } from "react-native";
-import { Provider } from "react-redux";
+import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
 import FretboardsContainer from "./Fretboards";
@@ -39,7 +39,12 @@ class Root extends Component {
           {/* <RealmTester /> */}
           {this.state.showAd &&
             <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
-          <Playback song={this.state.song} video={this.state.video} />
+          <Playback
+            song={this.state.song}
+            video={this.state.video}
+            trackCount={this.props.trackCount}
+            onToggleLibrary={this.handleToggleLibrary}
+          />
           <FretboardsContainer
             deviceWidth={this.state.layout.width}
             deviceHeight={this.state.layout.height}
@@ -50,10 +55,13 @@ class Root extends Component {
             onSelect={this.handleSelectMedia}
             media={testMedia}
           />
-          <View style={{ position: "absolute", left: 5, top: 5 }}>
-            {!this.state.libIsOpen &&
-              <Button title="Lib" onPress={this.handleToggleLibrary} />}
-          </View>
+
+          {this.state.showAd &&
+            this.props.trackCount < 4 &&
+            <View style={{ position: "absolute", left: 5, top: 5 }}>
+              {!this.state.libIsOpen &&
+                <Button title="Lib" onPress={this.handleToggleLibrary} />}
+            </View>}
 
           {supportsMultipleFretboards && <TrackSelector />}
         </View>
@@ -71,7 +79,6 @@ class Root extends Component {
 
   handleSelectMedia = mediaIndex => {
     const media = testMedia[mediaIndex];
-
     if (media.type === "song") {
       this.setState({
         libIsOpen: false,
@@ -96,4 +103,10 @@ class Root extends Component {
   };
 }
 
-export default Root;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    trackCount: state.get("visibleTracks").count()
+  };
+};
+
+export default connect(mapStateToProps)(Root);

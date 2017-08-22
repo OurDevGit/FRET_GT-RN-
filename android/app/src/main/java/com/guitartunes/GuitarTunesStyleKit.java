@@ -448,20 +448,19 @@ public class GuitarTunesStyleKit {
         private static Path bezier2Path = new Path();
     }
     
-    public static void drawBtnLibrary(Canvas canvas, boolean isPressed) {
-        GuitarTunesStyleKit.drawBtnLibrary(canvas, new RectF(0f, 0f, 44f, 44f), ResizingBehavior.AspectFit, isPressed);
+    public static void drawBtnLibrary(Canvas canvas, boolean isPressed, float redValue, float greenValue, float blueValue) {
+        GuitarTunesStyleKit.drawBtnLibrary(canvas, new RectF(0f, 0f, 44f, 44f), ResizingBehavior.AspectFit, isPressed, redValue, greenValue, blueValue);
     }
     
-    public static void drawBtnLibrary(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isPressed) {
+    public static void drawBtnLibrary(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isPressed, float redValue, float greenValue, float blueValue) {
         // General Declarations
         Paint paint = CacheForBtnLibrary.paint;
         
         // Local Colors
-        int navColorUp = Color.argb(255, 255, 255, 255);
-        int navColorDown = Color.argb(255, 205, 205, 205);
+        int downControls = Color.argb(255, 132, 132, 132);
         
         // Local Variables
-        int btnNavColor = isPressed ? navColorDown : navColorUp;
+        int backgroundColor = isPressed ? downControls : Color.argb(255, (int) (redValue * 255f), (int) (greenValue * 255f), (int) (blueValue * 255f));
         
         // Resize to Target Frame
         canvas.save();
@@ -474,48 +473,48 @@ public class GuitarTunesStyleKit {
         {
             // Bezier
             RectF bezierRect = CacheForBtnLibrary.bezierRect;
-            bezierRect.set(8.5f, 7.5f, 36.5f, 33.5f);
+            bezierRect.set(3.5f, 4.5f, 41.5f, 40.5f);
             Path bezierPath = CacheForBtnLibrary.bezierPath;
             bezierPath.reset();
-            bezierPath.moveTo(22.5f, 12.05f);
-            bezierPath.cubicTo(22.5f, 9.54f, 29.05f, 7.5f, 36.5f, 7.5f);
-            bezierPath.lineTo(36.5f, 28.95f);
-            bezierPath.cubicTo(29.05f, 28.95f, 22.5f, 30.99f, 22.5f, 33.5f);
-            bezierPath.cubicTo(22.5f, 30.99f, 15.95f, 28.95f, 8.5f, 28.95f);
-            bezierPath.lineTo(8.5f, 7.5f);
-            bezierPath.cubicTo(15.95f, 7.5f, 22.5f, 9.54f, 22.5f, 12.05f);
-            bezierPath.lineTo(22.5f, 12.05f);
+            bezierPath.moveTo(22.5f, 10.8f);
+            bezierPath.cubicTo(22.5f, 7.32f, 31.39f, 4.5f, 41.5f, 4.5f);
+            bezierPath.lineTo(41.5f, 34.2f);
+            bezierPath.cubicTo(31.39f, 34.2f, 22.5f, 37.02f, 22.5f, 40.5f);
+            bezierPath.cubicTo(22.5f, 37.02f, 13.61f, 34.2f, 3.5f, 34.2f);
+            bezierPath.lineTo(3.5f, 4.5f);
+            bezierPath.cubicTo(13.61f, 4.5f, 22.5f, 7.32f, 22.5f, 10.8f);
+            bezierPath.lineTo(22.5f, 10.8f);
             bezierPath.close();
             
             paint.reset();
             paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-            paint.setStrokeWidth(1f);
+            paint.setStrokeWidth(1.5f);
             paint.setStrokeJoin(Paint.Join.ROUND);
             paint.setStrokeCap(Paint.Cap.ROUND);
             paint.setStrokeMiter(10f);
             canvas.save();
             paint.setStyle(Paint.Style.STROKE);
-            paint.setColor(btnNavColor);
+            paint.setColor(backgroundColor);
             canvas.drawPath(bezierPath, paint);
             canvas.restore();
             
             // Bezier 2
             RectF bezier2Rect = CacheForBtnLibrary.bezier2Rect;
-            bezier2Rect.set(22.5f, 12.05f, 22.5f, 33.34f);
+            bezier2Rect.set(22.5f, 9.42f, 22.5f, 38.89f);
             Path bezier2Path = CacheForBtnLibrary.bezier2Path;
             bezier2Path.reset();
-            bezier2Path.moveTo(22.5f, 12.05f);
-            bezier2Path.lineTo(22.5f, 33.34f);
+            bezier2Path.moveTo(22.5f, 9.42f);
+            bezier2Path.lineTo(22.5f, 38.89f);
             
             paint.reset();
             paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-            paint.setStrokeWidth(1f);
+            paint.setStrokeWidth(1.5f);
             paint.setStrokeJoin(Paint.Join.ROUND);
             paint.setStrokeCap(Paint.Cap.ROUND);
             paint.setStrokeMiter(10f);
             canvas.save();
             paint.setStyle(Paint.Style.STROKE);
-            paint.setColor(btnNavColor);
+            paint.setColor(backgroundColor);
             canvas.drawPath(bezier2Path, paint);
             canvas.restore();
         }

@@ -31,7 +31,6 @@ class Song extends React.Component {
     const mediaTitle =
       this.props.song !== undefined ? this.props.song.name : "";
     const isCompact = this.props.height < 150;
-
     return (
       <View
         style={{
@@ -62,9 +61,11 @@ class Song extends React.Component {
           ? <View style={{ flex: 1 }}>
               <PlaybackCompact
                 title={mediaTitle}
+                trackCount={this.props.trackCount}
                 isPlaying={this.state.isPlaying}
                 rate={this.state.playbackRate}
                 loopIsEnabled={this.props.loopIsEnabled}
+                onToggleLibrary={this.props.onToggleLibrary}
                 onPreviousPress={this.handlePreviousPress}
                 onBackPress={this.handleBackPress}
                 onPlayPausePress={this.handlePlayPausePress}

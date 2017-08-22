@@ -24,6 +24,7 @@ class MediaPlayer extends Component {
           this.props.song !== null &&
           <Song
             song={this.props.song}
+            trackCount={this.props.trackCount}
             height={this.state.layout.height}
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
@@ -34,6 +35,7 @@ class MediaPlayer extends Component {
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
             clearCurrentLoop={this.props.clearCurrentLoop}
+            onToggleLibrary={this.props.onToggleLibrary}
           />}
         {this.props.video !== undefined &&
           this.props.video !== null &&

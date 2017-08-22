@@ -5,6 +5,7 @@ import { pure } from "recompose";
 import RatePicker from "../RatePicker";
 import { PrimaryBlue } from "../../../design";
 import {
+  BtnLibrary,
   BtnPrevious,
   BtnRewind,
   BtnPlay,
@@ -27,9 +28,11 @@ const secondaryStyle = {
 
 const PlaybackCompact = ({
   title,
+  trackCount,
   isPlaying,
   rate,
   loopIsEnabled,
+  onToggleLibrary,
   onPreviousPress,
   onBackPress,
   onPlayPausePress,
@@ -44,7 +47,9 @@ const PlaybackCompact = ({
       flex: 1,
       flexDirection: "row",
       justifyContent: "center",
-      alignItems: "center"
+      alignItems: "center",
+      marginTop: 10,
+      paddingHorizontal: 10
     }}
   >
     <View
@@ -55,6 +60,13 @@ const PlaybackCompact = ({
         alignItems: "center"
       }}
     >
+      {trackCount > 3 &&
+        <BtnLibrary
+          style={{ ...primaryStyle, marginRight: 30 }}
+          color={PrimaryBlue}
+          onPress={onToggleLibrary}
+        />}
+
       <BtnPrevious
         style={primaryStyle}
         color={PrimaryBlue}

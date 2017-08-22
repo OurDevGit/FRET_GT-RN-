@@ -25,15 +25,15 @@ export const BtnChordsAndScales_targetFrame_resizing_isChordsAndScales = props =
   {...props}
 />
 
-export const BtnLibrary_isPressed = props => <PaintCode
+export const BtnLibrary_isPressed_redValue_greenValue_blueValue = props => <PaintCode
   drawMethod="BtnLibrary"
-  drawArgs={["isPressed"]}
+  drawArgs={["isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
-export const BtnLibrary_targetFrame_resizing_isPressed = props => <PaintCode
+export const BtnLibrary_targetFrame_resizing_isPressed_redValue_greenValue_blueValue = props => <PaintCode
   drawMethod="BtnLibrary"
-  drawArgs={["targetFrame","resizing","isPressed"]}
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
