@@ -51,13 +51,13 @@ class TrackSelector extends Component {
               borderWidth: 1,
               borderColor: PrimaryGold,
 
-              backgroundColor: trackIsVisible ? "white" : PrimaryGold
+              backgroundColor: trackIsVisible ? PrimaryGold : "white"
             }}
           >
             <Text
               style={{
                 textAlign: "center",
-                color: trackIsVisible ? PrimaryGold : "white",
+                color: trackIsVisible ? "white" : PrimaryGold,
                 fontSize: 18
               }}
             >
