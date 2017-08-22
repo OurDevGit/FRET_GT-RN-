@@ -1,6 +1,6 @@
 import React from "react";
-import { pure } from "recompose";
 import { View } from "react-native";
+import { pure } from "recompose";
 import { LoopLeft, LoopRight } from "../StyleKit";
 
 const LoopFlag = ({ type, left, isEnabled }) =>

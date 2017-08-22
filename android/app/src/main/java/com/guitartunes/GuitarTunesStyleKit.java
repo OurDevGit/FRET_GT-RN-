@@ -3873,14 +3873,14 @@ public class GuitarTunesStyleKit {
     
     private static class CacheForBtnLoopRightCompact {
         private static Paint paint = new Paint();
-        private static RectF originalFrame = new RectF(0f, 0f, 35f, 20f);
+        private static RectF originalFrame = new RectF(0f, 0f, 24f, 12f);
         private static RectF resizedFrame = new RectF();
         private static RectF triangle1Rect = new RectF();
         private static Path triangle1Path = new Path();
     }
     
     public static void drawBtnLoopRightCompact(Canvas canvas, boolean isEnabled) {
-        GuitarTunesStyleKit.drawBtnLoopRightCompact(canvas, new RectF(0f, 0f, 35f, 20f), ResizingBehavior.AspectFit, isEnabled);
+        GuitarTunesStyleKit.drawBtnLoopRightCompact(canvas, new RectF(0f, 0f, 24f, 12f), ResizingBehavior.AspectFit, isEnabled);
     }
     
     public static void drawBtnLoopRightCompact(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isEnabled) {
@@ -3898,19 +3898,19 @@ public class GuitarTunesStyleKit {
         RectF resizedFrame = CacheForBtnLoopRightCompact.resizedFrame;
         GuitarTunesStyleKit.resizingBehaviorApply(resizing, CacheForBtnLoopRightCompact.originalFrame, targetFrame, resizedFrame);
         canvas.translate(resizedFrame.left, resizedFrame.top);
-        canvas.scale(resizedFrame.width() / 35f, resizedFrame.height() / 20f);
+        canvas.scale(resizedFrame.width() / 24f, resizedFrame.height() / 12f);
         
         // Triangle-1
         canvas.saveLayerAlpha(null, (int) (opacity * 255f), Canvas.ALL_SAVE_FLAG);
         {
             RectF triangle1Rect = CacheForBtnLoopRightCompact.triangle1Rect;
-            triangle1Rect.set(1f, 0f, 35f, 20f);
+            triangle1Rect.set(0f, 0f, 24f, 12f);
             Path triangle1Path = CacheForBtnLoopRightCompact.triangle1Path;
             triangle1Path.reset();
-            triangle1Path.moveTo(1f, 20f);
-            triangle1Path.lineTo(35f, 20f);
-            triangle1Path.lineTo(35f, 0f);
-            triangle1Path.lineTo(1f, 20f);
+            triangle1Path.moveTo(0f, 12f);
+            triangle1Path.lineTo(24f, 12f);
+            triangle1Path.lineTo(24f, 0f);
+            triangle1Path.lineTo(0f, 12f);
             triangle1Path.close();
             
             paint.reset();
@@ -3927,14 +3927,14 @@ public class GuitarTunesStyleKit {
     
     private static class CacheForBtnLoopLeftCompact {
         private static Paint paint = new Paint();
-        private static RectF originalFrame = new RectF(0f, 0f, 35f, 20f);
+        private static RectF originalFrame = new RectF(0f, 0f, 24f, 12f);
         private static RectF resizedFrame = new RectF();
         private static RectF triangle1Rect = new RectF();
         private static Path triangle1Path = new Path();
     }
     
     public static void drawBtnLoopLeftCompact(Canvas canvas, boolean isEnabled) {
-        GuitarTunesStyleKit.drawBtnLoopLeftCompact(canvas, new RectF(0f, 0f, 35f, 20f), ResizingBehavior.AspectFit, isEnabled);
+        GuitarTunesStyleKit.drawBtnLoopLeftCompact(canvas, new RectF(0f, 0f, 24f, 12f), ResizingBehavior.AspectFit, isEnabled);
     }
     
     public static void drawBtnLoopLeftCompact(Canvas canvas, RectF targetFrame, ResizingBehavior resizing, boolean isEnabled) {
@@ -3952,19 +3952,19 @@ public class GuitarTunesStyleKit {
         RectF resizedFrame = CacheForBtnLoopLeftCompact.resizedFrame;
         GuitarTunesStyleKit.resizingBehaviorApply(resizing, CacheForBtnLoopLeftCompact.originalFrame, targetFrame, resizedFrame);
         canvas.translate(resizedFrame.left, resizedFrame.top);
-        canvas.scale(resizedFrame.width() / 35f, resizedFrame.height() / 20f);
+        canvas.scale(resizedFrame.width() / 24f, resizedFrame.height() / 12f);
         
         // Triangle-1
         canvas.saveLayerAlpha(null, (int) (opacity * 255f), Canvas.ALL_SAVE_FLAG);
         {
             RectF triangle1Rect = CacheForBtnLoopLeftCompact.triangle1Rect;
-            triangle1Rect.set(0f, 0f, 34f, 20f);
+            triangle1Rect.set(0f, 0f, 24f, 12f);
             Path triangle1Path = CacheForBtnLoopLeftCompact.triangle1Path;
             triangle1Path.reset();
-            triangle1Path.moveTo(34f, 20f);
-            triangle1Path.lineTo(0f, 20f);
+            triangle1Path.moveTo(24f, 12f);
+            triangle1Path.lineTo(0f, 12f);
             triangle1Path.lineTo(0f, 0f);
-            triangle1Path.lineTo(34f, 20f);
+            triangle1Path.lineTo(24f, 12f);
             triangle1Path.close();
             
             paint.reset();

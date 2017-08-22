@@ -38,14 +38,7 @@ export const LoopLeftCompact = props => {
 
 export const LoopRightCompact = props => {
   const Comp = gtPcSizeable(
-    gtPcPressable(BtnLoopRight_targetFrame_resizing_isEnabled)
+    gtPcPressable(BtnLoopRightCompact_targetFrame_resizing_isEnabled)
   );
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
-/*
-
-
-export const LoopRightCompact = props => {
-  const Comp = BtnLoopRightCompact_isEnabled;
-  return <Comp {...props} />;
-};*/
