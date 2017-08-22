@@ -16,8 +16,6 @@ const LoopFlag = ({ type, left, isEnabled }) =>
     {type === "begin"
       ? <LoopLeft isEnabled={isEnabled} style={{ width: 30, height: 30 }} />
       : <LoopRight isEnabled={isEnabled} style={{ width: 30, height: 30 }} />}
-
-    {console.log("left", left)}
   </View>;
 
 export default pure(LoopFlag);

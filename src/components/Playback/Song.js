@@ -30,7 +30,7 @@ class Song extends React.Component {
   render() {
     const mediaTitle =
       this.props.song !== undefined ? this.props.song.name : "";
-    const isCompact = this.props.height < 100;
+    const isCompact = this.props.height < 150;
 
     return (
       <View

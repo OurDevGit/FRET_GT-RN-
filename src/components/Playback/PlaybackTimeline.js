@@ -37,7 +37,7 @@ class PlaybackTimeline extends Component {
     return (
       <View
         style={{
-          flex: 1,
+          flex: 2,
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "flex-start",
@@ -82,14 +82,14 @@ class PlaybackTimeline extends Component {
           />
         </View>
 
-        {currentLoop.get("begin") !== undefined &&
+        {loop.begin > -1 &&
           <LoopFlag
             type="begin"
             isEnabled={loopIsEnabled}
             left={layout.x + beginLeft * layout.width}
           />}
 
-        {currentLoop.get("end") !== undefined &&
+        {loop.end > -1 &&
           <LoopFlag
             type="end"
             isEnabled={loopIsEnabled}

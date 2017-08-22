@@ -4,20 +4,26 @@ import { pure } from "recompose";
 
 import RatePicker from "../RatePicker";
 import { PrimaryBlue } from "../../../design";
+import {
+  BtnPrevious,
+  BtnRewind,
+  BtnPlay,
+  BtnForward,
+  BtnNext
+} from "../../StyleKit";
 
-const buttonStyle = {
-  flex: 1,
-  minWidth: 50,
-  marginHorizontal: 5,
-  color: PrimaryBlue,
-  fontSize: 24,
-  lineHeight: 32,
-  fontWeight: "bold",
-  textAlign: "center",
-  justifyContent: "center",
-  alignItems: "center"
+const primaryStyle = {
+  width: 32,
+  height: 32,
+  marginHorizontal: 8
 };
-const textStyle = { color: PrimaryBlue, fontSize: 20 };
+const secondaryStyle = {
+  marginTop: -4,
+  fontSize: 20,
+  lineHeight: 20,
+  marginHorizontal: 20,
+  color: PrimaryBlue
+};
 
 const PlaybackCompact = ({
   title,
@@ -45,70 +51,102 @@ const PlaybackCompact = ({
       style={{
         flex: 2,
         flexDirection: "row",
+        justifyContent: "flex-start",
+        alignItems: "center"
+      }}
+    >
+      <BtnPrevious
+        style={primaryStyle}
+        color={PrimaryBlue}
+        onPress={onPreviousPress}
+      />
+
+      <BtnRewind
+        style={primaryStyle}
+        color={PrimaryBlue}
+        onPress={onBackPress}
+      />
+
+      <BtnPlay
+        isShowingPause={isPlaying}
+        style={primaryStyle}
+        color={PrimaryBlue}
+        onPress={onPlayPausePress}
+      />
+
+      <BtnForward
+        style={primaryStyle}
+        color={PrimaryBlue}
+        onPress={onForwardPress}
+      />
+
+      <BtnNext style={primaryStyle} color={PrimaryBlue} onPress={onNextPress} />
+    </View>
+
+    <View
+      style={{
+        flex: 1,
+        flexDirection: "row",
         justifyContent: "center",
         alignItems: "center"
       }}
     >
-      <TouchableOpacity onPress={onPreviousPress}>
-        <Text style={buttonStyle}>{`<<`}</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={onBackPress}>
-        <Text style={buttonStyle}>
-          {`<`}
-          <Text style={textStyle}>5</Text>
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={onPlayPausePress}>
-        <Text style={buttonStyle}>
-          {isPlaying ? `||` : `>`}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={onForwardPress}>
-        <Text style={buttonStyle}>
-          <Text style={textStyle}>30</Text>
-          {`>`}
-        </Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity onPress={onNextPress}>
-        <Text style={buttonStyle}>{`>>`}</Text>
-      </TouchableOpacity>
+      <Text
+        style={{
+          flex: 1,
+          textAlign: "center",
+          color: PrimaryBlue,
+          fontSize: 18
+        }}
+      >
+        {title}
+      </Text>
     </View>
-
-    <Text style={{ flex: 1 }}>
-      {title}
-    </Text>
 
     <View
       style={{
         flex: 2,
         flexDirection: "row",
-        justifyContent: "space-around",
+        justifyContent: "flex-end",
         alignItems: "center"
       }}
     >
       <View
         style={{
-          width: 110,
-          height: "100%",
-          marginTop: -10,
-          marginBottom: -5
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignContent: "center"
         }}
       >
-        <RatePicker rate={rate} onRateChange={onRateChange} />
+        <Text
+          style={{
+            paddingTop: 5,
+            fontSize: 20,
+            lineHeight: 20
+          }}
+        >
+          Tempo:
+        </Text>
+        <View
+          style={{
+            width: 110,
+            height: "100%",
+            marginTop: -8,
+            marginBottom: -5
+          }}
+        >
+          <RatePicker rate={rate} onRateChange={onRateChange} />
+        </View>
       </View>
 
-      <TouchableOpacity onPress={onNextPress}>
-        <Text style={buttonStyle}>
+      <TouchableOpacity onPress={onLoopEnable}>
+        <Text style={secondaryStyle}>
           {loopIsEnabled ? "Loop ON" : "Loop OFF"}
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onNextPress}>
-        <Text style={buttonStyle}>My Loops</Text>
+      <TouchableOpacity onPress={onDisplayLoops}>
+        <Text style={secondaryStyle}>My Loops</Text>
       </TouchableOpacity>
     </View>
   </View>;

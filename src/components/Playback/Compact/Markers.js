@@ -48,7 +48,7 @@ class PlaybackMarkers extends React.Component {
       var buttons = markers.map((marker, index) => {
         var percent = marker.time / duration;
         var x = width * percent;
-        console.log("left", x);
+
         var end =
           index < markers.count() - 1 ? markers.get(index + 1).time : duration;
 

@@ -1,20 +1,27 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { LoopLeft, LoopRight } from "../../StyleKit";
+import { pure } from "recompose";
+import { LoopLeftCompact, LoopRightCompact } from "../../StyleKit";
 
-const LoopFlag = ({ type, left }) =>
+const LoopFlag = ({ type, left, isEnabled }) =>
   <View
     style={{
       position: "absolute",
       top: 0,
-      left: left - 5,
+      left: type === "begin" ? left : left - 20,
       width: 20,
       height: 20
     }}
   >
     {type === "begin"
-      ? <LoopLeft style={{ width: 44, height: 44 }} />
-      : <LoopRight style={{ width: 44, height: 44 }} />}
+      ? <LoopLeftCompact
+          isEnabled={isEnabled}
+          style={{ width: 35, height: 20 }}
+        />
+      : <LoopRightCompact
+          isEnabled={isEnabled}
+          style={{ width: 35, height: 20 }}
+        />}
   </View>;
 
-export default LoopFlag;
+export default pure(LoopFlag);

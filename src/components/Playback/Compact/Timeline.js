@@ -26,13 +26,15 @@ class PlaybackTimeline extends Component {
     } = this.props;
     const { progress, layout, containerLayout } = this.state;
 
-    const begin = (currentLoop.get("begin") || -1) / duration;
-    const end = (currentLoop.get("end") || -1) / duration;
+    const loop = currentLoop.toJS() || { begin: -1, end: -1 };
+    const beginLeft = loop.begin / duration;
+    const endLeft = loop.end / duration;
 
     return (
       <View
         style={{
-          flex: 1,
+          width: "100%",
+          height: 20,
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "flex-end"
@@ -51,11 +53,11 @@ class PlaybackTimeline extends Component {
           />
         </View>
 
-        {begin > 0 &&
-          <LoopFlag type="begin" left={layout.x + begin * layout.width} />}
+        {loop.begin > -1 &&
+          <LoopFlag type="begin" left={layout.x + beginLeft * layout.width} />}
 
-        {end > 0 &&
-          <LoopFlag type="end" left={layout.x + end * layout.width} />}
+        {loop.end > -1 &&
+          <LoopFlag type="end" left={layout.x + endLeft * layout.width} />}
 
         <Playline
           scrollLeft={progress * layout.width}
@@ -93,7 +95,6 @@ class PlaybackTimeline extends Component {
 
     this.setState({ progress });
     this.props.onScrub(progress);
-    console.log("pan progress", progress);
   };
 
   handlePlayheadPanStart = () => {
