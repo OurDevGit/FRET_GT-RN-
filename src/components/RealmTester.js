@@ -6,6 +6,7 @@ import realm, { realmify } from "../realm";
 
 // Enable this to wipe Realm
 // realm.write(() => {
+//   console.debug("wiping Realm");
 //   realm.deleteAll();
 // });
 

@@ -28,14 +28,6 @@ const migrationFunction1 = (oldRealm, newRealm) => {};
 const realm = new Realm({ schema: schema0 });
 export default realm;
 
-// export const realmComp = WrappedComponent => withProps(WrappedComponent);
-//   return class extends React.Component {
-//     render() {
-//       return <WrappedComponent />;
-//     }
-//   };
-// };
-
 export const realmify = (mapQueries, makeMutations = () => {}) => {
   var queries = mapQueries(realm);
   var mutations = makeMutations({
@@ -83,5 +75,3 @@ export const realmify = (mapQueries, makeMutations = () => {}) => {
 
   return compose(queriesWrapper, withProps({ ...realmProps }));
 };
-
-// export const mapQueriesToProps = mapProps(props => );
