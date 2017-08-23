@@ -4,6 +4,7 @@ export default class {
     primaryKey: "id",
     properties: {
       id: "string",
+      title: "string",
       libraryTitle: { type: "string", optional: true },
       // iconPath: {type:"string", optional:true},
       hideInLibrary: { type: "bool", default: false },
@@ -13,4 +14,8 @@ export default class {
       media: { type: "list", objectType: "Media" }
     }
   };
+
+  get children() {
+    return this.groups;
+  }
 }
