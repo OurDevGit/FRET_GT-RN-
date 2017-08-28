@@ -58,7 +58,9 @@ class Store extends React.PureComponent {
   componentWillReceiveProps(newProps) {}
 }
 
-const mapQueriesToProps = realm => {
+const mapQueriesToProps = (realm, ownProps) => {
+  console.debug({ ownProps });
+
   return {
     categories: realm.objects("Category")
   };

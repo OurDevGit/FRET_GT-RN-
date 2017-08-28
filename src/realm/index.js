@@ -28,9 +28,30 @@ const migrationFunction1 = (oldRealm, newRealm) => {};
 const realm = new Realm({ schema: schema0 });
 export default realm;
 
-export const realmify = (mapQueries, makeMutations = () => {}) => {
-  var queries = mapQueries(realm);
-  var mutations = makeMutations({
+const updateQueries = (queries, mapQueriesUserFunc, ownProps, setState) => {
+  // remove any existing listeners
+  for (key in queries) {
+    queries[key].removeAllListeners();
+  }
+
+  let mappedQueries = mapQueriesUserFunc(realm, ownProps);
+
+  // put a listener on each key so that when updates come through, we update the props
+  for (key in mappedQueries) {
+    mappedQueries[key].addListener((objs, changes) => {
+      // update this key with the latest
+      mappedQueries[key] = objs;
+      setState({ queries: mappedQueries });
+    });
+  }
+};
+
+export const realmify = (
+  mapQueriesUserFunc,
+  makeMutationsUserFunc = () => {}
+) => {
+  // pass realm stuff to the user's makeMutations function
+  var mutations = makeMutationsUserFunc({
     realm,
     delete: obj => {
       realm.delete(obj);
@@ -40,6 +61,7 @@ export const realmify = (mapQueries, makeMutations = () => {}) => {
     }
   });
 
+  // wrap each mutation function in realm.write()
   for (key in mutations) {
     let func = mutations[key];
     if (typeof func === "function") {
@@ -51,27 +73,48 @@ export const realmify = (mapQueries, makeMutations = () => {}) => {
     }
   }
 
-  const queriesWrapper = lifecycle({
-    state: { queries, mutations },
+  // keep query results up to date by mapping them into the component lifecycle
+  const queriesWrapperHOC = lifecycle({
+    state: { queries: {}, mutations },
+
     componentDidMount() {
-      // put a listener on each key so that when updates come through, we update the props
-      for (key in queries) {
-        queries[key].addListener((objs, changes) => {
-          // update this key with the latest
-          queries[key] = objs;
-          this.setState({ queries });
-        });
-      }
+      console.debug("componentDidMount");
+
+      this.setState({
+        queries: updateQueries(
+          this.state.queries,
+          mapQueriesUserFunc,
+          this.props,
+          this.setState
+        )
+      });
     },
+
+    componentWillReceiveProps(newProps) {
+      console.debug("componentWillReceiveProps");
+
+      this.setState({
+        queries: updateQueries(
+          this.state.queries,
+          mapQueriesUserFunc,
+          this.props,
+          this.setState
+        )
+      });
+    },
+
     componentWillUnmount() {
       console.debug("queriesWrapper will umount!");
-      for (key in queries) {
-        queries[key].removeAllListeners();
+      console.debug(this.state);
+      console.debug(this.state.queries);
+
+      for (key in this.state.queries) {
+        this.state.queries[key].removeAllListeners();
       }
     }
   });
 
-  const realmProps = { ...queries, ...mutations };
+  const realmProps = { queries: {}, ...mutations };
 
-  return compose(queriesWrapper, withProps({ ...realmProps }));
+  return compose(queriesWrapperHOC, withProps({ ...realmProps }));
 };
