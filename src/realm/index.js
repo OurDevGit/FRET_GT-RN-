@@ -28,22 +28,11 @@ const migrationFunction1 = (oldRealm, newRealm) => {};
 const realm = new Realm({ schema: schema0 });
 export default realm;
 
-const updateQueries = (queries, mapQueriesUserFunc, ownProps, setState) => {
+const updateQueries = (queries, mapQueriesUserFunc, ownProps) => {
   // remove any existing listeners
-  for (key in queries) {
-    queries[key].removeAllListeners();
-  }
-
   let mappedQueries = mapQueriesUserFunc(realm, ownProps);
 
-  // put a listener on each key so that when updates come through, we update the props
-  for (key in mappedQueries) {
-    mappedQueries[key].addListener((objs, changes) => {
-      // update this key with the latest
-      mappedQueries[key] = objs;
-      setState({ queries: mappedQueries });
-    });
-  }
+  return mappedQueries;
 };
 
 export const realmify = (
@@ -78,28 +67,58 @@ export const realmify = (
     state: { queries: {}, mutations },
 
     componentDidMount() {
-      console.debug("componentDidMount");
+      // console.debug("componentDidMount");
+
+      let queries = updateQueries(
+        this.state.queries,
+        mapQueriesUserFunc,
+        this.props
+      );
+
+      for (key in queries) {
+        queries[key].removeAllListeners();
+
+        queries[key].addListener((objs, changes) => {
+          console.debug("update via componentDidMount!");
+          // console.debug(setState);
+          // update this key with the latest
+          queries[key] = objs;
+          this.setState({
+            queries
+          });
+        });
+      }
 
       this.setState({
-        queries: updateQueries(
-          this.state.queries,
-          mapQueriesUserFunc,
-          this.props,
-          this.setState
-        )
+        queries
       });
     },
 
     componentWillReceiveProps(newProps) {
-      console.debug("componentWillReceiveProps");
+      // console.debug("componentWillReceiveProps");
+
+      let queries = updateQueries(
+        this.state.queries,
+        mapQueriesUserFunc,
+        this.props,
+        this
+      );
+
+      for (key in queries) {
+        queries[key].removeAllListeners();
+
+        queries[key].addListener((objs, changes) => {
+          console.debug("update via componentWillReceiveProps!");
+          // update this key with the latest
+          queries[key] = objs;
+          this.setState({
+            queries
+          });
+        });
+      }
 
       this.setState({
-        queries: updateQueries(
-          this.state.queries,
-          mapQueriesUserFunc,
-          this.props,
-          this.setState
-        )
+        queries
       });
     },
 
@@ -114,7 +133,10 @@ export const realmify = (
     }
   });
 
-  const realmProps = { queries: {}, ...mutations };
-
-  return compose(queriesWrapperHOC, withProps({ ...realmProps }));
+  return compose(
+    queriesWrapperHOC,
+    mapProps(props => {
+      return { ...props.queries, ...props.mutations };
+    })
+  );
 };
