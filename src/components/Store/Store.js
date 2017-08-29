@@ -1,11 +1,12 @@
 import React from "react";
 import { View, Text, FlatList } from "react-native";
-import { realmify } from "../realm";
+import { realmify } from "../../realm";
 
-import { syncStore } from "../Store";
+import { syncStore } from "../../Store";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
+import Media from "./Media";
 
 class Store extends React.PureComponent {
   state = {
@@ -53,6 +54,7 @@ class Store extends React.PureComponent {
           onChoose={this.handleChooseSubCategory}
           style={{ width: 50 }}
         />
+        <Media media={this.state.media} style={{ flex: 1 }} />
       </View>
     );
   }

@@ -11,6 +11,7 @@ import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
 import RealmTester from "./RealmTester";
+import Store from "./Store/Store.js";
 
 const testMedia = [...testVideos, ...testSongs];
 
@@ -36,7 +37,8 @@ class Root extends Component {
           onLayout={this.handleLayout}
         >
           <StatusBar hidden />
-          {/* <RealmTester /> */}
+          <Store testProp="test 1" />
+          {/* <RealmTester /> 
           {this.state.showAd &&
             <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
           <Playback
@@ -64,12 +66,11 @@ class Root extends Component {
             </View>}
 
           {supportsMultipleFretboards && <TrackSelector />}
+          */}
         </View>
       </Provider>
     );
   }
-
-  componentDidMount() {}
 
   handleToggleLibrary = () => {
     this.setState({
