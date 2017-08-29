@@ -1,8 +1,9 @@
-package com.guitartunes;
+package com.optek.guitartunes;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.idehub.Billing.InAppBillingBridgePackage;
 import io.realm.react.RealmReactPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.zmxv.RNSound.RNSoundPackage;
@@ -25,14 +26,9 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RealmReactPackage(),
-            new ReactVideoPackage(),
-            new RNSoundPackage(),
-            new RNFetchBlobPackage(),
-            new BSTestViewReactPackage()
-      );
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new InAppBillingBridgePackage(), new RealmReactPackage(), new ReactVideoPackage(),
+          new RNSoundPackage(), new RNFetchBlobPackage(), new BSTestViewReactPackage());
     }
   };
 

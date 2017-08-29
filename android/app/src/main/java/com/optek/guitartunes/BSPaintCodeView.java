@@ -1,4 +1,4 @@
-package com.guitartunes;
+package com.optek.guitartunes;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -25,7 +25,7 @@ public class BSPaintCodeView extends View {
 
   public String drawMethod = "BtnLoopLeft";
   public ReadableArray drawArgs;
-  public String styleKitClass = "com.guitartunes.GuitarTunesStyleKit";
+  public String styleKitClass = "com.optek.guitartunes.GuitarTunesStyleKit";
   public Context ctx;
 
   private static final Map<String, String[]> paintCodeTypes;

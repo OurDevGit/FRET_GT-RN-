@@ -1,4 +1,4 @@
-package com.guitartunes;
+package com.optek.guitartunes;
 
 import android.view.View;
 import android.util.Log;
@@ -9,7 +9,7 @@ import com.facebook.react.bridge.ReadableArray;
 import javax.annotation.Nullable;
 
 import android.graphics.Canvas;
-import com.guitartunes.GuitarTunesStyleKit;
+import com.optek.guitartunes.GuitarTunesStyleKit;
 
 public class BSTestViewManager extends SimpleViewManager<BSPaintCodeView> {
 

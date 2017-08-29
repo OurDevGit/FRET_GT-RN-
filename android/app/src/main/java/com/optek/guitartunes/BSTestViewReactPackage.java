@@ -1,4 +1,4 @@
-package com.guitartunes;
+package com.optek.guitartunes;
 
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
