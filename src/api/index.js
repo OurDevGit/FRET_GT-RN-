@@ -1,2 +1,2 @@
-export * from './ad'
-
+export * from "./ad";
+export * from "./store";

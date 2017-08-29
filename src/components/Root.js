@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Button, Text } from "react-native";
+import { View, StatusBar, Button, Text } from "react-native";
 import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
@@ -11,14 +11,13 @@ import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
 import RealmTester from "./RealmTester";
-import ModalController from "./Modal";
+import Store from "./Store/Store.js";
 
 const testMedia = [...testVideos, ...testSongs];
 
 class Root extends Component {
   state = {
     libIsOpen: false,
-    modalProps: { isVisible: false },
     song: null,
     video: null,
     showAd: true,
@@ -37,7 +36,9 @@ class Root extends Component {
           style={{ backgroundColor: "white", flexGrow: 1 }}
           onLayout={this.handleLayout}
         >
-          {/* <RealmTester /> */}
+          <StatusBar hidden />
+          <Store testProp="test 1" />
+          {/* <RealmTester /> 
           {this.state.showAd &&
             <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
           <Playback
@@ -45,7 +46,6 @@ class Root extends Component {
             video={this.state.video}
             trackCount={this.props.trackCount}
             onToggleLibrary={this.handleToggleLibrary}
-            onModal={this.handleModal}
           />
           <FretboardsContainer
             deviceWidth={this.state.layout.width}
@@ -66,17 +66,11 @@ class Root extends Component {
             </View>}
 
           {supportsMultipleFretboards && <TrackSelector />}
-
-          <ModalController
-            {...this.state.modalProps}
-            onDismiss={this.dismissModal}
-          />
+          */}
         </View>
       </Provider>
     );
   }
-
-  componentDidMount() {}
 
   handleToggleLibrary = () => {
     this.setState({
@@ -101,14 +95,6 @@ class Root extends Component {
         showAd: false
       });
     }
-  };
-
-  handleModal = modalProps => {
-    this.setState({ modalProps: { ...modalProps, isVisible: true } });
-  };
-
-  dismissModal = modalProps => {
-    this.setState({ modalProps: { isVisible: false } });
   };
 
   handleLayout = e => {

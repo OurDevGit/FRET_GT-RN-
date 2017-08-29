@@ -9,10 +9,10 @@ export const MediaType = {
 export default class {
   static schema = {
     name: "Media",
-    primaryKey: "id",
+    primaryKey: "mediaID",
     properties: {
-      id: "string",
-      name: "string",
+      mediaID: "string",
+      title: "string",
       iTunesID: { type: "string", optional: true },
       sortName: { type: "string", optional: true },
       artist: { type: "string", optional: true },
@@ -28,11 +28,12 @@ export default class {
       isLesson: { type: "bool", default: false },
       isJamAlong: { type: "bool", default: false },
       isVideo: { type: "bool", default: false },
-      duration: "double",
-      previewStart: "double",
-      previewDuration: "double",
-      createdAt: "date",
-      updatedAt: "date"
+      minutes: { type: "double", optional: true },
+      seconds: { type: "double", optional: true },
+      previewStart: { type: "double", optional: true },
+      previewDuration: { type: "double", optional: true }
+      // createdAt: "date",
+      // updated_at: "date"
       // isCached: { type: "bool", default: false },
       // musicPath: {type:"string", optional:true},
       // midiPath: {type:"string", optional:true},
@@ -43,16 +44,20 @@ export default class {
   };
 
   get mediaType() {
-    if (self.isSong) {
+    if (this.isSong) {
       return MediaType.song;
-    } else if (self.isVideo) {
+    } else if (this.isVideo) {
       return MediaType.video;
-    } else if (self.isJamAlong) {
+    } else if (this.isJamAlong) {
       return MediaType.jamAlong;
-    } else if (self.isLesson) {
+    } else if (this.isLesson) {
       return MediaType.lesson;
     } else {
       return MediaType.unknown;
     }
+  }
+
+  get duration() {
+    return this.minutes * 60 + this.seconds;
   }
 }

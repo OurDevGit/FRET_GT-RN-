@@ -16,4 +16,8 @@ export default class {
       media: { type: "list", objectType: "Media" }
     }
   };
+
+  get children() {
+    return this.subCategories;
+  }
 }
