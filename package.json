@@ -12,6 +12,7 @@
     "base-64": "^0.1.0",
     "base64-arraybuffer": "^0.1.5",
     "immutable": "^3.8.1",
+    "lodash": "^4.17.4",
     "midi-file-parser": "^1.0.0",
     "midi-player-js": "^1.1.1",
     "midiconvert": "^0.4.1",
