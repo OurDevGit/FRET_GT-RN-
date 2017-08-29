@@ -1,11 +1,13 @@
 # Developing
 
 ## First Time
+
 1. `npm install -g react-native-cli`
 1. `npm install`
 1. `react-native link`
 
-## Developing
+## Development
+
 1. start your emulator or connect device over USB
     1. start your emulator
         1. `cd ~/Library/Android/sdk/tools`
@@ -17,6 +19,7 @@
 1. `react-native log-android` (optional)
 
 The general development cycle is:
+
 1. Make some changes
 1. Reload in the app (on emulator or device).  
     **Tip:** You can enable "Live Reload" and "Hot Reloading" in the RN app menu. Both are ways to make it so you don't have to manually reload every time. They work differently both have their own pro's/con's
@@ -25,20 +28,25 @@ The general development cycle is:
     1. If that doesn't work, `control-c` the JS server and run `npm start` again, followed by a manual reload in the app
 
 ## In the Emulator
+
 * ⌘M for **RN Menu** in emulator
 * Double-tap the **r** key on your keyboard to reload
 
 ## On Device
+
 Shake to get **RN Menu**
 
 ## Debugging in Chrome
+
 TODO: Fill this out!
 
 ## Upgrading to the latest React Native
+
 1. Install `react-native-git-upgrade` globally with NPM
 1. run `react-native-git-upgrade`
 
 # Keeping your environment and development tools up to date
+
 1. Update Android Studio every once in a while by opening. It will prompt you for updates when opening.2
 1. In Android Studio, go to the menu
     1. Tools -> Android -> SDK Manager
@@ -46,15 +54,19 @@ TODO: Fill this out!
 1. To update to the latest React Native (can be dangerous), run `react-native-git-upgrade`
 
 # When things don't work
+
 ## Try (`npm run clean` does the first 3 of these all together):
+
 1. `watchman watch-del-all`
 1. `rm -rf $TMPDIR/react-*`
 1. `cd android` then `./gradlew clean` then `cd ..`
 1. `rm -rf node_modules && npm install` and then `npm start`
 
 # Release Build
-* `cd android && ./gradlew assembleRelease && cd ..` 
-    * Fish: `cd android; and ./gradlew assembleRelease; and cd ..`
+
+_note_: the keystore file is not in Git. It is in 1password.
+
+* `npm run build`
 * `react-native run-android --variant=release` to test the build  
 * `open android/app/build/outputs/apk/` to find the release apk
 

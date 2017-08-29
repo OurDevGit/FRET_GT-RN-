@@ -60,7 +60,7 @@ class Store extends React.PureComponent {
   }
 
   componentDidMount() {
-    // syncStore();
+    syncStore();
   }
 
   componentWillReceiveProps(newProps) {}
