@@ -9,12 +9,18 @@ import SubCategories from "./SubCategories";
 
 class Store extends React.PureComponent {
   state = {
-    subCategories: []
+    subCategories: [],
+    media: []
   };
 
   handleChooseCategory = category => {
+    console.debug(category);
+
     if (category.subCategories.length === 0) {
       console.debug("no sub categories");
+      this.setState({
+        media: category.media
+      });
     } else {
       console.debug(` ${category.subCategories.length} sub categories`);
     }
@@ -59,8 +65,6 @@ class Store extends React.PureComponent {
 }
 
 const mapQueriesToProps = (realm, ownProps) => {
-  console.debug({ ownProps });
-
   return {
     categories: realm.objects("Category")
   };
