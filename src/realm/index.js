@@ -9,6 +9,7 @@ import PatternNote from "./PatternNote";
 import PatternReference from "./PatternReference";
 import PatternRoot from "./PatternRoot";
 import Favorite from "./Favorite";
+import Loop from "./Loop";
 
 import { mapProps, withProps, lifecycle, compose } from "recompose";
 
@@ -21,7 +22,8 @@ const schema0 = [
   PatternNote,
   PatternReference,
   PatternRoot,
-  Favorite
+  Favorite,
+  Loop
 ];
 const migrationFunction1 = (oldRealm, newRealm) => {};
 

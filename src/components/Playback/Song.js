@@ -14,6 +14,7 @@ import Midi from "./Midi";
 import { playerBackground } from "../../design";
 
 import { loadMidi, clearMidi } from "../../selectors";
+import { realmify } from "../../realm";
 
 class Song extends React.Component {
   state = {
@@ -267,7 +268,22 @@ class Song extends React.Component {
     this.props.setCurrentLoop(loop);
   };
 
-  handleLoopSave = () => {};
+  handleLoopSave = () => {
+    const begin = this.props.currentLoop.get("begin");
+    const end = this.props.currentLoop.get("end");
+    if (begin === undefined && end == undefined) {
+      alert("Please set a begin and end time for your loop");
+    } else {
+      this.props.onModal({
+        loopToSave: this.props.currentLoop.toJS(),
+        onSave: this.saveLoopToRealm
+      });
+    }
+  };
+
+  saveLoopToRealm = name => {
+    console.log("loop", name);
+  };
 
   handleDisplayLoops = bool => {};
 }
@@ -281,4 +297,26 @@ Song.propTypes = {
   loopIsEnabled: PropTypes.bool
 };
 
-export default Song;
+const guid = () => {
+  const s4 = () =>
+    Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
+};
+
+const mapQueriesToProps = realm => ({
+  loops: realm.objects("Loop").filtered("mediaId == $0", "MediaId")
+});
+
+const mapMutationsToProps = ({ create }) => ({
+  createLoop: loop => {
+    var obj = { ...loop, id: guid() };
+    console.log(`create loop: ${obj}`);
+    create("Loop", obj);
+  },
+  updateLoop: loop => {
+    console.log(`update loop: ${begin}`);
+    create("Loop", loop, true);
+  }
+});
+
+export default realmify(mapQueriesToProps, mapMutationsToProps)(Song);
