@@ -12,14 +12,12 @@ import testVideos from "../testVideos";
 
 import RealmTester from "./RealmTester";
 import Store from "./Store/Store.js";
-import ModalController from "./Modal";
 
 const testMedia = [...testVideos, ...testSongs];
 
 class Root extends Component {
   state = {
     libIsOpen: false,
-    modalProps: { isVisible: false },
     song: null,
     video: null,
     showAd: true,
@@ -38,7 +36,7 @@ class Root extends Component {
           style={{ backgroundColor: "white", flexGrow: 1 }}
           onLayout={this.handleLayout}
         >
-          <Store testProp="test 1" />
+          {/* <Store testProp="test 1" /> */}
           {/* <RealmTester />  */}
           {this.state.showAd &&
             <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
@@ -47,7 +45,6 @@ class Root extends Component {
             video={this.state.video}
             trackCount={this.props.trackCount}
             onToggleLibrary={this.handleToggleLibrary}
-            onModal={this.handleModal}
           />
           <FretboardsContainer
             deviceWidth={this.state.layout.width}
@@ -68,11 +65,6 @@ class Root extends Component {
             </View>}
 
           {supportsMultipleFretboards && <TrackSelector />}
-
-          <ModalController
-            {...this.state.modalProps}
-            onDismiss={this.dismissModal}
-          />
         </View>
       </Provider>
     );
@@ -101,14 +93,6 @@ class Root extends Component {
         showAd: false
       });
     }
-  };
-
-  handleModal = modalProps => {
-    this.setState({ modalProps: { ...modalProps, isVisible: true } });
-  };
-
-  dismissModal = modalProps => {
-    this.setState({ modalProps: { isVisible: false } });
   };
 
   handleLayout = e => {

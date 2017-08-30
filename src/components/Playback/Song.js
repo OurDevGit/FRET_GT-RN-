@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 import PropTypes from "prop-types";
 import { Map } from "immutable";
 
@@ -8,6 +8,7 @@ import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
 import PlaybackCompact from "./Compact";
 import PlaybackTimelineCompact from "./Compact/Timeline";
+import SaveLoopModal from "./SaveLoopModal";
 
 import Music from "./Music";
 import Midi from "./Midi";
@@ -25,7 +26,9 @@ class Song extends React.Component {
     playbackSeconds: 0.0,
     musicRate: 1,
     playbackRate: 1,
-    seek: -1
+    seek: -1,
+    saveLoopModalText: "",
+    saveLoopModalIsVisible: false
   };
 
   render() {
@@ -115,10 +118,17 @@ class Song extends React.Component {
                 onLoopEnable={this.handleLoopEnable}
                 onLoopBegin={this.handleLoopBegin}
                 onLoopEnd={this.handleLoopEnd}
-                onLoopSave={this.handleLoopSave}
+                onDisplaySaveLoopModal={this.handleDisplaySaveLoopModal}
                 onDisplayLoops={this.handleDisplayLoops}
               />
             </View>}
+        <SaveLoopModal
+          isVisible={this.state.saveLoopModalIsVisible}
+          existingName={this.props.currentLoop.get("name")}
+          onTextChange={this.handleSaveLoopTextInput}
+          onCancel={this.handleSaveLoopCancel}
+          onSave={this.handleSaveLoopSave}
+        />
       </View>
     );
   }
@@ -268,21 +278,40 @@ class Song extends React.Component {
     this.props.setCurrentLoop(loop);
   };
 
-  handleLoopSave = () => {
+  handleDisplaySaveLoopModal = () => {
     const begin = this.props.currentLoop.get("begin");
     const end = this.props.currentLoop.get("end");
     if (begin === undefined && end == undefined) {
-      alert("Please set a begin and end time for your loop");
+      Alert.alert(
+        "Loop Times",
+        "Please set a begin and end time for your loop"
+      );
     } else {
-      this.props.onModal({
-        loopToSave: this.props.currentLoop.toJS(),
-        onSave: this.saveLoopToRealm
-      });
+      this.setState({ saveLoopModalIsVisible: true });
     }
   };
 
-  saveLoopToRealm = name => {
-    console.log("loop", name);
+  handleSaveLoopTextInput = text => {
+    this.setState({ saveLoopModalText: text });
+  };
+
+  handleSaveLoopCancel = () => {
+    this.setState({ saveLoopModalIsVisible: false });
+  };
+
+  handleSaveLoopSave = () => {
+    const name = this.state.saveLoopModalText;
+
+    if (name === "") {
+      Alert.alert("Loop Name", "Please enter a name with at least 1 character");
+    } else {
+      const loop = this.props.currentLoop
+        .set("name", name)
+        .set("mediaId", this.props.song.midi);
+      this.props.setCurrentLoop(loop);
+      this.props.createLoop(loop.toJS());
+      this.setState({ saveLoopModalIsVisible: false });
+    }
   };
 
   handleDisplayLoops = bool => {};
@@ -303,8 +332,8 @@ const guid = () => {
   return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
 };
 
-const mapQueriesToProps = realm => ({
-  loops: realm.objects("Loop").filtered("mediaId == $0", "MediaId")
+const mapQueriesToProps = (realm, ownProps) => ({
+  loops: realm.objects("Loop").filtered("mediaId == $0", ownProps.song.midi)
 });
 
 const mapMutationsToProps = ({ create }) => ({

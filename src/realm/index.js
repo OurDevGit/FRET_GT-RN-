@@ -1,5 +1,6 @@
 import React from "react";
 import Realm from "realm";
+import { omit } from "lodash";
 import Media from "./Media";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
@@ -138,7 +139,11 @@ export const realmify = (
   return compose(
     queriesWrapperHOC,
     mapProps(props => {
-      return { ...props.queries, ...props.mutations };
+      return {
+        ...omit(props, ["queries", "mutations"]),
+        ...props.queries,
+        ...props.mutations
+      };
     })
   );
 };

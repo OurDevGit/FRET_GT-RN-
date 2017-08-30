@@ -25,7 +25,7 @@ const PlaybackSecondary = ({
   onLoopEnable,
   onLoopBegin,
   onLoopEnd,
-  onLoopSave,
+  onDisplaySaveLoopModal,
   onDisplayLoops
 }) =>
   <View
@@ -81,7 +81,7 @@ const PlaybackSecondary = ({
       onPress={onLoopEnd}
     />
 
-    <TouchableOpacity onPress={onLoopSave}>
+    <TouchableOpacity onPress={onDisplaySaveLoopModal}>
       <Text style={buttonStyle}>Save Loop</Text>
     </TouchableOpacity>
 

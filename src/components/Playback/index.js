@@ -36,7 +36,7 @@ class MediaPlayer extends Component {
             setCurrentLoop={this.props.setCurrentLoop}
             clearCurrentLoop={this.props.clearCurrentLoop}
             onToggleLibrary={this.props.onToggleLibrary}
-            onModal={this.props.onModal}
+            onPresentSaveLoopModal={this.props.presentSaveLoopModal}
           />}
         {this.props.video !== undefined &&
           this.props.video !== null &&
