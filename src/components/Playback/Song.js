@@ -9,13 +9,14 @@ import PlaybackSecondary from "./PlaybackSecondary";
 import PlaybackCompact from "./Compact";
 import PlaybackTimelineCompact from "./Compact/Timeline";
 import SaveLoopModal from "./SaveLoopModal";
+import MyLoopsModal from "./MyLoopsModal";
 
 import Music from "./Music";
 import Midi from "./Midi";
 import { playerBackground } from "../../design";
 
 import { loadMidi, clearMidi } from "../../selectors";
-import { realmify } from "../../realm";
+import { realmify, guid } from "../../realm";
 
 class Song extends React.Component {
   state = {
@@ -28,7 +29,9 @@ class Song extends React.Component {
     playbackRate: 1,
     seek: -1,
     saveLoopModalText: "",
-    saveLoopModalIsVisible: false
+    saveLoopModalIsVisible: false,
+    myLoopsModalIsVisible: false,
+    myLoopsModalIsEditing: false
   };
 
   render() {
@@ -119,7 +122,7 @@ class Song extends React.Component {
                 onLoopBegin={this.handleLoopBegin}
                 onLoopEnd={this.handleLoopEnd}
                 onDisplaySaveLoopModal={this.handleDisplaySaveLoopModal}
-                onDisplayLoops={this.handleDisplayLoops}
+                onDisplayMyLoops={this.handleDisplayMyLoopsModal}
               />
             </View>}
         <SaveLoopModal
@@ -128,6 +131,17 @@ class Song extends React.Component {
           onTextChange={this.handleSaveLoopTextInput}
           onCancel={this.handleSaveLoopCancel}
           onSave={this.handleSaveLoopSave}
+        />
+
+        <MyLoopsModal
+          isVisible={this.state.myLoopsModalIsVisible}
+          isEditing={this.state.myLoopsModalIsEditing}
+          loops={this.props.loops}
+          currentLoop={this.props.currentLoop}
+          onToggleEditing={this.toggleMyLoopsEditing}
+          onCancel={this.handleMyLoopsCancel}
+          onDelete={this.handleMyLoopsDelete}
+          onSelect={this.handleMyLoopsSelect}
         />
       </View>
     );
@@ -278,6 +292,8 @@ class Song extends React.Component {
     this.props.setCurrentLoop(loop);
   };
 
+  // SAVE LOOP
+
   handleDisplaySaveLoopModal = () => {
     const begin = this.props.currentLoop.get("begin");
     const end = this.props.currentLoop.get("end");
@@ -314,7 +330,41 @@ class Song extends React.Component {
     }
   };
 
-  handleDisplayLoops = bool => {};
+  // MY LOOPS
+
+  handleDisplayMyLoopsModal = () => {
+    if (this.props.loops.length === 0) {
+      Alert.alert(
+        "No Loops",
+        "You currently have no saved loops for this media"
+      );
+    } else {
+      this.setState({ myLoopsModalIsVisible: true });
+    }
+  };
+
+  toggleMyLoopsEditing = () => {
+    const bool = !this.state.myLoopsModalIsEditing;
+    this.setState({ myLoopsModalIsVisible: bool });
+  };
+
+  handleMyLoopsCancel = () => {
+    this.setState({ myLoopsModalIsVisible: false });
+  };
+
+  handleMyLoopsDelete = loop => {
+    if (loop === this.props.currentLoop) {
+      this.props.clearCurrentLoop();
+    }
+
+    this.props.deleteLoop(loop.toJS());
+    this.setState({ myLoopsModalIsVisible: false });
+  };
+
+  handleMyLoopsSelect = loop => {
+    this.props.setCurrentLoop(loop);
+    this.setState({ myLoopsModalIsVisible: false });
+  };
 }
 
 Song.propTypes = {
@@ -326,25 +376,23 @@ Song.propTypes = {
   loopIsEnabled: PropTypes.bool
 };
 
-const guid = () => {
-  const s4 = () =>
-    Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-  return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
-};
-
 const mapQueriesToProps = (realm, ownProps) => ({
   loops: realm.objects("Loop").filtered("mediaId == $0", ownProps.song.midi)
 });
 
-const mapMutationsToProps = ({ create }) => ({
+const mapMutationsToProps = ({ create, destroy }) => ({
   createLoop: loop => {
     var obj = { ...loop, id: guid() };
     console.log(`create loop: ${obj}`);
     create("Loop", obj);
   },
   updateLoop: loop => {
-    console.log(`update loop: ${begin}`);
+    console.log(`update loop: ${obj}`);
     create("Loop", loop, true);
+  },
+  deleteLoop: loop => {
+    console.log(`delete loop: ${obj}`);
+    destroy(loop);
   }
 });
 

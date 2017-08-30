@@ -1,6 +1,5 @@
 import React from "react";
 import Realm from "realm";
-import { omit } from "lodash";
 import Media from "./Media";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
@@ -40,6 +39,12 @@ const updateQueries = (queries, mapQueriesUserFunc, ownProps) => {
   return mappedQueries;
 };
 
+export const guid = () => {
+  const s4 = () =>
+    Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+  return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
+};
+
 export const realmify = (
   mapQueriesUserFunc,
   makeMutationsUserFunc = () => {}
@@ -47,7 +52,7 @@ export const realmify = (
   // pass realm stuff to the user's makeMutations function
   var mutations = makeMutationsUserFunc({
     realm,
-    delete: obj => {
+    destroy: obj => {
       realm.delete(obj);
     },
     create: (className, obj) => {
