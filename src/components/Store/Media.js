@@ -32,7 +32,7 @@ class Media extends React.PureComponent {
     <MediaItem
       id={item.mediaID}
       title={item.title}
-      onPress={() => console.debug(`chose ${item.title}`)}
+      onPress={() => this.props.onChoose(item)}
     />
   );
 

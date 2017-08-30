@@ -1,12 +1,45 @@
 import React from "react";
 import { View, Text, FlatList } from "react-native";
 import { realmify } from "../../realm";
+import InAppBilling from "react-native-billing";
 
 import { syncStore } from "../../Store";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
+
+const testPurchase = media => {
+  InAppBilling.open()
+    .then(() => InAppBilling.purchase(media.mediaID.toLowerCase()))
+    .then(details => {
+      fetch(
+        "https://hooks.slack.com/services/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",
+        {
+          method: "POST",
+          body: JSON.stringify({ text: JSON.stringify(details) })
+        }
+      );
+      console.debug("You purchased: ");
+      console.debug(details);
+      return InAppBilling.close();
+    })
+    .catch(err => {
+      console.error(err);
+      InAppBilling.close();
+    });
+
+  // InAppBilling.open()
+  //   .then(() => InAppBilling.getProductDetails(media.mediaID.toLowerCase()))
+  //   .then(details => {
+  //     console.debug(details);
+  //     return InAppBilling.close();
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //     InAppBilling.close();
+  //   });
+};
 
 class Store extends React.PureComponent {
   state = {
@@ -20,7 +53,7 @@ class Store extends React.PureComponent {
     if (category.subCategories.length === 0) {
       console.debug("no sub categories");
       this.setState({
-        media: category.media
+        media: category.media.sorted("title").slice(11)
       });
     } else {
       console.debug(` ${category.subCategories.length} sub categories`);
@@ -32,6 +65,11 @@ class Store extends React.PureComponent {
   };
 
   handleChooseSubCategory = subCategory => {};
+
+  handleChooseMedia = media => {
+    console.debug(media);
+    testPurchase(media);
+  };
 
   render() {
     return (
@@ -54,13 +92,30 @@ class Store extends React.PureComponent {
           onChoose={this.handleChooseSubCategory}
           style={{ width: 50 }}
         />
-        <Media media={this.state.media} style={{ flex: 1 }} />
+        <Media
+          media={this.state.media}
+          style={{ flex: 1 }}
+          onChoose={this.handleChooseMedia}
+        />
       </View>
     );
   }
 
   componentDidMount() {
     syncStore();
+
+    InAppBilling.open()
+      .then(() => InAppBilling.listOwnedProducts())
+      .then(details => {
+        console.debug("owned produts: ");
+        console.debug(details);
+        return InAppBilling.close();
+      })
+      .catch(err => {
+        // console.debug("error from purchase");
+        console.error(err);
+        return InAppBilling.close();
+      });
   }
 
   componentWillReceiveProps(newProps) {}
