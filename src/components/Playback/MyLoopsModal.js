@@ -1,8 +1,21 @@
 import React, { Component } from "react";
 import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native";
 import { PrimaryBlue } from "../../design";
+import { BtnLoopDelete } from "../StyleKit";
 
 const keyExtractor = (item, index) => index;
+
+const separator = () => {
+  return (
+    <View
+      style={{
+        height: 1,
+        width: "100%",
+        backgroundColor: "#DDDDDD"
+      }}
+    />
+  );
+};
 
 const MyLoopsModal = ({
   isVisible,
@@ -12,6 +25,7 @@ const MyLoopsModal = ({
   onToggleEditing,
   onCancel,
   onDelete,
+  onClear,
   onSelect
 }) =>
   <Modal
@@ -46,14 +60,13 @@ const MyLoopsModal = ({
 
       <View
         style={{
-          width: 500,
-          height: 200,
-          marginTop: -300,
+          width: "50%",
+          height: "50%",
           padding: 20,
           backgroundColor: "white"
         }}
       >
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: -1, marginBottom: 20, flexDirection: "row" }}>
           <Text
             style={{
               flex: 1,
@@ -67,13 +80,13 @@ const MyLoopsModal = ({
           <TouchableOpacity
             style={{ flex: -1 }}
             onPress={() => {
-              onCancel();
+              onToggleEditing();
             }}
           >
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: "600",
+                fontWeight: "400",
                 textAlign: "right"
               }}
             >
@@ -83,12 +96,43 @@ const MyLoopsModal = ({
         </View>
         <FlatList
           keyExtractor={(item, index) => index}
-          data={loops}
+          data={[...loops, { name: "None" }]}
+          ItemSeparatorComponent={separator}
           renderItem={({ item, index }) =>
-            <View>
-              <Text>
-                {item.name}
-              </Text>
+            <View style={{ width: "100%", height: 44, flexDirection: "row" }}>
+              {isEditing &&
+                item.name !== "None" &&
+                <BtnLoopDelete
+                  style={{ width: 40, height: 40, marginHorizontal: 10 }}
+                  color={"#B20000"}
+                  onPress={() => {
+                    onDelete(item);
+                  }}
+                />}
+
+              {currentLoop.name === item.name &&
+                item.name !== "None" &&
+                <Text
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "400",
+                    paddingHorizontal: 10,
+                    color: PrimaryBlue
+                  }}
+                >
+                  ✓
+                </Text>}
+
+              <TouchableOpacity
+                style={{ flex: 1 }}
+                onPress={() => {
+                  item.name === "None" ? onClear() : onSelect(item);
+                }}
+              >
+                <Text style={{ fontSize: 18 }}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
             </View>}
         />
       </View>

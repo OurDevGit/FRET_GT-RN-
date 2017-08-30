@@ -38,6 +38,9 @@ class Song extends React.Component {
     const mediaTitle =
       this.props.song !== undefined ? this.props.song.name : "";
     const isCompact = this.props.height < 150;
+    const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
+    // console.log("currentLoop", this.props.currentLoop.toJS());
+
     return (
       <View
         style={{
@@ -136,11 +139,12 @@ class Song extends React.Component {
         <MyLoopsModal
           isVisible={this.state.myLoopsModalIsVisible}
           isEditing={this.state.myLoopsModalIsEditing}
-          loops={this.props.loops}
-          currentLoop={this.props.currentLoop}
+          loops={savedLoops}
+          currentLoop={this.props.currentLoop.toJS()}
           onToggleEditing={this.toggleMyLoopsEditing}
           onCancel={this.handleMyLoopsCancel}
           onDelete={this.handleMyLoopsDelete}
+          onClear={this.handleMyLoopsClear}
           onSelect={this.handleMyLoopsSelect}
         />
       </View>
@@ -345,7 +349,7 @@ class Song extends React.Component {
 
   toggleMyLoopsEditing = () => {
     const bool = !this.state.myLoopsModalIsEditing;
-    this.setState({ myLoopsModalIsVisible: bool });
+    this.setState({ myLoopsModalIsEditing: bool });
   };
 
   handleMyLoopsCancel = () => {
@@ -357,12 +361,16 @@ class Song extends React.Component {
       this.props.clearCurrentLoop();
     }
 
-    this.props.deleteLoop(loop.toJS());
+    this.props.deleteLoop(loop);
+  };
+
+  handleMyLoopsClear = () => {
+    this.props.clearCurrentLoop();
     this.setState({ myLoopsModalIsVisible: false });
   };
 
   handleMyLoopsSelect = loop => {
-    this.props.setCurrentLoop(loop);
+    this.props.setCurrentLoop(Map(loop));
     this.setState({ myLoopsModalIsVisible: false });
   };
 }
@@ -383,15 +391,12 @@ const mapQueriesToProps = (realm, ownProps) => ({
 const mapMutationsToProps = ({ create, destroy }) => ({
   createLoop: loop => {
     var obj = { ...loop, id: guid() };
-    console.log(`create loop: ${obj}`);
     create("Loop", obj);
   },
   updateLoop: loop => {
-    console.log(`update loop: ${obj}`);
     create("Loop", loop, true);
   },
   deleteLoop: loop => {
-    console.log(`delete loop: ${obj}`);
     destroy(loop);
   }
 });

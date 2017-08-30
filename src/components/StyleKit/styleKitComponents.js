@@ -355,6 +355,18 @@ export const BtnLoopLeftCompact_targetFrame_resizing_isEnabled = props => <Paint
   {...props}
 />
 
+export const BtnDelete_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="BtnDelete"
+  drawArgs={["isPressed","redValue","greenValue","blueValue"]}
+  {...props}
+/>
+
+export const BtnDelete_targetFrame_resizing_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="BtnDelete"
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue"]}
+  {...props}
+/>
+
 export const BtnCloudDownload = props => <PaintCode
   drawMethod="BtnCloudDownload"
   drawArgs={[]}
