@@ -11,6 +11,8 @@ import PatternRoot from "./PatternRoot";
 import Favorite from "./Favorite";
 import Loop from "./Loop";
 
+import { omit } from "lodash";
+
 import { mapProps, withProps, lifecycle, compose } from "recompose";
 
 const schema0 = [
@@ -138,7 +140,11 @@ export const realmify = (
   return compose(
     queriesWrapperHOC,
     mapProps(props => {
-      return { ...props.queries, ...props.mutations };
+      return {
+        ...omit(props, ["queries", "mutations"]),
+        ...props.queries,
+        ...props.mutations
+      };
     })
   );
 };
