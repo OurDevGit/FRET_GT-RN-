@@ -56,7 +56,7 @@ const saveCategory = (category, store) => {
     // treedCategory.media = store.categoryLists[category.id] || [];
   }
 
-  console.debug(treedCategory);
+  // console.debug(treedCategory);
 
   realm.create("Category", treedCategory, true);
 };
@@ -78,7 +78,7 @@ const makeNormalizedMedia = media => {
 
 export const syncStore = () => {
   fetchStore().then(store => {
-    console.debug("got store");
+    // console.debug("got store");
     // console.debug(store);
 
     const {
@@ -93,14 +93,7 @@ export const syncStore = () => {
       subCategoryLists
     } = store;
 
-    console.debug(store);
-    // groups.forEach(group => {
-    //   console.debug(group);
-    // });
-
     const mediaById = makeNormalizedMedia(media);
-
-    console.debug(mediaById);
 
     realm.write(() => {
       categories.forEach(category => {
