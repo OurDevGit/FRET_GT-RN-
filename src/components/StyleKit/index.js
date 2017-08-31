@@ -1,7 +1,7 @@
+export * from "./styleKitComponents";
 export * from "./app";
 export * from "./library";
 export * from "./playback";
+export * from "./favorites";
 export * from "./loop";
-export * from "./styleKitComponents";
 export * from "./lib";
-export { default as Heart } from "./Heart";

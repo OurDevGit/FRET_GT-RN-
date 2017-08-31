@@ -40,6 +40,7 @@ class Song extends React.Component {
   render() {
     const mediaTitle =
       this.props.song !== undefined ? this.props.song.name : "";
+    const mediaId = this.props.song !== undefined ? this.props.song.midi : "";
     const isCompact = this.props.height < 150;
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     // console.log("currentLoop", this.props.currentLoop.toJS());
@@ -101,6 +102,7 @@ class Song extends React.Component {
             </View>
           : <View style={{ flex: 1 }}>
               <PlaybackPrimary
+                mediaId={mediaId}
                 title={mediaTitle}
                 isPlaying={this.state.isPlaying}
                 onPreviousPress={this.handlePreviousPress}

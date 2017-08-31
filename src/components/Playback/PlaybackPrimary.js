@@ -7,7 +7,8 @@ import {
   BtnRewind,
   BtnPlay,
   BtnForward,
-  BtnNext
+  BtnNext,
+  BtnHeart
 } from "../StyleKit";
 
 const buttonStyle = {
@@ -26,6 +27,7 @@ const textStyle = { color: PrimaryBlue, fontSize: 20 };
 const primaryStyle = { width: 50, height: 50, marginHorizontal: 10 };
 
 const PlaybackPrimary = ({
+  mediaId,
   title,
   isPlaying,
   onPreviousPress,
@@ -113,6 +115,16 @@ const PlaybackPrimary = ({
         Volume
       </Text>
       <Slider style={{ flex: 1 }} />
+    </View>
+
+    <View style={{ position: "absolute", top: 0, right: 0 }}>
+      <BtnHeart
+        style={{
+          width: 40,
+          height: 40
+        }}
+        mediaId={mediaId}
+      />
     </View>
   </View>;
 
