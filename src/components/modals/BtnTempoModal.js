@@ -15,11 +15,16 @@ class BtnTempoModal extends React.Component {
   render() {
     var currentIndex = tempos.indexOf(this.props.currentTempo);
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
+    const color = this.props.color || "black";
     console.log("tempo index", currentIndex);
     return (
       <View style={{ flex: -1 }}>
         <ModalButton onPress={this.displayModal}>
-          <TempoText tempo={this.props.currentTempo} withTitle={true} />
+          <TempoText
+            color={color}
+            tempo={this.props.currentTempo}
+            withTitle={true}
+          />
         </ModalButton>
 
         {this.state.modalIsVisible &&

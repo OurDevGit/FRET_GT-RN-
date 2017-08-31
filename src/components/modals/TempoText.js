@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 
-export default (TempoText = ({ tempo, withTitle }) =>
+export default (TempoText = ({ color, tempo, withTitle }) =>
   <View
     style={{
       height: "100%",
@@ -14,7 +14,8 @@ export default (TempoText = ({ tempo, withTitle }) =>
           height: "100%",
           textAlignVertical: "center",
           fontSize: 20,
-          marginHorizontal: 2
+          marginHorizontal: 2,
+          color: color
         }}
       >
         Tempo:
@@ -24,7 +25,8 @@ export default (TempoText = ({ tempo, withTitle }) =>
           style={{
             height: "100%",
             textAlignVertical: "center",
-            fontSize: 20
+            fontSize: 20,
+            color: color
           }}
         >
           {`${parseInt(tempo * 100)}%`}
@@ -40,7 +42,8 @@ export default (TempoText = ({ tempo, withTitle }) =>
               height: "100%",
               textAlignVertical: "center",
               fontWeight: "800",
-              fontSize: 20
+              fontSize: 20,
+              color: color
             }}
           >
             NOTE
@@ -49,7 +52,8 @@ export default (TempoText = ({ tempo, withTitle }) =>
             style={{
               height: "100%",
               textAlignVertical: "center",
-              fontSize: 20
+              fontSize: 20,
+              color: color
             }}
           >
             Step™

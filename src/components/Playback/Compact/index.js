@@ -125,10 +125,14 @@ const PlaybackCompact = ({
         alignItems: "center"
       }}
     >
-      <BtnTempoModal currentTempo={rate} onSelectTempo={onSelectTempo} />
+      <BtnTempoModal
+        color={PrimaryBlue}
+        currentTempo={rate}
+        onSelectTempo={onSelectTempo}
+      />
 
       <TouchableOpacity onPress={onLoopEnable}>
-        <Text style={secondaryStyle}>
+        <Text style={{ ...secondaryStyle, marginLeft: 50 }}>
           {loopIsEnabled ? "Loop ON" : "Loop OFF"}
         </Text>
       </TouchableOpacity>
