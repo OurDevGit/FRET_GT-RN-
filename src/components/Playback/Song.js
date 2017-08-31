@@ -30,6 +30,7 @@ class Song extends React.Component {
     seek: -1,
     saveLoopModalText: "",
     saveLoopModalIsVisible: false,
+    myLoopsSourceFrame: { x: 0, y: 0, width: 0, height: 0 },
     myLoopsModalIsVisible: false,
     myLoopsModalIsEditing: false
   };
@@ -141,6 +142,7 @@ class Song extends React.Component {
           isEditing={this.state.myLoopsModalIsEditing}
           loops={savedLoops}
           currentLoop={this.props.currentLoop.toJS()}
+          sourceFrame={this.state.myLoopsSourceFrame}
           onToggleEditing={this.toggleMyLoopsEditing}
           onCancel={this.handleMyLoopsCancel}
           onDelete={this.handleMyLoopsDelete}
@@ -336,14 +338,14 @@ class Song extends React.Component {
 
   // MY LOOPS
 
-  handleDisplayMyLoopsModal = () => {
+  handleDisplayMyLoopsModal = frame => {
     if (this.props.loops.length === 0) {
       Alert.alert(
         "No Loops",
         "You currently have no saved loops for this media"
       );
     } else {
-      this.setState({ myLoopsModalIsVisible: true });
+      this.setState({ myLoopsModalIsVisible: true, myLoopsSourceFrame: frame });
     }
   };
 

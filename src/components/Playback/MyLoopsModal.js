@@ -22,6 +22,7 @@ const MyLoopsModal = ({
   isEditing,
   loops,
   currentLoop,
+  sourceFrame,
   onToggleEditing,
   onCancel,
   onDelete,
@@ -41,9 +42,6 @@ const MyLoopsModal = ({
         position: "absolute",
         width: "100%",
         height: "100%",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
         backgroundColor: "rgba(0, 0, 0, 0.5)"
       }}
     >
@@ -60,9 +58,15 @@ const MyLoopsModal = ({
 
       <View
         style={{
-          width: "50%",
+          position: "absolute",
+          top: Math.max(
+            100,
+            sourceFrame.y - (100 + (loops.length + 1) * 42) + 20
+          ),
+          left: sourceFrame.x - 510,
+          width: 500,
           height: 100 + (loops.length + 1) * 42,
-          maxHeight: "50%",
+          maxHeight: 300,
           padding: 20,
           backgroundColor: "white"
         }}
