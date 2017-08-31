@@ -32,6 +32,7 @@ class MediaPlayer extends Component {
             updateTime={this.props.updateTime}
             currentLoop={this.props.currentLoop}
             loopIsEnabled={this.props.loopIsEnabled}
+            connectedDevices={0}
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
             clearCurrentLoop={this.props.clearCurrentLoop}
@@ -49,6 +50,7 @@ class MediaPlayer extends Component {
             updateTime={this.props.updateTime}
             currentLoop={this.props.currentLoop}
             loopIsEnabled={this.props.loopIsEnabled}
+            connectedDevices={0}
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
             clearCurrentLoop={this.props.clearCurrentLoop}

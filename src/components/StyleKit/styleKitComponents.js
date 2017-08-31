@@ -367,6 +367,18 @@ export const BtnDelete_targetFrame_resizing_isPressed_redValue_greenValue_blueVa
   {...props}
 />
 
+export const BtnInfo = props => <PaintCode
+  drawMethod="BtnInfo"
+  drawArgs={[]}
+  {...props}
+/>
+
+export const BtnInfo_targetFrame_resizing = props => <PaintCode
+  drawMethod="BtnInfo"
+  drawArgs={["targetFrame","resizing"]}
+  {...props}
+/>
+
 export const BtnCloudDownload = props => <PaintCode
   drawMethod="BtnCloudDownload"
   drawArgs={[]}

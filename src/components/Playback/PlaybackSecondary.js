@@ -1,7 +1,8 @@
 import React from "react";
 import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
-import { LoopLeft, LoopRight } from "../StyleKit";
+import { LoopLeft, LoopRight, BtnFretlightInfo } from "../StyleKit";
+import { PrimaryBlue } from "../../design";
 
 import RatePicker from "./RatePicker";
 import MeasureableButton from "./MeasureableButton";
@@ -22,12 +23,15 @@ const buttonStyle = {
 const PlaybackSecondary = ({
   rate,
   loopIsEnabled,
+  connectedDevices,
   onRateChange,
   onLoopEnable,
   onLoopBegin,
   onLoopEnd,
   onDisplaySaveLoopModal,
-  onDisplayMyLoops
+  onDisplayMyLoops,
+  onDisplayInfo,
+  onDisplayFretlightStatus
 }) =>
   <View
     style={{
@@ -89,6 +93,34 @@ const PlaybackSecondary = ({
     <MeasureableButton onPress={onDisplayMyLoops}>
       <Text style={buttonStyle}>My Loops</Text>
     </MeasureableButton>
+
+    <View style={{ flex: -1, flexDirection: "row" }}>
+      <BtnFretlightInfo
+        style={{ width: 35, height: 35 }}
+        onPress={onDisplayInfo}
+      />
+
+      <TouchableOpacity onPress={onDisplayFretlightStatus}>
+        <Text
+          style={{
+            flex: 1,
+            marginLeft: 6,
+            paddingTop: 4,
+            paddingHorizontal: 12,
+            fontSize: 20,
+            color: "white",
+            lineHeight: 20,
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: PrimaryBlue,
+            borderRadius: 6
+          }}
+        >
+          Fretlight Status ({connectedDevices})
+        </Text>
+      </TouchableOpacity>
+    </View>
   </View>;
 
 export default pure(PlaybackSecondary);

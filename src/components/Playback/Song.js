@@ -10,6 +10,7 @@ import PlaybackCompact from "./Compact";
 import PlaybackTimelineCompact from "./Compact/Timeline";
 import SaveLoopModal from "./SaveLoopModal";
 import MyLoopsModal from "./MyLoopsModal";
+import FretlightModal from "./FretlightModal";
 
 import Music from "./Music";
 import Midi from "./Midi";
@@ -32,7 +33,8 @@ class Song extends React.Component {
     saveLoopModalIsVisible: false,
     myLoopsSourceFrame: { x: 0, y: 0, width: 0, height: 0 },
     myLoopsModalIsVisible: false,
-    myLoopsModalIsEditing: false
+    myLoopsModalIsEditing: false,
+    fretlightModalIsVisible: false
   };
 
   render() {
@@ -121,12 +123,15 @@ class Song extends React.Component {
               <PlaybackSecondary
                 rate={this.state.playbackRate}
                 loopIsEnabled={this.props.loopIsEnabled}
+                connectedDevices={this.props.connectedDevices}
                 onRateChange={this.handleRateChange}
                 onLoopEnable={this.handleLoopEnable}
                 onLoopBegin={this.handleLoopBegin}
                 onLoopEnd={this.handleLoopEnd}
                 onDisplaySaveLoopModal={this.handleDisplaySaveLoopModal}
                 onDisplayMyLoops={this.handleDisplayMyLoopsModal}
+                onDisplayInfo={this.handleDisplayInfoAlert}
+                onDisplayFretlightStatus={this.handleDisplayFretlightModal}
               />
             </View>}
         <SaveLoopModal
@@ -148,6 +153,12 @@ class Song extends React.Component {
           onDelete={this.handleMyLoopsDelete}
           onClear={this.handleMyLoopsClear}
           onSelect={this.handleMyLoopsSelect}
+        />
+
+        <FretlightModal
+          isVisible={this.state.fretlightModalIsVisible}
+          connectedDevices={this.props.connectedDevices}
+          onDismiss={this.handleDismissFretlightModal}
         />
       </View>
     );
@@ -374,6 +385,24 @@ class Song extends React.Component {
   handleMyLoopsSelect = loop => {
     this.props.setCurrentLoop(Map(loop));
     this.setState({ myLoopsModalIsVisible: false });
+  };
+
+  // INFO
+
+  handleDisplayInfoAlert = () => {
+    console.log("INFO");
+    Alert.alert(
+      "UNLEASH THE REAL POWER OF GUITAR TUNES!",
+      "The Fretlight Guitar lights fingering positions right on the neck of a real guitar. Everything you see in Guitar Tunes will light in real-time right under your fingers!"
+    );
+  };
+
+  handleDisplayFretlightModal = frame => {
+    this.setState({ fretlightModalIsVisible: true });
+  };
+
+  handleDismissFretlightModal = () => {
+    this.setState({ fretlightModalIsVisible: false });
   };
 }
 
