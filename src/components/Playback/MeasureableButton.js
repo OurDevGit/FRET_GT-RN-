@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { TouchableOpacity, Text } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 class MeasurableButton extends React.Component {
   render() {

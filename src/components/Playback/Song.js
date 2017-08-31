@@ -84,7 +84,7 @@ class Song extends React.Component {
                 onNextPress={this.handleNextPress}
                 onRateChange={this.handleRateChange}
                 onLoopEnable={this.handleLoopEnable}
-                onDisplayLoops={this.handleDisplayLoops}
+                onDisplayMyLoops={this.handleDisplayMyLoopsModal}
               />
               <PlaybackTimelineCompact
                 progress={this.state.playbackProgress}

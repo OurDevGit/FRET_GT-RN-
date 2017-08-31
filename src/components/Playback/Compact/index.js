@@ -3,6 +3,7 @@ import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { pure } from "recompose";
 
 import RatePicker from "../RatePicker";
+import MeasureableButton from "../MeasureableButton";
 import { PrimaryBlue } from "../../../design";
 import {
   BtnLibrary,
@@ -40,7 +41,7 @@ const PlaybackCompact = ({
   onNextPress,
   onRateChange,
   onLoopEnable,
-  onDisplayLoops
+  onDisplayMyLoops
 }) =>
   <View
     style={{
@@ -157,9 +158,9 @@ const PlaybackCompact = ({
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={onDisplayLoops}>
+      <MeasureableButton onPress={onDisplayMyLoops}>
         <Text style={secondaryStyle}>My Loops</Text>
-      </TouchableOpacity>
+      </MeasureableButton>
     </View>
   </View>;
 
