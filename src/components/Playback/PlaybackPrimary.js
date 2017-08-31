@@ -106,15 +106,16 @@ const PlaybackPrimary = ({
     >
       <Text
         style={{
+          height: 14,
           color: PrimaryBlue,
-          fontSize: 12,
+          fontSize: 14,
           textAlign: "center",
-          marginBottom: -15
+          textAlignVertical: "bottom"
         }}
       >
         Volume
       </Text>
-      <Slider style={{ flex: 1 }} />
+      <Slider style={{ height: 44 }} />
     </View>
 
     <View style={{ position: "absolute", top: 0, right: 0 }}>
