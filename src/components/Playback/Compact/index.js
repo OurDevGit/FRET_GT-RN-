@@ -3,7 +3,8 @@ import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { pure } from "recompose";
 
 import RatePicker from "../RatePicker";
-import MeasureableButton from "../MeasureableButton";
+import MeasureableButton from "../../modals/ModalButton";
+import { BtnTempoModal } from "../../modals";
 import { PrimaryBlue } from "../../../design";
 import {
   BtnLibrary,
@@ -33,13 +34,13 @@ const PlaybackCompact = ({
   isPlaying,
   rate,
   loopIsEnabled,
+  onSelectTempo,
   onToggleLibrary,
   onPreviousPress,
   onBackPress,
   onPlayPausePress,
   onForwardPress,
   onNextPress,
-  onRateChange,
   onLoopEnable,
   onDisplayMyLoops
 }) =>
@@ -124,33 +125,7 @@ const PlaybackCompact = ({
         alignItems: "center"
       }}
     >
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignContent: "center"
-        }}
-      >
-        <Text
-          style={{
-            paddingTop: 5,
-            fontSize: 20,
-            lineHeight: 20
-          }}
-        >
-          Tempo:
-        </Text>
-        <View
-          style={{
-            width: 110,
-            height: "100%",
-            marginTop: -8,
-            marginBottom: -5
-          }}
-        >
-          <RatePicker rate={rate} onRateChange={onRateChange} />
-        </View>
-      </View>
+      <BtnTempoModal currentTempo={rate} onSelectTempo={onSelectTempo} />
 
       <TouchableOpacity onPress={onLoopEnable}>
         <Text style={secondaryStyle}>

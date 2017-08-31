@@ -3,7 +3,8 @@ import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { LoopLeft, LoopRight, BtnFretlightInfo } from "../StyleKit";
 import { PrimaryBlue } from "../../design";
-import MeasureableButton from "./MeasureableButton";
+import { BtnTempoModal } from "../modals";
+import MeasureableButton from "../modals/ModalButton";
 
 const buttonStyle = {
   flex: 1,
@@ -22,10 +23,10 @@ const PlaybackSecondary = ({
   rate,
   loopIsEnabled,
   connectedDevices,
+  onSelectTempo,
   onLoopEnable,
   onLoopBegin,
   onLoopEnd,
-  onDisplayTempo,
   onDisplaySaveLoopModal,
   onDisplayMyLoops,
   onDisplayInfo,
@@ -39,47 +40,7 @@ const PlaybackSecondary = ({
       alignContent: "center"
     }}
   >
-    <MeasureableButton onPress={onDisplayTempo}>
-      {rate > 0
-        ? <Text style={buttonStyle}>
-            Tempo: {`${parseInt(rate * 100)}%`}
-          </Text>
-        : <View
-            style={{
-              height: "100%",
-              flexDirection: "row"
-            }}
-          >
-            <Text
-              style={{
-                height: "100%",
-                textAlignVertical: "center",
-                fontSize: 18
-              }}
-            >
-              Tempo:
-            </Text>
-            <Text
-              style={{
-                height: "100%",
-                textAlignVertical: "center",
-                fontWeight: "800",
-                fontSize: 18
-              }}
-            >
-              NOTE
-            </Text>
-            <Text
-              style={{
-                height: "100%",
-                textAlignVertical: "center",
-                fontSize: 18
-              }}
-            >
-              Step™
-            </Text>
-          </View>}
-    </MeasureableButton>
+    <BtnTempoModal currentTempo={rate} onSelectTempo={onSelectTempo} />
 
     <TouchableOpacity onPress={onLoopEnable}>
       <Text style={buttonStyle}>

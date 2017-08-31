@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { TouchableOpacity } from "react-native";
 
-class MeasurableButton extends React.Component {
+class ModalButton extends React.Component {
   render() {
     return (
       <TouchableOpacity ref="Touchable" onPress={this.handlePress}>
@@ -18,4 +18,4 @@ class MeasurableButton extends React.Component {
   };
 }
 
-export default MeasurableButton;
+export default ModalButton;
