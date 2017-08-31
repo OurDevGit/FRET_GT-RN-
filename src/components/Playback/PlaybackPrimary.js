@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
+import { SliderVolumeController } from "react-native-volume-controller";
 import { pure } from "recompose";
 import { PrimaryBlue } from "../../design";
 import {
@@ -115,7 +116,7 @@ const PlaybackPrimary = ({
       >
         Volume
       </Text>
-      <Slider style={{ height: 44 }} />
+      <SliderVolumeController style={{ height: 44, marginRight: 10 }} />
     </View>
 
     <View style={{ position: "absolute", top: 0, right: 0 }}>

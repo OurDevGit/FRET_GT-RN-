@@ -149,6 +149,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-volume-controller')
     compile project(':react-native-billing')
     compile project(':realm')
     compile project(':react-native-video')
