@@ -3,8 +3,6 @@ import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { LoopLeft, LoopRight, BtnFretlightInfo } from "../StyleKit";
 import { PrimaryBlue } from "../../design";
-
-import RatePicker from "./RatePicker";
 import MeasureableButton from "./MeasureableButton";
 
 const buttonStyle = {
@@ -24,10 +22,10 @@ const PlaybackSecondary = ({
   rate,
   loopIsEnabled,
   connectedDevices,
-  onRateChange,
   onLoopEnable,
   onLoopBegin,
   onLoopEnd,
+  onDisplayTempo,
   onDisplaySaveLoopModal,
   onDisplayMyLoops,
   onDisplayInfo,
@@ -41,33 +39,47 @@ const PlaybackSecondary = ({
       alignContent: "center"
     }}
   >
-    <View
-      style={{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignContent: "center"
-      }}
-    >
-      <Text
-        style={{
-          paddingTop: 5,
-          fontSize: 20,
-          lineHeight: 20
-        }}
-      >
-        Tempo:
-      </Text>
-      <View
-        style={{
-          width: 110,
-          height: "100%",
-          marginTop: -8,
-          marginBottom: -5
-        }}
-      >
-        <RatePicker rate={rate} onRateChange={onRateChange} />
-      </View>
-    </View>
+    <MeasureableButton onPress={onDisplayTempo}>
+      {rate > 0
+        ? <Text style={buttonStyle}>
+            Tempo: {`${parseInt(rate * 100)}%`}
+          </Text>
+        : <View
+            style={{
+              height: "100%",
+              flexDirection: "row"
+            }}
+          >
+            <Text
+              style={{
+                height: "100%",
+                textAlignVertical: "center",
+                fontSize: 18
+              }}
+            >
+              Tempo:
+            </Text>
+            <Text
+              style={{
+                height: "100%",
+                textAlignVertical: "center",
+                fontWeight: "800",
+                fontSize: 18
+              }}
+            >
+              NOTE
+            </Text>
+            <Text
+              style={{
+                height: "100%",
+                textAlignVertical: "center",
+                fontSize: 18
+              }}
+            >
+              Step™
+            </Text>
+          </View>}
+    </MeasureableButton>
 
     <TouchableOpacity onPress={onLoopEnable}>
       <Text style={buttonStyle}>

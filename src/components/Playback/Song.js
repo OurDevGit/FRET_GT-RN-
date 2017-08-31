@@ -8,6 +8,7 @@ import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
 import PlaybackCompact from "./Compact";
 import PlaybackTimelineCompact from "./Compact/Timeline";
+import TempoModal from "./TempoModal";
 import SaveLoopModal from "./SaveLoopModal";
 import MyLoopsModal from "./MyLoopsModal";
 import FretlightModal from "./FretlightModal";
@@ -29,9 +30,11 @@ class Song extends React.Component {
     musicRate: 1,
     playbackRate: 1,
     seek: -1,
+    tempoModalIsVisible: false,
     saveLoopModalText: "",
     saveLoopModalIsVisible: false,
     myLoopsSourceFrame: { x: 0, y: 0, width: 0, height: 0 },
+    tempoSourceFrame: { x: 0, y: 0, width: 0, height: 0 },
     myLoopsModalIsVisible: false,
     myLoopsModalIsEditing: false,
     fretlightModalIsVisible: false
@@ -85,8 +88,8 @@ class Song extends React.Component {
                 onPlayPausePress={this.handlePlayPausePress}
                 onForwardPress={this.handleForwardPress}
                 onNextPress={this.handleNextPress}
-                onRateChange={this.handleRateChange}
                 onLoopEnable={this.handleLoopEnable}
+                onDisplayTempo={this.handleDisplayTempoModal}
                 onDisplayMyLoops={this.handleDisplayMyLoopsModal}
               />
               <PlaybackTimelineCompact
@@ -126,16 +129,24 @@ class Song extends React.Component {
                 rate={this.state.playbackRate}
                 loopIsEnabled={this.props.loopIsEnabled}
                 connectedDevices={this.props.connectedDevices}
-                onRateChange={this.handleRateChange}
                 onLoopEnable={this.handleLoopEnable}
                 onLoopBegin={this.handleLoopBegin}
                 onLoopEnd={this.handleLoopEnd}
+                onDisplayTempo={this.handleDisplayTempoModal}
                 onDisplaySaveLoopModal={this.handleDisplaySaveLoopModal}
                 onDisplayMyLoops={this.handleDisplayMyLoopsModal}
                 onDisplayInfo={this.handleDisplayInfoAlert}
                 onDisplayFretlightStatus={this.handleDisplayFretlightModal}
               />
             </View>}
+
+        <TempoModal
+          isVisible={this.state.tempoModalIsVisible}
+          sourceFrame={this.state.tempoSourceFrame}
+          onDismiss={this.handleDismissTempoModal}
+          onSelect={this.handleSelectTempo}
+        />
+
         <SaveLoopModal
           isVisible={this.state.saveLoopModalIsVisible}
           existingName={this.props.currentLoop.get("name")}
@@ -279,10 +290,19 @@ class Song extends React.Component {
     });
   };
 
-  handleRateChange = rate => {
-    this.setState({
-      playbackRate: rate
-    });
+  // TEMPO METHODS
+
+  handleDisplayTempoModal = frame => {
+    this.setState({ tempoModalIsVisible: true, tempoSourceFrame: frame });
+  };
+
+  handleDismissTempoModal = () => {
+    this.setState({ tempoModalIsVisible: false });
+  };
+
+  handleSelectTempo = tempo => {
+    console.log(tempo);
+    this.setState({ playbackRate: tempo, tempoModalIsVisible: false });
   };
 
   // LOOP METHODS
