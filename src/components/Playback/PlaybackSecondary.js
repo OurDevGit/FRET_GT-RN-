@@ -4,7 +4,7 @@ import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { LoopLeft, LoopRight } from "../StyleKit";
 
 import RatePicker from "./RatePicker";
-import BtnMyLoops from "./BtnMyLoops";
+import MeasureableButton from "./MeasureableButton";
 
 const buttonStyle = {
   flex: 1,
@@ -86,7 +86,9 @@ const PlaybackSecondary = ({
       <Text style={buttonStyle}>Save Loop</Text>
     </TouchableOpacity>
 
-    <BtnMyLoops style={buttonStyle} onPress={onDisplayMyLoops} />
+    <MeasureableButton onPress={onDisplayMyLoops}>
+      <Text style={buttonStyle}>My Loops</Text>
+    </MeasureableButton>
   </View>;
 
 export default pure(PlaybackSecondary);

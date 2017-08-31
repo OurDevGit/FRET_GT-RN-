@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { TouchableOpacity, Text } from "react-native";
 
-class BtnMyLoops extends React.Component {
+class MeasurableButton extends React.Component {
   render() {
     return (
       <TouchableOpacity ref="Touchable" onPress={this.handlePress}>
-        <Text style={this.props.style}>My Loops</Text>
+        {this.props.children}
       </TouchableOpacity>
     );
   }
@@ -18,4 +18,4 @@ class BtnMyLoops extends React.Component {
   };
 }
 
-export default BtnMyLoops;
+export default MeasurableButton;
