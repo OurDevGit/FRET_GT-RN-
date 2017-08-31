@@ -61,7 +61,8 @@ const MyLoopsModal = ({
       <View
         style={{
           width: "50%",
-          height: "50%",
+          height: 100 + (loops.length + 1) * 42,
+          maxHeight: "50%",
           padding: 20,
           backgroundColor: "white"
         }}
@@ -94,34 +95,43 @@ const MyLoopsModal = ({
             </Text>
           </TouchableOpacity>
         </View>
+
         <FlatList
           keyExtractor={(item, index) => index}
           data={[...loops, { name: "None" }]}
           ItemSeparatorComponent={separator}
           renderItem={({ item, index }) =>
-            <View style={{ width: "100%", height: 44, flexDirection: "row" }}>
+            <View style={{ width: "100%", height: 40, flexDirection: "row" }}>
+              <Text
+                style={{
+                  height: "100%",
+                  textAlignVertical: "center",
+                  fontSize: 18,
+                  fontWeight: "400",
+                  marginRight: 10,
+                  color: PrimaryBlue,
+                  opacity:
+                    currentLoop.name === item.name && item.name !== "None"
+                      ? 1.0
+                      : 0.0
+                }}
+              >
+                ✓
+              </Text>
               {isEditing &&
                 item.name !== "None" &&
                 <BtnLoopDelete
-                  style={{ width: 40, height: 40, marginHorizontal: 10 }}
+                  style={{
+                    width: 30,
+                    height: 30,
+                    marginRight: 10,
+                    marginTop: 6
+                  }}
                   color={"#B20000"}
                   onPress={() => {
                     onDelete(item);
                   }}
                 />}
-
-              {currentLoop.name === item.name &&
-                item.name !== "None" &&
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "400",
-                    paddingHorizontal: 10,
-                    color: PrimaryBlue
-                  }}
-                >
-                  ✓
-                </Text>}
 
               <TouchableOpacity
                 style={{ flex: 1 }}
@@ -129,7 +139,13 @@ const MyLoopsModal = ({
                   item.name === "None" ? onClear() : onSelect(item);
                 }}
               >
-                <Text style={{ fontSize: 18 }}>
+                <Text
+                  style={{
+                    height: "100%",
+                    textAlignVertical: "center",
+                    fontSize: 18
+                  }}
+                >
                   {item.name}
                 </Text>
               </TouchableOpacity>
