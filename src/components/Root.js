@@ -13,6 +13,8 @@ import testVideos from "../testVideos";
 import RealmTester from "./RealmTester";
 import Store from "./Store/Store.js";
 
+import { BtnLibrary } from "./StyleKit";
+
 const testMedia = [...testVideos, ...testSongs];
 
 class Root extends Component {
@@ -25,7 +27,7 @@ class Root extends Component {
   };
 
   render() {
-    const { store } = this.props;
+    const { store, trackCount } = this.props;
     const aspectRatio = this.state.layout.width / this.state.layout.height;
     const supportsMultipleFretboards =
       this.state.layout.width > 1 && aspectRatio < 1.6;
@@ -58,10 +60,19 @@ class Root extends Component {
           />
 
           {this.state.showAd &&
-            this.props.trackCount < 4 &&
+            trackCount < 4 &&
             <View style={{ position: "absolute", left: 5, top: 5 }}>
               {!this.state.libIsOpen &&
-                <Button title="Lib" onPress={this.handleToggleLibrary} />}
+                <BtnLibrary
+                  style={{
+                    marginLeft: 10,
+                    marginTop: 10,
+                    width: 40,
+                    height: 40
+                  }}
+                  color={"#FFFFFF"}
+                  onPress={this.handleToggleLibrary}
+                />}
             </View>}
 
           {supportsMultipleFretboards && <TrackSelector />}
