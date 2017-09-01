@@ -3,7 +3,12 @@ import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { LoopLeft, LoopRight, BtnFretlightInfo } from "../StyleKit";
 import { PrimaryBlue } from "../../design";
-import { BtnTempoModal, BtnSaveLoopModal, BtnMyLoopsModal } from "../modals";
+import {
+  BtnTempoModal,
+  BtnSaveLoopModal,
+  BtnMyLoopsModal,
+  BtnFretlightModal
+} from "../modals";
 
 const buttonStyle = {
   flex: 1,
@@ -82,26 +87,23 @@ const PlaybackSecondary = ({
         onPress={onDisplayInfo}
       />
 
-      <TouchableOpacity onPress={onDisplayFretlightStatus}>
-        <Text
-          style={{
-            flex: 1,
-            marginLeft: 6,
-            paddingTop: 4,
-            paddingHorizontal: 12,
-            fontSize: 20,
-            color: "white",
-            lineHeight: 20,
-            textAlign: "center",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: PrimaryBlue,
-            borderRadius: 6
-          }}
-        >
-          Fretlight Status ({connectedDevices})
-        </Text>
-      </TouchableOpacity>
+      <BtnFretlightModal
+        style={{
+          flex: 1,
+          marginLeft: 6,
+          paddingTop: 4,
+          paddingHorizontal: 12,
+          fontSize: 20,
+          color: "white",
+          lineHeight: 20,
+          textAlign: "center",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: PrimaryBlue,
+          borderRadius: 6
+        }}
+        connectedDevices={connectedDevices}
+      />
     </View>
   </View>;
 
