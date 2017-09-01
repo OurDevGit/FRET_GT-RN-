@@ -17,7 +17,6 @@ import Midi from "./Midi";
 import { playerBackground } from "../../design";
 
 import { loadMidi, clearMidi } from "../../selectors";
-import { realmify, guid } from "../../realm";
 
 class Song extends React.Component {
   state = {
@@ -28,13 +27,7 @@ class Song extends React.Component {
     playbackSeconds: 0.0,
     musicRate: 1,
     playbackRate: 1,
-    seek: -1,
-    saveLoopModalText: "",
-    saveLoopModalIsVisible: false,
-    myLoopsSourceFrame: { x: 0, y: 0, width: 0, height: 0 },
-    myLoopsModalIsVisible: false,
-    myLoopsModalIsEditing: false,
-    fretlightModalIsVisible: false
+    seek: -1
   };
 
   render() {
@@ -43,7 +36,6 @@ class Song extends React.Component {
     const mediaId = this.props.song !== undefined ? this.props.song.midi : "";
     const isCompact = this.props.height < 150;
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
-    // console.log("currentLoop", this.props.currentLoop.toJS());
 
     return (
       <View
@@ -87,7 +79,6 @@ class Song extends React.Component {
                 onNextPress={this.handleNextPress}
                 onLoopEnable={this.handleLoopEnable}
                 onSelectTempo={this.handleSelectTempo}
-                onDisplayMyLoops={this.handleDisplayMyLoopsModal}
               />
               <PlaybackTimelineCompact
                 progress={this.state.playbackProgress}
@@ -134,39 +125,8 @@ class Song extends React.Component {
                 onLoopEnd={this.handleLoopEnd}
                 onSetCurrentLoop={this.props.setCurrentLoop}
                 onClearCurrentLoop={this.props.clearCurrentLoop}
-                onDisplaySaveLoopModal={this.handleDisplaySaveLoopModal}
-                onDisplayMyLoops={this.handleDisplayMyLoopsModal}
-                onDisplayInfo={this.handleDisplayInfoAlert}
-                onDisplayFretlightStatus={this.handleDisplayFretlightModal}
               />
             </View>}
-
-        <SaveLoopModal
-          isVisible={this.state.saveLoopModalIsVisible}
-          existingName={this.props.currentLoop.get("name")}
-          onTextChange={this.handleSaveLoopTextInput}
-          onCancel={this.handleSaveLoopCancel}
-          onSave={this.handleSaveLoopSave}
-        />
-
-        <MyLoopsModal
-          isVisible={this.state.myLoopsModalIsVisible}
-          isEditing={this.state.myLoopsModalIsEditing}
-          loops={savedLoops}
-          currentLoop={this.props.currentLoop.toJS()}
-          sourceFrame={this.state.myLoopsSourceFrame}
-          onToggleEditing={this.toggleMyLoopsEditing}
-          onCancel={this.handleMyLoopsCancel}
-          onDelete={this.handleMyLoopsDelete}
-          onClear={this.handleMyLoopsClear}
-          onSelect={this.handleMyLoopsSelect}
-        />
-
-        <FretlightModal
-          isVisible={this.state.fretlightModalIsVisible}
-          connectedDevices={this.props.connectedDevices}
-          onDismiss={this.handleDismissFretlightModal}
-        />
       </View>
     );
   }
@@ -316,100 +276,13 @@ class Song extends React.Component {
     this.props.setCurrentLoop(loop);
   };
 
-  // SAVE LOOP
-
-  handleDisplaySaveLoopModal = () => {
-    const begin = this.props.currentLoop.get("begin");
-    const end = this.props.currentLoop.get("end");
-    if (begin === undefined && end == undefined) {
-      Alert.alert(
-        "Loop Times",
-        "Please set a begin and end time for your loop"
-      );
-    } else {
-      this.setState({ saveLoopModalIsVisible: true });
-    }
-  };
-
-  handleSaveLoopTextInput = text => {
-    this.setState({ saveLoopModalText: text });
-  };
-
-  handleSaveLoopCancel = () => {
-    this.setState({ saveLoopModalIsVisible: false });
-  };
-
-  handleSaveLoopSave = () => {
-    const name = this.state.saveLoopModalText;
-
-    if (name === "") {
-      Alert.alert("Loop Name", "Please enter a name with at least 1 character");
-    } else {
-      const loop = this.props.currentLoop
-        .set("name", name)
-        .set("mediaId", this.props.song.midi);
-      this.props.setCurrentLoop(loop);
-      this.props.createLoop(loop.toJS());
-      this.setState({ saveLoopModalIsVisible: false });
-    }
-  };
-
-  // MY LOOPS
-
-  handleDisplayMyLoopsModal = frame => {
-    if (this.props.loops.length === 0) {
-      Alert.alert(
-        "No Loops",
-        "You currently have no saved loops for this media"
-      );
-    } else {
-      this.setState({ myLoopsModalIsVisible: true, myLoopsSourceFrame: frame });
-    }
-  };
-
-  toggleMyLoopsEditing = () => {
-    const bool = !this.state.myLoopsModalIsEditing;
-    this.setState({ myLoopsModalIsEditing: bool });
-  };
-
-  handleMyLoopsCancel = () => {
-    this.setState({ myLoopsModalIsVisible: false });
-  };
-
-  handleMyLoopsDelete = loop => {
-    if (loop === this.props.currentLoop) {
-      this.props.clearCurrentLoop();
-    }
-
-    this.props.deleteLoop(loop);
-  };
-
-  handleMyLoopsClear = () => {
-    this.props.clearCurrentLoop();
-    this.setState({ myLoopsModalIsVisible: false });
-  };
-
-  handleMyLoopsSelect = loop => {
-    this.props.setCurrentLoop(Map(loop));
-    this.setState({ myLoopsModalIsVisible: false });
-  };
-
   // INFO
 
   handleDisplayInfoAlert = () => {
-    console.log("INFO");
     Alert.alert(
       "UNLEASH THE REAL POWER OF GUITAR TUNES!",
       "The Fretlight Guitar lights fingering positions right on the neck of a real guitar. Everything you see in Guitar Tunes will light in real-time right under your fingers!"
     );
-  };
-
-  handleDisplayFretlightModal = frame => {
-    this.setState({ fretlightModalIsVisible: true });
-  };
-
-  handleDismissFretlightModal = () => {
-    this.setState({ fretlightModalIsVisible: false });
   };
 }
 
@@ -422,21 +295,4 @@ Song.propTypes = {
   loopIsEnabled: PropTypes.bool
 };
 
-const mapQueriesToProps = (realm, ownProps) => ({
-  loops: realm.objects("Loop").filtered("mediaId == $0", ownProps.song.midi)
-});
-
-const mapMutationsToProps = ({ create, destroy }) => ({
-  createLoop: loop => {
-    var obj = { ...loop, id: guid() };
-    create("Loop", obj);
-  },
-  updateLoop: loop => {
-    create("Loop", loop, true);
-  },
-  deleteLoop: loop => {
-    destroy(loop);
-  }
-});
-
-export default realmify(mapQueriesToProps, mapMutationsToProps)(Song);
+export default Song;
