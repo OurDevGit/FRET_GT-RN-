@@ -125,6 +125,7 @@ class Song extends React.Component {
                 onLoopEnd={this.handleLoopEnd}
                 onSetCurrentLoop={this.props.setCurrentLoop}
                 onClearCurrentLoop={this.props.clearCurrentLoop}
+                onDisplayInfo={this.handleDisplayInfoAlert}
               />
             </View>}
       </View>
