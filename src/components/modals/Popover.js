@@ -1,7 +1,32 @@
 import React, { Component } from "react";
 import { Modal, TouchableOpacity, View } from "react-native";
+import PropTypes from "prop-types";
+import { ModalType, ModalTypePropType } from "./ModalType";
 
-const Popover = ({ children, isVisible, onDismiss }) =>
+const positionStyle = {
+  position: "absolute",
+  width: "100%",
+  height: "100%",
+  backgroundColor: "rgba(0, 0, 0, 0.5)"
+};
+
+const centerStyle = {
+  ...positionStyle,
+  flexDirection: "column",
+  justifyContent: "center",
+  alignItems: "center"
+};
+
+const styleForType = type => {
+  switch (type) {
+    case ModalType.Center:
+      return centerStyle;
+    default:
+      return positionStyle;
+  }
+};
+
+const Popover = ({ type, style, children, isVisible, onDismiss }) =>
   <Modal
     animationType={"fade"}
     transparent={true}
@@ -10,14 +35,7 @@ const Popover = ({ children, isVisible, onDismiss }) =>
       onDismiss();
     }}
   >
-    <View
-      style={{
-        position: "absolute",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0, 0, 0, 0.5)"
-      }}
-    >
+    <View style={styleForType(type)}>
       <TouchableOpacity
         style={{
           position: "absolute",
@@ -28,8 +46,19 @@ const Popover = ({ children, isVisible, onDismiss }) =>
           onDismiss();
         }}
       />
-      {children}
+
+      <View style={style}>
+        {children}
+      </View>
     </View>
   </Modal>;
+
+Popover.propTypes = {
+  type: ModalTypePropType.isRequired,
+  style: PropTypes.object.isRequired,
+  children: PropTypes.array.isRequired,
+  isVisible: PropTypes.bool.isRequired,
+  onDismiss: PropTypes.func.isRequired
+};
 
 export default Popover;

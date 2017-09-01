@@ -8,7 +8,6 @@ import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
 import PlaybackCompact from "./Compact";
 import PlaybackTimelineCompact from "./Compact/Timeline";
-import TempoModal from "./TempoModal";
 import SaveLoopModal from "./SaveLoopModal";
 import MyLoopsModal from "./MyLoopsModal";
 import FretlightModal from "./FretlightModal";
@@ -124,8 +123,10 @@ class Song extends React.Component {
                 onLoopEnable={this.handleLoopEnable}
               />
               <PlaybackSecondary
-                rate={this.state.playbackRate}
+                mediaId={mediaId}
+                tempo={this.state.playbackRate}
                 loopIsEnabled={this.props.loopIsEnabled}
+                currentLoop={this.props.currentLoop}
                 connectedDevices={this.props.connectedDevices}
                 onSelectTempo={this.handleSelectTempo}
                 onLoopEnable={this.handleLoopEnable}

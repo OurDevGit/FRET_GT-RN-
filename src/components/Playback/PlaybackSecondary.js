@@ -3,7 +3,7 @@ import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { LoopLeft, LoopRight, BtnFretlightInfo } from "../StyleKit";
 import { PrimaryBlue } from "../../design";
-import { BtnTempoModal } from "../modals";
+import { BtnTempoModal, BtnSaveLoopModal } from "../modals";
 import MeasureableButton from "../modals/ModalButton";
 
 const buttonStyle = {
@@ -20,14 +20,15 @@ const buttonStyle = {
 };
 
 const PlaybackSecondary = ({
-  rate,
+  mediaId,
+  tempo,
   loopIsEnabled,
+  currentLoop,
   connectedDevices,
   onSelectTempo,
   onLoopEnable,
   onLoopBegin,
   onLoopEnd,
-  onDisplaySaveLoopModal,
   onDisplayMyLoops,
   onDisplayInfo,
   onDisplayFretlightStatus
@@ -40,7 +41,7 @@ const PlaybackSecondary = ({
       alignContent: "center"
     }}
   >
-    <BtnTempoModal currentTempo={rate} onSelectTempo={onSelectTempo} />
+    <BtnTempoModal currentTempo={tempo} onSelectTempo={onSelectTempo} />
 
     <TouchableOpacity onPress={onLoopEnable}>
       <Text style={buttonStyle}>
@@ -59,9 +60,11 @@ const PlaybackSecondary = ({
       onPress={onLoopEnd}
     />
 
-    <TouchableOpacity onPress={onDisplaySaveLoopModal}>
-      <Text style={buttonStyle}>Save Loop</Text>
-    </TouchableOpacity>
+    <BtnSaveLoopModal
+      style={buttonStyle}
+      mediaId={mediaId}
+      currentLoop={currentLoop}
+    />
 
     <MeasureableButton onPress={onDisplayMyLoops}>
       <Text style={buttonStyle}>My Loops</Text>

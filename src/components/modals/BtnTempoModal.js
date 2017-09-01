@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import ModalButton from "./ModalButton";
 import TempoText from "./TempoText";
 import Popover from "./Popover";
+import { ModalType } from "./ModalType";
 
 class BtnTempoModal extends React.Component {
   state = {
@@ -18,77 +19,69 @@ class BtnTempoModal extends React.Component {
     const color = this.props.color || "black";
     console.log("tempo index", currentIndex);
     return (
-      <View style={{ flex: -1 }}>
-        <ModalButton onPress={this.displayModal}>
-          <TempoText
-            color={color}
-            tempo={this.props.currentTempo}
-            withTitle={true}
-          />
-        </ModalButton>
-
+      <ModalButton onPress={this.displayModal}>
+        <TempoText
+          color={color}
+          tempo={this.props.currentTempo}
+          withTitle={true}
+        />
         {this.state.modalIsVisible &&
           <Popover
+            type={ModalType.Position}
+            style={{
+              position: "absolute",
+              top: Math.max(100, this.state.modalFrame.y - 380),
+              left: this.state.modalFrame.x + this.state.modalFrame.width + 10,
+              width: 180,
+              height: 400,
+              padding: 20,
+              backgroundColor: "white"
+            }}
             isVisible={this.state.modalIsVisible}
             onDismiss={this.dismissModal}
           >
-            <View
-              style={{
-                position: "absolute",
-                top: Math.max(100, this.state.modalFrame.y - 380),
-                left:
-                  this.state.modalFrame.x + this.state.modalFrame.width + 10,
-                width: 180,
-                height: 400,
-                padding: 20,
-                backgroundColor: "white"
-              }}
-            >
-              <View
-                style={{ flex: -1, marginBottom: 20, flexDirection: "row" }}
+            <View style={{ flex: -1, marginBottom: 20, flexDirection: "row" }}>
+              <Text
+                style={{
+                  flex: 1,
+                  fontSize: 22,
+                  fontWeight: "800"
+                }}
               >
-                <Text
-                  style={{
-                    flex: 1,
-                    fontSize: 22,
-                    fontWeight: "800"
-                  }}
-                >
-                  Tempo
-                </Text>
-              </View>
-
-              <FlatList
-                keyExtractor={(item, index) => index}
-                data={tempos}
-                initialScrollIndex={currentIndex}
-                initialNumToRender={19}
-                getItemLayout={(item, index) => ({
-                  length: 40,
-                  offset: 40 * index,
-                  index
-                })}
-                ItemSeparatorComponent={this.separator}
-                renderItem={({ item, index }) =>
-                  <View
-                    style={{ width: "100%", height: 40, flexDirection: "row" }}
-                  >
-                    <TouchableOpacity
-                      style={{ flex: 1 }}
-                      onPress={() => {
-                        this.handleSelectTempo(item > 0.1 ? item : 0);
-                      }}
-                    >
-                      <TempoText
-                        tempo={item > 0.1 ? item : 0}
-                        withTitle={false}
-                      />
-                    </TouchableOpacity>
-                  </View>}
-              />
+                Tempo
+              </Text>
             </View>
+
+            <FlatList
+              keyExtractor={(item, index) => index}
+              data={tempos}
+              initialScrollIndex={currentIndex}
+              initialNumToRender={19}
+              getItemLayout={(item, index) => ({
+                length: 40,
+                offset: 40 * index,
+                index
+              })}
+              ItemSeparatorComponent={this.separator}
+              renderItem={({ item, index }) =>
+                <View
+                  style={{ width: "100%", height: 40, flexDirection: "row" }}
+                >
+                  <TouchableOpacity
+                    style={{ flex: 1 }}
+                    onPress={() => {
+                      this.handleSelectTempo(item > 0.1 ? item : 0);
+                    }}
+                  >
+                    <TempoText
+                      tempo={item > 0.1 ? item : 0}
+                      withTitle={false}
+                    />
+                  </TouchableOpacity>
+                </View>}
+            />
           </Popover>}
-      </View>
+      </ModalButton>
     );
   }
 
