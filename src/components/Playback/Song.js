@@ -123,7 +123,7 @@ class Song extends React.Component {
                 onLoopEnable={this.handleLoopEnable}
                 onLoopBegin={this.handleLoopBegin}
                 onLoopEnd={this.handleLoopEnd}
-                onSetCurrentLoop={this.props.setCurrentLoop}
+                onSetCurrentLoop={this.handleSetCurrentLoop}
                 onClearCurrentLoop={this.props.clearCurrentLoop}
                 onDisplayInfo={this.handleDisplayInfoAlert}
               />
@@ -234,9 +234,7 @@ class Song extends React.Component {
   handleMarkerLongPress = (begin, end) => {
     const loop = Map({ begin, end });
     this.props.setCurrentLoop(loop);
-    this.setState({
-      seek: begin
-    });
+    this.setState({ seek: begin });
   };
 
   handleScrub = progress => {
@@ -274,6 +272,12 @@ class Song extends React.Component {
     var loop = this.props.currentLoop.set("end", end);
     loop = begin > end ? loop.set("begin", 0) : loop;
 
+    this.props.setCurrentLoop(loop);
+  };
+
+  handleSetCurrentLoop = loop => {
+    const begin = loop.get("begin");
+    this.setState({ seek: begin });
     this.props.setCurrentLoop(loop);
   };
 
