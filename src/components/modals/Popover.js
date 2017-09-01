@@ -56,7 +56,7 @@ const Popover = ({ type, style, children, isVisible, onDismiss }) =>
 Popover.propTypes = {
   type: ModalTypePropType.isRequired,
   style: PropTypes.object.isRequired,
-  children: PropTypes.array.isRequired,
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
   isVisible: PropTypes.bool.isRequired,
   onDismiss: PropTypes.func.isRequired
 };

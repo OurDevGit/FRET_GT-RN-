@@ -29,6 +29,7 @@ const PlaybackSecondary = ({
   onLoopEnable,
   onLoopBegin,
   onLoopEnd,
+  onSetCurrentLoop,
   onDisplayMyLoops,
   onDisplayInfo,
   onDisplayFretlightStatus
@@ -64,6 +65,7 @@ const PlaybackSecondary = ({
       style={buttonStyle}
       mediaId={mediaId}
       currentLoop={currentLoop}
+      onSetCurrentLoop={onSetCurrentLoop}
     />
 
     <MeasureableButton onPress={onDisplayMyLoops}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
 import { realmify, guid } from "../../realm";
 
@@ -113,7 +113,16 @@ class BtnSaveLoopModal extends React.Component {
   }
 
   displayModal = () => {
-    this.setState({ modalIsVisible: true });
+    const begin = this.props.currentLoop.get("begin");
+    const end = this.props.currentLoop.get("end");
+    if (begin === undefined && end == undefined) {
+      Alert.alert(
+        "Loop Times",
+        "Please set a begin and end time for your loop"
+      );
+    } else {
+      this.setState({ modalIsVisible: true });
+    }
   };
 
   dismissModal = () => {
@@ -130,12 +139,17 @@ class BtnSaveLoopModal extends React.Component {
     if (name === "") {
       Alert.alert("Loop Name", "Please enter a name with at least 1 character");
     } else {
-      const loop = this.props.currentLoop
-        .set("name", name)
-        .set("mediaId", this.props.mediaId);
-      this.props.setCurrentLoop(loop);
-      this.props.createLoop(loop.toJS());
-      this.setState({ modalIsVisible: false });
+      const matching = this.props.loops.filter(loop => loop.name === name);
+      if (matching.length > 0) {
+        Alert.alert("Existing Name", "Please give your loop another name");
+      } else {
+        const loop = this.props.currentLoop
+          .set("name", name)
+          .set("mediaId", this.props.mediaId);
+        this.props.onSetCurrentLoop(loop);
+        this.props.createLoop(loop.toJS());
+        this.setState({ modalIsVisible: false });
+      }
     }
   };
 }
@@ -153,6 +167,13 @@ const mapMutationsToProps = ({ create, destroy }) => ({
     create("Loop", loop, true);
   }
 });
+
+BtnSaveLoopModal.propTypes = {
+  style: PropTypes.object.isRequired,
+  mediaId: PropTypes.string.isRequired,
+  currentLoop: PropTypes.object.isRequired,
+  onSetCurrentLoop: PropTypes.func.isRequired
+};
 
 export default realmify(mapQueriesToProps, mapMutationsToProps)(
   BtnSaveLoopModal
