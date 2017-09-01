@@ -3,8 +3,7 @@ import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { LoopLeft, LoopRight, BtnFretlightInfo } from "../StyleKit";
 import { PrimaryBlue } from "../../design";
-import { BtnTempoModal, BtnSaveLoopModal } from "../modals";
-import MeasureableButton from "../modals/ModalButton";
+import { BtnTempoModal, BtnSaveLoopModal, BtnMyLoopsModal } from "../modals";
 
 const buttonStyle = {
   flex: 1,
@@ -30,6 +29,7 @@ const PlaybackSecondary = ({
   onLoopBegin,
   onLoopEnd,
   onSetCurrentLoop,
+  onClearCurrentLoop,
   onDisplayMyLoops,
   onDisplayInfo,
   onDisplayFretlightStatus
@@ -68,9 +68,13 @@ const PlaybackSecondary = ({
       onSetCurrentLoop={onSetCurrentLoop}
     />
 
-    <MeasureableButton onPress={onDisplayMyLoops}>
-      <Text style={buttonStyle}>My Loops</Text>
-    </MeasureableButton>
+    <BtnMyLoopsModal
+      style={buttonStyle}
+      mediaId={mediaId}
+      currentLoop={currentLoop}
+      onSetCurrentLoop={onSetCurrentLoop}
+      onClearCurrentLoop={onClearCurrentLoop}
+    />
 
     <View style={{ flex: -1, flexDirection: "row" }}>
       <BtnFretlightInfo

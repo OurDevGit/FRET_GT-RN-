@@ -133,6 +133,7 @@ class Song extends React.Component {
                 onLoopBegin={this.handleLoopBegin}
                 onLoopEnd={this.handleLoopEnd}
                 onSetCurrentLoop={this.props.setCurrentLoop}
+                onClearCurrentLoop={this.props.clearCurrentLoop}
                 onDisplaySaveLoopModal={this.handleDisplaySaveLoopModal}
                 onDisplayMyLoops={this.handleDisplayMyLoopsModal}
                 onDisplayInfo={this.handleDisplayInfoAlert}
