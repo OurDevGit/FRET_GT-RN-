@@ -1,7 +1,9 @@
 import React from "react";
 import { View, Alert } from "react-native";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Map } from "immutable";
+import { timeForPrevStep, timeForNextStep } from "../../selectors";
 
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
@@ -25,8 +27,8 @@ class Song extends React.Component {
     mediaDuration: 0,
     playbackProgress: 0.0,
     playbackSeconds: 0.0,
-    musicRate: 1,
-    playbackRate: 1,
+    musicRate: 0,
+    playbackRate: 0,
     seek: -1
   };
 
@@ -125,6 +127,8 @@ class Song extends React.Component {
                 onLoopEnd={this.handleLoopEnd}
                 onSetCurrentLoop={this.handleSetCurrentLoop}
                 onClearCurrentLoop={this.props.clearCurrentLoop}
+                onPrevStep={this.handlePrevStep}
+                onNextStep={this.handleNextStep}
                 onDisplayInfo={this.handleDisplayInfoAlert}
               />
             </View>}
@@ -288,6 +292,34 @@ class Song extends React.Component {
       "UNLEASH THE REAL POWER OF GUITAR TUNES!",
       "The Fretlight Guitar lights fingering positions right on the neck of a real guitar. Everything you see in Guitar Tunes will light in real-time right under your fingers!"
     );
+  };
+
+  // STEP
+
+  handlePrevStep = () => {
+    const { playbackSeconds } = this.state;
+    const { visibleTracks, currentLoop, loopIsEnabled } = this.props;
+    const time = timeForPrevStep(
+      playbackSeconds,
+      visibleTracks.first().get("name"),
+      currentLoop,
+      loopIsEnabled
+    );
+
+    this.setState({ seek: time });
+  };
+
+  handleNextStep = () => {
+    const { playbackSeconds } = this.state;
+    const { visibleTracks, currentLoop, loopIsEnabled } = this.props;
+    const time = timeForNextStep(
+      playbackSeconds,
+      visibleTracks.first().get("name"),
+      currentLoop,
+      loopIsEnabled
+    );
+
+    this.setState({ seek: time });
   };
 }
 

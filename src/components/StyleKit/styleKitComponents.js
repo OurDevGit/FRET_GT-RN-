@@ -277,9 +277,21 @@ export const BtnStepNext_isPressed = props => <PaintCode
   {...props}
 />
 
+export const BtnStepNext_targetFrame_resizing_isPressed = props => <PaintCode
+  drawMethod="BtnStepNext"
+  drawArgs={["targetFrame","resizing","isPressed"]}
+  {...props}
+/>
+
 export const BtnStepPrev_isPressed = props => <PaintCode
   drawMethod="BtnStepPrev"
   drawArgs={["isPressed"]}
+  {...props}
+/>
+
+export const BtnStepPrev_targetFrame_resizing_isPressed = props => <PaintCode
+  drawMethod="BtnStepPrev"
+  drawArgs={["targetFrame","resizing","isPressed"]}
   {...props}
 />
 

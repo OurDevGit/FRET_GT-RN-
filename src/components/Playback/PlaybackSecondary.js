@@ -1,7 +1,13 @@
 import React from "react";
 import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
-import { LoopLeft, LoopRight, BtnFretlightInfo } from "../StyleKit";
+import {
+  LoopLeft,
+  LoopRight,
+  BtnFretlightInfo,
+  BtnPrevStep,
+  BtnNextStep
+} from "../StyleKit";
 import { PrimaryBlue } from "../../design";
 import {
   BtnTempoModal,
@@ -26,6 +32,8 @@ const buttonStyle = {
 const PlaybackSecondary = ({
   mediaId,
   tempo,
+  onPrevStep,
+  onNextStep,
   loopIsEnabled,
   currentLoop,
   connectedDevices,
@@ -48,6 +56,20 @@ const PlaybackSecondary = ({
     }}
   >
     <BtnTempoModal currentTempo={tempo} onSelectTempo={onSelectTempo} />
+
+    {tempo === 0 &&
+      <BtnPrevStep
+        style={{ width: 40, height: 40, marginHorizontal: 0 }}
+        color={PrimaryBlue}
+        onPress={onPrevStep}
+      />}
+
+    {tempo === 0 &&
+      <BtnNextStep
+        style={{ width: 40, height: 40, marginHorizontal: 0 }}
+        color={PrimaryBlue}
+        onPress={onNextStep}
+      />}
 
     <TouchableOpacity onPress={onLoopEnable}>
       <Text style={buttonStyle}>

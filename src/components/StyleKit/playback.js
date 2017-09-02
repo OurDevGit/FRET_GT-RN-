@@ -8,7 +8,9 @@ import {
   BtnPlay_targetFrame_resizing_isPressed_isShowingPause_redValue_greenValue_blueValue,
   BtnForward_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   BtnNext_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
-  BtnInfo_targetFrame_resizing
+  BtnInfo_targetFrame_resizing,
+  BtnStepPrev_targetFrame_resizing_isPressed,
+  BtnStepNext_targetFrame_resizing_isPressed
 } from "./styleKitComponents";
 import {
   ResizingBehavior,
@@ -82,6 +84,22 @@ export const BtnFretlightInfo = props => {
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
 
+export const BtnPrevStep = props => {
+  const Comp = gtPcSizeable(
+    gtPcPressable(BtnStepPrev_targetFrame_resizing_isPressed)
+  );
+
+  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+};
+
+export const BtnNextStep = props => {
+  const Comp = gtPcSizeable(
+    gtPcPressable(BtnStepNext_targetFrame_resizing_isPressed)
+  );
+
+  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+};
+
 BtnPrevious.propTypes = {
   size: SizePropType,
   resizing: ResizingBehaviorPropType
@@ -108,6 +126,16 @@ BtnNext.propTypes = {
 };
 
 BtnFretlightInfo.propTypes = {
+  size: SizePropType,
+  resizing: ResizingBehaviorPropType
+};
+
+BtnPrevStep.propTypes = {
+  size: SizePropType,
+  resizing: ResizingBehaviorPropType
+};
+
+BtnNextStep.propTypes = {
   size: SizePropType,
   resizing: ResizingBehaviorPropType
 };

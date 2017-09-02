@@ -84,8 +84,10 @@ module.exports = (track, secondsForTicks) => {
           const string = noteOn.channel - 10;
           const fret = noteOn.noteNumber - stringOffset[string];
           const note = Map({
-            begin: noteOn.begin,
-            end: secondsForTicks(totalTicks)
+            begin: parseFloat(noteOn.begin.toFixed(3)),
+            end: parseFloat(secondsForTicks(totalTicks).toFixed(3)),
+            fret: fret,
+            string: string
           });
 
           if (notes.getIn([fret, string]) === undefined) {

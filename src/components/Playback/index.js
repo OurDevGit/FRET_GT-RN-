@@ -31,13 +31,13 @@ class MediaPlayer extends Component {
             markers={this.props.markers}
             updateTime={this.props.updateTime}
             currentLoop={this.props.currentLoop}
+            visibleTracks={this.props.visibleTracks}
             loopIsEnabled={this.props.loopIsEnabled}
             connectedDevices={0}
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
             clearCurrentLoop={this.props.clearCurrentLoop}
             onToggleLibrary={this.props.onToggleLibrary}
-            onPresentSaveLoopModal={this.props.presentSaveLoopModal}
           />}
         {this.props.video !== undefined &&
           this.props.video !== null &&
@@ -49,6 +49,7 @@ class MediaPlayer extends Component {
             clearMidiData={this.props.clearMidiData}
             updateTime={this.props.updateTime}
             currentLoop={this.props.currentLoop}
+            visibleTracks={this.props.visibleTracks}
             loopIsEnabled={this.props.loopIsEnabled}
             connectedDevices={0}
             enableLoop={this.props.enableLoop}
@@ -83,11 +84,12 @@ MediaPlayer.propTypes = {
   clearCurrentLoop: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   return {
     markers: state.get("markers"),
     currentLoop: state.get("currentLoop"),
-    loopIsEnabled: state.get("loopIsEnabled")
+    loopIsEnabled: state.get("loopIsEnabled"),
+    visibleTracks: state.get("visibleTracks")
   };
 };
 
