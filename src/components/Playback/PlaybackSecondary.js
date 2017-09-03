@@ -58,18 +58,34 @@ const PlaybackSecondary = ({
     <BtnTempoModal currentTempo={tempo} onSelectTempo={onSelectTempo} />
 
     {tempo === 0 &&
-      <BtnPrevStep
-        style={{ width: 40, height: 40, marginHorizontal: 0 }}
-        color={PrimaryBlue}
-        onPress={onPrevStep}
-      />}
-
-    {tempo === 0 &&
-      <BtnNextStep
-        style={{ width: 40, height: 40, marginHorizontal: 0 }}
-        color={PrimaryBlue}
-        onPress={onNextStep}
-      />}
+      <View
+        style={{
+          marginLeft: -60,
+          marginTop: -4,
+          flex: -1,
+          flexDirection: "row"
+        }}
+      >
+        <BtnPrevStep
+          style={{
+            width: 40,
+            height: 40,
+            marginLeft: 5
+          }}
+          color={PrimaryBlue}
+          onPress={onPrevStep}
+        />
+        <BtnNextStep
+          style={{
+            width: 40,
+            height: 40,
+            marginLeft: 40,
+            marginLeft: 5
+          }}
+          color={PrimaryBlue}
+          onPress={onNextStep}
+        />
+      </View>}
 
     <TouchableOpacity onPress={onLoopEnable}>
       <Text style={buttonStyle}>

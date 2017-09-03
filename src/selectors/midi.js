@@ -46,7 +46,7 @@ exports.hasNoteForTimeSelector = createSelector(
   }
 );
 
-exports.timeForPrevStep = (time, track, currentLoop, loopIsEnabled) => {
+const timeForStep = (type, time, track, currentLoop, loopIsEnabled) => {
   const trackMap = notes.get(track).flatten(2);
   var notesForTrack = Set();
 
@@ -56,17 +56,31 @@ exports.timeForPrevStep = (time, track, currentLoop, loopIsEnabled) => {
 
   var timesForTrack = notesForTrack.map(note => note.get("begin"));
 
+  timesForTrack = timesForTrack.filter(noteTime => {
+    const begin = currentLoop.get("begin");
+    const end = currentLoop.get("end");
+    if (loopIsEnabled && begin !== undefined && end !== undefined) {
+      return begin <= noteTime && end > noteTime;
+    } else {
+      return true;
+    }
+  });
+
   const filtered = timesForTrack.filter(noteTime => {
-    return noteTime < time;
+    return type === "PREV"
+      ? noteTime < time
+      : time === 0 ? noteTime >= 0 : noteTime > time;
   });
 
   if (filtered.count() > 0) {
-    const sorted = List(filtered).sort().reverse();
+    const sorted =
+      type === "PREV" ? List(filtered).sort().reverse() : List(filtered).sort();
+
     const currentNotes = notesForTrack
       .filter(note => note.get("begin") <= time && note.get("end") > time)
       .map(note => Map({ fret: note.get("fret"), string: note.get("string") }));
 
-    var newTime = 0;
+    var newTime = -1;
     sorted.some(noteTime => {
       const nextNotes = notesForTrack
         .filter(
@@ -82,52 +96,18 @@ exports.timeForPrevStep = (time, track, currentLoop, loopIsEnabled) => {
       }
     });
 
-    return newTime;
-  } else {
-    const sorted = List(timesForTrack).sort();
-    return sorted.last();
+    if (newTime > -1) {
+      return newTime;
+    }
   }
+  const sorted = List(timesForTrack).sort();
+  return type === "PREV" ? sorted.last() : sorted.first();
+};
+
+exports.timeForPrevStep = (time, track, currentLoop, loopIsEnabled) => {
+  return timeForStep("PREV", time, track, currentLoop, loopIsEnabled);
 };
 
 exports.timeForNextStep = (time, track, currentLoop, loopIsEnabled) => {
-  const trackMap = notes.get(track).flatten(2);
-  var notesForTrack = Set();
-
-  trackMap.forEach(note => {
-    notesForTrack = notesForTrack.add(note);
-  });
-
-  var timesForTrack = notesForTrack.map(note => note.get("begin"));
-
-  const filtered = timesForTrack.filter(noteTime => {
-    return time === 0 ? noteTime >= 0 : noteTime > time;
-  });
-
-  if (filtered.count() > 0) {
-    const sorted = List(filtered).sort();
-    const currentNotes = notesForTrack
-      .filter(note => note.get("begin") <= time && note.get("end") > time)
-      .map(note => Map({ fret: note.get("fret"), string: note.get("string") }));
-
-    var newTime = 0;
-    sorted.some(noteTime => {
-      const nextNotes = notesForTrack
-        .filter(
-          note => note.get("begin") === noteTime && note.get("end") > noteTime
-        )
-        .map(note =>
-          Map({ fret: note.get("fret"), string: note.get("string") })
-        );
-
-      if (!currentNotes.equals(nextNotes)) {
-        newTime = noteTime;
-        return true;
-      }
-    });
-
-    return newTime;
-  } else {
-    const sorted = List(timesForTrack).sort();
-    return sorted.first();
-  }
+  return timeForStep("NEXT", time, track, currentLoop, loopIsEnabled);
 };

@@ -27,8 +27,8 @@ class Song extends React.Component {
     mediaDuration: 0,
     playbackProgress: 0.0,
     playbackSeconds: 0.0,
-    musicRate: 0,
-    playbackRate: 0,
+    musicRate: 1,
+    playbackRate: 1,
     seek: -1
   };
 
