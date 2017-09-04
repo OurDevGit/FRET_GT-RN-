@@ -17,10 +17,16 @@ const centerStyle = {
   alignItems: "center"
 };
 
+const fullStyle = {
+  ...centerStyle
+};
+
 const styleForType = type => {
   switch (type) {
     case ModalType.Center:
       return centerStyle;
+    case ModalType.Full:
+      return fullStyle;
     default:
       return positionStyle;
   }
@@ -28,7 +34,7 @@ const styleForType = type => {
 
 const Popover = ({ type, style, children, isVisible, onDismiss }) =>
   <Modal
-    animationType={"fade"}
+    animationType={type === ModalType.Full ? "slide" : "fade"}
     transparent={true}
     visible={isVisible}
     onRequestClose={() => {
