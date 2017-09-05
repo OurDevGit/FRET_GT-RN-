@@ -1,37 +1,14 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
-
-const extractKey = item => item.mediaID;
-
-class MediaItem extends React.PureComponent {
-  render() {
-    return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <View
-          style={{
-            backgroundColor: "#f0f",
-            width: "100%",
-            height: 30,
-            borderBottomColor: "#ccc",
-            borderBottomWidth: 1
-            // alignItems: "flex-end",
-            // flexDirection: "row"
-          }}
-        >
-          <Text style={{ fontSize: 10, width: "100%", textAlign: "center" }}>
-            {this.props.title}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
+import { FlatList } from "react-native";
+import MediaItem from "./MediaItem";
 
 class Media extends React.PureComponent {
   renderItem = ({ item }) => (
     <MediaItem
       id={item.mediaID}
       title={item.title}
+      subtitle={item.artist}
+      artworkURL={item.artworkURL}
       onPress={() => this.props.onChoose(item)}
     />
   );
@@ -43,7 +20,7 @@ class Media extends React.PureComponent {
       <FlatList
         data={media}
         renderItem={this.renderItem}
-        keyExtractor={extractKey}
+        keyExtractor={item => item.mediaID}
         style={style}
       />
     );

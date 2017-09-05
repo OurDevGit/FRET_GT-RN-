@@ -10,8 +10,7 @@ class CategoryItem extends React.PureComponent {
         <View
           style={{
             backgroundColor: "#ddd",
-            // width: 50,
-            height: 50,
+            height: 88,
             borderBottomColor: "#ccc",
             borderBottomWidth: 1,
             alignItems: "flex-end",

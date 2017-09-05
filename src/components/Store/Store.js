@@ -67,7 +67,7 @@ class Store extends React.PureComponent {
 
   handleChooseMedia = media => {
     console.debug(media);
-    testPurchase(media);
+    // testPurchase(media);
   };
 
   render() {
@@ -75,7 +75,7 @@ class Store extends React.PureComponent {
       <View
         style={{
           alignSelf: "flex-end",
-          width: "50%",
+          width: "100%",
           height: "100%",
           backgroundColor: "#eee",
           flexDirection: "row"
@@ -84,14 +84,14 @@ class Store extends React.PureComponent {
         <Categories
           categories={this.props.categories}
           onChoose={this.handleChooseCategory}
-          style={{ width: 50, margin: 0, padding: 0, flexGrow: 0 }}
+          style={{ width: 90, margin: 0, padding: 0, flexGrow: 0 }}
         />
 
         <SubCategories
           subCategories={this.state.subCategories}
           onChoose={this.handleChooseSubCategory}
           style={{
-            width: 0,
+            width: 90,
             backgroundColor: "#0ff",
             margin: 0,
             padding: 0,
@@ -108,8 +108,7 @@ class Store extends React.PureComponent {
   }
 
   componentDidMount() {
-    syncStore();
-
+    // syncStore();
     // InAppBilling.open()
     //   .then(() => InAppBilling.listOwnedProducts())
     //   .then(details => {

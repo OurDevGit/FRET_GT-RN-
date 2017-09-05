@@ -31,14 +31,14 @@ export default class {
       minutes: { type: "double", optional: true },
       seconds: { type: "double", optional: true },
       previewStart: { type: "double", optional: true },
-      previewDuration: { type: "double", optional: true }
+      previewDuration: { type: "double", optional: true },
+      artworkURL: { type: "string", optional: true }
       // createdAt: "date",
       // updated_at: "date"
       // isCached: { type: "bool", default: false },
       // musicPath: {type:"string", optional:true},
       // midiPath: {type:"string", optional:true},
       // albumPath: {type:"string", optional:true},
-      // artworkURL: {type:"string", optional:true},
       // trackURL: {type:"string", optional:true},
     }
   };

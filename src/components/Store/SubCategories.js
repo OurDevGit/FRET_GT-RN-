@@ -44,7 +44,10 @@ class SubCategories extends React.PureComponent {
         data={subCategories}
         renderItem={this.renderItem}
         keyExtractor={extractKey}
-        style={style}
+        style={{
+          ...style,
+          width: subCategories.length === 0 ? 0 : style.width
+        }}
       />
     );
   }
