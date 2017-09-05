@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, Button, TextInput } from "react-native";
 import { realmify } from "../../realm";
 // import InAppBilling from "react-native-billing";
 
@@ -43,7 +43,8 @@ const testPurchase = media => {
 class Store extends React.PureComponent {
   state = {
     subCategories: [],
-    media: []
+    media: [],
+    searchText: ""
   };
 
   handleChooseCategory = category => {
@@ -52,7 +53,7 @@ class Store extends React.PureComponent {
     if (category.subCategories.length === 0) {
       console.debug("no sub categories");
       this.setState({
-        media: category.media.sorted("title").slice(11)
+        media: category.media.sorted("title").slice(11, 23)
       });
     } else {
       console.debug(` ${category.subCategories.length} sub categories`);
@@ -67,17 +68,15 @@ class Store extends React.PureComponent {
 
   handleChooseMedia = media => {
     console.debug(media);
-    // testPurchase(media);
+    testPurchase(media);
   };
 
   render() {
     return (
       <View
         style={{
-          alignSelf: "flex-end",
           width: "100%",
           height: "100%",
-          backgroundColor: "#eee",
           flexDirection: "row"
         }}
       >
@@ -98,11 +97,32 @@ class Store extends React.PureComponent {
             flexGrow: 0
           }}
         />
-        <Media
-          media={this.state.media}
-          style={{ flexGrow: 1 }}
-          onChoose={this.handleChooseMedia}
-        />
+        <View style={{ flexGrow: 1 }}>
+          <View
+            style={{
+              width: "100%",
+              height: 44,
+              backgroundColor: "#fafafa",
+              flexDirection: "row"
+            }}
+          >
+            <TextInput
+              style={{
+                //height: 30,
+                flexGrow: 1
+              }}
+              onChangeText={searchText => this.setState({ searchText })}
+              value={this.state.searchText}
+            />
+            <Text>Close</Text>
+            {/* <Button title="Done" /> */}
+          </View>
+          <Media
+            media={this.state.media}
+            style={{ flexGrow: 1 }}
+            onChoose={this.handleChooseMedia}
+          />
+        </View>
       </View>
     );
   }

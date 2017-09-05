@@ -9,7 +9,7 @@ class CategoryItem extends React.PureComponent {
       <TouchableOpacity onPress={this.props.onPress}>
         <View
           style={{
-            backgroundColor: "#ddd",
+            backgroundColor: "#dae3ed",
             height: 88,
             borderBottomColor: "#ccc",
             borderBottomWidth: 1,
@@ -17,7 +17,14 @@ class CategoryItem extends React.PureComponent {
             flexDirection: "row"
           }}
         >
-          <Text style={{ fontSize: 10, width: "100%", textAlign: "center" }}>
+          <Text
+            style={{
+              fontSize: 14,
+              width: "100%",
+              textAlign: "center",
+              color: "black"
+            }}
+          >
             {this.props.title}
           </Text>
         </View>
