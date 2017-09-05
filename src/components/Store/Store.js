@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, FlatList } from "react-native";
 import { realmify } from "../../realm";
-import InAppBilling from "react-native-billing";
+// import InAppBilling from "react-native-billing";
 
 import { syncStore } from "../../Store";
 
@@ -10,25 +10,24 @@ import SubCategories from "./SubCategories";
 import Media from "./Media";
 
 const testPurchase = media => {
-  InAppBilling.open()
-    .then(() => InAppBilling.purchase(media.mediaID.toLowerCase()))
-    .then(details => {
-      fetch(
-        "https://hooks.slack.com/services/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",
-        {
-          method: "POST",
-          body: JSON.stringify({ text: JSON.stringify(details) })
-        }
-      );
-      console.debug("You purchased: ");
-      console.debug(details);
-      return InAppBilling.close();
-    })
-    .catch(err => {
-      console.error(err);
-      InAppBilling.close();
-    });
-
+  // InAppBilling.open()
+  //   .then(() => InAppBilling.purchase(media.mediaID.toLowerCase()))
+  //   .then(details => {
+  //     fetch(
+  //       "https://hooks.slack.com/services/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",
+  //       {
+  //         method: "POST",
+  //         body: JSON.stringify({ text: JSON.stringify(details) })
+  //       }
+  //     );
+  //     console.debug("You purchased: ");
+  //     console.debug(details);
+  //     return InAppBilling.close();
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //     InAppBilling.close();
+  //   });
   // InAppBilling.open()
   //   .then(() => InAppBilling.getProductDetails(media.mediaID.toLowerCase()))
   //   .then(details => {
@@ -85,16 +84,23 @@ class Store extends React.PureComponent {
         <Categories
           categories={this.props.categories}
           onChoose={this.handleChooseCategory}
-          style={{ width: 50 }}
+          style={{ width: 50, margin: 0, padding: 0, flexGrow: 0 }}
         />
+
         <SubCategories
           subCategories={this.state.subCategories}
           onChoose={this.handleChooseSubCategory}
-          style={{ width: 50 }}
+          style={{
+            width: 0,
+            backgroundColor: "#0ff",
+            margin: 0,
+            padding: 0,
+            flexGrow: 0
+          }}
         />
         <Media
           media={this.state.media}
-          style={{ flex: 1 }}
+          style={{ flexGrow: 1 }}
           onChoose={this.handleChooseMedia}
         />
       </View>
@@ -104,18 +110,18 @@ class Store extends React.PureComponent {
   componentDidMount() {
     syncStore();
 
-    InAppBilling.open()
-      .then(() => InAppBilling.listOwnedProducts())
-      .then(details => {
-        console.debug("owned produts: ");
-        console.debug(details);
-        return InAppBilling.close();
-      })
-      .catch(err => {
-        // console.debug("error from purchase");
-        console.error(err);
-        return InAppBilling.close();
-      });
+    // InAppBilling.open()
+    //   .then(() => InAppBilling.listOwnedProducts())
+    //   .then(details => {
+    //     console.debug("owned produts: ");
+    //     console.debug(details);
+    //     return InAppBilling.close();
+    //   })
+    //   .catch(err => {
+    //     // console.debug("error from purchase");
+    //     console.error(err);
+    //     return InAppBilling.close();
+    //   });
   }
 
   componentWillReceiveProps(newProps) {}

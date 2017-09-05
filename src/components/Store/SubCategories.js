@@ -10,8 +10,8 @@ class CategoryItem extends React.PureComponent {
         <View
           style={{
             backgroundColor: "#ddd",
-            width: 50,
-            height: 50,
+            // width: 50,
+            // height: 50,
             borderBottomColor: "#ccc",
             borderBottomWidth: 1,
             alignItems: "flex-end",
@@ -28,12 +28,13 @@ class CategoryItem extends React.PureComponent {
 }
 
 class SubCategories extends React.PureComponent {
-  renderItem = ({ item }) =>
+  renderItem = ({ item }) => (
     <CategoryItem
       id={item.id}
       title={item.title}
       onPress={() => this.props.onChoose(item)}
-    />;
+    />
+  );
 
   render() {
     const { subCategories, style } = this.props;
@@ -43,7 +44,7 @@ class SubCategories extends React.PureComponent {
         data={subCategories}
         renderItem={this.renderItem}
         keyExtractor={extractKey}
-        style={{ width: style.width }}
+        style={style}
       />
     );
   }
