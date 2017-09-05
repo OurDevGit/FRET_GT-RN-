@@ -114,9 +114,9 @@ public class BSPaintCodeView extends View {
 
     Method foundMethod = findMatchWithDefaults(allMethods, methodName, args);
     if (foundMethod != null) {
-      Log.d("findContextMatch", "found a method");
+      Log.d("BSPaintCodeView", "found a method");
     } else {
-      Log.d("findContextMatch", "no method found");
+      Log.d("BSPaintCodeView", "no method found");
     }
 
     return foundMethod;
@@ -129,9 +129,9 @@ public class BSPaintCodeView extends View {
 
     Method foundMethod = findMatchWithDefaults(allMethods, methodName, args);
     if (foundMethod != null) {
-      Log.d("findCanvasOnlyMatch", "found a method");
+      Log.d("BSPaintCodeView", "found a method");
     } else {
-      Log.d("findCanvasOnlyMatch", "no method found");
+      Log.d("BSPaintCodeView", "no method found");
     }
     return foundMethod;
   }
@@ -142,16 +142,16 @@ public class BSPaintCodeView extends View {
       // check method name
       if (method.getName().equals(methodName)) {
         Type[] methodParamTypes = method.getGenericParameterTypes();
-        Log.d("findMatchWithDefaults", methodParamTypes.toString());
+        Log.d("BSPaintCodeView", methodParamTypes.toString());
 
         if (methodParamTypes.length == this.drawArgs.size() + defaultArgs.length) {
 
           // compare the method params with the default args and if any are different then return null early
           for (int i = 0; i < defaultArgs.length; i++) {
             if (methodParamTypes[i].toString().equals(defaultArgs[i]) == false) {
-              Log.d("findMatchWithDefaults", "right number of args, but default arg type mismatch");
-              Log.d("findMatchWithDefaults", methodParamTypes[i].toString());
-              Log.d("findMatchWithDefaults", defaultArgs[i]);
+              Log.d("BSPaintCodeView", "right number of args, but default arg type mismatch");
+              Log.d("BSPaintCodeView", methodParamTypes[i].toString());
+              Log.d("BSPaintCodeView", defaultArgs[i]);
               return null;
             }
           }
@@ -165,10 +165,6 @@ public class BSPaintCodeView extends View {
             if (i >= defaultArgs.length) {
               // if there is a type mis-match, then this isn't the right match
               if (propertyMatches(methodType, argType) == false) {
-                // if (methodType.equalsIgnoreCase(argType) == false) {
-                // Log.d("findMatchWithDefaults", "mis-match");
-                // Log.d("findMatchWithDefaults", methodType);
-                // Log.d("findMatchWithDefaults", argType);
                 isMatch = false;
               }
             }
@@ -179,7 +175,7 @@ public class BSPaintCodeView extends View {
             return method;
           }
         } else {
-          // Log.d("findMatchWithDefaults", "right name, wrong number of arguments");
+          // Log.d("BSPaintCodeView", "right name, wrong number of arguments");
         }
       } // method name check
     } // for allMethods
@@ -282,51 +278,51 @@ public class BSPaintCodeView extends View {
 
     // iterate through the args and replace them one by one
     for (Object object : args) {
-      Log.d("iterating args", object.getClass().getName());
+      Log.d("BSPaintCodeView", object.getClass().getName());
 
       // ResizingBehavior
       if (isResizingBehavior(object)) {
-        Log.d("convertArgs", "is a ResizingBehavior String");
+        Log.d("BSPaintCodeView", "is a ResizingBehavior String");
         Object resizingBehavior = makeResizingBehavior((String) object);
-        Log.d("convertArgs", "made it!");
+        Log.d("BSPaintCodeView", "made it!");
         newArgs.add(resizingBehavior);
 
         // String to String
       } else if (object instanceof String) {
-        Log.d("iterating args", "converting String");
+        Log.d("BSPaintCodeView", "converting String");
         newArgs.add(object);
         // Float to float
       } else if (object.getClass().getName().equals("java.lang.Float")) {
-        Log.d("iterating args", "converting Float");
+        Log.d("BSPaintCodeView", "converting Float");
         newArgs.add(((Float) object).floatValue());
 
         // Double to float
       } else if (object.getClass().getName().equals("java.lang.Double")) {
-        Log.d("iterating args", "converting Double");
+        Log.d("BSPaintCodeView", "converting Double");
         newArgs.add(((Double) object).floatValue());
 
         // Boolean to boolean
       } else if (object.getClass().getName().equals("java.lang.Boolean")) {
-        Log.d("iterating args", "converting Boolean");
+        Log.d("BSPaintCodeView", "converting Boolean");
         newArgs.add(((Boolean) object).booleanValue());
 
         // Point to PointF
       } else if (isPoint(object)) {
-        Log.d("convertArgs", "Doing Point");
+        Log.d("BSPaintCodeView", "Doing Point");
         HashMap point = (HashMap) object;
         PointF jPoint = makePointF(point);
         newArgs.add(jPoint);
 
         // Rect to RectF
       } else if (isRect(object)) {
-        Log.d("convertArgs", "Doing HashMap");
+        Log.d("BSPaintCodeView", "Doing HashMap");
         HashMap rect = (HashMap) object;
         RectF jRect = makeRectF(rect);
         newArgs.add(jRect);
       } else {
-        Log.w("convertArgs", "adding arg object without converting it: " + object.toString());
-        Log.w("convertArgs", "adding arg object without converting it: " + object.getClass().getName());
-        // Log.w("convertArgs", "adding arg object without converting it: " + object.getTypeName());
+        Log.w("BSPaintCodeView", "adding arg object without converting it: " + object.toString());
+        Log.w("BSPaintCodeView", "adding arg object without converting it: " + object.getClass().getName());
+        // Log.w("BSPaintCodeView", "adding arg object without converting it: " + object.getTypeName());
         newArgs.add(object);
       }
     }
