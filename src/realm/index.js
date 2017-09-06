@@ -41,7 +41,9 @@ const updateQueries = (queries, mapQueriesUserFunc, ownProps) => {
 
 export const guid = () => {
   const s4 = () =>
-    Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+    Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
   return `${s4() + s4()}-${s4()}-${s4()}-${s4()}-${s4() + s4() + s4()}`;
 };
 
@@ -89,7 +91,7 @@ export const realmify = (
         queries[key].removeAllListeners();
 
         queries[key].addListener((objs, changes) => {
-          console.debug("update via componentDidMount!");
+          // console.debug("update via componentDidMount!");
           // console.debug(setState);
           // update this key with the latest
           queries[key] = objs;
@@ -118,7 +120,7 @@ export const realmify = (
         queries[key].removeAllListeners();
 
         queries[key].addListener((objs, changes) => {
-          console.debug("update via componentWillReceiveProps!");
+          // console.debug("update via componentWillReceiveProps!");
           // update this key with the latest
           queries[key] = objs;
           this.setState({
@@ -133,9 +135,9 @@ export const realmify = (
     },
 
     componentWillUnmount() {
-      console.debug("queriesWrapper will umount!");
-      console.debug(this.state);
-      console.debug(this.state.queries);
+      // console.debug("queriesWrapper will unmount!");
+      // console.debug(this.state);
+      // console.debug(this.state.queries);
 
       for (key in this.state.queries) {
         this.state.queries[key].removeAllListeners();

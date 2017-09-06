@@ -10,7 +10,7 @@ export default class {
       isClientSided: { type: "bool", default: false },
       isGrouped: { type: "bool", default: false },
       index: { type: "int", default: 0 },
-      iconPath: { type: "string", optional: true },
+      iconURL: { type: "string", optional: true },
       sortByName: { type: "bool", default: true },
       subCategories: { type: "list", objectType: "SubCategory" },
       media: { type: "list", objectType: "Media" }
@@ -19,5 +19,9 @@ export default class {
 
   get children() {
     return this.subCategories;
+  }
+
+  get iconPath() {
+    return this.iconURL;
   }
 }

@@ -30,7 +30,7 @@ class Media extends React.PureComponent {
       <Text
         style={[styles.tabLabel, { color: focused ? PrimaryGold : "black" }]}
       >
-        {title}
+        {title.toUpperCase()}
       </Text>
     );
   };
@@ -38,7 +38,14 @@ class Media extends React.PureComponent {
   _renderScene = ({ route }) => {
     switch (route.key) {
       case "1":
-        return;
+        return (
+          <FlatList
+            data={this.props.media}
+            renderItem={this.renderItem}
+            keyExtractor={item => item.mediaID}
+            style={this.props.style}
+          />
+        );
       case "2":
         return <SecondRoute />;
       default:
@@ -57,7 +64,7 @@ class Media extends React.PureComponent {
   );
 
   render() {
-    const { media, style } = this.props;
+    const { style } = this.props;
 
     return (
       <TabViewAnimated

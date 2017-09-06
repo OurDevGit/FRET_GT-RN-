@@ -1,46 +1,61 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, FlatList, TouchableOpacity, Image } from "react-native";
+import {
+  CategorySelectedColor,
+  CategoryUnselectedColor,
+  BorderColor
+} from "../../design";
 
 const extractKey = item => item.id;
 
-class CategoryItem extends React.PureComponent {
-  render() {
-    return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <View
-          style={{
-            backgroundColor: "#dae3ed",
-            height: 88,
-            borderBottomColor: "#ccc",
-            borderBottomWidth: 1,
-            alignItems: "flex-end",
-            flexDirection: "row"
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 14,
-              width: "100%",
-              textAlign: "center",
-              color: "black"
-            }}
-          >
-            {this.props.title}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
+const CategoryItem = ({ isSelected, iconURL, title, onPress }) => (
+  <TouchableOpacity onPress={onPress}>
+    <View
+      style={{
+        backgroundColor: isSelected
+          ? CategorySelectedColor
+          : CategoryUnselectedColor,
+        height: 88,
+        borderBottomColor: BorderColor,
+        borderBottomWidth: 1
+      }}
+    >
+      <View
+        style={{
+          flex: 1,
+          flexGrow: 1,
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <Image source={{ uri: iconURL }} style={{ height: 30, width: 30 }} />
+      </View>
+      <Text
+        style={{
+          fontSize: 14,
+          width: "100%",
+          textAlign: "center",
+          color: isSelected ? "white" : "black"
+        }}
+      >
+        {title}
+      </Text>
+    </View>
+  </TouchableOpacity>
+);
 
 class Categories extends React.PureComponent {
-  renderItem = ({ item }) => (
-    <CategoryItem
-      id={item.id}
-      title={item.title}
-      onPress={() => this.props.onChoose(item)}
-    />
-  );
+  renderItem = ({ item }) => {
+    // console.debug({ item });
+    return (
+      <CategoryItem
+        id={item.id}
+        title={item.title}
+        iconURL={item.iconPath}
+        onPress={() => this.props.onChoose(item)}
+      />
+    );
+  };
 
   render() {
     const { categories, style } = this.props;
