@@ -45,21 +45,21 @@ const CategoryItem = ({ isSelected, iconURL, title, onPress }) => (
 );
 
 class Categories extends React.PureComponent {
-  renderItem = ({ item }) => {
-    // console.debug({ item });
+  renderItem = ({ item, index }) => {
+    // console.debug({ rest });
     return (
       <CategoryItem
         id={item.id}
         title={item.title}
-        iconURL={item.iconPath}
-        onPress={() => this.props.onChoose(item)}
+        iconURL={item.iconURL}
+        isSelected={index === this.props.selectedIndex}
+        onPress={() => this.props.onChoose(item, index)}
       />
     );
   };
 
   render() {
     const { categories, style } = this.props;
-
     return (
       <FlatList
         data={categories}

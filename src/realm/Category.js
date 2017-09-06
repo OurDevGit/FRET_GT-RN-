@@ -20,8 +20,4 @@ export default class {
   get children() {
     return this.subCategories;
   }
-
-  get iconPath() {
-    return this.iconURL;
-  }
 }

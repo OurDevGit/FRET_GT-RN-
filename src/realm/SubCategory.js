@@ -6,7 +6,7 @@ export default class {
       id: "string",
       title: "string",
       libraryTitle: { type: "string", optional: true },
-      // iconPath: {type:"string", optional:true},
+      iconURL: { type: "string", optional: true },
       hideInLibrary: { type: "bool", default: false },
       sortByName: { type: "bool", default: true },
       isNavigable: { type: "bool", default: false },

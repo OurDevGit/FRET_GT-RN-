@@ -1,13 +1,29 @@
 import React from "react";
-import { View, Text, Button, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  TextInput,
+  TouchableHighlight,
+  TouchableOpacity
+} from "react-native";
 import { realmify } from "../../realm";
 // import InAppBilling from "react-native-billing";
 
 import { syncStore } from "../../Store";
+import { PrimaryGold } from "../../design";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
+
+const CloseButton = ({ title }) => (
+  <TouchableOpacity onPress={() => console.log("touch")}>
+    <View style={{ padding: 8, margin: 8 }}>
+      <Text style={{ color: PrimaryGold }}>{title.toUpperCase()}</Text>
+    </View>
+  </TouchableOpacity>
+);
 
 const testPurchase = media => {
   // InAppBilling.open()
@@ -42,13 +58,15 @@ const testPurchase = media => {
 
 class Store extends React.PureComponent {
   state = {
+    categoryIndex: 0,
+    subCategoryIndex: null,
     subCategories: [],
     media: [],
     searchText: ""
   };
 
-  handleChooseCategory = category => {
-    console.debug(category);
+  handleChooseCategory = (category, categoryIndex) => {
+    // console.debug(category);
 
     if (category.subCategories.length === 0) {
       console.debug("no sub categories");
@@ -60,7 +78,8 @@ class Store extends React.PureComponent {
     }
 
     this.setState({
-      subCategories: category.subCategories
+      subCategories: category.subCategories,
+      categoryIndex
     });
   };
 
@@ -84,6 +103,7 @@ class Store extends React.PureComponent {
           categories={this.props.categories}
           onChoose={this.handleChooseCategory}
           style={{ width: 90, margin: 0, padding: 0, flexGrow: 0 }}
+          selectedIndex={this.state.categoryIndex}
         />
 
         <SubCategories
@@ -114,7 +134,8 @@ class Store extends React.PureComponent {
               onChangeText={searchText => this.setState({ searchText })}
               value={this.state.searchText}
             />
-            <Text>Close</Text>
+            <CloseButton title="Close" />
+
             {/* <Button title="Done" /> */}
           </View>
           <Media
@@ -143,7 +164,18 @@ class Store extends React.PureComponent {
     //   });
   }
 
-  componentWillReceiveProps(newProps) {}
+  componentWillReceiveProps(newProps) {
+    // console.debug("Store gets props");
+    // console.debug(newProps.categories.length);
+
+    if (newProps.categories.length > this.state.categoryIndex) {
+      console.debug("auto choose category");
+      this.handleChooseCategory(
+        newProps.categories[this.state.categoryIndex],
+        this.state.categoryIndex
+      );
+    }
+  }
 }
 
 const mapQueriesToProps = (realm, ownProps) => {
