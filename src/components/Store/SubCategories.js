@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-
-const extractKey = item => item.id;
+import LargeButton from "./LargeButton";
 
 class CategoryItem extends React.PureComponent {
   render() {
@@ -29,7 +28,7 @@ class CategoryItem extends React.PureComponent {
 
 class SubCategories extends React.PureComponent {
   renderItem = ({ item }) => (
-    <CategoryItem
+    <LargeButton
       id={item.id}
       title={item.title}
       onPress={() => this.props.onChoose(item)}
@@ -43,7 +42,7 @@ class SubCategories extends React.PureComponent {
       <FlatList
         data={subCategories}
         renderItem={this.renderItem}
-        keyExtractor={extractKey}
+        keyExtractor={item => item.id}
         style={{
           ...style,
           width: subCategories.length === 0 ? 0 : style.width
