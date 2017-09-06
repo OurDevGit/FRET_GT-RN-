@@ -34,7 +34,12 @@ class MediaItem extends PureComponent {
             </Text>
           </View>
           <BtnDetails />
-          <BtnBuy priceText="FREE" fontSize={14} topText="" bottomText="" />
+          <BtnBuy
+            priceText={this.props.price}
+            fontSize={14}
+            topText=""
+            bottomText=""
+          />
         </View>
       </TouchableOpacity>
     );
