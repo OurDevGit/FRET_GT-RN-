@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
+import Dimensions from "Dimensions";
 import * as actions from "../../redux/actions";
 
 import Popover from "./Popover";
@@ -101,6 +102,14 @@ const SmartFretModal = props => (
           onDisplayInfo={props.onDisplayInfo}
         />
       </View>
+
+      <Fretboard
+        track={props.track}
+        boardWidth={Dimensions.get("window")}
+        style={{
+          flex: 1
+        }}
+      />
     </View>
   </Popover>
 );

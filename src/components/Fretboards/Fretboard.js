@@ -21,13 +21,16 @@ const Fretboard = ({ style, track, boardWidth, setSmartTrack }) => (
       <Text style={{ fontSize: boardWidth * 0.013, marginBottom: 1 }}>
         {track.name || " "}
       </Text>
-      <TouchableOpacity
-        onPress={() => {
-          setSmartTrack(track);
-        }}
-      >
-        <SmartFretText color={PrimaryBlue} size={18} />
-      </TouchableOpacity>
+
+      {setSmartTrack !== undefined && (
+        <TouchableOpacity
+          onPress={() => {
+            setSmartTrack(track);
+          }}
+        >
+          <SmartFretText color={PrimaryBlue} size={16} />
+        </TouchableOpacity>
+      )}
     </View>
 
     <FretboardLabels track={track} boardWidth={boardWidth} />
