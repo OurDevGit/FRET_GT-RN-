@@ -7,7 +7,7 @@ import * as actions from "../../redux/actions";
 
 import Popover from "./Popover";
 import { ModalType } from "./ModalType";
-import { PrimaryBlue } from "../../design";
+import { PrimaryBlue, playerBackground } from "../../design";
 import SmartFretText from "./SmartFretText";
 import PlaybackPrimary from "../Playback/PlaybackPrimary";
 import PlaybackTimeline from "../Playback/PlaybackTimeline";
@@ -16,6 +16,9 @@ import Fretboard from "../Fretboards/Fretboard";
 
 class SmartFretModal extends React.Component {
   render() {
+    const frets = this.props.track.lastFret - this.props.track.firstFret;
+    const boardWidth = Dimensions.get("window").width;
+    const boardHeight = boardWidth / frets * 3;
     return (
       <Popover
         type={ModalType.Full}
@@ -69,7 +72,15 @@ class SmartFretModal extends React.Component {
             />
           </View>
 
-          <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: playerBackground,
+              margin: this.props.isCompact ? 0 : 4,
+              padding: this.props.isCompact ? 0 : 2,
+              borderRadius: this.props.isCompact ? 0 : 6
+            }}
+          >
             <PlaybackPrimary
               mediaId={this.props.mediaId}
               title={this.props.mediaTitle}
@@ -112,9 +123,12 @@ class SmartFretModal extends React.Component {
           <Fretboard
             track={this.props.track}
             isSmart={true}
-            boardWidth={Dimensions.get("window")}
+            boardWidth={boardWidth}
             style={{
-              flex: 1
+              width: boardWidth,
+              height: boardHeight,
+              paddingTop: 5,
+              paddingBottom: 15
             }}
           />
         </View>
@@ -124,6 +138,7 @@ class SmartFretModal extends React.Component {
 }
 
 SmartFretModal.propTypes = {
+  track: PropTypes.object,
   mediaId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,

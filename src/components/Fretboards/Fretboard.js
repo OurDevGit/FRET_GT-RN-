@@ -27,7 +27,7 @@ const Fretboard = ({
   >
     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
       <Text style={{ fontSize: boardWidth * 0.013, marginBottom: 1 }}>
-        {track.name || " "}
+        {isSmart ? " " : track.name || " "}
       </Text>
 
       <TouchableOpacity
@@ -57,5 +57,5 @@ const Fretboard = ({
 );
 
 export default connect(undefined, actions)(
-  onlyUpdateForKeys(["track"])(Fretboard)
+  onlyUpdateForKeys(["track", "boardWidth"])(Fretboard)
 );

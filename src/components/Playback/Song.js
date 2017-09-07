@@ -136,6 +136,7 @@ class Song extends React.Component {
           mediaId={mediaId}
           title={mediaTitle}
           isPlaying={this.state.isPlaying}
+          isCompact={isCompact}
           progress={this.state.playbackProgress}
           duration={this.state.mediaDuration}
           markers={this.props.markers}

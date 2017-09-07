@@ -32,10 +32,10 @@ const styleForType = type => {
   }
 };
 
-const Popover = ({ type, style, children, isVisible, onDismiss }) =>
+const Popover = ({ type, style, children, isVisible, onDismiss }) => (
   <Modal
     animationType={type === ModalType.Full ? "slide" : "fade"}
-    transparent={true}
+    transparent={type !== ModalType.Full}
     visible={isVisible}
     onRequestClose={() => {
       onDismiss();
@@ -53,11 +53,10 @@ const Popover = ({ type, style, children, isVisible, onDismiss }) =>
         }}
       />
 
-      <View style={style}>
-        {children}
-      </View>
+      <View style={style}>{children}</View>
     </View>
-  </Modal>;
+  </Modal>
+);
 
 Popover.propTypes = {
   type: ModalTypePropType.isRequired,

@@ -3,8 +3,9 @@ import { View, Text } from "react-native";
 
 const labels = (style, track, isSmart, boardWidth) => {
   var frets = [];
-  var first = isSmart ? track.firstFret : 0;
-  var last = isSmart ? track.lastFret : 23;
+  const first = isSmart ? track.firstFret : 0;
+  const last = isSmart ? track.lastFret : 23;
+  const diff = last - first;
 
   for (var i = first; i <= last; i++) {
     frets.push(
@@ -12,12 +13,12 @@ const labels = (style, track, isSmart, boardWidth) => {
         key={i}
         style={{
           flex: 1,
-          height: boardWidth * 0.015
+          height: boardWidth / diff / 3
         }}
       >
         <Text
           style={{
-            fontSize: boardWidth * 0.01,
+            fontSize: boardWidth / diff / 5,
             textAlign: "center"
           }}
         >

@@ -17,10 +17,10 @@ const markers = fret => {
     return (
       <View
         style={{
-          width: "30%",
+          width: "26%",
           aspectRatio: 1,
           backgroundColor: "#CCCCCC",
-          borderRadius: 8,
+          borderRadius: 1000,
           marginLeft: -4
         }}
       />
@@ -30,21 +30,21 @@ const markers = fret => {
       <View>
         <View
           style={{
-            width: "30%",
+            width: "26%",
             marginVertical: "45%",
             aspectRatio: 1,
             backgroundColor: "#CCCCCC",
-            borderRadius: 8,
+            borderRadius: 1000,
             marginLeft: -4
           }}
         />
         <View
           style={{
-            width: "30%",
+            width: "26%",
             marginVertical: "45%",
             aspectRatio: 1,
             backgroundColor: "#CCCCCC",
-            borderRadius: 8,
+            borderRadius: 1000,
             marginLeft: -4
           }}
         />
@@ -53,7 +53,7 @@ const markers = fret => {
   }
 };
 
-const FretboardMarkers = ({ fret }) =>
+const FretboardMarkers = ({ fret }) => (
   <View
     style={{
       position: "absolute",
@@ -65,6 +65,7 @@ const FretboardMarkers = ({ fret }) =>
     }}
   >
     {markers(fret)}
-  </View>;
+  </View>
+);
 
 export default FretboardMarkers;

@@ -3,28 +3,28 @@ import { connect } from "react-redux";
 import { View, Text } from "react-native";
 import { hasNoteForTimeSelector } from "../../selectors";
 
-const FretboardNote = ({ notation, boardWidth, isVisible }) =>
+const FretboardNote = ({ frets, notation, boardWidth, isVisible }) => (
   <View
     style={{
       flex: 1,
       justifyContent: "center"
     }}
   >
-    {isVisible &&
+    {isVisible && (
       <View
         style={{
-          width: "42%",
+          width: "41%",
           aspectRatio: 1,
           backgroundColor: "#17A3E3",
-          borderRadius: boardWidth * 0.012,
+          borderRadius: 1000,
           alignItems: "center"
         }}
       >
-        <Text style={{ fontSize: boardWidth * 0.012 }}>
-          {notation}
-        </Text>
-      </View>}
-  </View>;
+        <Text style={{ fontSize: boardWidth / frets / 4 }}>{notation}</Text>
+      </View>
+    )}
+  </View>
+);
 
 const mapStateToProps = (state, props) => {
   return {

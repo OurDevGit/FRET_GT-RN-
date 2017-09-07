@@ -29,7 +29,7 @@ const notation = (fret, string) => {
   return scale[remainder];
 };
 
-const notes = (track, fret, boardWidth) => {
+const notes = (track, fret, isSmart, frets, boardWidth) => {
   var views = [];
 
   for (var i = 0; i < 6; i++) {
@@ -39,6 +39,7 @@ const notes = (track, fret, boardWidth) => {
           key={i}
           track={track.name}
           fret={fret}
+          frets={frets}
           string={track.isBass ? i + 2 : i}
           notation={notation(fret, i)}
           boardWidth={boardWidth}
@@ -51,8 +52,9 @@ const notes = (track, fret, boardWidth) => {
 
 const frets = (track, isSmart, boardWidth) => {
   var frets = [];
-  var first = isSmart ? track.firstFret : 0;
-  var last = isSmart ? track.lastFret : 23;
+  const first = isSmart ? track.firstFret : 0;
+  const last = isSmart ? track.lastFret : 23;
+  const diff = last - first;
 
   for (var i = first; i <= last; i++) {
     frets.push(
@@ -65,7 +67,7 @@ const frets = (track, isSmart, boardWidth) => {
             alignItems: "center"
           }}
         >
-          {notes(track, i, boardWidth)}
+          {notes(track, i, isSmart, diff, boardWidth)}
         </View>
       </View>
     );
