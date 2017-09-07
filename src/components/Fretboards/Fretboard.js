@@ -11,7 +11,14 @@ import FretboardFrets from "./FretboardFrets";
 import FretboardStrings from "./FretboardStrings";
 import SmartFretText from "../modals/SmartFretText";
 
-const Fretboard = ({ style, track, isSmart, boardWidth, setSmartTrack }) => (
+const Fretboard = ({
+  style,
+  track,
+  isSmart,
+  boardWidth,
+  setSmartTrack,
+  clearSmartTrack
+}) => (
   <View
     style={{
       ...style,
@@ -23,15 +30,13 @@ const Fretboard = ({ style, track, isSmart, boardWidth, setSmartTrack }) => (
         {track.name || " "}
       </Text>
 
-      {!isSmart && (
-        <TouchableOpacity
-          onPress={() => {
-            setSmartTrack(track);
-          }}
-        >
-          <SmartFretText color={PrimaryBlue} size={16} />
-        </TouchableOpacity>
-      )}
+      <TouchableOpacity
+        onPress={() => {
+          isSmart ? clearSmartTrack() : setSmartTrack(track);
+        }}
+      >
+        <SmartFretText color={PrimaryBlue} size={16} />
+      </TouchableOpacity>
     </View>
 
     <FretboardLabels track={track} isSmart={isSmart} boardWidth={boardWidth} />
