@@ -3,8 +3,8 @@ import { View, Text } from "react-native";
 
 const labels = (style, track, isSmart, boardWidth) => {
   var frets = [];
-  var first = isSmart ? track.firstFret || 0 : 0;
-  var last = isSmart ? track.lastFret || 23 : 23;
+  var first = isSmart ? track.firstFret : 0;
+  var last = isSmart ? track.lastFret : 23;
 
   for (var i = first; i <= last; i++) {
     frets.push(

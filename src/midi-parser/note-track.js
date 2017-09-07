@@ -131,7 +131,19 @@ module.exports = (track, secondsForTicks) => {
   }
 
   if (lastFret === undefined) {
-    firstFret = 23;
+    lastFret = 23;
+  }
+
+  const diff = lastFret - firstFret;
+  const minRange = 7;
+  if (diff < minRange) {
+    const modifiedHigh = lastFret + (minRange - diff);
+    const minHigh = Math.min(modifiedHigh, 23);
+    const remainder = modifiedHigh - minHigh;
+    const modifiedLow = lastFret - remainder;
+
+    firstFret = Math.max(0, modifiedLow);
+    lastFret = minHigh;
   }
 
   var returnObj = {
