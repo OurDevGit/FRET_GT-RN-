@@ -135,6 +135,7 @@ class Song extends React.Component {
         <SmartFretModal
           mediaId={mediaId}
           title={mediaTitle}
+          trackCount={this.props.trackCount}
           isPlaying={this.state.isPlaying}
           isCompact={isCompact}
           progress={this.state.playbackProgress}

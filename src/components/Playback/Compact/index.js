@@ -32,7 +32,7 @@ const PlaybackCompact = ({
   title,
   trackCount,
   isPlaying,
-  rate,
+  tempo,
   loopIsEnabled,
   onSelectTempo,
   onToggleLibrary,
@@ -43,7 +43,7 @@ const PlaybackCompact = ({
   onNextPress,
   onLoopEnable,
   onDisplayMyLoops
-}) =>
+}) => (
   <View
     style={{
       flex: 1,
@@ -62,12 +62,13 @@ const PlaybackCompact = ({
         alignItems: "center"
       }}
     >
-      {trackCount > 3 &&
+      {trackCount > 3 && (
         <BtnLibrary
           style={{ ...primaryStyle, marginRight: 30 }}
           color={PrimaryBlue}
           onPress={onToggleLibrary}
-        />}
+        />
+      )}
 
       <BtnPrevious
         style={primaryStyle}
@@ -127,7 +128,7 @@ const PlaybackCompact = ({
     >
       <BtnTempoModal
         color={PrimaryBlue}
-        currentTempo={rate}
+        currentTempo={tempo}
         onSelectTempo={onSelectTempo}
       />
 
@@ -141,6 +142,7 @@ const PlaybackCompact = ({
         <Text style={secondaryStyle}>My Loops</Text>
       </MeasureableButton>
     </View>
-  </View>;
+  </View>
+);
 
 export default pure(PlaybackCompact);

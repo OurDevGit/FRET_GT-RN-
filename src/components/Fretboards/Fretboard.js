@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 
 import * as actions from "../../redux/actions";
-import { PrimaryBlue } from "../../design";
+import { PrimaryBlue, scaledFontSize } from "../../design";
 import FretboardLabels from "./FretboardFretLabels";
 import FretboardBackground from "./FretboardFretBackground";
 import FretboardFrets from "./FretboardFrets";
@@ -15,6 +15,7 @@ const Fretboard = ({
   style,
   track,
   isSmart,
+  isHidingLabels,
   boardWidth,
   setSmartTrack,
   clearSmartTrack
@@ -25,23 +26,33 @@ const Fretboard = ({
       backgroundColor: "#E6D9B9"
     }}
   >
-    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-      <Text style={{ fontSize: boardWidth * 0.013, marginBottom: 1 }}>
-        {isSmart ? " " : track.name || " "}
-      </Text>
+    {isHidingLabels !== true && (
+      <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <Text
+          style={{
+            fontSize: scaledFontSize(1),
+            marginBottom: 1
+          }}
+        >
+          {isSmart ? " " : track.name || " "}
+        </Text>
 
-      <TouchableOpacity
-        style={{
-          marginRight: isSmart ? 10 : 0,
-          marginBottom: isSmart ? 10 : 0
-        }}
-        onPress={() => {
-          isSmart ? clearSmartTrack() : setSmartTrack(track);
-        }}
-      >
-        <SmartFretText color={PrimaryBlue} size={isSmart ? 18 : 16} />
-      </TouchableOpacity>
-    </View>
+        <TouchableOpacity
+          style={{
+            marginRight: isSmart ? 10 : 0,
+            marginBottom: isSmart ? 10 : 0
+          }}
+          onPress={() => {
+            isSmart ? clearSmartTrack() : setSmartTrack(track);
+          }}
+        >
+          <SmartFretText
+            color={PrimaryBlue}
+            size={isSmart ? scaledFontSize(1.2) : scaledFontSize(1)}
+          />
+        </TouchableOpacity>
+      </View>
+    )}
 
     <FretboardLabels track={track} isSmart={isSmart} boardWidth={boardWidth} />
     <View style={{ flex: 1 }}>
