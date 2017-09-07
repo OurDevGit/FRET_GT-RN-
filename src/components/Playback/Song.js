@@ -280,6 +280,7 @@ class Song extends React.Component {
   // TEMPO METHODS
 
   handleSelectTempo = tempo => {
+    this.props.onSelectTempo(tempo);
     this.setState({ playbackRate: tempo });
   };
 

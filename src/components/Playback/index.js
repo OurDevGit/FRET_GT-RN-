@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 
 import * as actions from "../../redux/actions";
+import { List, Map } from "immutable";
 
 import Song from "./Song";
 import Video from "./Video";
@@ -21,7 +22,7 @@ class MediaPlayer extends Component {
     return (
       <View style={{ flex: 1 }} onLayout={this.handleLayout}>
         {this.props.song !== undefined &&
-          this.props.song !== null &&
+        this.props.song !== null && (
           <Song
             song={this.props.song}
             trackCount={this.props.trackCount}
@@ -37,10 +38,12 @@ class MediaPlayer extends Component {
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
             clearCurrentLoop={this.props.clearCurrentLoop}
+            onSelectTempo={this.handleSelectTempo}
             onToggleLibrary={this.props.onToggleLibrary}
-          />}
+          />
+        )}
         {this.props.video !== undefined &&
-          this.props.video !== null &&
+        this.props.video !== null && (
           <Video
             video={this.props.video}
             height={this.state.layout.height}
@@ -55,10 +58,19 @@ class MediaPlayer extends Component {
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
             clearCurrentLoop={this.props.clearCurrentLoop}
-          />}
+            onSelectTempo={this.handleSelectTempo}
+          />
+        )}
       </View>
     );
   }
+
+  handleSelectTempo = tempo => {
+    if (tempo === 0) {
+      const first = this.props.visibleTracks.first();
+      this.props.updateVisibleTracks(List([first]));
+    }
+  };
 
   handleLayout = e => {
     this.setState({
