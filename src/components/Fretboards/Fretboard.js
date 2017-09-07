@@ -29,11 +29,7 @@ const Fretboard = ({ style, track, isSmart, boardWidth, setSmartTrack }) => (
             setSmartTrack(track);
           }}
         >
-          <SmartFretText
-            color={PrimaryBlue}
-            size={16}
-            onLog={console.log("fretboard")}
-          />
+          <SmartFretText color={PrimaryBlue} size={16} />
         </TouchableOpacity>
       )}
     </View>

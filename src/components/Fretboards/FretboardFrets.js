@@ -49,10 +49,10 @@ const notes = (track, fret, boardWidth) => {
   return views;
 };
 
-const frets = (track, boardWidth) => {
+const frets = (track, isSmart, boardWidth) => {
   var frets = [];
-  var first = 0; // track.firstFret : 0  // save for SMART Fretboards
-  var last = 23; // track.lastFret : 23  // save for SMART Fretboards
+  var first = isSmart ? track.firstFret || 0 : 0;
+  var last = isSmart ? track.lastFret || 23 : 23;
 
   for (var i = first; i <= last; i++) {
     frets.push(
@@ -73,7 +73,7 @@ const frets = (track, boardWidth) => {
   return frets;
 };
 
-const FretboardFrets = ({ track, boardWidth }) =>
+const FretboardFrets = ({ track, isSmart, boardWidth }) => (
   <View
     style={{
       position: "absolute",
@@ -86,7 +86,8 @@ const FretboardFrets = ({ track, boardWidth }) =>
       justifyContent: "space-between"
     }}
   >
-    {frets(track, boardWidth)}
-  </View>;
+    {frets(track, isSmart, boardWidth)}
+  </View>
+);
 
 export default FretboardFrets;

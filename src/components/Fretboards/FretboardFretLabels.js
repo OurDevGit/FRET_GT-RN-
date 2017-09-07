@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
 
-const labels = (style, track, boardWidth) => {
+const labels = (style, track, isSmart, boardWidth) => {
   var frets = [];
-  var first = 0; // track.firstFret : 0  // save for SMART Fretboards
-  var last = 23; // track.lastFret : 23  // save for SMART Fretboards
+  var first = isSmart ? track.firstFret || 0 : 0;
+  var last = isSmart ? track.lastFret || 23 : 23;
 
   for (var i = first; i <= last; i++) {
     frets.push(
@@ -29,14 +29,15 @@ const labels = (style, track, boardWidth) => {
   return frets;
 };
 
-const FretboardFretLabels = ({ style, track, boardWidth }) =>
+const FretboardFretLabels = ({ style, track, isSmart, boardWidth }) => (
   <View
     style={{
       flexDirection: "row",
       justifyContent: "space-between"
     }}
   >
-    {labels(style, track, boardWidth)}
-  </View>;
+    {labels(style, track, isSmart, boardWidth)}
+  </View>
+);
 
 export default FretboardFretLabels;

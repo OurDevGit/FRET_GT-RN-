@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 import FretMarkers from "./FretboardMarkers";
 
-const frets = (track, boardWidth) => {
+const frets = (track, isSmart, boardWidth) => {
   var frets = [];
-  var first = 0; // track.firstFret : 0  // save for SMART Fretboards
-  var last = 23; // track.lastFret : 23  // save for SMART Fretboards
+  var first = isSmart ? track.firstFret || 0 : 0;
+  var last = isSmart ? track.lastFret || 23 : 23;
 
   for (var i = first; i <= last; i++) {
     frets.push(
@@ -31,7 +31,7 @@ const frets = (track, boardWidth) => {
   return frets;
 };
 
-const FretboardFretBackground = ({ track, boardWidth }) =>
+const FretboardFretBackground = ({ track, isSmart, boardWidth }) => (
   <View
     style={{
       position: "absolute",
@@ -43,7 +43,8 @@ const FretboardFretBackground = ({ track, boardWidth }) =>
       justifyContent: "space-between"
     }}
   >
-    {frets(track, boardWidth)}
-  </View>;
+    {frets(track, isSmart, boardWidth)}
+  </View>
+);
 
 export default FretboardFretBackground;
