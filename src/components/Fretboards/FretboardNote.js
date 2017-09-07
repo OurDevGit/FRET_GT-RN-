@@ -1,9 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text } from "react-native";
+import { onlyUpdateForKeys } from "recompose";
 import { hasNoteForTimeSelector } from "../../selectors";
 
-const FretboardNote = ({ frets, notation, boardWidth, isVisible }) => (
+const FretboardNote = ({ frets, notation, boardWidth, isVisible, isSmart }) => (
   <View
     style={{
       flex: 1,
@@ -32,4 +33,6 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, undefined)(FretboardNote);
+export default connect(mapStateToProps, undefined)(
+  onlyUpdateForKeys(["isVisible"])(FretboardNote)
+);

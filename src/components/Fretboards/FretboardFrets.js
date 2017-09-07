@@ -43,6 +43,7 @@ const notes = (track, fret, isSmart, frets, boardWidth) => {
           string={track.isBass ? i + 2 : i}
           notation={notation(fret, i)}
           boardWidth={boardWidth}
+          isSmart={isSmart}
         />
       );
     }

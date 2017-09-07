@@ -31,11 +31,15 @@ const Fretboard = ({
       </Text>
 
       <TouchableOpacity
+        style={{
+          marginRight: isSmart ? 10 : 0,
+          marginBottom: isSmart ? 10 : 0
+        }}
         onPress={() => {
           isSmart ? clearSmartTrack() : setSmartTrack(track);
         }}
       >
-        <SmartFretText color={PrimaryBlue} size={16} />
+        <SmartFretText color={PrimaryBlue} size={isSmart ? 18 : 16} />
       </TouchableOpacity>
     </View>
 
