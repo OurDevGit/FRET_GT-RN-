@@ -14,105 +14,114 @@ import PlaybackTimeline from "../Playback/PlaybackTimeline";
 import PlaybackSecondary from "../Playback/PlaybackSecondary";
 import Fretboard from "../Fretboards/Fretboard";
 
-const SmartFretModal = props => (
-  <Popover
-    type={ModalType.Full}
-    style={{
-      width: "100%",
-      height: "100%",
-      backgroundColor: "white"
-    }}
-    isVisible={props.track.name !== undefined}
-    onDismiss={props.clearSmartTrack}
-  >
-    <View
-      style={{
-        flex: 1
-      }}
-    >
-      <View
+class SmartFretModal extends React.Component {
+  render() {
+    return (
+      <Popover
+        type={ModalType.Full}
         style={{
           width: "100%",
-          height: 50,
-          flexDirection: "row",
-          justifyContent: "center",
-          backgroundColor: "black"
+          height: "100%",
+          backgroundColor: "white"
         }}
+        isVisible={this.props.track.name !== undefined}
+        onDismiss={this.props.clearSmartTrack}
       >
-        <TouchableOpacity
+        <View
           style={{
-            flex: -1,
-            position: "absolute",
-            top: 4,
-            left: 4
+            flex: 1
           }}
-          onPress={props.clearSmartTrack}
         >
-          <Text
+          <View
             style={{
-              fontSize: 20,
-              fontWeight: "400",
-              textAlign: "left",
-              color: "white"
+              width: "100%",
+              height: 50,
+              flexDirection: "row",
+              justifyContent: "center",
+              backgroundColor: "black"
             }}
           >
-            Done
-          </Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flex: -1,
+                position: "absolute",
+                top: 4,
+                left: 4
+              }}
+              onPress={this.props.clearSmartTrack}
+            >
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: "400",
+                  textAlign: "left",
+                  color: "white"
+                }}
+              >
+                Done
+              </Text>
+            </TouchableOpacity>
 
-        <SmartFretText color={"white"} size={20} trackName={props.track.name} />
-      </View>
+            <SmartFretText
+              color={"white"}
+              size={20}
+              trackName={this.props.track.name}
+            />
+          </View>
 
-      <View style={{ flex: 1 }}>
-        <PlaybackPrimary
-          mediaId={props.mediaId}
-          title={props.mediaTitle}
-          isPlaying={props.isPlaying}
-          onPreviousPress={props.onPreviousPress}
-          onBackPress={props.onBackPress}
-          onPlayPausePress={props.onPlayPausePress}
-          onForwardPress={props.onForwardPress}
-          onNextPress={props.onNextPress}
-        />
-        <PlaybackTimeline
-          progress={props.progress}
-          duration={props.duration}
-          markers={props.markers}
-          currentLoop={props.currentLoop}
-          loopIsEnabled={props.loopIsEnabled}
-          onScrub={props.onScrub}
-          onMarkerPress={props.onMarkerPress}
-          onMarkerLongPress={props.onMarkerLongPress}
-          onLoopEnable={props.onLoopEnable}
-        />
-        <PlaybackSecondary
-          mediaId={props.mediaId}
-          tempo={props.tempo}
-          loopIsEnabled={props.loopIsEnabled}
-          currentLoop={props.currentLoop}
-          connectedDevices={props.connectedDevices}
-          onSelectTempo={props.onSelectTempo}
-          onLoopEnable={props.onLoopEnable}
-          onLoopBegin={props.onLoopBegin}
-          onLoopEnd={props.onLoopEnd}
-          onSetCurrentLoop={props.onSetCurrentLoop}
-          onClearCurrentLoop={props.onClearCurrentLoop}
-          onPrevStep={props.onPrevStep}
-          onNextStep={props.onNextStep}
-          onDisplayInfo={props.onDisplayInfo}
-        />
-      </View>
+          <View style={{ flex: 1 }}>
+            <PlaybackPrimary
+              mediaId={this.props.mediaId}
+              title={this.props.mediaTitle}
+              isPlaying={this.props.isPlaying}
+              onPreviousPress={this.props.onPreviousPress}
+              onBackPress={this.props.onBackPress}
+              onPlayPausePress={this.props.onPlayPausePress}
+              onForwardPress={this.props.onForwardPress}
+              onNextPress={this.props.onNextPress}
+            />
+            <PlaybackTimeline
+              progress={this.props.progress}
+              duration={this.props.duration}
+              markers={this.props.markers}
+              currentLoop={this.props.currentLoop}
+              loopIsEnabled={this.props.loopIsEnabled}
+              onScrub={this.props.onScrub}
+              onMarkerPress={this.props.onMarkerPress}
+              onMarkerLongPress={this.props.onMarkerLongPress}
+              onLoopEnable={this.props.onLoopEnable}
+            />
+            <PlaybackSecondary
+              mediaId={this.props.mediaId}
+              tempo={this.props.tempo}
+              loopIsEnabled={this.props.loopIsEnabled}
+              currentLoop={this.props.currentLoop}
+              connectedDevices={this.props.connectedDevices}
+              onSelectTempo={this.props.onSelectTempo}
+              onLoopEnable={this.props.onLoopEnable}
+              onLoopBegin={this.props.onLoopBegin}
+              onLoopEnd={this.props.onLoopEnd}
+              onSetCurrentLoop={this.props.onSetCurrentLoop}
+              onClearCurrentLoop={this.props.onClearCurrentLoop}
+              onPrevStep={this.props.onPrevStep}
+              onNextStep={this.props.onNextStep}
+              onDisplayInfo={this.props.onDisplayInfo}
+            />
+          </View>
 
-      <Fretboard
-        track={props.track}
-        boardWidth={Dimensions.get("window")}
-        style={{
-          flex: 1
-        }}
-      />
-    </View>
-  </Popover>
-);
+          <Fretboard
+            track={this.props.track}
+            isSmart={true}
+            boardWidth={Dimensions.get("window")}
+            style={{
+              flex: 1
+            }}
+          />
+        </View>
+      </Popover>
+    );
+  }
+}
 
 SmartFretModal.propTypes = {
   mediaId: PropTypes.string.isRequired,

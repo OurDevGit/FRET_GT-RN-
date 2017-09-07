@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View, Text, TouchableOpacity } from "react-native";
+import { onlyUpdateForKeys } from "recompose";
 
 import * as actions from "../../redux/actions";
 import { PrimaryBlue } from "../../design";
@@ -10,7 +11,7 @@ import FretboardFrets from "./FretboardFrets";
 import FretboardStrings from "./FretboardStrings";
 import SmartFretText from "../modals/SmartFretText";
 
-const Fretboard = ({ style, track, boardWidth, setSmartTrack }) => (
+const Fretboard = ({ style, track, isSmart, boardWidth, setSmartTrack }) => (
   <View
     style={{
       ...style,
@@ -22,24 +23,38 @@ const Fretboard = ({ style, track, boardWidth, setSmartTrack }) => (
         {track.name || " "}
       </Text>
 
-      {setSmartTrack !== undefined && (
+      {!isSmart && (
         <TouchableOpacity
           onPress={() => {
             setSmartTrack(track);
           }}
         >
-          <SmartFretText color={PrimaryBlue} size={16} />
+          <SmartFretText
+            color={PrimaryBlue}
+            size={16}
+            onLog={console.log("fretboard")}
+          />
         </TouchableOpacity>
       )}
     </View>
 
-    <FretboardLabels track={track} boardWidth={boardWidth} />
+    <FretboardLabels track={track} isSmart={isSmart} boardWidth={boardWidth} />
     <View style={{ flex: 1 }}>
-      <FretboardBackground track={track} boardWidth={boardWidth} />
-      <FretboardStrings track={track} boardWidth={boardWidth} />
-      <FretboardFrets track={track} boardWidth={boardWidth} />
+      <FretboardBackground
+        track={track}
+        isSmart={isSmart}
+        boardWidth={boardWidth}
+      />
+      <FretboardStrings
+        track={track}
+        isSmart={isSmart}
+        boardWidth={boardWidth}
+      />
+      <FretboardFrets track={track} isSmart={isSmart} boardWidth={boardWidth} />
     </View>
   </View>
 );
 
-export default connect(undefined, actions)(Fretboard);
+export default connect(undefined, actions)(
+  onlyUpdateForKeys(["track"])(Fretboard)
+);

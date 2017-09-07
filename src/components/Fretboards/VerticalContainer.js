@@ -30,6 +30,7 @@ class VerticalContainer extends React.Component {
         <Fretboard
           key={track.get("name")}
           track={track.toJS()}
+          isSmart={false}
           boardWidth={this.state.width}
           style={{
             flex: 1,

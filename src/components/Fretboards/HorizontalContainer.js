@@ -34,18 +34,22 @@ class FretboardsContainer extends React.Component {
             data={this.props.tracks.toJS()}
             onLayout={this.handleLayout.bind(this)}
             onMomentumScrollEnd={this.props.onScrollEnd}
-            ListEmptyComponent={() =>
+            ListEmptyComponent={() => (
               <Fretboard
                 track={emptyTrack}
+                isSmart={false}
                 boardWidth={this.state.width}
                 style={boardStyle}
-              />}
-            renderItem={({ item }) =>
+              />
+            )}
+            renderItem={({ item }) => (
               <Fretboard
                 track={item}
+                isSmart={false}
                 boardWidth={this.state.width}
                 style={boardStyle}
-              />}
+              />
+            )}
           />
         </View>
 
