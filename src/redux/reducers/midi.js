@@ -46,6 +46,17 @@ exports.tuningTracks = (state = List(), action) => {
   }
 };
 
+exports.smartTrack = (state = {}, action) => {
+  switch (action.type) {
+    case "SET_SMART_TRACK":
+      return action.payload;
+    case "CLEAR_SMART_TRACK":
+      return {};
+    default:
+      return state;
+  }
+};
+
 exports.patterns = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":

@@ -11,7 +11,7 @@ import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
 import RealmTester from "./RealmTester";
-import Store from "./Store/Store.js";
+// import Store from "./Store/Store.js";
 
 import { BtnLibrary } from "./StyleKit";
 
@@ -40,8 +40,9 @@ class Root extends Component {
         >
           {/* <Store testProp="test 1" /> */}
           {/* <RealmTester />  */}
-          {this.state.showAd &&
-            <AdContainer onToggleLibrary={this.handleToggleLibrary} />}
+          {this.state.showAd && (
+            <AdContainer onToggleLibrary={this.handleToggleLibrary} />
+          )}
           <Playback
             song={this.state.song}
             video={this.state.video}
@@ -60,9 +61,9 @@ class Root extends Component {
           />
 
           {this.state.showAd &&
-            trackCount < 4 &&
+          trackCount < 4 && (
             <View style={{ position: "absolute", left: 5, top: 5 }}>
-              {!this.state.libIsOpen &&
+              {!this.state.libIsOpen && (
                 <BtnLibrary
                   style={{
                     marginLeft: 10,
@@ -72,8 +73,10 @@ class Root extends Component {
                   }}
                   color={"#FFFFFF"}
                   onPress={this.handleToggleLibrary}
-                />}
-            </View>}
+                />
+              )}
+            </View>
+          )}
 
           {supportsMultipleFretboards && <TrackSelector />}
         </View>

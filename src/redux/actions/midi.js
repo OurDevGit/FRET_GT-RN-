@@ -12,3 +12,12 @@ export const updateVisibleTracks = tracks => ({
   type: "UPDATE_VISIBLE_TRACKS",
   payload: tracks
 });
+
+export const setSmartTrack = track => ({
+  type: "SET_SMART_TRACK",
+  payload: track
+});
+
+export const clearSmartTrack = () => ({
+  type: "CLEAR_SMART_TRACK"
+});

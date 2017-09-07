@@ -10,9 +10,7 @@ import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
 import PlaybackCompact from "./Compact";
 import PlaybackTimelineCompact from "./Compact/Timeline";
-import SaveLoopModal from "./SaveLoopModal";
-import MyLoopsModal from "./MyLoopsModal";
-import FretlightModal from "./FretlightModal";
+import { SmartFretModal } from "../modals";
 
 import Music from "./Music";
 import Midi from "./Midi";
@@ -65,73 +63,104 @@ class Song extends React.Component {
           loadMidi={loadMidi}
         />
 
-        {isCompact
-          ? <View style={{ flex: 1 }}>
-              <PlaybackCompact
-                title={mediaTitle}
-                trackCount={this.props.trackCount}
-                isPlaying={this.state.isPlaying}
-                rate={this.state.playbackRate}
-                loopIsEnabled={this.props.loopIsEnabled}
-                onToggleLibrary={this.props.onToggleLibrary}
-                onPreviousPress={this.handlePreviousPress}
-                onBackPress={this.handleBackPress}
-                onPlayPausePress={this.handlePlayPausePress}
-                onForwardPress={this.handleForwardPress}
-                onNextPress={this.handleNextPress}
-                onLoopEnable={this.handleLoopEnable}
-                onSelectTempo={this.handleSelectTempo}
-              />
-              <PlaybackTimelineCompact
-                progress={this.state.playbackProgress}
-                duration={this.state.mediaDuration}
-                markers={this.props.markers}
-                currentLoop={this.props.currentLoop}
-                loopIsEnabled={this.props.loopIsEnabled}
-                onScrub={this.handleScrub}
-                onMarkerPress={this.handleMarkerPress}
-                onMarkerLongPress={this.handleMarkerLongPress}
-              />
-            </View>
-          : <View style={{ flex: 1 }}>
-              <PlaybackPrimary
-                mediaId={mediaId}
-                title={mediaTitle}
-                isPlaying={this.state.isPlaying}
-                onPreviousPress={this.handlePreviousPress}
-                onBackPress={this.handleBackPress}
-                onPlayPausePress={this.handlePlayPausePress}
-                onForwardPress={this.handleForwardPress}
-                onNextPress={this.handleNextPress}
-              />
-              <PlaybackTimeline
-                progress={this.state.playbackProgress}
-                duration={this.state.mediaDuration}
-                markers={this.props.markers}
-                currentLoop={this.props.currentLoop}
-                loopIsEnabled={this.props.loopIsEnabled}
-                onScrub={this.handleScrub}
-                onMarkerPress={this.handleMarkerPress}
-                onMarkerLongPress={this.handleMarkerLongPress}
-                onLoopEnable={this.handleLoopEnable}
-              />
-              <PlaybackSecondary
-                mediaId={mediaId}
-                tempo={this.state.playbackRate}
-                loopIsEnabled={this.props.loopIsEnabled}
-                currentLoop={this.props.currentLoop}
-                connectedDevices={this.props.connectedDevices}
-                onSelectTempo={this.handleSelectTempo}
-                onLoopEnable={this.handleLoopEnable}
-                onLoopBegin={this.handleLoopBegin}
-                onLoopEnd={this.handleLoopEnd}
-                onSetCurrentLoop={this.handleSetCurrentLoop}
-                onClearCurrentLoop={this.props.clearCurrentLoop}
-                onPrevStep={this.handlePrevStep}
-                onNextStep={this.handleNextStep}
-                onDisplayInfo={this.handleDisplayInfoAlert}
-              />
-            </View>}
+        {isCompact ? (
+          <View style={{ flex: 1 }}>
+            <PlaybackCompact
+              title={mediaTitle}
+              trackCount={this.props.trackCount}
+              isPlaying={this.state.isPlaying}
+              rate={this.state.playbackRate}
+              loopIsEnabled={this.props.loopIsEnabled}
+              onToggleLibrary={this.props.onToggleLibrary}
+              onPreviousPress={this.handlePreviousPress}
+              onBackPress={this.handleBackPress}
+              onPlayPausePress={this.handlePlayPausePress}
+              onForwardPress={this.handleForwardPress}
+              onNextPress={this.handleNextPress}
+              onLoopEnable={this.handleLoopEnable}
+              onSelectTempo={this.handleSelectTempo}
+            />
+            <PlaybackTimelineCompact
+              progress={this.state.playbackProgress}
+              duration={this.state.mediaDuration}
+              markers={this.props.markers}
+              currentLoop={this.props.currentLoop}
+              loopIsEnabled={this.props.loopIsEnabled}
+              onScrub={this.handleScrub}
+              onMarkerPress={this.handleMarkerPress}
+              onMarkerLongPress={this.handleMarkerLongPress}
+            />
+          </View>
+        ) : (
+          <View style={{ flex: 1 }}>
+            <PlaybackPrimary
+              mediaId={mediaId}
+              title={mediaTitle}
+              isPlaying={this.state.isPlaying}
+              onPreviousPress={this.handlePreviousPress}
+              onBackPress={this.handleBackPress}
+              onPlayPausePress={this.handlePlayPausePress}
+              onForwardPress={this.handleForwardPress}
+              onNextPress={this.handleNextPress}
+            />
+            <PlaybackTimeline
+              progress={this.state.playbackProgress}
+              duration={this.state.mediaDuration}
+              markers={this.props.markers}
+              currentLoop={this.props.currentLoop}
+              loopIsEnabled={this.props.loopIsEnabled}
+              onScrub={this.handleScrub}
+              onMarkerPress={this.handleMarkerPress}
+              onMarkerLongPress={this.handleMarkerLongPress}
+              onLoopEnable={this.handleLoopEnable}
+            />
+            <PlaybackSecondary
+              mediaId={mediaId}
+              tempo={this.state.playbackRate}
+              loopIsEnabled={this.props.loopIsEnabled}
+              currentLoop={this.props.currentLoop}
+              connectedDevices={this.props.connectedDevices}
+              onSelectTempo={this.handleSelectTempo}
+              onLoopEnable={this.handleLoopEnable}
+              onLoopBegin={this.handleLoopBegin}
+              onLoopEnd={this.handleLoopEnd}
+              onSetCurrentLoop={this.handleSetCurrentLoop}
+              onClearCurrentLoop={this.props.clearCurrentLoop}
+              onPrevStep={this.handlePrevStep}
+              onNextStep={this.handleNextStep}
+              onDisplayInfo={this.handleDisplayInfoAlert}
+            />
+          </View>
+        )}
+        <SmartFretModal
+          mediaId={mediaId}
+          title={mediaTitle}
+          isPlaying={this.state.isPlaying}
+          progress={this.state.playbackProgress}
+          duration={this.state.mediaDuration}
+          markers={this.props.markers}
+          currentLoop={this.props.currentLoop}
+          loopIsEnabled={this.props.loopIsEnabled}
+          tempo={this.state.playbackRate}
+          connectedDevices={this.props.connectedDevices}
+          onPreviousPress={this.handlePreviousPress}
+          onBackPress={this.handleBackPress}
+          onPlayPausePress={this.handlePlayPausePress}
+          onForwardPress={this.handleForwardPress}
+          onNextPress={this.handleNextPress}
+          onScrub={this.handleScrub}
+          onMarkerPress={this.handleMarkerPress}
+          onMarkerLongPress={this.handleMarkerLongPress}
+          onSelectTempo={this.handleSelectTempo}
+          onLoopEnable={this.handleLoopEnable}
+          onLoopBegin={this.handleLoopBegin}
+          onLoopEnd={this.handleLoopEnd}
+          onSetCurrentLoop={this.handleSetCurrentLoop}
+          onClearCurrentLoop={this.props.clearCurrentLoop}
+          onPrevStep={this.handlePrevStep}
+          onNextStep={this.handleNextStep}
+          onDisplayInfo={this.handleDisplayInfoAlert}
+        />
       </View>
     );
   }

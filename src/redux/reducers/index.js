@@ -6,7 +6,8 @@ import {
   guitarTracks,
   visibleTracks,
   tuningTracks,
-  patterns
+  patterns,
+  smartTrack
 } from "./midi";
 import { currentLoop, loopIsEnabled } from "./loop";
 
@@ -18,6 +19,7 @@ const appReducer = combineReducers({
   visibleTracks,
   tuningTracks,
   patterns,
+  smartTrack,
   currentLoop,
   loopIsEnabled
 });
