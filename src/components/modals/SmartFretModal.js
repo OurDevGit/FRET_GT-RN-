@@ -7,7 +7,7 @@ import * as actions from "../../redux/actions";
 
 import Popover from "./Popover";
 import { ModalType } from "./ModalType";
-import { PrimaryBlue, playerBackground, scaledFontSize } from "../../design";
+import { PrimaryBlue, playerBackground, adjustedFontSize } from "../../design";
 import SmartFretText from "./SmartFretText";
 import PlaybackPrimary from "../Playback/PlaybackPrimary";
 import PlaybackTimeline from "../Playback/PlaybackTimeline";
@@ -20,7 +20,7 @@ class SmartFretModal extends React.Component {
   render() {
     const frets = this.props.track.lastFret - this.props.track.firstFret;
     const boardWidth = Dimensions.get("window").width;
-    const boardHeight = boardWidth / frets * 3;
+    const boardHeight = boardWidth / frets * 4;
     const playbackHeight = Dimensions.get("window").height - boardHeight - 40;
     const isCompact = playbackHeight < 150;
     const isPhone = Dimensions.get("window").height < 500;
@@ -62,7 +62,7 @@ class SmartFretModal extends React.Component {
             >
               <Text
                 style={{
-                  fontSize: scaledFontSize(1.2),
+                  fontSize: adjustedFontSize(16),
                   fontWeight: "400",
                   textAlign: "left",
                   marginLeft: 5,
@@ -77,7 +77,7 @@ class SmartFretModal extends React.Component {
 
             <SmartFretText
               color={"white"}
-              size={scaledFontSize(1.2)}
+              size={adjustedFontSize(16)}
               trackName={this.props.track.name}
             />
           </View>
@@ -152,6 +152,7 @@ class SmartFretModal extends React.Component {
                 loopIsEnabled={this.props.loopIsEnabled}
                 currentLoop={this.props.currentLoop}
                 connectedDevices={this.props.connectedDevices}
+                isPhone={this.props.isPhone}
                 onSelectTempo={this.props.onSelectTempo}
                 onLoopEnable={this.props.onLoopEnable}
                 onLoopBegin={this.props.onLoopBegin}

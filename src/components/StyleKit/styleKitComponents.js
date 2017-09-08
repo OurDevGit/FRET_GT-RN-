@@ -217,57 +217,75 @@ export const BtnFavorite_targetFrame_resizing_isPressed = props => <PaintCode
   {...props}
 />
 
-export const IPhoneBtnFretlightStatus_isPressed_redValue_greenValue_blueValue_connectedDevices = props => <PaintCode
-  drawMethod="IPhoneBtnFretlightStatus"
-  drawArgs={["isPressed","redValue","greenValue","blueValue","connectedDevices"]}
+export const PhoneBluetooth_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="PhoneBluetooth"
+  drawArgs={["isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
-export const IPhoneBtnFretlightStatus_targetFrame_resizing_isPressed_redValue_greenValue_blueValue_connectedDevices = props => <PaintCode
-  drawMethod="IPhoneBtnFretlightStatus"
-  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue","connectedDevices"]}
+export const PhoneBluetooth_targetFrame_resizing_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="PhoneBluetooth"
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
-export const IPhoneBtnTempo_isPressed_isAlt_rate = props => <PaintCode
-  drawMethod="IPhoneBtnTempo"
-  drawArgs={["isPressed","isAlt","rate"]}
+export const PhoneTempo_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="PhoneTempo"
+  drawArgs={["isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
-export const IPhoneBtnTempo_targetFrame_resizing_isPressed_isAlt_rate = props => <PaintCode
-  drawMethod="IPhoneBtnTempo"
-  drawArgs={["targetFrame","resizing","isPressed","isAlt","rate"]}
+export const PhoneTempo_targetFrame_resizing_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="PhoneTempo"
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
-export const IPhoneVolumeIcon = props => <PaintCode
-  drawMethod="IPhoneVolumeIcon"
+export const PhoneVolume = props => <PaintCode
+  drawMethod="PhoneVolume"
   drawArgs={[]}
   {...props}
 />
 
-export const IPhoneVolumeIcon_targetFrame_resizing = props => <PaintCode
-  drawMethod="IPhoneVolumeIcon"
+export const PhoneVolume_targetFrame_resizing = props => <PaintCode
+  drawMethod="PhoneVolume"
   drawArgs={["targetFrame","resizing"]}
   {...props}
 />
 
-export const IPhoneBtnLoopToggle_isPressed_isAlt_loopsEnabled = props => <PaintCode
-  drawMethod="IPhoneBtnLoopToggle"
-  drawArgs={["isPressed","isAlt","loopsEnabled"]}
+export const PhoneBtnLoopToggle_isPressed_redValue_greenValue_blueValue_loopsEnabled = props => <PaintCode
+  drawMethod="PhoneBtnLoopToggle"
+  drawArgs={["isPressed","redValue","greenValue","blueValue","loopsEnabled"]}
   {...props}
 />
 
-export const IPhoneBtnLoopSave_isPressed_isAlt = props => <PaintCode
-  drawMethod="IPhoneBtnLoopSave"
-  drawArgs={["isPressed","isAlt"]}
+export const PhoneBtnLoopToggle_targetFrame_resizing_isPressed_redValue_greenValue_blueValue_loopsEnabled = props => <PaintCode
+  drawMethod="PhoneBtnLoopToggle"
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue","loopsEnabled"]}
   {...props}
 />
 
-export const IPhoneBtnMyLoops_isPressed_isAlt = props => <PaintCode
-  drawMethod="IPhoneBtnMyLoops"
-  drawArgs={["isPressed","isAlt"]}
+export const PhoneBtnLoopSave_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="PhoneBtnLoopSave"
+  drawArgs={["isPressed","redValue","greenValue","blueValue"]}
+  {...props}
+/>
+
+export const PhoneBtnLoopSave_targetFrame_resizing_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="PhoneBtnLoopSave"
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue"]}
+  {...props}
+/>
+
+export const PhoneBtnMyLoops_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="PhoneBtnMyLoops"
+  drawArgs={["isPressed","redValue","greenValue","blueValue"]}
+  {...props}
+/>
+
+export const PhoneBtnMyLoops_targetFrame_resizing_isPressed_redValue_greenValue_blueValue = props => <PaintCode
+  drawMethod="PhoneBtnMyLoops"
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 

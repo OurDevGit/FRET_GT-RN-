@@ -23,9 +23,10 @@ class BtnTempoModal extends React.Component {
         <TempoText
           color={color}
           tempo={this.props.currentTempo}
+          isPhone={this.props.isPhone}
           withTitle={true}
         />
-        {this.state.modalIsVisible &&
+        {this.state.modalIsVisible && (
           <Popover
             type={ModalType.Position}
             style={{
@@ -63,7 +64,7 @@ class BtnTempoModal extends React.Component {
                 index
               })}
               ItemSeparatorComponent={this.separator}
-              renderItem={({ item, index }) =>
+              renderItem={({ item, index }) => (
                 <View
                   style={{ width: "100%", height: 40, flexDirection: "row" }}
                 >
@@ -78,9 +79,11 @@ class BtnTempoModal extends React.Component {
                       withTitle={false}
                     />
                   </TouchableOpacity>
-                </View>}
+                </View>
+              )}
             />
-          </Popover>}
+          </Popover>
+        )}
       </ModalButton>
     );
   }

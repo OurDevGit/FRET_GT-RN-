@@ -6,9 +6,12 @@ import {
   LoopRight,
   BtnFretlightInfo,
   BtnPrevStep,
-  BtnNextStep
+  BtnNextStep,
+  BtnPhoneLoopToggle,
+  BtnPhoneLoopSave,
+  BtnPhoneMyLoops
 } from "../StyleKit";
-import { PrimaryBlue } from "../../design";
+import { PrimaryBlue, adjustedFontSize } from "../../design";
 import {
   BtnTempoModal,
   BtnSaveLoopModal,
@@ -37,6 +40,7 @@ const PlaybackSecondary = ({
   loopIsEnabled,
   currentLoop,
   connectedDevices,
+  isPhone,
   onSelectTempo,
   onLoopEnable,
   onLoopBegin,
@@ -46,7 +50,7 @@ const PlaybackSecondary = ({
   onDisplayMyLoops,
   onDisplayInfo,
   onDisplayFretlightStatus
-}) =>
+}) => (
   <View
     style={{
       height: 35,
@@ -55,9 +59,13 @@ const PlaybackSecondary = ({
       alignContent: "center"
     }}
   >
-    <BtnTempoModal currentTempo={tempo} onSelectTempo={onSelectTempo} />
+    <BtnTempoModal
+      currentTempo={tempo}
+      isPhone={isPhone}
+      onSelectTempo={onSelectTempo}
+    />
 
-    {tempo === 0 &&
+    {tempo === 0 && (
       <View
         style={{
           marginLeft: -60,
@@ -85,21 +93,31 @@ const PlaybackSecondary = ({
           color={PrimaryBlue}
           onPress={onNextStep}
         />
-      </View>}
+      </View>
+    )}
 
-    <TouchableOpacity onPress={onLoopEnable}>
-      <Text style={buttonStyle}>
-        {loopIsEnabled ? "Loop ON" : "Loop OFF"}
-      </Text>
-    </TouchableOpacity>
+    {isPhone ? (
+      <BtnPhoneLoopToggle
+        style={{ width: 40, height: 40 }}
+        loopsEnabled={loopIsEnabled}
+        color={"#222222"}
+        onPress={onLoopEnable}
+      />
+    ) : (
+      <TouchableOpacity onPress={onLoopEnable}>
+        <Text style={buttonStyle}>
+          {loopIsEnabled ? "Loop ON" : "Loop OFF"}
+        </Text>
+      </TouchableOpacity>
+    )}
 
     <LoopLeft
-      style={{ width: 35, height: 35 }}
+      style={{ width: isPhone ? 35 : 30, height: isPhone ? 35 : 30 }}
       isEnabled={true}
       onPress={onLoopBegin}
     />
     <LoopRight
-      style={{ width: 35, height: 35 }}
+      style={{ width: isPhone ? 35 : 30, height: isPhone ? 35 : 30 }}
       isEnabled={true}
       onPress={onLoopEnd}
     />
@@ -143,6 +161,7 @@ const PlaybackSecondary = ({
         connectedDevices={connectedDevices}
       />
     </View>
-  </View>;
+  </View>
+);
 
 export default pure(PlaybackSecondary);

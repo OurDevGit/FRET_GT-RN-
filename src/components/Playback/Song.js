@@ -3,6 +3,7 @@ import { View, Alert } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Map } from "immutable";
+import Dimensions from "Dimensions";
 import { timeForPrevStep, timeForNextStep } from "../../selectors";
 
 import PlaybackPrimary from "./PlaybackPrimary";
@@ -36,6 +37,7 @@ class Song extends React.Component {
     const mediaId = this.props.song !== undefined ? this.props.song.midi : "";
     const isCompact = this.props.height < 150;
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
+    const isPhone = Dimensions.get("window").height < 500;
 
     return (
       <View
@@ -97,6 +99,7 @@ class Song extends React.Component {
               mediaId={mediaId}
               title={mediaTitle}
               isPlaying={this.state.isPlaying}
+              isPhone={isPhone}
               onPreviousPress={this.handlePreviousPress}
               onBackPress={this.handleBackPress}
               onPlayPausePress={this.handlePlayPausePress}
@@ -118,6 +121,7 @@ class Song extends React.Component {
               mediaId={mediaId}
               tempo={this.state.playbackRate}
               loopIsEnabled={this.props.loopIsEnabled}
+              isPhone={isPhone}
               currentLoop={this.props.currentLoop}
               connectedDevices={this.props.connectedDevices}
               onSelectTempo={this.handleSelectTempo}
@@ -138,6 +142,7 @@ class Song extends React.Component {
           trackCount={this.props.trackCount}
           isPlaying={this.state.isPlaying}
           isCompact={isCompact}
+          isPHone={isPhone}
           progress={this.state.playbackProgress}
           duration={this.state.mediaDuration}
           markers={this.props.markers}

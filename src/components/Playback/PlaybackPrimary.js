@@ -2,7 +2,7 @@ import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
 import { SliderVolumeController } from "react-native-volume-controller";
 import { pure } from "recompose";
-import { PrimaryBlue } from "../../design";
+import { PrimaryBlue, playerBackground, adjustedFontSize } from "../../design";
 import {
   BtnPrevious,
   BtnRewind,
@@ -24,22 +24,29 @@ const buttonStyle = {
   justifyContent: "center",
   alignItems: "center"
 };
+
 const textStyle = { color: PrimaryBlue, fontSize: 20 };
-const primaryStyle = { width: 50, height: 50, marginHorizontal: 10 };
+const primaryStyle = isPhone => {
+  return isPhone
+    ? { width: 35, height: 35, marginHorizontal: 10 }
+    : { width: 50, height: 50, marginHorizontal: 10 };
+};
 
 const PlaybackPrimary = ({
   mediaId,
   title,
   isPlaying,
+  isPhone,
   onPreviousPress,
   onBackPress,
   onPlayPausePress,
   onForwardPress,
   onNextPress
-}) =>
+}) => (
   <View
     style={{
       flex: 1,
+      padding: 5,
       flexDirection: "row",
       justifyContent: "center",
       alignItems: "center"
@@ -61,9 +68,7 @@ const PlaybackPrimary = ({
           backgroundColor: "#222222"
         }}
       />
-      <Text style={{ flex: 1 }}>
-        {title}
-      </Text>
+      <Text style={{ flex: 1 }}>{title}</Text>
     </View>
 
     <View
@@ -75,41 +80,51 @@ const PlaybackPrimary = ({
       }}
     >
       <BtnPrevious
-        style={primaryStyle}
+        style={primaryStyle(isPhone)}
         color={PrimaryBlue}
         onPress={onPreviousPress}
       />
 
       <BtnRewind
-        style={primaryStyle}
+        style={primaryStyle(isPhone)}
         color={PrimaryBlue}
         onPress={onBackPress}
       />
 
       <BtnPlay
         isShowingPause={isPlaying}
-        style={primaryStyle}
+        style={primaryStyle(isPhone)}
         color={PrimaryBlue}
         onPress={onPlayPausePress}
       />
 
       <BtnForward
-        style={primaryStyle}
+        style={primaryStyle(isPhone)}
         color={PrimaryBlue}
         onPress={onForwardPress}
       />
 
-      <BtnNext style={primaryStyle} color={PrimaryBlue} onPress={onNextPress} />
+      <BtnNext
+        style={primaryStyle(isPhone)}
+        color={PrimaryBlue}
+        onPress={onNextPress}
+      />
     </View>
 
     <View
-      style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
+      style={{
+        flex: 1,
+        marginRight: 6,
+        flexDirection: "column",
+        justifyContent: "center",
+        backgroundColor: playerBackground
+      }}
     >
       <Text
         style={{
           height: 14,
           color: PrimaryBlue,
-          fontSize: 14,
+          fontSize: adjustedFontSize(14),
           textAlign: "center",
           textAlignVertical: "bottom"
         }}
@@ -119,15 +134,18 @@ const PlaybackPrimary = ({
       <SliderVolumeController style={{ height: 44, marginRight: 10 }} />
     </View>
 
-    <View style={{ position: "absolute", top: 0, right: 0 }}>
-      <BtnHeart
-        style={{
-          width: 40,
-          height: 40
-        }}
-        mediaId={mediaId}
-      />
-    </View>
-  </View>;
+    {!isPhone && (
+      <View style={{ position: "absolute", top: 0, right: 0 }}>
+        <BtnHeart
+          style={{
+            width: 40,
+            height: 40
+          }}
+          mediaId={mediaId}
+        />
+      </View>
+    )}
+  </View>
+);
 
 export default pure(PlaybackPrimary);

@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 
 import * as actions from "../../redux/actions";
-import { PrimaryBlue, scaledFontSize } from "../../design";
+import { PrimaryBlue, adjustedFontSize } from "../../design";
 import FretboardLabels from "./FretboardFretLabels";
 import FretboardBackground from "./FretboardFretBackground";
 import FretboardFrets from "./FretboardFrets";
@@ -30,7 +30,7 @@ const Fretboard = ({
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text
           style={{
-            fontSize: scaledFontSize(1),
+            fontSize: adjustedFontSize(14),
             marginBottom: 1
           }}
         >
@@ -48,7 +48,7 @@ const Fretboard = ({
         >
           <SmartFretText
             color={PrimaryBlue}
-            size={isSmart ? scaledFontSize(1.2) : scaledFontSize(1)}
+            size={isSmart ? adjustedFontSize(16) : adjustedFontSize(14)}
           />
         </TouchableOpacity>
       </View>
