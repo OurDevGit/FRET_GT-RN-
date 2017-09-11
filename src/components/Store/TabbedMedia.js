@@ -54,7 +54,7 @@ const renderIndicator = ({ width, position, navigationState: { index } }) => {
   );
 };
 
-class TabbedMedia extends React.PureComponent {
+class TabbedMedia extends React.Component {
   state = {
     // used by the react-native-tab-view
     index: 0,

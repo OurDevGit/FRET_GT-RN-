@@ -1,28 +1,12 @@
 import React from "react";
-import {
-  View,
-  Text,
-  Button,
-  TextInput,
-  TouchableHighlight,
-  TouchableOpacity
-} from "react-native";
+import { View } from "react-native";
 import { realmify } from "../../realm";
 
 import { syncStore } from "../../Store";
-import { PrimaryGold } from "../../design";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
-
-const CloseButton = ({ title }) => (
-  <TouchableOpacity onPress={() => console.log("touch")}>
-    <View style={{ padding: 8, margin: 8 }}>
-      <Text style={{ color: PrimaryGold }}>{title.toUpperCase()}</Text>
-    </View>
-  </TouchableOpacity>
-);
 
 const testPurchase = media => {};
 
@@ -31,8 +15,7 @@ class Store extends React.PureComponent {
     categoryIndex: 0,
     subCategoryIndex: null,
     subCategories: [],
-    media: [],
-    searchText: ""
+    media: []
   };
 
   handleChooseCategory = (category, categoryIndex) => {
@@ -87,33 +70,8 @@ class Store extends React.PureComponent {
             flexGrow: 0
           }}
         />
-        <View style={{ flexGrow: 1 }}>
-          <View
-            style={{
-              width: "100%",
-              height: 44,
-              backgroundColor: "#fafafa",
-              flexDirection: "row"
-            }}
-          >
-            <TextInput
-              style={{
-                //height: 30,
-                flexGrow: 1
-              }}
-              onChangeText={searchText => this.setState({ searchText })}
-              value={this.state.searchText}
-            />
-            <CloseButton title="Close" />
 
-            {/* <Button title="Done" /> */}
-          </View>
-          <Media
-            media={this.state.media}
-            style={{ flexGrow: 1 }}
-            onChoose={this.handleChooseMedia}
-          />
-        </View>
+        <Media style={{ flexGrow: 1 }} media={this.state.media} />
       </View>
     );
   }
