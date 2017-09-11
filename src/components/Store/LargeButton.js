@@ -1,22 +1,14 @@
 import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
-import {
-  CategorySelectedColor,
-  CategoryUnselectedColor,
-  BorderColor
-} from "../../design";
-
-const LargeButton = ({ isSelected, iconURL, title, onPress }) => (
+const LargeButton = ({ isSelected, iconURL, title, onPress, color }) => (
   <TouchableOpacity onPress={onPress}>
     <View
       style={{
-        backgroundColor: isSelected
-          ? CategorySelectedColor
-          : CategoryUnselectedColor,
+        backgroundColor: isSelected ? color : null,
         paddingTop: 15,
         paddingBottom: 15,
-        borderBottomColor: BorderColor,
+        borderBottomColor: color,
         borderBottomWidth: 1
       }}
     >

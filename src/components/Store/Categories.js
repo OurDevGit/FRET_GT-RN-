@@ -1,10 +1,6 @@
 import React from "react";
 import { FlatList } from "react-native";
-import {
-  CategorySelectedColor,
-  CategoryUnselectedColor,
-  BorderColor
-} from "../../design";
+import { StoreLight, StoreDark, BorderColor } from "../../design";
 import LargeButton from "./LargeButton";
 
 const extractKey = item => item.id;
@@ -19,6 +15,7 @@ class Categories extends React.PureComponent {
         iconURL={item.iconURL}
         isSelected={index === this.props.selectedIndex}
         onPress={() => this.props.onChoose(item, index)}
+        color={StoreDark}
       />
     );
   };
@@ -30,7 +27,7 @@ class Categories extends React.PureComponent {
         data={categories}
         renderItem={this.renderItem}
         keyExtractor={extractKey}
-        style={style}
+        style={{ ...style, backgroundColor: StoreLight }}
       />
     );
   }

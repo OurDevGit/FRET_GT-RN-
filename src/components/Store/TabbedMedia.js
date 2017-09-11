@@ -171,7 +171,11 @@ class TabbedMedia extends React.PureComponent {
     }
   }
 
-  handleIndexChange = index => this.setState({ index });
+  handleIndexChange = index => {
+    this.props.onStoreChange(index === 0);
+
+    this.setState({ index });
+  };
 
   priceForProduct = productId => {
     // console.debug(this.state.productDetailsById);

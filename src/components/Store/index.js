@@ -15,7 +15,8 @@ class Store extends React.PureComponent {
     categoryIndex: 0,
     subCategoryIndex: null,
     subCategories: [],
-    media: []
+    media: [],
+    isStore: true
   };
 
   handleChooseCategory = (category, categoryIndex) => {
@@ -44,6 +45,7 @@ class Store extends React.PureComponent {
         });
       } else {
         this.setState({
+          categoryIndex,
           subCategoryIndex: 0,
           subCategories: category.subCategories
         });
@@ -80,6 +82,7 @@ class Store extends React.PureComponent {
           onChoose={this.handleChooseCategory}
           style={{ width: 90, margin: 0, padding: 0, flexGrow: 0 }}
           selectedIndex={this.state.categoryIndex}
+          isStore={this.state.isStore}
         />
 
         <SubCategories
@@ -95,7 +98,11 @@ class Store extends React.PureComponent {
           }}
         />
 
-        <Media style={{ flexGrow: 1 }} media={this.state.media} />
+        <Media
+          style={{ flexGrow: 1 }}
+          media={this.state.media}
+          onStoreChange={this.handleStoreChange}
+        />
       </View>
     );
   }
@@ -115,6 +122,8 @@ class Store extends React.PureComponent {
       );
     }
   }
+
+  handleStoreChange = isStore => this.setState({ isStore });
 }
 
 const mapQueriesToProps = (realm, ownProps) => {
