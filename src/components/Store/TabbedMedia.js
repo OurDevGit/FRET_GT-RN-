@@ -1,7 +1,7 @@
 import React from "react";
 import {
   View,
-  FlatList,
+  SectionList,
   StyleSheet,
   TextInput,
   Text,
@@ -87,8 +87,9 @@ class TabbedMedia extends React.PureComponent {
     switch (route.key) {
       case "1":
         return (
-          <FlatList
-            data={this.props.media}
+          <SectionList
+            sections={this.props.media}
+            renderSectionHeader={this.renderTableHeader}
             renderItem={this.renderItem}
             keyExtractor={item => item.mediaID}
             style={this.props.style}
@@ -96,8 +97,9 @@ class TabbedMedia extends React.PureComponent {
         );
       case "2":
         return (
-          <FlatList
-            data={this.props.media.slice(0, 2)}
+          <SectionList
+            sections={this.props.media}
+            renderSectionHeader={this.renderTableHeader}
             renderItem={this.renderItem}
             keyExtractor={item => item.mediaID}
             style={this.props.style}
@@ -105,8 +107,9 @@ class TabbedMedia extends React.PureComponent {
         );
       case "3":
         return (
-          <FlatList
-            data={this.props.media.slice(2, 4)}
+          <SectionList
+            sections={this.props.media}
+            renderSectionHeader={this.renderTableHeader}
             renderItem={this.renderItem}
             keyExtractor={item => item.mediaID}
             style={this.props.style}
@@ -126,11 +129,25 @@ class TabbedMedia extends React.PureComponent {
     />
   );
 
+  renderTableHeader = ({ section }) => (
+    <View
+      style={{
+        // height: 30,
+        padding: 8,
+        backgroundColor: "lightgray",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      <Text>{section.title}</Text>
+    </View>
+  );
+
   componentWillReceiveProps(newProps) {
     if (newProps.media.length > 0) {
       // const mediaIds = ["4_non_blondes_whats_up", "smashing_pumpkins_1979"];
 
-      const mediaIds = newProps.media.map(o => o.mediaID.toLowerCase());
+      const mediaIds = []; //newProps.media.map(o => o.mediaID.toLowerCase());
 
       if (this.state.billingChannelIsOpen === false) {
         this.setState({ billingChannelIsOpen: true });

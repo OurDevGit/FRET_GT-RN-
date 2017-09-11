@@ -20,23 +20,44 @@ class Store extends React.PureComponent {
 
   handleChooseCategory = (category, categoryIndex) => {
     if (category.subCategories.length === 0) {
+      let m = category.media.sorted("title").slice(11, 23);
+
       this.setState({
-        media: category.media.sorted("title").slice(11, 23),
-        subCategoryIndex: null
+        media: [{ data: m, title: "category list" }],
+        subCategoryIndex: null,
+        subCategories: [],
+        categoryIndex
       });
     } else {
-      this.handleChooseSubCategory(category.subCategories[0], 0);
-    }
+      if (category.isGrouped === true) {
+        let media = category.subCategories.map(subCat => {
+          return {
+            data: subCat.media,
+            title: subCat.title
+          };
+        });
 
-    this.setState({
-      subCategories: category.subCategories,
-      categoryIndex
-    });
+        this.setState({
+          media,
+          subCategoryIndex: null,
+          subCategories: []
+        });
+      } else {
+        this.setState({
+          subCategoryIndex: 0,
+          subCategories: category.subCategories
+        });
+
+        this.handleChooseSubCategory(category.subCategories[0], 0);
+      }
+    }
   };
 
   handleChooseSubCategory = (subCategory, subCategoryIndex) => {
     this.setState({
-      media: subCategory.media.sorted("title"),
+      media: [
+        { data: subCategory.media.sorted("title"), title: "Sub Category" }
+      ],
       subCategoryIndex: subCategoryIndex
     });
   };
