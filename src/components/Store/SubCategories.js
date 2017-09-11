@@ -27,11 +27,13 @@ class CategoryItem extends React.PureComponent {
 }
 
 class SubCategories extends React.PureComponent {
-  renderItem = ({ item }) => (
+  renderItem = ({ item, index }) => (
     <LargeButton
       id={item.id}
       title={item.title}
-      onPress={() => this.props.onChoose(item)}
+      iconURL={item.iconURL}
+      isSelected={index === this.props.selectedIndex}
+      onPress={() => this.props.onChoose(item, index)}
     />
   );
 
