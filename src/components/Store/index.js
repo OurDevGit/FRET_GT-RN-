@@ -19,15 +19,13 @@ class Store extends React.PureComponent {
   };
 
   handleChooseCategory = (category, categoryIndex) => {
-    // console.debug(category);
-
     if (category.subCategories.length === 0) {
-      console.debug("no sub categories");
       this.setState({
-        media: category.media.sorted("title").slice(11, 23)
+        media: category.media.sorted("title").slice(11, 23),
+        subCategoryIndex: null
       });
     } else {
-      console.debug(` ${category.subCategories.length} sub categories`);
+      this.handleChooseSubCategory(category.subCategories[0], 0);
     }
 
     this.setState({
@@ -36,10 +34,14 @@ class Store extends React.PureComponent {
     });
   };
 
-  handleChooseSubCategory = subCategory => {};
+  handleChooseSubCategory = (subCategory, subCategoryIndex) => {
+    this.setState({
+      media: subCategory.media.sorted("title"),
+      subCategoryIndex: subCategoryIndex
+    });
+  };
 
   handleChooseMedia = media => {
-    console.debug(media);
     testPurchase(media);
   };
 
@@ -62,6 +64,7 @@ class Store extends React.PureComponent {
         <SubCategories
           subCategories={this.state.subCategories}
           onChoose={this.handleChooseSubCategory}
+          selectedIndex={this.state.subCategoryIndex}
           style={{
             width: 90,
             backgroundColor: "#0ff",
@@ -85,7 +88,6 @@ class Store extends React.PureComponent {
     // console.debug(newProps.categories.length);
 
     if (newProps.categories.length > this.state.categoryIndex) {
-      console.debug("auto choose category");
       this.handleChooseCategory(
         newProps.categories[this.state.categoryIndex],
         this.state.categoryIndex
