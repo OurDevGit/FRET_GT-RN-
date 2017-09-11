@@ -8,7 +8,6 @@ import {
   TouchableOpacity
 } from "react-native";
 import { realmify } from "../../realm";
-// import InAppBilling from "react-native-billing";
 
 import { syncStore } from "../../Store";
 import { PrimaryGold } from "../../design";
@@ -25,36 +24,7 @@ const CloseButton = ({ title }) => (
   </TouchableOpacity>
 );
 
-const testPurchase = media => {
-  // InAppBilling.open()
-  //   .then(() => InAppBilling.purchase(media.mediaID.toLowerCase()))
-  //   .then(details => {
-  //     fetch(
-  //       "https://hooks.slack.com/services/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",
-  //       {
-  //         method: "POST",
-  //         body: JSON.stringify({ text: JSON.stringify(details) })
-  //       }
-  //     );
-  //     console.debug("You purchased: ");
-  //     console.debug(details);
-  //     return InAppBilling.close();
-  //   })
-  //   .catch(err => {
-  //     console.error(err);
-  //     InAppBilling.close();
-  //   });
-  // InAppBilling.open()
-  //   .then(() => InAppBilling.getProductDetails(media.mediaID.toLowerCase()))
-  //   .then(details => {
-  //     console.debug(details);
-  //     return InAppBilling.close();
-  //   })
-  //   .catch(err => {
-  //     console.error(err);
-  //     InAppBilling.close();
-  //   });
-};
+const testPurchase = media => {};
 
 class Store extends React.PureComponent {
   state = {
@@ -150,18 +120,6 @@ class Store extends React.PureComponent {
 
   componentDidMount() {
     // syncStore();
-    // InAppBilling.open()
-    //   .then(() => InAppBilling.listOwnedProducts())
-    //   .then(details => {
-    //     console.debug("owned produts: ");
-    //     console.debug(details);
-    //     return InAppBilling.close();
-    //   })
-    //   .catch(err => {
-    //     // console.debug("error from purchase");
-    //     console.error(err);
-    //     return InAppBilling.close();
-    //   });
   }
 
   componentWillReceiveProps(newProps) {
