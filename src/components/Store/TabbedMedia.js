@@ -54,7 +54,7 @@ const renderIndicator = ({ width, position, navigationState: { index } }) => {
   );
 };
 
-class TabbedMedia extends React.Component {
+class TabbedMedia extends React.PureComponent {
   state = {
     // used by the react-native-tab-view
     index: 0,
@@ -78,6 +78,7 @@ class TabbedMedia extends React.Component {
         renderScene={this.renderScene}
         renderHeader={renderHeader}
         onIndexChange={this.handleIndexChange}
+        media={this.props.media} // passing this to force a render in the tabs
       />
     );
   }
