@@ -6,7 +6,7 @@ import TabbedMedia from "./TabbedMedia";
 
 const CloseButton = ({ title }) => (
   <TouchableOpacity onPress={() => console.log("touch")}>
-    <View style={{ padding: 8, margin: 8 }}>
+    <View style={{ padding: 8, marginRight: 8 }}>
       <Text style={{ color: PrimaryGold }}>{title.toUpperCase()}</Text>
     </View>
   </TouchableOpacity>
@@ -25,17 +25,19 @@ class Media extends React.PureComponent {
             width: "100%",
             height: 44,
             backgroundColor: "#fafafa",
-            flexDirection: "row"
+            flexDirection: "row",
+            alignItems: "center"
           }}
         >
           <TextInput
             style={{
-              //height: 30,
-              flexGrow: 1
+              flexGrow: 1,
+              marginRight: 8
             }}
             onChangeText={searchText => this.setState({ searchText })}
             value={this.state.searchText}
           />
+          <Text>{this.props.media.length}</Text>
           <CloseButton title="Close" />
         </View>
 
