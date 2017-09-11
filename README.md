@@ -62,6 +62,18 @@ TODO: Fill this out!
 1. `cd android` then `./gradlew clean` then `cd ..`
 1. `rm -rf node_modules && npm install` and then `npm start`
 
+## Continuous Crashing
+Sometimes, you get into a loop where it seems like the app crashes on start no matter what you do. One approach to to take the the Root view back to basics and start a process of elimination. Below is a minimal Root view that you can paste in. You should also **uninstall the app** and run `react-native run-android`
+
+``` JSX
+import React from "react";
+import { View } from "react-native";
+
+const Root = () => <View />;
+
+export default Root;
+```
+
 # Release Build
 
 _note_: the keystore file is not in Git. It is in 1password.
