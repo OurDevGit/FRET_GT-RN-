@@ -14,7 +14,8 @@ const LargeButton = ({ isSelected, iconURL, title, onPress }) => (
         backgroundColor: isSelected
           ? CategorySelectedColor
           : CategoryUnselectedColor,
-        height: 88,
+        paddingTop: 15,
+        paddingBottom: 15,
         borderBottomColor: BorderColor,
         borderBottomWidth: 1
       }}
