@@ -10,8 +10,8 @@ import TrackSelector from "./TrackSelector";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
-import RealmTester from "./RealmTester";
-// import Store from "./Store/Store.js";
+// import RealmTester from "./RealmTester";
+// import Store from "./Store";
 
 import { BtnLibrary } from "./StyleKit";
 
