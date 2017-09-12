@@ -15,7 +15,12 @@ const mediaForIds = (mediaIds, mediaById) => {
 };
 
 const makeGroup = (group, store) => {
-  return group;
+  const groupObj = {
+    ...group,
+    media: mediaForIds(store.groupLists[group.id], store.mediaById)
+  };
+
+  return groupObj;
 };
 
 const makeSubCategory = (subCategory, store) => {
