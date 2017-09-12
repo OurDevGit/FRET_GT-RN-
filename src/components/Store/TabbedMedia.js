@@ -1,4 +1,4 @@
-import React from "react";
+import React, { PureComponent } from "react";
 import {
   View,
   SectionList,
@@ -51,7 +51,7 @@ const renderIndicator = ({ width, position, navigationState: { index } }) => {
   );
 };
 
-class TabbedMedia extends React.PureComponent {
+class TabbedMedia extends PureComponent {
   state = {
     // used by the react-native-tab-view
     index: 0,
@@ -67,7 +67,7 @@ class TabbedMedia extends React.PureComponent {
 
   render() {
     const { style } = this.props;
-
+    console.debug("Tabbed Media render");
     return (
       <TabViewAnimated
         style={styles.container}
@@ -83,6 +83,8 @@ class TabbedMedia extends React.PureComponent {
   renderScene = ({ route }) => {
     switch (route.key) {
       case "1":
+        console.debug("Scene 1 render");
+        console.debug(this.props.media);
         return (
           <SectionList
             sections={this.props.media}
@@ -90,41 +92,36 @@ class TabbedMedia extends React.PureComponent {
             renderItem={this.renderItem}
             keyExtractor={item => item.mediaID}
             style={this.props.style}
+            initialNumToRender={10}
+            getItemLayout={(data, index) => {
+              return {
+                length: 51,
+                offset: 51 * index,
+                index
+              };
+            }}
           />
         );
       case "2":
-        return (
-          <SectionList
-            sections={this.props.media}
-            renderSectionHeader={this.renderTableHeader}
-            renderItem={this.renderItem}
-            keyExtractor={item => item.mediaID}
-            style={this.props.style}
-          />
-        );
+        return <View />;
       case "3":
-        return (
-          <SectionList
-            sections={this.props.media}
-            renderSectionHeader={this.renderTableHeader}
-            renderItem={this.renderItem}
-            keyExtractor={item => item.mediaID}
-            style={this.props.style}
-          />
-        );
+        return <View />;
     }
   };
 
-  renderItem = ({ item }) => (
-    <MediaItem
-      id={item.mediaID}
-      title={item.title}
-      subtitle={item.artist}
-      artworkURL={item.artworkURL}
-      price={this.priceForProduct(item.mediaID)}
-      onPress={() => this.props.onChoose(item)}
-    />
-  );
+  renderItem = ({ item, index }) => {
+    // console.debug(`render item ${index}: ${item.title}`);
+    return (
+      <MediaItem
+        id={item.mediaID}
+        title={item.title}
+        subtitle={item.artist}
+        artworkURL={item.artworkURL}
+        price={this.priceForProduct(item.mediaID)}
+        onPress={() => this.props.onChoose(item)}
+      />
+    );
+  };
 
   renderTableHeader = ({ section }) => (
     <View
@@ -170,7 +167,7 @@ class TabbedMedia extends React.PureComponent {
   }
 
   handleIndexChange = index => {
-    this.props.onStoreChange(index === 0);
+    this.props.onIsStoreChange(index === 0);
 
     this.setState({ index });
   };

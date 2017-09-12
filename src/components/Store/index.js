@@ -57,12 +57,24 @@ class Store extends React.PureComponent {
   };
 
   handleChooseSubCategory = (subCategory, subCategoryIndex) => {
-    this.setState({
-      media: [
-        { data: subCategory.media.sorted("title"), title: "Sub Category" }
-      ],
-      subCategoryIndex: subCategoryIndex
-    });
+    // console.debug(subCategory.groups.length);
+
+    if (subCategory.groups.length > 0) {
+      this.setState({
+        media: subCategory.groups.map(g => {
+          return {
+            data: g.media.sorted("title"),
+            title: g.title
+          };
+        }),
+        subCategoryIndex
+      });
+    } else {
+      this.setState({
+        media: [{ data: subCategory.media.sorted("title") }],
+        subCategoryIndex
+      });
+    }
   };
 
   handleChooseMedia = media => {
@@ -97,7 +109,7 @@ class Store extends React.PureComponent {
         <Media
           style={{ flexGrow: 1 }}
           media={this.state.media}
-          onStoreChange={this.handleStoreChange}
+          onIsStoreChange={this.handleIsStoreChange}
         />
       </View>
     );
@@ -119,8 +131,7 @@ class Store extends React.PureComponent {
     }
   }
 
-  handleStoreChange = isStore => {
-    console.debug(`set store ${isStore}`);
+  handleIsStoreChange = isStore => {
     this.setState({ isStore });
   };
 }

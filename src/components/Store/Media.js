@@ -44,7 +44,7 @@ class Media extends React.PureComponent {
         <TabbedMedia
           media={this.props.media || []}
           onChoose={this.props.onChoose}
-          onStoreChange={this.props.onStoreChange}
+          onIsStoreChange={this.props.onIsStoreChange}
         />
       </View>
     );
