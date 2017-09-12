@@ -133,7 +133,8 @@ class TabbedMedia extends React.PureComponent {
         padding: 8,
         backgroundColor: "lightgray",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
+        display: section.title === undefined ? "none" : "flex"
       }}
     >
       <Text>{section.title}</Text>

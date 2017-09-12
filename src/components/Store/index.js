@@ -25,7 +25,7 @@ class Store extends React.PureComponent {
       let m = category.media.sorted("title").slice(11, 23);
 
       this.setState({
-        media: [{ data: m, title: "category list" }],
+        media: [{ data: m }],
         subCategoryIndex: null,
         subCategories: [],
         categoryIndex
