@@ -7,6 +7,7 @@ import { syncStore } from "../../Store";
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
+import { StoreDark, StoreLight, LibraryDark, LibraryLight } from "../../design";
 
 const testPurchase = media => {};
 
@@ -80,7 +81,7 @@ class Store extends React.PureComponent {
         <Categories
           categories={this.props.categories}
           onChoose={this.handleChooseCategory}
-          style={{ width: 90, margin: 0, padding: 0, flexGrow: 0 }}
+          style={{ width: 90, flexGrow: 0 }}
           selectedIndex={this.state.categoryIndex}
           isStore={this.state.isStore}
         />
@@ -88,14 +89,9 @@ class Store extends React.PureComponent {
         <SubCategories
           subCategories={this.state.subCategories}
           onChoose={this.handleChooseSubCategory}
+          style={{ width: 90, flexGrow: 0 }}
           selectedIndex={this.state.subCategoryIndex}
-          style={{
-            width: 90,
-            backgroundColor: "#0ff",
-            margin: 0,
-            padding: 0,
-            flexGrow: 0
-          }}
+          isStore={this.state.isStore}
         />
 
         <Media
@@ -123,7 +119,10 @@ class Store extends React.PureComponent {
     }
   }
 
-  handleStoreChange = isStore => this.setState({ isStore });
+  handleStoreChange = isStore => {
+    console.debug(`set store ${isStore}`);
+    this.setState({ isStore });
+  };
 }
 
 const mapQueriesToProps = (realm, ownProps) => {

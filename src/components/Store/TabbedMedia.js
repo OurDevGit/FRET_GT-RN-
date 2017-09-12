@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import MediaItem from "./MediaItem";
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
-import { PrimaryGold, PrimaryBlue } from "../../design";
+import { StoreDark, LibraryDark } from "../../design";
 import InAppBilling from "react-native-billing";
 
 const renderHeader = props => {
@@ -26,10 +26,7 @@ const renderHeader = props => {
 
 const renderLabel = ({ focused, route: { title, key } }) => (
   <Text
-    style={[
-      styles.tabLabel,
-      { color: key === "1" ? PrimaryGold : PrimaryBlue }
-    ]}
+    style={[styles.tabLabel, { color: key === "1" ? StoreDark : LibraryDark }]}
   >
     {title.toUpperCase()}
   </Text>
@@ -47,7 +44,7 @@ const renderIndicator = ({ width, position, navigationState: { index } }) => {
         styles.indicator,
         { width, transform: [{ translateX }] },
         {
-          backgroundColor: index === 0 ? PrimaryGold : PrimaryBlue
+          backgroundColor: index === 0 ? StoreDark : LibraryDark
         }
       ]}
     />
