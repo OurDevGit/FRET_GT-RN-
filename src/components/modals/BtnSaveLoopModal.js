@@ -5,6 +5,7 @@ import { realmify, guid } from "../../realm";
 
 import ModalButton from "./ModalButton";
 import Popover from "./Popover";
+import { BtnPhoneLoopSave } from "../StyleKit";
 import { ModalType } from "./ModalType";
 
 class BtnSaveLoopModal extends React.Component {
@@ -17,9 +18,16 @@ class BtnSaveLoopModal extends React.Component {
     const existingName = this.props.currentLoop.get("name");
     return (
       <ModalButton onPress={this.displayModal}>
-        <Text style={this.props.style}>Save Loop</Text>
+        {this.props.isPhone ? (
+          <BtnPhoneLoopSave
+            style={{ width: 36, height: 36 }}
+            color={"#222222"}
+          />
+        ) : (
+          <Text style={this.props.style}>Save Loop</Text>
+        )}
 
-        {this.state.modalIsVisible &&
+        {this.state.modalIsVisible && (
           <Popover
             type={ModalType.Center}
             style={{
@@ -50,9 +58,11 @@ class BtnSaveLoopModal extends React.Component {
                   fontWeight: "400"
                 }}
               >
-                {existingName
-                  ? `Please enter a new name for '${existingName}'`
-                  : "Please enter a name for the new loop"}
+                {existingName ? (
+                  `Please enter a new name for '${existingName}'`
+                ) : (
+                  "Please enter a name for the new loop"
+                )}
               </Text>
 
               <TextInput
@@ -107,7 +117,8 @@ class BtnSaveLoopModal extends React.Component {
                 </TouchableOpacity>
               </View>
             </View>
-          </Popover>}
+          </Popover>
+        )}
       </ModalButton>
     );
   }

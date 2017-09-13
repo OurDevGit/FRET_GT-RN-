@@ -409,6 +409,30 @@ export const BtnInfo_targetFrame_resizing = props => <PaintCode
   {...props}
 />
 
+export const PhoneBtnLoopLeft_isEnabled = props => <PaintCode
+  drawMethod="PhoneBtnLoopLeft"
+  drawArgs={["isEnabled"]}
+  {...props}
+/>
+
+export const PhoneBtnLoopLeft_targetFrame_resizing_isEnabled = props => <PaintCode
+  drawMethod="PhoneBtnLoopLeft"
+  drawArgs={["targetFrame","resizing","isEnabled"]}
+  {...props}
+/>
+
+export const PhoneBtnLoopRight_isEnabled = props => <PaintCode
+  drawMethod="PhoneBtnLoopRight"
+  drawArgs={["isEnabled"]}
+  {...props}
+/>
+
+export const PhoneBtnLoopRight_targetFrame_resizing_isEnabled = props => <PaintCode
+  drawMethod="PhoneBtnLoopRight"
+  drawArgs={["targetFrame","resizing","isEnabled"]}
+  {...props}
+/>
+
 export const BtnCloudDownload = props => <PaintCode
   drawMethod="BtnCloudDownload"
   drawArgs={[]}

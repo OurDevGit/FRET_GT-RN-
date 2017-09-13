@@ -5,6 +5,8 @@ import { gtPcPressable, gtPcColorable, gtPcSizeable } from "./lib";
 import {
   PhoneTempo_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   PhoneBtnLoopToggle_targetFrame_resizing_isPressed_redValue_greenValue_blueValue_loopsEnabled,
+  PhoneBtnLoopLeft_targetFrame_resizing_isEnabled,
+  PhoneBtnLoopRight_targetFrame_resizing_isEnabled,
   PhoneBtnLoopSave_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   PhoneBtnMyLoops_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   PhoneBluetooth_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
@@ -40,40 +42,54 @@ export const BtnPhoneLoopToggle = props => {
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
 
+export const PhoneLoopLeft = props => {
+  const Comp = gtPcSizeable(
+    gtPcPressable(PhoneBtnLoopLeft_targetFrame_resizing_isEnabled)
+  );
+  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+};
+
+export const PhoneLoopRight = props => {
+  const Comp = gtPcSizeable(
+    gtPcPressable(PhoneBtnLoopRight_targetFrame_resizing_isEnabled)
+  );
+  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+};
+
 export const BtnPhoneLoopSave = props => {
   const Comp = gtPcSizeable(
     gtPcColorable(
-      gtPcPressable(
-        PhoneBtnLoopSave_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
-      )
+      PhoneBtnLoopSave_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
     )
   );
 
-  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+  return (
+    <Comp {...props} isPressed={false} resizing={ResizingBehavior.AspectFit} />
+  );
 };
 
 export const BtnPhoneMyLoops = props => {
   const Comp = gtPcSizeable(
     gtPcColorable(
-      gtPcPressable(
-        PhoneBtnMyLoops_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
-      )
+      PhoneBtnMyLoops_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
     )
   );
 
-  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+  return (
+    <Comp {...props} isPressed={false} resizing={ResizingBehavior.AspectFit} />
+  );
 };
 
 export const BtnPhoneBluetooth = props => {
   const Comp = gtPcSizeable(
     gtPcColorable(
-      gtPcPressable(
-        PhoneTempo_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
-      )
+      PhoneBluetooth_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
     )
   );
 
-  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+  return (
+    <Comp {...props} isPressed={false} resizing={ResizingBehavior.AspectFit} />
+  );
 };
 
 export const PhoneVolumeIcon = props => {

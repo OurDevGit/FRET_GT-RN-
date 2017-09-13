@@ -17,7 +17,7 @@ class BtnTempoModal extends React.Component {
     var currentIndex = tempos.indexOf(this.props.currentTempo);
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
     const color = this.props.color || "black";
-    console.log("tempo index", currentIndex);
+
     return (
       <ModalButton onPress={this.displayModal}>
         <TempoText

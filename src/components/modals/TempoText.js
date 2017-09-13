@@ -42,7 +42,7 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
         style={{
           height: "100%",
           textAlignVertical: "center",
-          fontSize: adjustedFontSize(18),
+          fontSize: adjustedFontSize(16),
           color: color
         }}
       >

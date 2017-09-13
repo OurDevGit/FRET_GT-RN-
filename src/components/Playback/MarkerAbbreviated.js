@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { PrimaryBlue } from "../../design";
 
-const Marker = ({ marker, left, onMarkerPress, onMarkerLongPress }) =>
+const Marker = ({ marker, left, end, onMarkerPress, onMarkerLongPress }) => (
   <TouchableOpacity
     key={marker.name}
     style={{
@@ -20,9 +20,8 @@ const Marker = ({ marker, left, onMarkerPress, onMarkerLongPress }) =>
     }}
   >
     <View style={{ width: 2, height: 10, backgroundColor: PrimaryBlue }} />
-    <Text style={{ fontSize: 12 }}>
-      {marker.abbreviation}
-    </Text>
-  </TouchableOpacity>;
+    <Text style={{ fontSize: 12 }}>{marker.abbreviation}</Text>
+  </TouchableOpacity>
+);
 
 export default Marker;

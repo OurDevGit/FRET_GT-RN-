@@ -4,6 +4,8 @@ import { View, Picker, Text, TouchableOpacity } from "react-native";
 import {
   LoopLeft,
   LoopRight,
+  PhoneLoopLeft,
+  PhoneLoopRight,
   BtnFretlightInfo,
   BtnPrevStep,
   BtnNextStep,
@@ -111,21 +113,38 @@ const PlaybackSecondary = ({
       </TouchableOpacity>
     )}
 
-    <LoopLeft
-      style={{ width: isPhone ? 35 : 30, height: isPhone ? 35 : 30 }}
-      isEnabled={true}
-      onPress={onLoopBegin}
-    />
-    <LoopRight
-      style={{ width: isPhone ? 35 : 30, height: isPhone ? 35 : 30 }}
-      isEnabled={true}
-      onPress={onLoopEnd}
-    />
+    {isPhone ? (
+      <PhoneLoopLeft
+        style={{ width: 36, height: 36 }}
+        isEnabled={true}
+        onPress={onLoopBegin}
+      />
+    ) : (
+      <LoopLeft
+        style={{ width: 30, height: 30 }}
+        isEnabled={true}
+        onPress={onLoopBegin}
+      />
+    )}
+    {isPhone ? (
+      <PhoneLoopRight
+        style={{ width: 36, height: 36 }}
+        isEnabled={true}
+        onPress={onLoopEnd}
+      />
+    ) : (
+      <LoopRight
+        style={{ width: 30, height: 30 }}
+        isEnabled={true}
+        onPress={onLoopEnd}
+      />
+    )}
 
     <BtnSaveLoopModal
       style={buttonStyle}
       mediaId={mediaId}
       currentLoop={currentLoop}
+      isPhone={isPhone}
       onSetCurrentLoop={onSetCurrentLoop}
     />
 
@@ -133,33 +152,22 @@ const PlaybackSecondary = ({
       style={buttonStyle}
       mediaId={mediaId}
       currentLoop={currentLoop}
+      isPhone={isPhone}
       onSetCurrentLoop={onSetCurrentLoop}
       onClearCurrentLoop={onClearCurrentLoop}
     />
 
     <View style={{ flex: -1, flexDirection: "row" }}>
       <BtnFretlightInfo
-        style={{ width: 35, height: 35 }}
+        style={{
+          width: isPhone ? 30 : 35,
+          height: isPhone ? 30 : 35,
+          marginRight: 10
+        }}
         onPress={onDisplayInfo}
       />
 
-      <BtnFretlightModal
-        style={{
-          flex: 1,
-          marginLeft: 6,
-          paddingTop: 4,
-          paddingHorizontal: 12,
-          fontSize: 20,
-          color: "white",
-          lineHeight: 20,
-          textAlign: "center",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: PrimaryBlue,
-          borderRadius: 6
-        }}
-        connectedDevices={connectedDevices}
-      />
+      <BtnFretlightModal isPhone={isPhone} devices={connectedDevices} />
     </View>
   </View>
 );

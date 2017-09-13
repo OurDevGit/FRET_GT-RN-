@@ -4,7 +4,9 @@ import PropTypes from "prop-types";
 
 import ModalButton from "./ModalButton";
 import Popover from "./Popover";
+import { PrimaryBlue, adjustedFontSize } from "../../design";
 import { ModalType } from "./ModalType";
+import { BtnPhoneBluetooth } from "../StyleKit";
 
 class BtnFretlightModal extends React.Component {
   state = {
@@ -14,11 +16,50 @@ class BtnFretlightModal extends React.Component {
   render() {
     return (
       <ModalButton onPress={this.displayModal}>
-        <Text style={this.props.style}>
-          Fretlight Status ({this.props.connectedDevices})
-        </Text>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            marginHorizontal: 6,
+            paddingTop: 0,
+            paddingRight: 8,
+            paddingHorizontal: 0,
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: PrimaryBlue,
+            borderRadius: 6
+          }}
+        >
+          {this.props.isPhone ? (
+            <BtnPhoneBluetooth
+              style={{ width: 36, height: 36 }}
+              color={"#FFFFFF"}
+            />
+          ) : (
+            <Text
+              style={{
+                marginTop: -4,
+                fontSize: 20,
+                color: "white",
+                lineHeight: 22
+              }}
+            >
+              Fretlight Status
+            </Text>
+          )}
+          <Text
+            style={{
+              marginTop: -4,
+              fontSize: 20,
+              color: "white",
+              lineHeight: 22
+            }}
+          >
+            ({this.props.devices})
+          </Text>
+        </View>
 
-        {this.state.modalIsVisible &&
+        {this.state.modalIsVisible && (
           <Popover
             type={ModalType.Center}
             style={{
@@ -76,7 +117,8 @@ class BtnFretlightModal extends React.Component {
                 </TouchableOpacity>
               </View>
             </View>
-          </Popover>}
+          </Popover>
+        )}
       </ModalButton>
     );
   }
@@ -91,8 +133,8 @@ class BtnFretlightModal extends React.Component {
 }
 
 BtnFretlightModal.propTypes = {
-  style: PropTypes.object.isRequired,
-  connectedDevices: PropTypes.number.isRequired
+  isPhone: PropTypes.bool.isRequired,
+  devices: PropTypes.number.isRequired
 };
 
 export default BtnFretlightModal;

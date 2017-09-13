@@ -9,6 +9,8 @@ import { BtnLoopDelete } from "../StyleKit";
 import ModalButton from "./ModalButton";
 import TempoText from "./TempoText";
 import Popover from "./Popover";
+
+import { BtnPhoneMyLoops } from "../StyleKit";
 import { ModalType } from "./ModalType";
 
 class BtnMyLoopsModal extends React.Component {
@@ -23,8 +25,16 @@ class BtnMyLoopsModal extends React.Component {
     const { isEditing, modalFrame } = this.state;
     return (
       <ModalButton onPress={this.displayModal}>
-        <Text style={this.props.style}>My Loops</Text>
-        {this.state.modalIsVisible &&
+        {this.props.isPhone ? (
+          <BtnPhoneMyLoops
+            style={{ width: 36, height: 36 }}
+            color={"#222222"}
+          />
+        ) : (
+          <Text style={this.props.style}>My Loops</Text>
+        )}
+
+        {this.state.modalIsVisible && (
           <Popover
             type={ModalType.Position}
             style={{
@@ -74,7 +84,7 @@ class BtnMyLoopsModal extends React.Component {
               keyExtractor={(item, index) => index}
               data={[...loops, { name: "None" }]}
               ItemSeparatorComponent={this.separator}
-              renderItem={({ item, index }) =>
+              renderItem={({ item, index }) => (
                 <View
                   style={{ width: "100%", height: 40, flexDirection: "row" }}
                 >
@@ -96,7 +106,7 @@ class BtnMyLoopsModal extends React.Component {
                     ✓
                   </Text>
                   {isEditing &&
-                    item.name !== "None" &&
+                  item.name !== "None" && (
                     <BtnLoopDelete
                       style={{
                         width: 30,
@@ -108,7 +118,8 @@ class BtnMyLoopsModal extends React.Component {
                       onPress={() => {
                         this.handleDeleteLoop(item);
                       }}
-                    />}
+                    />
+                  )}
 
                   <TouchableOpacity
                     style={{ flex: 1 }}
@@ -128,9 +139,11 @@ class BtnMyLoopsModal extends React.Component {
                       {item.name}
                     </Text>
                   </TouchableOpacity>
-                </View>}
+                </View>
+              )}
             />
-          </Popover>}
+          </Popover>
+        )}
       </ModalButton>
     );
   }
