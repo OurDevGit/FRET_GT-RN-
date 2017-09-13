@@ -67,7 +67,7 @@ const PlaybackPrimary = ({
           backgroundColor: "#222222"
         }}
       />
-      <Text style={{ flex: 1 }}>{title}</Text>
+      <Text style={{ flex: 1, fontSize: 18 }}>{title}</Text>
     </View>
 
     <View
@@ -118,14 +118,14 @@ const PlaybackPrimary = ({
         justifyContent: "center"
       }}
     >
-      <Slider style={{ marginTop: 50, height: 44 }} />
+      <Slider style={{ marginTop: isPhone ? 50 : 40, height: 44 }} />
       <Text
         style={{
           position: "absolute",
           top: 10,
           width: "100%",
           color: PrimaryBlue,
-          fontSize: adjustedFontSize(14),
+          fontSize: isPhone ? 14 : 18,
           textAlign: "center",
           textAlignVertical: "bottom"
         }}

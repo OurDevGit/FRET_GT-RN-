@@ -42,6 +42,7 @@ class BtnFretlightModal extends React.Component {
             <Text
               style={{
                 marginTop: -4,
+                marginLeft: 8,
                 fontSize: 20,
                 color: "white",
                 lineHeight: 22

@@ -9,5 +9,5 @@ export const adjustedFontSize = size => {
   const pd = PixelRatio.get();
   console.log(`width: ${width}; height: ${height}; scale: ${scale}; pd: ${pd}`);
 
-  return height > 600 ? size * 1.5 : size;
+  return height > 600 ? size * 1 : size;
 };

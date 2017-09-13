@@ -17,7 +17,7 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
         style={{
           height: "100%",
           textAlignVertical: "center",
-          fontSize: adjustedFontSize(18),
+          fontSize: 20,
           marginHorizontal: 2,
           color: color
         }}
@@ -43,7 +43,7 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
         style={{
           height: "100%",
           textAlignVertical: "center",
-          fontSize: adjustedFontSize(16),
+          fontSize: isPhone ? 16 : 20,
           color: color
         }}
       >
