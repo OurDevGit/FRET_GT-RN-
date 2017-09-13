@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import Dimensions from "Dimensions";
 import PropTypes from "prop-types";
 
 import ModalButton from "./ModalButton";
@@ -14,6 +15,8 @@ class BtnFretlightModal extends React.Component {
   };
 
   render() {
+    const { isPhone } = this.props;
+    const top = isPhone ? 0 : -300;
     return (
       <ModalButton onPress={this.displayModal}>
         <View
@@ -30,7 +33,7 @@ class BtnFretlightModal extends React.Component {
             borderRadius: 6
           }}
         >
-          {this.props.isPhone ? (
+          {isPhone ? (
             <BtnPhoneBluetooth
               style={{ width: 36, height: 36 }}
               color={"#FFFFFF"}
@@ -65,7 +68,7 @@ class BtnFretlightModal extends React.Component {
             style={{
               width: 500,
               height: 200,
-              marginTop: -300,
+              marginTop: top,
               padding: 20,
               backgroundColor: "white"
             }}

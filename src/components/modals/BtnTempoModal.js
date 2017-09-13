@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
+import Dimensions from "Dimensions";
 
 import ModalButton from "./ModalButton";
 import TempoText from "./TempoText";
@@ -18,6 +19,10 @@ class BtnTempoModal extends React.Component {
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
     const color = this.props.color || "black";
 
+    const isPhone = Dimensions.get("window").height < 500;
+    const height = isPhone ? Dimensions.get("window").height - 40 : 400;
+    const top = isPhone ? 20 : Math.max(100, this.state.modalFrame.y - 380);
+
     return (
       <ModalButton onPress={this.displayModal}>
         <TempoText
@@ -31,10 +36,10 @@ class BtnTempoModal extends React.Component {
             type={ModalType.Position}
             style={{
               position: "absolute",
-              top: Math.max(100, this.state.modalFrame.y - 380),
+              top: top,
               left: this.state.modalFrame.x + this.state.modalFrame.width + 10,
               width: 180,
-              height: 400,
+              height: height,
               padding: 20,
               backgroundColor: "white"
             }}

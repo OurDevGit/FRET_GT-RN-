@@ -2,7 +2,9 @@ import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { realmify, guid } from "../../realm";
+import Dimensions from "Dimensions";
 import { Map } from "immutable";
+
 import { PrimaryBlue } from "../../design";
 import { BtnLoopDelete } from "../StyleKit";
 
@@ -21,11 +23,28 @@ class BtnMyLoopsModal extends React.Component {
   };
 
   render() {
-    const { loops, currentLoop } = this.props;
+    const { loops, currentLoop, isPhone } = this.props;
     const { isEditing, modalFrame } = this.state;
+
+    const myLoops = loops || [];
+
+    const height = Math.min(
+      100 + (myLoops.length + 1) * 42,
+      Dimensions.get("window").height - 40
+    );
+    const left = Math.max(10, modalFrame.x - 510);
+    const width = modalFrame.x - left;
+
+    const top = Math.max(
+      30,
+      modalFrame.y - (100 + (myLoops.length + 1) * 42) + 20
+    );
+
+    const maxHeight = Math.min(300, Dimensions.get("window").height - 60);
+
     return (
       <ModalButton onPress={this.displayModal}>
-        {this.props.isPhone ? (
+        {isPhone ? (
           <BtnPhoneMyLoops
             style={{ width: 36, height: 36 }}
             color={"#222222"}
@@ -39,16 +58,13 @@ class BtnMyLoopsModal extends React.Component {
             type={ModalType.Position}
             style={{
               position: "absolute",
-              top: Math.max(
-                100,
-                modalFrame.y - (100 + (loops.length + 1) * 42) + 20
-              ),
-              left: modalFrame.x - 510,
-              width: 500,
-              height: 100 + (loops.length + 1) * 42,
-              maxHeight: 300,
+              backgroundColor: "white",
               padding: 20,
-              backgroundColor: "white"
+              top,
+              left,
+              width,
+              height,
+              maxHeight
             }}
             isVisible={this.state.modalIsVisible}
             onDismiss={this.dismissModal}

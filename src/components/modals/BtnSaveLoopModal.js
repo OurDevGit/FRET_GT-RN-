@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
+import Dimensions from "Dimensions";
 import { realmify, guid } from "../../realm";
 
 import ModalButton from "./ModalButton";
@@ -16,6 +17,9 @@ class BtnSaveLoopModal extends React.Component {
 
   render() {
     const existingName = this.props.currentLoop.get("name");
+    const isPhone = Dimensions.get("window").height < 500;
+    const top = isPhone ? 0 : -300;
+
     return (
       <ModalButton onPress={this.displayModal}>
         {this.props.isPhone ? (
@@ -33,7 +37,7 @@ class BtnSaveLoopModal extends React.Component {
             style={{
               width: 500,
               height: 200,
-              marginTop: -300,
+              marginTop: top,
               padding: 20,
               backgroundColor: "white"
             }}
@@ -71,7 +75,7 @@ class BtnSaveLoopModal extends React.Component {
                   fontSize: 22,
                   fontWeight: "400"
                 }}
-                autoFocus={true}
+                autoFocus={!isPhone}
                 placeholder={"Loop name"}
                 defaultValue={existingName}
                 autoCapitalize={"words"}

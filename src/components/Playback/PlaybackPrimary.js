@@ -28,7 +28,7 @@ const buttonStyle = {
 const textStyle = { color: PrimaryBlue, fontSize: 20 };
 const primaryStyle = isPhone => {
   return isPhone
-    ? { width: 35, height: 35, marginHorizontal: 10 }
+    ? { width: 32, height: 32, marginHorizontal: 6 }
     : { width: 50, height: 50, marginHorizontal: 10 };
 };
 
