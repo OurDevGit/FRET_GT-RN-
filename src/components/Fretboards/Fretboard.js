@@ -14,6 +14,7 @@ import SmartFretText from "../modals/SmartFretText";
 const Fretboard = ({
   style,
   track,
+  isPhone,
   isSmart,
   isHidingLabels,
   boardWidth,
@@ -30,7 +31,7 @@ const Fretboard = ({
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text
           style={{
-            fontSize: adjustedFontSize(13),
+            fontSize: isPhone ? 13 : 17,
             marginBottom: 1
           }}
         >
@@ -48,7 +49,7 @@ const Fretboard = ({
         >
           <SmartFretText
             color={PrimaryBlue}
-            size={isSmart ? adjustedFontSize(16) : adjustedFontSize(13)}
+            size={isSmart ? isPhone ? 16 : 20 : isPhone ? 13 : 17}
           />
         </TouchableOpacity>
       </View>

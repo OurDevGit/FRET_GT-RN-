@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
+import Dimensions from "Dimensions";
 import VerticalContainer from "./VerticalContainer";
 import HorizontalContainer from "./HorizontalContainer";
 
@@ -17,8 +18,10 @@ class FretboardsRoot extends React.PureComponent {
       tracks,
       visibleTracks
     } = this.props;
+
+    const isPhone = Dimensions.get("window").height < 500;
     var boardHeight = supportsMultipleFretboards
-      ? deviceWidth * 0.16
+      ? deviceWidth * 0.2
       : deviceWidth * 0.23;
 
     if (visibleTracks.count() === 4) {
@@ -28,6 +31,7 @@ class FretboardsRoot extends React.PureComponent {
     const height = supportsMultipleFretboards
       ? boardHeight * visibleTracks.count()
       : boardHeight;
+
     return (
       <View
         style={{
@@ -37,9 +41,14 @@ class FretboardsRoot extends React.PureComponent {
         }}
       >
         {supportsMultipleFretboards ? (
-          <VerticalContainer deviceWidth={deviceWidth} tracks={visibleTracks} />
+          <VerticalContainer
+            isPhone={isPhone}
+            deviceWidth={deviceWidth}
+            tracks={visibleTracks}
+          />
         ) : (
           <HorizontalContainer
+            isPhone={isPhone}
             deviceWidth={deviceWidth}
             tracks={tracks}
             currentPage={this.state.selectedIndex}

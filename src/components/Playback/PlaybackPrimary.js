@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
 import { pure } from "recompose";
-import { PrimaryBlue, playerBackground, adjustedFontSize } from "../../design";
+import { PrimaryBlue, playerBackground } from "../../design";
 import {
   BtnPrevious,
   BtnRewind,

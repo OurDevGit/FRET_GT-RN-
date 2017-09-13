@@ -24,7 +24,6 @@ const primaryStyle = isPhone => {
 };
 
 const secondaryStyle = isPhone => {
-  console.log("isPhone", isPhone);
   return {
     marginTop: -4,
     fontSize: isPhone ? 18 : 20,

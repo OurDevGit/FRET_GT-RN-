@@ -7,7 +7,7 @@ import * as actions from "../../redux/actions";
 
 import Popover from "./Popover";
 import { ModalType } from "./ModalType";
-import { PrimaryBlue, playerBackground, adjustedFontSize } from "../../design";
+import { PrimaryBlue, playerBackground } from "../../design";
 import SmartFretText from "./SmartFretText";
 import PlaybackPrimary from "../Playback/PlaybackPrimary";
 import PlaybackTimeline from "../Playback/PlaybackTimeline";
@@ -20,7 +20,10 @@ class SmartFretModal extends React.Component {
   render() {
     const frets = this.props.track.lastFret - this.props.track.firstFret;
     const boardWidth = Dimensions.get("window").width;
-    const boardHeight = boardWidth / frets * 4;
+    const boardHeight = Math.min(
+      boardWidth / frets * 4,
+      Dimensions.get("window").height - 150
+    );
     const playbackHeight = Dimensions.get("window").height - boardHeight - 40;
     const isCompact = playbackHeight < 150;
 

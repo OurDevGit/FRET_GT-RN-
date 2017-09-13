@@ -19,9 +19,12 @@ class BtnTempoModal extends React.Component {
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
     const color = this.props.color || "#222222";
 
-    const isPhone = Dimensions.get("window").height < 500;
-    const height = isPhone ? Dimensions.get("window").height - 40 : 400;
-    const top = isPhone ? 20 : Math.max(100, this.state.modalFrame.y - 380);
+    const height = this.props.isPhone
+      ? Dimensions.get("window").height - 40
+      : 400;
+    const top = this.props.isPhone
+      ? 20
+      : Math.max(100, this.state.modalFrame.y - 380);
 
     return (
       <ModalButton onPress={this.displayModal}>

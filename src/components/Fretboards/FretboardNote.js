@@ -8,20 +8,30 @@ const FretboardNote = ({ frets, notation, boardWidth, isVisible, isSmart }) => (
   <View
     style={{
       flex: 1,
-      justifyContent: "center"
+      aspectRatio: 1,
+      justifyContent: "center",
+      marginVertical: 1
     }}
   >
     {isVisible && (
       <View
         style={{
-          width: "50%",
-          aspectRatio: 1,
+          width: "100%",
+          height: "100%",
           backgroundColor: "#17A3E3",
           borderRadius: 1000,
           alignItems: "center"
         }}
       >
-        <Text style={{ fontSize: boardWidth / frets / 4 }}>{notation}</Text>
+        <Text
+          style={{
+            height: "100%",
+            fontSize: boardWidth / frets / 4,
+            textAlignVertical: "center"
+          }}
+        >
+          {notation}
+        </Text>
       </View>
     )}
   </View>

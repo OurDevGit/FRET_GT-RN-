@@ -36,6 +36,7 @@ class FretboardsContainer extends React.Component {
             onMomentumScrollEnd={this.props.onScrollEnd}
             ListEmptyComponent={() => (
               <Fretboard
+                isPhone={this.props.isPhone}
                 track={emptyTrack}
                 isSmart={false}
                 boardWidth={this.state.width}
@@ -44,6 +45,7 @@ class FretboardsContainer extends React.Component {
             )}
             renderItem={({ item }) => (
               <Fretboard
+                isPhone={this.props.isPhone}
                 track={item}
                 isSmart={false}
                 boardWidth={this.state.width}

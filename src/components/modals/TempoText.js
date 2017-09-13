@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 import { BtnPhoneTempo } from "../StyleKit";
-import { adjustedFontSize } from "../../design";
 
 export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
   <View

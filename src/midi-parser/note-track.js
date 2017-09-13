@@ -142,6 +142,8 @@ module.exports = (track, secondsForTicks) => {
     const remainder = modifiedHigh - minHigh;
     const modifiedLow = lastFret - remainder;
 
+    console.log(modifiedHigh, minHigh, remainder, modifiedLow);
+
     firstFret = Math.max(0, modifiedLow);
     lastFret = minHigh;
   }

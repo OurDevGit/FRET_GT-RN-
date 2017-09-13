@@ -28,6 +28,7 @@ class VerticalContainer extends React.Component {
     return this.props.tracks.map(track => {
       return (
         <Fretboard
+          isPhone={this.props.isPhone}
           key={track.get("name")}
           track={track.toJS()}
           isSmart={false}

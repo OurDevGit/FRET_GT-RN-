@@ -13,7 +13,7 @@ import {
   BtnPhoneLoopSave,
   BtnPhoneMyLoops
 } from "../StyleKit";
-import { PrimaryBlue, adjustedFontSize } from "../../design";
+import { PrimaryBlue } from "../../design";
 import {
   BtnTempoModal,
   BtnSaveLoopModal,
