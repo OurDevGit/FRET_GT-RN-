@@ -23,7 +23,7 @@ class BtnMyLoopsModal extends React.Component {
   };
 
   render() {
-    const { loops, currentLoop, isPhone } = this.props;
+    const { loops, currentLoop, color, isPhone } = this.props;
     const { isEditing, modalFrame } = this.state;
 
     const myLoops = loops || [];
@@ -46,8 +46,12 @@ class BtnMyLoopsModal extends React.Component {
       <ModalButton onPress={this.displayModal}>
         {isPhone ? (
           <BtnPhoneMyLoops
-            style={{ width: 36, height: 36 }}
-            color={"#222222"}
+            style={{
+              marginHorizontal: this.props.style.marginHorizontal,
+              width: 36,
+              height: 36
+            }}
+            color={color}
           />
         ) : (
           <Text style={this.props.style}>My Loops</Text>

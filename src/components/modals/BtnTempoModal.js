@@ -17,7 +17,7 @@ class BtnTempoModal extends React.Component {
   render() {
     var currentIndex = tempos.indexOf(this.props.currentTempo);
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
-    const color = this.props.color || "black";
+    const color = this.props.color || "#222222";
 
     const isPhone = Dimensions.get("window").height < 500;
     const height = isPhone ? Dimensions.get("window").height - 40 : 400;

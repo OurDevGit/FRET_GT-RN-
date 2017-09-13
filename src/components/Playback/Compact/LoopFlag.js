@@ -5,19 +5,22 @@ import { LoopLeftCompact, LoopRightCompact } from "../../StyleKit";
 
 const flagSize = { width: 24, height: 12 };
 
-const LoopFlag = ({ type, left, isEnabled }) =>
+const LoopFlag = ({ type, left, isEnabled }) => (
   <View
     style={{
       position: "absolute",
       bottom: 0,
-      left: type === "begin" ? left : left - 24,
+      left: type === "begin" ? left - 1 : left - 23,
       width: flagSize.width,
       height: flagSize.height
     }}
   >
-    {type === "begin"
-      ? <LoopLeftCompact isEnabled={isEnabled} style={flagSize} />
-      : <LoopRightCompact isEnabled={isEnabled} style={flagSize} />}
-  </View>;
+    {type === "begin" ? (
+      <LoopLeftCompact isEnabled={isEnabled} style={flagSize} />
+    ) : (
+      <LoopRightCompact isEnabled={isEnabled} style={flagSize} />
+    )}
+  </View>
+);
 
 export default pure(LoopFlag);

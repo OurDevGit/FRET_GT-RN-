@@ -14,7 +14,7 @@ const FretboardNote = ({ frets, notation, boardWidth, isVisible, isSmart }) => (
     {isVisible && (
       <View
         style={{
-          width: "41%",
+          width: "50%",
           aspectRatio: 1,
           backgroundColor: "#17A3E3",
           borderRadius: 1000,

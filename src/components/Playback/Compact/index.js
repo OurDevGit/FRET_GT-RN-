@@ -3,8 +3,7 @@ import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { pure } from "recompose";
 
 import RatePicker from "../RatePicker";
-import MeasureableButton from "../../modals/ModalButton";
-import { BtnTempoModal } from "../../modals";
+import { BtnTempoModal, BtnMyLoopsModal } from "../../modals";
 import { PrimaryBlue } from "../../../design";
 import {
   BtnLibrary,
@@ -12,28 +11,37 @@ import {
   BtnRewind,
   BtnPlay,
   BtnForward,
-  BtnNext
+  BtnNext,
+  BtnPhoneLoopToggle
 } from "../../StyleKit";
 
-const primaryStyle = {
-  width: 32,
-  height: 32,
-  marginHorizontal: 8
+const primaryStyle = isPhone => {
+  return {
+    width: isPhone ? 30 : 32,
+    height: isPhone ? 30 : 32,
+    marginHorizontal: isPhone ? 4 : 6
+  };
 };
-const secondaryStyle = {
-  marginTop: -4,
-  fontSize: 20,
-  lineHeight: 20,
-  marginHorizontal: 20,
-  color: PrimaryBlue
+
+const secondaryStyle = isPhone => {
+  console.log("isPhone", isPhone);
+  return {
+    marginTop: -4,
+    fontSize: isPhone ? 18 : 20,
+    marginHorizontal: isPhone ? 10 : 20,
+    color: PrimaryBlue
+  };
 };
 
 const PlaybackCompact = ({
   title,
+  mediaId,
   trackCount,
   isPlaying,
+  isPhone,
   tempo,
   loopIsEnabled,
+  currentLoop,
   onSelectTempo,
   onToggleLibrary,
   onPreviousPress,
@@ -42,6 +50,8 @@ const PlaybackCompact = ({
   onForwardPress,
   onNextPress,
   onLoopEnable,
+  onSetCurrentLoop,
+  onClearCurrentLoop,
   onDisplayMyLoops
 }) => (
   <View
@@ -64,38 +74,42 @@ const PlaybackCompact = ({
     >
       {trackCount > 3 && (
         <BtnLibrary
-          style={{ ...primaryStyle, marginRight: 30 }}
+          style={{ ...primaryStyle(isPhone), marginRight: 30 }}
           color={PrimaryBlue}
           onPress={onToggleLibrary}
         />
       )}
 
       <BtnPrevious
-        style={primaryStyle}
+        style={primaryStyle(isPhone)}
         color={PrimaryBlue}
         onPress={onPreviousPress}
       />
 
       <BtnRewind
-        style={primaryStyle}
+        style={primaryStyle(isPhone)}
         color={PrimaryBlue}
         onPress={onBackPress}
       />
 
       <BtnPlay
         isShowingPause={isPlaying}
-        style={primaryStyle}
+        style={primaryStyle(isPhone)}
         color={PrimaryBlue}
         onPress={onPlayPausePress}
       />
 
       <BtnForward
-        style={primaryStyle}
+        style={primaryStyle(isPhone)}
         color={PrimaryBlue}
         onPress={onForwardPress}
       />
 
-      <BtnNext style={primaryStyle} color={PrimaryBlue} onPress={onNextPress} />
+      <BtnNext
+        style={primaryStyle(isPhone)}
+        color={PrimaryBlue}
+        onPress={onNextPress}
+      />
     </View>
 
     <View
@@ -129,18 +143,34 @@ const PlaybackCompact = ({
       <BtnTempoModal
         color={PrimaryBlue}
         currentTempo={tempo}
+        isPhone={isPhone}
         onSelectTempo={onSelectTempo}
       />
 
-      <TouchableOpacity onPress={onLoopEnable}>
-        <Text style={{ ...secondaryStyle, marginLeft: 50 }}>
-          {loopIsEnabled ? "Loop ON" : "Loop OFF"}
-        </Text>
-      </TouchableOpacity>
+      {isPhone ? (
+        <BtnPhoneLoopToggle
+          style={{ marginLeft: 30, marginRight: 10, width: 36, height: 36 }}
+          loopsEnabled={loopIsEnabled}
+          color={PrimaryBlue}
+          onPress={onLoopEnable}
+        />
+      ) : (
+        <TouchableOpacity onPress={onLoopEnable}>
+          <Text style={secondaryStyle(isPhone)}>
+            {loopIsEnabled ? "Loop ON" : "Loop OFF"}
+          </Text>
+        </TouchableOpacity>
+      )}
 
-      <MeasureableButton onPress={onDisplayMyLoops}>
-        <Text style={secondaryStyle}>My Loops</Text>
-      </MeasureableButton>
+      <BtnMyLoopsModal
+        style={secondaryStyle(isPhone)}
+        mediaId={mediaId}
+        currentLoop={currentLoop}
+        color={PrimaryBlue}
+        isPhone={isPhone}
+        onSetCurrentLoop={onSetCurrentLoop}
+        onClearCurrentLoop={onClearCurrentLoop}
+      />
     </View>
   </View>
 );

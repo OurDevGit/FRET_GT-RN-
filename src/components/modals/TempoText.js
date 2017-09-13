@@ -7,7 +7,8 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
   <View
     style={{
       height: "100%",
-      flexDirection: "row"
+      flexDirection: "row",
+      alignItems: "center"
     }}
   >
     {withTitle &&
@@ -33,7 +34,7 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
           height: 40,
           marginLeft: 5
         }}
-        color={"#222222"}
+        color={color}
       />
     )}
 

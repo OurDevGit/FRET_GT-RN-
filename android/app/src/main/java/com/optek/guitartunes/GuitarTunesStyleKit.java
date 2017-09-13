@@ -2632,8 +2632,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForPhoneBtnLoopToggle.paint;
         
         // Local Colors
-        int downControls = Color.argb(255, 132, 132, 132);
         int connectedColor = Color.argb(255, 255, 0, 0);
+        int downControls = Color.argb(255, 132, 132, 132);
         
         // Local Variables
         boolean loopsDisabled = !loopsEnabled;
@@ -2648,53 +2648,56 @@ public class GuitarTunesStyleKit {
         
         // Group
         {
-            // Stroke-67
-            RectF stroke67Rect = CacheForPhoneBtnLoopToggle.stroke67Rect;
-            stroke67Rect.set(8.5f, 16.08f, 24.16f, 36.01f);
-            Path stroke67Path = CacheForPhoneBtnLoopToggle.stroke67Path;
-            stroke67Path.reset();
-            stroke67Path.moveTo(16.04f, 16.08f);
-            stroke67Path.lineTo(15.46f, 16.08f);
-            stroke67Path.cubicTo(11.61f, 16.08f, 8.5f, 19.23f, 8.5f, 23.11f);
-            stroke67Path.cubicTo(8.5f, 27f, 11.61f, 30.15f, 15.46f, 30.15f);
-            stroke67Path.lineTo(24.16f, 30.15f);
-            stroke67Path.lineTo(16.62f, 36.01f);
-            stroke67Path.lineTo(16.62f, 30.15f);
-            
-            paint.reset();
-            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-            paint.setStrokeWidth(1f);
-            paint.setStrokeJoin(Paint.Join.ROUND);
-            paint.setStrokeCap(Paint.Cap.ROUND);
-            canvas.save();
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setColor(backgroundColor);
-            canvas.drawPath(stroke67Path, paint);
-            canvas.restore();
-            
-            // Stroke-68
-            RectF stroke68Rect = CacheForPhoneBtnLoopToggle.stroke68Rect;
-            stroke68Rect.set(19.52f, 10.27f, 35.18f, 30.15f);
-            Path stroke68Path = CacheForPhoneBtnLoopToggle.stroke68Path;
-            stroke68Path.reset();
-            stroke68Path.moveTo(27.64f, 30.15f);
-            stroke68Path.lineTo(28.22f, 30.15f);
-            stroke68Path.cubicTo(32.06f, 30.15f, 35.18f, 27f, 35.18f, 23.11f);
-            stroke68Path.cubicTo(35.18f, 19.23f, 32.06f, 16.08f, 28.22f, 16.08f);
-            stroke68Path.lineTo(19.52f, 16.08f);
-            stroke68Path.lineTo(27.06f, 10.27f);
-            stroke68Path.lineTo(27.06f, 16.08f);
-            
-            paint.reset();
-            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
-            paint.setStrokeWidth(1f);
-            paint.setStrokeJoin(Paint.Join.ROUND);
-            paint.setStrokeCap(Paint.Cap.ROUND);
-            canvas.save();
-            paint.setStyle(Paint.Style.STROKE);
-            paint.setColor(backgroundColor);
-            canvas.drawPath(stroke68Path, paint);
-            canvas.restore();
+            // Group 2
+            {
+                // Stroke-67
+                RectF stroke67Rect = CacheForPhoneBtnLoopToggle.stroke67Rect;
+                stroke67Rect.set(6.5f, 14.21f, 25.09f, 38.01f);
+                Path stroke67Path = CacheForPhoneBtnLoopToggle.stroke67Path;
+                stroke67Path.reset();
+                stroke67Path.moveTo(15.45f, 14.21f);
+                stroke67Path.lineTo(14.76f, 14.21f);
+                stroke67Path.cubicTo(10.2f, 14.21f, 6.5f, 17.97f, 6.5f, 22.61f);
+                stroke67Path.cubicTo(6.5f, 27.25f, 10.2f, 31.01f, 14.76f, 31.01f);
+                stroke67Path.lineTo(25.09f, 31.01f);
+                stroke67Path.lineTo(16.14f, 38.01f);
+                stroke67Path.lineTo(16.14f, 31.01f);
+                
+                paint.reset();
+                paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+                paint.setStrokeWidth(1f);
+                paint.setStrokeJoin(Paint.Join.ROUND);
+                paint.setStrokeCap(Paint.Cap.ROUND);
+                canvas.save();
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setColor(backgroundColor);
+                canvas.drawPath(stroke67Path, paint);
+                canvas.restore();
+                
+                // Stroke-68
+                RectF stroke68Rect = CacheForPhoneBtnLoopToggle.stroke68Rect;
+                stroke68Rect.set(19.59f, 7.27f, 38.18f, 31.01f);
+                Path stroke68Path = CacheForPhoneBtnLoopToggle.stroke68Path;
+                stroke68Path.reset();
+                stroke68Path.moveTo(29.23f, 31.01f);
+                stroke68Path.lineTo(29.92f, 31.01f);
+                stroke68Path.cubicTo(34.48f, 31.01f, 38.18f, 27.25f, 38.18f, 22.61f);
+                stroke68Path.cubicTo(38.18f, 17.97f, 34.48f, 14.21f, 29.92f, 14.21f);
+                stroke68Path.lineTo(19.59f, 14.21f);
+                stroke68Path.lineTo(28.54f, 7.27f);
+                stroke68Path.lineTo(28.54f, 14.21f);
+                
+                paint.reset();
+                paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+                paint.setStrokeWidth(1f);
+                paint.setStrokeJoin(Paint.Join.ROUND);
+                paint.setStrokeCap(Paint.Cap.ROUND);
+                canvas.save();
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setColor(backgroundColor);
+                canvas.drawPath(stroke68Path, paint);
+                canvas.restore();
+            }
             
             // Bezier
             if (loopsDisabled) {

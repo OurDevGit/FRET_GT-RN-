@@ -30,7 +30,7 @@ const Fretboard = ({
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
         <Text
           style={{
-            fontSize: adjustedFontSize(14),
+            fontSize: adjustedFontSize(13),
             marginBottom: 1
           }}
         >
@@ -40,7 +40,7 @@ const Fretboard = ({
         <TouchableOpacity
           style={{
             marginRight: isSmart ? 10 : 0,
-            marginBottom: isSmart ? 10 : 0
+            marginBottom: isSmart ? 10 : 5
           }}
           onPress={() => {
             isSmart ? clearSmartTrack() : setSmartTrack(track);
@@ -48,7 +48,7 @@ const Fretboard = ({
         >
           <SmartFretText
             color={PrimaryBlue}
-            size={isSmart ? adjustedFontSize(16) : adjustedFontSize(14)}
+            size={isSmart ? adjustedFontSize(16) : adjustedFontSize(13)}
           />
         </TouchableOpacity>
       </View>

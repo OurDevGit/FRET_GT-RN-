@@ -19,7 +19,7 @@ class FretboardsRoot extends React.PureComponent {
     } = this.props;
     var boardHeight = supportsMultipleFretboards
       ? deviceWidth * 0.16
-      : deviceHeight * 0.44;
+      : deviceWidth * 0.23;
 
     if (visibleTracks.count() === 4) {
       boardHeight = (deviceHeight - 100) / 4;
@@ -36,17 +36,16 @@ class FretboardsRoot extends React.PureComponent {
           backgroundColor: "#E6D9B9"
         }}
       >
-        {supportsMultipleFretboards
-          ? <VerticalContainer
-              deviceWidth={deviceWidth}
-              tracks={visibleTracks}
-            />
-          : <HorizontalContainer
-              deviceWidth={deviceWidth}
-              tracks={tracks}
-              currentPage={this.state.selectedIndex}
-              onScrollEnd={this.onScrollEnd.bind(this)}
-            />}
+        {supportsMultipleFretboards ? (
+          <VerticalContainer deviceWidth={deviceWidth} tracks={visibleTracks} />
+        ) : (
+          <HorizontalContainer
+            deviceWidth={deviceWidth}
+            tracks={tracks}
+            currentPage={this.state.selectedIndex}
+            onScrollEnd={this.onScrollEnd.bind(this)}
+          />
+        )}
       </View>
     );
   }

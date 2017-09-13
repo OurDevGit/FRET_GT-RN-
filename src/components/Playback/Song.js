@@ -71,6 +71,7 @@ class Song extends React.Component {
               title={mediaTitle}
               trackCount={this.props.trackCount}
               isPlaying={this.state.isPlaying}
+              isPhone={isPhone}
               rate={this.state.playbackRate}
               loopIsEnabled={this.props.loopIsEnabled}
               onToggleLibrary={this.props.onToggleLibrary}
@@ -138,11 +139,11 @@ class Song extends React.Component {
         )}
         <SmartFretModal
           mediaId={mediaId}
-          title={mediaTitle}
+          mediaTitle={mediaTitle}
           trackCount={this.props.trackCount}
           isPlaying={this.state.isPlaying}
           isCompact={isCompact}
-          isPHone={isPhone}
+          isPhone={isPhone}
           progress={this.state.playbackProgress}
           duration={this.state.mediaDuration}
           markers={this.props.markers}

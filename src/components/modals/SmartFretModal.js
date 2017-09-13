@@ -23,7 +23,6 @@ class SmartFretModal extends React.Component {
     const boardHeight = boardWidth / frets * 4;
     const playbackHeight = Dimensions.get("window").height - boardHeight - 40;
     const isCompact = playbackHeight < 150;
-    const isPhone = Dimensions.get("window").height < 500;
 
     return (
       <Popover
@@ -91,10 +90,13 @@ class SmartFretModal extends React.Component {
             >
               <PlaybackCompact
                 title={this.props.mediaTitle}
+                mediaId={this.props.mediaId}
                 trackCount={this.props.trackCount}
                 isPlaying={this.props.isPlaying}
+                isPhone={this.props.isPhone}
                 tempo={this.props.tempo}
                 loopIsEnabled={this.props.loopIsEnabled}
+                currentLoop={this.props.currentLoop}
                 onToggleLibrary={this.props.onToggleLibrary}
                 onPreviousPress={this.props.onPreviousPress}
                 onBackPress={this.props.onBackPress}
@@ -103,6 +105,8 @@ class SmartFretModal extends React.Component {
                 onNextPress={this.props.onNextPress}
                 onLoopEnable={this.props.onLoopEnable}
                 onSelectTempo={this.props.onSelectTempo}
+                onSetCurrentLoop={this.props.onSetCurrentLoop}
+                onClearCurrentLoop={this.props.onClearCurrentLoop}
               />
               <PlaybackTimelineCompact
                 progress={this.props.progress}
@@ -169,7 +173,7 @@ class SmartFretModal extends React.Component {
           <Fretboard
             track={this.props.track}
             isSmart={true}
-            isHidingLabels={isPhone}
+            isHidingLabels={this.props.isPhone}
             boardWidth={boardWidth}
             style={{
               width: boardWidth,
@@ -187,7 +191,7 @@ class SmartFretModal extends React.Component {
 SmartFretModal.propTypes = {
   track: PropTypes.object,
   mediaId: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  mediaTitle: PropTypes.string.isRequired,
   trackCount: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   progress: PropTypes.number.isRequired,

@@ -13,12 +13,12 @@ const labels = (style, track, isSmart, boardWidth) => {
         key={i}
         style={{
           flex: 1,
-          height: boardWidth / diff / 3
+          height: boardWidth / diff / 2
         }}
       >
         <Text
           style={{
-            fontSize: boardWidth / diff / 5,
+            fontSize: boardWidth / diff / 3.5,
             textAlign: "center"
           }}
         >

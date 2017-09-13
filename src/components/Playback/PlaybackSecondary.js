@@ -153,6 +153,7 @@ const PlaybackSecondary = ({
       mediaId={mediaId}
       currentLoop={currentLoop}
       isPhone={isPhone}
+      color={"#222222"}
       onSetCurrentLoop={onSetCurrentLoop}
       onClearCurrentLoop={onClearCurrentLoop}
     />
