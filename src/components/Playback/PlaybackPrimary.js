@@ -1,6 +1,5 @@
 import React from "react";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
-import { SliderVolumeController } from "react-native-volume-controller";
 import { pure } from "recompose";
 import { PrimaryBlue, playerBackground, adjustedFontSize } from "../../design";
 import {
@@ -116,13 +115,15 @@ const PlaybackPrimary = ({
         flex: 1,
         marginRight: 6,
         flexDirection: "column",
-        justifyContent: "center",
-        backgroundColor: playerBackground
+        justifyContent: "center"
       }}
     >
+      <Slider style={{ marginTop: 50, height: 44 }} />
       <Text
         style={{
-          height: 14,
+          position: "absolute",
+          top: 10,
+          width: "100%",
           color: PrimaryBlue,
           fontSize: adjustedFontSize(14),
           textAlign: "center",
@@ -131,7 +132,6 @@ const PlaybackPrimary = ({
       >
         Volume
       </Text>
-      <SliderVolumeController style={{ height: 44, marginRight: 10 }} />
     </View>
 
     {!isPhone && (
