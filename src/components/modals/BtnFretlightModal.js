@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 import ModalButton from "./ModalButton";
 import Popover from "./Popover";
-import { PrimaryBlue, adjustedFontSize } from "../../design";
+import { PrimaryBlue } from "../../design";
 import { ModalType } from "./ModalType";
 import { BtnPhoneBluetooth } from "../StyleKit";
 

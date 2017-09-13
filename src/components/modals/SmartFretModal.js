@@ -61,8 +61,8 @@ class SmartFretModal extends React.Component {
             >
               <Text
                 style={{
-                  fontSize: adjustedFontSize(16),
-                  fontWeight: "400",
+                  fontSize: this.props.isPhone ? 16 : 18,
+                  fontWeight: "600",
                   textAlign: "left",
                   marginLeft: 5,
                   height: "100%",
@@ -76,7 +76,7 @@ class SmartFretModal extends React.Component {
 
             <SmartFretText
               color={"white"}
-              size={adjustedFontSize(16)}
+              size={this.props.isPhone ? 16 : 18}
               trackName={this.props.track.name}
             />
           </View>

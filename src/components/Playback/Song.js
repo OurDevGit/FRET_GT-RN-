@@ -68,12 +68,14 @@ class Song extends React.Component {
         {isCompact ? (
           <View style={{ flex: 1 }}>
             <PlaybackCompact
+              mediaId={mediaId}
               title={mediaTitle}
               trackCount={this.props.trackCount}
               isPlaying={this.state.isPlaying}
               isPhone={isPhone}
-              rate={this.state.playbackRate}
+              tempo={this.state.playbackRate}
               loopIsEnabled={this.props.loopIsEnabled}
+              currentLoop={this.props.currentLoop}
               onToggleLibrary={this.props.onToggleLibrary}
               onPreviousPress={this.handlePreviousPress}
               onBackPress={this.handleBackPress}
@@ -81,6 +83,8 @@ class Song extends React.Component {
               onForwardPress={this.handleForwardPress}
               onNextPress={this.handleNextPress}
               onLoopEnable={this.handleLoopEnable}
+              onSetCurrentLoop={this.handleSetCurrentLoop}
+              onClearCurrentLoop={this.props.clearCurrentLoop}
               onSelectTempo={this.handleSelectTempo}
             />
             <PlaybackTimelineCompact

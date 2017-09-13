@@ -17,9 +17,9 @@ import {
 
 const primaryStyle = isPhone => {
   return {
-    width: isPhone ? 30 : 32,
-    height: isPhone ? 30 : 32,
-    marginHorizontal: isPhone ? 4 : 6
+    width: isPhone ? 30 : 36,
+    height: isPhone ? 30 : 36,
+    marginHorizontal: isPhone ? 4 : 20
   };
 };
 
@@ -28,7 +28,7 @@ const secondaryStyle = isPhone => {
   return {
     marginTop: -4,
     fontSize: isPhone ? 18 : 20,
-    marginHorizontal: isPhone ? 10 : 20,
+    marginHorizontal: isPhone ? 10 : 30,
     color: PrimaryBlue
   };
 };
@@ -156,7 +156,7 @@ const PlaybackCompact = ({
         />
       ) : (
         <TouchableOpacity onPress={onLoopEnable}>
-          <Text style={secondaryStyle(isPhone)}>
+          <Text style={{ ...secondaryStyle(isPhone), marginLeft: 50 }}>
             {loopIsEnabled ? "Loop ON" : "Loop OFF"}
           </Text>
         </TouchableOpacity>

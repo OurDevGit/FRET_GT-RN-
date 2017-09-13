@@ -53,7 +53,8 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
       <View
         style={{
           height: "100%",
-          flexDirection: "row"
+          flexDirection: "row",
+          alignItems: "center"
         }}
       >
         <Text
