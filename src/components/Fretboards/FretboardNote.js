@@ -4,20 +4,29 @@ import { View, Text } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 import { hasNoteForTimeSelector } from "../../selectors";
 
-const FretboardNote = ({ frets, notation, boardWidth, isVisible, isSmart }) => (
+const FretboardNote = ({
+  frets,
+  notation,
+  boardWidth,
+  fretHeight,
+  isVisible,
+  isSmart
+}) => (
   <View
     style={{
       flex: 1,
       aspectRatio: 1,
       justifyContent: "center",
+      alignItems: "center",
       marginVertical: 1
     }}
   >
     {isVisible && (
       <View
         style={{
-          width: "100%",
-          height: "100%",
+          flex: -1,
+          height: fretHeight / 6 - 2,
+          aspectRatio: 1,
           backgroundColor: "#17A3E3",
           borderRadius: 1000,
           alignItems: "center"
@@ -26,7 +35,7 @@ const FretboardNote = ({ frets, notation, boardWidth, isVisible, isSmart }) => (
         <Text
           style={{
             height: "100%",
-            fontSize: boardWidth / frets / 4,
+            fontSize: fretHeight / 6 / 2,
             textAlignVertical: "center"
           }}
         >
@@ -44,5 +53,5 @@ const mapStateToProps = (state, props) => {
 };
 
 export default connect(mapStateToProps, undefined)(
-  onlyUpdateForKeys(["isVisible"])(FretboardNote)
+  onlyUpdateForKeys(["isVisible", "fretHeight"])(FretboardNote)
 );

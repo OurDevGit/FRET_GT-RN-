@@ -29,7 +29,7 @@ const notation = (fret, string) => {
   return scale[remainder];
 };
 
-const notes = (track, fret, isSmart, frets, boardWidth) => {
+const notes = (track, fret, isSmart, frets, boardWidth, fretHeight) => {
   var views = [];
 
   for (var i = 0; i < 6; i++) {
@@ -43,6 +43,7 @@ const notes = (track, fret, isSmart, frets, boardWidth) => {
           string={track.isBass ? i + 2 : i}
           notation={notation(fret, i)}
           boardWidth={boardWidth}
+          fretHeight={fretHeight}
           isSmart={isSmart}
         />
       );
@@ -51,32 +52,40 @@ const notes = (track, fret, isSmart, frets, boardWidth) => {
   return views;
 };
 
-const frets = (track, isSmart, boardWidth) => {
-  var frets = [];
-  const first = isSmart ? track.firstFret : 0;
-  const last = isSmart ? track.lastFret : 23;
-  const diff = last - first;
+const frets = (track, isSmart, boardWidth, fretHeight) => {
+  if (fretHeight > 0) {
+    var frets = [];
+    const first = isSmart ? track.firstFret : 0;
+    const last = isSmart ? track.lastFret : 23;
+    const diff = last - first;
 
-  for (var i = first; i <= last; i++) {
-    frets.push(
-      <View key={i} style={{ flex: 1 }}>
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center"
-          }}
-        >
-          {notes(track, i, isSmart, diff, boardWidth)}
+    for (var i = first; i <= last; i++) {
+      frets.push(
+        <View key={i} style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            {notes(track, i, isSmart, diff, boardWidth, fretHeight)}
+          </View>
         </View>
-      </View>
-    );
+      );
+    }
+    return frets;
   }
-  return frets;
 };
 
-const FretboardFrets = ({ track, isSmart, boardWidth }) => (
+const FretboardFrets = ({
+  track,
+  isSmart,
+  boardWidth,
+  fretHeight,
+  onLayout
+}) => (
   <View
     style={{
       position: "absolute",
@@ -88,8 +97,9 @@ const FretboardFrets = ({ track, isSmart, boardWidth }) => (
       flexDirection: "row",
       justifyContent: "space-between"
     }}
+    onLayout={onLayout}
   >
-    {frets(track, isSmart, boardWidth)}
+    {frets(track, isSmart, boardWidth, fretHeight)}
   </View>
 );
 
