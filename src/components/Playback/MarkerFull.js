@@ -10,6 +10,7 @@ class Marker extends React.Component {
   render() {
     const { marker, left, end, onMarkerPress, onMarkerLongPress } = this.props;
     const adjustedLeft = left - (this.state.width - 30) / 2;
+    console.log(this.state.width);
     return (
       <TouchableOpacity
         key={marker.name}
@@ -28,19 +29,29 @@ class Marker extends React.Component {
           onMarkerLongPress(marker.time, end);
         }}
       >
-        <View style={{ width: 2, height: 15, backgroundColor: PrimaryBlue }} />
+        {this.state.width > 0 && (
+          <View
+            style={{ width: 2, height: 15, backgroundColor: PrimaryBlue }}
+          />
+        )}
+
         <View
           style={{
             flexDirection: "row",
             transform: [{ rotate: "-45deg" }]
           }}
         >
-          <Text style={{ fontSize: 18 }}>
+          <Text
+            style={{
+              fontSize: 17,
+              color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`
+            }}
+          >
             {marker.name}
           </Text>
           <Text
             style={{
-              fontSize: 18,
+              fontSize: 17,
               color: "rgba(0, 0, 0, 0.0)"
             }}
           >

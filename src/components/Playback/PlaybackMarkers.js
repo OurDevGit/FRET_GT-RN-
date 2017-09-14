@@ -43,13 +43,19 @@ class PlaybackMarkers extends React.Component {
       onMarkerLongPress
     } = this.props;
 
-    if (markers && duration > 0 && markers.count() > 0 && width > 0) {
+    var operationalWidth = width - left * 2;
+    if (
+      markers &&
+      duration > 0 &&
+      markers.count() > 0 &&
+      operationalWidth > 0
+    ) {
       var buttons = [];
-      var operationalWidth = width - left * 2;
 
       var buttons = markers.map((marker, index) => {
         var percent = marker.time / duration;
         var x = left - 15 + operationalWidth * percent;
+
         var end =
           index < markers.count() - 1 ? markers.get(index + 1).time : duration;
 

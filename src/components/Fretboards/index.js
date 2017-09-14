@@ -21,11 +21,11 @@ class FretboardsRoot extends React.PureComponent {
 
     const isPhone = Dimensions.get("window").height < 500;
     var boardHeight = supportsMultipleFretboards
-      ? deviceWidth * 0.2
+      ? deviceWidth * 0.17
       : deviceWidth * 0.23;
 
     if (visibleTracks.count() === 4) {
-      boardHeight = (deviceHeight - 100) / 4;
+      boardHeight = (deviceHeight - 110) / 4;
     }
 
     const height = supportsMultipleFretboards
