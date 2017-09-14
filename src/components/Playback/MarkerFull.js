@@ -10,7 +10,7 @@ class Marker extends React.Component {
   render() {
     const { marker, left, end, onMarkerPress, onMarkerLongPress } = this.props;
     const adjustedLeft = left - (this.state.width - 30) / 2;
-    console.log(this.state.width);
+
     return (
       <TouchableOpacity
         key={marker.name}
