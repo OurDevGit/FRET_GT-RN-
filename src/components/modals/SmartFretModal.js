@@ -189,6 +189,17 @@ class SmartFretModal extends React.Component {
       </Popover>
     );
   }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const track = this.props.track || { name: "" };
+    return (
+      track.name !== nextProps.track.name ||
+      this.props.isPlaying !== nextProps.isPlaying ||
+      this.props.tempo !== nextProps.tempo ||
+      this.props.loopIsEnabled !== nextProps.loopIsEnabled ||
+      this.props.connectedDevices !== nextProps.connectedDevices
+    );
+  }
 }
 
 SmartFretModal.propTypes = {

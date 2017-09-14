@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, Dimensions, Text } from "react-native";
 
@@ -82,19 +83,21 @@ class PlaybackTimeline extends Component {
           />
         </View>
 
-        {loop.begin > -1 &&
+        {loop.begin > -1 && (
           <LoopFlag
             type="begin"
             isEnabled={loopIsEnabled}
             left={layout.x + beginLeft * layout.width}
-          />}
+          />
+        )}
 
-        {loop.end > -1 &&
+        {loop.end > -1 && (
           <LoopFlag
             type="end"
             isEnabled={loopIsEnabled}
             left={layout.x + endLeft * layout.width}
-          />}
+          />
+        )}
 
         <Playhead
           onPan={this.handlePlayheadPan}
@@ -193,4 +196,10 @@ PlaybackTimeline.propTypes = {
   onScrub: PropTypes.func
 };
 
-export default PlaybackTimeline;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    progress: state.get("time") / ownProps.duration
+  };
+};
+
+export default connect(mapStateToProps)(PlaybackTimeline);
