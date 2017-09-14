@@ -16,7 +16,7 @@ import PlaybackCompact from "../Playback/Compact";
 import PlaybackTimelineCompact from "../Playback/Compact/Timeline";
 import Fretboard from "../Fretboards/Fretboard";
 
-class SmartFretModal extends React.Component {
+class FullVideoModal extends React.Component {
   render() {
     const frets = this.props.track.lastFret - this.props.track.firstFret;
     const boardWidth = Dimensions.get("window").width;
@@ -239,4 +239,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps, actions)(SmartFretModal);
+export default connect(mapStateToProps, actions)(FullVideoModal);

@@ -1,1 +1,2 @@
-export * from './midi'
+export * from "./midi";
+export * from "./lesson";

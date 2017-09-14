@@ -97,7 +97,11 @@ class Music extends React.Component {
 
     if (this.songSound) {
       this.songSound.getCurrentTime(seconds => {
-        this.props.onProgress(seconds, this.songSound.getDuration());
+        const progress = {
+          currentTime: seconds,
+          duration: this.songSound.getDuration()
+        };
+        this.props.onProgress(progress);
       });
     }
   };

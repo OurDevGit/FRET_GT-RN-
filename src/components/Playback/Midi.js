@@ -28,16 +28,21 @@ class Midi extends React.Component {
   loadMidi = path => {
     console.debug("loading midi");
     console.debug({ path });
-    this.props
-      .loadMidi(path)
-      .then(midi => {
-        // console.debug({ midi });
-        this.props.onData(midi);
-      })
-      .catch(err => {
-        console.debug("error loading midi");
-        console.debug(err);
-      });
+
+    if (path !== null) {
+      this.props
+        .loadMidi(path)
+        .then(midi => {
+          // console.debug({ midi });
+          this.props.onData(midi);
+        })
+        .catch(err => {
+          console.debug("error loading midi");
+          console.debug(err);
+        });
+    } else {
+      console.log("no midi to load");
+    }
   };
 }
 

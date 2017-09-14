@@ -136,7 +136,7 @@ class PlaybackTimeline extends Component {
       currentLoop,
       loopIsEnabled,
       onLoopEnable,
-      onScrub
+      onSeek
     } = this.props;
 
     var progress = x > 0 ? x / this.state.layout.width : 0;
@@ -152,7 +152,7 @@ class PlaybackTimeline extends Component {
     }
 
     this.setState({ progress });
-    onScrub(progress);
+    onSeek(progress);
   };
 
   handlePlayheadPanStart = () => {
@@ -193,7 +193,7 @@ class PlaybackTimeline extends Component {
 }
 
 PlaybackTimeline.propTypes = {
-  onScrub: PropTypes.func
+  onSeek: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => {

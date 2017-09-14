@@ -106,7 +106,7 @@ class PlaybackTimeline extends Component {
     progress = Math.min(progress, 1);
 
     this.setState({ progress });
-    this.props.onScrub(progress);
+    this.props.onSeek(progress);
   };
 
   handlePlayheadPanStart = () => {
@@ -135,7 +135,7 @@ class PlaybackTimeline extends Component {
 }
 
 PlaybackTimeline.propTypes = {
-  onScrub: PropTypes.func
+  onSeek: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => {

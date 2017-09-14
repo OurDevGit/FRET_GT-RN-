@@ -6,27 +6,22 @@ import RatePicker from "./RatePicker";
 import ChapterPicker from "./ChapterPicker";
 import PlaybackTimeline from "./PlaybackTimeline";
 
-import { Heart } from "../StyleKit";
-
-const styles = StyleSheet.create({
-  controls: {
-    flex: 1,
-    backgroundColor: "transparent",
-    position: "absolute",
-    width: "100%",
-    height: "100%"
-    // justifyContent: "center",
-    // alignItems: "center"
-  }
-});
-
 class VideoOverlay extends React.Component {
   state = {};
 
   render() {
-    // console.log(this.props.markers);
     return (
-      <View style={styles.controls}>
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "transparent",
+          position: "absolute",
+          width: "100%",
+          height: "100%"
+          // justifyContent: "center",
+          // alignItems: "center"
+        }}
+      >
         <View
           style={{
             backgroundColor: "rgba(200,200,200,1)",
@@ -41,12 +36,13 @@ class VideoOverlay extends React.Component {
           <Text style={{ flex: 1, textAlign: "center" }}>
             {this.props.title}
           </Text>
-          <Heart mediaId={this.props.id} />
         </View>
+
         <TouchableOpacity
           onPress={() => console.debug("touch middle")}
           style={{ flex: 1 }}
         />
+
         <View
           style={{
             bottom: 0,
@@ -76,11 +72,12 @@ class VideoOverlay extends React.Component {
               progress={this.props.progress}
               duration={this.props.duration}
               markers={this.props.markers}
-              onScrub={this.handleScrub}
+              onSeek={this.handleScrub}
               onMarkerPress={this.handleMarkerPress}
               currentLoop={this.props.currentLoop}
             />
           </View>
+
           <View
             style={{
               flexDirection: "row",
