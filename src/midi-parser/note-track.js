@@ -138,11 +138,9 @@ module.exports = (track, secondsForTicks) => {
   const minRange = 7;
   if (diff < minRange) {
     const modifiedHigh = lastFret + (minRange - diff);
-    const minHigh = Math.min(modifiedHigh, 23);
+    const minHigh = Math.min(modifiedHigh, 21);
     const remainder = modifiedHigh - minHigh;
-    const modifiedLow = lastFret - remainder;
-
-    console.log(modifiedHigh, minHigh, remainder, modifiedLow);
+    const modifiedLow = firstFret - remainder;
 
     firstFret = Math.max(0, modifiedLow);
     lastFret = minHigh;
