@@ -67,7 +67,7 @@ class TabbedMedia extends PureComponent {
 
   render() {
     const { style } = this.props;
-    console.debug("Tabbed Media render");
+    // console.debug("Tabbed Media render");
     return (
       <TabViewAnimated
         style={styles.container}
@@ -83,8 +83,6 @@ class TabbedMedia extends PureComponent {
   renderScene = ({ route }) => {
     switch (route.key) {
       case "1":
-        console.debug("Scene 1 render");
-        console.debug(this.props.media);
         return (
           <SectionList
             sections={this.props.media}
