@@ -5,11 +5,16 @@ import {
   TouchableOpacity,
   Image,
   Button,
-  StyleSheet
+  StyleSheet,
+  Modal
 } from "react-native";
 import { BtnDetails, BtnBuy } from "../StyleKit";
+import MediaDetails from "./MediaDetails";
 
 class MediaItem extends PureComponent {
+  state = {
+    isShowingDetails: false
+  };
   render() {
     // console.debug(this.props);
     return (
@@ -20,7 +25,18 @@ class MediaItem extends PureComponent {
             <Text style={styles.title}>{this.props.title}</Text>
             <Text style={styles.subtitle}>{this.props.subtitle}</Text>
           </View>
-          <BtnDetails />
+          <MediaDetails
+            isVisible={this.state.isShowingDetails}
+            artworkURL={this.props.artworkURL}
+            title={this.props.title}
+            subtitle={this.props.subtitle}
+          />
+          <BtnDetails
+            onPress={() => {
+              console.debug("info!");
+              this.setState({ isShowingDetails: true });
+            }}
+          />
           <BtnBuy
             priceText={this.props.price}
             fontSize={14}
