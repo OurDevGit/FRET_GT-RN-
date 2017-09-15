@@ -2,6 +2,7 @@ import React from "react";
 import { View, TextInput, TouchableOpacity, Text, Button } from "react-native";
 
 import { PrimaryGold } from "../../design";
+import { FlatButton } from "../Material";
 import TabbedMedia from "./TabbedMedia";
 
 const CloseButton = ({ title }) => (
@@ -38,7 +39,7 @@ class Media extends React.PureComponent {
             value={this.state.searchText}
           />
           <Text>{this.props.media.length}</Text>
-          <CloseButton title="Close" />
+          <FlatButton title="Close" style={{ color: PrimaryGold }} />
         </View>
 
         <TabbedMedia
