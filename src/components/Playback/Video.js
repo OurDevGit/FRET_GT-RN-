@@ -14,7 +14,8 @@ import {
   chapterForTime,
   allMarkers,
   markerForTime,
-  midiForTime
+  midiForTime,
+  midiOffsetForTime
 } from "../../selectors";
 
 class Vid extends React.Component {
@@ -155,7 +156,9 @@ class Vid extends React.Component {
 
     const currentChapter = chapterForTime(currentTime, this.state.chapters);
     const currentMarker = markerForTime(currentTime, this.state.markers);
-    const currentMidiFile = midiForTime(currentTime, this.state.midiFiles);
+    const currentMidi = midiForTime(currentTime, this.state.midiFiles);
+    const currentMidiFile =
+      currentMidi !== undefined ? `${currentMidi.name}.midi` : null;
 
     if (currentProgress != playbackProgress || currentTime !== seconds) {
       const loop = currentLoop.toJS() || { begin: -1, end: duration };

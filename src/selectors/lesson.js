@@ -47,12 +47,29 @@ export const markerForTime = (time, markers) => {
     item => item.begin <= time && item.end >= time
   );
 
-  return matching[0] || {};
+  return matching[0];
 };
 
 // MIDI
 
 export const midiForTime = (time, midis) => {
   const matching = midis.filter(item => item.begin <= time && item.end >= time);
-  return matching[0] !== undefined ? `${matching[0].name}.midi` : null;
+  return matching[0];
+};
+
+export const midiOffsetForTime = (time, midis, markers) => {
+  const midi = midiForTime(time, midis);
+  const marker = markerForTime(time, markers);
+  var midiTime = time;
+
+  if (midi !== undefined) {
+    midiTime = time - midi.begin;
+
+    if (marker !== undefined) {
+      const offset = marker.begin - midi.begin;
+      midiTime = time - marker.begin + offset;
+    }
+  }
+
+  return time;
 };
