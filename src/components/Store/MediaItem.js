@@ -30,6 +30,7 @@ class MediaItem extends PureComponent {
             artworkURL={this.props.artworkURL}
             title={this.props.title}
             subtitle={this.props.subtitle}
+            onClose={() => this.setState({ isShowingDetails: false })}
           />
           <BtnDetails
             onPress={() => {

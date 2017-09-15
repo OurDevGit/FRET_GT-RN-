@@ -13,7 +13,7 @@ import {
 import { PrimaryGold } from "../../design";
 import { FlatButton } from "../Material";
 
-const MediaDetails = ({ isVisible, artworkURL, title, subtitle }) => (
+const MediaDetails = ({ isVisible, artworkURL, title, subtitle, onClose }) => (
   <Modal
     animationType="fade"
     transparent={true}
@@ -72,7 +72,11 @@ const MediaDetails = ({ isVisible, artworkURL, title, subtitle }) => (
             borderTopWidth: 1
           }}
         >
-          <FlatButton title="Close" style={{ color: PrimaryGold }} />
+          <FlatButton
+            title="Close"
+            style={{ color: PrimaryGold }}
+            onPress={onClose}
+          />
         </View>
       </View>
     </View>
