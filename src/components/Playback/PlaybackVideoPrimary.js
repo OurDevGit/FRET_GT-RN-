@@ -54,7 +54,8 @@ class PlaybackVideoPrimary extends React.Component {
             flex: 1,
             flexDirection: "column",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "flex-start",
+            marginRight: 30
           }}
         >
           <View
@@ -70,12 +71,19 @@ class PlaybackVideoPrimary extends React.Component {
           <View
             style={{
               flex: 1,
+              width: "100%",
               marginRight: 6,
               flexDirection: "column",
               justifyContent: "center"
             }}
           >
-            <Slider style={{ marginTop: isPhone ? 50 : 40, height: 44 }} />
+            <Slider
+              style={{
+                marginTop: 20,
+                width: "100%",
+                height: 44
+              }}
+            />
             <Text
               style={{
                 position: "absolute",
@@ -94,18 +102,19 @@ class PlaybackVideoPrimary extends React.Component {
 
         <View
           style={{
-            flex: 2,
+            height: "100%",
+            aspectRatio: 1.778,
             flexDirection: "row",
             justifyContent: "center",
             alignItems: "flex-start"
           }}
         >
           <Video
-            style={{ width: 320, height: 240 }}
+            style={{ width: "100%", height: "100%" }}
             source={require("../../lesson.mp4")}
             paused={!isPlaying}
             rate={tempo}
-            resizeMode="stretch"
+            resizeMode="contain"
             onLoad={onVideoLoad}
             onProgress={onProgress}
             onEnd={onEnd}
@@ -113,36 +122,50 @@ class PlaybackVideoPrimary extends React.Component {
             ref={ref => onPlayerRegister(ref)}
             onTimedMetadata={metaData => console.log({ metaData })}
           />
-          <BtnPrevious
-            style={buttonStyle}
-            color={"#FFFFFF"}
-            onPress={onPreviousPress}
-          />
 
-          <BtnRewind
-            style={buttonStyle}
-            color={"#FFFFFF"}
-            onPress={onBackPress}
-          />
+          <View
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center"
+            }}
+          >
+            <BtnPrevious
+              style={buttonStyle}
+              color={"#FFFFFF"}
+              onPress={onPreviousPress}
+            />
 
-          <BtnPlay
-            isShowingPause={isPlaying}
-            style={buttonStyle}
-            color={"#FFFFFF"}
-            onPress={onPlayPausePress}
-          />
+            <BtnRewind
+              style={buttonStyle}
+              color={"#FFFFFF"}
+              onPress={onBackPress}
+            />
 
-          <BtnForward
-            style={buttonStyle}
-            color={"#FFFFFF"}
-            onPress={onForwardPress}
-          />
+            <BtnPlay
+              isShowingPause={isPlaying}
+              style={buttonStyle}
+              color={"#FFFFFF"}
+              onPress={onPlayPausePress}
+            />
 
-          <BtnNext
-            style={buttonStyle}
-            color={"#FFFFFF"}
-            onPress={onNextPress}
-          />
+            <BtnForward
+              style={buttonStyle}
+              color={"#FFFFFF"}
+              onPress={onForwardPress}
+            />
+
+            <BtnNext
+              style={buttonStyle}
+              color={"#FFFFFF"}
+              onPress={onNextPress}
+            />
+          </View>
         </View>
 
         <VideoMarkersTable markers={markers} onMarkerPress={onMarkerPress} />
