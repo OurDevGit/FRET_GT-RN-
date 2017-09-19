@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
+import { View, Alert, StyleSheet, TouchableOpacity, Text } from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 
@@ -25,49 +25,64 @@ import {
   midiOffsetForTime
 } from "../../selectors";
 
+this.playbackSeconds = 0.0;
+
 class Vid extends React.Component {
   state = {
-    isPlaying: false,
+    isPlaying: true,
     mediaDuration: 0,
-    playbackProgress: 0.0,
-    playbackSeconds: 0.0,
     playbackRate: 1,
     videoRate: 1,
-    seek: -1,
     videoUri: null,
-    paused: false,
     naturalSize: { height: 240, width: 320 },
     chapters: [],
-    currentChapter: {},
     markers: [],
-    currentMarker: {},
     midiFiles: [],
     currentMidiFile: null,
     title: "Loading...",
     quickLoops: [],
-    midiFile: null,
     isFullscreen: false
   };
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.state.isPlaying !== nextState.isPlaying ||
+      this.state.mediaDuration !== nextState.mediaDuration ||
+      this.state.playbackRate !== nextState.playbackRate ||
+      this.state.videoRate !== nextState.videoRate ||
+      this.state.videoUri !== nextState.videoUri ||
+      this.state.naturalSize !== nextState.naturalSize ||
+      this.state.chapters !== nextState.chapters ||
+      this.state.markers !== nextState.markers ||
+      this.state.midiFiles !== nextState.midiFiles ||
+      this.state.currentMidiFile !== nextState.currentMidiFile ||
+      this.state.title !== nextState.title ||
+      this.state.quickLoops !== nextState.quickLoops ||
+      this.state.isFullscreen !== nextState.isFullscreen
+    );
+  }
+
   render() {
     const mediaTitle =
-      this.props.song !== undefined ? this.props.song.name : "";
-    const mediaId = this.props.song !== undefined ? this.props.song.midi : "";
+      this.props.video !== undefined ? this.props.video.name : "";
+    const mediaId = this.props.video !== undefined ? this.props.video.id : "";
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
     const markers = allChapters();
-    console.log("markers", markers);
+    console.log("rendering video");
 
     return (
       <View
         style={{
           flex: 1,
           backgroundColor: "#000",
+          alignContent: "center",
           alignItems: "center",
           justifyContent: "center",
           backgroundColor: playerBackground,
           margin: 4,
-          padding: 2,
+          paddingVertical: 4,
+          paddingHorizontal: 12,
           borderRadius: 6
         }}
       >
@@ -87,7 +102,6 @@ class Vid extends React.Component {
             isPlaying={this.state.isPlaying}
             isCompact={isCompact}
             isPhone={isPhone}
-            progress={this.state.playbackProgress}
             duration={this.state.mediaDuration}
             markers={markers}
             currentLoop={this.props.currentLoop}
@@ -113,12 +127,11 @@ class Vid extends React.Component {
             onDisplayInfo={this.handleDisplayInfoAlert}
           />
         ) : (
-          <View style={{ flex: 1 }}>
+          <View style={{ width: "100%", height: "100%" }}>
             <PlaybackVideoPrimary
               mediaId={mediaId}
               title={mediaTitle}
               tempo={this.state.playbackRate}
-              progress={this.state.playbackProgress}
               duration={this.state.mediaDuration}
               markers={markers}
               isPlaying={this.state.isPlaying}
@@ -135,17 +148,15 @@ class Vid extends React.Component {
               onNextPress={this.handleNextPress}
               onMarkerPress={this.handleMarkerPress}
             />
-            {/* <PlaybackTimeline
-              progress={this.state.playbackProgress}
+            <PlaybackTimeline
               duration={this.state.mediaDuration}
               currentLoop={this.props.currentLoop}
               loopIsEnabled={this.props.loopIsEnabled}
+              isVideo={true}
               onSeek={this.handleSeek}
-              onMarkerPress={this.handleMarkerPress}
-              onMarkerLongPress={this.handleMarkerLongPress}
               onLoopEnable={this.handleLoopEnable}
-            /> */}
-            {/* <PlaybackSecondary
+            />
+            <PlaybackSecondary
               mediaId={mediaId}
               tempo={this.state.playbackRate}
               loopIsEnabled={this.props.loopIsEnabled}
@@ -161,7 +172,7 @@ class Vid extends React.Component {
               onPrevStep={this.handlePrevStep}
               onNextStep={this.handleNextStep}
               onDisplayInfo={this.handleDisplayInfoAlert}
-            /> */}
+            />
           </View>
         )}
       </View>
@@ -194,8 +205,13 @@ class Vid extends React.Component {
     console.log("handleVideoLoad");
     this.setState({
       mediaDuration: details.duration,
-      naturalSize: details.naturalSize
+      naturalSize: details.naturalSize,
+      isPlaying: false
     });
+  };
+
+  handleError = err => {
+    console.error(err);
   };
 
   loadJSON = fileName => {
@@ -223,33 +239,29 @@ class Vid extends React.Component {
   handleProgress = progress => {
     const { currentTime, playableDuration } = progress;
     const { loopIsEnabled, currentLoop, updateTime } = this.props;
-    const { playbackProgress, seconds } = this.state;
     const currentProgress = currentTime / playableDuration;
 
-    const currentChapter = chapterForTime(currentTime, this.state.chapters);
-    const currentMarker = markerForTime(currentTime, this.state.markers);
     const currentMidi = midiForTime(currentTime, this.state.midiFiles);
     const currentMidiFile =
       currentMidi !== undefined ? `${currentMidi.name}.midi` : null;
 
-    if (currentProgress != playbackProgress || currentTime !== seconds) {
+    if (currentTime !== this.playbackSeconds) {
       const loop = currentLoop.toJS() || { begin: -1, end: duration };
 
       if (loopIsEnabled && currentTime >= loop.end && loop.begin > -1) {
-        this.setState({
-          seek: loop.begin
-        });
+        this.player.seek(loop.begin);
       } else {
-        this.setState({
-          mediaDuration: playableDuration,
-          playbackSeconds: currentTime,
-          playbackProgress: currentProgress,
-          currentChapter,
-          currentMarker,
-          currentMidiFile,
-          seek: -1
-        });
+        if (
+          this.state.mediaDuration !== playableDuration ||
+          this.state.currentMidiFile !== currentMidiFile
+        ) {
+          this.setState({
+            mediaDuration: playableDuration,
+            currentMidiFile
+          });
+        }
 
+        this.playbackSeconds = currentTime;
         updateTime(currentTime);
       }
     }
@@ -259,18 +271,14 @@ class Vid extends React.Component {
 
   handlePreviousPress = () => {
     const { markers } = this.props;
-    const seconds = this.state.playbackSeconds;
+    const seconds = this.playbackSeconds;
 
     if (markers.count() === 0 || markers.first().time > seconds) {
-      this.setState({
-        seek: 0
-      });
+      this.player.seek(0);
     } else {
       for (let marker of markers.reverse()) {
         if (marker.time + 1 < seconds) {
-          this.setState({
-            seek: marker.time
-          });
+          this.player.seek(marker.time);
           break;
         }
       }
@@ -278,38 +286,30 @@ class Vid extends React.Component {
   };
 
   handleBackPress = () => {
-    this.setState({
-      seek: this.state.playbackSeconds - 5
-    });
+    this.player.seek(this.playbackSeconds - 5);
   };
 
   handlePlayPausePress = () => {
     this.setState({
       isPlaying: !this.state.isPlaying,
-      musicRate: this.state.playbackRate
+      videoRate: this.state.playbackRate
     });
   };
 
   handleForwardPress = () => {
-    this.setState({
-      seek: this.state.playbackSeconds + 30
-    });
+    this.player.seek(this.playbackSeconds + 30);
   };
 
   handleNextPress = marker => {
     const { markers } = this.props;
-    const seconds = this.state.playbackSeconds;
+    const seconds = this.playbackSeconds;
 
     if (markers.count() === 0 || markers.last().time < seconds) {
-      this.setState({
-        seek: 0
-      });
+      this.player.seek(0);
     } else {
       for (let marker of markers) {
         if (marker.time > seconds) {
-          this.setState({
-            seek: marker.time
-          });
+          this.player.seek(marker.time);
           break;
         }
       }
@@ -320,15 +320,12 @@ class Vid extends React.Component {
 
   handleMarkerPress = time => {
     this.props.clearCurrentLoop();
-    this.setState({
-      seek: time
-    });
+    this.player.seek(time);
   };
 
   handleSeek = progress => {
     const time = progress * this.state.mediaDuration;
     this.player.seek(time);
-    this.setState({ seek: time });
   };
 
   // TEMPO METHODS
@@ -338,6 +335,73 @@ class Vid extends React.Component {
     this.setState({ playbackRate: tempo });
   };
 
+  // LOOP METHODS
+
+  handleLoopEnable = () => {
+    this.props.enableLoop(!this.props.loopIsEnabled);
+  };
+
+  handleLoopBegin = () => {
+    const begin = this.playbackSeconds;
+    const end = this.props.currentLoop.get("end") || this.props.duration;
+
+    var loop = this.props.currentLoop.set("begin", begin);
+    loop = begin > end ? loop.delete("end") : loop;
+
+    this.props.setCurrentLoop(loop);
+  };
+
+  handleLoopEnd = () => {
+    const begin = this.props.currentLoop.get("begin") || this.props.duration;
+    const end = this.playbackSeconds;
+
+    var loop = this.props.currentLoop.set("end", end);
+    loop = begin > end ? loop.set("begin", 0) : loop;
+
+    this.props.setCurrentLoop(loop);
+  };
+
+  handleSetCurrentLoop = loop => {
+    const begin = loop.get("begin");
+    this.player.seek(begin);
+    this.props.setCurrentLoop(loop);
+  };
+
+  // INFO
+
+  handleDisplayInfoAlert = () => {
+    Alert.alert(
+      "UNLEASH THE REAL POWER OF GUITAR TUNES!",
+      "The Fretlight Guitar lights fingering positions right on the neck of a real guitar. Everything you see in Guitar Tunes will light in real-time right under your fingers!"
+    );
+  };
+
+  // STEP
+
+  handlePrevStep = () => {
+    const { visibleTracks, currentLoop, loopIsEnabled } = this.props;
+    const time = timeForPrevStep(
+      this.playbackSeconds,
+      visibleTracks.first().get("name"),
+      currentLoop,
+      loopIsEnabled
+    );
+
+    this.player.seek(time);
+  };
+
+  handleNextStep = () => {
+    const { visibleTracks, currentLoop, loopIsEnabled } = this.props;
+    const time = timeForNextStep(
+      this.playbackSeconds,
+      visibleTracks.first().get("name"),
+      currentLoop,
+      loopIsEnabled
+    );
+
+    this.player.seek(time);
+  };
+
   handleEnd = () => {
     console.log("video ended");
     this.setState({
@@ -345,10 +409,6 @@ class Vid extends React.Component {
     });
 
     this.player.seek(0);
-  };
-
-  handleError = err => {
-    console.error(err);
   };
 
   handleVideoClose = () => {};

@@ -1,8 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 
-const VideoMarkersTable = ({ currentTime, markers, onMarkerPress }) => (
+const VideoMarkersTable = ({ markers, onMarkerPress }) => (
   <FlatList
     keyExtractor={(item, index) => index}
     data={markers}
@@ -34,4 +35,10 @@ VideoMarkersTable.propTypes = {
   onMarkerPress: PropTypes.func
 };
 
-export default VideoMarkersTable;
+const mapStateToProps = (state, ownProps) => {
+  return {
+    currentTime: state.get("time")
+  };
+};
+
+export default connect(mapStateToProps)(VideoMarkersTable);

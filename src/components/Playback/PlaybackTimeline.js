@@ -23,6 +23,7 @@ class PlaybackTimeline extends Component {
       markers,
       currentLoop,
       loopIsEnabled,
+      isVideo,
       onMarkerPress,
       onMarkerLongPress
     } = this.props;
@@ -38,25 +39,28 @@ class PlaybackTimeline extends Component {
     return (
       <View
         style={{
-          flex: 2,
+          flex: isVideo ? -1 : 2,
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginHorizontal: 10,
+          marginHorizontal: isVideo ? "10%" : 10,
           marginTop: 8,
-          marginBottom: -10
+          marginBottom: isVideo ? 20 : -10
         }}
         onLayout={this.handleContainerLayout}
       >
-        <PlaybackMarkers
-          left={layout.x}
-          width={containerLayout.width}
-          height={containerLayout.height - layout.height}
-          duration={duration}
-          markers={markers}
-          onMarkerPress={onMarkerPress}
-          onMarkerLongPress={onMarkerLongPress}
-        />
+        {!isVideo && (
+          <PlaybackMarkers
+            left={layout.x}
+            width={containerLayout.width}
+            height={containerLayout.height - layout.height}
+            duration={duration}
+            markers={markers}
+            onMarkerPress={onMarkerPress}
+            onMarkerLongPress={onMarkerLongPress}
+          />
+        )}
+
         <Text
           style={{
             width: 40,

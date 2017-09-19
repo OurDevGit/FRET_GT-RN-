@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 class Midi extends React.Component {
   render() {
-    return <View />;
+    return <View style={{ position: "absolute" }} />;
   }
 
   componentDidMount() {

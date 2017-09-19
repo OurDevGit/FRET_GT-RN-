@@ -25,7 +25,6 @@ class PlaybackVideoPrimary extends React.Component {
       isPlaying,
       isPhone,
       markers,
-      progress,
       duration,
       onPlayerRegister,
       onVideoLoad,
@@ -102,9 +101,6 @@ class PlaybackVideoPrimary extends React.Component {
           }}
         >
           <Video
-            ref={ref => {
-              onPlayerRegister(ref);
-            }}
             style={{ width: 320, height: 240 }}
             source={require("../../lesson.mp4")}
             paused={!isPlaying}
@@ -114,6 +110,7 @@ class PlaybackVideoPrimary extends React.Component {
             onProgress={onProgress}
             onEnd={onEnd}
             onError={onError}
+            ref={ref => onPlayerRegister(ref)}
             onTimedMetadata={metaData => console.log({ metaData })}
           />
           <BtnPrevious
@@ -148,11 +145,7 @@ class PlaybackVideoPrimary extends React.Component {
           />
         </View>
 
-        <VideoMarkersTable
-          currentTime={progress * duration}
-          markers={markers}
-          onMarkerPress={onMarkerPress}
-        />
+        <VideoMarkersTable markers={markers} onMarkerPress={onMarkerPress} />
 
         <View style={{ position: "absolute", top: 0, right: 0 }}>
           <BtnHeart
@@ -173,7 +166,6 @@ PlaybackVideoPrimary.propTypes = {
   title: PropTypes.string,
   tempo: PropTypes.number,
   markers: PropTypes.array,
-  progress: PropTypes.number,
   duration: PropTypes.number,
   isPlaying: PropTypes.bool,
   isPhone: PropTypes.bool,
