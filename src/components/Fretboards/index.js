@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { View } from "react-native";
+import { List, Map } from "immutable";
 import Dimensions from "Dimensions";
 import VerticalContainer from "./VerticalContainer";
 import HorizontalContainer from "./HorizontalContainer";
@@ -20,6 +21,19 @@ class FretboardsRoot extends React.PureComponent {
     } = this.props;
 
     const isPhone = Dimensions.get("window").height < 500;
+
+    // empty tracks (mainly for video)
+    var boardTracks = List([Map({ name: "" })]);
+
+    // applying visible tracks for tablet on audio
+    if (supportsMultipleFretboards && visibleTracks.count() > 0) {
+      boardTracks = visibleTracks;
+    }
+    // applying tracks for phone on audio
+    if (!supportsMultipleFretboards && tracks.count() > 0) {
+      boardTracks = tracks;
+    }
+
     var boardHeight = supportsMultipleFretboards
       ? deviceWidth * 0.17
       : deviceWidth * 0.23;
@@ -29,7 +43,7 @@ class FretboardsRoot extends React.PureComponent {
     }
 
     const height = supportsMultipleFretboards
-      ? boardHeight * visibleTracks.count()
+      ? boardHeight * boardTracks.count()
       : boardHeight;
 
     return (
@@ -44,13 +58,13 @@ class FretboardsRoot extends React.PureComponent {
           <VerticalContainer
             isPhone={isPhone}
             deviceWidth={deviceWidth}
-            tracks={visibleTracks}
+            tracks={boardTracks}
           />
         ) : (
           <HorizontalContainer
             isPhone={isPhone}
             deviceWidth={deviceWidth}
-            tracks={tracks}
+            tracks={boardTracks}
             currentPage={this.state.selectedIndex}
             onScrollEnd={this.onScrollEnd.bind(this)}
           />

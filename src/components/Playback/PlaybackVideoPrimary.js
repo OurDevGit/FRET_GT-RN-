@@ -1,0 +1,193 @@
+import React from "react";
+import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
+import PropTypes from "prop-types";
+import Video from "react-native-video";
+import { pure } from "recompose";
+import { PrimaryBlue, playerBackground } from "../../design";
+import {
+  BtnPrevious,
+  BtnRewind,
+  BtnPlay,
+  BtnForward,
+  BtnNext,
+  BtnHeart
+} from "../StyleKit";
+import VideoMarkersTable from "./VideoMarkersTable";
+
+const buttonStyle = { width: 50, height: 50, marginHorizontal: 10 };
+
+class PlaybackVideoPrimary extends React.Component {
+  render() {
+    const {
+      mediaId,
+      title,
+      tempo,
+      isPlaying,
+      isPhone,
+      markers,
+      progress,
+      duration,
+      onPlayerRegister,
+      onVideoLoad,
+      onProgress,
+      onEnd,
+      onError,
+      onPreviousPress,
+      onBackPress,
+      onPlayPausePress,
+      onForwardPress,
+      onNextPress,
+      onMarkerPress
+    } = this.props;
+
+    return (
+      <View
+        style={{
+          flex: 1,
+          padding: 5,
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center"
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center"
+          }}
+        >
+          <View
+            style={{
+              flex: 1,
+              aspectRatio: 1,
+              margin: 7,
+              backgroundColor: "#222222"
+            }}
+          />
+          <Text style={{ flex: 1, fontSize: 18 }}>{title}</Text>
+
+          <View
+            style={{
+              flex: 1,
+              marginRight: 6,
+              flexDirection: "column",
+              justifyContent: "center"
+            }}
+          >
+            <Slider style={{ marginTop: isPhone ? 50 : 40, height: 44 }} />
+            <Text
+              style={{
+                position: "absolute",
+                top: 10,
+                width: "100%",
+                color: PrimaryBlue,
+                fontSize: isPhone ? 14 : 18,
+                textAlign: "center",
+                textAlignVertical: "bottom"
+              }}
+            >
+              Volume
+            </Text>
+          </View>
+        </View>
+
+        <View
+          style={{
+            flex: 2,
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "flex-start"
+          }}
+        >
+          <Video
+            ref={ref => {
+              onPlayerRegister(ref);
+            }}
+            style={{ width: 320, height: 240 }}
+            source={require("../../lesson.mp4")}
+            paused={!isPlaying}
+            rate={tempo}
+            resizeMode="stretch"
+            onLoad={onVideoLoad}
+            onProgress={onProgress}
+            onEnd={onEnd}
+            onError={onError}
+            onTimedMetadata={metaData => console.log({ metaData })}
+          />
+          <BtnPrevious
+            style={buttonStyle}
+            color={"#FFFFFF"}
+            onPress={onPreviousPress}
+          />
+
+          <BtnRewind
+            style={buttonStyle}
+            color={"#FFFFFF"}
+            onPress={onBackPress}
+          />
+
+          <BtnPlay
+            isShowingPause={isPlaying}
+            style={buttonStyle}
+            color={"#FFFFFF"}
+            onPress={onPlayPausePress}
+          />
+
+          <BtnForward
+            style={buttonStyle}
+            color={"#FFFFFF"}
+            onPress={onForwardPress}
+          />
+
+          <BtnNext
+            style={buttonStyle}
+            color={"#FFFFFF"}
+            onPress={onNextPress}
+          />
+        </View>
+
+        <VideoMarkersTable
+          currentTime={progress * duration}
+          markers={markers}
+          onMarkerPress={onMarkerPress}
+        />
+
+        <View style={{ position: "absolute", top: 0, right: 0 }}>
+          <BtnHeart
+            style={{
+              width: 40,
+              height: 40
+            }}
+            mediaId={mediaId}
+          />
+        </View>
+      </View>
+    );
+  }
+}
+
+PlaybackVideoPrimary.propTypes = {
+  mediaId: PropTypes.string,
+  title: PropTypes.string,
+  tempo: PropTypes.number,
+  markers: PropTypes.array,
+  progress: PropTypes.number,
+  duration: PropTypes.number,
+  isPlaying: PropTypes.bool,
+  isPhone: PropTypes.bool,
+  onLoad: PropTypes.func,
+  onProgress: PropTypes.func,
+  onEnd: PropTypes.func,
+  onError: PropTypes.func,
+  onPlayerRegister: PropTypes.func,
+  onPreviousPress: PropTypes.func,
+  onBackPress: PropTypes.func,
+  onPlayPausePress: PropTypes.func,
+  onForwardPress: PropTypes.func,
+  onNextPress: PropTypes.func,
+  onMarkerPress: PropTypes.func
+};
+
+export default pure(PlaybackVideoPrimary);

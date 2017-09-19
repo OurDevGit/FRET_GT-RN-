@@ -23,6 +23,7 @@ class Root extends Component {
     song: null,
     video: null,
     showAd: true,
+    showFretboards: false,
     layout: { width: 1, height: 1 }
   };
 
@@ -49,11 +50,15 @@ class Root extends Component {
             trackCount={this.props.trackCount}
             onToggleLibrary={this.handleToggleLibrary}
           />
-          <FretboardsContainer
-            deviceWidth={this.state.layout.width}
-            deviceHeight={this.state.layout.height}
-            supportsMultipleFretboards={supportsMultipleFretboards}
-          />
+
+          {this.state.showFretboards && (
+            <FretboardsContainer
+              deviceWidth={this.state.layout.width}
+              deviceHeight={this.state.layout.height}
+              supportsMultipleFretboards={supportsMultipleFretboards}
+            />
+          )}
+
           <Library
             isOpen={this.state.libIsOpen}
             onSelect={this.handleSelectMedia}
@@ -97,16 +102,25 @@ class Root extends Component {
         libIsOpen: false,
         song: media,
         video: null,
-        showAd: true
+        showAd: true,
+        showFretboards: true
       });
     } else if (media.type === "video") {
       this.setState({
         libIsOpen: false,
         song: null,
         video: media,
-        showAd: false
+        showAd: true,
+        showFretboards: true
       });
     }
+  };
+
+  handleToggleFullscreen = () => {
+    this.setState({
+      showAd: !this.state.showFretboards,
+      showFretboards: !this.state.showFretboards
+    });
   };
 
   handleLayout = e => {

@@ -38,6 +38,7 @@ class FretboardsContainer extends React.Component {
               <Fretboard
                 isPhone={this.props.isPhone}
                 track={emptyTrack}
+                showSmart={false}
                 isSmart={false}
                 boardWidth={this.state.width}
                 style={boardStyle}
@@ -47,6 +48,7 @@ class FretboardsContainer extends React.Component {
               <Fretboard
                 isPhone={this.props.isPhone}
                 track={item}
+                showSmart={item.get("name") !== ""}
                 isSmart={false}
                 boardWidth={this.state.width}
                 style={boardStyle}

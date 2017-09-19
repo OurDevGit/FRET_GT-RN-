@@ -1,9 +1,15 @@
 import React from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import PropTypes from "prop-types";
+import Dimensions from "Dimensions";
 
 import RNFetchBlob from "react-native-fetch-blob";
-import Video from "react-native-video";
+
+import PlaybackVideoPrimary from "./PlaybackVideoPrimary";
+import PlaybackTimeline from "./PlaybackTimeline";
+import PlaybackSecondary from "./PlaybackSecondary";
+import { FullVideoModal } from "../modals";
+import { playerBackground } from "../../design";
 
 import VideoOverlay from "./VideoOverlay";
 import Midi from "./Midi";
@@ -11,6 +17,7 @@ import Midi from "./Midi";
 import {
   loadMidi,
   clearMidi,
+  allChapters,
   chapterForTime,
   allMarkers,
   markerForTime,
@@ -38,17 +45,30 @@ class Vid extends React.Component {
     currentMidiFile: null,
     title: "Loading...",
     quickLoops: [],
-    midiFile: null
+    midiFile: null,
+    isFullscreen: false
   };
 
   render() {
+    const mediaTitle =
+      this.props.song !== undefined ? this.props.song.name : "";
+    const mediaId = this.props.song !== undefined ? this.props.song.midi : "";
+    const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
+    const isPhone = Dimensions.get("window").height < 500;
+    const markers = allChapters();
+    console.log("markers", markers);
+
     return (
       <View
         style={{
           flex: 1,
           backgroundColor: "#000",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          backgroundColor: playerBackground,
+          margin: 4,
+          padding: 2,
+          borderRadius: 6
         }}
       >
         <Midi
@@ -58,44 +78,92 @@ class Vid extends React.Component {
           clearMidi={clearMidi}
           loadMidi={loadMidi}
         />
-        <Video
-          ref={ref => {
-            this.player = ref;
-          }}
-          style={{ width: 320, height: 240 }}
-          source={require("../../lesson.mp4")}
-          paused={this.state.paused}
-          rate={this.state.playbackRate}
-          resizeMode="stretch"
-          onLoad={this.handleVideoLoad}
-          onProgress={this.handleProgress}
-          onEnd={this.handleEnd}
-          onError={this.handleError}
-          onTimedMetadata={metaData => console.log({ metaData })}
-        />
-        <View
-          style={{
-            position: "absolute",
-            backgroundColor: "transparent",
-            height: "100%",
-            width: "100%"
-          }}
-        >
-          <VideoOverlay
-            id={this.props.video.id}
-            title={this.state.title}
-            chapters={this.state.chapters}
-            currentChapter={this.state.currentChapter}
-            onClose={this.handleVideoClose}
-            markers={this.props.markers}
-            onRateChange={this.handleSelectTempo}
-            rate={this.state.playbackRate}
-            duration={this.state.mediaDuration}
+
+        {isPhone || this.state.isFullscreen ? (
+          <FullVideoModal
+            mediaId={mediaId}
+            mediaTitle={mediaTitle}
+            trackCount={this.props.trackCount}
+            isPlaying={this.state.isPlaying}
+            isCompact={isCompact}
+            isPhone={isPhone}
             progress={this.state.playbackProgress}
-            onSeek={this.handleSeek}
+            duration={this.state.mediaDuration}
+            markers={markers}
             currentLoop={this.props.currentLoop}
+            loopIsEnabled={this.props.loopIsEnabled}
+            tempo={this.state.playbackRate}
+            connectedDevices={this.props.connectedDevices}
+            onPreviousPress={this.handlePreviousPress}
+            onBackPress={this.handleBackPress}
+            onPlayPausePress={this.handlePlayPausePress}
+            onForwardPress={this.handleForwardPress}
+            onNextPress={this.handleNextPress}
+            onSeek={this.handleSeek}
+            onMarkerPress={this.handleMarkerPress}
+            onMarkerLongPress={this.handleMarkerLongPress}
+            onSelectTempo={this.handleSelectTempo}
+            onLoopEnable={this.handleLoopEnable}
+            onLoopBegin={this.handleLoopBegin}
+            onLoopEnd={this.handleLoopEnd}
+            onSetCurrentLoop={this.handleSetCurrentLoop}
+            onClearCurrentLoop={this.props.clearCurrentLoop}
+            onPrevStep={this.handlePrevStep}
+            onNextStep={this.handleNextStep}
+            onDisplayInfo={this.handleDisplayInfoAlert}
           />
-        </View>
+        ) : (
+          <View style={{ flex: 1 }}>
+            <PlaybackVideoPrimary
+              mediaId={mediaId}
+              title={mediaTitle}
+              tempo={this.state.playbackRate}
+              progress={this.state.playbackProgress}
+              duration={this.state.mediaDuration}
+              markers={markers}
+              isPlaying={this.state.isPlaying}
+              isPhone={isPhone}
+              onVideoLoad={this.handleVideoLoad}
+              onProgress={this.handleProgress}
+              onEnd={this.handleEnd}
+              onError={this.handleError}
+              onPlayerRegister={this.handlePlayerRegister}
+              onPreviousPress={this.handlePreviousPress}
+              onBackPress={this.handleBackPress}
+              onPlayPausePress={this.handlePlayPausePress}
+              onForwardPress={this.handleForwardPress}
+              onNextPress={this.handleNextPress}
+              onMarkerPress={this.handleMarkerPress}
+            />
+            {/* <PlaybackTimeline
+              progress={this.state.playbackProgress}
+              duration={this.state.mediaDuration}
+              currentLoop={this.props.currentLoop}
+              loopIsEnabled={this.props.loopIsEnabled}
+              onSeek={this.handleSeek}
+              onMarkerPress={this.handleMarkerPress}
+              onMarkerLongPress={this.handleMarkerLongPress}
+              onLoopEnable={this.handleLoopEnable}
+            /> */}
+            {/* <PlaybackSecondary
+              mediaId={mediaId}
+              tempo={this.state.playbackRate}
+              loopIsEnabled={this.props.loopIsEnabled}
+              isPhone={isPhone}
+              currentLoop={this.props.currentLoop}
+              connectedDevices={this.props.connectedDevices}
+              onSelectTempo={this.handleSelectTempo}
+              onLoopEnable={this.handleLoopEnable}
+              onLoopBegin={this.handleLoopBegin}
+              onLoopEnd={this.handleLoopEnd}
+              onSetCurrentLoop={this.handleSetCurrentLoop}
+              onClearCurrentLoop={this.props.clearCurrentLoop}
+              onPrevStep={this.handlePrevStep}
+              onNextStep={this.handleNextStep}
+              onDisplayInfo={this.handleDisplayInfoAlert}
+            /> */}
+          </View>
+        )}
       </View>
     );
   }
@@ -107,6 +175,10 @@ class Vid extends React.Component {
   componentWillReceiveProps(newProps) {
     this.handleNewVideo();
   }
+
+  handlePlayerRegister = player => {
+    this.player = player;
+  };
 
   // DATA METHODS
 
@@ -245,6 +317,13 @@ class Vid extends React.Component {
   };
 
   // TIMELINE METHODS
+
+  handleMarkerPress = time => {
+    this.props.clearCurrentLoop();
+    this.setState({
+      seek: time
+    });
+  };
 
   handleSeek = progress => {
     const time = progress * this.state.mediaDuration;

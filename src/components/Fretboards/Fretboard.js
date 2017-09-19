@@ -23,10 +23,12 @@ class Fretboard extends React.Component {
       isPhone,
       isSmart,
       isHidingLabels,
+      showSmart,
       boardWidth,
       setSmartTrack,
       clearSmartTrack
     } = this.props;
+
     return (
       <View
         style={{
@@ -34,7 +36,7 @@ class Fretboard extends React.Component {
           backgroundColor: "#E6D9B9"
         }}
       >
-        {isHidingLabels !== true && (
+        {!isHidingLabels && (
           <View
             style={{ flexDirection: "row", justifyContent: "space-between" }}
           >
@@ -47,20 +49,22 @@ class Fretboard extends React.Component {
               {isSmart ? " " : track.name || " "}
             </Text>
 
-            <TouchableOpacity
-              style={{
-                marginRight: isSmart ? 10 : 0,
-                marginBottom: isSmart ? 10 : 5
-              }}
-              onPress={() => {
-                isSmart ? clearSmartTrack() : setSmartTrack(track);
-              }}
-            >
-              <SmartFretText
-                color={PrimaryBlue}
-                size={isSmart ? isPhone ? 16 : 20 : isPhone ? 13 : 17}
-              />
-            </TouchableOpacity>
+            {showSmart && (
+              <TouchableOpacity
+                style={{
+                  marginRight: isSmart ? 10 : 0,
+                  marginBottom: isSmart ? 10 : 5
+                }}
+                onPress={() => {
+                  isSmart ? clearSmartTrack() : setSmartTrack(track);
+                }}
+              >
+                <SmartFretText
+                  color={PrimaryBlue}
+                  size={isSmart ? isPhone ? 16 : 20 : isPhone ? 13 : 17}
+                />
+              </TouchableOpacity>
+            )}
           </View>
         )}
 

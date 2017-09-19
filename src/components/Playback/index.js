@@ -47,7 +47,6 @@ class MediaPlayer extends Component {
           <Video
             video={this.props.video}
             height={this.state.layout.height}
-            markers={this.props.makers}
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
             updateTime={this.props.updateTime}

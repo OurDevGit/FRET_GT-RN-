@@ -30,6 +30,7 @@ class VerticalContainer extends React.Component {
         <Fretboard
           isPhone={this.props.isPhone}
           key={track.get("name")}
+          showSmart={track.get("name") !== ""}
           track={track.toJS()}
           isSmart={false}
           boardWidth={this.state.width}
