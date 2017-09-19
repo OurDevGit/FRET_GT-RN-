@@ -1,7 +1,8 @@
 import React from "react";
 import { View } from "react-native";
-import { realmify } from "../../realm";
+import InAppBilling from "react-native-billing";
 
+import { realmify } from "../../realm";
 import { syncStore } from "../../Store";
 
 import Categories from "./Categories";
@@ -9,7 +10,20 @@ import SubCategories from "./SubCategories";
 import Media from "./Media";
 import { StoreDark, StoreLight, LibraryDark, LibraryLight } from "../../design";
 
-const testPurchase = media => {};
+const makePurchase = media => {
+  console.debug(media);
+
+  InAppBilling.open()
+    .then(() => InAppBilling.purchase(media.mediaID.toLowerCase()))
+    .then(details => {
+      console.log("You purchased: ", details);
+      return InAppBilling.close();
+    })
+    .catch(err => {
+      InAppBilling.close();
+      console.log(err);
+    });
+};
 
 class Store extends React.PureComponent {
   state = {
@@ -78,7 +92,8 @@ class Store extends React.PureComponent {
   };
 
   handleChooseMedia = media => {
-    testPurchase(media);
+    console.debug(`chose media: ${media.title}`);
+    makePurchase(media);
   };
 
   render() {
@@ -110,13 +125,14 @@ class Store extends React.PureComponent {
           style={{ flexGrow: 1 }}
           media={this.state.media}
           onIsStoreChange={this.handleIsStoreChange}
+          onChoose={this.handleChooseMedia}
         />
       </View>
     );
   }
 
   componentDidMount() {
-    // syncStore();
+    syncStore();
   }
 
   componentWillReceiveProps(newProps) {

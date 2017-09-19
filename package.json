@@ -1,14 +1,19 @@
 {
   "name": "GuitarTunes",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "private": true,
   "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "start":
+      "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "test": "jest",
-    "stylekit": "node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
-    "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd ..",
-    "cleanjs": "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
-    "build": "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
+    "stylekit":
+      "node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
+    "clean":
+      "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd ..",
+    "cleanjs":
+      "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
+    "build":
+      "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
     "run": "react-native run-android",
     "runrel": "react-native run-android --variant=release"
   },

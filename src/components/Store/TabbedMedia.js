@@ -8,10 +8,13 @@ import {
   Animated,
   I18nManager
 } from "react-native";
-import MediaItem from "./MediaItem";
-import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
-import { StoreDark, LibraryDark } from "../../design";
+
 import InAppBilling from "react-native-billing";
+import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
+import _ from "lodash";
+
+import MediaItem from "./MediaItem";
+import { StoreDark, LibraryDark } from "../../design";
 
 const renderHeader = props => {
   return (
@@ -116,7 +119,9 @@ class TabbedMedia extends PureComponent {
         subtitle={item.artist}
         artworkURL={item.artworkURL}
         price={this.priceForProduct(item.mediaID)}
-        onPress={() => this.props.onChoose(item)}
+        onPress={() => {
+          this.props.onChoose(item);
+        }}
       />
     );
   };
@@ -136,30 +141,50 @@ class TabbedMedia extends PureComponent {
     </View>
   );
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.media.length > 0) {
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.media.length > 0) {
       // const mediaIds = ["4_non_blondes_whats_up", "smashing_pumpkins_1979"];
 
-      const mediaIds = []; //newProps.media.map(o => o.mediaID.toLowerCase());
+      const allMedia = _.flatMap(nextProps.media, m => _.toArray(m.data));
+      const mediaIds = allMedia.map(o => o.mediaID.toLowerCase());
 
-      if (this.state.billingChannelIsOpen === false) {
+      if (this.state.billingChannelIsOpen !== true) {
+        console.debug(mediaIds);
+        console.debug("going to get prices and info");
         this.setState({ billingChannelIsOpen: true });
 
-        // InAppBilling.open()
-        //   .then(() => InAppBilling.getProductDetailsArray(mediaIds))
-        //   .then(details => {
-        //     // console.debug(details);
-        //     InAppBilling.close();
-        //     this.setState({
-        //       billingChannelIsOpen: false,
-        //       productDetailsById: normalizeProductDetails(details)
-        //     });
-        //   })
-        //   .catch(err => {
-        //     console.error(err);
-        //     InAppBilling.close();
-        //     this.setState({ billingChannelIsOpen: false });
-        //   });
+        InAppBilling.open()
+          .then(() => InAppBilling.loadOwnedPurchasesFromGoogle())
+          .then(lopResults => {
+            console.debug({ lopResults });
+          })
+          .then(() => InAppBilling.getProductDetailsArray(mediaIds))
+          .then(details => {
+            console.debug(details);
+
+            InAppBilling.getProductDetails(mediaIds[1])
+              .then(details => {
+                console.debug({ details });
+              })
+              .then(() => {
+                InAppBilling.close().then(() => {
+                  this.setState({ billingChannelIsOpen: false });
+                });
+              });
+
+            this.setState({
+              productDetailsById: normalizeProductDetails(details)
+            });
+          })
+          .catch(err => {
+            console.debug("error getting IAP details");
+            console.error(err);
+            InAppBilling.close().then(() => {
+              this.setState({ billingChannelIsOpen: false });
+            });
+          });
+      } else {
+        console.debug("billing channel is already open");
       }
     }
   }
