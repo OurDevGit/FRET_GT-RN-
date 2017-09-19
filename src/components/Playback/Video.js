@@ -17,9 +17,9 @@ import Midi from "./Midi";
 import {
   loadMidi,
   clearMidi,
-  allChapters,
+  flattenedChapters,
   chapterForTime,
-  allMarkers,
+  flattenedMarkers,
   markerForTime,
   midiForTime,
   midiOffsetForTime
@@ -68,8 +68,7 @@ class Vid extends React.Component {
     const mediaId = this.props.video !== undefined ? this.props.video.id : "";
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
-    const markers = allChapters();
-    console.log("rendering video");
+    const markers = flattenedChapters(this.state.chapters);
 
     return (
       <View
@@ -86,13 +85,13 @@ class Vid extends React.Component {
           borderRadius: 6
         }}
       >
-        <Midi
+        {/* <Midi
           midi={this.state.currentMidiFile}
           onData={this.props.updateMidiData}
           clearMidiData={this.props.clearMidiData}
           clearMidi={clearMidi}
           loadMidi={loadMidi}
-        />
+        /> */}
 
         {isPhone || this.state.isFullscreen ? (
           <FullVideoModal
@@ -224,7 +223,7 @@ class Vid extends React.Component {
         this.setState({
           title: j.name || "",
           chapters: j.chapters || [],
-          markers: allMarkers(j.chapters || []),
+          markers: flattenedMarkers(j.chapters || []),
           midiFiles: j.midiTimes || [],
           quickLoops: j.quickLoops || []
         });
@@ -267,6 +266,15 @@ class Vid extends React.Component {
     }
   };
 
+  goToTime = time => {
+    this.player.seek(time);
+
+    if (!this.state.isPlaying) {
+      this.playbackSeconds = time;
+      this.props.updateTime(time);
+    }
+  };
+
   // PLAYBACK METHODS
 
   handlePreviousPress = () => {
@@ -274,11 +282,11 @@ class Vid extends React.Component {
     const seconds = this.playbackSeconds;
 
     if (markers.count() === 0 || markers.first().time > seconds) {
-      this.player.seek(0);
+      this.goToTime(0);
     } else {
       for (let marker of markers.reverse()) {
         if (marker.time + 1 < seconds) {
-          this.player.seek(marker.time);
+          this.goToTime(marker.time);
           break;
         }
       }
@@ -286,7 +294,7 @@ class Vid extends React.Component {
   };
 
   handleBackPress = () => {
-    this.player.seek(this.playbackSeconds - 5);
+    this.goToTime(this.playbackSeconds - 5);
   };
 
   handlePlayPausePress = () => {
@@ -297,7 +305,7 @@ class Vid extends React.Component {
   };
 
   handleForwardPress = () => {
-    this.player.seek(this.playbackSeconds + 30);
+    this.goToTime(this.playbackSeconds + 30);
   };
 
   handleNextPress = marker => {
@@ -305,11 +313,11 @@ class Vid extends React.Component {
     const seconds = this.playbackSeconds;
 
     if (markers.count() === 0 || markers.last().time < seconds) {
-      this.player.seek(0);
+      this.goToTime(0);
     } else {
       for (let marker of markers) {
         if (marker.time > seconds) {
-          this.player.seek(marker.time);
+          this.goToTime(marker.time);
           break;
         }
       }
@@ -319,13 +327,14 @@ class Vid extends React.Component {
   // TIMELINE METHODS
 
   handleMarkerPress = time => {
-    this.props.clearCurrentLoop();
-    this.player.seek(time);
+    console.log(time);
+    //this.props.clearCurrentLoop();
+    this.goToTime(time);
   };
 
   handleSeek = progress => {
     const time = progress * this.state.mediaDuration;
-    this.player.seek(time);
+    this.goToTime(time);
   };
 
   // TEMPO METHODS
@@ -363,7 +372,7 @@ class Vid extends React.Component {
 
   handleSetCurrentLoop = loop => {
     const begin = loop.get("begin");
-    this.player.seek(begin);
+    this.goToTime(begin);
     this.props.setCurrentLoop(loop);
   };
 
@@ -387,7 +396,7 @@ class Vid extends React.Component {
       loopIsEnabled
     );
 
-    this.player.seek(time);
+    this.goToTime(time);
   };
 
   handleNextStep = () => {
@@ -399,7 +408,7 @@ class Vid extends React.Component {
       loopIsEnabled
     );
 
-    this.player.seek(time);
+    this.goToTime(time);
   };
 
   handleEnd = () => {
@@ -408,7 +417,7 @@ class Vid extends React.Component {
       paused: true
     });
 
-    this.player.seek(0);
+    this.goToTime(0);
   };
 
   handleVideoClose = () => {};

@@ -1,63 +1,73 @@
+import { createSelector } from "reselect";
+
+const getTimeSelector = state => state.get("time");
+const getMarkersSelector = (_, props) => props.markers;
+
 // CHAPTERS
 
-export const allChapters = chapters => {
-  var chaps = [];
+exports.flattenedChapters = chapters => {
+  return chapters.reduce((acc, chapter) => {
+    const { name } = chapter;
+    var type = "chapter";
+    var begin,
+      end = 0;
 
-  for (var key in chapters) {
-    if (chapters.hasOwnProperty(key)) {
-      var element = chapters[key];
-      chaps = chaps.concat(
-        element.children.map(child => {
-          return {
-            ...child,
-            name: `   ${child.name}`
-          };
-        })
-      );
+    const markers = chapter.children.reduce((acc2, marker) => {
+      const { name, begin, end } = marker;
+      var type = "marker";
+      return acc2.concat({ type, name, begin, end });
+    }, []);
+
+    if (markers.length > 0) {
+      const lastIndex = markers.length - 1;
+      begin = markers[0].begin;
+      end = markers[lastIndex].end;
     }
-  }
 
-  return chaps;
+    return acc.concat([{ type, name, begin, end }, ...markers]);
+  }, []);
 };
 
-export const chapterForTime = (time, chapters) => {
-  const allChaps = allChapters(chapters);
-  for (var key in allChaps) {
-    if (allChaps.hasOwnProperty(key)) {
-      var element = allChaps[key];
-      if (element.begin <= time && element.end >= time) {
-        return element;
-      }
-    }
-  }
+exports.chapterForTime = createSelector(
+  getTimeSelector,
+  getMarkersSelector,
+  (time, markers) => {
+    const matching = markers.filter(
+      item => item.type === "chapter" && item.end >= time
+    );
 
-  return {};
-};
+    return matching[0];
+  }
+);
 
 // MARKERS
 
-export const allMarkers = chapters => {
+exports.flattenedMarkers = chapters => {
   return chapters.reduce((acc, chapter, index) => {
     return acc.concat(chapter.children);
   }, []);
 };
 
-export const markerForTime = (time, markers) => {
-  const matching = markers.filter(
-    item => item.begin <= time && item.end >= time
-  );
-
-  return matching[0];
-};
+exports.markerForTime = createSelector(
+  getTimeSelector,
+  getMarkersSelector,
+  (time, markers) => {
+    const matching = markers.filter(
+      item => item.type === "marker" && item.begin <= time && item.end >= time
+    );
+    // console.log("marker", time, matching);
+    return matching[0];
+  }
+);
 
 // MIDI
 
-export const midiForTime = (time, midis) => {
+exports.midiForTime = (time, midis) => {
   const matching = midis.filter(item => item.begin <= time && item.end >= time);
   return matching[0];
 };
 
-export const midiOffsetForTime = (time, midis, markers) => {
+exports.midiOffsetForTime = (time, midis, markers) => {
   const midi = midiForTime(time, midis);
   const marker = markerForTime(time, markers);
   var midiTime = time;
