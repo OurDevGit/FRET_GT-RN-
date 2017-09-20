@@ -23,6 +23,7 @@ import {
 } from "../../selectors";
 
 this.playbackSeconds = 0.0;
+var controlFaderId = 0;
 
 class Vid extends React.Component {
   state = {
@@ -38,7 +39,8 @@ class Vid extends React.Component {
     currentMidiFile: null,
     title: "Loading...",
     quickLoops: [],
-    isFullscreen: false
+    isFullscreen: false,
+    areControlsVisible: true
   };
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -55,7 +57,8 @@ class Vid extends React.Component {
       this.state.currentMidiFile !== nextState.currentMidiFile ||
       this.state.title !== nextState.title ||
       this.state.quickLoops !== nextState.quickLoops ||
-      this.state.isFullscreen !== nextState.isFullscreen
+      this.state.isFullscreen !== nextState.isFullscreen ||
+      this.state.areControlsVisible !== nextState.areControlsVisible
     );
   }
 
@@ -98,6 +101,7 @@ class Vid extends React.Component {
             isPlaying={this.state.isPlaying}
             isCompact={isCompact}
             isPhone={isPhone}
+            areControlsVisible={this.state.areControlsVisible}
             duration={this.state.mediaDuration}
             markers={markers}
             currentLoop={this.props.currentLoop}
@@ -121,6 +125,7 @@ class Vid extends React.Component {
             onPrevStep={this.handlePrevStep}
             onNextStep={this.handleNextStep}
             onDisplayInfo={this.handleDisplayInfoAlert}
+            onDisplayControls={this.handleDisplayControls}
           />
         ) : (
           <View style={{ width: "100%", height: "100%" }}>
@@ -132,6 +137,7 @@ class Vid extends React.Component {
               markers={markers}
               isPlaying={this.state.isPlaying}
               isPhone={isPhone}
+              areControlsVisible={this.state.areControlsVisible}
               onVideoLoad={this.handleVideoLoad}
               onProgress={this.handleProgress}
               onEnd={this.handleEnd}
@@ -143,6 +149,7 @@ class Vid extends React.Component {
               onForwardPress={this.handleForwardPress}
               onNextPress={this.handleNextPress}
               onMarkerPress={this.handleMarkerPress}
+              onDisplayControls={this.handleDisplayControls}
             />
             <PlaybackTimeline
               duration={this.state.mediaDuration}
@@ -212,6 +219,7 @@ class Vid extends React.Component {
   };
 
   loadJSON = fileName => {
+    this.handleDisplayControls();
     const path = RNFetchBlob.fs.asset(fileName);
     RNFetchBlob.fs
       .readFile(path, "utf8")
@@ -266,6 +274,7 @@ class Vid extends React.Component {
 
   goToTime = time => {
     this.player.seek(time);
+    this.handleDisplayControls();
 
     if (!this.state.isPlaying) {
       this.playbackSeconds = time;
@@ -419,6 +428,22 @@ class Vid extends React.Component {
   };
 
   handleVideoClose = () => {};
+
+  handleDisplayControls = () => {
+    if (this.state.areControlsVisible) {
+      this.setState({ areControlsVisible: false });
+    } else {
+      controlFaderId += 1;
+      var faderId = controlFaderId;
+      this.setState({ areControlsVisible: true });
+
+      setTimeout(() => {
+        if (faderId === controlFaderId) {
+          this.setState({ areControlsVisible: false });
+        }
+      }, 3000);
+    }
+  };
 }
 
 Vid.propTypes = {

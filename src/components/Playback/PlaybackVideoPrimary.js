@@ -23,6 +23,7 @@ class PlaybackVideoPrimary extends React.Component {
       title,
       tempo,
       isPlaying,
+      areControlsVisible,
       isPhone,
       markers,
       duration,
@@ -36,7 +37,8 @@ class PlaybackVideoPrimary extends React.Component {
       onPlayPausePress,
       onForwardPress,
       onNextPress,
-      onMarkerPress
+      onMarkerPress,
+      onDisplayControls
     } = this.props;
 
     return (
@@ -123,49 +125,62 @@ class PlaybackVideoPrimary extends React.Component {
             onTimedMetadata={metaData => console.log({ metaData })}
           />
 
-          <View
+          <TouchableOpacity
             style={{
               position: "absolute",
               top: 0,
               left: 0,
               width: "100%",
-              height: "100%",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center"
+              height: "100%"
             }}
-          >
-            <BtnPrevious
-              style={buttonStyle}
-              color={"#FFFFFF"}
-              onPress={onPreviousPress}
-            />
+            onPress={onDisplayControls}
+          />
 
-            <BtnRewind
-              style={buttonStyle}
-              color={"#FFFFFF"}
-              onPress={onBackPress}
-            />
+          {areControlsVisible && (
+            <View
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              <BtnPrevious
+                style={buttonStyle}
+                color={"#FFFFFF"}
+                onPress={onPreviousPress}
+              />
 
-            <BtnPlay
-              isShowingPause={isPlaying}
-              style={buttonStyle}
-              color={"#FFFFFF"}
-              onPress={onPlayPausePress}
-            />
+              <BtnRewind
+                style={buttonStyle}
+                color={"#FFFFFF"}
+                onPress={onBackPress}
+              />
 
-            <BtnForward
-              style={buttonStyle}
-              color={"#FFFFFF"}
-              onPress={onForwardPress}
-            />
+              <BtnPlay
+                isShowingPause={isPlaying}
+                style={buttonStyle}
+                color={"#FFFFFF"}
+                onPress={onPlayPausePress}
+              />
 
-            <BtnNext
-              style={buttonStyle}
-              color={"#FFFFFF"}
-              onPress={onNextPress}
-            />
-          </View>
+              <BtnForward
+                style={buttonStyle}
+                color={"#FFFFFF"}
+                onPress={onForwardPress}
+              />
+
+              <BtnNext
+                style={buttonStyle}
+                color={"#FFFFFF"}
+                onPress={onNextPress}
+              />
+            </View>
+          )}
         </View>
 
         <VideoMarkersTable
@@ -195,6 +210,7 @@ PlaybackVideoPrimary.propTypes = {
   duration: PropTypes.number,
   isPlaying: PropTypes.bool,
   isPhone: PropTypes.bool,
+  areControlsVisible: PropTypes.bool,
   onLoad: PropTypes.func,
   onProgress: PropTypes.func,
   onEnd: PropTypes.func,
@@ -205,7 +221,8 @@ PlaybackVideoPrimary.propTypes = {
   onPlayPausePress: PropTypes.func,
   onForwardPress: PropTypes.func,
   onNextPress: PropTypes.func,
-  onMarkerPress: PropTypes.func
+  onMarkerPress: PropTypes.func,
+  onDisplayControls: PropTypes.func
 };
 
 export default pure(PlaybackVideoPrimary);
