@@ -55,7 +55,7 @@ class PlaybackVideoPrimary extends React.Component {
           style={{
             flex: 1,
             flexDirection: "column",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "flex-start",
             marginRight: 30
           }}
@@ -76,12 +76,11 @@ class PlaybackVideoPrimary extends React.Component {
               width: "100%",
               marginRight: 6,
               flexDirection: "column",
-              justifyContent: "center"
+              justifyContent: "flex-end"
             }}
           >
             <Slider
               style={{
-                marginTop: 20,
                 width: "100%",
                 height: 44
               }}
@@ -89,7 +88,7 @@ class PlaybackVideoPrimary extends React.Component {
             <Text
               style={{
                 position: "absolute",
-                top: 10,
+                bottom: 40,
                 width: "100%",
                 color: PrimaryBlue,
                 fontSize: isPhone ? 14 : 18,
