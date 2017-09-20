@@ -227,6 +227,8 @@ BtnMyLoopsModal.propTypes = {
   mediaId: PropTypes.string.isRequired,
   loops: PropTypes.object,
   currentLoop: PropTypes.object.isRequired,
+  color: PropTypes.string.isRequired,
+  isPhone: PropTypes.bool.isRequired,
   onSetCurrentLoop: PropTypes.func.isRequired
 };
 

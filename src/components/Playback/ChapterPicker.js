@@ -1,16 +1,18 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Picker } from "react-native";
 import { allChapters } from "./ChapterSelectors";
 
-const ChapterPicker = ({ chapters, currentChapter, onChange }) =>
+const ChapterPicker = ({ chapters, currentChapter, onChange }) => (
   <Picker
     selectedValue={currentChapter}
     onValueChange={onChange}
     mode="dropdown"
   >
-    {allChapters(chapters).map(chappy =>
+    {allChapters(chapters).map(chappy => (
       <Picker.Item label={chappy.name} value={chappy} key={chappy.uniqueId} />
-    )}
-  </Picker>;
+    ))}
+  </Picker>
+);
 
 export default ChapterPicker;

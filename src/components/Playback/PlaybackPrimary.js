@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
 import { pure } from "recompose";
 import { PrimaryBlue, playerBackground } from "../../design";

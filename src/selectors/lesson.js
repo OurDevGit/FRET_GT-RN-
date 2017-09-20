@@ -32,11 +32,15 @@ exports.chapterForTime = createSelector(
   getTimeSelector,
   getMarkersSelector,
   (time, markers) => {
-    const matching = markers.filter(
-      item => item.type === "chapter" && item.end >= time
-    );
+    if (markers === undefined) {
+      return undefined;
+    } else {
+      const matching = markers.filter(
+        item => item.type === "chapter" && item.end >= time
+      );
 
-    return matching[0];
+      return matching[0];
+    }
   }
 );
 
@@ -52,10 +56,14 @@ exports.markerForTime = createSelector(
   getTimeSelector,
   getMarkersSelector,
   (time, markers) => {
-    const matching = markers.filter(
-      item => item.type === "marker" && item.begin <= time && item.end >= time
-    );
-    return matching[0];
+    if (markers === undefined) {
+      return undefined;
+    } else {
+      const matching = markers.filter(
+        item => item.type === "marker" && item.begin <= time && item.end >= time
+      );
+      return matching[0];
+    }
   }
 );
 

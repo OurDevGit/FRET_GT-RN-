@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { View } from "react-native";
 
 const bar = { position: "absolute", width: "100%", height: "100%" };
@@ -67,5 +68,9 @@ const FretboardMarkers = ({ fret }) => (
     {markers(fret)}
   </View>
 );
+
+FretboardMarkers.propTypes = {
+  fret: PropTypes.number.isRequired
+};
 
 export default FretboardMarkers;

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { View } from "react-native";
 import FretMarkers from "./FretboardMarkers";
@@ -46,5 +47,11 @@ const FretboardFretBackground = ({ track, isSmart, boardWidth }) => (
     {frets(track, isSmart, boardWidth)}
   </View>
 );
+
+FretboardFretBackground.propTypes = {
+  track: PropTypes.object.isRequired,
+  isSmart: PropTypes.bool.isRequired,
+  boardWidth: PropTypes.number.isRequired
+};
 
 export default FretboardFretBackground;

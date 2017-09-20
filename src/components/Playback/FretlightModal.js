@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native";
 import { PrimaryBlue } from "../../design";
 import { BtnLoopDelete } from "../StyleKit";
@@ -17,7 +18,7 @@ const separator = () => {
   );
 };
 
-const FretlightStatusModal = ({ isVisible, connectedDevices, onDismiss }) =>
+const FretlightStatusModal = ({ isVisible, connectedDevices, onDismiss }) => (
   <Modal
     animationType={"fade"}
     transparent={true}
@@ -95,6 +96,7 @@ const FretlightStatusModal = ({ isVisible, connectedDevices, onDismiss }) =>
         </View>
       </View>
     </View>
-  </Modal>;
+  </Modal>
+);
 
 export default FretlightStatusModal;

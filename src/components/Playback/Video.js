@@ -11,7 +11,6 @@ import PlaybackSecondary from "./PlaybackSecondary";
 import { FullVideoModal } from "../modals";
 import { playerBackground } from "../../design";
 
-import VideoOverlay from "./VideoOverlay";
 import Midi from "./Midi";
 
 import {

@@ -176,7 +176,9 @@ class SmartFretModal extends React.Component {
           <Fretboard
             track={this.props.track}
             isSmart={true}
+            isPhone={this.props.isPhone}
             isHidingLabels={this.props.isPhone}
+            showSmart={!this.props.isPhone}
             boardWidth={boardWidth}
             style={{
               width: boardWidth,
@@ -208,6 +210,7 @@ SmartFretModal.propTypes = {
   mediaTitle: PropTypes.string.isRequired,
   trackCount: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
+  isPhone: PropTypes.bool.isRequired,
   progress: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
   markers: PropTypes.object.isRequired,

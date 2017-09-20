@@ -1,8 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 import { pure } from "recompose";
 
-import RatePicker from "../RatePicker";
 import { BtnTempoModal, BtnMyLoopsModal } from "../../modals";
 import { PrimaryBlue } from "../../../design";
 import {

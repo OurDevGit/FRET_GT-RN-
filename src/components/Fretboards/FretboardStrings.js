@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { View } from "react-native";
 
 const strings = (track, boardWidth) => {
@@ -39,7 +40,7 @@ const strings = (track, boardWidth) => {
   return views;
 };
 
-const FretboardStrings = ({ track, boardWidth }) =>
+const FretboardStrings = ({ track, boardWidth }) => (
   <View
     style={{
       position: "absolute",
@@ -53,6 +54,12 @@ const FretboardStrings = ({ track, boardWidth }) =>
     }}
   >
     {strings(track, boardWidth)}
-  </View>;
+  </View>
+);
+
+FretboardStrings.propTypes = {
+  track: PropTypes.object.isRequired,
+  boardWidth: PropTypes.number.isRequired
+};
 
 export default FretboardStrings;

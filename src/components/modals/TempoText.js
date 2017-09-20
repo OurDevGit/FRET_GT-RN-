@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Text, View } from "react-native";
 import { BtnPhoneTempo } from "../StyleKit";
 
@@ -81,3 +82,10 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
     )}
   </View>
 ));
+
+TempoText.propTypes = {
+  color: PropTypes.string.isRequired,
+  tempo: PropTypes.number.isRequired,
+  isPhone: PropTypes.bool.isRequired,
+  withTitle: PropTypes.bool.isRequired
+};

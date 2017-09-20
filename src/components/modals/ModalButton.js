@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { TouchableOpacity } from "react-native";
 
 class ModalButton extends React.Component {
@@ -17,5 +18,10 @@ class ModalButton extends React.Component {
     });
   };
 }
+
+ModalButton.propTypes = {
+  children: PropTypes.array.isRequired,
+  onPress: PropTypes.func.isRequired
+};
 
 export default ModalButton;

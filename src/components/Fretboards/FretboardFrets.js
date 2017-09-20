@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { View, Text } from "react-native";
 import FretboardNote from "./FretboardNote";
 
@@ -102,5 +103,13 @@ const FretboardFrets = ({
     {frets(track, isSmart, boardWidth, fretHeight)}
   </View>
 );
+
+FretboardFrets.propTypes = {
+  track: PropTypes.object.isRequired,
+  isSmart: PropTypes.bool.isRequired,
+  boardWidth: PropTypes.number.isRequired,
+  fretHeight: PropTypes.number.isRequired,
+  onLayout: PropTypes.func.isRequired
+};
 
 export default FretboardFrets;

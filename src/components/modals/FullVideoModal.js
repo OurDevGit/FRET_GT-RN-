@@ -202,7 +202,7 @@ class FullVideoModal extends React.Component {
   }
 }
 
-SmartFretModal.propTypes = {
+FullVideoModal.propTypes = {
   track: PropTypes.object,
   mediaId: PropTypes.string.isRequired,
   mediaTitle: PropTypes.string.isRequired,

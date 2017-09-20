@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { View } from "react-native";
 import { List, Map } from "immutable";
 import Dimensions from "Dimensions";
@@ -13,9 +14,9 @@ class FretboardsRoot extends React.PureComponent {
 
   render() {
     const {
-      supportsMultipleFretboards,
       deviceWidth,
       deviceHeight,
+      supportsMultipleFretboards,
       tracks,
       visibleTracks
     } = this.props;
@@ -88,6 +89,14 @@ const mapStateToProps = state => {
     tracks: state.get("guitarTracks"),
     visibleTracks: state.get("visibleTracks")
   };
+};
+
+FretboardsRoot.propTypes = {
+  deviceWidth: PropTypes.number.isRequired,
+  deviceHeight: PropTypes.number.isRequired,
+  supportsMultipleFretboards: PropTypes.bool.isRequired,
+  tracks: PropTypes.object,
+  visibleTracks: PropTypes.object
 };
 
 export default connect(mapStateToProps, null)(FretboardsRoot);

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { View } from "react-native";
 import PageControl from "react-native-page-control";
 import Fretboard from "./Fretboard";
@@ -62,5 +63,11 @@ class VerticalContainer extends React.Component {
     });
   }
 }
+
+VerticalContainer.propTypes = {
+  isPhone: PropTypes.bool.isRequired,
+  deviceWidth: PropTypes.number.isRequired,
+  tracks: PropTypes.object
+};
 
 export default VerticalContainer;

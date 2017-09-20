@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { View, Button, Text, TouchableOpacity } from "react-native";
 import { PrimaryBlue } from "../../design";
 import MarkerFull from "./MarkerFull";

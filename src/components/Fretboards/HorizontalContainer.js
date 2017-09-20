@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
 import PageControl from "react-native-page-control";
 import Fretboard from "./Fretboard";
@@ -7,7 +8,7 @@ import Fretboard from "./Fretboard";
 const keyExtractor = (item, index) => index;
 const emptyTrack = { name: undefined, isBass: false };
 
-class FretboardsContainer extends React.Component {
+class HorizontalContainer extends React.Component {
   state = {
     height: 0,
     width: 0
@@ -87,4 +88,12 @@ class FretboardsContainer extends React.Component {
   }
 }
 
-export default FretboardsContainer;
+HorizontalContainer.propTypes = {
+  isPhone: PropTypes.bool.isRequired,
+  deviceWidth: PropTypes.number.isRequired,
+  tracks: PropTypes.array.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  onScrollEnd: PropTypes.func.isRequired
+};
+
+export default HorizontalContainer;

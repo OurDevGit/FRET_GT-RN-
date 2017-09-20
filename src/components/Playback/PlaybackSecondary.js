@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { pure } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 import {
@@ -64,6 +65,7 @@ const PlaybackSecondary = ({
   >
     <BtnTempoModal
       currentTempo={tempo}
+      color={"#222222"}
       isPhone={isPhone}
       onSelectTempo={onSelectTempo}
     />

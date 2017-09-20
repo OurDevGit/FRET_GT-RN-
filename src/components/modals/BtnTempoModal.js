@@ -145,4 +145,11 @@ const tempos = [
   0.1
 ];
 
+BtnTempoModal.propTypes = {
+  currentTempo: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
+  isPhone: PropTypes.bool.isRequired,
+  onSelectTempo: PropTypes.func.isRequired
+};
+
 export default BtnTempoModal;

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Text, View } from "react-native";
 
-export default (SmartFretText = ({ color, size, trackName }) =>
+export default (SmartFretText = ({ color, size, trackName }) => (
   <View
     style={{
       height: size + 2,
@@ -31,7 +32,7 @@ export default (SmartFretText = ({ color, size, trackName }) =>
       Fretboard™
     </Text>
 
-    {trackName &&
+    {trackName && (
       <Text
         style={{
           height: "100%",
@@ -42,5 +43,13 @@ export default (SmartFretText = ({ color, size, trackName }) =>
         }}
       >
         for {trackName}
-      </Text>}
-  </View>);
+      </Text>
+    )}
+  </View>
+));
+
+SmartFretText.propTypes = {
+  color: PropTypes.string.isRequired,
+  size: PropTypes.number.isRequired,
+  trackName: PropTypes.string
+};

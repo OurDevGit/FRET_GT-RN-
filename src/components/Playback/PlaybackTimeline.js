@@ -66,7 +66,7 @@ class PlaybackTimeline extends Component {
             left={layout.x}
             width={containerLayout.width}
             height={containerLayout.height - layout.height}
-            duration={duoffsetDurationation}
+            duration={offsetDuration}
             markers={markers}
             onMarkerPress={onMarkerPress}
             onMarkerLongPress={onMarkerLongPress}

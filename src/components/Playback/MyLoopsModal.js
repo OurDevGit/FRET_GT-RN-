@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { FlatList, Modal, Text, TouchableOpacity, View } from "react-native";
 import { PrimaryBlue } from "../../design";
 import { BtnLoopDelete } from "../StyleKit";
@@ -28,7 +29,7 @@ const MyLoopsModal = ({
   onDelete,
   onClear,
   onSelect
-}) =>
+}) => (
   <Modal
     animationType={"fade"}
     transparent={true}
@@ -104,7 +105,7 @@ const MyLoopsModal = ({
           keyExtractor={(item, index) => index}
           data={[...loops, { name: "None" }]}
           ItemSeparatorComponent={separator}
-          renderItem={({ item, index }) =>
+          renderItem={({ item, index }) => (
             <View style={{ width: "100%", height: 40, flexDirection: "row" }}>
               <Text
                 style={{
@@ -123,7 +124,7 @@ const MyLoopsModal = ({
                 ✓
               </Text>
               {isEditing &&
-                item.name !== "None" &&
+              item.name !== "None" && (
                 <BtnLoopDelete
                   style={{
                     width: 30,
@@ -135,7 +136,8 @@ const MyLoopsModal = ({
                   onPress={() => {
                     onDelete(item);
                   }}
-                />}
+                />
+              )}
 
               <TouchableOpacity
                 style={{ flex: 1 }}
@@ -153,10 +155,12 @@ const MyLoopsModal = ({
                   {item.name}
                 </Text>
               </TouchableOpacity>
-            </View>}
+            </View>
+          )}
         />
       </View>
     </View>
-  </Modal>;
+  </Modal>
+);
 
 export default MyLoopsModal;

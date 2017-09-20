@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 
@@ -102,6 +103,18 @@ class Fretboard extends React.Component {
     });
   }
 }
+
+Fretboard.propTypes = {
+  isPhone: PropTypes.bool.isRequired,
+  isHidingLabels: PropTypes.bool,
+  track: PropTypes.object.isRequired,
+  showSmart: PropTypes.bool.isRequired,
+  isSmart: PropTypes.bool.isRequired,
+  boardWidth: PropTypes.number.isRequired,
+  style: PropTypes.object.isRequired,
+  setSmartTrack: PropTypes.func,
+  clearSmartTrack: PropTypes.func
+};
 
 export default connect(undefined, actions)(
   onlyUpdateForKeys(["track", "boardWidth"])(Fretboard)

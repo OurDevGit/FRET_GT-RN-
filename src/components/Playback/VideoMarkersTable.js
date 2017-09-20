@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import {
   View,
   Text,
@@ -7,7 +8,6 @@ import {
   TouchableOpacity,
   StyleSheet
 } from "react-native";
-import PropTypes from "prop-types";
 import { chapterForTime, markerForTime } from "../../selectors";
 
 const styles = StyleSheet.create({

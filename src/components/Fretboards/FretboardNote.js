@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { View, Text } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 import { hasNoteForTimeSelector } from "../../selectors";
@@ -50,6 +51,18 @@ const mapStateToProps = (state, props) => {
   return {
     isVisible: hasNoteForTimeSelector(state, props)
   };
+};
+
+FretboardNote.propTypes = {
+  track: PropTypes.string.isRequired,
+  fret: PropTypes.number.isRequired,
+  frets: PropTypes.number.isRequired,
+  string: PropTypes.number.isRequired,
+  notation: PropTypes.string.isRequired,
+  boardWidth: PropTypes.number.isRequired,
+  fretHeight: PropTypes.number.isRequired,
+  isSmart: PropTypes.bool.isRequired,
+  isVisible: PropTypes.bool.isRequired
 };
 
 export default connect(mapStateToProps, undefined)(

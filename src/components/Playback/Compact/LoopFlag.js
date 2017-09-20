@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { View } from "react-native";
 import { pure } from "recompose";
 import { LoopLeftCompact, LoopRightCompact } from "../../StyleKit";

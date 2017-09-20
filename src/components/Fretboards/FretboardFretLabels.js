@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { View, Text } from "react-native";
 
 const labels = (style, track, isSmart, boardWidth) => {
@@ -40,5 +41,12 @@ const FretboardFretLabels = ({ style, track, isSmart, boardWidth }) => (
     {labels(style, track, isSmart, boardWidth)}
   </View>
 );
+
+FretboardFretLabels.propTypes = {
+  style: PropTypes.object,
+  track: PropTypes.object.isRequired,
+  isSmart: PropTypes.bool.isRequired,
+  boardWidth: PropTypes.number.isRequired
+};
 
 export default FretboardFretLabels;

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { PrimaryBlue } from "../../design";
 
@@ -8,7 +9,7 @@ const SaveLoopModal = ({
   onTextChange,
   onCancel,
   onSave
-}) =>
+}) => (
   <Modal
     animationType={"fade"}
     transparent={true}
@@ -55,9 +56,11 @@ const SaveLoopModal = ({
               fontWeight: "400"
             }}
           >
-            {existingName
-              ? `Please enter a new name for '${existingName}'`
-              : "Please enter a name for the new loop"}
+            {existingName ? (
+              `Please enter a new name for '${existingName}'`
+            ) : (
+              "Please enter a name for the new loop"
+            )}
           </Text>
 
           <TextInput
@@ -118,6 +121,7 @@ const SaveLoopModal = ({
         </View>
       </View>
     </View>
-  </Modal>;
+  </Modal>
+);
 
 export default SaveLoopModal;
