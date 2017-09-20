@@ -50,8 +50,7 @@ const PlaybackCompact = ({
   onNextPress,
   onLoopEnable,
   onSetCurrentLoop,
-  onClearCurrentLoop,
-  onDisplayMyLoops
+  onClearCurrentLoop
 }) => (
   <View
     style={{
@@ -192,8 +191,7 @@ PlaybackCompact.propTypes = {
   onNextPress: PropTypes.func.isRequired,
   onLoopEnable: PropTypes.func.isRequired,
   onSetCurrentLoop: PropTypes.func.isRequired,
-  onClearCurrentLoop: PropTypes.func.isRequired,
-  onDisplayMyLoops: PropTypes.func.isRequired
+  onClearCurrentLoop: PropTypes.func.isRequired
 };
 
 export default pure(PlaybackCompact);

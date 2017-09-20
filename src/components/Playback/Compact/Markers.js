@@ -95,7 +95,7 @@ PlaybackMarkers.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
-  markers: PropTypes.array.isRequired,
+  markers: PropTypes.object.isRequired,
   onMarkerPress: PropTypes.func.isRequired,
   onMarkerLongPress: PropTypes.func.isRequired
 };

@@ -11,7 +11,7 @@ import LoopFlag from "./LoopFlag.js";
 
 class PlaybackTimeline extends Component {
   state = {
-    layout: { width: 1 },
+    layout: { width: 1, x: 0 },
     containerLayout: { width: 1 },
     progress: this.props.progress,
     ignorePropsProgress: false
@@ -136,7 +136,7 @@ class PlaybackTimeline extends Component {
 
 PlaybackTimeline.propTypes = {
   duration: PropTypes.number.isRequired,
-  markers: PropTypes.array.isRequired,
+  markers: PropTypes.object.isRequired,
   currentLoop: PropTypes.object.isRequired,
   loopIsEnabled: PropTypes.bool.isRequired,
   onMarkerPress: PropTypes.func.isRequired,
