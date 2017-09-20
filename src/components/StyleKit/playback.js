@@ -10,7 +10,9 @@ import {
   BtnNext_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   BtnInfo_targetFrame_resizing,
   BtnStepPrev_targetFrame_resizing_isPressed,
-  BtnStepNext_targetFrame_resizing_isPressed
+  BtnStepNext_targetFrame_resizing_isPressed,
+  BtnFullscreen_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
+  BtnExitFullscreen_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
 } from "./styleKitComponents";
 import {
   ResizingBehavior,
@@ -100,6 +102,28 @@ export const BtnNextStep = props => {
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
 
+export const BtnVideoFullScreen = props => {
+  const Comp = gtPcSizeable(
+    gtPcColorable(
+      gtPcPressable(
+        BtnFullscreen_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
+      )
+    )
+  );
+  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+};
+
+export const BtnVideoExitFullScreen = props => {
+  const Comp = gtPcSizeable(
+    gtPcColorable(
+      gtPcPressable(
+        BtnExitFullscreen_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
+      )
+    )
+  );
+  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+};
+
 BtnPrevious.propTypes = {
   size: SizePropType,
   resizing: ResizingBehaviorPropType
@@ -136,6 +160,16 @@ BtnPrevStep.propTypes = {
 };
 
 BtnNextStep.propTypes = {
+  size: SizePropType,
+  resizing: ResizingBehaviorPropType
+};
+
+BtnVideoFullScreen.propTypes = {
+  size: SizePropType,
+  resizing: ResizingBehaviorPropType
+};
+
+BtnVideoExitFullScreen.propTypes = {
   size: SizePropType,
   resizing: ResizingBehaviorPropType
 };

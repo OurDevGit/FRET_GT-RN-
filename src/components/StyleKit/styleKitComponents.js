@@ -313,15 +313,15 @@ export const BtnStepPrev_targetFrame_resizing_isPressed = props => <PaintCode
   {...props}
 />
 
-export const BtnFullscreen = props => <PaintCode
+export const BtnFullscreen_isPressed_redValue_greenValue_blueValue = props => <PaintCode
   drawMethod="BtnFullscreen"
-  drawArgs={[]}
+  drawArgs={["isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
-export const BtnFullscreen_targetFrame_resizing = props => <PaintCode
+export const BtnFullscreen_targetFrame_resizing_isPressed_redValue_greenValue_blueValue = props => <PaintCode
   drawMethod="BtnFullscreen"
-  drawArgs={["targetFrame","resizing"]}
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
@@ -349,15 +349,15 @@ export const JambarLensWide = props => <PaintCode
   {...props}
 />
 
-export const BtnExitFullscreen = props => <PaintCode
+export const BtnExitFullscreen_isPressed_redValue_greenValue_blueValue = props => <PaintCode
   drawMethod="BtnExitFullscreen"
-  drawArgs={[]}
+  drawArgs={["isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 
-export const BtnExitFullscreen_targetFrame_resizing = props => <PaintCode
+export const BtnExitFullscreen_targetFrame_resizing_isPressed_redValue_greenValue_blueValue = props => <PaintCode
   drawMethod="BtnExitFullscreen"
-  drawArgs={["targetFrame","resizing"]}
+  drawArgs={["targetFrame","resizing","isPressed","redValue","greenValue","blueValue"]}
   {...props}
 />
 

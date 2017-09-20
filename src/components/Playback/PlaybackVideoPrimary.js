@@ -10,6 +10,7 @@ import {
   BtnPlay,
   BtnForward,
   BtnNext,
+  BtnVideoFullScreen,
   BtnHeart
 } from "../StyleKit";
 import VideoMarkersTable from "./VideoMarkersTable";
@@ -38,7 +39,8 @@ class PlaybackVideoPrimary extends React.Component {
       onForwardPress,
       onNextPress,
       onMarkerPress,
-      onDisplayControls
+      onDisplayControls,
+      onFullscreen
     } = this.props;
 
     return (
@@ -178,6 +180,35 @@ class PlaybackVideoPrimary extends React.Component {
                 color={"#FFFFFF"}
                 onPress={onNextPress}
               />
+
+              <View
+                style={{
+                  position: "absolute",
+                  bottom: 10,
+                  right: 10
+                }}
+              >
+                <BtnVideoFullScreen
+                  style={{
+                    width: 50,
+                    height: 50
+                  }}
+                  color={"#FFFFFF"}
+                  onPress={onFullscreen}
+                />
+              </View>
+
+              <BtnVideoFullScreen
+                style={{
+                  position: "absolute",
+                  bottom: 10,
+                  right: 10,
+                  width: 50,
+                  height: 50
+                }}
+                color={"#FFFFFF"}
+                onPress={onFullscreen}
+              />
             </View>
           )}
         </View>
@@ -221,7 +252,8 @@ PlaybackVideoPrimary.propTypes = {
   onForwardPress: PropTypes.func,
   onNextPress: PropTypes.func,
   onMarkerPress: PropTypes.func,
-  onDisplayControls: PropTypes.func
+  onDisplayControls: PropTypes.func,
+  onFullscreen: PropTypes.func
 };
 
 export default pure(PlaybackVideoPrimary);

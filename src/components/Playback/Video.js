@@ -126,6 +126,7 @@ class Vid extends React.Component {
             onNextStep={this.handleNextStep}
             onDisplayInfo={this.handleDisplayInfoAlert}
             onDisplayControls={this.handleDisplayControls}
+            onFullscreen={this.handleFullscreen}
           />
         ) : (
           <View style={{ width: "100%", height: "100%" }}>
@@ -150,6 +151,7 @@ class Vid extends React.Component {
               onNextPress={this.handleNextPress}
               onMarkerPress={this.handleMarkerPress}
               onDisplayControls={this.handleDisplayControls}
+              onFullscreen={this.handleFullscreen}
             />
             <PlaybackTimeline
               duration={this.state.mediaDuration}
@@ -424,6 +426,11 @@ class Vid extends React.Component {
   };
 
   handleVideoClose = () => {};
+
+  handleFullscreen = () => {
+    console.log("full");
+    this.setState({ isFullscreen: !this.state.isFullscreen });
+  };
 
   handleDisplayControls = () => {
     if (this.state.areControlsVisible) {
