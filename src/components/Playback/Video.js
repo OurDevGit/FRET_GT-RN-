@@ -419,11 +419,7 @@ class Vid extends React.Component {
   };
 
   handleEnd = () => {
-    console.log("video ended");
-    this.setState({
-      paused: true
-    });
-
+    this.setState({ isPlaying: false });
     this.goToTime(0);
   };
 
@@ -434,11 +430,11 @@ class Vid extends React.Component {
       this.setState({ areControlsVisible: false });
     } else {
       controlFaderId += 1;
-      var faderId = controlFaderId;
+      var currentId = controlFaderId;
       this.setState({ areControlsVisible: true });
 
       setTimeout(() => {
-        if (faderId === controlFaderId) {
+        if (currentId === controlFaderId) {
           this.setState({ areControlsVisible: false });
         }
       }, 3000);
