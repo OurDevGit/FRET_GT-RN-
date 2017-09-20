@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 const getTimeSelector = state => state.get("time");
-const getMarkersSelector = (_, props) => props.markers;
+const getMarkersSelector = (_, props) => props.videoMarkers;
 
 // CHAPTERS
 
@@ -55,7 +55,6 @@ exports.markerForTime = createSelector(
     const matching = markers.filter(
       item => item.type === "marker" && item.begin <= time && item.end >= time
     );
-    // console.log("marker", time, matching);
     return matching[0];
   }
 );

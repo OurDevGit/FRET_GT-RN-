@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 const VideoMarkersTable = ({
   currentChapter,
   currentMarker,
-  markers,
+  videoMarkers,
   onMarkerPress
 }) => {
   return (
@@ -46,9 +46,9 @@ const VideoMarkersTable = ({
       </Text>
       <FlatList
         keyExtractor={(item, index) => index}
-        data={markers}
+        data={videoMarkers}
         initialScrollIndex={0}
-        initialNumToRender={markers.length < 20 ? markers.length : 20}
+        initialNumToRender={videoMarkers.length < 20 ? videoMarkers.length : 20}
         getItemLayout={(item, index) => ({
           length: 40,
           offset: 40 * index,
@@ -98,7 +98,7 @@ const VideoMarkersTable = ({
 VideoMarkersTable.propTypes = {
   currentChapter: PropTypes.object,
   currentMarker: PropTypes.object,
-  markers: PropTypes.array.isRequired,
+  videoMarkers: PropTypes.array.isRequired,
   onMarkerPress: PropTypes.func.isRequired
 };
 

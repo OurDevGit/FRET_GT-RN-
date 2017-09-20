@@ -18,9 +18,7 @@ import {
   loadMidi,
   clearMidi,
   flattenedChapters,
-  chapterForTime,
   flattenedMarkers,
-  markerForTime,
   midiForTime,
   midiOffsetForTime
 } from "../../selectors";
@@ -85,13 +83,13 @@ class Vid extends React.Component {
           borderRadius: 6
         }}
       >
-        {/* <Midi
+        <Midi
           midi={this.state.currentMidiFile}
           onData={this.props.updateMidiData}
           clearMidiData={this.props.clearMidiData}
           clearMidi={clearMidi}
           loadMidi={loadMidi}
-        /> */}
+        />
 
         {isPhone || this.state.isFullscreen ? (
           <FullVideoModal
@@ -151,6 +149,7 @@ class Vid extends React.Component {
               duration={this.state.mediaDuration}
               currentLoop={this.props.currentLoop}
               loopIsEnabled={this.props.loopIsEnabled}
+              videoMarkers={markers}
               isVideo={true}
               onSeek={this.handleSeek}
               onLoopEnable={this.handleLoopEnable}

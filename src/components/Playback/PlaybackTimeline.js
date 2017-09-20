@@ -8,6 +8,7 @@ import { PrimaryBlue } from "../../design";
 import Playhead from "./Playhead";
 import PlaybackMarkers from "./PlaybackMarkers";
 import LoopFlag from "./PlaybackTimelineLoopFlag.js";
+import { markerForTime } from "../../selectors";
 
 class PlaybackTimeline extends Component {
   state = {
@@ -21,7 +22,9 @@ class PlaybackTimeline extends Component {
     const {
       duration,
       markers,
+      videoMarkers,
       currentLoop,
+      currentVideoMarker,
       loopIsEnabled,
       isVideo,
       onMarkerPress,
@@ -29,12 +32,21 @@ class PlaybackTimeline extends Component {
     } = this.props;
     const { progress, layout, containerLayout } = this.state;
 
-    const elapsed = this.formattedTime(duration * progress);
-    const remaining = this.formattedTime(duration - duration * progress);
+    const offsetProgress = this.offsetProgress(
+      progress,
+      duration,
+      currentVideoMarker
+    );
+    const offsetDuration = this.offsetDuration(duration, currentVideoMarker);
+
+    const elapsed = this.formattedTime(offsetDuration * offsetProgress);
+    const remaining = this.formattedTime(
+      offsetDuration - offsetDuration * offsetProgress
+    );
 
     const loop = currentLoop.toJS() || { begin: -1, end: -1 };
-    const beginLeft = loop.begin / duration;
-    const endLeft = loop.end / duration;
+    const beginLeft = loop.begin / offsetDuration;
+    const endLeft = loop.end / offsetDuration;
 
     return (
       <View
@@ -54,7 +66,7 @@ class PlaybackTimeline extends Component {
             left={layout.x}
             width={containerLayout.width}
             height={containerLayout.height - layout.height}
-            duration={duration}
+            duration={duoffsetDurationation}
             markers={markers}
             onMarkerPress={onMarkerPress}
             onMarkerLongPress={onMarkerLongPress}
@@ -107,7 +119,7 @@ class PlaybackTimeline extends Component {
           onPan={this.handlePlayheadPan}
           onPanStart={this.handlePlayheadPanStart}
           onPanEnd={this.handlePlayheadPanEnd}
-          scrollLeft={progress * layout.width}
+          scrollLeft={offsetProgress * layout.width}
           containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
         />
         <Text
@@ -138,6 +150,7 @@ class PlaybackTimeline extends Component {
     const {
       duration,
       currentLoop,
+      currentVideoMarker,
       loopIsEnabled,
       onLoopEnable,
       onSeek
@@ -147,7 +160,18 @@ class PlaybackTimeline extends Component {
     progress = Math.max(progress, 0);
     progress = Math.min(progress, 1);
 
-    var time = progress * duration;
+    const offsetProgress = this.offsetProgress(
+      progress,
+      duration,
+      currentVideoMarker
+    );
+    const offsetDuration = this.offsetDuration(duration, currentVideoMarker);
+
+    const time =
+      currentVideoMarker === null
+        ? progress * duration
+        : currentVideoMarker.begin + offsetProgress * offsetDuration;
+
     const begin = currentLoop.get("begin") || 0;
     const end = currentLoop.get("end") || duration;
 
@@ -156,7 +180,7 @@ class PlaybackTimeline extends Component {
     }
 
     this.setState({ progress });
-    onSeek(progress);
+    onSeek(time / duration);
   };
 
   handlePlayheadPanStart = () => {
@@ -183,6 +207,20 @@ class PlaybackTimeline extends Component {
     });
   };
 
+  offsetProgress = (progress, duration, marker) => {
+    if (marker === undefined) {
+      return progress;
+    } else {
+      const time = progress * duration;
+      const adjusted = time - marker.begin;
+      return adjusted / (marker.end - marker.begin);
+    }
+  };
+
+  offsetDuration = (duration, marker) => {
+    return marker === undefined ? duration : marker.end - marker.begin;
+  };
+
   formattedTime = time => {
     if (time === undefined || time === 0 || this.props.duration === 0)
       return "00:00";
@@ -202,7 +240,8 @@ PlaybackTimeline.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    progress: state.get("time") / ownProps.duration
+    progress: state.get("time") / ownProps.duration,
+    currentVideoMarker: markerForTime(state, ownProps)
   };
 };
 

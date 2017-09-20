@@ -168,7 +168,10 @@ class PlaybackVideoPrimary extends React.Component {
           </View>
         </View>
 
-        <VideoMarkersTable markers={markers} onMarkerPress={onMarkerPress} />
+        <VideoMarkersTable
+          videoMarkers={markers}
+          onMarkerPress={onMarkerPress}
+        />
 
         <View style={{ position: "absolute", top: -8, right: -8 }}>
           <BtnHeart
