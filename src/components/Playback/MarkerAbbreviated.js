@@ -25,4 +25,12 @@ const Marker = ({ marker, left, end, onMarkerPress, onMarkerLongPress }) => (
   </TouchableOpacity>
 );
 
+Marker.propTypes = {
+  marker: PropTypes.object.isRequired,
+  left: PropTypes.number.isRequired,
+  end: PropTypes.number.isRequired,
+  onMarkerPress: PropTypes.func.isRequired,
+  onMarkerLongPress: PropTypes.func.isRequired
+};
+
 export default Marker;

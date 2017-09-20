@@ -12,7 +12,7 @@ import { markerForTime } from "../../selectors";
 
 class PlaybackTimeline extends Component {
   state = {
-    layout: { width: 1 },
+    layout: { width: 1, x: 0 },
     containerLayout: { width: 1 },
     progress: this.props.progress,
     ignorePropsProgress: false

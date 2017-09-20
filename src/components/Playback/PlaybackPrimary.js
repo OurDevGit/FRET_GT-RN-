@@ -149,4 +149,16 @@ const PlaybackPrimary = ({
   </View>
 );
 
+PlaybackPrimary.propTypes = {
+  mediaId: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  isPhone: PropTypes.bool.isRequired,
+  onPreviousPress: PropTypes.func.isRequired,
+  onBackPress: PropTypes.func.isRequired,
+  onPlayPausePress: PropTypes.func.isRequired,
+  onForwardPress: PropTypes.func.isRequired,
+  onNextPress: PropTypes.func.isRequired
+};
+
 export default pure(PlaybackPrimary);

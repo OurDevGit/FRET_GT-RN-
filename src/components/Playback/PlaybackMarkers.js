@@ -92,4 +92,14 @@ class PlaybackMarkers extends React.Component {
   }
 }
 
+PlaybackMarkers.propTypes = {
+  left: PropTypes.number.isRequired,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  duration: PropTypes.number.isRequired,
+  markers: PropTypes.object.isRequired,
+  onMarkerPress: PropTypes.func.isRequired,
+  onMarkerLongPress: PropTypes.func.isRequired
+};
+
 export default PlaybackMarkers;

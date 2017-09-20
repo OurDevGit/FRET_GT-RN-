@@ -84,12 +84,15 @@ class MediaPlayer extends Component {
 MediaPlayer.propTypes = {
   song: PropTypes.object,
   video: PropTypes.object,
-  updateMidiData: PropTypes.func.isRequired,
-  clearMidiData: PropTypes.func.isRequired,
-  updateTime: PropTypes.func.isRequired,
+  trackCount: PropTypes.number,
   markers: PropTypes.object,
   currentLoop: PropTypes.object,
   loopIsEnabled: PropTypes.bool,
+  visibleTracks: PropTypes.object,
+  onToggleLibrary: PropTypes.func.isRequired,
+  updateMidiData: PropTypes.func.isRequired,
+  clearMidiData: PropTypes.func.isRequired,
+  updateTime: PropTypes.func.isRequired,
   enableLoop: PropTypes.func.isRequired,
   setCurrentLoop: PropTypes.func.isRequired,
   clearCurrentLoop: PropTypes.func.isRequired

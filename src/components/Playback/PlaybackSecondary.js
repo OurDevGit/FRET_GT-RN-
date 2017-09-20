@@ -38,21 +38,19 @@ const buttonStyle = {
 const PlaybackSecondary = ({
   mediaId,
   tempo,
-  onPrevStep,
-  onNextStep,
   loopIsEnabled,
   currentLoop,
   connectedDevices,
   isPhone,
   onSelectTempo,
+  onPrevStep,
+  onNextStep,
   onLoopEnable,
   onLoopBegin,
   onLoopEnd,
   onSetCurrentLoop,
   onClearCurrentLoop,
-  onDisplayMyLoops,
-  onDisplayInfo,
-  onDisplayFretlightStatus
+  onDisplayInfo
 }) => (
   <View
     style={{
@@ -175,5 +173,23 @@ const PlaybackSecondary = ({
     </View>
   </View>
 );
+
+PlaybackSecondary.propTypes = {
+  mediaId: PropTypes.string.isRequired,
+  tempo: PropTypes.number.isRequired,
+  loopIsEnabled: PropTypes.bool.isRequired,
+  currentLoop: PropTypes.object.isRequired,
+  connectedDevices: PropTypes.number.isRequired,
+  isPhone: PropTypes.bool.isRequired,
+  onSelectTempo: PropTypes.func.isRequired,
+  onPrevStep: PropTypes.func.isRequired,
+  onNextStep: PropTypes.func.isRequired,
+  onLoopEnable: PropTypes.func.isRequired,
+  onLoopBegin: PropTypes.func.isRequired,
+  onLoopEnd: PropTypes.func.isRequired,
+  onSetCurrentLoop: PropTypes.func.isRequired,
+  onClearCurrentLoop: PropTypes.func.isRequired,
+  onDisplayInfo: PropTypes.func.isRequired
+};
 
 export default pure(PlaybackSecondary);

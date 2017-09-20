@@ -124,4 +124,14 @@ const SaveLoopModal = ({
   </Modal>
 );
 
+SaveLoopModal.propTypes = {
+  isVisible: PropTypes.number.isRequired,
+  existingName: PropTypes.object,
+  currentLoop: PropTypes.object.isRequired,
+  loopIsEnabled: PropTypes.bool.isRequired,
+  onTextChange: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onSave: PropTypes.func.isRequired
+};
+
 export default SaveLoopModal;
