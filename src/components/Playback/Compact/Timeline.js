@@ -135,7 +135,12 @@ class PlaybackTimeline extends Component {
 }
 
 PlaybackTimeline.propTypes = {
-  onSeek: PropTypes.func
+  duration: PropTypes.number.isRequired,
+  markers: PropTypes.array.isRequired,
+  currentLoop: PropTypes.object.isRequired,
+  loopIsEnabled: PropTypes.bool.isRequired,
+  onMarkerPress: PropTypes.func.isRequired,
+  onMarkerLongPress: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, ownProps) => {

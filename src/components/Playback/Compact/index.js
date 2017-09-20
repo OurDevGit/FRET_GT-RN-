@@ -174,4 +174,26 @@ const PlaybackCompact = ({
   </View>
 );
 
+PlaybackCompact.propTypes = {
+  title: PropTypes.string.isRequired,
+  mediaId: PropTypes.string.isRequired,
+  trackCount: PropTypes.number.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  isPhone: PropTypes.bool.isRequired,
+  tempo: PropTypes.number.isRequired,
+  loopIsEnabled: PropTypes.bool.isRequired,
+  currentLoop: PropTypes.object.isRequired,
+  onSelectTempo: PropTypes.func.isRequired,
+  onToggleLibrary: PropTypes.func.isRequired,
+  onPreviousPress: PropTypes.func.isRequired,
+  onBackPress: PropTypes.func.isRequired,
+  onPlayPausePress: PropTypes.func.isRequired,
+  onForwardPress: PropTypes.func.isRequired,
+  onNextPress: PropTypes.func.isRequired,
+  onLoopEnable: PropTypes.func.isRequired,
+  onSetCurrentLoop: PropTypes.func.isRequired,
+  onClearCurrentLoop: PropTypes.func.isRequired,
+  onDisplayMyLoops: PropTypes.func.isRequired
+};
+
 export default pure(PlaybackCompact);

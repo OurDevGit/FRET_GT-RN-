@@ -24,4 +24,10 @@ const LoopFlag = ({ type, left, isEnabled }) => (
   </View>
 );
 
+LoopFlag.propTypes = {
+  type: PropTypes.string.isRequired,
+  left: PropTypes.number.isRequired,
+  isEnabled: PropTypes.bool.isRequired
+};
+
 export default pure(LoopFlag);
