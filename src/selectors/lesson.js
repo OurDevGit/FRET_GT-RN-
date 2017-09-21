@@ -5,38 +5,41 @@ const getMarkersSelector = (_, props) => props.videoMarkers;
 
 // CHAPTERS
 
-exports.chapterForTime = createSelector(
-  getTimeSelector,
-  getMarkersSelector,
-  (time, markers) => {
-    if (markers === undefined) {
-      return undefined;
-    } else {
-      const matching = markers.filter(
-        item => item.type === "chapter" && item.end >= time
-      );
+exports.chapterForTime = (time, items) => {
+  if (items === undefined) {
+    return undefined;
+  } else {
+    var chapter;
 
-      return matching[0];
-    }
+    items.forEach(item => {
+      if (item.type === "chapter" && item.begin <= time && item.end >= time) {
+        chapter = item;
+        return;
+      }
+    });
+
+    return chapter;
   }
-);
+};
 
 // MARKERS
 
-exports.markerForTime = createSelector(
-  getTimeSelector,
-  getMarkersSelector,
-  (time, markers) => {
-    if (markers === undefined) {
-      return undefined;
-    } else {
-      const matching = markers.filter(
-        item => item.type === "marker" && item.begin <= time && item.end >= time
-      );
-      return matching[0];
-    }
+exports.markerForTime = (time, items) => {
+  if (items === undefined) {
+    return undefined;
+  } else {
+    var marker;
+
+    items.forEach(item => {
+      if (item.type === "marker" && item.begin <= time && item.end >= time) {
+        marker = item;
+        return;
+      }
+    });
+
+    return marker;
   }
-);
+};
 
 // MIDI
 

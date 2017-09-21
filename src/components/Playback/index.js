@@ -52,6 +52,10 @@ class MediaPlayer extends Component {
             clearCurrentLoop={this.props.clearCurrentLoop}
             onSelectTempo={this.handleSelectTempo}
             setVideoChapters={this.props.setVideoChapters}
+            setCurrentVideoChapter={this.props.setCurrentVideoChapter}
+            clearCurrentVideoChapter={this.props.clearCurrentVideoChapter}
+            setCurrentVideoMarker={this.props.setCurrentVideoMarker}
+            clearCurrentVideoMarker={this.props.clearCurrentVideoMarker}
           />
         )}
       </View>
@@ -97,7 +101,11 @@ MediaPlayer.propTypes = {
   enableLoop: PropTypes.func.isRequired,
   setCurrentLoop: PropTypes.func.isRequired,
   clearCurrentLoop: PropTypes.func.isRequired,
-  setVideoChapters: PropTypes.func.isRequired
+  setVideoChapters: PropTypes.func.isRequired,
+  setCurrentVideoChapter: PropTypes.func.isRequired,
+  clearCurrentVideoChapter: PropTypes.func.isRequired,
+  setCurrentVideoMarker: PropTypes.func.isRequired,
+  clearCurrentVideoMarker: PropTypes.func.isRequired
 };
 
 export default connect(null, actions)(MediaPlayer);

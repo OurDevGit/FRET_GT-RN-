@@ -8,7 +8,6 @@ import { PrimaryBlue } from "../../design";
 import Playhead from "./Playhead";
 import PlaybackMarkers from "./PlaybackMarkers";
 import LoopFlag from "./PlaybackTimelineLoopFlag.js";
-import { markerForTime } from "../../selectors";
 
 class PlaybackTimeline extends Component {
   state = {
@@ -208,7 +207,7 @@ class PlaybackTimeline extends Component {
   };
 
   offsetProgress = (progress, duration, marker) => {
-    if (marker === undefined) {
+    if (marker.begin === undefined) {
       return progress;
     } else {
       const time = progress * duration;
@@ -218,7 +217,7 @@ class PlaybackTimeline extends Component {
   };
 
   offsetDuration = (duration, marker) => {
-    return marker === undefined ? duration : marker.end - marker.begin;
+    return marker.begin === undefined ? duration : marker.end - marker.begin;
   };
 
   formattedTime = time => {
@@ -235,13 +234,23 @@ class PlaybackTimeline extends Component {
 }
 
 PlaybackTimeline.propTypes = {
-  onSeek: PropTypes.func
+  duration: PropTypes.number,
+  progress: PropTypes.number,
+  markers: PropTypes.array,
+  videoMarkers: PropTypes.array,
+  currentLoop: PropTypes.object,
+  currentVideoMarker: PropTypes.object,
+  loopIsEnabled: PropTypes.bool,
+  isVideo: PropTypes.bool,
+  onSeek: PropTypes.func,
+  onLoopEnable: PropTypes.func,
+  onMarkerPress: PropTypes.func,
+  onMarkerLongPress: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    progress: state.get("time") / ownProps.duration,
-    currentVideoMarker: markerForTime(state, ownProps)
+    progress: state.get("time") / ownProps.duration
   };
 };
 

@@ -1,4 +1,4 @@
-import { List } from "immutable";
+import { List, Map } from "immutable";
 
 exports.videoChapters = (state = List(), action) => {
   switch (action.type) {
@@ -26,7 +26,7 @@ exports.videoChapters = (state = List(), action) => {
 
       return List(reduced);
 
-    case "CLEAR_MIDI_DATA":
+    case "CLEAR_VIDEO_CHAPTERS":
       return List();
     default:
       return state;
@@ -41,8 +41,31 @@ exports.videoMarkers = (state = List(), action) => {
       }, []);
 
       return List(reduced);
-    case "CLEAR_MIDI_DATA":
+    case "CLEAR_VIDEO_CHAPTERS":
       return List();
+    default:
+      return state;
+  }
+};
+
+exports.currentVideoChapter = (state = Map(), action) => {
+  switch (action.type) {
+    case "SET_CURRENT_VIDEO_CHAPTER":
+      return action.payload;
+    case "CLEAR_CURRENT_VIDEO_CHAPTER":
+      return Map();
+    default:
+      return state;
+  }
+};
+
+exports.currentVideoMarker = (state = Map(), action) => {
+  switch (action.type) {
+    case "SET_CURRENT_VIDEO_MARKER":
+      console.log("marker", action.payload.name);
+      return action.payload;
+    case "CLEAR_CURRENT_VIDEO_MARKER":
+      return Map();
     default:
       return state;
   }

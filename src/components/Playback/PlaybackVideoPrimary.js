@@ -27,6 +27,8 @@ class PlaybackVideoPrimary extends React.Component {
       areControlsVisible,
       isPhone,
       markers,
+      currentChapter,
+      currentMarker,
       duration,
       onPlayerRegister,
       onVideoLoad,
@@ -215,6 +217,8 @@ class PlaybackVideoPrimary extends React.Component {
 
         <VideoMarkersTable
           videoMarkers={markers}
+          currentChapter={currentChapter}
+          currentMarker={currentMarker}
           onMarkerPress={onMarkerPress}
         />
 
@@ -237,6 +241,8 @@ PlaybackVideoPrimary.propTypes = {
   title: PropTypes.string,
   tempo: PropTypes.number,
   markers: PropTypes.array,
+  currentChapter: PropTypes.object,
+  currentMarker: PropTypes.object,
   duration: PropTypes.number,
   isPlaying: PropTypes.bool,
   isPhone: PropTypes.bool,

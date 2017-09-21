@@ -102,11 +102,4 @@ VideoMarkersTable.propTypes = {
   onMarkerPress: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    currentChapter: chapterForTime(state, ownProps),
-    currentMarker: markerForTime(state, ownProps)
-  };
-};
-
-export default connect(mapStateToProps)(VideoMarkersTable);
+export default VideoMarkersTable;

@@ -10,7 +10,12 @@ import {
   smartTrack
 } from "./midi";
 import { currentLoop, loopIsEnabled } from "./loop";
-import { videoChapters, videoMarkers } from "./lesson";
+import {
+  videoChapters,
+  videoMarkers,
+  currentVideoChapter,
+  currentVideoMarker
+} from "./lesson";
 
 const appReducer = combineReducers({
   ad,
@@ -18,6 +23,8 @@ const appReducer = combineReducers({
   markers,
   videoChapters,
   videoMarkers,
+  currentVideoChapter,
+  currentVideoMarker,
   guitarTracks,
   visibleTracks,
   tuningTracks,

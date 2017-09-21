@@ -11,6 +11,7 @@ import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
 import { FullVideoModal } from "../modals";
 import { playerBackground } from "../../design";
+import { chapterForTime, markerForTime } from "../../selectors";
 
 import Midi from "./Midi";
 
@@ -39,25 +40,6 @@ class Vid extends React.Component {
     isFullscreen: false,
     areControlsVisible: true
   };
-
-  shouldComponentUpdate(nextProps, nextState) {
-    return (
-      this.state.isPlaying !== nextState.isPlaying ||
-      this.state.mediaDuration !== nextState.mediaDuration ||
-      this.state.playbackRate !== nextState.playbackRate ||
-      this.state.videoRate !== nextState.videoRate ||
-      this.state.videoUri !== nextState.videoUri ||
-      this.state.naturalSize !== nextState.naturalSize ||
-      this.props.videoChapters !== nextProps.videoChapters ||
-      this.props.videoMarkers !== nextProps.videoMarkers ||
-      this.state.midiFiles !== nextState.midiFiles ||
-      this.state.currentMidiFile !== nextState.currentMidiFile ||
-      this.state.title !== nextState.title ||
-      this.state.quickLoops !== nextState.quickLoops ||
-      this.state.isFullscreen !== nextState.isFullscreen ||
-      this.state.areControlsVisible !== nextState.areControlsVisible
-    );
-  }
 
   render() {
     const mediaTitle =
@@ -132,6 +114,8 @@ class Vid extends React.Component {
               tempo={this.state.playbackRate}
               duration={this.state.mediaDuration}
               markers={this.props.videoChapters.toJS()}
+              currentChapter={this.props.currentVideoChapter}
+              currentMarker={this.props.currentVideoMarker}
               isPlaying={this.state.isPlaying}
               isPhone={isPhone}
               areControlsVisible={this.state.areControlsVisible}
@@ -154,6 +138,7 @@ class Vid extends React.Component {
               currentLoop={this.props.currentLoop}
               loopIsEnabled={this.props.loopIsEnabled}
               videoMarkers={this.props.videoMarkers.toJS()}
+              currentVideoMarker={this.props.currentVideoMarker}
               isVideo={true}
               onSeek={this.handleSeek}
               onLoopEnable={this.handleLoopEnable}
@@ -178,6 +163,27 @@ class Vid extends React.Component {
           </View>
         )}
       </View>
+    );
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.state.isPlaying !== nextState.isPlaying ||
+      this.state.mediaDuration !== nextState.mediaDuration ||
+      this.state.playbackRate !== nextState.playbackRate ||
+      this.state.videoRate !== nextState.videoRate ||
+      this.state.videoUri !== nextState.videoUri ||
+      this.state.naturalSize !== nextState.naturalSize ||
+      this.props.videoChapters !== nextProps.videoChapters ||
+      this.props.videoMarkers !== nextProps.videoMarkers ||
+      this.props.currentVideoChapter !== nextProps.currentVideoChapter ||
+      this.props.currentVideoMarker !== nextProps.currentVideoMarker ||
+      this.state.midiFiles !== nextState.midiFiles ||
+      this.state.currentMidiFile !== nextState.currentMidiFile ||
+      this.state.title !== nextState.title ||
+      this.state.quickLoops !== nextState.quickLoops ||
+      this.state.isFullscreen !== nextState.isFullscreen ||
+      this.state.areControlsVisible !== nextState.areControlsVisible
     );
   }
 
@@ -239,10 +245,17 @@ class Vid extends React.Component {
 
   handleProgress = progress => {
     const { currentTime, playableDuration } = progress;
-    const { loopIsEnabled, currentLoop, updateTime } = this.props;
+    const {
+      loopIsEnabled,
+      currentLoop,
+      updateTime,
+      videoChapters
+    } = this.props;
     const currentProgress = currentTime / playableDuration;
 
+    this.updateChaptersAndMarkers(currentTime);
     const currentMidi = midiForTime(currentTime, this.state.midiFiles);
+
     const currentMidiFile =
       currentMidi !== undefined ? `${currentMidi.name}.midi` : null;
 
@@ -268,12 +281,40 @@ class Vid extends React.Component {
     }
   };
 
+  updateChaptersAndMarkers = time => {
+    const {
+      videoChapters,
+      currentVideoChapter,
+      currentVideoMarker
+    } = this.props;
+
+    const chapter = chapterForTime(time, videoChapters);
+    const marker = markerForTime(time, videoChapters);
+
+    if (chapter !== currentVideoChapter) {
+      if (chapter === undefined) {
+        this.props.clearCurrentVideoChapter();
+      } else {
+        this.props.setCurrentVideoChapter(chapter);
+      }
+    }
+
+    if (marker !== this.props.currentVideoMarker) {
+      if (marker === undefined) {
+        this.props.clearCurrentVideoMarker();
+      } else {
+        this.props.setCurrentVideoMarker(marker);
+      }
+    }
+  };
+
   goToTime = time => {
     this.player.seek(time);
     this.handleDisplayControls();
 
     if (!this.state.isPlaying) {
       this.playbackSeconds = time;
+      this.updateChaptersAndMarkers(time);
       this.props.updateTime(time);
     }
   };
@@ -451,7 +492,11 @@ Vid.propTypes = {
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
   updateTime: PropTypes.func.isRequired,
-  setVideoChapters: PropTypes.func.isRequired
+  setVideoChapters: PropTypes.func.isRequired,
+  setCurrentVideoChapter: PropTypes.func.isRequired,
+  clearCurrentVideoChapter: PropTypes.func.isRequired,
+  setCurrentVideoMarker: PropTypes.func.isRequired,
+  clearCurrentVideoMarker: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => {
@@ -461,7 +506,9 @@ const mapStateToProps = (state, props) => {
     loopIsEnabled: state.get("loopIsEnabled"),
     visibleTracks: state.get("visibleTracks"),
     videoChapters: state.get("videoChapters"),
-    videoMarkers: state.get("videoMarkers")
+    videoMarkers: state.get("videoMarkers"),
+    currentVideoChapter: state.get("currentVideoChapter"),
+    currentVideoMarker: state.get("currentVideoMarker")
   };
 };
 
