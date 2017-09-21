@@ -90,18 +90,20 @@ class Music extends React.Component {
         });
       }
     });
+    requestAnimationFrame(this.handleAnimationFrame);
   };
 
   handleAnimationFrame = () => {
-    requestAnimationFrame(this.handleAnimationFrame);
-
-    if (this.songSound) {
+    if (this.songSound !== null) {
+      requestAnimationFrame(this.handleAnimationFrame);
       this.songSound.getCurrentTime(seconds => {
-        const progress = {
-          currentTime: seconds,
-          duration: this.songSound.getDuration()
-        };
-        this.props.onProgress(progress);
+        if (this.songSound !== null) {
+          const progress = {
+            currentTime: seconds,
+            duration: this.songSound.getDuration()
+          };
+          this.props.onProgress(progress);
+        }
       });
     }
   };

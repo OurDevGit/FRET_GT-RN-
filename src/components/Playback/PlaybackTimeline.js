@@ -113,14 +113,16 @@ class PlaybackTimeline extends Component {
             left={layout.x + endLeft * layout.width}
           />
         )}
+        {this.state.layout.width > 1 && (
+          <Playhead
+            onPan={this.handlePlayheadPan}
+            onPanStart={this.handlePlayheadPanStart}
+            onPanEnd={this.handlePlayheadPanEnd}
+            scrollLeft={offsetProgress * layout.width}
+            containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
+          />
+        )}
 
-        <Playhead
-          onPan={this.handlePlayheadPan}
-          onPanStart={this.handlePlayheadPanStart}
-          onPanEnd={this.handlePlayheadPanEnd}
-          scrollLeft={offsetProgress * layout.width}
-          containerLeft={layout.x !== undefined ? layout.x - 9 : -1000}
-        />
         <Text
           style={{
             width: 40,
@@ -207,17 +209,21 @@ class PlaybackTimeline extends Component {
   };
 
   offsetProgress = (progress, duration, marker) => {
-    if (marker.begin === undefined) {
-      return progress;
+    if (marker === undefined || marker.begin === undefined) {
+      return isNaN(progress) ? 0 : progress;
     } else {
       const time = progress * duration;
       const adjusted = time - marker.begin;
-      return adjusted / (marker.end - marker.begin);
+      const offset = adjusted / (marker.end - marker.begin);
+      console.log("offset", offset, isNaN(offset));
+      return isNaN(offset) ? 0 : offset;
     }
   };
 
   offsetDuration = (duration, marker) => {
-    return marker.begin === undefined ? duration : marker.end - marker.begin;
+    return marker === undefined || marker.begin === undefined
+      ? duration
+      : marker.end - marker.begin;
   };
 
   formattedTime = time => {
@@ -236,7 +242,10 @@ class PlaybackTimeline extends Component {
 PlaybackTimeline.propTypes = {
   duration: PropTypes.number,
   progress: PropTypes.number,
-  markers: PropTypes.array,
+  markers: React.PropTypes.oneOfType([
+    React.PropTypes.array,
+    React.PropTypes.object
+  ]),
   videoMarkers: PropTypes.array,
   currentLoop: PropTypes.object,
   currentVideoMarker: PropTypes.object,
