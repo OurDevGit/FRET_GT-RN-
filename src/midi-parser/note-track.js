@@ -1,4 +1,4 @@
-import { Map, Set } from "immutable";
+import { Map, List, Set } from "immutable";
 
 module.exports = (track, secondsForTicks) => {
   var name,
@@ -11,13 +11,16 @@ module.exports = (track, secondsForTicks) => {
     firstFret,
     lastFret;
 
-  var notes = Map();
+  var notes = List();
   var notesOn = [];
   var totalTicks = 0;
   const stringOffset = [64, 59, 55, 50, 45, 40];
 
   track.forEach((event, index) => {
-    if (event.text !== undefined) {
+    if (
+      event.text !== undefined &&
+      (event.text.includes("FMP -") || event.text.includes("T -"))
+    ) {
       // removing track info from track name
       var edited = event.text.replace("FMP - ", "");
       edited = edited.replace("T - ", "");
@@ -90,13 +93,7 @@ module.exports = (track, secondsForTicks) => {
             string: string
           });
 
-          if (notes.getIn([fret, string]) === undefined) {
-            notes = notes.setIn([fret, string], Set());
-          }
-
-          notes = notes.updateIn([fret, string], notesSet =>
-            notesSet.add(note)
-          );
+          notes = notes.push(note);
 
           notesOn.splice(i, 1);
 

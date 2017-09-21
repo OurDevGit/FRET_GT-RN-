@@ -1,7 +1,7 @@
 import RNFetchBlob from "react-native-fetch-blob";
 import { decode } from "base-64";
 import midiFileParser from "midi-file-parser";
-import { Map, List } from "immutable";
+import { Map, List, Set } from "immutable";
 
 import timingTrack from "./timing-track";
 import noteTrack from "./note-track";
@@ -24,9 +24,40 @@ module.exports = filename => {
         // load guitar tracks
         if (arr[0].text.includes("FMP -") && arr[0].text !== "FMP - Jam Bar") {
           var track = noteTrack(arr, secondsForTicks);
-          notes = notes.set(track.get("name"), track.get("notes"));
+          const trackName = track.get("name");
+
+          track.get("notes").forEach(note => {
+            const fret = note.get("fret");
+            const string = note.get("string");
+
+            if (notes.getIn([trackName, fret, string]) === undefined) {
+              notes = notes.setIn([trackName, fret, string], Set());
+            }
+
+            notes = notes.updateIn([trackName, fret, string], notesSet =>
+              notesSet.add(note)
+            );
+          });
+
           track = track.delete("notes");
-          guitarTracks = guitarTracks.push(track);
+
+          // check to see if a track with the same name has been added
+          // (video has multiple tracks with same name)
+          const index = guitarTracks.findIndex(
+            guitarTrack => guitarTrack.get("name") === track.get("name")
+          );
+
+          if (index === -1) {
+            guitarTracks = guitarTracks.push(track);
+          } else {
+            const existing = guitarTracks.get(index);
+            const firstFret = Math.min(existing.firstFret, track.firstFret);
+            const lastFret = Math.max(existing.lastFret, track.lastFret);
+            const combined = existing
+              .set("firstFret", firstFret)
+              .set("lastFret", lastFret);
+            guitarTracks = guitarTracks.set(index, combined);
+          }
         }
 
         // load tuning tracks
