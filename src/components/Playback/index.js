@@ -17,7 +17,7 @@ class MediaPlayer extends Component {
 
   render() {
     // console.log({ song: this.props.song });
-    // console.log({ vid: this.props.video });
+    console.log({ vid: this.props.video });
 
     return (
       <View style={{ flex: 1 }} onLayout={this.handleLayout}>
@@ -29,11 +29,7 @@ class MediaPlayer extends Component {
             height={this.state.layout.height}
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
-            markers={this.props.markers}
             updateTime={this.props.updateTime}
-            currentLoop={this.props.currentLoop}
-            visibleTracks={this.props.visibleTracks}
-            loopIsEnabled={this.props.loopIsEnabled}
             connectedDevices={0}
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
@@ -50,14 +46,12 @@ class MediaPlayer extends Component {
             updateMidiData={this.props.updateMidiData}
             clearMidiData={this.props.clearMidiData}
             updateTime={this.props.updateTime}
-            currentLoop={this.props.currentLoop}
-            visibleTracks={this.props.visibleTracks}
-            loopIsEnabled={this.props.loopIsEnabled}
             connectedDevices={0}
             enableLoop={this.props.enableLoop}
             setCurrentLoop={this.props.setCurrentLoop}
             clearCurrentLoop={this.props.clearCurrentLoop}
             onSelectTempo={this.handleSelectTempo}
+            setVideoChapters={this.props.setVideoChapters}
           />
         )}
       </View>
@@ -85,26 +79,17 @@ MediaPlayer.propTypes = {
   song: PropTypes.object,
   video: PropTypes.object,
   trackCount: PropTypes.number,
-  markers: PropTypes.object,
-  currentLoop: PropTypes.object,
-  loopIsEnabled: PropTypes.bool,
   visibleTracks: PropTypes.object,
+  videoChapters: PropTypes.object,
+  videoMarkers: PropTypes.object,
   onToggleLibrary: PropTypes.func.isRequired,
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
   updateTime: PropTypes.func.isRequired,
   enableLoop: PropTypes.func.isRequired,
   setCurrentLoop: PropTypes.func.isRequired,
-  clearCurrentLoop: PropTypes.func.isRequired
+  clearCurrentLoop: PropTypes.func.isRequired,
+  setVideoChapters: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, props) => {
-  return {
-    markers: state.get("markers"),
-    currentLoop: state.get("currentLoop"),
-    loopIsEnabled: state.get("loopIsEnabled"),
-    visibleTracks: state.get("visibleTracks")
-  };
-};
-
-export default connect(mapStateToProps, actions)(MediaPlayer);
+export default connect(null, actions)(MediaPlayer);

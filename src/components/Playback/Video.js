@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import { View, Alert, StyleSheet, TouchableOpacity, Text } from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
@@ -16,8 +17,6 @@ import Midi from "./Midi";
 import {
   loadMidi,
   clearMidi,
-  flattenedChapters,
-  flattenedMarkers,
   midiForTime,
   midiOffsetForTime
 } from "../../selectors";
@@ -33,8 +32,6 @@ class Vid extends React.Component {
     videoRate: 1,
     videoUri: null,
     naturalSize: { height: 240, width: 320 },
-    chapters: [],
-    markers: [],
     midiFiles: [],
     currentMidiFile: null,
     title: "Loading...",
@@ -51,8 +48,8 @@ class Vid extends React.Component {
       this.state.videoRate !== nextState.videoRate ||
       this.state.videoUri !== nextState.videoUri ||
       this.state.naturalSize !== nextState.naturalSize ||
-      this.state.chapters !== nextState.chapters ||
-      this.state.markers !== nextState.markers ||
+      this.props.videoChapters !== nextProps.videoChapters ||
+      this.props.videoMarkers !== nextProps.videoMarkers ||
       this.state.midiFiles !== nextState.midiFiles ||
       this.state.currentMidiFile !== nextState.currentMidiFile ||
       this.state.title !== nextState.title ||
@@ -68,7 +65,6 @@ class Vid extends React.Component {
     const mediaId = this.props.video !== undefined ? this.props.video.id : "";
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
-    const markers = flattenedChapters(this.state.chapters);
 
     return (
       <View
@@ -103,7 +99,7 @@ class Vid extends React.Component {
             isPhone={isPhone}
             areControlsVisible={this.state.areControlsVisible}
             duration={this.state.mediaDuration}
-            markers={markers}
+            markers={this.props.videoChapters.toJS()}
             currentLoop={this.props.currentLoop}
             loopIsEnabled={this.props.loopIsEnabled}
             tempo={this.state.playbackRate}
@@ -135,7 +131,7 @@ class Vid extends React.Component {
               title={mediaTitle}
               tempo={this.state.playbackRate}
               duration={this.state.mediaDuration}
-              markers={markers}
+              markers={this.props.videoChapters.toJS()}
               isPlaying={this.state.isPlaying}
               isPhone={isPhone}
               areControlsVisible={this.state.areControlsVisible}
@@ -157,7 +153,7 @@ class Vid extends React.Component {
               duration={this.state.mediaDuration}
               currentLoop={this.props.currentLoop}
               loopIsEnabled={this.props.loopIsEnabled}
-              videoMarkers={markers}
+              videoMarkers={this.props.videoMarkers.toJS()}
               isVideo={true}
               onSeek={this.handleSeek}
               onLoopEnable={this.handleLoopEnable}
@@ -228,10 +224,12 @@ class Vid extends React.Component {
       .then(json => {
         const j = JSON.parse(json);
 
+        if (this.state.title !== j.name) {
+          this.props.setVideoChapters(j.chapters);
+        }
+
         this.setState({
           title: j.name || "",
-          chapters: j.chapters || [],
-          markers: flattenedMarkers(j.chapters || []),
           midiFiles: j.midiTimes || [],
           quickLoops: j.quickLoops || []
         });
@@ -452,9 +450,23 @@ class Vid extends React.Component {
 Vid.propTypes = {
   video: PropTypes.object,
   markers: PropTypes.object,
+  videoChapters: PropTypes.object,
+  videoMarkers: PropTypes.object,
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
-  updateTime: PropTypes.func.isRequired
+  updateTime: PropTypes.func.isRequired,
+  setVideoChapters: PropTypes.func.isRequired
 };
 
-export default Vid;
+const mapStateToProps = (state, props) => {
+  return {
+    markers: state.get("markers"),
+    currentLoop: state.get("currentLoop"),
+    loopIsEnabled: state.get("loopIsEnabled"),
+    visibleTracks: state.get("visibleTracks"),
+    videoChapters: state.get("videoChapters"),
+    videoMarkers: state.get("videoMarkers")
+  };
+};
+
+export default connect(mapStateToProps)(Vid);

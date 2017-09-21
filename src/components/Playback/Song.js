@@ -380,4 +380,13 @@ Song.propTypes = {
   loopIsEnabled: PropTypes.bool
 };
 
-export default Song;
+const mapStateToProps = (state, props) => {
+  return {
+    markers: state.get("markers"),
+    currentLoop: state.get("currentLoop"),
+    loopIsEnabled: state.get("loopIsEnabled"),
+    visibleTracks: state.get("visibleTracks")
+  };
+};
+
+export default connect(mapStateToProps)(Song);
