@@ -213,7 +213,6 @@ class Vid extends React.Component {
   };
 
   handleVideoLoad = details => {
-    console.log("handleVideoLoad");
     this.setState({
       mediaDuration: details.duration,
       naturalSize: details.naturalSize,
@@ -266,7 +265,10 @@ class Vid extends React.Component {
       if (loopIsEnabled && currentTime >= loop.end && loop.begin > -1) {
         this.player.seek(loop.begin);
       } else {
-        if (this.state.mediaDuration !== playableDuration) {
+        if (
+          playableDuration !== this.state.mediaDuration &&
+          playableDuration > 0
+        ) {
           this.setState({
             mediaDuration: playableDuration
           });
