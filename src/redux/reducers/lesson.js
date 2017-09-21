@@ -26,7 +26,7 @@ exports.videoChapters = (state = List(), action) => {
 
       return List(reduced);
 
-    case "CLEAR_VIDEO_CHAPTERS":
+    case "CLEAR_VIDEO_LESSON":
       return List();
     default:
       return state;
@@ -41,7 +41,18 @@ exports.videoMarkers = (state = List(), action) => {
       }, []);
 
       return List(reduced);
-    case "CLEAR_VIDEO_CHAPTERS":
+    case "CLEAR_VIDEO_LESSON":
+      return List();
+    default:
+      return state;
+  }
+};
+
+exports.videoMidiFiles = (state = List(), action) => {
+  switch (action.type) {
+    case "SET_VIDEO_MIDI_FILES":
+      return List(action.payload);
+    case "CLEAR_VIDEO_LESSON":
       return List();
     default:
       return state;
@@ -51,8 +62,8 @@ exports.videoMarkers = (state = List(), action) => {
 exports.currentVideoChapter = (state = Map(), action) => {
   switch (action.type) {
     case "SET_CURRENT_VIDEO_CHAPTER":
-      return action.payload;
-    case "CLEAR_CURRENT_VIDEO_CHAPTER":
+      return action.payload || Map();
+    case "CLEAR_VIDEO_LESSON":
       return Map();
     default:
       return state;
@@ -62,9 +73,19 @@ exports.currentVideoChapter = (state = Map(), action) => {
 exports.currentVideoMarker = (state = Map(), action) => {
   switch (action.type) {
     case "SET_CURRENT_VIDEO_MARKER":
-      console.log("marker", action.payload.name);
-      return action.payload;
-    case "CLEAR_CURRENT_VIDEO_MARKER":
+      return action.payload || Map();
+    case "CLEAR_VIDEO_LESSON":
+      return Map();
+    default:
+      return state;
+  }
+};
+
+exports.currentVideoMidiFile = (state = Map(), action) => {
+  switch (action.type) {
+    case "SET_CURRENT_VIDEO_MIDI_FILE":
+      return action.payload || Map();
+    case "CLEAR_VIDEO_LESSON":
       return Map();
     default:
       return state;

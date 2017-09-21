@@ -49,6 +49,7 @@ const FretboardNote = ({
 
 const mapStateToProps = (state, props) => {
   return {
+    currentVideoMidiFile: state.get("currentVideoMidiFile"),
     isVisible: hasNoteForTimeSelector(state, props)
   };
 };

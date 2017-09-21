@@ -13,8 +13,10 @@ import { currentLoop, loopIsEnabled } from "./loop";
 import {
   videoChapters,
   videoMarkers,
+  videoMidiFiles,
   currentVideoChapter,
-  currentVideoMarker
+  currentVideoMarker,
+  currentVideoMidiFile
 } from "./lesson";
 
 const appReducer = combineReducers({
@@ -23,8 +25,10 @@ const appReducer = combineReducers({
   markers,
   videoChapters,
   videoMarkers,
+  videoMidiFiles,
   currentVideoChapter,
   currentVideoMarker,
+  currentVideoMidiFile,
   guitarTracks,
   visibleTracks,
   tuningTracks,

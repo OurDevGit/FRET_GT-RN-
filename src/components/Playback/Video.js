@@ -34,7 +34,6 @@ class Vid extends React.Component {
     videoUri: null,
     naturalSize: { height: 240, width: 320 },
     midiFiles: [],
-    currentMidiFile: null,
     title: "Loading...",
     quickLoops: [],
     isFullscreen: false,
@@ -47,6 +46,10 @@ class Vid extends React.Component {
     const mediaId = this.props.video !== undefined ? this.props.video.id : "";
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
+    const midiFile =
+      this.props.currentVideoMidiFile.name !== undefined
+        ? `${this.props.currentVideoMidiFile.name}.midi`
+        : null;
 
     return (
       <View
@@ -64,7 +67,7 @@ class Vid extends React.Component {
         }}
       >
         <Midi
-          midi={this.state.currentMidiFile}
+          midi={midiFile}
           onData={this.props.updateMidiData}
           clearMidiData={this.props.clearMidiData}
           clearMidi={clearMidi}
@@ -176,8 +179,10 @@ class Vid extends React.Component {
       this.state.naturalSize !== nextState.naturalSize ||
       this.props.videoChapters !== nextProps.videoChapters ||
       this.props.videoMarkers !== nextProps.videoMarkers ||
+      this.props.videoMidiFiles !== nextProps.videoMidiFiles ||
       this.props.currentVideoChapter !== nextProps.currentVideoChapter ||
       this.props.currentVideoMarker !== nextProps.currentVideoMarker ||
+      this.props.currentVideoMidiFile !== nextProps.currentVideoMidiFile ||
       this.state.midiFiles !== nextState.midiFiles ||
       this.state.currentMidiFile !== nextState.currentMidiFile ||
       this.state.title !== nextState.title ||
@@ -229,10 +234,10 @@ class Vid extends React.Component {
         const j = JSON.parse(json);
 
         this.props.setVideoChapters(j.chapters);
+        this.props.setVideoMidiFiles(j.midiTimes);
 
         this.setState({
           title: j.name || "",
-          midiFiles: j.midiTimes || [],
           quickLoops: j.quickLoops || []
         });
       })
@@ -254,10 +259,6 @@ class Vid extends React.Component {
     const currentProgress = currentTime / playableDuration;
 
     this.updateChaptersAndMarkers(currentTime);
-    const currentMidi = midiForTime(currentTime, this.state.midiFiles);
-
-    const currentMidiFile =
-      currentMidi !== undefined ? `${currentMidi.name}.midi` : null;
 
     if (currentTime !== this.playbackSeconds) {
       const loop = currentLoop.toJS() || { begin: -1, end: duration };
@@ -265,13 +266,9 @@ class Vid extends React.Component {
       if (loopIsEnabled && currentTime >= loop.end && loop.begin > -1) {
         this.player.seek(loop.begin);
       } else {
-        if (
-          this.state.mediaDuration !== playableDuration ||
-          this.state.currentMidiFile !== currentMidiFile
-        ) {
+        if (this.state.mediaDuration !== playableDuration) {
           this.setState({
-            mediaDuration: playableDuration,
-            currentMidiFile
+            mediaDuration: playableDuration
           });
         }
 
@@ -284,27 +281,26 @@ class Vid extends React.Component {
   updateChaptersAndMarkers = time => {
     const {
       videoChapters,
+      videoMidiFiles,
       currentVideoChapter,
-      currentVideoMarker
+      currentVideoMarker,
+      currentVideoMidiFile
     } = this.props;
 
     const chapter = chapterForTime(time, videoChapters);
     const marker = markerForTime(time, videoChapters);
+    const midi = midiForTime(time, videoMidiFiles);
 
     if (chapter !== currentVideoChapter) {
-      if (chapter === undefined) {
-        this.props.clearCurrentVideoChapter();
-      } else {
-        this.props.setCurrentVideoChapter(chapter);
-      }
+      this.props.setCurrentVideoChapter(chapter);
     }
 
     if (marker !== this.props.currentVideoMarker) {
-      if (marker === undefined) {
-        this.props.clearCurrentVideoMarker();
-      } else {
-        this.props.setCurrentVideoMarker(marker);
-      }
+      this.props.setCurrentVideoMarker(marker);
+    }
+
+    if (midi !== this.props.currentVideoMidiFile) {
+      this.props.setCurrentVideoMidiFile(midi);
     }
   };
 
@@ -489,14 +485,18 @@ Vid.propTypes = {
   markers: PropTypes.object,
   videoChapters: PropTypes.object,
   videoMarkers: PropTypes.object,
+  videoMidiFiles: PropTypes.object,
+  currentVideoChapter: PropTypes.object,
+  currentVideoMarker: PropTypes.object,
+  currentVideoMidiFile: PropTypes.object,
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
   updateTime: PropTypes.func.isRequired,
   setVideoChapters: PropTypes.func.isRequired,
+  setVideoMidiFiles: PropTypes.func.isRequired,
   setCurrentVideoChapter: PropTypes.func.isRequired,
-  clearCurrentVideoChapter: PropTypes.func.isRequired,
   setCurrentVideoMarker: PropTypes.func.isRequired,
-  clearCurrentVideoMarker: PropTypes.func.isRequired
+  setCurrentVideoMidiFile: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => {
@@ -507,8 +507,10 @@ const mapStateToProps = (state, props) => {
     visibleTracks: state.get("visibleTracks"),
     videoChapters: state.get("videoChapters"),
     videoMarkers: state.get("videoMarkers"),
+    videoMidiFiles: state.get("videoMidiFiles"),
     currentVideoChapter: state.get("currentVideoChapter"),
-    currentVideoMarker: state.get("currentVideoMarker")
+    currentVideoMarker: state.get("currentVideoMarker"),
+    currentVideoMidiFile: state.get("currentVideoMidiFile")
   };
 };
 

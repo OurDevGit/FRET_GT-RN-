@@ -10,6 +10,7 @@ const getTrackNameSelector = (_, props) => props.track;
 const getFretSelector = (_, props) => props.fret;
 const getStringSelector = (_, props) => props.string;
 const getTempoSelector = (_, props) => props.tempo;
+const getMidiFileSelector = (_, props) => props.currentVideoMidiFile;
 
 var notes = Map();
 
@@ -30,13 +31,20 @@ exports.hasNoteForTimeSelector = createSelector(
   getTrackNameSelector,
   getFretSelector,
   getStringSelector,
-  (time, track, fret, string) => {
+  getMidiFileSelector,
+  (time, track, fret, string, midiFile) => {
     const notesForTrackFretString = notes.getIn([track, fret, string]);
+    const offsetTime =
+      midiFile === undefined || midiFile.begin === undefined
+        ? time
+        : time - midiFile.begin;
 
     if (notesForTrackFretString !== undefined) {
       const notesForTrackFretStringAtTime = notesForTrackFretString.filter(
         note => {
-          return note.get("begin") <= time && note.get("end") > time;
+          return (
+            note.get("begin") <= offsetTime && note.get("end") > offsetTime
+          );
         }
       );
       return notesForTrackFretStringAtTime.count() > 0;
@@ -74,7 +82,11 @@ const timeForStep = (type, time, track, currentLoop, loopIsEnabled) => {
 
   if (filtered.count() > 0) {
     const sorted =
-      type === "PREV" ? List(filtered).sort().reverse() : List(filtered).sort();
+      type === "PREV"
+        ? List(filtered)
+            .sort()
+            .reverse()
+        : List(filtered).sort();
 
     const currentNotes = notesForTrack
       .filter(note => note.get("begin") <= time && note.get("end") > time)

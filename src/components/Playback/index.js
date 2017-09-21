@@ -52,10 +52,10 @@ class MediaPlayer extends Component {
             clearCurrentLoop={this.props.clearCurrentLoop}
             onSelectTempo={this.handleSelectTempo}
             setVideoChapters={this.props.setVideoChapters}
+            setVideoMidiFiles={this.props.setVideoMidiFiles}
             setCurrentVideoChapter={this.props.setCurrentVideoChapter}
-            clearCurrentVideoChapter={this.props.clearCurrentVideoChapter}
             setCurrentVideoMarker={this.props.setCurrentVideoMarker}
-            clearCurrentVideoMarker={this.props.clearCurrentVideoMarker}
+            setCurrentVideoMidiFile={this.props.setCurrentVideoMidiFile}
           />
         )}
       </View>
@@ -68,6 +68,15 @@ class MediaPlayer extends Component {
       this.props.video !== nextProps.video ||
       this.state.layout.width !== nextState.layout.width
     );
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (
+      this.props.song !== nextProps.song ||
+      this.props.video !== nextProps.video
+    ) {
+      this.props.clearVideoLesson();
+    }
   }
 
   handleSelectTempo = tempo => {
@@ -102,10 +111,11 @@ MediaPlayer.propTypes = {
   setCurrentLoop: PropTypes.func.isRequired,
   clearCurrentLoop: PropTypes.func.isRequired,
   setVideoChapters: PropTypes.func.isRequired,
+  setVideoMidiFiles: PropTypes.func.isRequired,
   setCurrentVideoChapter: PropTypes.func.isRequired,
-  clearCurrentVideoChapter: PropTypes.func.isRequired,
   setCurrentVideoMarker: PropTypes.func.isRequired,
-  clearCurrentVideoMarker: PropTypes.func.isRequired
+  setCurrentVideoMidiFile: PropTypes.func.isRequired,
+  clearVideoLesson: PropTypes.func.isRequired
 };
 
 export default connect(null, actions)(MediaPlayer);

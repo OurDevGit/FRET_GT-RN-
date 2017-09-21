@@ -3,8 +3,9 @@ export const setVideoChapters = chapters => ({
   payload: chapters
 });
 
-export const clearVideoChapters = () => ({
-  type: "CLEAR_VIDEO_CHAPTERS"
+export const setVideoMidiFiles = midi => ({
+  type: "SET_VIDEO_MIDI_FILES",
+  payload: midi
 });
 
 export const setCurrentVideoChapter = chapter => ({
@@ -12,15 +13,16 @@ export const setCurrentVideoChapter = chapter => ({
   payload: chapter
 });
 
-export const clearCurrentVideoChapter = () => ({
-  type: "CLEAR_CURRENT_VIDEO_CHAPTER"
-});
-
 export const setCurrentVideoMarker = marker => ({
   type: "SET_CURRENT_VIDEO_MARKER",
   payload: marker
 });
 
-export const clearCurrentVideoMarker = () => ({
-  type: "CLEAR_CURRENT_VIDEO_MARKER"
+export const setCurrentVideoMidiFile = midi => ({
+  type: "SET_CURRENT_VIDEO_MIDI_FILE",
+  payload: midi
+});
+
+export const clearVideoLesson = () => ({
+  type: "CLEAR_VIDEO_LESSON"
 });
