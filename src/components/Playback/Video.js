@@ -185,10 +185,6 @@ class Vid extends React.Component {
     this.handleNewVideo();
   }
 
-  componentWillReceiveProps(newProps) {
-    this.handleNewVideo();
-  }
-
   handlePlayerRegister = player => {
     this.player = player;
   };
@@ -198,9 +194,11 @@ class Vid extends React.Component {
   handleNewVideo = () => {
     this.loadJSON("config.json");
 
-    this.setState({
-      videoUri: RNFetchBlob.fs.asset("lesson.mp4")
-    });
+    if (this.state.videoURL !== RNFetchBlob.fs.asset("lesson.mp4")) {
+      this.setState({
+        videoUri: RNFetchBlob.fs.asset("lesson.mp4")
+      });
+    }
   };
 
   handleVideoLoad = details => {
@@ -224,9 +222,7 @@ class Vid extends React.Component {
       .then(json => {
         const j = JSON.parse(json);
 
-        if (this.state.title !== j.name) {
-          this.props.setVideoChapters(j.chapters);
-        }
+        this.props.setVideoChapters(j.chapters);
 
         this.setState({
           title: j.name || "",

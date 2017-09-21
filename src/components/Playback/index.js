@@ -58,6 +58,14 @@ class MediaPlayer extends Component {
     );
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.song !== nextProps.song ||
+      this.props.video !== nextProps.video ||
+      this.state.layout.width !== nextState.layout.width
+    );
+  }
+
   handleSelectTempo = tempo => {
     if (tempo === 0) {
       const first = this.props.visibleTracks.first();
