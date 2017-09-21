@@ -1,6 +1,6 @@
 import { combineReducers } from "redux-immutable";
 import ad from "./ad";
-import time from "./time";
+import { time, timeMidiOffset } from "./time";
 import {
   markers,
   guitarTracks,
@@ -22,6 +22,7 @@ import {
 const appReducer = combineReducers({
   ad,
   time,
+  timeMidiOffset,
   markers,
   videoChapters,
   videoMarkers,

@@ -1,12 +1,21 @@
-import Immutable from 'immutable'
+import { Map } from "immutable";
 
-const time = (state = 0, action) => {
+exports.time = (state = 0, action) => {
   switch (action.type) {
-    case 'UPDATE_TIME':
-      return  action.payload
+    case "UPDATE_TIME":
+      return action.payload;
     default:
-      return state
+      return state;
   }
-}
+};
 
-export default time
+exports.timeMidiOffset = (state = 0, action) => {
+  switch (action.type) {
+    case "SET_CURRENT_VIDEO_MIDI_FILE":
+      return action.payload.get("begin");
+    case "CLEAR_VIDEO_LESSON":
+      return 0;
+    default:
+      return state;
+  }
+};

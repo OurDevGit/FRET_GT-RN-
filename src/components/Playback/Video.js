@@ -47,8 +47,8 @@ class Vid extends React.Component {
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
     const midiFile =
-      this.props.currentVideoMidiFile.name !== undefined
-        ? `${this.props.currentVideoMidiFile.name}.midi`
+      this.props.currentVideoMidiFile.get("name") !== undefined
+        ? `${this.props.currentVideoMidiFile.get("name")}.midi`
         : null;
 
     return (
@@ -117,8 +117,8 @@ class Vid extends React.Component {
               tempo={this.state.playbackRate}
               duration={this.state.mediaDuration}
               markers={this.props.videoChapters.toJS()}
-              currentChapter={this.props.currentVideoChapter}
-              currentMarker={this.props.currentVideoMarker}
+              currentChapter={this.props.currentVideoChapter.toJS()}
+              currentMarker={this.props.currentVideoMarker.toJS()}
               isPlaying={this.state.isPlaying}
               isPhone={isPhone}
               areControlsVisible={this.state.areControlsVisible}
@@ -141,7 +141,7 @@ class Vid extends React.Component {
               currentLoop={this.props.currentLoop}
               loopIsEnabled={this.props.loopIsEnabled}
               videoMarkers={this.props.videoMarkers.toJS()}
-              currentVideoMarker={this.props.currentVideoMarker}
+              currentVideoMarker={this.props.currentVideoMarker.toJS()}
               isVideo={true}
               onSeek={this.handleSeek}
               onLoopEnable={this.handleLoopEnable}
@@ -180,15 +180,15 @@ class Vid extends React.Component {
       this.props.videoChapters !== nextProps.videoChapters ||
       this.props.videoMarkers !== nextProps.videoMarkers ||
       this.props.videoMidiFiles !== nextProps.videoMidiFiles ||
-      this.props.currentVideoChapter !== nextProps.currentVideoChapter ||
-      this.props.currentVideoMarker !== nextProps.currentVideoMarker ||
-      this.props.currentVideoMidiFile !== nextProps.currentVideoMidiFile ||
       this.state.midiFiles !== nextState.midiFiles ||
       this.state.currentMidiFile !== nextState.currentMidiFile ||
       this.state.title !== nextState.title ||
       this.state.quickLoops !== nextState.quickLoops ||
       this.state.isFullscreen !== nextState.isFullscreen ||
-      this.state.areControlsVisible !== nextState.areControlsVisible
+      this.state.areControlsVisible !== nextState.areControlsVisible ||
+      !this.props.currentVideoChapter.equals(nextProps.currentVideoChapter) ||
+      !this.props.currentVideoMarker.equals(nextProps.currentVideoMarker) ||
+      !this.props.currentVideoMidiFile.equals(nextProps.currentVideoMidiFile)
     );
   }
 
@@ -291,15 +291,15 @@ class Vid extends React.Component {
     const marker = markerForTime(time, videoChapters);
     const midi = midiForTime(time, videoMidiFiles);
 
-    if (chapter !== currentVideoChapter) {
+    if (!chapter.equals(currentVideoChapter)) {
       this.props.setCurrentVideoChapter(chapter);
     }
 
-    if (marker !== this.props.currentVideoMarker) {
+    if (!marker.equals(this.props.currentVideoMarker)) {
       this.props.setCurrentVideoMarker(marker);
     }
 
-    if (midi !== this.props.currentVideoMidiFile) {
+    if (!midi.equals(this.props.currentVideoMidiFile)) {
       this.props.setCurrentVideoMidiFile(midi);
     }
   };

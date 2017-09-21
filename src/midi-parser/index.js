@@ -70,6 +70,8 @@ module.exports = filename => {
         if (arr[0].text.includes("FMP - Jam Bar")) {
           patterns = List(patternTrack(arr, secondsForTicks));
         }
+
+        // console.log(notes.toJS());
       }
     });
 

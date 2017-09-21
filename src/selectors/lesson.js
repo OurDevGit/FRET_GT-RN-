@@ -1,5 +1,7 @@
+import { Map } from "immutable";
+
 const filteredItem = (items, predicate) => {
-  return items === undefined ? undefined : items.filter(predicate).first();
+  return items === undefined ? Map() : Map(items.filter(predicate).first());
 };
 
 exports.chapterForTime = (time, items) => {

@@ -3,6 +3,7 @@ import { List, Map, Set } from "immutable";
 import MidiParser from "../midi-parser";
 
 const getTimeSelector = state => state.get("time");
+const getTimeOffset = state => state.get("timeMidiOffset");
 const getVisibleTracksSelector = state => state.get("visibleTracks");
 const getLoopIsEnabledSelector = state => state.get("loopIsEnabled");
 const getCurrentLoopSelector = state => state.get("currentLoop");
@@ -10,7 +11,6 @@ const getTrackNameSelector = (_, props) => props.track;
 const getFretSelector = (_, props) => props.fret;
 const getStringSelector = (_, props) => props.string;
 const getTempoSelector = (_, props) => props.tempo;
-const getMidiFileSelector = (_, props) => props.currentVideoMidiFile;
 
 var notes = Map();
 
@@ -28,16 +28,13 @@ exports.clearMidi = () => {
 
 exports.hasNoteForTimeSelector = createSelector(
   getTimeSelector,
+  getTimeOffset,
   getTrackNameSelector,
   getFretSelector,
   getStringSelector,
-  getMidiFileSelector,
-  (time, track, fret, string, midiFile) => {
+  (time, offset, track, fret, string) => {
     const notesForTrackFretString = notes.getIn([track, fret, string]);
-    const offsetTime =
-      midiFile === undefined || midiFile.begin === undefined
-        ? time
-        : time - midiFile.begin;
+    const offsetTime = time - offset;
 
     if (notesForTrackFretString !== undefined) {
       const notesForTrackFretStringAtTime = notesForTrackFretString.filter(

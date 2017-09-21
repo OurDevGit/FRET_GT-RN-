@@ -62,7 +62,7 @@ exports.videoMidiFiles = (state = List(), action) => {
 exports.currentVideoChapter = (state = Map(), action) => {
   switch (action.type) {
     case "SET_CURRENT_VIDEO_CHAPTER":
-      return action.payload || Map();
+      return action.payload;
     case "CLEAR_VIDEO_LESSON":
       return Map();
     default:
@@ -73,7 +73,7 @@ exports.currentVideoChapter = (state = Map(), action) => {
 exports.currentVideoMarker = (state = Map(), action) => {
   switch (action.type) {
     case "SET_CURRENT_VIDEO_MARKER":
-      return action.payload || Map();
+      return action.payload;
     case "CLEAR_VIDEO_LESSON":
       return Map();
     default:
@@ -84,7 +84,7 @@ exports.currentVideoMarker = (state = Map(), action) => {
 exports.currentVideoMidiFile = (state = Map(), action) => {
   switch (action.type) {
     case "SET_CURRENT_VIDEO_MIDI_FILE":
-      return action.payload || Map();
+      return action.payload;
     case "CLEAR_VIDEO_LESSON":
       return Map();
     default:
