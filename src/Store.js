@@ -1,5 +1,7 @@
+import { AsyncStorage } from "react-native";
 import { fetchStore } from "./api";
 import realm from "./realm";
+import { setStore } from "./Storage";
 import _ from "lodash";
 
 const mediaForIds = (mediaIds, mediaById) => {
@@ -66,44 +68,17 @@ const saveCategory = (category, store) => {
   realm.create("Category", treedCategory, true);
 };
 
-const makeNormalizedMedia = media => {
-  // const datedMedia = media.map(m => {
-  //   let dMedia = { ...m };
-  //   dMedia.updated_at = new Date(dMedia.updated_at);
-  //   return dMedia;
-  // });
-
-  var byId = {};
-  media.forEach(m => {
-    byId[m.mediaID] = m;
-  });
-
-  return byId;
-};
-
 export const syncStore = () => {
-  fetchStore().then(store => {
-    // console.debug("got store");
+  fetchStore().then(async store => {
+    console.debug("got store");
     // console.debug(store);
 
-    const {
-      categories,
-      categoryLists,
-      groupLists,
-      groups,
-      media,
-      mediaLists,
-      sorting,
-      subCategories,
-      subCategoryLists
-    } = store;
+    await setStore(store);
 
-    const mediaById = makeNormalizedMedia(media);
-
-    realm.write(() => {
-      categories.forEach(category => {
-        saveCategory(category, { ...store, mediaById });
-      });
-    });
+    // realm.write(() => {
+    //   categories.forEach(category => {
+    //     saveCategory(category, { ...store, mediaById });
+    //   });
+    // });
   });
 };
