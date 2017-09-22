@@ -6,7 +6,8 @@ import {
   TextInput,
   Text,
   Animated,
-  I18nManager
+  I18nManager,
+  AsyncStorage
 } from "react-native";
 
 import InAppBilling from "react-native-billing";
@@ -141,50 +142,24 @@ class TabbedMedia extends PureComponent {
     </View>
   );
 
+  componentWillMount() {
+    // this.loadPurchases();
+  }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.media.length > 0) {
       // const mediaIds = ["4_non_blondes_whats_up", "smashing_pumpkins_1979"];
 
-      const allMedia = _.flatMap(nextProps.media, m => _.toArray(m.data));
-      const mediaIds = allMedia.map(o => o.mediaID.toLowerCase());
+      const currMedia = _.flatMap(this.props.media, m => _.toArray(m.data));
+      const currMediaIds = currMedia.map(o => o.mediaID.toLowerCase());
 
-      if (this.state.billingChannelIsOpen !== true) {
-        console.debug(mediaIds);
+      const nextMedia = _.flatMap(nextProps.media, m => _.toArray(m.data));
+      const nextMediaIds = nextMedia.map(o => o.mediaID.toLowerCase());
+
+      if (!_.isEqual(currMediaIds, nextMediaIds)) {
+        // console.debug(mediaIds);
         console.debug("going to get prices and info");
-        this.setState({ billingChannelIsOpen: true });
-
-        InAppBilling.open()
-          .then(() => InAppBilling.loadOwnedPurchasesFromGoogle())
-          .then(lopResults => {
-            console.debug({ lopResults });
-          })
-          .then(() => InAppBilling.getProductDetailsArray(mediaIds))
-          .then(details => {
-            console.debug(details);
-
-            InAppBilling.getProductDetails(mediaIds[1])
-              .then(details => {
-                console.debug({ details });
-              })
-              .then(() => {
-                InAppBilling.close().then(() => {
-                  this.setState({ billingChannelIsOpen: false });
-                });
-              });
-
-            this.setState({
-              productDetailsById: normalizeProductDetails(details)
-            });
-          })
-          .catch(err => {
-            console.debug("error getting IAP details");
-            console.error(err);
-            InAppBilling.close().then(() => {
-              this.setState({ billingChannelIsOpen: false });
-            });
-          });
-      } else {
-        console.debug("billing channel is already open");
+        // this.loadProductDetails(nextMediaIds);
       }
     }
   }
@@ -204,6 +179,77 @@ class TabbedMedia extends PureComponent {
       priceText: "LOADING"
     };
     return details.priceText;
+  };
+
+  openBilling = () => {
+    if (this.state.billingChannelIsOpen) {
+      console.debug("billing channel is already open");
+
+      return Promise.resolve(() => {
+        console.debug("channel was already open so I'm not closing it");
+        return null;
+      });
+    } else {
+      console.debug("opening billing channel");
+
+      this.setState({
+        billingChannelIsOpen: true
+      });
+
+      return InAppBilling.open().then(() => {
+        console.debug("closing the billing channel that I opened");
+        return () => InAppBilling.close();
+      });
+    }
+  };
+
+  loadPurchases = () => {
+    AsyncStorage.getItem("PurchasedProducts").then(products => {
+      console.debug("loaded purchased products");
+      console.debug(JSON.parse(products));
+    });
+
+    console.debug("loadPurchases()");
+    this.openBilling().then(closeBilling => {
+      InAppBilling.loadOwnedPurchasesFromGoogle()
+        .then(() => InAppBilling.listOwnedProducts())
+        .then(listResults => {
+          AsyncStorage.setItem(
+            "PurchasedProducts",
+            JSON.stringify(listResults)
+          );
+          console.debug({ listResults });
+        })
+        .then(() => closeBilling())
+        .catch(err => {
+          console.error(err);
+          InAppBilling.close();
+        });
+    });
+  };
+
+  loadProductDetails = mediaIds => {
+    console.debug("loadProductDetails()");
+    this.openBilling().then(closeBilling => {
+      InAppBilling.getProductDetailsArray(mediaIds)
+        .then(details => {
+          console.debug("got product details");
+          const productDetailsById = normalizeProductDetails(details);
+          console.debug(productDetailsById);
+
+          this.setState({
+            productDetailsById
+          });
+        })
+        .then(() => closeBilling())
+        .catch(err => {
+          console.debug("error getting IAP details");
+          console.error(err);
+          InAppBilling.close().then(() => {
+            this.setState({ billingChannelIsOpen: false });
+          });
+        });
+    });
   };
 }
 
