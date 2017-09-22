@@ -1,7 +1,7 @@
 import { AsyncStorage } from "react-native";
 import { fetchStore } from "./api";
 import realm from "./realm";
-import { setStore } from "./Storage";
+import Store, { setStore } from "./models/Store";
 import _ from "lodash";
 
 const mediaForIds = (mediaIds, mediaById) => {
@@ -68,17 +68,17 @@ const saveCategory = (category, store) => {
   realm.create("Category", treedCategory, true);
 };
 
-export const syncStore = () => {
-  fetchStore().then(async store => {
-    console.debug("got store");
-    // console.debug(store);
+export const syncStore = async () => {
+  const storeData = await fetchStore();
+  console.debug("got store");
+  // console.debug(store);
 
-    await setStore(store);
+  return setStore(storeData);
+  // console.debug(storeObjects);
 
-    // realm.write(() => {
-    //   categories.forEach(category => {
-    //     saveCategory(category, { ...store, mediaById });
-    //   });
-    // });
-  });
+  // realm.write(() => {
+  //   categories.forEach(category => {
+  //     saveCategory(category, { ...store, mediaById });
+  //   });
+  // });
 };

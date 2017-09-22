@@ -38,9 +38,6 @@
 		B597C354883D499B9CCBD9FB /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F73AF6C0B2384FBA8171E403 /* libRNFetchBlob.a */; };
 		49586F6D5222476B8FE84B86 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33503853203940F9A176D74C /* libRNSound.a */; };
 		AB79C92AC3804036B4B05225 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7496B0D12EE5402984E23648 /* libRCTVideo.a */; };
-		4D4674A3C7C34415B616B500 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D318E26DCCD451DAD0909B1 /* libRealmReact.a */; };
-		9EC49BEBBE1B4F05A4959B1E /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 71E0FD366B9C41CE99817D33 /* libc++.tbd */; };
-		2B8209608B4A4565A482C15D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6ED46BE10B4499BB438404 /* libz.tbd */; };
 		037305354434448B8B05A150 /* libReactNativeVolumeController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5678EE80E2D4086A47C8694 /* libReactNativeVolumeController.a */; };
 /* End PBXBuildFile section */
 
@@ -267,10 +264,6 @@
 		33503853203940F9A176D74C /* libRNSound.a */ = {isa = PBXFileReference; name = "libRNSound.a"; path = "libRNSound.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		D7C6FCBA9885468F9E81DF48 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; name = "RCTVideo.xcodeproj"; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		7496B0D12EE5402984E23648 /* libRCTVideo.a */ = {isa = PBXFileReference; name = "libRCTVideo.a"; path = "libRCTVideo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		306CCDE74BF84E8496D4F8EB /* RealmReact.xcodeproj */ = {isa = PBXFileReference; name = "RealmReact.xcodeproj"; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		7D318E26DCCD451DAD0909B1 /* libRealmReact.a */ = {isa = PBXFileReference; name = "libRealmReact.a"; path = "libRealmReact.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		71E0FD366B9C41CE99817D33 /* libc++.tbd */ = {isa = PBXFileReference; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
-		8E6ED46BE10B4499BB438404 /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 		D85A031329904CF58D6B8B5A /* ReactNativeVolumeController.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeVolumeController.xcodeproj"; path = "../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		B5678EE80E2D4086A47C8694 /* libReactNativeVolumeController.a */ = {isa = PBXFileReference; name = "libReactNativeVolumeController.a"; path = "libReactNativeVolumeController.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
@@ -302,9 +295,6 @@
 				B597C354883D499B9CCBD9FB /* libRNFetchBlob.a in Frameworks */,
 				49586F6D5222476B8FE84B86 /* libRNSound.a in Frameworks */,
 				AB79C92AC3804036B4B05225 /* libRCTVideo.a in Frameworks */,
-				4D4674A3C7C34415B616B500 /* libRealmReact.a in Frameworks */,
-				9EC49BEBBE1B4F05A4959B1E /* libc++.tbd in Frameworks */,
-				2B8209608B4A4565A482C15D /* libz.tbd in Frameworks */,
 				037305354434448B8B05A150 /* libReactNativeVolumeController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,7 +465,6 @@
 				F9084DE7968249C292D05194 /* RNFetchBlob.xcodeproj */,
 				872EED099A184C2EB69C7714 /* RNSound.xcodeproj */,
 				D7C6FCBA9885468F9E81DF48 /* RCTVideo.xcodeproj */,
-				306CCDE74BF84E8496D4F8EB /* RealmReact.xcodeproj */,
 				D85A031329904CF58D6B8B5A /* ReactNativeVolumeController.xcodeproj */,
 			);
 			name = Libraries;
@@ -517,8 +506,6 @@
 		7AAD52CA320F4E28A46615D8 /* Frameworks */ = {
 			isa = "PBXGroup";
 			children = (
-				71E0FD366B9C41CE99817D33 /* libc++.tbd */,
-				8E6ED46BE10B4499BB438404 /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1015,15 +1002,12 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GuitarTunes.app/GuitarTunes";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
@@ -1045,15 +1029,12 @@
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/GuitarTunes.app/GuitarTunes";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
@@ -1079,7 +1060,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
@@ -1104,7 +1084,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
@@ -1135,15 +1114,12 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
@@ -1174,15 +1150,12 @@
 				TVOS_DEPLOYMENT_TARGET = 9.2;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
@@ -1208,8 +1181,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1234,8 +1205,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Release;

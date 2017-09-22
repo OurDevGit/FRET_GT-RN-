@@ -1,5 +1,5 @@
 import React from "react";
-import Realm from "realm";
+// import Realm from "realm";
 import Media from "./Media";
 import Category from "./Category";
 import SubCategory from "./SubCategory";
@@ -15,26 +15,27 @@ import { omit } from "lodash";
 
 import { mapProps, withProps, lifecycle, compose } from "recompose";
 
-const schema0 = [
-  Media,
-  Category,
-  SubCategory,
-  Group,
-  Pattern,
-  PatternNote,
-  PatternReference,
-  PatternRoot,
-  Favorite,
-  Loop
-];
-const migrationFunction1 = (oldRealm, newRealm) => {};
+// const schema0 = [
+//   Media,
+//   Category,
+//   SubCategory,
+//   Group,
+//   Pattern,
+//   PatternNote,
+//   PatternReference,
+//   PatternRoot,
+//   Favorite,
+//   Loop
+// ];
+// const migrationFunction1 = (oldRealm, newRealm) => {};
 
-const realm = new Realm({ schema: schema0 });
-export default realm;
+// const realm = new Realm({ schema: schema0 });
+// export default realm;
 
 const updateQueries = (queries, mapQueriesUserFunc, ownProps) => {
   // remove any existing listeners
-  let mappedQueries = mapQueriesUserFunc(realm, ownProps);
+  // let mappedQueries = mapQueriesUserFunc(realm, ownProps);
+  let mappedQueries = mapQueriesUserFunc(null, ownProps);
 
   return mappedQueries;
 };
@@ -53,12 +54,12 @@ export const realmify = (
 ) => {
   // pass realm stuff to the user's makeMutations function
   var mutations = makeMutationsUserFunc({
-    realm,
+    realm: null, //realm,
     destroy: obj => {
-      realm.delete(obj);
+      // realm.delete(obj);
     },
     create: (className, obj) => {
-      realm.create(className, obj);
+      // realm.create(className, obj);
     }
   });
 
@@ -67,9 +68,9 @@ export const realmify = (
     let func = mutations[key];
     if (typeof func === "function") {
       mutations[key] = (...rest) => {
-        realm.write(() => {
-          func(...rest);
-        });
+        // realm.write(() => {
+        //   func(...rest);
+        // });
       };
     }
   }
@@ -146,7 +147,7 @@ export const realmify = (
   });
 
   return compose(
-    queriesWrapperHOC,
+    // queriesWrapperHOC,
     mapProps(props => {
       return {
         ...omit(props, ["queries", "mutations"]),

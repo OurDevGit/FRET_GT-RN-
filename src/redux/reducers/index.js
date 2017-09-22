@@ -18,6 +18,14 @@ import {
   currentVideoMarker,
   currentVideoMidiFile
 } from "./lesson";
+import {
+  categories,
+  subCategoriesByCategoryId,
+  groupsBySubCategoryId,
+  mediaById,
+  mediaByListId,
+  storeSorting
+} from "./store";
 
 const appReducer = combineReducers({
   ad,
@@ -36,7 +44,13 @@ const appReducer = combineReducers({
   patterns,
   smartTrack,
   currentLoop,
-  loopIsEnabled
+  loopIsEnabled,
+  categories,
+  subCategoriesByCategoryId,
+  groupsBySubCategoryId,
+  mediaById,
+  mediaByListId,
+  storeSorting
 });
 
 export default appReducer;

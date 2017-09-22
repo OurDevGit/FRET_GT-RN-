@@ -1,7 +1,9 @@
 import React from "react";
 import { View } from "react-native";
 import InAppBilling from "react-native-billing";
+import { connect } from "react-redux";
 
+import * as actions from "../../redux/actions";
 import { realmify } from "../../realm";
 import { syncStore } from "../../Store";
 
@@ -35,39 +37,40 @@ class Store extends React.PureComponent {
   };
 
   handleChooseCategory = (category, categoryIndex) => {
-    if (category.subCategories.length === 0) {
-      let m = category.media.sorted("title").slice(11, 23);
+    console.debug(categoryIndex, category);
+    // if (category.subCategories.length === 0) {
+    //   let m = category.media.sorted("title").slice(11, 23);
 
-      this.setState({
-        media: [{ data: m }],
-        subCategoryIndex: null,
-        subCategories: [],
-        categoryIndex
-      });
-    } else {
-      if (category.isGrouped === true) {
-        let media = category.subCategories.map(subCat => {
-          return {
-            data: subCat.media,
-            title: subCat.title
-          };
-        });
+    //   this.setState({
+    //     media: [{ data: m }],
+    //     subCategoryIndex: null,
+    //     subCategories: [],
+    //     categoryIndex
+    //   });
+    // } else {
+    //   if (category.isGrouped === true) {
+    //     let media = category.subCategories.map(subCat => {
+    //       return {
+    //         data: subCat.media,
+    //         title: subCat.title
+    //       };
+    //     });
 
-        this.setState({
-          media,
-          subCategoryIndex: null,
-          subCategories: []
-        });
-      } else {
-        this.setState({
-          categoryIndex,
-          subCategoryIndex: 0,
-          subCategories: category.subCategories
-        });
+    //     this.setState({
+    //       media,
+    //       subCategoryIndex: null,
+    //       subCategories: []
+    //     });
+    //   } else {
+    //     this.setState({
+    //       categoryIndex,
+    //       subCategoryIndex: 0,
+    //       subCategories: category.subCategories
+    //     });
 
-        this.handleChooseSubCategory(category.subCategories[0], 0);
-      }
-    }
+    //     this.handleChooseSubCategory(category.subCategories[0], 0);
+    //   }
+    // }
   };
 
   handleChooseSubCategory = (subCategory, subCategoryIndex) => {
@@ -93,7 +96,7 @@ class Store extends React.PureComponent {
 
   handleChooseMedia = media => {
     console.debug(`chose media: ${media.title}`);
-    makePurchase(media);
+    // makePurchase(media);
   };
 
   render() {
@@ -131,20 +134,22 @@ class Store extends React.PureComponent {
     );
   }
 
-  componentDidMount() {
-    syncStore();
+  async componentDidMount() {
+    const storeObjects = await syncStore();
+
+    this.props.storeLoaded(storeObjects);
+    // TODO: dispatch
   }
 
   componentWillReceiveProps(newProps) {
     // console.debug("Store gets props");
     // console.debug(newProps.categories.length);
-
-    if (newProps.categories.length > this.state.categoryIndex) {
-      this.handleChooseCategory(
-        newProps.categories[this.state.categoryIndex],
-        this.state.categoryIndex
-      );
-    }
+    // if (newProps.categories.length > this.state.categoryIndex) {
+    //   this.handleChooseCategory(
+    //     newProps.categories[this.state.categoryIndex],
+    //     this.state.categoryIndex
+    //   );
+    // }
   }
 
   handleIsStoreChange = isStore => {
@@ -154,8 +159,18 @@ class Store extends React.PureComponent {
 
 const mapQueriesToProps = (realm, ownProps) => {
   return {
-    categories: realm.objects("Category")
+    categories: null //realm.objects("Category")
   };
 };
 
-export default realmify(mapQueriesToProps)(Store);
+// export default realmify(mapQueriesToProps)(Store);
+
+const mapStateToProps = state => {
+  const cats = state.get("categories");
+  console.debug(cats.toJS());
+  return {
+    categories: cats.toJS()
+  };
+};
+
+export default connect(mapStateToProps, actions)(Store);

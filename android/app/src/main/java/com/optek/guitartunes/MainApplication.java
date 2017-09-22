@@ -5,7 +5,6 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import com.tavernari.volumecontroller.ReactNativeVolumeControllerPackage;
 import com.idehub.Billing.InAppBillingBridgePackage;
-import io.realm.react.RealmReactPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
@@ -29,7 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
             new ReactNativeVolumeControllerPackage(),
-            new InAppBillingBridgePackage(), new RealmReactPackage(), new ReactVideoPackage(),
+            new InAppBillingBridgePackage(), new ReactVideoPackage(),
           new RNSoundPackage(), new RNFetchBlobPackage(), new BSTestViewReactPackage());
     }
   };
