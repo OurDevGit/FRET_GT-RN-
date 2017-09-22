@@ -20,7 +20,8 @@ const fuseOptions = {
 
 class Media extends React.PureComponent {
   state = {
-    searchText: ""
+    searchText: "",
+    searchResults: null
   };
 
   render() {
@@ -36,6 +37,8 @@ class Media extends React.PureComponent {
           }}
         >
           <TextInput
+            disableFullscreenUI={true}
+            returnKeyType="search"
             style={{
               flexGrow: 1,
               marginRight: 8
@@ -52,7 +55,7 @@ class Media extends React.PureComponent {
         </View>
 
         <TabbedMedia
-          media={this.props.media || []}
+          media={this.state.searchResults || this.props.media || []}
           onChoose={this.props.onChoose}
           onIsStoreChange={this.props.onIsStoreChange}
         />
@@ -76,7 +79,16 @@ class Media extends React.PureComponent {
 
       console.debug(text);
       console.debug({ searchResult: result.length });
+
+      this.setState({
+        searchResults: [{ data: result }]
+      });
+    } else {
+      this.setState({
+        searchResults: null
+      });
     }
+
     this.setState({ searchText: text });
   };
 }
