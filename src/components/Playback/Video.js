@@ -213,6 +213,7 @@ class Vid extends React.Component {
   };
 
   handleVideoLoad = details => {
+    console.log(details.duration);
     this.setState({
       mediaDuration: details.duration,
       naturalSize: details.naturalSize,

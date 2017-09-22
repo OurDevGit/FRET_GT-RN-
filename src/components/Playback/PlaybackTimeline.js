@@ -161,17 +161,15 @@ class PlaybackTimeline extends Component {
     progress = Math.max(progress, 0);
     progress = Math.min(progress, 1);
 
-    const offsetProgress = this.offsetProgress(
-      progress,
-      duration,
-      currentVideoMarker
-    );
-    const offsetDuration = this.offsetDuration(duration, currentVideoMarker);
+    var adjustedProgress = progress;
+    var time = progress * duration;
 
-    const time =
-      currentVideoMarker === null
-        ? progress * duration
-        : currentVideoMarker.begin + offsetProgress * offsetDuration;
+    if (currentVideoMarker !== null) {
+      const { begin, end } = currentVideoMarker;
+      const markerDuration = end - begin;
+      adjustedProgress = (begin + progress * markerDuration) / duration;
+      time = begin + progress * markerDuration;
+    }
 
     const begin = currentLoop.get("begin") || 0;
     const end = currentLoop.get("end") || duration;
@@ -179,9 +177,9 @@ class PlaybackTimeline extends Component {
     if ((time < begin || time > end) && loopIsEnabled) {
       onLoopEnable(false);
     }
-
-    this.setState({ progress });
-    onSeek(time / duration);
+    console.log(time);
+    this.setState({ progress: adjustedProgress });
+    onSeek(adjustedProgress);
   };
 
   handlePlayheadPanStart = () => {
@@ -215,7 +213,6 @@ class PlaybackTimeline extends Component {
       const time = progress * duration;
       const adjusted = time - marker.begin;
       const offset = adjusted / (marker.end - marker.begin);
-      console.log("offset", offset, isNaN(offset));
       return isNaN(offset) ? 0 : offset;
     }
   };
