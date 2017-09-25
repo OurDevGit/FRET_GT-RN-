@@ -1,4 +1,4 @@
-import Immutable, { List } from "immutable";
+import Immutable, { List, Map } from "immutable";
 
 export const categories = (state = List(), action) => {
   switch (action.type) {
@@ -9,7 +9,7 @@ export const categories = (state = List(), action) => {
   }
 };
 
-export const subCategoriesByCategoryId = (state = [], action) => {
+export const subCategoriesByCategoryId = (state = Map(), action) => {
   switch (action.type) {
     case "STORE_LOADED":
       return Immutable.fromJS(action.payload.subCategoriesByCategoryId);
@@ -18,7 +18,7 @@ export const subCategoriesByCategoryId = (state = [], action) => {
   }
 };
 
-export const groupsBySubCategoryId = (state = [], action) => {
+export const groupsBySubCategoryId = (state = Map(), action) => {
   switch (action.type) {
     case "STORE_LOADED":
       return Immutable.fromJS(action.payload.groupsBySubCategoryId);
@@ -27,16 +27,19 @@ export const groupsBySubCategoryId = (state = [], action) => {
   }
 };
 
-export const mediaByListId = (state = [], action) => {
+export const mediaByListId = (state = Map(), action) => {
   switch (action.type) {
     case "STORE_LOADED":
-      return Immutable.fromJS(action.payload.mediaByListId);
+      console.debug(action.payload.mediaByListId);
+      const byId = Immutable.fromJS(action.payload.mediaByListId);
+      console.debug(byId);
+      return byId;
     default:
       return state;
   }
 };
 
-export const mediaById = (state = [], action) => {
+export const mediaById = (state = Map(), action) => {
   switch (action.type) {
     case "STORE_LOADED":
       return Immutable.fromJS(action.payload.mediaById);
@@ -45,11 +48,18 @@ export const mediaById = (state = [], action) => {
   }
 };
 
-export const storeSorting = (state = [], action) => {
+export const storeSorting = (state = Map(), action) => {
   switch (action.type) {
     case "STORE_LOADED":
       return Immutable.fromJS(action.payload.storeSorting);
     default:
       return state;
   }
+};
+
+export const getList = (state, listId) => {
+  const mediaIds = state[listId];
+  console.debug(mediaIds);
+
+  return mediaIds;
 };

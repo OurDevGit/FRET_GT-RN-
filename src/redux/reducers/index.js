@@ -24,7 +24,8 @@ import {
   groupsBySubCategoryId,
   mediaById,
   mediaByListId,
-  storeSorting
+  storeSorting,
+  getList as getMediaList
 } from "./store";
 
 const appReducer = combineReducers({
@@ -45,6 +46,7 @@ const appReducer = combineReducers({
   smartTrack,
   currentLoop,
   loopIsEnabled,
+  // Store
   categories,
   subCategoriesByCategoryId,
   groupsBySubCategoryId,
@@ -54,3 +56,6 @@ const appReducer = combineReducers({
 });
 
 export default appReducer;
+
+export const getList = (state, listId) =>
+  getMediaList(state.mediaByListId, listId);

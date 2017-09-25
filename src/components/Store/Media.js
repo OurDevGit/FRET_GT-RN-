@@ -1,9 +1,13 @@
 import React from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
 import { View, TextInput, TouchableOpacity, Text, Button } from "react-native";
 
+import { toJS } from "immutable";
 import Fuse from "fuse.js";
 import _ from "lodash";
 
+import { selectMedia } from "../../redux/selectors";
 import { PrimaryGold } from "../../design";
 import { FlatButton } from "../Material";
 import TabbedMedia from "./TabbedMedia";
@@ -78,7 +82,7 @@ class Media extends React.PureComponent {
       const result = this.fuse.search(text);
 
       console.debug(text);
-      console.debug({ searchResult: result.length });
+      // console.debug({ searchResult: result.length });
 
       this.setState({
         searchResults: [{ data: result }]
@@ -93,4 +97,25 @@ class Media extends React.PureComponent {
   };
 }
 
-export default Media;
+const mapStateToProps = (state, ownProps) => {
+  const iMedia = selectMedia(
+    state,
+    ownProps.category,
+    ownProps.subCategory,
+    ownProps.group
+  );
+
+  console.debug(iMedia);
+  console.debug(iMedia.toJS());
+  console.debug(iMedia.toJS().length);
+
+  return { media: iMedia.toJS() };
+};
+
+Media.propTypes = {
+  category: PropTypes.object,
+  subCategory: PropTypes.object,
+  group: PropTypes.object
+};
+
+export default connect(mapStateToProps)(Media);

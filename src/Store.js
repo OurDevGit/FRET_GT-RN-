@@ -70,7 +70,7 @@ const saveCategory = (category, store) => {
 
 export const syncStore = async () => {
   const storeData = await fetchStore();
-  console.debug("got store");
+  // console.debug("got store");
   // console.debug(store);
 
   return setStore(storeData);

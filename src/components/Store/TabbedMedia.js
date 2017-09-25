@@ -112,7 +112,7 @@ class TabbedMedia extends PureComponent {
   };
 
   renderItem = ({ item, index }) => {
-    // console.debug(`render item ${index}: ${item.title}`);
+    console.debug(`render item ${index}: ${item.title}, ${item.mediaID}`);
     return (
       <MediaItem
         id={item.mediaID}
@@ -147,14 +147,15 @@ class TabbedMedia extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.debug(nextProps);
     if (nextProps.media.length > 0) {
       // const mediaIds = ["4_non_blondes_whats_up", "smashing_pumpkins_1979"];
 
-      const currMedia = _.flatMap(this.props.media, m => _.toArray(m.data));
-      const currMediaIds = currMedia.map(o => o.mediaID.toLowerCase());
+      const currMedia = []; //_.flatMap(this.props.media, m => _.toArray(m.data));
+      const currMediaIds = []; //currMedia.map(o => o.mediaID.toLowerCase());
 
-      const nextMedia = _.flatMap(nextProps.media, m => _.toArray(m.data));
-      const nextMediaIds = nextMedia.map(o => o.mediaID.toLowerCase());
+      const nextMedia = []; //_.flatMap(nextProps.media, m => _.toArray(m.data));
+      const nextMediaIds = []; //nextMedia.map(o => o.mediaID.toLowerCase());
 
       if (!_.isEqual(currMediaIds, nextMediaIds)) {
         // console.debug(mediaIds);
@@ -175,10 +176,10 @@ class TabbedMedia extends PureComponent {
     // console.debug(productId.toLowerCase());
     // console.debug(this.state.productDetailsById[productId.toLowerCase()]);
     // return "nope";
-    let details = this.state.productDetailsById[productId.toLowerCase()] || {
-      priceText: "LOADING"
-    };
-    return details.priceText;
+    // let details = this.state.productDetailsById[productId.toLowerCase()] || {
+    //   priceText: "LOADING"
+    // };
+    return "DEV"; //details.priceText;
   };
 
   openBilling = () => {

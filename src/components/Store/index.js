@@ -4,6 +4,7 @@ import InAppBilling from "react-native-billing";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
+import { getMediaByListId } from "../../redux/selectors";
 import { realmify } from "../../realm";
 import { syncStore } from "../../Store";
 
@@ -30,66 +31,81 @@ const makePurchase = media => {
 class Store extends React.PureComponent {
   state = {
     categoryIndex: 0,
+    category: null,
+    subCategory: null,
     subCategoryIndex: null,
     subCategories: [],
     media: [],
+    listId: null,
     isStore: true
   };
 
   handleChooseCategory = (category, categoryIndex) => {
     console.debug(categoryIndex, category);
-    // if (category.subCategories.length === 0) {
-    //   let m = category.media.sorted("title").slice(11, 23);
+    const subCategories = this.props.subCategories[category.id];
 
-    //   this.setState({
-    //     media: [{ data: m }],
-    //     subCategoryIndex: null,
-    //     subCategories: [],
-    //     categoryIndex
-    //   });
-    // } else {
-    //   if (category.isGrouped === true) {
-    //     let media = category.subCategories.map(subCat => {
-    //       return {
-    //         data: subCat.media,
-    //         title: subCat.title
-    //       };
-    //     });
+    if (subCategories === undefined) {
+      // let m = category.media.sorted("title").slice(11, 23);
+      this.setState({
+        subCategoryIndex: null,
+        subCategories: [],
+        categoryIndex,
+        category,
+        listId: category.id
+      });
+    } else {
+      if (category.isGrouped === true) {
+        // let media = category.subCategories.map(subCat => {
+        //   return {
+        //     data: subCat.media,
+        //     title: subCat.title
+        //   };
+        // });
 
-    //     this.setState({
-    //       media,
-    //       subCategoryIndex: null,
-    //       subCategories: []
-    //     });
-    //   } else {
-    //     this.setState({
-    //       categoryIndex,
-    //       subCategoryIndex: 0,
-    //       subCategories: category.subCategories
-    //     });
+        this.setState({
+          // media,
+          category,
+          subCategoryIndex: null,
+          subCategories: [],
+          listId: null
+        });
+      } else {
+        // select the first subcategory in this category
+        this.setState({
+          category,
+          categoryIndex,
+          subCategoryIndex: 0,
+          subCategories
+        });
 
-    //     this.handleChooseSubCategory(category.subCategories[0], 0);
-    //   }
-    // }
+        this.handleChooseSubCategory(subCategories[0], 0);
+      }
+    }
   };
 
   handleChooseSubCategory = (subCategory, subCategoryIndex) => {
     // console.debug(subCategory.groups.length);
 
-    if (subCategory.groups.length > 0) {
+    const groups = this.props.groups[subCategory.id];
+
+    if (groups !== undefined) {
       this.setState({
-        media: subCategory.groups.map(g => {
-          return {
-            data: g.media.sorted("title"),
-            title: g.title
-          };
-        }),
+        //   media: subCategory.groups.map(g => {
+        //     return {
+        //       data: g.media.sorted("title"),
+        //       title: g.title
+        //     };
+        //   }),
+        subCategory,
+        listId: null,
         subCategoryIndex
       });
     } else {
       this.setState({
-        media: [{ data: subCategory.media.sorted("title") }],
-        subCategoryIndex
+        //   media: [{ data: subCategory.media.sorted("title") }],
+        subCategory,
+        subCategoryIndex,
+        listId: subCategory.id
       });
     }
   };
@@ -126,7 +142,7 @@ class Store extends React.PureComponent {
 
         <Media
           style={{ flexGrow: 1 }}
-          media={this.state.media}
+          category={this.state.category}
           onIsStoreChange={this.handleIsStoreChange}
           onChoose={this.handleChooseMedia}
         />
@@ -167,9 +183,11 @@ const mapQueriesToProps = (realm, ownProps) => {
 
 const mapStateToProps = state => {
   const cats = state.get("categories");
-  console.debug(cats.toJS());
+
   return {
-    categories: cats.toJS()
+    categories: cats.toJS(),
+    subCategories: state.get("subCategoriesByCategoryId").toJS(),
+    groups: state.get("groupsBySubCategoryId").toJS()
   };
 };
 
