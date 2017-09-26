@@ -14,10 +14,8 @@ import TabbedMedia from "./TabbedMedia";
 
 const fuseOptions = {
   shouldSort: true,
-  threshold: 0.6,
-  location: 0,
-  distance: 100,
-  maxPatternLength: 32,
+  threshold: 0.3,
+  maxPatternLength: 20,
   minMatchCharLength: 1,
   keys: ["title", "artist"]
 };
@@ -81,7 +79,7 @@ class Media extends React.PureComponent {
     if (this.fuse) {
       const result = this.fuse.search(text);
 
-      console.debug(text);
+      // console.debug(text);
       // console.debug({ searchResult: result.length });
 
       this.setState({
