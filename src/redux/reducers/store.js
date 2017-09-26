@@ -30,9 +30,7 @@ export const groupsBySubCategoryId = (state = Map(), action) => {
 export const mediaByListId = (state = Map(), action) => {
   switch (action.type) {
     case "STORE_LOADED":
-      console.debug(action.payload.mediaByListId);
       const byId = Immutable.fromJS(action.payload.mediaByListId);
-      console.debug(byId);
       return byId;
     default:
       return state;

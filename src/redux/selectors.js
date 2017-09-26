@@ -1,5 +1,5 @@
 // import { createSelector } from "reselect";
-import { List, Seq, Map } from "immutable";
+import { List, Seq, Map, Stack } from "immutable";
 
 const getMediaByListIds = state => state.get("mediaByListId");
 const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
@@ -15,6 +15,21 @@ const getClientSidedMedia = (state, obj) => {
   }
 };
 
+const getMediaForIds = (state, mediaIds) => {
+  const media = state.get("mediaById").reduce((acc, val, key) => {
+    if (mediaIds.includes(key)) {
+      return acc.push(val);
+    } else {
+      return acc;
+    }
+  }, Stack());
+
+  console.debug("media for ids");
+  console.debug(media);
+
+  return media;
+};
+
 const getSubCategories = (state, categoryId) => {
   return state.get("subCategoriesByCategoryId").get(categoryId);
 };
@@ -23,7 +38,8 @@ const getMediaForCategory = (state, category) => {
   if (category.isGrouped) {
     const subCats = getSubCategories(state, category.id);
     const media = subCats.map(o => {
-      const data = getMediaByListId(state, o.get("id")) || List();
+      const mediaIds = getMediaByListId(state, o.get("id")) || List();
+      const data = getMediaForIds(state, mediaIds);
       return Map({ data, title: o.get("title") });
     });
     return media;
@@ -42,9 +58,7 @@ export const selectMedia = (state, category, subCategory, group) => {
     if (category.isClientSided === true) {
       return getClientSidedMedia(state, category);
     } else if (subCategory === undefined) {
-      console.debug("media for cat...");
       const catMedia = getMediaForCategory(state, category);
-      console.debug(catMedia);
       return catMedia;
     }
   }

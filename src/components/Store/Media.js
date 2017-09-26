@@ -98,18 +98,14 @@ class Media extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const iMedia = selectMedia(
+  const media = selectMedia(
     state,
     ownProps.category,
     ownProps.subCategory,
     ownProps.group
-  );
+  ).toJS();
 
-  console.debug(iMedia);
-  console.debug(iMedia.toJS());
-  console.debug(iMedia.toJS().length);
-
-  return { media: iMedia.toJS() };
+  return { media };
 };
 
 Media.propTypes = {
