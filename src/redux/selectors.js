@@ -24,9 +24,6 @@ const getMediaForIds = (state, mediaIds) => {
     }
   }, Stack());
 
-  console.debug("media for ids");
-  console.debug(media);
-
   return media;
 };
 

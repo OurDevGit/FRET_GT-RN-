@@ -112,7 +112,7 @@ class TabbedMedia extends PureComponent {
   };
 
   renderItem = ({ item, index }) => {
-    console.debug(`render item ${index}: ${item.title}, ${item.mediaID}`);
+    // console.debug(`render item ${index}: ${item.title}, ${item.mediaID}`);
     return (
       <MediaItem
         id={item.mediaID}
@@ -172,14 +172,11 @@ class TabbedMedia extends PureComponent {
   };
 
   priceForProduct = productId => {
-    // console.debug(this.state.productDetailsById);
-    // console.debug(productId.toLowerCase());
-    // console.debug(this.state.productDetailsById[productId.toLowerCase()]);
-    // return "nope";
-    // let details = this.state.productDetailsById[productId.toLowerCase()] || {
-    //   priceText: "LOADING"
-    // };
-    return "DEV"; //details.priceText;
+    let details = this.state.productDetailsById[productId.toLowerCase()] || {
+      priceText: "LOADING"
+    };
+
+    return details.priceText;
   };
 
   openBilling = () => {
