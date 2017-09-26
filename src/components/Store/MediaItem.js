@@ -8,7 +8,7 @@ import {
   StyleSheet,
   Modal
 } from "react-native";
-import { BtnDetails, BtnBuy } from "../StyleKit";
+import { BtnDetails, BtnBuy, BtnHeart } from "../StyleKit";
 import MediaDetails from "./MediaDetails";
 
 class MediaItem extends PureComponent {
@@ -44,6 +44,7 @@ class MediaItem extends PureComponent {
             topText=""
             bottomText=""
           />
+          <BtnHeart mediaId={this.props.id} />
         </View>
       </TouchableOpacity>
     );

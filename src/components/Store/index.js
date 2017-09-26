@@ -4,8 +4,6 @@ import InAppBilling from "react-native-billing";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
-import { getMediaByListId } from "../../redux/selectors";
-import { realmify } from "../../realm";
 import { syncStore } from "../../Store";
 
 import Categories from "./Categories";
@@ -36,45 +34,38 @@ class Store extends React.PureComponent {
     subCategoryIndex: null,
     subCategories: [],
     media: [],
-    listId: null,
     isStore: true
   };
 
   handleChooseCategory = (category, categoryIndex) => {
-    console.debug(categoryIndex, category);
+    // console.debug(categoryIndex, category);
+
     const subCategories = this.props.subCategories[category.id];
 
+    // category without sub-categories
     if (subCategories === undefined) {
-      // let m = category.media.sorted("title").slice(11, 23);
       this.setState({
-        subCategoryIndex: null,
-        subCategories: [],
         categoryIndex,
         category,
-        listId: category.id
+        subCategoryIndex: null,
+        subCategory: null,
+        subCategories: []
       });
     } else {
+      // category with Grouped sub-categories
       if (category.isGrouped === true) {
-        // let media = category.subCategories.map(subCat => {
-        //   return {
-        //     data: subCat.media,
-        //     title: subCat.title
-        //   };
-        // });
-
         this.setState({
-          // media,
+          categoryIndex,
           category,
           subCategoryIndex: null,
-          subCategories: [],
-          listId: null
+          subCategory: null,
+          subCategories: []
         });
       } else {
         // select the first subcategory in this category
         this.setState({
-          category,
           categoryIndex,
-          subCategoryIndex: 0,
+          category,
           subCategories
         });
 
@@ -84,30 +75,14 @@ class Store extends React.PureComponent {
   };
 
   handleChooseSubCategory = (subCategory, subCategoryIndex) => {
-    // console.debug(subCategory.groups.length);
+    console.debug(subCategoryIndex, subCategory);
 
     const groups = this.props.groups[subCategory.id];
 
-    if (groups !== undefined) {
-      this.setState({
-        //   media: subCategory.groups.map(g => {
-        //     return {
-        //       data: g.media.sorted("title"),
-        //       title: g.title
-        //     };
-        //   }),
-        subCategory,
-        listId: null,
-        subCategoryIndex
-      });
-    } else {
-      this.setState({
-        //   media: [{ data: subCategory.media.sorted("title") }],
-        subCategory,
-        subCategoryIndex,
-        listId: subCategory.id
-      });
-    }
+    this.setState({
+      subCategory,
+      subCategoryIndex
+    });
   };
 
   handleChooseMedia = media => {
@@ -143,6 +118,8 @@ class Store extends React.PureComponent {
         <Media
           style={{ flexGrow: 1 }}
           category={this.state.category}
+          subCategory={this.state.subCategory}
+          group={this.state.group}
           onIsStoreChange={this.handleIsStoreChange}
           onChoose={this.handleChooseMedia}
         />
@@ -158,14 +135,14 @@ class Store extends React.PureComponent {
   }
 
   componentWillReceiveProps(newProps) {
-    // console.debug("Store gets props");
+    console.debug("Store gets props");
     // console.debug(newProps.categories.length);
-    // if (newProps.categories.length > this.state.categoryIndex) {
-    //   this.handleChooseCategory(
-    //     newProps.categories[this.state.categoryIndex],
-    //     this.state.categoryIndex
-    //   );
-    // }
+    if (newProps.categories.length > this.state.categoryIndex) {
+      this.handleChooseCategory(
+        newProps.categories[this.state.categoryIndex],
+        this.state.categoryIndex
+      );
+    }
   }
 
   handleIsStoreChange = isStore => {
@@ -178,8 +155,6 @@ const mapQueriesToProps = (realm, ownProps) => {
     categories: null //realm.objects("Category")
   };
 };
-
-// export default realmify(mapQueriesToProps)(Store);
 
 const mapStateToProps = state => {
   const cats = state.get("categories");

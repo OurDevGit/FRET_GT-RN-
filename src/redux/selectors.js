@@ -27,29 +27,59 @@ const getMediaForIds = (state, mediaIds) => {
   return media;
 };
 
-const getSubCategories = (state, categoryId) => {
-  return state.get("subCategoriesByCategoryId").get(categoryId);
-};
+const getSubCategories = (state, categoryId) =>
+  state.get("subCategoriesByCategoryId").get(categoryId);
+
+const getGroups = (state, subCategoryId) =>
+  state.get("groupsBySubCategoryId").get(subCategoryId);
 
 const getMediaForCategory = (state, category) => {
   if (category.isGrouped) {
-    const subCats = getSubCategories(state, category.id);
-    const media = subCats.map(o => {
-      const mediaIds = getMediaByListId(state, o.get("id")) || List();
+    const subCats = getSubCategories(state, category.id) || List();
+    const media = subCats.map(subCategory => {
+      const mediaIds = getMediaByListId(state, subCategory.get("id")) || List();
       const data = getMediaForIds(state, mediaIds);
-      return Map({ data, title: o.get("title") });
+      return Map({ data, title: subCategory.get("title") });
     });
     return media;
   } else {
     console.log("not grouped");
-    return List([Map({ data: getMediaByListId(category.id) })]);
+    const data = getMediaByListId(state, category.id) || List();
+    return List([Map({ data })]);
+  }
+};
+
+const getMediaforSubCategory = (state, subCategory) => {
+  const groups = getGroups(state, subCategory.id);
+
+  if (subCategory.isNavigable === true) {
+    // TODO: implement
+    return List([Map({ data: [], title: "TODO: navigable groups" })]);
+  } else {
+    console.debug("not a navigable Sub Category");
+    if (groups !== undefined) {
+      console.debug("Sub Category has Groups");
+      const media = groups.map(group => {
+        const mediaIds = getMediaByListId(state, group.get("id")) || List();
+        const data = getMediaForIds(state, mediaIds);
+        return Map({ data, title: group.get("title") });
+      });
+
+      return media;
+    } else {
+      console.debug("Sub Category without Groups");
+      // sub-category without groups
+      const mediaIds = getMediaByListId(state, subCategory.id) || List();
+      const data = getMediaForIds(state, mediaIds);
+      return List([Map({ data })]);
+    }
   }
 };
 
 export const selectMedia = (state, category, subCategory, group) => {
-  // console.debug({ category });
-  // console.debug({ subCategory });
-  // console.debug({ group });
+  console.debug({ category });
+  console.debug({ subCategory });
+  console.debug({ group });
 
   if (category) {
     if (category.isClientSided === true) {
@@ -57,6 +87,9 @@ export const selectMedia = (state, category, subCategory, group) => {
     } else if (subCategory === undefined) {
       const catMedia = getMediaForCategory(state, category);
       return catMedia;
+    } else {
+      const media = getMediaforSubCategory(state, subCategory);
+      return media;
     }
   }
 

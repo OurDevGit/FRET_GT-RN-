@@ -147,19 +147,19 @@ class TabbedMedia extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.debug(nextProps);
+    // console.debug(nextProps);
     if (nextProps.media.length > 0) {
       // const mediaIds = ["4_non_blondes_whats_up", "smashing_pumpkins_1979"];
 
-      const currMedia = []; //_.flatMap(this.props.media, m => _.toArray(m.data));
-      const currMediaIds = []; //currMedia.map(o => o.mediaID.toLowerCase());
+      const currMedia = _.flatMap(this.props.media, m => _.toArray(m.data));
+      const currMediaIds = currMedia.map(o => o.mediaID.toLowerCase());
 
-      const nextMedia = []; //_.flatMap(nextProps.media, m => _.toArray(m.data));
-      const nextMediaIds = []; //nextMedia.map(o => o.mediaID.toLowerCase());
+      const nextMedia = _.flatMap(nextProps.media, m => _.toArray(m.data));
+      const nextMediaIds = nextMedia.map(o => o.mediaID.toLowerCase());
 
       if (!_.isEqual(currMediaIds, nextMediaIds)) {
         // console.debug(mediaIds);
-        console.debug("going to get prices and info");
+        // console.debug("going to get prices and info");
         // this.loadProductDetails(nextMediaIds);
       }
     }
@@ -228,6 +228,7 @@ class TabbedMedia extends PureComponent {
 
   loadProductDetails = mediaIds => {
     console.debug("loadProductDetails()");
+
     this.openBilling().then(closeBilling => {
       InAppBilling.getProductDetailsArray(mediaIds)
         .then(details => {
