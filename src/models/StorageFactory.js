@@ -13,6 +13,7 @@ export const makeStore = name => {
           JSON.stringify(val)
         );
       } catch (error) {
+        console.error(error);
         return null;
       }
     },
