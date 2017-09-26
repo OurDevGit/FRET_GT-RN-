@@ -23,7 +23,8 @@ const fuseOptions = {
 class Media extends React.PureComponent {
   state = {
     searchText: "",
-    searchResults: null
+    searchResults: null,
+    mediaCount: 0
   };
 
   render() {
@@ -48,7 +49,7 @@ class Media extends React.PureComponent {
             onChangeText={this.handleChangeText}
             value={this.state.searchText}
           />
-          <Text>{this.props.media.length}</Text>
+          <Text>{this.state.mediaCount}</Text>
           <FlatButton
             title="Close"
             style={{ color: PrimaryGold }}
@@ -71,7 +72,9 @@ class Media extends React.PureComponent {
     // console.log(nextProps.media[0].data.length);
 
     const allMedia = _.flatMap(nextProps.media, m => _.toArray(m.data));
-    // console.debug(allMedia[0]);
+    this.setState({
+      mediaCount: allMedia.length
+    });
     this.fuse = new Fuse(allMedia, fuseOptions); // "list" is the item array
   }
 
