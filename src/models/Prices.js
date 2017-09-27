@@ -79,7 +79,6 @@ export const getProductDetails = async mediaIds => {
 
   // break the mediaIds into chunks of 20. It's undocumented, but the Google's InAppBilling API can only take 20 at a time. Any more will result in errors.
   const mediaIdChunks = chunk(mediaIds, 20);
-  console.debug(`made ${mediaIdChunks.length} chunks`);
   let productDetails = [];
 
   // open the billing channel
@@ -90,12 +89,8 @@ export const getProductDetails = async mediaIds => {
     const chunk = mediaIdChunks.shift();
     try {
       const results = await InAppBilling.getProductDetailsArray(chunk);
-      console.debug("got results");
-      console.debug(results);
       productDetails.push(...results);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   console.debug(`got ${productDetails.length} total product details`);
