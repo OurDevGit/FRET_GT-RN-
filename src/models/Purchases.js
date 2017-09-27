@@ -14,6 +14,8 @@ export const getIsPurchased = async mediaId => {
   return purchased.includes(mediaId);
 };
 
+export const getAllPurchased = async () => await getPurchased();
+
 export const addPurchase = async mediaId => {
   const isAlreadyPurchased = await getIsPurchased(mediaId);
   if (isAlreadyPurchased) {

@@ -7,6 +7,7 @@ import {
   CircularProgress_angle,
   IndeterminateCircle_angle
 } from "./styleKitComponents";
+import { GetMediaButtonMode } from "../../models/Media";
 
 export const BtnBuy = props => {
   return (
@@ -15,14 +16,6 @@ export const BtnBuy = props => {
       style={{ width: 78 }}
     />
   );
-};
-
-export const GetMediaButtonMode = {
-  Purchase: "purchaseMode",
-  ComingSoon: "comingSoonMode",
-  Download: "downloadMode",
-  Downloading: "downloadingMode",
-  Indetermindate: "indeterminateMode"
 };
 
 export const BtnGetMedia = ({ mode, price = "ERR", angle, ...rest }) => {

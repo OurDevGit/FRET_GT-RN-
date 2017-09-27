@@ -8,12 +8,8 @@ import {
   StyleSheet,
   Modal
 } from "react-native";
-import {
-  BtnDetails,
-  BtnHeart,
-  GetMediaButtonMode,
-  BtnGetMedia
-} from "../StyleKit";
+import { BtnDetails, BtnHeart, BtnGetMedia } from "../StyleKit";
+import { GetMediaButtonMode } from "../../models/Media";
 import MediaDetails from "./MediaDetails";
 
 class MediaItem extends PureComponent {

@@ -10,10 +10,10 @@ import {
   Alert
 } from "react-native";
 
-import InAppBilling from "react-native-billing";
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 import _ from "lodash";
 
+import { getProductDetails } from "../../models/Prices";
 import { addPurchases } from "../../models/Purchases";
 import MediaItem from "./MediaItem";
 import { StoreDark, LibraryDark } from "../../design";
@@ -66,7 +66,6 @@ class TabbedMedia extends PureComponent {
       { key: "2", title: "Purchased" },
       { key: "3", title: "Downloaded" }
     ],
-    billingChannelIsOpen: false,
     productDetailsById: {}
   };
 
@@ -144,10 +143,10 @@ class TabbedMedia extends PureComponent {
   );
 
   componentWillMount() {
-    this.loadPurchases();
+    // this.loadPurchases();
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     // console.debug(nextProps);
     if (nextProps.media.length > 0) {
       // const mediaIds = ["4_non_blondes_whats_up", "smashing_pumpkins_1979"];
@@ -162,6 +161,10 @@ class TabbedMedia extends PureComponent {
         // console.debug(mediaIds);
         // console.debug("going to get prices and info");
         // this.loadProductDetails(nextMediaIds);
+        const productDetailsById = await getProductDetails(nextMediaIds);
+        this.setState({
+          productDetailsById
+        });
       }
     }
   }
@@ -173,86 +176,15 @@ class TabbedMedia extends PureComponent {
   };
 
   priceForProduct = productId => {
+    // console.debug({ productId });
+    return "DEV";
     let details = this.state.productDetailsById[productId.toLowerCase()] || {
       priceText: "LOADING"
     };
 
     return details.priceText;
   };
-
-  openBilling = () => {
-    if (this.state.billingChannelIsOpen) {
-      console.debug("billing channel is already open");
-
-      return Promise.resolve(() => {
-        console.debug("channel was already open so I'm not closing it");
-        return null;
-      });
-    } else {
-      console.debug("opening billing channel");
-
-      this.setState({
-        billingChannelIsOpen: true
-      });
-
-      return InAppBilling.open().then(() => {
-        console.debug("closing the billing channel that I opened");
-        return () => InAppBilling.close();
-      });
-    }
-  };
-
-  loadPurchases = () => {
-    console.debug("loadPurchases()");
-    this.openBilling().then(closeBilling => {
-      InAppBilling.loadOwnedPurchasesFromGoogle()
-        .then(() => InAppBilling.listOwnedProducts())
-        .then(listResults => {
-          const allPurchases = addPurchases(listResults);
-          Alert.alert("Purchased Items", JSON.stringify(allPurchases, null, 2));
-        })
-        .then(() => closeBilling())
-        .catch(err => {
-          console.error(err);
-          InAppBilling.close();
-        });
-    });
-  };
-
-  loadProductDetails = mediaIds => {
-    console.debug("loadProductDetails()");
-
-    this.openBilling().then(closeBilling => {
-      InAppBilling.getProductDetailsArray(mediaIds)
-        .then(details => {
-          console.debug("got product details");
-          const productDetailsById = normalizeProductDetails(details);
-          console.debug(productDetailsById);
-
-          this.setState({
-            productDetailsById
-          });
-        })
-        .then(() => closeBilling())
-        .catch(err => {
-          console.debug("error getting IAP details");
-          console.error(err);
-          InAppBilling.close().then(() => {
-            this.setState({ billingChannelIsOpen: false });
-          });
-        });
-    });
-  };
 }
-
-const normalizeProductDetails = details => {
-  var byId = {};
-  details.forEach(product => {
-    byId[product.productId] = product;
-  });
-
-  return byId;
-};
 
 const styles = StyleSheet.create({
   container: {
