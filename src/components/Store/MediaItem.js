@@ -8,7 +8,12 @@ import {
   StyleSheet,
   Modal
 } from "react-native";
-import { BtnDetails, BtnBuy, BtnHeart } from "../StyleKit";
+import {
+  BtnDetails,
+  BtnHeart,
+  GetMediaButtonMode,
+  BtnGetMedia
+} from "../StyleKit";
 import MediaDetails from "./MediaDetails";
 
 class MediaItem extends PureComponent {
@@ -38,11 +43,9 @@ class MediaItem extends PureComponent {
               this.setState({ isShowingDetails: true });
             }}
           />
-          <BtnBuy
-            priceText={this.props.price}
-            fontSize={14}
-            topText=""
-            bottomText=""
+          <BtnGetMedia
+            mode={GetMediaButtonMode.Purchase}
+            price={this.props.price}
           />
           <BtnHeart mediaId={this.props.id} />
         </View>

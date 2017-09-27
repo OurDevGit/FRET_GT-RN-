@@ -5,25 +5,30 @@ import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
 import { syncStore } from "../../Store";
+import { addPurchase, getIsPurchased } from "../../models/Purchases";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
 import { StoreDark, StoreLight, LibraryDark, LibraryLight } from "../../design";
 
-const makePurchase = media => {
+const makePurchase = async media => {
   console.debug(media);
+  const mediaId = media.mediaID.toLowerCase();
 
-  InAppBilling.open()
-    .then(() => InAppBilling.purchase(media.mediaID.toLowerCase()))
-    .then(details => {
-      console.log("You purchased: ", details);
-      return InAppBilling.close();
-    })
-    .catch(err => {
-      InAppBilling.close();
-      console.log(err);
-    });
+  await addPurchase(mediaId);
+  console.debug(`added purchased ${mediaId}`);
+
+  // InAppBilling.open()
+  //   .then(() => InAppBilling.purchase(media.mediaID.toLowerCase()))
+  //   .then(details => {
+  //     console.log("You purchased: ", details);
+  //     return InAppBilling.close();
+  //   })
+  //   .catch(err => {
+  //     InAppBilling.close();
+  //     console.log(err);
+  //   });
 };
 
 class Store extends React.PureComponent {
@@ -87,7 +92,7 @@ class Store extends React.PureComponent {
 
   handleChooseMedia = media => {
     console.debug(`chose media: ${media.title}`);
-    // makePurchase(media);
+    makePurchase(media);
   };
 
   render() {

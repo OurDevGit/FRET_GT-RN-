@@ -1,6 +1,3 @@
-import { AsyncStorage } from "react-native";
-import { keyBy } from "lodash";
-
 import { makeStore } from "./StorageFactory";
 
 const Faves = makeStore("Favorites");

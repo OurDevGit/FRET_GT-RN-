@@ -7,13 +7,14 @@ import {
   Text,
   Animated,
   I18nManager,
-  AsyncStorage
+  Alert
 } from "react-native";
 
 import InAppBilling from "react-native-billing";
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 import _ from "lodash";
 
+import { addPurchases } from "../../models/Purchases";
 import MediaItem from "./MediaItem";
 import { StoreDark, LibraryDark } from "../../design";
 
@@ -143,7 +144,7 @@ class TabbedMedia extends PureComponent {
   );
 
   componentWillMount() {
-    // this.loadPurchases();
+    this.loadPurchases();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -202,21 +203,13 @@ class TabbedMedia extends PureComponent {
   };
 
   loadPurchases = () => {
-    AsyncStorage.getItem("PurchasedProducts").then(products => {
-      console.debug("loaded purchased products");
-      console.debug(JSON.parse(products));
-    });
-
     console.debug("loadPurchases()");
     this.openBilling().then(closeBilling => {
       InAppBilling.loadOwnedPurchasesFromGoogle()
         .then(() => InAppBilling.listOwnedProducts())
         .then(listResults => {
-          AsyncStorage.setItem(
-            "PurchasedProducts",
-            JSON.stringify(listResults)
-          );
-          console.debug({ listResults });
+          const allPurchases = addPurchases(listResults);
+          Alert.alert("Purchased Items", JSON.stringify(allPurchases, null, 2));
         })
         .then(() => closeBilling())
         .catch(err => {
