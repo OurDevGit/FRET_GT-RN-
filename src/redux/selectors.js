@@ -84,7 +84,10 @@ const mergeProductDetails = (state, media) => {
   const productDetails = state.get("productDetails") || Map();
   const mediaWithProductDetails = media.map(mediaSection => {
     const data = mediaSection.get("data");
-    const newData = data.map(m => {
+    const filteredData = data.filter(
+      m => productDetails.get(m.get("mediaID").toLowerCase()) !== undefined
+    );
+    const newData = filteredData.map(m => {
       // console.debug(m.toJS());
       const mediaId = m.get("mediaID").toLowerCase();
       const mDetails =
