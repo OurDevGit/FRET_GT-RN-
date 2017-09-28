@@ -86,9 +86,9 @@ const mergeProductDetails = (state, media) => {
     const data = mediaSection.get("data");
     const newData = data.map(m => {
       // console.debug(m.toJS());
-      const mediaId = m.get("mediaID");
+      const mediaId = m.get("mediaID").toLowerCase();
       const mDetails =
-        productDetails.get(m.get("mediaID")) || Map({ priceText: "LOADING" });
+        productDetails.get(mediaId) || Map({ priceText: "LOADING" });
       // console.debug(details.toJS());
       return m.set("productDetails", mDetails);
     });
