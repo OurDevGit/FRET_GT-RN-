@@ -76,20 +76,51 @@ const getMediaforSubCategory = (state, subCategory) => {
   }
 };
 
+const mergeProductDetails = (state, media) => {
+  if (media === undefined) {
+    return media;
+  }
+
+  const productDetails = state.get("productDetails") || Map();
+  const mediaWithProductDetails = media.map(mediaSection => {
+    const data = mediaSection.get("data");
+    const newData = data.map(m => {
+      // console.debug(m.toJS());
+      const mediaId = m.get("mediaID");
+      const mDetails =
+        productDetails.get(m.get("mediaID")) || Map({ priceText: "LOADING" });
+      // console.debug(details.toJS());
+      return m.set("productDetails", mDetails);
+    });
+
+    const newSection = mediaSection.set("data", newData);
+
+    return newSection;
+    // console.debug(mediaSection.toJS().data);
+    // console.debug(m.get("mediaID"));
+    // console.debug(details);
+  });
+
+  console.debug(mediaWithProductDetails.toJS());
+
+  return mediaWithProductDetails;
+};
+
 export const selectMedia = (state, category, subCategory, group) => {
-  console.debug({ category });
-  console.debug({ subCategory });
-  console.debug({ group });
+  // console.debug({ category });
+  // console.debug({ subCategory });
+  // console.debug({ group });
 
   if (category) {
     if (category.isClientSided === true) {
-      return getClientSidedMedia(state, category);
+      const media = getClientSidedMedia(state, category);
+      return mergeProductDetails(state, media);
     } else if (subCategory === undefined) {
-      const catMedia = getMediaForCategory(state, category);
-      return catMedia;
+      const media = getMediaForCategory(state, category);
+      return mergeProductDetails(state, media);
     } else {
       const media = getMediaforSubCategory(state, subCategory);
-      return media;
+      return mergeProductDetails(state, media);
     }
   }
 

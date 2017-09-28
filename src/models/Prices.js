@@ -12,7 +12,6 @@ const openBilling = async () => {
     console.debug("billing is already open");
     return Promise.resolve();
   } else {
-    console.debug("waiting on billing to open");
     // create a promise for this caller to wait on
     const waiter = new Promise((resolve, reject) => {
       _billingSubscribers.push(resolve);
@@ -21,14 +20,11 @@ const openBilling = async () => {
     // if this is the first opener, open the billing channel
     _openCount++;
     if (_openCount === 1) {
-      console.debug("opening billing channel now");
       await InAppBilling.open();
       _billingIsOpen = true; // subsequent calls get through right away
-      console.debug("billing channel is now open");
 
       // call all the subscribed resolvers once the channel is open
       while (_billingSubscribers.length > 0) {
-        console.debug("calling billing subscriber");
         const subscriber = _billingSubscribers.pop();
         subscriber();
       }
@@ -43,7 +39,6 @@ const closeBilling = async () => {
   _openCount--;
 
   if (_openCount === 0) {
-    console.debug("closing billing");
     await InAppBilling.close();
     _billingIsOpen = false;
     return;
@@ -78,7 +73,8 @@ export const getProductDetails = async mediaIds => {
   }
 
   // break the mediaIds into chunks of 20. It's undocumented, but the Google's InAppBilling API can only take 20 at a time. Any more will result in errors.
-  const mediaIdChunks = chunk(mediaIds, 20);
+  const lowercased = mediaIds.map(m => m.toLowerCase()); // Google Product Id's are always lower case
+  const mediaIdChunks = chunk(lowercased, 20);
   let productDetails = [];
 
   // open the billing channel

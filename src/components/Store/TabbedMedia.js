@@ -161,10 +161,10 @@ class TabbedMedia extends PureComponent {
         // console.debug(mediaIds);
         // console.debug("going to get prices and info");
         // this.loadProductDetails(nextMediaIds);
-        const productDetailsById = await getProductDetails(nextMediaIds);
-        this.setState({
-          productDetailsById
-        });
+        // const productDetailsById = await getProductDetails(nextMediaIds);
+        // this.setState({
+        //   productDetailsById
+        // });
       }
     }
   }

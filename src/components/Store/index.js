@@ -83,12 +83,12 @@ class Store extends React.PureComponent {
   async componentDidMount() {
     // sync with the backend
     const storeObjects = await syncStore();
-    this.props.storeLoaded(storeObjects);
+    this.props.storeLoaded(storeObjects); // dispatch
 
     // get the latest info from Google Play In-App Products
     const mediaIds = Object.keys(storeObjects.mediaById);
     const productDetails = await getProductDetails(mediaIds);
-    this.props.productDetailsLoaded(productDetails);
+    this.props.productDetailsLoaded(productDetails); // dispatch
   }
 
   componentWillReceiveProps(newProps) {
