@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
 import { syncStore } from "../../Store";
 import { addPurchase, getIsPurchased } from "../../models/Purchases";
-import { getProductDetails } from "../../models/Prices";
+import { getProductDetails } from "../../models/Products";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";

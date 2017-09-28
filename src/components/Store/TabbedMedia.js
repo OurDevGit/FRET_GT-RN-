@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 import _ from "lodash";
 
-import { getProductDetails } from "../../models/Prices";
+import { getProductDetails } from "../../models/Products";
 import { addPurchases } from "../../models/Purchases";
 import MediaItem from "./MediaItem";
 import { StoreDark, LibraryDark } from "../../design";
