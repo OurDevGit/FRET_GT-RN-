@@ -27,6 +27,7 @@ import {
   storeSorting,
   getList as getMediaList
 } from "./store";
+import { productDetails } from "./products";
 
 const appReducer = combineReducers({
   ad,
@@ -52,7 +53,9 @@ const appReducer = combineReducers({
   groupsBySubCategoryId,
   mediaById,
   mediaByListId,
-  storeSorting
+  storeSorting,
+  // In-App Billing
+  productDetails
 });
 
 export default appReducer;
