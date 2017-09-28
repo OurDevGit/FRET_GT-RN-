@@ -76,17 +76,22 @@ const getMediaforSubCategory = (state, subCategory) => {
   }
 };
 
-const mergeProductDetails = (state, media) => {
-  if (media === undefined) {
-    return media;
+const mergeProductDetails = (state, mediaSections) => {
+  if (mediaSections === undefined) {
+    return mediaSections;
   }
 
   const productDetails = state.get("productDetails") || Map();
-  const mediaWithProductDetails = media.map(mediaSection => {
-    const data = mediaSection.get("data");
-    const filteredData = data.filter(
-      m => productDetails.get(m.get("mediaID").toLowerCase()) !== undefined
-    );
+  const mediaWithProductDetails = mediaSections.map(mediaSection => {
+    const media = mediaSection.get("data");
+    // filter the media to just the stuff we have Product Details for (aka. if it's in Google Play as an In-App Product)
+    const filteredData =
+      state.get("productDetailsHaveLoaded") === true
+        ? media.filter(
+            m =>
+              productDetails.get(m.get("mediaID").toLowerCase()) !== undefined
+          )
+        : media;
     const newData = filteredData.map(m => {
       // console.debug(m.toJS());
       const mediaId = m.get("mediaID").toLowerCase();
@@ -118,7 +123,7 @@ export const selectMedia = (state, category, subCategory, group) => {
     if (category.isClientSided === true) {
       const media = getClientSidedMedia(state, category);
       return mergeProductDetails(state, media);
-    } else if (subCategory === undefined) {
+    } else if (subCategory === undefined || subCategory === null) {
       const media = getMediaForCategory(state, category);
       return mergeProductDetails(state, media);
     } else {
