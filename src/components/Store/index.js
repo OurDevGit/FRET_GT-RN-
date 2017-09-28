@@ -152,6 +152,7 @@ class Store extends React.PureComponent {
 
   handleChooseMedia = media => {
     console.debug(`chose media: ${media.title}`);
+    console.debug(media);
     makePurchase(media);
   };
 

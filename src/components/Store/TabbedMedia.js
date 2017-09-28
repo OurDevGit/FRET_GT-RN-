@@ -9,6 +9,7 @@ import {
   I18nManager,
   Alert
 } from "react-native";
+import PropTypes from "prop-types";
 
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 import _ from "lodash";
@@ -70,7 +71,7 @@ class TabbedMedia extends PureComponent {
   };
 
   render() {
-    const { style } = this.props;
+    const { style, media } = this.props;
     // console.debug("Tabbed Media render");
     return (
       <TabViewAnimated
@@ -79,7 +80,7 @@ class TabbedMedia extends PureComponent {
         renderScene={this.renderScene}
         renderHeader={renderHeader}
         onIndexChange={this.handleIndexChange}
-        media={this.props.media} // passing this to force a render in the tabs
+        media={media} // passing this to force a render in the tabs
       />
     );
   }
@@ -206,5 +207,11 @@ const styles = StyleSheet.create({
     height: 2
   }
 });
+
+TabbedMedia.propTypes = {
+  media: PropTypes.array,
+  onIsStoreChange: PropTypes.func.isRequired,
+  onChoose: PropTypes.func.isRequired
+};
 
 export default TabbedMedia;
