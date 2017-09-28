@@ -102,6 +102,8 @@ export const getProductDetails = async mediaIds => {
   const productDetailsById = normalizeProductDetails(productDetails);
   _productDetailsById = productDetailsById;
 
+  // console.debug(productDetailsById);
+
   // return the mapping
   return productDetailsById;
 };
@@ -116,7 +118,5 @@ const normalizeProductDetails = details => {
 
   // keyBy(details, "productId")
 };
-
-const getAllPrices = async () => {};
 
 const getPrice = async mediaId => {};
