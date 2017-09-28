@@ -14,7 +14,6 @@ import PropTypes from "prop-types";
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 import _ from "lodash";
 
-import { getProductDetails } from "../../models/Products";
 import { addPurchases } from "../../models/Purchases";
 import MediaItem from "./MediaItem";
 import { StoreDark, LibraryDark } from "../../design";
@@ -38,6 +37,7 @@ const renderLabel = ({ focused, route: { title, key } }) => (
   </Text>
 );
 
+// We color the tab indicator based on Store vs. Library
 const renderIndicator = ({ width, position, navigationState: { index } }) => {
   const translateX = Animated.multiply(
     Animated.multiply(position, width),
@@ -66,8 +66,7 @@ class TabbedMedia extends PureComponent {
       { key: "1", title: "Store" },
       { key: "2", title: "Purchased" },
       { key: "3", title: "Downloaded" }
-    ],
-    productDetailsById: {}
+    ]
   };
 
   render() {
@@ -120,7 +119,7 @@ class TabbedMedia extends PureComponent {
         title={item.title}
         subtitle={item.artist}
         artworkURL={item.artworkURL}
-        price={this.priceForProduct(item.mediaID)}
+        price={item.productDetails.priceText}
         onPress={() => {
           this.props.onChoose(item);
         }}
@@ -174,16 +173,6 @@ class TabbedMedia extends PureComponent {
     this.props.onIsStoreChange(index === 0);
 
     this.setState({ index });
-  };
-
-  priceForProduct = productId => {
-    // console.debug({ productId });
-    return "DEV";
-    let details = this.state.productDetailsById[productId.toLowerCase()] || {
-      priceText: "LOADING"
-    };
-
-    return details.priceText;
   };
 }
 
