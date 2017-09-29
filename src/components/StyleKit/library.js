@@ -33,6 +33,8 @@ const BtnDownloading = ({ progress }) => {
 
 export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
   switch (mode) {
+    case GetMediaButtonMode.Play:
+      return <View />;
     case GetMediaButtonMode.Purchase:
       return (
         <BtnBuy priceText={price} fontSize={14} topText="" bottomText="" />

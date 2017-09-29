@@ -7,7 +7,7 @@ import * as actions from "../../redux/actions";
 import { syncStore } from "../../Store";
 import { addPurchase, getIsPurchased } from "../../models/Purchases";
 import { getProductDetails } from "../../models/Products";
-import { download } from "../../DownloadManager";
+import { downloadSong } from "../../DownloadManager";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
@@ -93,7 +93,7 @@ class Store extends React.PureComponent {
   }
 
   componentWillReceiveProps(newProps) {
-    console.debug("Store gets props");
+    // console.debug("Store gets props");
     // console.debug(newProps.categories.length);
     if (newProps.categories.length > this.state.categoryIndex) {
       this.handleChooseCategory(
@@ -157,10 +157,13 @@ class Store extends React.PureComponent {
     await makePurchase(media);
 
     this.props.addPurchasedMedia(media.mediaID);
-    download(
+    const paths = await downloadSong(
       "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.m4a",
+      "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.mid",
       media.mediaID
     );
+
+    console.debug(paths);
   };
 
   handleIsStoreChange = isStore => {
@@ -175,7 +178,7 @@ const mapQueriesToProps = (realm, ownProps) => {
 };
 
 const mapStateToProps = state => {
-  console.debug("mapping state to props in Store/index");
+  // console.debug("mapping state to props in Store/index");
   const cats = state.get("categories");
 
   return {

@@ -5,7 +5,8 @@ export const GetMediaButtonMode = {
   ComingSoon: "comingSoonMode",
   Download: "downloadMode",
   Downloading: "downloadingMode",
-  Indetermindate: "indeterminateMode"
+  Indetermindate: "indeterminateMode",
+  Play: "playMode"
 };
 
 export const getPurchaseDetails = mediaId => {

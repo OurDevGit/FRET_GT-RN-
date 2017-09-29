@@ -82,6 +82,11 @@ const getDownloadProgress = (state, mediaId) => {
   return downloadProgress.get(mediaId);
 };
 
+const getFiles = (state, mediaId) => {
+  const downloadFiles = state.get("downloadedMedia");
+  return downloadFiles.get(mediaId);
+};
+
 const mergeProductDetails = (state, singleMedia) => {
   const productDetails = state.get("productDetails") || Map();
   const mediaId = singleMedia.get("mediaID").toLowerCase();
@@ -98,8 +103,13 @@ const mergeGetMode = (state, singleMedia) => {
   const downloadProgress = getDownloadProgress(state, mediaId);
   const isDownloading = downloadProgress !== undefined;
 
+  const mediaFiles = getFiles(state, mediaId);
+  const isDownloaded = mediaFiles !== undefined;
+
   let mode = GetMediaButtonMode.Purchase;
-  if (isDownloading === true) {
+  if (isDownloaded === true) {
+    mode = GetMediaButtonMode.Play;
+  } else if (isDownloading === true) {
     mode = GetMediaButtonMode.Downloading;
   } else if (isPurchased === true) {
     mode = GetMediaButtonMode.Download;
@@ -139,7 +149,7 @@ const mergeMediaDetails = (state, mediaSections) => {
     // console.debug(details);
   });
 
-  console.debug(mediaWithProductDetails.toJS());
+  // console.debug(mediaWithProductDetails.toJS());
 
   return mediaWithProductDetails;
 };

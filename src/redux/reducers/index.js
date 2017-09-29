@@ -29,7 +29,7 @@ import {
 } from "./store";
 import { productDetails, productDetailsHaveLoaded } from "./products";
 import { purchasedMedia } from "./purchases";
-import { downloadProgress } from "./downloads";
+import { downloadProgress, downloadedMedia } from "./downloads";
 
 const appReducer = combineReducers({
   ad,
@@ -61,7 +61,8 @@ const appReducer = combineReducers({
   productDetailsHaveLoaded,
   purchasedMedia,
   // Downloads
-  downloadProgress
+  downloadProgress,
+  downloadedMedia
 });
 
 export default appReducer;
