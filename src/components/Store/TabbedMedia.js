@@ -120,6 +120,7 @@ class TabbedMedia extends PureComponent {
         subtitle={item.artist}
         artworkURL={item.artworkURL}
         price={item.productDetails.priceText}
+        getMode={item.getMode}
         onPress={() => {
           this.props.onChoose(item);
         }}

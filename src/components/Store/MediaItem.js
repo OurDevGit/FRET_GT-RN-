@@ -9,7 +9,6 @@ import {
   Modal
 } from "react-native";
 import { BtnDetails, BtnHeart, BtnGetMedia } from "../StyleKit";
-import { GetMediaButtonMode } from "../../models/Media";
 import MediaDetails from "./MediaDetails";
 
 class MediaItem extends PureComponent {
@@ -40,8 +39,9 @@ class MediaItem extends PureComponent {
             }}
           />
           <BtnGetMedia
-            mode={GetMediaButtonMode.Purchase}
+            mode={this.props.getMode}
             price={this.props.price}
+            progress={0.5}
           />
           <BtnHeart mediaId={this.props.id} />
         </View>

@@ -28,6 +28,8 @@ import {
   getList as getMediaList
 } from "./store";
 import { productDetails, productDetailsHaveLoaded } from "./products";
+import { purchasedMedia } from "./purchases";
+import { downloadProgress } from "./downloads";
 
 const appReducer = combineReducers({
   ad,
@@ -56,7 +58,10 @@ const appReducer = combineReducers({
   storeSorting,
   // In-App Billing
   productDetails,
-  productDetailsHaveLoaded
+  productDetailsHaveLoaded,
+  purchasedMedia,
+  // Downloads
+  downloadProgress
 });
 
 export default appReducer;

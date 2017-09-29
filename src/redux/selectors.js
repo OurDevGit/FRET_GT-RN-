@@ -1,5 +1,6 @@
 // import { createSelector } from "reselect";
 import { List, Seq, Map, Stack } from "immutable";
+import { GetMediaButtonMode } from "../models/Media";
 
 const getMediaByListIds = state => state.get("mediaByListId");
 const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
@@ -76,7 +77,31 @@ const getMediaforSubCategory = (state, subCategory) => {
   }
 };
 
-const mergeProductDetails = (state, mediaSections) => {
+const mergeProductDetails = (state, singleMedia) => {
+  const productDetails = state.get("productDetails") || Map();
+  const mediaId = singleMedia.get("mediaID").toLowerCase();
+
+  return singleMedia.set("productDetails", productDetails);
+};
+
+const mergeGetMode = (state, singleMedia) => {
+  const mediaId = singleMedia.get("mediaID").toLowerCase();
+
+  const purchasedMedia = state.get("purchasedMedia");
+  const isPurchased = purchasedMedia.has(mediaId);
+
+  const downloads = state.get("downloads");
+  // const isDownloading
+
+  const mode = isPurchased
+    ? GetMediaButtonMode.Download
+    : GetMediaButtonMode.Purchase;
+
+  return singleMedia.set("getMode", GetMediaButtonMode.Downloading);
+  // return singleMedia.set("getMode", mode);
+};
+
+const mergeMediaDetails = (state, mediaSections) => {
   if (mediaSections === undefined) {
     return mediaSections;
   }
@@ -93,12 +118,9 @@ const mergeProductDetails = (state, mediaSections) => {
           )
         : media;
     const newData = filteredData.map(m => {
-      // console.debug(m.toJS());
-      const mediaId = m.get("mediaID").toLowerCase();
-      const mDetails =
-        productDetails.get(mediaId) || Map({ priceText: "LOADING" });
-      // console.debug(details.toJS());
-      return m.set("productDetails", mDetails);
+      const withProductDetails = mergeProductDetails(state, m);
+      const withGetMode = mergeGetMode(state, withProductDetails);
+      return withGetMode;
     });
 
     const newSection = mediaSection.set("data", newData);
@@ -122,13 +144,13 @@ export const selectMedia = (state, category, subCategory, group) => {
   if (category) {
     if (category.isClientSided === true) {
       const media = getClientSidedMedia(state, category);
-      return mergeProductDetails(state, media);
+      return mergeMediaDetails(state, media);
     } else if (subCategory === undefined || subCategory === null) {
       const media = getMediaForCategory(state, category);
-      return mergeProductDetails(state, media);
+      return mergeMediaDetails(state, media);
     } else {
       const media = getMediaforSubCategory(state, subCategory);
-      return mergeProductDetails(state, media);
+      return mergeMediaDetails(state, media);
     }
   }
 

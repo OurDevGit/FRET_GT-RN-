@@ -5,3 +5,5 @@ export * from "./loop";
 export * from "./lesson";
 export * from "./store";
 export * from "./products";
+export * from "./purchases";
+export * from "./downloads";

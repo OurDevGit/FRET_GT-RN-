@@ -7,6 +7,7 @@ import * as actions from "../../redux/actions";
 import { syncStore } from "../../Store";
 import { addPurchase, getIsPurchased } from "../../models/Purchases";
 import { getProductDetails } from "../../models/Products";
+import { download } from "../../DownloadManager";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
@@ -14,7 +15,7 @@ import Media from "./Media";
 import { StoreDark, StoreLight, LibraryDark, LibraryLight } from "../../design";
 
 const makePurchase = async media => {
-  console.debug(media);
+  // console.debug(media);
   const mediaId = media.mediaID.toLowerCase();
 
   await addPurchase(mediaId);
@@ -150,10 +151,16 @@ class Store extends React.PureComponent {
     });
   };
 
-  handleChooseMedia = media => {
+  handleChooseMedia = async media => {
     console.debug(`chose media: ${media.title}`);
     console.debug(media);
-    makePurchase(media);
+    await makePurchase(media);
+
+    this.props.addPurchasedMedia(media.mediaID);
+    download(
+      "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.m4a",
+      media.mediaID
+    );
   };
 
   handleIsStoreChange = isStore => {
