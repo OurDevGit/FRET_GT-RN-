@@ -77,6 +77,11 @@ const getMediaforSubCategory = (state, subCategory) => {
   }
 };
 
+const getDownloadProgress = (state, mediaId) => {
+  const downloadProgress = state.get("downloadProgress");
+  return downloadProgress.get(mediaId);
+};
+
 const mergeProductDetails = (state, singleMedia) => {
   const productDetails = state.get("productDetails") || Map();
   const mediaId = singleMedia.get("mediaID").toLowerCase();
@@ -90,15 +95,18 @@ const mergeGetMode = (state, singleMedia) => {
   const purchasedMedia = state.get("purchasedMedia");
   const isPurchased = purchasedMedia.has(mediaId);
 
-  const downloads = state.get("downloads");
-  // const isDownloading
+  const downloadProgress = getDownloadProgress(state, mediaId);
+  const isDownloading = downloadProgress !== undefined;
 
-  const mode = isPurchased
-    ? GetMediaButtonMode.Download
-    : GetMediaButtonMode.Purchase;
+  let mode = GetMediaButtonMode.Purchase;
+  if (isDownloading === true) {
+    mode = GetMediaButtonMode.Downloading;
+  } else if (isPurchased === true) {
+    mode = GetMediaButtonMode.Download;
+  }
 
-  return singleMedia.set("getMode", GetMediaButtonMode.Downloading);
-  // return singleMedia.set("getMode", mode);
+  // return singleMedia.set("getMode", GetMediaButtonMode.Downloading);
+  return singleMedia.set("getMode", mode);
 };
 
 const mergeMediaDetails = (state, mediaSections) => {
