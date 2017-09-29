@@ -41,7 +41,7 @@ class MediaItem extends PureComponent {
           <BtnGetMedia
             mode={this.props.getMode}
             price={this.props.price}
-            progress={0.5}
+            progress={this.props.progress}
           />
           <BtnHeart mediaId={this.props.id} />
         </View>

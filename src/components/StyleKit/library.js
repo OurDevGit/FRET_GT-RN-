@@ -24,9 +24,11 @@ const BtnDownload = () => {
 };
 
 const BtnDownloading = ({ progress }) => {
-  // return <Text>{progress}</Text>;
-  // const angle = progress...
-  return <CircularProgress_angle angle={0} style={{ width: 44, height: 44 }} />;
+  return <Text>{progress}</Text>;
+  // const angle = progress / 360;
+  // return (
+  //   <CircularProgress_angle angle={angle} style={{ width: 44, height: 44 }} />
+  // );
 };
 
 export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {

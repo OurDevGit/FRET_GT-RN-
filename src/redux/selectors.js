@@ -106,7 +106,7 @@ const mergeGetMode = (state, singleMedia) => {
   }
 
   // return singleMedia.set("getMode", GetMediaButtonMode.Downloading);
-  return singleMedia.set("getMode", mode);
+  return singleMedia.merge({ getMode: mode, downloadProgress });
 };
 
 const mergeMediaDetails = (state, mediaSections) => {
