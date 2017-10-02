@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, FlatList, TouchableOpacity } from "react-native";
+import { Alert, View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { realmify, guid } from "../../realm";
 import Dimensions from "Dimensions";
@@ -102,7 +102,7 @@ class BtnMyLoopsModal extends React.Component {
 
             <FlatList
               keyExtractor={(item, index) => index}
-              data={[...loops, { name: "None" }]}
+              data={[...myLoops, { name: "None" }]}
               ItemSeparatorComponent={this.separator}
               renderItem={({ item, index }) => (
                 <View
@@ -181,7 +181,16 @@ class BtnMyLoopsModal extends React.Component {
   };
 
   displayModal = frame => {
-    this.setState({ modalIsVisible: true, modalFrame: frame });
+    const { loops } = this.props;
+
+    if (loops === undefined) {
+      Alert.alert(
+        "Loops Unavailable",
+        "You currently have no saved loops for this media"
+      );
+    } else {
+      this.setState({ modalIsVisible: true, modalFrame: frame });
+    }
   };
 
   dismissModal = () => {
