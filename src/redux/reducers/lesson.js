@@ -6,8 +6,8 @@ exports.videoChapters = (state = List(), action) => {
       const reduced = action.payload.reduce((acc, chapter) => {
         const { name } = chapter;
         var type = "chapter";
-        var begin,
-          end = 0;
+        var begin = chapter.begin;
+        var end = chapter.end;
 
         const markers = chapter.children.reduce((acc2, marker) => {
           const { name, begin, end } = marker;
@@ -16,13 +16,14 @@ exports.videoChapters = (state = List(), action) => {
         }, []);
 
         if (markers.length > 0) {
-          const lastIndex = markers.length - 1;
-          begin = markers[0].begin;
-          end = markers[lastIndex].end;
+          begin = begin === undefined ? markers[0].begin : begin;
+          end = end === undefined ? markers[markers.length - 1].end : end;
         }
 
         return acc.concat([{ type, name, begin, end }, ...markers]);
       }, []);
+
+      console.log(reduced);
 
       return List(reduced);
 
