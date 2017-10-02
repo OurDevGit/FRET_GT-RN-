@@ -1,346 +1,94 @@
 {
-  "totalDuration" : 2025.959292625959,
+  "totalDuration" : 1022.88955622289,
   "midiTimes" : [
     {
       "tracks" : [
         "Guitar"
       ],
-      "end" : 342.7083333333333,
-      "begin" : 56.20833333333334,
+      "end" : 296.0000006666667,
+      "begin" : 131.9166666666667,
       "name" : "1_1"
     },
     {
       "tracks" : [
         "Guitar"
       ],
-      "end" : 466.1250006666667,
-      "begin" : 350.0416666666667,
+      "end" : 921.0000006666667,
+      "begin" : 576.4166666666666,
       "name" : "1_2"
     },
     {
       "tracks" : [
         "Guitar"
       ],
-      "end" : 521.625,
-      "begin" : 466.125,
+      "end" : 1022.889,
+      "begin" : 930.125,
       "name" : "1_3"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 589.708333,
-      "begin" : 528.875,
-      "name" : "1_4"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 958.125,
-      "begin" : 597,
-      "name" : "2_1"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1099.208333,
-      "begin" : 965.25,
-      "name" : "2_2"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1199.083333,
-      "begin" : 1106.375,
-      "name" : "2_3"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1327.000000333333,
-      "begin" : 1206.083333333333,
-      "name" : "2_4"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1506.333333,
-      "begin" : 1334.125,
-      "name" : "3_1"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1581.333333333333,
-      "begin" : 1513.458333333333,
-      "name" : "3_4"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1619.791666333333,
-      "begin" : 1581.333333333333,
-      "name" : "3_5"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1674.041666666667,
-      "begin" : 1619.791666666667,
-      "name" : "3_6"
-    },
-    {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1841.125000666667,
-      "begin" : 1681.291666666667,
-      "name" : "4_1"
-    },
-    {
-      "tracks" : [
-        "Guitar",
-        "Easy Strum"
-      ],
-      "end" : 1906.125,
-      "begin" : 1841.125,
-      "name" : "4_2"
-    },
-    {
-      "tracks" : [
-        "Guitar",
-        "Easy Strum"
-      ],
-      "end" : 1980,
-      "begin" : 1906.125,
-      "name" : "4_3"
     }
   ],
-  "name" : "Blues in the First 5",
+  "name" : "Getting Started",
   "quickLoops" : [
-    {
-      "type" : 3,
-      "uniqueId" : 50,
-      "mediaName" : "1_2",
-      "parentId" : 7,
-      "children" : [
 
-      ],
-      "begin" : 446.1338232,
-      "end" : 463.2127641,
-      "duration" : 17.07894090000002,
-      "name" : "Basic E7 Rhythm"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 51,
-      "mediaName" : "1_4",
-      "parentId" : 12,
-      "children" : [
-
-      ],
-      "begin" : 569.2019105000001,
-      "end" : 585.9921255,
-      "duration" : 16.79021499999999,
-      "name" : "Shuffle Rhythm"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 52,
-      "mediaName" : "2_1",
-      "parentId" : 15,
-      "children" : [
-
-      ],
-      "begin" : 920.5962688,
-      "end" : 954.4786048,
-      "duration" : 33.88233600000001,
-      "name" : "12 Bar Blues Progression"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 53,
-      "mediaName" : "2_4",
-      "parentId" : 26,
-      "children" : [
-
-      ],
-      "begin" : 1289.5605685,
-      "end" : 1323.4429045,
-      "duration" : 33.8823359999999,
-      "name" : "Blues Riff Using E Blues"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 54,
-      "mediaName" : "3_1",
-      "parentId" : 30,
-      "children" : [
-
-      ],
-      "begin" : 1468.6733592,
-      "end" : 1502.5556952,
-      "duration" : 33.8823359999999,
-      "name" : "Rock Style Blues Rhythm"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 55,
-      "mediaName" : "3_4",
-      "parentId" : 34,
-      "children" : [
-
-      ],
-      "begin" : 1563.7916496,
-      "end" : 1578.4365938,
-      "duration" : 14.64494420000005,
-      "name" : "Blues Lick 1"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 56,
-      "mediaName" : "3_5",
-      "parentId" : 34,
-      "children" : [
-
-      ],
-      "begin" : 1600.969695,
-      "end" : 1616.8465725,
-      "duration" : 15.87687750000009,
-      "name" : "Double Stops"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 57,
-      "mediaName" : "3_6",
-      "parentId" : 34,
-      "children" : [
-
-      ],
-      "begin" : 1653.2400726,
-      "end" : 1670.8140766,
-      "duration" : 17.57400399999983,
-      "name" : "Bends"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 58,
-      "mediaName" : "4_1",
-      "parentId" : 42,
-      "children" : [
-
-      ],
-      "begin" : 1804.3474583,
-      "end" : 1838.2297943,
-      "duration" : 33.88233600000012,
-      "name" : "SRV Shuffle Rhythm"
-    },
-    {
-      "type" : 3,
-      "uniqueId" : 59,
-      "mediaName" : "4_3",
-      "parentId" : 42,
-      "children" : [
-
-      ],
-      "begin" : 1942.0661585,
-      "end" : 1975.889671,
-      "duration" : 33.82351249999988,
-      "name" : "Improvisation Practice"
-    }
   ],
   "chapters" : [
     {
       "uniqueId" : 1,
-      "name" : "Blues in the First 5",
+      "name" : "Getting Started",
       "children" : [
 
       ],
       "begin" : 0,
-      "duration" : 7.666666666666667,
-      "end" : 7.666666666666667,
+      "duration" : 45,
+      "end" : 45,
       "type" : 4
     },
     {
       "uniqueId" : 2,
-      "name" : "Introduction",
+      "name" : "How to Pair your Fretlight Wireless Guitar",
       "children" : [
 
       ],
-      "begin" : 7.666666666666667,
-      "duration" : 41.08333333333334,
-      "end" : 48.75,
+      "begin" : 45,
+      "duration" : 65,
+      "end" : 110,
       "type" : 4
     },
     {
       "uniqueId" : 3,
-      "name" : "Basic Blues Chords and Variations",
+      "name" : "How to Tune your Fretlight Wireless Guitar",
       "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_1",
-          "parentId" : 3,
-          "uniqueId" : 4,
-          "children" : [
 
-          ],
-          "begin" : 56.208333,
-          "end" : 198.1717633,
-          "duration" : 141.9634303,
-          "name" : "E Chords"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_1",
-          "parentId" : 3,
-          "uniqueId" : 5,
-          "children" : [
-
-          ],
-          "begin" : 198.1717633,
-          "end" : 283.006966,
-          "duration" : 84.83520269999997,
-          "name" : "A Chords"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_1",
-          "parentId" : 3,
-          "uniqueId" : 6,
-          "children" : [
-
-          ],
-          "begin" : 283.006966,
-          "end" : 342.7083333333333,
-          "duration" : 59.70136733333334,
-          "name" : "B7 Chords"
-        }
       ],
-      "begin" : 48.75,
-      "duration" : 293.9583333333333,
-      "end" : 342.7083333333333,
+      "begin" : 110,
+      "duration" : 186,
+      "end" : 296,
       "type" : 4
     },
     {
-      "uniqueId" : 7,
-      "name" : "Basic Rhythms",
+      "uniqueId" : 4,
+      "name" : "The Parts of your Fretlight Wireless Guitar",
+      "children" : [
+
+      ],
+      "begin" : 296,
+      "duration" : 93,
+      "end" : 389,
+      "type" : 4
+    },
+    {
+      "uniqueId" : 5,
+      "name" : "How to Hold the Pick and your Fretlight Guitar",
+      "children" : [
+
+      ],
+      "begin" : 389,
+      "duration" : 172,
+      "end" : 561,
+      "type" : 4
+    },
+    {
+      "uniqueId" : 6,
+      "name" : "How to Play your First Notes and Chords",
       "children" : [
         {
           "type" : 0,
@@ -348,610 +96,47 @@
             "Guitar"
           ],
           "mediaName" : "1_2",
-          "parentId" : 7,
+          "parentId" : 6,
+          "uniqueId" : 7,
+          "children" : [
+
+          ],
+          "begin" : 578.942982,
+          "end" : 747.867013,
+          "duration" : 168.924031,
+          "name" : "Your First Notes"
+        },
+        {
+          "type" : 0,
+          "tracks" : [
+            "Guitar"
+          ],
+          "mediaName" : "1_2",
+          "parentId" : 6,
           "uniqueId" : 8,
           "children" : [
 
           ],
-          "begin" : 350.041666,
-          "end" : 397.6115035,
-          "duration" : 47.56983750000001,
-          "name" : "Rhythm"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_2",
-          "parentId" : 7,
-          "uniqueId" : 9,
-          "children" : [
-
-          ],
-          "begin" : 397.6115035,
-          "end" : 440.370674,
-          "duration" : 42.75917049999998,
-          "name" : "Practice Session "
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_2",
-          "parentId" : 7,
-          "uniqueId" : 10,
-          "children" : [
-
-          ],
-          "begin" : 440.370674,
-          "end" : 466.6544115,
-          "duration" : 26.28373749999997,
-          "name" : "Basic E7 Rhythm"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_3",
-          "parentId" : 7,
-          "uniqueId" : 11,
-          "children" : [
-
-          ],
-          "begin" : 466.6544115,
-          "end" : 521.625,
-          "duration" : 54.97058850000002,
-          "name" : "Basic A7 Rhythm"
+          "begin" : 747.867013,
+          "end" : 921,
+          "duration" : 173.132987,
+          "name" : "Your First Chords"
         }
       ],
-      "begin" : 342.7083333333333,
-      "duration" : 178.9166666666667,
-      "end" : 521.625,
+      "begin" : 561,
+      "duration" : 360,
+      "end" : 921,
       "type" : 4
     },
     {
-      "uniqueId" : 12,
-      "name" : "Blues Shuffle Rhythm",
-      "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_4",
-          "parentId" : 12,
-          "uniqueId" : 13,
-          "children" : [
-
-          ],
-          "begin" : 528.875,
-          "end" : 564.1249925,
-          "duration" : 35.24999249999996,
-          "name" : "Practice Session"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_4",
-          "parentId" : 12,
-          "uniqueId" : 14,
-          "children" : [
-
-          ],
-          "begin" : 564.1249925,
-          "end" : 589.7083333333334,
-          "duration" : 25.58334083333341,
-          "name" : "Shuffle Rhythm"
-        }
-      ],
-      "begin" : 521.625,
-      "duration" : 68.08333333333337,
-      "end" : 589.7083333333334,
-      "type" : 4
-    },
-    {
-      "uniqueId" : 15,
-      "name" : "Twelve-Bar Blues Progression",
-      "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_1",
-          "parentId" : 15,
-          "uniqueId" : 16,
-          "children" : [
-
-          ],
-          "begin" : 597,
-          "end" : 803.3555798,
-          "duration" : 206.3555798,
-          "name" : "12 Bar Progression"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_1",
-          "parentId" : 15,
-          "uniqueId" : 17,
-          "children" : [
-
-          ],
-          "begin" : 803.3555798,
-          "end" : 881.5053988,
-          "duration" : 78.14981899999998,
-          "name" : "12 Bar Quick Change Variation"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_1",
-          "parentId" : 15,
-          "uniqueId" : 18,
-          "children" : [
-
-          ],
-          "begin" : 881.5053988,
-          "end" : 913.3235488,
-          "duration" : 31.81815000000006,
-          "name" : "Practice Session"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_1",
-          "parentId" : 15,
-          "uniqueId" : 19,
-          "children" : [
-
-          ],
-          "begin" : 913.3235488,
-          "end" : 958.125,
-          "duration" : 44.80145119999997,
-          "name" : "12 Bar Blues Progression in E"
-        }
-      ],
-      "begin" : 589.7083333333334,
-      "duration" : 368.4166666666666,
-      "end" : 958.125,
-      "type" : 4
-    },
-    {
-      "uniqueId" : 20,
-      "name" : "Easy Blues Turn Around",
-      "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_2",
-          "parentId" : 20,
-          "uniqueId" : 21,
-          "children" : [
-
-          ],
-          "begin" : 965.25,
-          "end" : 1045.1880113,
-          "duration" : 79.93801129999997,
-          "name" : "Turn Arounds"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_2",
-          "parentId" : 20,
-          "uniqueId" : 22,
-          "children" : [
-
-          ],
-          "begin" : 1045.1880113,
-          "end" : 1062.1495328,
-          "duration" : 16.96152150000012,
-          "name" : "Practice Session"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_2",
-          "parentId" : 20,
-          "uniqueId" : 23,
-          "children" : [
-
-          ],
-          "begin" : 1062.1495328,
-          "end" : 1099.208333333333,
-          "duration" : 37.05880053333317,
-          "name" : "Easy Blues Turn Around"
-        }
-      ],
-      "begin" : 958.125,
-      "duration" : 141.0833333333333,
-      "end" : 1099.208333333333,
-      "type" : 4
-    },
-    {
-      "uniqueId" : 24,
-      "name" : "Blues Scale",
-      "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_3",
-          "parentId" : 24,
-          "uniqueId" : 25,
-          "children" : [
-
-          ],
-          "begin" : 1106.375,
-          "end" : 1199.083333333333,
-          "duration" : 92.70833333333326,
-          "name" : "E Blues Scale"
-        }
-      ],
-      "begin" : 1099.208333333333,
-      "duration" : 99.875,
-      "end" : 1199.083333333333,
-      "type" : 4
-    },
-    {
-      "uniqueId" : 26,
-      "name" : "Blues Riff Using E Blues Scale",
-      "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_4",
-          "parentId" : 26,
-          "uniqueId" : 27,
-          "children" : [
-
-          ],
-          "begin" : 1206.083333,
-          "end" : 1263.560575,
-          "duration" : 57.47724199999993,
-          "name" : "Adding Notes to E Blues"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_4",
-          "parentId" : 26,
-          "uniqueId" : 28,
-          "children" : [
-
-          ],
-          "begin" : 1263.560575,
-          "end" : 1282.5605702,
-          "duration" : 18.99999520000006,
-          "name" : "Practice Session"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "2_4",
-          "parentId" : 26,
-          "uniqueId" : 29,
-          "children" : [
-
-          ],
-          "begin" : 1282.5605702,
-          "end" : 1327,
-          "duration" : 44.43942979999997,
-          "name" : "Blues Riff Using E Blues"
-        }
-      ],
-      "begin" : 1199.083333333333,
-      "duration" : 127.9166666666667,
-      "end" : 1327,
-      "type" : 4
-    },
-    {
-      "uniqueId" : 30,
-      "name" : "Rock Style Blues Rhythm",
-      "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_1",
-          "parentId" : 30,
-          "uniqueId" : 31,
-          "children" : [
-
-          ],
-          "begin" : 1334.125,
-          "end" : 1450.8312807,
-          "duration" : 116.7062807,
-          "name" : "Rock Blues"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_1",
-          "parentId" : 30,
-          "uniqueId" : 32,
-          "children" : [
-
-          ],
-          "begin" : 1450.8312807,
-          "end" : 1461.1733705,
-          "duration" : 10.34208979999994,
-          "name" : "Practice Session"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_1",
-          "parentId" : 30,
-          "uniqueId" : 33,
-          "children" : [
-
-          ],
-          "begin" : 1461.1733705,
-          "end" : 1506.333333333333,
-          "duration" : 45.15996283333334,
-          "name" : "Rock Style Blues Rhythm"
-        }
-      ],
-      "begin" : 1327,
-      "duration" : 179.3333333333333,
-      "end" : 1506.333333333333,
-      "type" : 4
-    },
-    {
-      "uniqueId" : 34,
-      "name" : "Blues Licks for Lead Guitar",
-      "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_4",
-          "parentId" : 34,
-          "uniqueId" : 35,
-          "children" : [
-
-          ],
-          "begin" : 1513.458333,
-          "end" : 1545.4583208,
-          "duration" : 31.99998779999987,
-          "name" : "Your First Blues Licks"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_4",
-          "parentId" : 34,
-          "uniqueId" : 36,
-          "children" : [
-
-          ],
-          "begin" : 1545.4583208,
-          "end" : 1558.6249842,
-          "duration" : 13.16666340000006,
-          "name" : "Practice Session "
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_4",
-          "parentId" : 34,
-          "uniqueId" : 37,
-          "children" : [
-
-          ],
-          "begin" : 1558.6249842,
-          "end" : 1581.333333,
-          "duration" : 22.70834880000007,
-          "name" : "Blues Lick 1"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_5",
-          "parentId" : 34,
-          "uniqueId" : 38,
-          "children" : [
-
-          ],
-          "begin" : 1581.333333,
-          "end" : 1595.51515,
-          "duration" : 14.18181699999991,
-          "name" : "Practice Session"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_5",
-          "parentId" : 34,
-          "uniqueId" : 39,
-          "children" : [
-
-          ],
-          "begin" : 1595.51515,
-          "end" : 1619.791666,
-          "duration" : 24.27651600000013,
-          "name" : "Double Stops"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_6",
-          "parentId" : 34,
-          "uniqueId" : 40,
-          "children" : [
-
-          ],
-          "begin" : 1619.791666,
-          "end" : 1647.9323856,
-          "duration" : 28.14071960000001,
-          "name" : "Practice Session "
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "3_6",
-          "parentId" : 34,
-          "uniqueId" : 41,
-          "children" : [
-
-          ],
-          "begin" : 1647.9323856,
-          "end" : 1674.041666666667,
-          "duration" : 26.10928106666665,
-          "name" : "Bends"
-        }
-      ],
-      "begin" : 1506.333333333333,
-      "duration" : 167.7083333333335,
-      "end" : 1674.041666666667,
-      "type" : 4
-    },
-    {
-      "uniqueId" : 42,
-      "name" : "SRV Texas Style Rhythm",
-      "children" : [
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "4_1",
-          "parentId" : 42,
-          "uniqueId" : 43,
-          "children" : [
-
-          ],
-          "begin" : 1780.0974583,
-          "end" : 1796.8474583,
-          "duration" : 16.75,
-          "name" : "Practice Session"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "4_1",
-          "parentId" : 42,
-          "uniqueId" : 44,
-          "children" : [
-
-          ],
-          "begin" : 1796.8474583,
-          "end" : 1841.125,
-          "duration" : 44.27754170000003,
-          "name" : "SRV Shuffle Rhythm"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar",
-            "Easy Strum"
-          ],
-          "mediaName" : "4_2",
-          "parentId" : 42,
-          "uniqueId" : 45,
-          "children" : [
-
-          ],
-          "begin" : 1841.125,
-          "end" : 1906.125,
-          "duration" : 65,
-          "name" : "Improvisation Demonstration"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar",
-            "Easy Strum"
-          ],
-          "mediaName" : "4_3",
-          "parentId" : 42,
-          "uniqueId" : 46,
-          "children" : [
-
-          ],
-          "begin" : 1906.125,
-          "end" : 1934.713221,
-          "duration" : 28.58822099999998,
-          "name" : "Practice Session"
-        },
-        {
-          "type" : 0,
-          "tracks" : [
-            "Guitar",
-            "Easy Strum"
-          ],
-          "mediaName" : "4_3",
-          "parentId" : 42,
-          "uniqueId" : 47,
-          "children" : [
-
-          ],
-          "begin" : 1934.713221,
-          "end" : 1980,
-          "duration" : 45.28677900000002,
-          "name" : "Improvisation Practice"
-        }
-      ],
-      "begin" : 1674.041666666667,
-      "duration" : 305.9583333333333,
-      "end" : 1980,
-      "type" : 4
-    },
-    {
-      "uniqueId" : 48,
-      "name" : "Closing Remarks",
+      "uniqueId" : 9,
+      "name" : "How to Play Slides on your Fretlight Wireless Guitar",
       "children" : [
 
       ],
-      "begin" : 1980,
-      "duration" : 45.95929262595928,
-      "end" : 2025.959292625959,
+      "begin" : 921,
+      "duration" : 101.8895562228896,
+      "end" : 1022.88955622289,
       "type" : 4
     }
   ]

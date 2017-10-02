@@ -205,7 +205,8 @@ class Vid extends React.Component {
   handleNewVideo = () => {
     this.loadJSON("config.json");
 
-    if (this.state.videoURL !== RNFetchBlob.fs.asset("lesson.mp4")) {
+    if (this.state.videoUri !== RNFetchBlob.fs.asset("lesson.mp4")) {
+      console.log("videoUri", RNFetchBlob.fs.asset("lesson.mp4"));
       this.setState({
         videoUri: RNFetchBlob.fs.asset("lesson.mp4")
       });
