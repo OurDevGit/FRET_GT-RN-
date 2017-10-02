@@ -156,14 +156,20 @@ class Store extends React.PureComponent {
     console.debug(media);
     await makePurchase(media);
 
-    this.props.addPurchasedMedia(media.mediaID);
-    const paths = await downloadSong(
-      "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.m4a",
-      "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.mid",
-      media.mediaID
-    );
+    const mediaId = media.mediaID.toLowerCase();
+    const files = this.props.downloadedMedia[mediaId];
 
-    console.debug(paths);
+    if (files === undefined) {
+      this.props.addPurchasedMedia(media.mediaID);
+      const paths = await downloadSong(
+        "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.m4a",
+        "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.mid",
+        media.mediaID
+      );
+      // console.debug(paths);
+    } else {
+      console.debug({ files });
+    }
   };
 
   handleIsStoreChange = isStore => {
@@ -184,7 +190,8 @@ const mapStateToProps = state => {
   return {
     categories: cats.toJS(),
     subCategories: state.get("subCategoriesByCategoryId").toJS(),
-    groups: state.get("groupsBySubCategoryId").toJS()
+    groups: state.get("groupsBySubCategoryId").toJS(),
+    downloadedMedia: state.get("downloadedMedia").toJS()
   };
 };
 

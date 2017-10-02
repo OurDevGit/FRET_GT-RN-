@@ -112,7 +112,9 @@ class TabbedMedia extends PureComponent {
   };
 
   renderItem = ({ item, index }) => {
-    // console.debug(`render item ${index}: ${item.title}, ${item.mediaID}`);
+    // console.debug(`render item ${index}`);
+    // console.debug(item);
+
     return (
       <MediaItem
         id={item.mediaID}

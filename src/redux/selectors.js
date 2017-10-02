@@ -91,18 +91,24 @@ const mergeProductDetails = (state, singleMedia) => {
   const productDetails = state.get("productDetails") || Map();
   const mediaId = singleMedia.get("mediaID").toLowerCase();
 
-  return singleMedia.set("productDetails", productDetails);
+  return singleMedia.set(
+    "productDetails",
+    productDetails.get(mediaId) || Map()
+  );
 };
 
 const mergeGetMode = (state, singleMedia) => {
   const mediaId = singleMedia.get("mediaID").toLowerCase();
 
+  // is purchased
   const purchasedMedia = state.get("purchasedMedia");
   const isPurchased = purchasedMedia.has(mediaId);
 
+  // is downloading
   const downloadProgress = getDownloadProgress(state, mediaId);
   const isDownloading = downloadProgress !== undefined;
 
+  // is downloaded
   const mediaFiles = getFiles(state, mediaId);
   const isDownloaded = mediaFiles !== undefined;
 
@@ -115,10 +121,12 @@ const mergeGetMode = (state, singleMedia) => {
     mode = GetMediaButtonMode.Download;
   }
 
-  // return singleMedia.set("getMode", GetMediaButtonMode.Downloading);
   return singleMedia.merge({ getMode: mode, downloadProgress });
 };
 
+// Loop the media sections, and the media inside them.
+// Merge in details to each media item, like the In-App Billing details (price),
+// "get button mode" (i.e. downloading vs. downloaded)
 const mergeMediaDetails = (state, mediaSections) => {
   if (mediaSections === undefined) {
     return mediaSections;
