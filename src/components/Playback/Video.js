@@ -237,6 +237,8 @@ class Vid extends React.Component {
         this.props.setVideoChapters(j.chapters);
         this.props.setVideoMidiFiles(j.midiTimes);
 
+        console.log(j.quickLoops);
+
         this.setState({
           title: j.name || "",
           quickLoops: j.quickLoops || []
