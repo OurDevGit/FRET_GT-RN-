@@ -23,8 +23,6 @@ exports.videoChapters = (state = List(), action) => {
         return acc.concat([{ type, name, begin, end }, ...markers]);
       }, []);
 
-      console.log(reduced);
-
       return List(reduced);
 
     case "CLEAR_VIDEO_LESSON":
