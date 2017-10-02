@@ -69,7 +69,7 @@ const VideoMarkersTable = ({
             item.begin === currentMarker.begin &&
             item.end === currentMarker.end;
           return (
-            <View style={{ flex: 1, height: 30, flexDirection: "row" }}>
+            <View style={{ flex: -1, marginVertical: 2, flexDirection: "row" }}>
               <TouchableOpacity
                 style={{ flex: 1 }}
                 onPress={() => {
