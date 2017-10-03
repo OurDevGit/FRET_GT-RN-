@@ -36,15 +36,12 @@ class BtnMyLoopsModal extends React.Component {
       100 + (allLoops.length + 1) * 42,
       Dimensions.get("window").height - 40
     );
+    const maxHeight = Math.min(300, Dimensions.get("window").height - 60);
+    const topHeight = Math.min(height, maxHeight);
+    const top = Math.max(30, modalFrame.y - topHeight + 20);
+
     const left = Math.max(10, modalFrame.x - 510);
     const width = modalFrame.x - left;
-
-    const top = Math.max(
-      30,
-      modalFrame.y - (100 + (allLoops.length + 1) * 42) + 20
-    );
-
-    const maxHeight = Math.min(300, Dimensions.get("window").height - 60);
 
     return (
       <ModalButton onPress={this.displayModal}>
@@ -132,7 +129,8 @@ class BtnMyLoopsModal extends React.Component {
                     ✓
                   </Text>
                   {isEditing &&
-                  item.name !== "None" && (
+                  item.name !== "None" &&
+                  item.name !== "SMARTLOOPS™" && (
                     <BtnLoopDelete
                       style={{
                         width: 30,
@@ -147,24 +145,37 @@ class BtnMyLoopsModal extends React.Component {
                     />
                   )}
 
-                  <TouchableOpacity
-                    style={{ flex: 1 }}
-                    onPress={() => {
-                      item.name === "None"
-                        ? this.handleClearLoop()
-                        : this.handleSelectLoop(item);
-                    }}
-                  >
+                  {item.name !== "SMARTLOOPS™" ? (
+                    <TouchableOpacity
+                      style={{ flex: 1 }}
+                      onPress={() => {
+                        item.name === "None"
+                          ? this.handleClearLoop()
+                          : this.handleSelectLoop(item);
+                      }}
+                    >
+                      <Text
+                        style={{
+                          height: "100%",
+                          textAlignVertical: "center",
+                          fontSize: 18
+                        }}
+                      >
+                        {item.name}
+                      </Text>
+                    </TouchableOpacity>
+                  ) : (
                     <Text
                       style={{
                         height: "100%",
                         textAlignVertical: "center",
-                        fontSize: 18
+                        fontSize: 18,
+                        fontWeight: "800"
                       }}
                     >
                       {item.name}
                     </Text>
-                  </TouchableOpacity>
+                  )}
                 </View>
               )}
             />
