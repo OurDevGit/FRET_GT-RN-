@@ -229,7 +229,7 @@ class BtnMyLoopsModal extends React.Component {
 
   handleDeleteLoop = async loop => {
     const { mediaId, currentLoop, onClearCurrentLoop } = this.props;
-    if (loop === currentLoop) {
+    if (loop.id === currentLoop.get("id")) {
       onClearCurrentLoop();
     }
     this.setState({ myLoops: await deleteLoop(loop, mediaId) });
