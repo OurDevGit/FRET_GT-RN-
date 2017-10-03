@@ -32,6 +32,7 @@ class Root extends Component {
     const aspectRatio = this.state.layout.width / this.state.layout.height;
     const supportsMultipleFretboards =
       this.state.layout.width > 1 && aspectRatio < 1.6;
+    const isVideo = this.song === null;
 
     return (
       <Provider store={store}>
@@ -53,6 +54,7 @@ class Root extends Component {
 
           {this.state.showFretboards && (
             <FretboardsContainer
+              isVideo={isVideo}
               deviceWidth={this.state.layout.width}
               deviceHeight={this.state.layout.height}
               supportsMultipleFretboards={supportsMultipleFretboards}

@@ -49,7 +49,7 @@ class HorizontalContainer extends React.Component {
               <Fretboard
                 isPhone={this.props.isPhone}
                 track={item}
-                showSmart={item.get("name") !== ""}
+                showSmart={item.get("name") !== "" && !this.props.isVideo}
                 isSmart={false}
                 boardWidth={this.state.width}
                 style={boardStyle}
@@ -90,6 +90,7 @@ class HorizontalContainer extends React.Component {
 
 HorizontalContainer.propTypes = {
   isPhone: PropTypes.bool.isRequired,
+  isVideo: PropTypes.bool.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   tracks: PropTypes.array.isRequired,
   currentPage: PropTypes.number.isRequired,

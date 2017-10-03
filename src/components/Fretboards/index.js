@@ -14,6 +14,7 @@ class FretboardsRoot extends React.PureComponent {
 
   render() {
     const {
+      isVideo,
       deviceWidth,
       deviceHeight,
       supportsMultipleFretboards,
@@ -57,12 +58,14 @@ class FretboardsRoot extends React.PureComponent {
       >
         {supportsMultipleFretboards ? (
           <VerticalContainer
+            isVideo={isVideo}
             isPhone={isPhone}
             deviceWidth={deviceWidth}
             tracks={boardTracks}
           />
         ) : (
           <HorizontalContainer
+            isVideo={isVideo}
             isPhone={isPhone}
             deviceWidth={deviceWidth}
             tracks={boardTracks}
@@ -92,6 +95,7 @@ const mapStateToProps = state => {
 };
 
 FretboardsRoot.propTypes = {
+  isVideo: PropTypes.bool.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   deviceHeight: PropTypes.number.isRequired,
   supportsMultipleFretboards: PropTypes.bool.isRequired,
