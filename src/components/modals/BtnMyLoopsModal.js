@@ -27,13 +27,24 @@ class BtnMyLoopsModal extends React.Component {
   render() {
     const { quickLoops, currentLoop, color, isPhone, isVideo } = this.props;
     const { isEditing, modalFrame, myLoops } = this.state;
+    var allLoops = [];
 
-    allLoops = isVideo
-      ? [...myLoops, { name: "SMARTLOOPS™" }, ...quickLoops]
-      : myLoops;
+    if (isVideo) {
+      if (quickLoops.length > 0) {
+        allLoops = [{ name: "SMARTLOOPS™" }, ...quickLoops];
+      }
+
+      if (myLoops.length > 0) {
+        allLoops = [...allLoops, { name: "USER LOOPS" }, ...myLoops];
+      }
+    } else {
+      allLoops = myLoops;
+    }
+
+    allLoops = [...allLoops, { name: "None" }];
 
     const height = Math.min(
-      100 + (allLoops.length + 1) * 42,
+      100 + allLoops.length * 42,
       Dimensions.get("window").height - 40
     );
     const maxHeight = Math.min(300, Dimensions.get("window").height - 60);
@@ -104,7 +115,7 @@ class BtnMyLoopsModal extends React.Component {
 
             <FlatList
               keyExtractor={(item, index) => index}
-              data={[...allLoops, { name: "None" }]}
+              data={allLoops}
               ItemSeparatorComponent={this.separator}
               renderItem={({ item, index }) => (
                 <View
@@ -121,7 +132,8 @@ class BtnMyLoopsModal extends React.Component {
                       opacity:
                         currentLoop.get("name") === item.name &&
                         item.name !== "None" &&
-                        item.name !== "SMARTLOOPS™"
+                        item.name !== "SMARTLOOPS™" &&
+                        item.name !== "USER LOOPS"
                           ? 1.0
                           : 0.0
                     }}
@@ -130,7 +142,8 @@ class BtnMyLoopsModal extends React.Component {
                   </Text>
                   {isEditing &&
                   item.name !== "None" &&
-                  item.name !== "SMARTLOOPS™" && (
+                  item.name !== "SMARTLOOPS™" &&
+                  item.name !== "USER LOOPS" && (
                     <BtnLoopDelete
                       style={{
                         width: 30,
@@ -145,7 +158,7 @@ class BtnMyLoopsModal extends React.Component {
                     />
                   )}
 
-                  {item.name !== "SMARTLOOPS™" ? (
+                  {item.name !== "SMARTLOOPS™" && item.name !== "USER LOOPS" ? (
                     <TouchableOpacity
                       style={{ flex: 1 }}
                       onPress={() => {
@@ -167,10 +180,12 @@ class BtnMyLoopsModal extends React.Component {
                   ) : (
                     <Text
                       style={{
+                        marginLeft: -20,
                         height: "100%",
                         textAlignVertical: "center",
                         fontSize: 18,
-                        fontWeight: "800"
+                        fontWeight: "800",
+                        color: "#888888"
                       }}
                     >
                       {item.name}
