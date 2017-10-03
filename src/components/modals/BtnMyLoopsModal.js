@@ -23,13 +23,14 @@ class BtnMyLoopsModal extends React.Component {
   };
 
   render() {
-    const { loops, currentLoop, color, isPhone } = this.props;
+    const { loops, quickLoops, currentLoop, color, isPhone } = this.props;
     const { isEditing, modalFrame } = this.state;
 
     const myLoops = loops || [];
+    allLoops = [...myLoops, { name: "SMARTLOOPS™" }, ...quickLoops];
 
     const height = Math.min(
-      100 + (myLoops.length + 1) * 42,
+      100 + (allLoops.length + 1) * 42,
       Dimensions.get("window").height - 40
     );
     const left = Math.max(10, modalFrame.x - 510);
@@ -37,7 +38,7 @@ class BtnMyLoopsModal extends React.Component {
 
     const top = Math.max(
       30,
-      modalFrame.y - (100 + (myLoops.length + 1) * 42) + 20
+      modalFrame.y - (100 + (allLoops.length + 1) * 42) + 20
     );
 
     const maxHeight = Math.min(300, Dimensions.get("window").height - 60);
@@ -102,7 +103,7 @@ class BtnMyLoopsModal extends React.Component {
 
             <FlatList
               keyExtractor={(item, index) => index}
-              data={[...myLoops, { name: "None" }]}
+              data={[...allLoops, { name: "None" }]}
               ItemSeparatorComponent={this.separator}
               renderItem={({ item, index }) => (
                 <View
@@ -118,7 +119,8 @@ class BtnMyLoopsModal extends React.Component {
                       color: PrimaryBlue,
                       opacity:
                         currentLoop.get("name") === item.name &&
-                        item.name !== "None"
+                        item.name !== "None" &&
+                        item.name !== "SMARTLOOPS™"
                           ? 1.0
                           : 0.0
                     }}
@@ -144,9 +146,11 @@ class BtnMyLoopsModal extends React.Component {
                   <TouchableOpacity
                     style={{ flex: 1 }}
                     onPress={() => {
-                      item.name === "None"
-                        ? this.handleClearLoop()
-                        : this.handleSelectLoop(item);
+                      if (item.name !== "SMARTLOOPS™") {
+                        item.name === "None"
+                          ? this.handleClearLoop()
+                          : this.handleSelectLoop(item);
+                      }
                     }}
                   >
                     <Text
@@ -181,12 +185,12 @@ class BtnMyLoopsModal extends React.Component {
   };
 
   displayModal = frame => {
-    const { loops } = this.props;
+    const { loops, quickLoops } = this.props;
 
-    if (loops === undefined) {
+    if (loops === undefined && quickLoops.length === 0) {
       Alert.alert(
         "Loops Unavailable",
-        "You currently have no saved loops for this media"
+        "You currently have no saved loops for this lesson, nor are there SMARTLOOPS™"
       );
     } else {
       this.setState({ modalIsVisible: true, modalFrame: frame });

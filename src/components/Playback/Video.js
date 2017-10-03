@@ -152,6 +152,7 @@ class Vid extends React.Component {
               loopIsEnabled={this.props.loopIsEnabled}
               isPhone={isPhone}
               currentLoop={this.props.currentLoop}
+              quickLoops={this.state.quickLoops}
               connectedDevices={this.props.connectedDevices}
               onSelectTempo={this.handleSelectTempo}
               onLoopEnable={this.handleLoopEnable}
@@ -237,11 +238,13 @@ class Vid extends React.Component {
         this.props.setVideoChapters(j.chapters);
         this.props.setVideoMidiFiles(j.midiTimes);
 
-        console.log(j.quickLoops);
+        const quickLoops = j.quickLoops.map(loop => {
+          return { name: loop.name, begin: loop.begin, end: loop.end };
+        });
 
         this.setState({
           title: j.name || "",
-          quickLoops: j.quickLoops || []
+          quickLoops: quickLoops
         });
       })
       .catch(err => {

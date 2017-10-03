@@ -40,6 +40,7 @@ const PlaybackSecondary = ({
   tempo,
   loopIsEnabled,
   currentLoop,
+  quickLoops,
   connectedDevices,
   isPhone,
   onSelectTempo,
@@ -153,6 +154,7 @@ const PlaybackSecondary = ({
       style={buttonStyle}
       mediaId={mediaId}
       currentLoop={currentLoop}
+      quickLoops={quickLoops}
       isPhone={isPhone}
       color={"#222222"}
       onSetCurrentLoop={onSetCurrentLoop}
@@ -179,6 +181,7 @@ PlaybackSecondary.propTypes = {
   tempo: PropTypes.number.isRequired,
   loopIsEnabled: PropTypes.bool.isRequired,
   currentLoop: PropTypes.object.isRequired,
+  quickLoops: PropTypes.array,
   connectedDevices: PropTypes.number.isRequired,
   isPhone: PropTypes.bool.isRequired,
   onSelectTempo: PropTypes.func.isRequired,

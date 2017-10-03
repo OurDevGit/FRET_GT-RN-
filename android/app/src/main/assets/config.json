@@ -1,143 +1,226 @@
 {
-  "totalDuration" : 1022.88955622289,
-  "midiTimes" : [
+  "totalDuration": 1022.88955622289,
+  "midiTimes": [
     {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 296.0000006666667,
-      "begin" : 131.9166666666667,
-      "name" : "1_1"
+      "tracks": ["Guitar"],
+      "end": 296.0000006666667,
+      "begin": 131.9166666666667,
+      "name": "1_1"
     },
     {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 921.0000006666667,
-      "begin" : 576.4166666666666,
-      "name" : "1_2"
+      "tracks": ["Guitar"],
+      "end": 921.0000006666667,
+      "begin": 576.4166666666666,
+      "name": "1_2"
     },
     {
-      "tracks" : [
-        "Guitar"
-      ],
-      "end" : 1022.889,
-      "begin" : 930.125,
-      "name" : "1_3"
+      "tracks": ["Guitar"],
+      "end": 1022.889,
+      "begin": 930.125,
+      "name": "1_3"
     }
   ],
-  "name" : "Getting Started",
-  "quickLoops" : [
-
+  "name": "Getting Started",
+  "quickLoops": [
+    {
+      "type": 3,
+      "uniqueId": 50,
+      "mediaName": "1_2",
+      "parentId": 7,
+      "children": [],
+      "begin": 446.1338232,
+      "end": 463.2127641,
+      "duration": 17.07894090000002,
+      "name": "Basic E7 Rhythm"
+    },
+    {
+      "type": 3,
+      "uniqueId": 51,
+      "mediaName": "1_4",
+      "parentId": 12,
+      "children": [],
+      "begin": 569.2019105000001,
+      "end": 585.9921255,
+      "duration": 16.79021499999999,
+      "name": "Shuffle Rhythm"
+    },
+    {
+      "type": 3,
+      "uniqueId": 52,
+      "mediaName": "2_1",
+      "parentId": 15,
+      "children": [],
+      "begin": 920.5962688,
+      "end": 954.4786048,
+      "duration": 33.88233600000001,
+      "name": "12 Bar Blues Progression"
+    },
+    {
+      "type": 3,
+      "uniqueId": 53,
+      "mediaName": "2_4",
+      "parentId": 26,
+      "children": [],
+      "begin": 1289.5605685,
+      "end": 1323.4429045,
+      "duration": 33.8823359999999,
+      "name": "Blues Riff Using E Blues"
+    },
+    {
+      "type": 3,
+      "uniqueId": 54,
+      "mediaName": "3_1",
+      "parentId": 30,
+      "children": [],
+      "begin": 1468.6733592,
+      "end": 1502.5556952,
+      "duration": 33.8823359999999,
+      "name": "Rock Style Blues Rhythm"
+    },
+    {
+      "type": 3,
+      "uniqueId": 55,
+      "mediaName": "3_4",
+      "parentId": 34,
+      "children": [],
+      "begin": 1563.7916496,
+      "end": 1578.4365938,
+      "duration": 14.64494420000005,
+      "name": "Blues Lick 1"
+    },
+    {
+      "type": 3,
+      "uniqueId": 56,
+      "mediaName": "3_5",
+      "parentId": 34,
+      "children": [],
+      "begin": 1600.969695,
+      "end": 1616.8465725,
+      "duration": 15.87687750000009,
+      "name": "Double Stops"
+    },
+    {
+      "type": 3,
+      "uniqueId": 57,
+      "mediaName": "3_6",
+      "parentId": 34,
+      "children": [],
+      "begin": 1653.2400726,
+      "end": 1670.8140766,
+      "duration": 17.57400399999983,
+      "name": "Bends"
+    },
+    {
+      "type": 3,
+      "uniqueId": 58,
+      "mediaName": "4_1",
+      "parentId": 42,
+      "children": [],
+      "begin": 1804.3474583,
+      "end": 1838.2297943,
+      "duration": 33.88233600000012,
+      "name": "SRV Shuffle Rhythm"
+    },
+    {
+      "type": 3,
+      "uniqueId": 59,
+      "mediaName": "4_3",
+      "parentId": 42,
+      "children": [],
+      "begin": 1942.0661585,
+      "end": 1975.889671,
+      "duration": 33.82351249999988,
+      "name": "Improvisation Practice"
+    }
   ],
-  "chapters" : [
+  "chapters": [
     {
-      "uniqueId" : 1,
-      "name" : "Getting Started",
-      "children" : [
-
-      ],
-      "begin" : 0,
-      "duration" : 45,
-      "end" : 45,
-      "type" : 4
+      "uniqueId": 1,
+      "name": "Getting Started",
+      "children": [],
+      "begin": 0,
+      "duration": 45,
+      "end": 45,
+      "type": 4
     },
     {
-      "uniqueId" : 2,
-      "name" : "How to Pair your Fretlight Wireless Guitar",
-      "children" : [
-
-      ],
-      "begin" : 45,
-      "duration" : 65,
-      "end" : 110,
-      "type" : 4
+      "uniqueId": 2,
+      "name": "How to Pair your Fretlight Wireless Guitar",
+      "children": [],
+      "begin": 45,
+      "duration": 65,
+      "end": 110,
+      "type": 4
     },
     {
-      "uniqueId" : 3,
-      "name" : "How to Tune your Fretlight Wireless Guitar",
-      "children" : [
-
-      ],
-      "begin" : 110,
-      "duration" : 186,
-      "end" : 296,
-      "type" : 4
+      "uniqueId": 3,
+      "name": "How to Tune your Fretlight Wireless Guitar",
+      "children": [],
+      "begin": 110,
+      "duration": 186,
+      "end": 296,
+      "type": 4
     },
     {
-      "uniqueId" : 4,
-      "name" : "The Parts of your Fretlight Wireless Guitar",
-      "children" : [
-
-      ],
-      "begin" : 296,
-      "duration" : 93,
-      "end" : 389,
-      "type" : 4
+      "uniqueId": 4,
+      "name": "The Parts of your Fretlight Wireless Guitar",
+      "children": [],
+      "begin": 296,
+      "duration": 93,
+      "end": 389,
+      "type": 4
     },
     {
-      "uniqueId" : 5,
-      "name" : "How to Hold the Pick and your Fretlight Guitar",
-      "children" : [
-
-      ],
-      "begin" : 389,
-      "duration" : 172,
-      "end" : 561,
-      "type" : 4
+      "uniqueId": 5,
+      "name": "How to Hold the Pick and your Fretlight Guitar",
+      "children": [],
+      "begin": 389,
+      "duration": 172,
+      "end": 561,
+      "type": 4
     },
     {
-      "uniqueId" : 6,
-      "name" : "How to Play your First Notes and Chords",
-      "children" : [
+      "uniqueId": 6,
+      "name": "How to Play your First Notes and Chords",
+      "children": [
         {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_2",
-          "parentId" : 6,
-          "uniqueId" : 7,
-          "children" : [
-
-          ],
-          "begin" : 578.942982,
-          "end" : 747.867013,
-          "duration" : 168.924031,
-          "name" : "Your First Notes"
+          "type": 0,
+          "tracks": ["Guitar"],
+          "mediaName": "1_2",
+          "parentId": 6,
+          "uniqueId": 7,
+          "children": [],
+          "begin": 578.942982,
+          "end": 747.867013,
+          "duration": 168.924031,
+          "name": "Your First Notes"
         },
         {
-          "type" : 0,
-          "tracks" : [
-            "Guitar"
-          ],
-          "mediaName" : "1_2",
-          "parentId" : 6,
-          "uniqueId" : 8,
-          "children" : [
-
-          ],
-          "begin" : 747.867013,
-          "end" : 921,
-          "duration" : 173.132987,
-          "name" : "Your First Chords"
+          "type": 0,
+          "tracks": ["Guitar"],
+          "mediaName": "1_2",
+          "parentId": 6,
+          "uniqueId": 8,
+          "children": [],
+          "begin": 747.867013,
+          "end": 921,
+          "duration": 173.132987,
+          "name": "Your First Chords"
         }
       ],
-      "begin" : 561,
-      "duration" : 360,
-      "end" : 921,
-      "type" : 4
+      "begin": 561,
+      "duration": 360,
+      "end": 921,
+      "type": 4
     },
     {
-      "uniqueId" : 9,
-      "name" : "How to Play Slides on your Fretlight Wireless Guitar",
-      "children" : [
-
-      ],
-      "begin" : 921,
-      "duration" : 101.8895562228896,
-      "end" : 1022.88955622289,
-      "type" : 4
+      "uniqueId": 9,
+      "name": "How to Play Slides on your Fretlight Wireless Guitar",
+      "children": [],
+      "begin": 921,
+      "duration": 101.8895562228896,
+      "end": 1022.88955622289,
+      "type": 4
     }
   ]
 }
