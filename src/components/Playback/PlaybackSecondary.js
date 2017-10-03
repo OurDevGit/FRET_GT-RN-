@@ -43,6 +43,7 @@ const PlaybackSecondary = ({
   quickLoops,
   connectedDevices,
   isPhone,
+  isVideo,
   onSelectTempo,
   onPrevStep,
   onNextStep,
@@ -156,6 +157,7 @@ const PlaybackSecondary = ({
       currentLoop={currentLoop}
       quickLoops={quickLoops}
       isPhone={isPhone}
+      isVideo={isVideo}
       color={"#222222"}
       onSetCurrentLoop={onSetCurrentLoop}
       onClearCurrentLoop={onClearCurrentLoop}
@@ -184,6 +186,7 @@ PlaybackSecondary.propTypes = {
   quickLoops: PropTypes.array,
   connectedDevices: PropTypes.number.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  isVideo: PropTypes.bool.isRequired,
   onSelectTempo: PropTypes.func.isRequired,
   onPrevStep: PropTypes.func.isRequired,
   onNextStep: PropTypes.func.isRequired,

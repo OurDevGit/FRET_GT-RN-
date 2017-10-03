@@ -151,6 +151,7 @@ class Vid extends React.Component {
               tempo={this.state.playbackRate}
               loopIsEnabled={this.props.loopIsEnabled}
               isPhone={isPhone}
+              isVideo={true}
               currentLoop={this.props.currentLoop}
               quickLoops={this.state.quickLoops}
               connectedDevices={this.props.connectedDevices}

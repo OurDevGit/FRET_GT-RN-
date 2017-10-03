@@ -1,12 +1,13 @@
 import React from "react";
 import { Alert, View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
-import { realmify, guid } from "../../realm";
 import Dimensions from "Dimensions";
 import { Map } from "immutable";
 
 import { PrimaryBlue } from "../../design";
 import { BtnLoopDelete } from "../StyleKit";
+
+import { getLoops, deleteLoop } from "../../models/Loops";
 
 import ModalButton from "./ModalButton";
 import TempoText from "./TempoText";
@@ -19,15 +20,17 @@ class BtnMyLoopsModal extends React.Component {
   state = {
     modalIsVisible: false,
     modalFrame: { x: 0, y: 0, width: 0, height: 0 },
-    isEditing: false
+    isEditing: false,
+    myLoops: []
   };
 
   render() {
-    const { loops, quickLoops, currentLoop, color, isPhone } = this.props;
-    const { isEditing, modalFrame } = this.state;
+    const { quickLoops, currentLoop, color, isPhone, isVideo } = this.props;
+    const { isEditing, modalFrame, myLoops } = this.state;
 
-    const myLoops = loops || [];
-    allLoops = [...myLoops, { name: "SMARTLOOPS™" }, ...quickLoops];
+    allLoops = isVideo
+      ? [...myLoops, { name: "SMARTLOOPS™" }, ...quickLoops]
+      : myLoops;
 
     const height = Math.min(
       100 + (allLoops.length + 1) * 42,
@@ -84,21 +87,22 @@ class BtnMyLoopsModal extends React.Component {
               >
                 My Loops
               </Text>
-
-              <TouchableOpacity
-                style={{ flex: -1 }}
-                onPress={this.toggleEditing}
-              >
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "400",
-                    textAlign: "right"
-                  }}
+              {myLoops.length > 0 && (
+                <TouchableOpacity
+                  style={{ flex: -1 }}
+                  onPress={this.toggleEditing}
                 >
-                  {isEditing ? "Done" : "Edit"}
-                </Text>
-              </TouchableOpacity>
+                  <Text
+                    style={{
+                      fontSize: 18,
+                      fontWeight: "400",
+                      textAlign: "right"
+                    }}
+                  >
+                    {isEditing ? "Done" : "Edit"}
+                  </Text>
+                </TouchableOpacity>
+              )}
             </View>
 
             <FlatList
@@ -146,11 +150,9 @@ class BtnMyLoopsModal extends React.Component {
                   <TouchableOpacity
                     style={{ flex: 1 }}
                     onPress={() => {
-                      if (item.name !== "SMARTLOOPS™") {
-                        item.name === "None"
-                          ? this.handleClearLoop()
-                          : this.handleSelectLoop(item);
-                      }
+                      item.name === "None"
+                        ? this.handleClearLoop()
+                        : this.handleSelectLoop(item);
                     }}
                   >
                     <Text
@@ -172,6 +174,17 @@ class BtnMyLoopsModal extends React.Component {
     );
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      this.props.mediaId !== nextProps.mediaId ||
+      !this.props.currentLoop.equals(nextProps.currentLoop) ||
+      this.state.isEditing !== nextState.isEditing ||
+      this.state.modalFrame !== nextState.modalFrame ||
+      this.state.modalIsVisible !== nextState.modalIsVisible ||
+      this.state.myLoops.length !== nextState.myLoops.length
+    );
+  }
+
   separator = () => {
     return (
       <View
@@ -184,21 +197,29 @@ class BtnMyLoopsModal extends React.Component {
     );
   };
 
-  displayModal = frame => {
-    const { loops, quickLoops } = this.props;
+  displayModal = async frame => {
+    const { quickLoops, isVideo } = this.props;
+    const myLoops = await getLoops(this.props.mediaId);
 
-    if (loops === undefined && quickLoops.length === 0) {
-      Alert.alert(
-        "Loops Unavailable",
-        "You currently have no saved loops for this lesson, nor are there SMARTLOOPS™"
-      );
+    if (myLoops === undefined && quickLoops.length === 0) {
+      if (isVideo) {
+        Alert.alert(
+          "Loops Unavailable",
+          "You currently have no saved loops for this lesson, nor are there SMARTLOOPS™"
+        );
+      } else {
+        Alert.alert(
+          "Loops Unavailable",
+          "You currently have no saved loops for this media"
+        );
+      }
     } else {
-      this.setState({ modalIsVisible: true, modalFrame: frame });
+      this.setState({ modalIsVisible: true, modalFrame: frame, myLoops });
     }
   };
 
   dismissModal = () => {
-    this.setState({ modalIsVisible: false });
+    this.setState({ modalIsVisible: false, isEditing: false });
   };
 
   toggleEditing = () => {
@@ -206,12 +227,12 @@ class BtnMyLoopsModal extends React.Component {
     this.setState({ isEditing: bool });
   };
 
-  handleDeleteLoop = loop => {
-    if (loop === this.props.currentLoop) {
-      this.props.onClearCurrentLoop();
+  handleDeleteLoop = async loop => {
+    const { mediaId, currentLoop, onClearCurrentLoop } = this.props;
+    if (loop === currentLoop) {
+      onClearCurrentLoop();
     }
-
-    this.props.deleteLoop(loop);
+    this.setState({ myLoops: await deleteLoop(loop, mediaId) });
   };
 
   handleClearLoop = () => {
@@ -225,26 +246,15 @@ class BtnMyLoopsModal extends React.Component {
   };
 }
 
-const mapQueriesToProps = (realm, ownProps) => ({
-  loops: realm.objects("Loop").filtered("mediaId == $0", ownProps.mediaId) || {}
-});
-
-const mapMutationsToProps = ({ destroy }) => ({
-  deleteLoop: loop => {
-    destroy(loop);
-  }
-});
-
 BtnMyLoopsModal.propTypes = {
   style: PropTypes.object.isRequired,
   mediaId: PropTypes.string.isRequired,
-  loops: PropTypes.object,
+  quickLoops: PropTypes.array,
   currentLoop: PropTypes.object.isRequired,
   color: PropTypes.string.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  isVideo: PropTypes.bool.isRequired,
   onSetCurrentLoop: PropTypes.func.isRequired
 };
 
-export default realmify(mapQueriesToProps, mapMutationsToProps)(
-  BtnMyLoopsModal
-);
+export default BtnMyLoopsModal;

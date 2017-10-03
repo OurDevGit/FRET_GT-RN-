@@ -2,7 +2,7 @@ import React from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
-import { realmify, guid } from "../../realm";
+import { getLoops, createOrUpdateLoop } from "../../models/Loops";
 
 import ModalButton from "./ModalButton";
 import Popover from "./Popover";
@@ -12,7 +12,8 @@ import { ModalType } from "./ModalType";
 class BtnSaveLoopModal extends React.Component {
   state = {
     modalIsVisible: false,
-    inputText: ""
+    inputText: "",
+    myLoops: []
   };
 
   render() {
@@ -126,6 +127,10 @@ class BtnSaveLoopModal extends React.Component {
       </ModalButton>
     );
   }
+  /*
+  async componentWillMount() {
+    this.setState({ myLoops: await getLoops(this.props.mediaId) });
+  }*/
 
   displayModal = () => {
     const begin = this.props.currentLoop.get("begin");
@@ -148,40 +153,24 @@ class BtnSaveLoopModal extends React.Component {
     this.setState({ inputText: text });
   };
 
-  saveLoop = () => {
+  saveLoop = async () => {
     const name = this.state.inputText;
 
     if (name === "") {
       Alert.alert("Loop Name", "Please enter a name with at least 1 character");
     } else {
-      const matching = this.props.loops.filter(loop => loop.name === name);
+      const matching = this.state.myLoops.filter(loop => loop.name === name);
       if (matching.length > 0) {
         Alert.alert("Existing Name", "Please give your loop another name");
       } else {
-        const loop = this.props.currentLoop
-          .set("name", name)
-          .set("mediaId", this.props.mediaId);
+        const loop = this.props.currentLoop.set("name", name);
         this.props.onSetCurrentLoop(loop);
-        this.props.createLoop(loop.toJS());
+        createOrUpdateLoop(loop.toJS(), this.props.mediaId);
         this.setState({ modalIsVisible: false });
       }
     }
   };
 }
-
-const mapQueriesToProps = (realm, ownProps) => ({
-  loops: realm.objects("Loop").filtered("mediaId == $0", ownProps.mediaId)
-});
-
-const mapMutationsToProps = ({ create, destroy }) => ({
-  createLoop: loop => {
-    var obj = { ...loop, id: guid() };
-    create("Loop", obj);
-  },
-  updateLoop: loop => {
-    create("Loop", loop, true);
-  }
-});
 
 BtnSaveLoopModal.propTypes = {
   style: PropTypes.object.isRequired,
@@ -190,6 +179,4 @@ BtnSaveLoopModal.propTypes = {
   onSetCurrentLoop: PropTypes.func.isRequired
 };
 
-export default realmify(mapQueriesToProps, mapMutationsToProps)(
-  BtnSaveLoopModal
-);
+export default BtnSaveLoopModal;

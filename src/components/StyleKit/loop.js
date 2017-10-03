@@ -52,6 +52,5 @@ export const BtnLoopDelete = props => {
       )
     )
   );
-
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
