@@ -9,7 +9,6 @@ import RNFetchBlob from "react-native-fetch-blob";
 import PlaybackVideoPrimary from "./PlaybackVideoPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
-import { FullVideoModal } from "../modals";
 import { playerBackground } from "../../design";
 import { chapterForTime, markerForTime } from "../../selectors";
 
@@ -36,7 +35,7 @@ class Vid extends React.Component {
     midiFiles: [],
     title: "Loading...",
     quickLoops: [],
-    isFullscreen: false,
+    isFullscreen: true,
     areControlsVisible: true
   };
 
@@ -55,15 +54,14 @@ class Vid extends React.Component {
       <View
         style={{
           flex: 1,
-          backgroundColor: "#000",
           alignContent: "center",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: playerBackground,
-          margin: 4,
-          paddingVertical: 4,
-          paddingHorizontal: 12,
-          borderRadius: 6
+          backgroundColor: this.state.isFullscreen ? "black" : playerBackground,
+          margin: this.state.isFullscreen ? 0 : 4,
+          paddingVertical: this.state.isFullscreen ? 0 : 4,
+          paddingHorizontal: this.state.isFullscreen ? 0 : 12,
+          borderRadius: this.state.isFullscreen ? 0 : 6
         }}
       >
         <Midi
@@ -74,29 +72,52 @@ class Vid extends React.Component {
           loadMidi={loadMidi}
         />
 
-        {isPhone || this.state.isFullscreen ? (
-          <FullVideoModal
+        <View style={{ width: "100%", height: "100%" }}>
+          <PlaybackVideoPrimary
             mediaId={mediaId}
-            mediaTitle={mediaTitle}
-            trackCount={this.props.trackCount}
-            isPlaying={this.state.isPlaying}
-            isCompact={isCompact}
-            isPhone={isPhone}
-            areControlsVisible={this.state.areControlsVisible}
+            title={mediaTitle}
+            tempo={this.state.playbackRate}
             duration={this.state.mediaDuration}
             markers={this.props.videoChapters.toJS()}
-            currentLoop={this.props.currentLoop}
-            loopIsEnabled={this.props.loopIsEnabled}
-            tempo={this.state.playbackRate}
-            connectedDevices={this.props.connectedDevices}
+            currentChapter={this.props.currentVideoChapter.toJS()}
+            currentMarker={this.props.currentVideoMarker.toJS()}
+            isPlaying={this.state.isPlaying}
+            isPhone={isPhone}
+            isFullscreen={this.state.isFullscreen}
+            areControlsVisible={this.state.areControlsVisible}
+            onVideoLoad={this.handleVideoLoad}
+            onProgress={this.handleProgress}
+            onEnd={this.handleEnd}
+            onError={this.handleError}
+            onPlayerRegister={this.handlePlayerRegister}
             onPreviousPress={this.handlePreviousPress}
             onBackPress={this.handleBackPress}
             onPlayPausePress={this.handlePlayPausePress}
             onForwardPress={this.handleForwardPress}
             onNextPress={this.handleNextPress}
-            onSeek={this.handleSeek}
             onMarkerPress={this.handleMarkerPress}
-            onMarkerLongPress={this.handleMarkerLongPress}
+            onDisplayControls={this.handleDisplayControls}
+            onFullscreen={this.handleFullscreen}
+          />
+          <PlaybackTimeline
+            duration={this.state.mediaDuration}
+            currentLoop={this.props.currentLoop}
+            loopIsEnabled={this.props.loopIsEnabled}
+            videoMarkers={this.props.videoMarkers.toJS()}
+            currentVideoMarker={this.props.currentVideoMarker.toJS()}
+            isVideo={true}
+            onSeek={this.handleSeek}
+            onLoopEnable={this.handleLoopEnable}
+          />
+          <PlaybackSecondary
+            mediaId={mediaId}
+            tempo={this.state.playbackRate}
+            loopIsEnabled={this.props.loopIsEnabled}
+            isPhone={isPhone}
+            isVideo={true}
+            currentLoop={this.props.currentLoop}
+            quickLoops={this.state.quickLoops}
+            connectedDevices={this.props.connectedDevices}
             onSelectTempo={this.handleSelectTempo}
             onLoopEnable={this.handleLoopEnable}
             onLoopBegin={this.handleLoopBegin}
@@ -106,67 +127,8 @@ class Vid extends React.Component {
             onPrevStep={this.handlePrevStep}
             onNextStep={this.handleNextStep}
             onDisplayInfo={this.handleDisplayInfoAlert}
-            onDisplayControls={this.handleDisplayControls}
-            onFullscreen={this.handleFullscreen}
           />
-        ) : (
-          <View style={{ width: "100%", height: "100%" }}>
-            <PlaybackVideoPrimary
-              mediaId={mediaId}
-              title={mediaTitle}
-              tempo={this.state.playbackRate}
-              duration={this.state.mediaDuration}
-              markers={this.props.videoChapters.toJS()}
-              currentChapter={this.props.currentVideoChapter.toJS()}
-              currentMarker={this.props.currentVideoMarker.toJS()}
-              isPlaying={this.state.isPlaying}
-              isPhone={isPhone}
-              areControlsVisible={this.state.areControlsVisible}
-              onVideoLoad={this.handleVideoLoad}
-              onProgress={this.handleProgress}
-              onEnd={this.handleEnd}
-              onError={this.handleError}
-              onPlayerRegister={this.handlePlayerRegister}
-              onPreviousPress={this.handlePreviousPress}
-              onBackPress={this.handleBackPress}
-              onPlayPausePress={this.handlePlayPausePress}
-              onForwardPress={this.handleForwardPress}
-              onNextPress={this.handleNextPress}
-              onMarkerPress={this.handleMarkerPress}
-              onDisplayControls={this.handleDisplayControls}
-              onFullscreen={this.handleFullscreen}
-            />
-            <PlaybackTimeline
-              duration={this.state.mediaDuration}
-              currentLoop={this.props.currentLoop}
-              loopIsEnabled={this.props.loopIsEnabled}
-              videoMarkers={this.props.videoMarkers.toJS()}
-              currentVideoMarker={this.props.currentVideoMarker.toJS()}
-              isVideo={true}
-              onSeek={this.handleSeek}
-              onLoopEnable={this.handleLoopEnable}
-            />
-            <PlaybackSecondary
-              mediaId={mediaId}
-              tempo={this.state.playbackRate}
-              loopIsEnabled={this.props.loopIsEnabled}
-              isPhone={isPhone}
-              isVideo={true}
-              currentLoop={this.props.currentLoop}
-              quickLoops={this.state.quickLoops}
-              connectedDevices={this.props.connectedDevices}
-              onSelectTempo={this.handleSelectTempo}
-              onLoopEnable={this.handleLoopEnable}
-              onLoopBegin={this.handleLoopBegin}
-              onLoopEnd={this.handleLoopEnd}
-              onSetCurrentLoop={this.handleSetCurrentLoop}
-              onClearCurrentLoop={this.props.clearCurrentLoop}
-              onPrevStep={this.handlePrevStep}
-              onNextStep={this.handleNextStep}
-              onDisplayInfo={this.handleDisplayInfoAlert}
-            />
-          </View>
-        )}
+        </View>
       </View>
     );
   }
@@ -316,7 +278,6 @@ class Vid extends React.Component {
 
   goToTime = time => {
     this.player.seek(time);
-    this.handleDisplayControls();
 
     if (!this.state.isPlaying) {
       this.playbackSeconds = time;
@@ -328,6 +289,7 @@ class Vid extends React.Component {
   // PLAYBACK METHODS
 
   handlePreviousPress = () => {
+    this.handleDisplayControls();
     const { markers } = this.props;
     const seconds = this.playbackSeconds;
 
@@ -344,10 +306,12 @@ class Vid extends React.Component {
   };
 
   handleBackPress = () => {
+    this.handleDisplayControls();
     this.goToTime(this.playbackSeconds - 5);
   };
 
   handlePlayPausePress = () => {
+    this.handleDisplayControls();
     this.setState({
       isPlaying: !this.state.isPlaying,
       videoRate: this.state.playbackRate
@@ -355,10 +319,12 @@ class Vid extends React.Component {
   };
 
   handleForwardPress = () => {
+    this.handleDisplayControls();
     this.goToTime(this.playbackSeconds + 30);
   };
 
   handleNextPress = marker => {
+    this.handleDisplayControls();
     const { markers } = this.props;
     const seconds = this.playbackSeconds;
 
@@ -469,7 +435,8 @@ class Vid extends React.Component {
   handleVideoClose = () => {};
 
   handleFullscreen = () => {
-    console.log("full");
+    this.handleDisplayControls();
+    this.props.onToggleAd();
     this.setState({ isFullscreen: !this.state.isFullscreen });
   };
 
@@ -506,7 +473,9 @@ Vid.propTypes = {
   setVideoMidiFiles: PropTypes.func.isRequired,
   setCurrentVideoChapter: PropTypes.func.isRequired,
   setCurrentVideoMarker: PropTypes.func.isRequired,
-  setCurrentVideoMidiFile: PropTypes.func.isRequired
+  setCurrentVideoMidiFile: PropTypes.func.isRequired,
+  onToggleAd: PropTypes.func.isRequired,
+  onToggleFretboards: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => {

@@ -50,6 +50,8 @@ class Root extends Component {
             video={this.state.video}
             trackCount={this.props.trackCount}
             onToggleLibrary={this.handleToggleLibrary}
+            onToggleAd={this.handleToggleAd}
+            onToggleFretboards={this.handleToggleFretboards}
           />
 
           {this.state.showFretboards && (
@@ -118,11 +120,12 @@ class Root extends Component {
     }
   };
 
-  handleToggleFullscreen = () => {
-    this.setState({
-      showAd: !this.state.showFretboards,
-      showFretboards: !this.state.showFretboards
-    });
+  handleToggleAd = () => {
+    this.setState({ showAd: !this.state.showAd });
+  };
+
+  handleToggleFretboards = () => {
+    this.setState({ showFretboards: !this.state.showFretboards });
   };
 
   handleLayout = e => {

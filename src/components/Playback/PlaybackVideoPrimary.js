@@ -26,6 +26,7 @@ class PlaybackVideoPrimary extends React.Component {
       isPlaying,
       areControlsVisible,
       isPhone,
+      isFullscreen,
       markers,
       currentChapter,
       currentMarker,
@@ -55,55 +56,57 @@ class PlaybackVideoPrimary extends React.Component {
           alignItems: "center"
         }}
       >
-        <View
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            justifyContent: "space-between",
-            alignItems: "flex-start",
-            marginRight: 30
-          }}
-        >
+        {!isFullscreen && (
           <View
             style={{
               flex: 1,
-              aspectRatio: 1,
-              margin: 7,
-              backgroundColor: "#222222"
-            }}
-          />
-          <Text style={{ flex: 1, fontSize: 18 }}>{title}</Text>
-
-          <View
-            style={{
-              flex: 1,
-              width: "100%",
-              marginRight: 6,
               flexDirection: "column",
-              justifyContent: "flex-end"
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              marginRight: 30
             }}
           >
-            <Slider
+            <View
               style={{
-                width: "100%",
-                height: 44
+                flex: 1,
+                aspectRatio: 1,
+                margin: 7,
+                backgroundColor: "#222222"
               }}
             />
-            <Text
+            <Text style={{ flex: 1, fontSize: 18 }}>{title}</Text>
+
+            <View
               style={{
-                position: "absolute",
-                bottom: 40,
+                flex: 1,
                 width: "100%",
-                color: PrimaryBlue,
-                fontSize: isPhone ? 14 : 18,
-                textAlign: "center",
-                textAlignVertical: "bottom"
+                marginRight: 6,
+                flexDirection: "column",
+                justifyContent: "flex-end"
               }}
             >
-              Volume
-            </Text>
+              <Slider
+                style={{
+                  width: "100%",
+                  height: 44
+                }}
+              />
+              <Text
+                style={{
+                  position: "absolute",
+                  bottom: 40,
+                  width: "100%",
+                  color: PrimaryBlue,
+                  fontSize: isPhone ? 14 : 18,
+                  textAlign: "center",
+                  textAlignVertical: "bottom"
+                }}
+              >
+                Volume
+              </Text>
+            </View>
           </View>
-        </View>
+        )}
 
         <View
           style={{
@@ -215,51 +218,98 @@ class PlaybackVideoPrimary extends React.Component {
           )}
         </View>
 
-        <VideoMarkersTable
-          videoMarkers={markers}
-          currentChapter={currentChapter}
-          currentMarker={currentMarker}
-          onMarkerPress={onMarkerPress}
-        />
-
-        <View style={{ position: "absolute", top: -8, right: -8 }}>
-          <BtnHeart
-            style={{
-              width: 40,
-              height: 40
-            }}
-            mediaId={mediaId}
+        {!isFullscreen && (
+          <VideoMarkersTable
+            videoMarkers={markers}
+            currentChapter={currentChapter}
+            currentMarker={currentMarker}
+            onMarkerPress={onMarkerPress}
           />
-        </View>
+        )}
+
+        {!isFullscreen && (
+          <View style={{ position: "absolute", top: -8, right: -8 }}>
+            <BtnHeart
+              style={{
+                width: 40,
+                height: 40
+              }}
+              mediaId={mediaId}
+            />
+          </View>
+        )}
+
+        {isFullscreen && (
+          <View
+            style={{
+              position: "absolute",
+              top: 0,
+              left: 0,
+              flex: -1,
+              width: "100%",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              backgroundColor: "rgba(255, 255, 255, 0.8)"
+            }}
+          >
+            <TouchableOpacity style={{ flex: -1 }} onPress={onFullscreen}>
+              <Text
+                style={{
+                  marginLeft: 20,
+                  marginVertical: 12,
+                  fontSize: 18,
+                  fontWeight: "800"
+                }}
+              >
+                Done
+              </Text>
+            </TouchableOpacity>
+
+            <Text
+              style={{
+                flex: 1,
+                width: "100%",
+                marginRight: 50,
+                marginVertical: 12,
+                fontSize: 18,
+                fontWeight: "400",
+                textAlign: "center"
+              }}
+            >
+              {title}
+            </Text>
+          </View>
+        )}
       </View>
     );
   }
 }
 
 PlaybackVideoPrimary.propTypes = {
-  mediaId: PropTypes.string,
-  title: PropTypes.string,
-  tempo: PropTypes.number,
-  markers: PropTypes.array,
-  currentChapter: PropTypes.object,
-  currentMarker: PropTypes.object,
-  duration: PropTypes.number,
-  isPlaying: PropTypes.bool,
-  isPhone: PropTypes.bool,
-  areControlsVisible: PropTypes.bool,
-  onLoad: PropTypes.func,
-  onProgress: PropTypes.func,
-  onEnd: PropTypes.func,
-  onError: PropTypes.func,
-  onPlayerRegister: PropTypes.func,
-  onPreviousPress: PropTypes.func,
-  onBackPress: PropTypes.func,
-  onPlayPausePress: PropTypes.func,
-  onForwardPress: PropTypes.func,
-  onNextPress: PropTypes.func,
-  onMarkerPress: PropTypes.func,
-  onDisplayControls: PropTypes.func,
-  onFullscreen: PropTypes.func
+  mediaId: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  tempo: PropTypes.number.isRequired,
+  markers: PropTypes.array.isRequired,
+  currentChapter: PropTypes.object.isRequired,
+  currentMarker: PropTypes.object.isRequired,
+  duration: PropTypes.number.isRequired,
+  isPlaying: PropTypes.bool.isRequired,
+  isPhone: PropTypes.bool.isRequired,
+  isFullscreen: PropTypes.bool.isRequired,
+  areControlsVisible: PropTypes.bool.isRequired,
+  onProgress: PropTypes.func.isRequired,
+  onEnd: PropTypes.func.isRequired,
+  onError: PropTypes.func.isRequired,
+  onPlayerRegister: PropTypes.func.isRequired,
+  onPreviousPress: PropTypes.func.isRequired,
+  onBackPress: PropTypes.func.isRequired,
+  onPlayPausePress: PropTypes.func.isRequired,
+  onForwardPress: PropTypes.func.isRequired,
+  onNextPress: PropTypes.func.isRequired,
+  onMarkerPress: PropTypes.func.isRequired,
+  onDisplayControls: PropTypes.func.isRequired,
+  onFullscreen: PropTypes.func.isRequired
 };
 
 export default pure(PlaybackVideoPrimary);

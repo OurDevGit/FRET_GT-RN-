@@ -56,6 +56,8 @@ class MediaPlayer extends Component {
             setCurrentVideoChapter={this.props.setCurrentVideoChapter}
             setCurrentVideoMarker={this.props.setCurrentVideoMarker}
             setCurrentVideoMidiFile={this.props.setCurrentVideoMidiFile}
+            onToggleAd={this.props.onToggleAd}
+            onToggleFretboards={this.props.onToggleFretboards}
           />
         )}
       </View>
@@ -115,7 +117,9 @@ MediaPlayer.propTypes = {
   setCurrentVideoChapter: PropTypes.func.isRequired,
   setCurrentVideoMarker: PropTypes.func.isRequired,
   setCurrentVideoMidiFile: PropTypes.func.isRequired,
-  clearVideoLesson: PropTypes.func.isRequired
+  clearVideoLesson: PropTypes.func.isRequired,
+  onToggleAd: PropTypes.func.isRequired,
+  onToggleFretboards: PropTypes.func.isRequired
 };
 
 export default connect(null, actions)(MediaPlayer);
