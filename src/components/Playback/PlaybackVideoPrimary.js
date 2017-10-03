@@ -270,7 +270,6 @@ class PlaybackVideoPrimary extends React.Component {
               style={{
                 flex: 1,
                 width: "100%",
-                marginRight: 50,
                 marginVertical: 12,
                 fontSize: 18,
                 fontWeight: "400",
@@ -279,6 +278,15 @@ class PlaybackVideoPrimary extends React.Component {
             >
               {title}
             </Text>
+
+            <BtnHeart
+              style={{
+                width: 40,
+                height: 40,
+                marginRight: 10
+              }}
+              mediaId={mediaId}
+            />
           </View>
         )}
       </View>
