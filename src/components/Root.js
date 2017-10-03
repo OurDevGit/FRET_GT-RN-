@@ -120,8 +120,8 @@ class Root extends Component {
     }
   };
 
-  handleToggleAd = () => {
-    this.setState({ showAd: !this.state.showAd });
+  handleToggleAd = bool => {
+    this.setState({ showAd: bool });
   };
 
   handleToggleFretboards = () => {

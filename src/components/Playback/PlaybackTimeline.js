@@ -26,6 +26,7 @@ class PlaybackTimeline extends Component {
       currentVideoMarker,
       loopIsEnabled,
       isVideo,
+      isFullscreen,
       onMarkerPress,
       onMarkerLongPress
     } = this.props;
@@ -54,7 +55,7 @@ class PlaybackTimeline extends Component {
           flexDirection: "row",
           justifyContent: "center",
           alignItems: "flex-start",
-          marginHorizontal: isVideo ? "10%" : 10,
+          marginHorizontal: isVideo && !isFullscreen ? "10%" : 10,
           marginTop: 8,
           marginBottom: isVideo ? 20 : -10
         }}
@@ -92,7 +93,7 @@ class PlaybackTimeline extends Component {
               position: "absolute",
               height: 1,
               width: "100%",
-              backgroundColor: PrimaryBlue,
+              backgroundColor: isFullscreen ? "black" : PrimaryBlue,
               top: 10
             }}
           />
@@ -248,6 +249,7 @@ PlaybackTimeline.propTypes = {
   currentVideoMarker: PropTypes.object,
   loopIsEnabled: PropTypes.bool,
   isVideo: PropTypes.bool,
+  isFullscreen: PropTypes.bool,
   onSeek: PropTypes.func,
   onLoopEnable: PropTypes.func,
   onMarkerPress: PropTypes.func,

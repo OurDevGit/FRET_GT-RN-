@@ -35,7 +35,7 @@ class Vid extends React.Component {
     midiFiles: [],
     title: "Loading...",
     quickLoops: [],
-    isFullscreen: true,
+    isFullscreen: false,
     areControlsVisible: true
   };
 
@@ -99,35 +99,50 @@ class Vid extends React.Component {
             onDisplayControls={this.handleDisplayControls}
             onFullscreen={this.handleFullscreen}
           />
-          <PlaybackTimeline
-            duration={this.state.mediaDuration}
-            currentLoop={this.props.currentLoop}
-            loopIsEnabled={this.props.loopIsEnabled}
-            videoMarkers={this.props.videoMarkers.toJS()}
-            currentVideoMarker={this.props.currentVideoMarker.toJS()}
-            isVideo={true}
-            onSeek={this.handleSeek}
-            onLoopEnable={this.handleLoopEnable}
-          />
-          <PlaybackSecondary
-            mediaId={mediaId}
-            tempo={this.state.playbackRate}
-            loopIsEnabled={this.props.loopIsEnabled}
-            isPhone={isPhone}
-            isVideo={true}
-            currentLoop={this.props.currentLoop}
-            quickLoops={this.state.quickLoops}
-            connectedDevices={this.props.connectedDevices}
-            onSelectTempo={this.handleSelectTempo}
-            onLoopEnable={this.handleLoopEnable}
-            onLoopBegin={this.handleLoopBegin}
-            onLoopEnd={this.handleLoopEnd}
-            onSetCurrentLoop={this.handleSetCurrentLoop}
-            onClearCurrentLoop={this.props.clearCurrentLoop}
-            onPrevStep={this.handlePrevStep}
-            onNextStep={this.handleNextStep}
-            onDisplayInfo={this.handleDisplayInfoAlert}
-          />
+          <View
+            style={{
+              flex: -1,
+              position: this.state.isFullscreen ? "absolute" : "relative",
+              bottom: 0,
+              width: "100%",
+              paddingBottom: 10,
+              backgroundColor: this.state.isFullscreen
+                ? "rgba(255, 255, 255, 0.85)"
+                : "rgba(0, 0, 0, 0)"
+            }}
+          >
+            <PlaybackTimeline
+              duration={this.state.mediaDuration}
+              currentLoop={this.props.currentLoop}
+              loopIsEnabled={this.props.loopIsEnabled}
+              videoMarkers={this.props.videoMarkers.toJS()}
+              currentVideoMarker={this.props.currentVideoMarker.toJS()}
+              isVideo={true}
+              isFullscreen={this.state.isFullscreen}
+              onSeek={this.handleSeek}
+              onLoopEnable={this.handleLoopEnable}
+            />
+            <PlaybackSecondary
+              mediaId={mediaId}
+              tempo={this.state.playbackRate}
+              loopIsEnabled={this.props.loopIsEnabled}
+              isPhone={isPhone}
+              isVideo={true}
+              isFullscreen={this.state.isFullscreen}
+              currentLoop={this.props.currentLoop}
+              quickLoops={this.state.quickLoops}
+              connectedDevices={this.props.connectedDevices}
+              onSelectTempo={this.handleSelectTempo}
+              onLoopEnable={this.handleLoopEnable}
+              onLoopBegin={this.handleLoopBegin}
+              onLoopEnd={this.handleLoopEnd}
+              onSetCurrentLoop={this.handleSetCurrentLoop}
+              onClearCurrentLoop={this.props.clearCurrentLoop}
+              onPrevStep={this.handlePrevStep}
+              onNextStep={this.handleNextStep}
+              onDisplayInfo={this.handleDisplayInfoAlert}
+            />
+          </View>
         </View>
       </View>
     );
@@ -436,7 +451,7 @@ class Vid extends React.Component {
 
   handleFullscreen = () => {
     this.handleDisplayControls();
-    this.props.onToggleAd();
+    this.props.onToggleAd(this.state.isFullscreen);
     this.setState({ isFullscreen: !this.state.isFullscreen });
   };
 

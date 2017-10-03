@@ -250,7 +250,7 @@ class PlaybackVideoPrimary extends React.Component {
               flexDirection: "row",
               justifyContent: "space-between",
               alignItems: "flex-start",
-              backgroundColor: "rgba(255, 255, 255, 0.8)"
+              backgroundColor: "rgba(255, 255, 255, 0.85)"
             }}
           >
             <TouchableOpacity style={{ flex: -1 }} onPress={onFullscreen}>

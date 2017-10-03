@@ -57,6 +57,7 @@ const PlaybackSecondary = ({
   <View
     style={{
       width: "100%",
+      paddingHorizontal: 10,
       height: 35,
       flexDirection: "row",
       justifyContent: "space-between",
@@ -187,6 +188,7 @@ PlaybackSecondary.propTypes = {
   connectedDevices: PropTypes.number.isRequired,
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
+  isFullscreen: PropTypes.bool.isRequired,
   onSelectTempo: PropTypes.func.isRequired,
   onPrevStep: PropTypes.func.isRequired,
   onNextStep: PropTypes.func.isRequired,
