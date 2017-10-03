@@ -433,6 +433,18 @@ export const PhoneBtnLoopRight_targetFrame_resizing_isEnabled = props => <PaintC
   {...props}
 />
 
+export const Capo = props => <PaintCode
+  drawMethod="Capo"
+  drawArgs={[]}
+  {...props}
+/>
+
+export const Capo_targetFrame_resizing = props => <PaintCode
+  drawMethod="Capo"
+  drawArgs={["targetFrame","resizing"]}
+  {...props}
+/>
+
 export const BtnCloudDownload = props => <PaintCode
   drawMethod="BtnCloudDownload"
   drawArgs={[]}

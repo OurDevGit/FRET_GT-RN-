@@ -10,6 +10,7 @@ import FretboardLabels from "./FretboardFretLabels";
 import FretboardBackground from "./FretboardFretBackground";
 import FretboardFrets from "./FretboardFrets";
 import FretboardStrings from "./FretboardStrings";
+import FretboardCapo from "./FretboardCapo";
 import SmartFretText from "../modals/SmartFretText";
 
 class Fretboard extends React.Component {
@@ -90,6 +91,12 @@ class Fretboard extends React.Component {
             isSmart={isSmart}
             fretHeight={this.state.fretHeight}
             onLayout={this.handleLayout.bind(this)}
+            boardWidth={boardWidth}
+          />
+          <FretboardCapo
+            track={track}
+            isSmart={isSmart}
+            fretHeight={this.state.fretHeight}
             boardWidth={boardWidth}
           />
         </View>

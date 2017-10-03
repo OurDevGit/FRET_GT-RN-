@@ -24,6 +24,7 @@ const frets = (track, isSmart, boardWidth) => {
               backgroundColor: "#CCCCCC"
             }}
           />
+
           <FretMarkers fret={i} />
         </View>
       </View>

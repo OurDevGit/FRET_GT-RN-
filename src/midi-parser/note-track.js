@@ -6,7 +6,6 @@ module.exports = (track, secondsForTicks) => {
     tuning,
     fullTuning,
     fineTuneVal,
-    capo,
     isBass,
     firstFret,
     lastFret;
@@ -14,6 +13,7 @@ module.exports = (track, secondsForTicks) => {
   var notes = List();
   var notesOn = [];
   var totalTicks = 0;
+  var capo = -1;
   const stringOffset = [64, 59, 55, 50, 45, 40];
 
   track.forEach((event, index) => {
