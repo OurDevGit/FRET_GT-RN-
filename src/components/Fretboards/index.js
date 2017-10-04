@@ -41,7 +41,7 @@ class FretboardsRoot extends React.PureComponent {
 
     var boardHeight = supportsMultipleFretboards
       ? deviceWidth * 0.17
-      : deviceWidth * 0.23;
+      : isVideo ? deviceWidth * 0.18 : deviceWidth * 0.23;
 
     if (visibleTracks.count() === 4) {
       boardHeight = (deviceHeight - 110) / 4;

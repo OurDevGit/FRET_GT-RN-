@@ -19,7 +19,7 @@ class HorizontalContainer extends React.Component {
       width: this.state.width,
       height: this.state.height,
       paddingTop: "0.5%",
-      paddingBottom: 20,
+      paddingBottom: this.props.isVideo ? 15 : 20,
       paddingHorizontal: "1%"
     };
 
