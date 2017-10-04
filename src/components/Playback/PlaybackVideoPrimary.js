@@ -15,7 +15,13 @@ import {
 } from "../StyleKit";
 import VideoMarkersTable from "./VideoMarkersTable";
 
-const buttonStyle = { width: 50, height: 50, marginHorizontal: 10 };
+const buttonStyle = isPhone => {
+  return {
+    width: isPhone ? 36 : 50,
+    height: isPhone ? 36 : 50,
+    marginHorizontal: isPhone ? 6 : 10
+  };
+};
 
 class PlaybackVideoPrimary extends React.Component {
   render() {
@@ -156,42 +162,42 @@ class PlaybackVideoPrimary extends React.Component {
             <View
               style={{
                 position: "absolute",
-                top: 0,
+                top: isPhone ? 50 : 0,
                 left: 0,
                 width: "100%",
                 height: "100%",
                 flexDirection: "row",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: isPhone ? "flex-start" : "center"
               }}
             >
               <BtnPrevious
-                style={buttonStyle}
+                style={buttonStyle(isPhone)}
                 color={"#FFFFFF"}
                 onPress={onPreviousPress}
               />
 
               <BtnRewind
-                style={buttonStyle}
+                style={buttonStyle(isPhone)}
                 color={"#FFFFFF"}
                 onPress={onBackPress}
               />
 
               <BtnPlay
                 isShowingPause={isPlaying}
-                style={buttonStyle}
+                style={buttonStyle(isPhone)}
                 color={"#FFFFFF"}
                 onPress={onPlayPausePress}
               />
 
               <BtnForward
-                style={buttonStyle}
+                style={buttonStyle(isPhone)}
                 color={"#FFFFFF"}
                 onPress={onForwardPress}
               />
 
               <BtnNext
-                style={buttonStyle}
+                style={buttonStyle(isPhone)}
                 color={"#FFFFFF"}
                 onPress={onNextPress}
               />
@@ -270,8 +276,8 @@ class PlaybackVideoPrimary extends React.Component {
               <Text
                 style={{
                   marginLeft: 20,
-                  marginVertical: 12,
-                  fontSize: 18,
+                  marginVertical: isPhone ? 6 : 12,
+                  fontSize: isPhone ? 14 : 18,
                   fontWeight: "800"
                 }}
               >
@@ -283,8 +289,8 @@ class PlaybackVideoPrimary extends React.Component {
               style={{
                 flex: 1,
                 width: "100%",
-                marginVertical: 12,
-                fontSize: 18,
+                marginVertical: isPhone ? 6 : 12,
+                fontSize: isPhone ? 14 : 18,
                 fontWeight: "400",
                 textAlign: "center"
               }}
@@ -294,8 +300,8 @@ class PlaybackVideoPrimary extends React.Component {
 
             <BtnHeart
               style={{
-                width: 40,
-                height: 40,
+                width: isPhone ? 34 : 40,
+                height: isPhone ? 34 : 40,
                 marginRight: 10
               }}
               mediaId={mediaId}

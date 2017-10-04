@@ -37,7 +37,7 @@ class Vid extends React.Component {
     midiFiles: [],
     title: "Loading...",
     quickLoops: [],
-    isFullscreen: false,
+    isFullscreen: Dimensions.get("window").height < 500,
     areControlsVisible: true,
     isShowingModal: false
   };
@@ -139,7 +139,7 @@ class Vid extends React.Component {
                 style={{
                   flex: -1,
                   width: "100%",
-                  paddingBottom: 10,
+                  paddingBottom: isPhone ? 0 : 10,
                   backgroundColor: this.state.isFullscreen
                     ? "rgba(255, 255, 255, 0.85)"
                     : "rgba(0, 0, 0, 0)"
@@ -152,10 +152,11 @@ class Vid extends React.Component {
                       justifyContent: "space-between",
                       width: "100%",
                       paddingHorizontal: 10,
-                      height: 50
+                      height: isPhone ? 36 : 50
                     }}
                   >
                     <BtnChapterModal
+                      isPhone={isPhone}
                       videoMarkers={this.props.videoChapters.toJS()}
                       currentChapter={this.props.currentVideoChapter.toJS()}
                       currentMarker={this.props.currentVideoMarker.toJS()}
@@ -164,8 +165,8 @@ class Vid extends React.Component {
                     />
                     <BtnToggleFretboard
                       style={{
-                        width: 50,
-                        height: 50
+                        width: isPhone ? 36 : 50,
+                        height: isPhone ? 36 : 50
                       }}
                       color={"#FFFFFF"}
                       onPress={this.handleToggleFretboards}
@@ -179,6 +180,7 @@ class Vid extends React.Component {
                   loopIsEnabled={this.props.loopIsEnabled}
                   videoMarkers={this.props.videoMarkers.toJS()}
                   currentVideoMarker={this.props.currentVideoMarker.toJS()}
+                  isPhone={isPhone}
                   isVideo={true}
                   isFullscreen={this.state.isFullscreen}
                   onSeek={this.handleSeek}
@@ -237,9 +239,6 @@ class Vid extends React.Component {
   }
 
   componentWillMount() {
-    if (Dimensions.get("window").height < 500) {
-      this.setState({ isFullscreen: true });
-    }
     this.handleNewVideo();
   }
 

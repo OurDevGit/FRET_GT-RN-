@@ -37,6 +37,7 @@ class BtnMyLoopsModal extends React.Component {
 
   render() {
     const {
+      isPhone,
       currentChapter,
       currentMarker,
       videoMarkers,
@@ -63,9 +64,9 @@ class BtnMyLoopsModal extends React.Component {
             minWidth: 50,
             height: 30,
             marginTop: 10,
-            paddingTop: 4,
-            fontSize: 20,
-            lineHeight: 20,
+            paddingTop: isPhone ? 0 : 4,
+            fontSize: isPhone ? 16 : 20,
+            lineHeight: isPhone ? 18 : 20,
             textAlign: "center",
             justifyContent: "center",
             alignItems: "center"
@@ -187,6 +188,7 @@ class BtnMyLoopsModal extends React.Component {
 }
 
 BtnMyLoopsModal.propTypes = {
+  isPhone: PropTypes.bool.isRequired,
   currentChapter: PropTypes.object,
   currentMarker: PropTypes.object,
   videoMarkers: PropTypes.array.isRequired,
