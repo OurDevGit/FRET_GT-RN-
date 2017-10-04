@@ -128,17 +128,25 @@ class BtnFretlightModal extends React.Component {
   }
 
   displayModal = () => {
+    if (this.props.onDisplayToggle !== undefined) {
+      this.props.onDisplayToggle(true);
+    }
+
     this.setState({ modalIsVisible: true });
   };
 
   dismissModal = () => {
+    if (this.props.onDisplayToggle !== undefined) {
+      this.props.onDisplayToggle(false);
+    }
     this.setState({ modalIsVisible: false });
   };
 }
 
 BtnFretlightModal.propTypes = {
   isPhone: PropTypes.bool.isRequired,
-  devices: PropTypes.number.isRequired
+  devices: PropTypes.number.isRequired,
+  onDisplayToggle: PropTypes.func
 };
 
 export default BtnFretlightModal;

@@ -53,7 +53,8 @@ const PlaybackSecondary = ({
   onLoopEnd,
   onSetCurrentLoop,
   onClearCurrentLoop,
-  onDisplayInfo
+  onDisplayInfo,
+  onDisplayToggle
 }) => (
   <View
     style={{
@@ -70,6 +71,7 @@ const PlaybackSecondary = ({
       color={"#222222"}
       isPhone={isPhone}
       onSelectTempo={onSelectTempo}
+      onDisplayToggle={onDisplayToggle}
     />
 
     {tempo === 0 && (
@@ -151,6 +153,7 @@ const PlaybackSecondary = ({
       currentLoop={currentLoop}
       isPhone={isPhone}
       onSetCurrentLoop={onSetCurrentLoop}
+      onDisplayToggle={onDisplayToggle}
     />
 
     <BtnMyLoopsModal
@@ -163,6 +166,7 @@ const PlaybackSecondary = ({
       color={"#222222"}
       onSetCurrentLoop={onSetCurrentLoop}
       onClearCurrentLoop={onClearCurrentLoop}
+      onDisplayToggle={onDisplayToggle}
     />
 
     <View style={{ flex: -1, flexDirection: "row" }}>
@@ -174,9 +178,14 @@ const PlaybackSecondary = ({
         }}
         color={isFullscreen ? "#222222" : PrimaryBlue}
         onPress={onDisplayInfo}
+        onDisplayToggle={onDisplayToggle}
       />
 
-      <BtnFretlightModal isPhone={isPhone} devices={connectedDevices} />
+      <BtnFretlightModal
+        isPhone={isPhone}
+        devices={connectedDevices}
+        onDisplayToggle={onDisplayToggle}
+      />
     </View>
   </View>
 );
@@ -199,7 +208,8 @@ PlaybackSecondary.propTypes = {
   onLoopEnd: PropTypes.func.isRequired,
   onSetCurrentLoop: PropTypes.func.isRequired,
   onClearCurrentLoop: PropTypes.func.isRequired,
-  onDisplayInfo: PropTypes.func.isRequired
+  onDisplayInfo: PropTypes.func.isRequired,
+  onDisplayToggle: PropTypes.func
 };
 
 export default pure(PlaybackSecondary);

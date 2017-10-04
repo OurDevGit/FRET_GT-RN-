@@ -38,7 +38,8 @@ class Vid extends React.Component {
     title: "Loading...",
     quickLoops: [],
     isFullscreen: false,
-    areControlsVisible: true
+    areControlsVisible: true,
+    isShowingModal: false
   };
 
   render() {
@@ -157,6 +158,7 @@ class Vid extends React.Component {
                       videoMarkers={this.props.videoChapters.toJS()}
                       currentChapter={this.props.currentVideoChapter.toJS()}
                       currentMarker={this.props.currentVideoMarker.toJS()}
+                      onDisplayToggle={this.handleModalToggle}
                       onMarkerPress={this.handleMarkerPress}
                     />
                     <BtnToggleFretboard
@@ -200,6 +202,7 @@ class Vid extends React.Component {
                   onPrevStep={this.handlePrevStep}
                   onNextStep={this.handleNextStep}
                   onDisplayInfo={this.handleDisplayInfoAlert}
+                  onDisplayToggle={this.handleModalToggle}
                 />
               </View>
             </View>
@@ -365,7 +368,7 @@ class Vid extends React.Component {
   // PLAYBACK METHODS
 
   handlePreviousPress = () => {
-    this.handleDisplayControls();
+    this.resetDisplayTimer();
     const { markers } = this.props;
     const seconds = this.playbackSeconds;
 
@@ -382,12 +385,12 @@ class Vid extends React.Component {
   };
 
   handleBackPress = () => {
-    this.handleDisplayControls();
+    this.resetDisplayTimer();
     this.goToTime(this.playbackSeconds - 5);
   };
 
   handlePlayPausePress = () => {
-    this.handleDisplayControls();
+    this.resetDisplayTimer();
     this.setState({
       isPlaying: !this.state.isPlaying,
       videoRate: this.state.playbackRate
@@ -395,12 +398,12 @@ class Vid extends React.Component {
   };
 
   handleForwardPress = () => {
-    this.handleDisplayControls();
+    this.resetDisplayTimer();
     this.goToTime(this.playbackSeconds + 30);
   };
 
   handleNextPress = marker => {
-    this.handleDisplayControls();
+    this.resetDisplayTimer();
     const { markers } = this.props;
     const seconds = this.playbackSeconds;
 
@@ -511,24 +514,36 @@ class Vid extends React.Component {
   handleVideoClose = () => {};
 
   handleFullscreen = () => {
-    this.handleDisplayControls();
+    this.resetDisplayTimer();
     this.props.onToggleAd(this.state.isFullscreen);
     this.setState({ isFullscreen: !this.state.isFullscreen });
+  };
+
+  handleModalToggle = bool => {
+    this.setState({ isShowingModal: bool });
+
+    if (!bool) {
+      this.resetDisplayTimer();
+    }
+  };
+
+  resetDisplayTimer = () => {
+    controlFaderId += 1;
+    var currentId = controlFaderId;
+    this.setState({ areControlsVisible: true });
+
+    setTimeout(() => {
+      if (currentId === controlFaderId && !this.state.isShowingModal) {
+        this.setState({ areControlsVisible: false });
+      }
+    }, 3000);
   };
 
   handleDisplayControls = () => {
     if (this.state.areControlsVisible) {
       this.setState({ areControlsVisible: false });
     } else {
-      controlFaderId += 1;
-      var currentId = controlFaderId;
-      this.setState({ areControlsVisible: true });
-
-      setTimeout(() => {
-        if (currentId === controlFaderId) {
-          this.setState({ areControlsVisible: false });
-        }
-      }, 3000);
+      this.resetDisplayTimer();
     }
   };
 }

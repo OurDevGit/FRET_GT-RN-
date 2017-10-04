@@ -141,11 +141,17 @@ class BtnSaveLoopModal extends React.Component {
         "Please set a begin and end time for your loop"
       );
     } else {
+      if (this.props.onDisplayToggle !== undefined) {
+        this.props.onDisplayToggle(true);
+      }
       this.setState({ modalIsVisible: true });
     }
   };
 
   dismissModal = () => {
+    if (this.props.onDisplayToggle !== undefined) {
+      this.props.onDisplayToggle(false);
+    }
     this.setState({ modalIsVisible: false });
   };
 
@@ -176,7 +182,8 @@ BtnSaveLoopModal.propTypes = {
   style: PropTypes.object.isRequired,
   mediaId: PropTypes.string.isRequired,
   currentLoop: PropTypes.object.isRequired,
-  onSetCurrentLoop: PropTypes.func.isRequired
+  onSetCurrentLoop: PropTypes.func.isRequired,
+  onDisplayToggle: PropTypes.func
 };
 
 export default BtnSaveLoopModal;
