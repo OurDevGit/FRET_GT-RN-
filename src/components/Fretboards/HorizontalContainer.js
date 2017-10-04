@@ -22,6 +22,7 @@ class HorizontalContainer extends React.Component {
       paddingBottom: 20,
       paddingHorizontal: "1%"
     };
+
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -38,6 +39,7 @@ class HorizontalContainer extends React.Component {
             ListEmptyComponent={() => (
               <Fretboard
                 isPhone={this.props.isPhone}
+                isHidingLabels={true}
                 track={emptyTrack}
                 showSmart={false}
                 isSmart={false}
@@ -48,8 +50,9 @@ class HorizontalContainer extends React.Component {
             renderItem={({ item }) => (
               <Fretboard
                 isPhone={this.props.isPhone}
+                isHidingLabels={false}
                 track={item}
-                showSmart={item.get("name") !== "" && !this.props.isVideo}
+                showSmart={item.name !== "" && !this.props.isVideo}
                 isSmart={false}
                 boardWidth={this.state.width}
                 style={boardStyle}
@@ -76,7 +79,9 @@ class HorizontalContainer extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       !this.props.tracks.equals(nextProps.tracks) ||
-      nextProps.tracks.count() === 0
+      nextProps.tracks.count() === 0 ||
+      this.state.height !== nextState.height ||
+      this.state.width !== nextState.width
     );
   }
 
@@ -92,7 +97,7 @@ HorizontalContainer.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
   deviceWidth: PropTypes.number.isRequired,
-  tracks: PropTypes.array.isRequired,
+  tracks: PropTypes.object.isRequired,
   currentPage: PropTypes.number.isRequired,
   onScrollEnd: PropTypes.func.isRequired
 };

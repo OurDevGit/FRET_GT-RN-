@@ -75,7 +75,7 @@ class Fretboard extends React.Component {
           isSmart={isSmart}
           boardWidth={boardWidth}
         />
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, backgroundColor: "red" }}>
           <FretboardBackground
             track={track}
             isSmart={isSmart}
