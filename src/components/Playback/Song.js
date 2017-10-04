@@ -128,6 +128,7 @@ class Song extends React.Component {
               loopIsEnabled={this.props.loopIsEnabled}
               isPhone={isPhone}
               isVideo={false}
+              isFullscreen={false}
               currentLoop={this.props.currentLoop}
               quickLoops={[]}
               connectedDevices={this.props.connectedDevices}

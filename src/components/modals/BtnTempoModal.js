@@ -19,6 +19,8 @@ class BtnTempoModal extends React.Component {
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
     const color = this.props.color || "#222222";
 
+    console.log("color", color);
+
     const height = this.props.isPhone
       ? Dimensions.get("window").height - 40
       : 400;
@@ -83,6 +85,8 @@ class BtnTempoModal extends React.Component {
                     }}
                   >
                     <TempoText
+                      color={"#222222"}
+                      isPhone={this.props.isPhone}
                       tempo={item > 0.1 ? item : 0}
                       withTitle={false}
                     />
