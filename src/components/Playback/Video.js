@@ -11,7 +11,8 @@ import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
 import { playerBackground } from "../../design";
 import { chapterForTime, markerForTime } from "../../selectors";
-import { BtnVideoExitFullScreen } from "../StyleKit";
+import { BtnVideoExitFullScreen, BtnToggleFretboard } from "../StyleKit";
+import { BtnChapterModal } from "../modals";
 
 import Midi from "./Midi";
 
@@ -142,6 +143,33 @@ class Vid extends React.Component {
                     : "rgba(0, 0, 0, 0)"
                 }}
               >
+                {this.state.isFullscreen && (
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      width: "100%",
+                      paddingHorizontal: 10,
+                      height: 50
+                    }}
+                  >
+                    <BtnChapterModal
+                      videoMarkers={this.props.videoChapters.toJS()}
+                      currentChapter={this.props.currentVideoChapter.toJS()}
+                      currentMarker={this.props.currentVideoMarker.toJS()}
+                      onMarkerPress={this.handleMarkerPress}
+                    />
+                    <BtnToggleFretboard
+                      style={{
+                        width: 50,
+                        height: 50
+                      }}
+                      color={"#FFFFFF"}
+                      onPress={this.props.onToggleFretboards}
+                    />
+                  </View>
+                )}
+
                 <PlaybackTimeline
                   duration={this.state.mediaDuration}
                   currentLoop={this.props.currentLoop}
