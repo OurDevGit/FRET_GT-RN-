@@ -8,7 +8,7 @@ import {
   BtnPlay_targetFrame_resizing_isPressed_isShowingPause_redValue_greenValue_blueValue,
   BtnForward_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   BtnNext_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
-  BtnInfo_targetFrame_resizing,
+  BtnInfo_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
   BtnStepPrev_targetFrame_resizing_isPressed,
   BtnStepNext_targetFrame_resizing_isPressed,
   BtnFullscreen_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
@@ -81,7 +81,13 @@ export const BtnNext = props => {
 };
 
 export const BtnFretlightInfo = props => {
-  const Comp = gtPcSizeable(gtPcPressable(BtnInfo_targetFrame_resizing));
+  const Comp = gtPcSizeable(
+    gtPcColorable(
+      gtPcPressable(
+        BtnInfo_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
+      )
+    )
+  );
 
   return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };

@@ -44,6 +44,7 @@ const PlaybackSecondary = ({
   connectedDevices,
   isPhone,
   isVideo,
+  isFullscreen,
   onSelectTempo,
   onPrevStep,
   onNextStep,
@@ -171,6 +172,7 @@ const PlaybackSecondary = ({
           height: isPhone ? 30 : 35,
           marginRight: 10
         }}
+        color={isFullscreen ? "#222222" : PrimaryBlue}
         onPress={onDisplayInfo}
       />
 
