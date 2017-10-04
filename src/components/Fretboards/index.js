@@ -15,6 +15,7 @@ class FretboardsRoot extends React.PureComponent {
   render() {
     const {
       isVideo,
+      isVisible,
       deviceWidth,
       deviceHeight,
       supportsMultipleFretboards,
@@ -27,13 +28,15 @@ class FretboardsRoot extends React.PureComponent {
     // empty tracks (mainly for video)
     var boardTracks = List([Map({ name: "" })]);
 
-    // applying visible tracks for tablet on audio
-    if (supportsMultipleFretboards && visibleTracks.count() > 0) {
-      boardTracks = visibleTracks;
-    }
-    // applying tracks for phone on audio
-    if (!supportsMultipleFretboards && tracks.count() > 0) {
-      boardTracks = tracks;
+    if (isVisible) {
+      // applying visible tracks for tablet on audio
+      if (supportsMultipleFretboards && visibleTracks.count() > 0) {
+        boardTracks = visibleTracks;
+      }
+      // applying tracks for phone on audio
+      if (!supportsMultipleFretboards && tracks.count() > 0) {
+        boardTracks = tracks;
+      }
     }
 
     var boardHeight = supportsMultipleFretboards
@@ -52,7 +55,7 @@ class FretboardsRoot extends React.PureComponent {
       <View
         style={{
           width: "100%",
-          height: height,
+          height: isVisible ? height : 0,
           backgroundColor: "#E6D9B9"
         }}
       >
@@ -96,6 +99,7 @@ const mapStateToProps = state => {
 
 FretboardsRoot.propTypes = {
   isVideo: PropTypes.bool.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   deviceHeight: PropTypes.number.isRequired,
   supportsMultipleFretboards: PropTypes.bool.isRequired,

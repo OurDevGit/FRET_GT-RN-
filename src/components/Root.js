@@ -23,7 +23,7 @@ class Root extends Component {
     song: null,
     video: null,
     showAd: true,
-    showFretboards: false,
+    showFretboards: true,
     layout: { width: 1, height: 1 }
   };
 
@@ -54,9 +54,10 @@ class Root extends Component {
             onToggleFretboards={this.handleToggleFretboards}
           />
 
-          {this.state.showFretboards && (
+          {(this.state.song !== null || this.state.video !== null) && (
             <FretboardsContainer
               isVideo={isVideo}
+              isVisible={this.state.showFretboards}
               deviceWidth={this.state.layout.width}
               deviceHeight={this.state.layout.height}
               supportsMultipleFretboards={supportsMultipleFretboards}
@@ -106,16 +107,14 @@ class Root extends Component {
         libIsOpen: false,
         song: media,
         video: null,
-        showAd: true,
-        showFretboards: true
+        showAd: true
       });
     } else if (media.type === "video") {
       this.setState({
         libIsOpen: false,
         song: null,
         video: media,
-        showAd: true,
-        showFretboards: true
+        showAd: true
       });
     }
   };

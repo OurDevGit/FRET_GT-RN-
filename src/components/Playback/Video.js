@@ -167,7 +167,7 @@ class Vid extends React.Component {
                         height: 50
                       }}
                       color={"#FFFFFF"}
-                      onPress={this.props.onToggleFretboards}
+                      onPress={this.handleToggleFretboards}
                     />
                   </View>
                 )}
@@ -516,6 +516,11 @@ class Vid extends React.Component {
   handleFullscreen = () => {
     this.resetDisplayTimer();
     this.props.onToggleAd(this.state.isFullscreen);
+
+    if (this.state.isFullscreen) {
+      this.props.onToggleFretboards(true);
+    }
+
     this.setState({ isFullscreen: !this.state.isFullscreen });
   };
 
@@ -525,6 +530,11 @@ class Vid extends React.Component {
     if (!bool) {
       this.resetDisplayTimer();
     }
+  };
+
+  handleToggleFretboards = bool => {
+    this.resetDisplayTimer();
+    this.props.onToggleFretboards(bool);
   };
 
   resetDisplayTimer = () => {
