@@ -50,7 +50,7 @@ class HorizontalContainer extends React.Component {
             renderItem={({ item }) => (
               <Fretboard
                 isPhone={this.props.isPhone}
-                isHidingLabels={false}
+                isHidingLabels={this.props.isVideo && this.props.isPhone}
                 track={item}
                 showSmart={item.name !== "" && !this.props.isVideo}
                 isSmart={false}

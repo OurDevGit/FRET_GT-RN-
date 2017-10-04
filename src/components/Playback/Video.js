@@ -112,7 +112,8 @@ class Vid extends React.Component {
                 width: "100%"
               }}
             >
-              {this.state.isFullscreen && (
+              {this.state.isFullscreen &&
+              !isPhone && (
                 <View
                   style={{
                     flexDirection: "row",
@@ -236,6 +237,9 @@ class Vid extends React.Component {
   }
 
   componentWillMount() {
+    if (Dimensions.get("window").height < 500) {
+      this.setState({ isFullscreen: true });
+    }
     this.handleNewVideo();
   }
 

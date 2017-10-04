@@ -32,7 +32,7 @@ class Root extends Component {
     const aspectRatio = this.state.layout.width / this.state.layout.height;
     const supportsMultipleFretboards =
       this.state.layout.width > 1 && aspectRatio < 1.6;
-    const isVideo = this.song === null;
+    const isVideo = this.state.song === null;
 
     return (
       <Provider store={store}>
@@ -114,7 +114,7 @@ class Root extends Component {
         libIsOpen: false,
         song: null,
         video: media,
-        showAd: true
+        showAd: false
       });
     }
   };
