@@ -241,7 +241,8 @@ class PlaybackVideoPrimary extends React.Component {
           </View>
         )}
 
-        {isFullscreen && (
+        {isFullscreen &&
+        areControlsVisible && (
           <View
             style={{
               position: "absolute",
