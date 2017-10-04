@@ -11,6 +11,7 @@ import PlaybackTimeline from "./PlaybackTimeline";
 import PlaybackSecondary from "./PlaybackSecondary";
 import { playerBackground } from "../../design";
 import { chapterForTime, markerForTime } from "../../selectors";
+import { BtnVideoExitFullScreen } from "../StyleKit";
 
 import Midi from "./Midi";
 
@@ -104,44 +105,73 @@ class Vid extends React.Component {
               flex: -1,
               position: this.state.isFullscreen ? "absolute" : "relative",
               bottom: 0,
-              width: "100%",
-              paddingBottom: 10,
-              backgroundColor: this.state.isFullscreen
-                ? "rgba(255, 255, 255, 0.85)"
-                : "rgba(0, 0, 0, 0)"
+              width: "100%"
             }}
           >
-            <PlaybackTimeline
-              duration={this.state.mediaDuration}
-              currentLoop={this.props.currentLoop}
-              loopIsEnabled={this.props.loopIsEnabled}
-              videoMarkers={this.props.videoMarkers.toJS()}
-              currentVideoMarker={this.props.currentVideoMarker.toJS()}
-              isVideo={true}
-              isFullscreen={this.state.isFullscreen}
-              onSeek={this.handleSeek}
-              onLoopEnable={this.handleLoopEnable}
-            />
-            <PlaybackSecondary
-              mediaId={mediaId}
-              tempo={this.state.playbackRate}
-              loopIsEnabled={this.props.loopIsEnabled}
-              isPhone={isPhone}
-              isVideo={true}
-              isFullscreen={this.state.isFullscreen}
-              currentLoop={this.props.currentLoop}
-              quickLoops={this.state.quickLoops}
-              connectedDevices={this.props.connectedDevices}
-              onSelectTempo={this.handleSelectTempo}
-              onLoopEnable={this.handleLoopEnable}
-              onLoopBegin={this.handleLoopBegin}
-              onLoopEnd={this.handleLoopEnd}
-              onSetCurrentLoop={this.handleSetCurrentLoop}
-              onClearCurrentLoop={this.props.clearCurrentLoop}
-              onPrevStep={this.handlePrevStep}
-              onNextStep={this.handleNextStep}
-              onDisplayInfo={this.handleDisplayInfoAlert}
-            />
+            {this.state.isFullscreen && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "flex-end",
+                  width: "100%",
+                  height: 60,
+                  paddingRight: 10,
+                  paddingBottom: 10
+                }}
+              >
+                <BtnVideoExitFullScreen
+                  style={{
+                    width: 50,
+                    height: 50
+                  }}
+                  color={"#FFFFFF"}
+                  onPress={this.handleFullscreen}
+                />
+              </View>
+            )}
+
+            <View
+              style={{
+                flex: -1,
+                width: "100%",
+                paddingBottom: 10,
+                backgroundColor: this.state.isFullscreen
+                  ? "rgba(255, 255, 255, 0.85)"
+                  : "rgba(0, 0, 0, 0)"
+              }}
+            >
+              <PlaybackTimeline
+                duration={this.state.mediaDuration}
+                currentLoop={this.props.currentLoop}
+                loopIsEnabled={this.props.loopIsEnabled}
+                videoMarkers={this.props.videoMarkers.toJS()}
+                currentVideoMarker={this.props.currentVideoMarker.toJS()}
+                isVideo={true}
+                isFullscreen={this.state.isFullscreen}
+                onSeek={this.handleSeek}
+                onLoopEnable={this.handleLoopEnable}
+              />
+              <PlaybackSecondary
+                mediaId={mediaId}
+                tempo={this.state.playbackRate}
+                loopIsEnabled={this.props.loopIsEnabled}
+                isPhone={isPhone}
+                isVideo={true}
+                isFullscreen={this.state.isFullscreen}
+                currentLoop={this.props.currentLoop}
+                quickLoops={this.state.quickLoops}
+                connectedDevices={this.props.connectedDevices}
+                onSelectTempo={this.handleSelectTempo}
+                onLoopEnable={this.handleLoopEnable}
+                onLoopBegin={this.handleLoopBegin}
+                onLoopEnd={this.handleLoopEnd}
+                onSetCurrentLoop={this.handleSetCurrentLoop}
+                onClearCurrentLoop={this.props.clearCurrentLoop}
+                onPrevStep={this.handlePrevStep}
+                onNextStep={this.handleNextStep}
+                onDisplayInfo={this.handleDisplayInfoAlert}
+              />
+            </View>
           </View>
         </View>
       </View>

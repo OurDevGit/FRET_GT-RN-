@@ -203,17 +203,19 @@ class PlaybackVideoPrimary extends React.Component {
                 />
               </View>
 
-              <BtnVideoFullScreen
-                style={{
-                  position: "absolute",
-                  bottom: 10,
-                  right: 10,
-                  width: 50,
-                  height: 50
-                }}
-                color={"#FFFFFF"}
-                onPress={onFullscreen}
-              />
+              {!isFullscreen && (
+                <BtnVideoFullScreen
+                  style={{
+                    position: "absolute",
+                    bottom: 10,
+                    right: 10,
+                    width: 50,
+                    height: 50
+                  }}
+                  color={"#FFFFFF"}
+                  onPress={onFullscreen}
+                />
+              )}
             </View>
           )}
         </View>
