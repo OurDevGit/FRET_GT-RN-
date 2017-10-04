@@ -1,6 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { pure } from "recompose";
+import { onlyUpdateForKeys } from "recompose";
 import { View, Picker, Text, TouchableOpacity } from "react-native";
 import {
   LoopLeft,
@@ -55,140 +56,142 @@ const PlaybackSecondary = ({
   onClearCurrentLoop,
   onDisplayInfo,
   onDisplayToggle
-}) => (
-  <View
-    style={{
-      width: "100%",
-      paddingHorizontal: 10,
-      height: 35,
-      flexDirection: "row",
-      justifyContent: "space-between",
-      alignContent: "center"
-    }}
-  >
-    <BtnTempoModal
-      currentTempo={tempo}
-      color={"#222222"}
-      isPhone={isPhone}
-      onSelectTempo={onSelectTempo}
-      onDisplayToggle={onDisplayToggle}
-    />
+}) => {
+  console.log("render");
+  return (
+    <View
+      style={{
+        width: "100%",
+        paddingHorizontal: 10,
+        height: 35,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignContent: "center"
+      }}
+    >
+      <BtnTempoModal
+        currentTempo={tempo}
+        color={"#222222"}
+        isPhone={isPhone}
+        onSelectTempo={onSelectTempo}
+        onDisplayToggle={onDisplayToggle}
+      />
 
-    {tempo === 0 && (
-      <View
-        style={{
-          marginLeft: -60,
-          marginTop: -4,
-          flex: -1,
-          flexDirection: "row"
-        }}
-      >
-        <BtnPrevStep
+      {tempo === 0 && (
+        <View
           style={{
-            width: 40,
-            height: 40,
-            marginLeft: 5
+            marginLeft: -60,
+            marginTop: -4,
+            flex: -1,
+            flexDirection: "row"
           }}
-          color={PrimaryBlue}
-          onPress={onPrevStep}
+        >
+          <BtnPrevStep
+            style={{
+              width: 40,
+              height: 40,
+              marginLeft: 5
+            }}
+            color={PrimaryBlue}
+            onPress={onPrevStep}
+          />
+          <BtnNextStep
+            style={{
+              width: 40,
+              height: 40,
+              marginLeft: 40,
+              marginLeft: 5
+            }}
+            color={PrimaryBlue}
+            onPress={onNextStep}
+          />
+        </View>
+      )}
+
+      {isPhone ? (
+        <BtnPhoneLoopToggle
+          style={{ width: 40, height: 40 }}
+          loopsEnabled={loopIsEnabled}
+          color={"#222222"}
+          onPress={onLoopEnable}
         />
-        <BtnNextStep
+      ) : (
+        <TouchableOpacity onPress={onLoopEnable}>
+          <Text style={buttonStyle}>
+            {loopIsEnabled ? "Loop ON" : "Loop OFF"}
+          </Text>
+        </TouchableOpacity>
+      )}
+
+      {isPhone ? (
+        <PhoneLoopLeft
+          style={{ width: 36, height: 36 }}
+          isEnabled={true}
+          onPress={onLoopBegin}
+        />
+      ) : (
+        <LoopLeft
+          style={{ width: 30, height: 30 }}
+          isEnabled={true}
+          onPress={onLoopBegin}
+        />
+      )}
+      {isPhone ? (
+        <PhoneLoopRight
+          style={{ width: 36, height: 36 }}
+          isEnabled={true}
+          onPress={onLoopEnd}
+        />
+      ) : (
+        <LoopRight
+          style={{ width: 30, height: 30 }}
+          isEnabled={true}
+          onPress={onLoopEnd}
+        />
+      )}
+
+      <BtnSaveLoopModal
+        style={buttonStyle}
+        mediaId={mediaId}
+        currentLoop={currentLoop}
+        isPhone={isPhone}
+        onSetCurrentLoop={onSetCurrentLoop}
+        onDisplayToggle={onDisplayToggle}
+      />
+
+      <BtnMyLoopsModal
+        style={buttonStyle}
+        mediaId={mediaId}
+        currentLoop={currentLoop}
+        quickLoops={quickLoops}
+        isPhone={isPhone}
+        isVideo={isVideo}
+        color={"#222222"}
+        onSetCurrentLoop={onSetCurrentLoop}
+        onClearCurrentLoop={onClearCurrentLoop}
+        onDisplayToggle={onDisplayToggle}
+      />
+
+      <View style={{ flex: -1, flexDirection: "row" }}>
+        <BtnFretlightInfo
           style={{
-            width: 40,
-            height: 40,
-            marginLeft: 40,
-            marginLeft: 5
+            width: isPhone ? 30 : 35,
+            height: isPhone ? 30 : 35,
+            marginRight: 10
           }}
-          color={PrimaryBlue}
-          onPress={onNextStep}
+          color={isFullscreen ? "#222222" : PrimaryBlue}
+          onPress={onDisplayInfo}
+        />
+
+        <BtnFretlightModal
+          isPhone={isPhone}
+          devices={connectedDevices}
+          onDisplayToggle={onDisplayToggle}
         />
       </View>
-    )}
-
-    {isPhone ? (
-      <BtnPhoneLoopToggle
-        style={{ width: 40, height: 40 }}
-        loopsEnabled={loopIsEnabled}
-        color={"#222222"}
-        onPress={onLoopEnable}
-      />
-    ) : (
-      <TouchableOpacity onPress={onLoopEnable}>
-        <Text style={buttonStyle}>
-          {loopIsEnabled ? "Loop ON" : "Loop OFF"}
-        </Text>
-      </TouchableOpacity>
-    )}
-
-    {isPhone ? (
-      <PhoneLoopLeft
-        style={{ width: 36, height: 36 }}
-        isEnabled={true}
-        onPress={onLoopBegin}
-      />
-    ) : (
-      <LoopLeft
-        style={{ width: 30, height: 30 }}
-        isEnabled={true}
-        onPress={onLoopBegin}
-      />
-    )}
-    {isPhone ? (
-      <PhoneLoopRight
-        style={{ width: 36, height: 36 }}
-        isEnabled={true}
-        onPress={onLoopEnd}
-      />
-    ) : (
-      <LoopRight
-        style={{ width: 30, height: 30 }}
-        isEnabled={true}
-        onPress={onLoopEnd}
-      />
-    )}
-
-    <BtnSaveLoopModal
-      style={buttonStyle}
-      mediaId={mediaId}
-      currentLoop={currentLoop}
-      isPhone={isPhone}
-      onSetCurrentLoop={onSetCurrentLoop}
-      onDisplayToggle={onDisplayToggle}
-    />
-
-    <BtnMyLoopsModal
-      style={buttonStyle}
-      mediaId={mediaId}
-      currentLoop={currentLoop}
-      quickLoops={quickLoops}
-      isPhone={isPhone}
-      isVideo={isVideo}
-      color={"#222222"}
-      onSetCurrentLoop={onSetCurrentLoop}
-      onClearCurrentLoop={onClearCurrentLoop}
-      onDisplayToggle={onDisplayToggle}
-    />
-
-    <View style={{ flex: -1, flexDirection: "row" }}>
-      <BtnFretlightInfo
-        style={{
-          width: isPhone ? 30 : 35,
-          height: isPhone ? 30 : 35,
-          marginRight: 10
-        }}
-        color={isFullscreen ? "#222222" : PrimaryBlue}
-        onPress={onDisplayInfo}
-        onDisplayToggle={onDisplayToggle}
-      />
-
-      <BtnFretlightModal
-        isPhone={isPhone}
-        devices={connectedDevices}
-        onDisplayToggle={onDisplayToggle}
-      />
     </View>
-  </View>
-);
+  );
+};
 
 PlaybackSecondary.propTypes = {
   mediaId: PropTypes.string.isRequired,
@@ -212,4 +215,8 @@ PlaybackSecondary.propTypes = {
   onDisplayToggle: PropTypes.func
 };
 
-export default pure(PlaybackSecondary);
+export default connect()(
+  onlyUpdateForKeys(["mediaId", "tempo", "loopIsEnabled", "isFullscreen"])(
+    PlaybackSecondary
+  )
+);
