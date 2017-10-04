@@ -46,6 +46,16 @@ class PlaybackVideoPrimary extends React.Component {
       onFullscreen
     } = this.props;
 
+    var videoTitle = title;
+
+    if (currentChapter.name !== undefined) {
+      videoTitle = `${videoTitle} | ${currentChapter.name}`;
+    }
+
+    if (currentMarker.name !== undefined) {
+      videoTitle = `${videoTitle} | ${currentMarker.name}`;
+    }
+
     return (
       <View
         style={{
@@ -279,7 +289,7 @@ class PlaybackVideoPrimary extends React.Component {
                 textAlign: "center"
               }}
             >
-              {title}
+              {videoTitle}
             </Text>
 
             <BtnHeart
