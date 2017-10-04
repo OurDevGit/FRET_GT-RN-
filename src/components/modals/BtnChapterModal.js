@@ -1,5 +1,12 @@
 import React from "react";
-import { Alert, View, Text, FlatList, TouchableOpacity } from "react-native";
+import {
+  Alert,
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet
+} from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 import { Map } from "immutable";
@@ -8,6 +15,19 @@ import ModalButton from "./ModalButton";
 import Popover from "./Popover";
 
 import { ModalType } from "./ModalType";
+
+const styles = StyleSheet.create({
+  bold: {
+    marginVertical: 10,
+    fontWeight: "800",
+    fontSize: 18
+  },
+  normal: {
+    marginVertical: 10,
+    fontWeight: "200",
+    fontSize: 18
+  }
+});
 
 class BtnMyLoopsModal extends React.Component {
   state = {
@@ -33,7 +53,7 @@ class BtnMyLoopsModal extends React.Component {
     const top = Math.max(30, modalFrame.y - topHeight + 20);
 
     const left = this.state.modalFrame.x + this.state.modalFrame.width + 10;
-    const width = 300;
+    const width = 400;
 
     return (
       <ModalButton onPress={this.displayModal}>
@@ -72,9 +92,10 @@ class BtnMyLoopsModal extends React.Component {
           >
             <Text
               style={{
-                flex: 1,
                 fontSize: 22,
-                fontWeight: "800"
+                fontWeight: "800",
+                height: 24,
+                marginBottom: 20
               }}
             >
               Video Chapters
@@ -82,7 +103,7 @@ class BtnMyLoopsModal extends React.Component {
 
             <FlatList
               keyExtractor={(item, index) => index}
-              data={allLoops}
+              data={videoMarkers}
               ItemSeparatorComponent={this.separator}
               renderItem={({ item, index }) => {
                 const isActiveChapter =
@@ -99,33 +120,25 @@ class BtnMyLoopsModal extends React.Component {
                   item.begin === currentMarker.begin &&
                   item.end === currentMarker.end;
                 return (
-                  <View
-                    style={{
-                      flex: -1,
-                      marginVertical: 2,
-                      flexDirection: "row"
+                  <TouchableOpacity
+                    style={{ flex: -1 }}
+                    onPress={() => {
+                      onMarkerPress(item.begin);
                     }}
                   >
-                    <TouchableOpacity
-                      style={{ flex: 1 }}
-                      onPress={() => {
-                        onMarkerPress(item.begin);
-                      }}
-                    >
-                      <View style={{ flex: 1, flexDirection: "row" }}>
-                        {item.type === "marker" && (
-                          <View style={{ width: 12, marginRight: 2 }}>
-                            {isActiveMarker && <Text>✔︎</Text>}
-                          </View>
-                        )}
-                        <Text
-                          style={isActiveChapter ? styles.bold : styles.normal}
-                        >
-                          {item.name}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>
+                    <View style={{ flex: 1, flexDirection: "row" }}>
+                      {item.type === "marker" && (
+                        <View style={{ width: 12, marginRight: 2 }}>
+                          {isActiveMarker && <Text>✔︎</Text>}
+                        </View>
+                      )}
+                      <Text
+                        style={isActiveChapter ? styles.bold : styles.normal}
+                      >
+                        {item.name}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                 );
               }}
             />
@@ -138,7 +151,9 @@ class BtnMyLoopsModal extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.props.currentChapter !== nextProps.currentChapter ||
-      this.props.currentMarker !== nextProps.currentMarker
+      this.props.currentMarker !== nextProps.currentMarker ||
+      this.state.modalIsVisible !== nextState.modalIsVisible ||
+      this.state.modalFrame !== nextState.modalFrame
     );
   }
 
@@ -154,7 +169,7 @@ class BtnMyLoopsModal extends React.Component {
     );
   };
 
-  displayModal = async frame => {
+  displayModal = frame => {
     this.setState({ modalIsVisible: true, modalFrame: frame });
   };
 
