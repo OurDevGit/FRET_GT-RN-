@@ -128,7 +128,13 @@ class BtnMyLoopsModal extends React.Component {
                   >
                     <View style={{ flex: 1, flexDirection: "row" }}>
                       {item.type === "marker" && (
-                        <View style={{ width: 12, marginRight: 2 }}>
+                        <View
+                          style={{
+                            width: 12,
+                            marginRight: 10,
+                            marginVertical: 10
+                          }}
+                        >
                           {isActiveMarker && <Text>✔︎</Text>}
                         </View>
                       )}
