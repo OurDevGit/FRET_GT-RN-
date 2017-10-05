@@ -96,6 +96,7 @@ class SmartFretModal extends React.Component {
                 mediaId={this.props.mediaId}
                 trackCount={this.props.trackCount}
                 isPlaying={this.props.isPlaying}
+                isVideo={false}
                 isPhone={this.props.isPhone}
                 tempo={this.props.tempo}
                 loopIsEnabled={this.props.loopIsEnabled}
@@ -160,6 +161,7 @@ class SmartFretModal extends React.Component {
                 currentLoop={this.props.currentLoop}
                 connectedDevices={this.props.connectedDevices}
                 isPhone={this.props.isPhone}
+                isVideo={false}
                 onSelectTempo={this.props.onSelectTempo}
                 onLoopEnable={this.props.onLoopEnable}
                 onLoopBegin={this.props.onLoopBegin}

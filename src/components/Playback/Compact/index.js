@@ -38,6 +38,7 @@ const PlaybackCompact = ({
   trackCount,
   isPlaying,
   isPhone,
+  isVideo,
   tempo,
   loopIsEnabled,
   currentLoop,
@@ -166,6 +167,7 @@ const PlaybackCompact = ({
         currentLoop={currentLoop}
         color={PrimaryBlue}
         isPhone={isPhone}
+        isVideo={isVideo}
         onSetCurrentLoop={onSetCurrentLoop}
         onClearCurrentLoop={onClearCurrentLoop}
       />
@@ -179,11 +181,12 @@ PlaybackCompact.propTypes = {
   trackCount: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  isVideo: PropTypes.bool.isRequired,
   tempo: PropTypes.number.isRequired,
   loopIsEnabled: PropTypes.bool.isRequired,
   currentLoop: PropTypes.object.isRequired,
   onSelectTempo: PropTypes.func.isRequired,
-  onToggleLibrary: PropTypes.func.isRequired,
+  onToggleLibrary: PropTypes.func,
   onPreviousPress: PropTypes.func.isRequired,
   onBackPress: PropTypes.func.isRequired,
   onPlayPausePress: PropTypes.func.isRequired,
