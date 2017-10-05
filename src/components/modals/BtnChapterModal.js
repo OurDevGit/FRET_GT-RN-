@@ -124,7 +124,7 @@ class BtnMyLoopsModal extends React.Component {
                   <TouchableOpacity
                     style={{ flex: -1 }}
                     onPress={() => {
-                      onMarkerPress(item.begin);
+                      this.handlePress(item);
                     }}
                   >
                     <View style={{ flex: 1, flexDirection: "row" }}>
@@ -184,6 +184,11 @@ class BtnMyLoopsModal extends React.Component {
   dismissModal = () => {
     this.props.onDisplayToggle(false);
     this.setState({ modalIsVisible: false });
+  };
+
+  handlePress = marker => {
+    this.props.onMarkerPress(marker.begin);
+    this.dismissModal();
   };
 }
 

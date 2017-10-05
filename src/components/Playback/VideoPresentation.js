@@ -129,7 +129,7 @@ const VideoPresentation = props => {
                     videoMarkers={props.videoChapters}
                     currentChapter={props.currentVideoChapter}
                     currentMarker={props.currentVideoMarker}
-                    onDisplayToggle={props.onModalToggle}
+                    onDisplayToggle={props.onDisplayToggle}
                     onMarkerPress={props.onMarkerPress}
                   />
                   <BtnToggleFretboard
@@ -186,6 +186,7 @@ const VideoPresentation = props => {
 
 VideoPresentation.propTypes = {
   mediaId: PropTypes.string.isRequired,
+  midiFile: PropTypes.string,
   title: PropTypes.string.isRequired,
   tempo: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
@@ -195,7 +196,6 @@ VideoPresentation.propTypes = {
   currentVideoMarker: PropTypes.object.isRequired,
   quickLoops: PropTypes.array.isRequired,
   connectedDevices: PropTypes.number.isRequired,
-  midiFile: PropTypes.object,
   currentLoop: PropTypes.object.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,
