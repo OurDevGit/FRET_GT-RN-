@@ -178,18 +178,20 @@ class PlaybackTimeline extends Component {
     if ((time < begin || time > end) && loopIsEnabled) {
       onLoopEnable(false);
     }
-    console.log(time);
+
     this.setState({ progress: adjustedProgress });
     onSeek(adjustedProgress);
   };
 
   handlePlayheadPanStart = () => {
+    this.props.onForceControlsVisible(true);
     this.setState({
       ignorePropsProgress: true
     });
   };
 
   handlePlayheadPanEnd = () => {
+    this.props.onForceControlsVisible(false);
     this.setState({
       ignorePropsProgress: false
     });
