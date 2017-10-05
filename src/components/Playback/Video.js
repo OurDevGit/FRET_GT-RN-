@@ -1,27 +1,17 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Alert, StyleSheet, TouchableOpacity, Text } from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
-
 import RNFetchBlob from "react-native-fetch-blob";
-
-import PlaybackVideoPrimary from "./PlaybackVideoPrimary";
-import PlaybackTimeline from "./PlaybackTimeline";
-import PlaybackSecondary from "./PlaybackSecondary";
-import { playerBackground } from "../../design";
-import { chapterForTime, markerForTime } from "../../selectors";
-import { BtnVideoExitFullScreen, BtnToggleFretboard } from "../StyleKit";
-import { BtnChapterModal } from "../modals";
-
-import Midi from "./Midi";
-
 import {
   loadMidi,
   clearMidi,
+  chapterForTime,
+  markerForTime,
   midiForTime,
   midiOffsetForTime
 } from "../../selectors";
+import VideoPresentation from "./VideoPresentation";
 
 this.playbackSeconds = 0.0;
 var controlFaderId = 0;
@@ -53,165 +43,57 @@ class Vid extends React.Component {
         ? `${this.props.currentVideoMidiFile.get("name")}.midi`
         : null;
 
+    console.log("duration", this.state.mediaDuration);
+
     return (
-      <View
-        style={{
-          flex: 1,
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: this.state.isFullscreen ? "black" : playerBackground,
-          margin: this.state.isFullscreen ? 0 : 4,
-          paddingVertical: this.state.isFullscreen ? 0 : 4,
-          paddingHorizontal: this.state.isFullscreen ? 0 : 12,
-          borderRadius: this.state.isFullscreen ? 0 : 6
-        }}
-      >
-        <Midi
-          midi={midiFile}
-          onData={this.props.updateMidiData}
-          clearMidiData={this.props.clearMidiData}
-          clearMidi={clearMidi}
-          loadMidi={loadMidi}
-        />
-
-        <View style={{ width: "100%", height: "100%" }}>
-          <PlaybackVideoPrimary
-            mediaId={mediaId}
-            title={mediaTitle}
-            tempo={this.state.playbackRate}
-            duration={this.state.mediaDuration}
-            markers={this.props.videoChapters.toJS()}
-            currentChapter={this.props.currentVideoChapter.toJS()}
-            currentMarker={this.props.currentVideoMarker.toJS()}
-            isPlaying={this.state.isPlaying}
-            isPhone={isPhone}
-            isFullscreen={this.state.isFullscreen}
-            areControlsVisible={this.state.areControlsVisible}
-            onVideoLoad={this.handleVideoLoad}
-            onProgress={this.handleProgress}
-            onEnd={this.handleEnd}
-            onError={this.handleError}
-            onPlayerRegister={this.handlePlayerRegister}
-            onPreviousPress={this.handlePreviousPress}
-            onBackPress={this.handleBackPress}
-            onPlayPausePress={this.handlePlayPausePress}
-            onForwardPress={this.handleForwardPress}
-            onNextPress={this.handleNextPress}
-            onMarkerPress={this.handleMarkerPress}
-            onDisplayControls={this.handleDisplayControls}
-            onFullscreen={this.handleFullscreen}
-          />
-
-          {(this.state.areControlsVisible || !this.state.isFullscreen) && (
-            <View
-              style={{
-                flex: -1,
-                position: this.state.isFullscreen ? "absolute" : "relative",
-                bottom: 0,
-                width: "100%"
-              }}
-            >
-              {this.state.isFullscreen &&
-              !isPhone && (
-                <View
-                  style={{
-                    flexDirection: "row",
-                    justifyContent: "flex-end",
-                    width: "100%",
-                    height: 60,
-                    paddingRight: 10,
-                    paddingBottom: 10
-                  }}
-                >
-                  <BtnVideoExitFullScreen
-                    style={{
-                      width: 50,
-                      height: 50
-                    }}
-                    color={"#FFFFFF"}
-                    onPress={this.handleFullscreen}
-                  />
-                </View>
-              )}
-
-              <View
-                style={{
-                  flex: -1,
-                  width: "100%",
-                  paddingBottom: isPhone ? 0 : 10,
-                  backgroundColor: this.state.isFullscreen
-                    ? "rgba(255, 255, 255, 0.85)"
-                    : "rgba(0, 0, 0, 0)"
-                }}
-              >
-                {this.state.isFullscreen && (
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      justifyContent: "space-between",
-                      width: "100%",
-                      paddingHorizontal: 10,
-                      height: isPhone ? 36 : 50
-                    }}
-                  >
-                    <BtnChapterModal
-                      isPhone={isPhone}
-                      videoMarkers={this.props.videoChapters.toJS()}
-                      currentChapter={this.props.currentVideoChapter.toJS()}
-                      currentMarker={this.props.currentVideoMarker.toJS()}
-                      onDisplayToggle={this.handleModalToggle}
-                      onMarkerPress={this.handleMarkerPress}
-                    />
-                    <BtnToggleFretboard
-                      style={{
-                        width: isPhone ? 36 : 50,
-                        height: isPhone ? 36 : 50
-                      }}
-                      color={"#FFFFFF"}
-                      onPress={this.handleToggleFretboards}
-                    />
-                  </View>
-                )}
-
-                <PlaybackTimeline
-                  duration={this.state.mediaDuration}
-                  currentLoop={this.props.currentLoop}
-                  loopIsEnabled={this.props.loopIsEnabled}
-                  videoMarkers={this.props.videoMarkers.toJS()}
-                  currentVideoMarker={this.props.currentVideoMarker.toJS()}
-                  isPhone={isPhone}
-                  isVideo={true}
-                  isFullscreen={this.state.isFullscreen}
-                  onSeek={this.handleSeek}
-                  onLoopEnable={this.handleLoopEnable}
-                />
-                <PlaybackSecondary
-                  mediaId={mediaId}
-                  tempo={this.state.playbackRate}
-                  loopIsEnabled={this.props.loopIsEnabled}
-                  isPhone={isPhone}
-                  isVideo={true}
-                  isFullscreen={this.state.isFullscreen}
-                  currentLoop={this.props.currentLoop}
-                  quickLoops={this.state.quickLoops}
-                  connectedDevices={this.props.connectedDevices}
-                  onSelectTempo={this.handleSelectTempo}
-                  onLoopEnable={this.handleLoopEnable}
-                  onLoopBegin={this.handleLoopBegin}
-                  onLoopEnd={this.handleLoopEnd}
-                  onSetCurrentLoop={this.handleSetCurrentLoop}
-                  onClearCurrentLoop={this.props.clearCurrentLoop}
-                  onPrevStep={this.handlePrevStep}
-                  onNextStep={this.handleNextStep}
-                  onDisplayInfo={this.handleDisplayInfoAlert}
-                  onDisplayToggle={this.handleModalToggle}
-                />
-              </View>
-            </View>
-          )}
-        </View>
-      </View>
+      <VideoPresentation
+        mediaId={mediaId}
+        title={mediaTitle}
+        midiFile={midiFile}
+        tempo={this.state.playbackRate}
+        duration={this.state.mediaDuration}
+        videoChapters={this.props.videoChapters.toJS()}
+        videoMarkers={this.props.videoMarkers.toJS()}
+        currentVideoChapter={this.props.currentVideoChapter.toJS()}
+        currentVideoMarker={this.props.currentVideoMarker.toJS()}
+        quickLoops={this.state.quickLoops}
+        connectedDevices={this.props.connectedDevices}
+        currentLoop={this.props.currentLoop}
+        isPlaying={this.state.isPlaying}
+        isPhone={isPhone}
+        isFullscreen={this.state.isFullscreen}
+        areControlsVisible={this.state.areControlsVisible}
+        loopIsEnabled={this.props.loopIsEnabled}
+        onVideoLoad={this.handleVideoLoad}
+        onLoadMidi={loadMidi}
+        onMidiData={this.props.updateMidiData}
+        onClearMidi={clearMidi}
+        onClearMidiData={this.props.clearMidiData}
+        onProgress={this.handleProgress}
+        onEnd={this.handleEnd}
+        onError={this.handleError}
+        onPlayerRegister={this.handlePlayerRegister}
+        onPreviousPress={this.handlePreviousPress}
+        onBackPress={this.handleBackPress}
+        onPlayPausePress={this.handlePlayPausePress}
+        onForwardPress={this.handleForwardPress}
+        onNextPress={this.handleNextPress}
+        onMarkerPress={this.handleMarkerPress}
+        onSeek={this.handleSeek}
+        onSelectTempo={this.handleSelectTempo}
+        onLoopEnable={this.handleLoopEnable}
+        onLoopBegin={this.handleLoopBegin}
+        onLoopEnd={this.handleLoopEnd}
+        onSetCurrentLoop={this.handleSetCurrentLoop}
+        onClearCurrentLoop={this.props.clearCurrentLoop}
+        onPrevStep={this.handlePrevStep}
+        onNextStep={this.handleNextStep}
+        onDisplayInfo={this.handleDisplayInfoAlert}
+        onDisplayControls={this.handleDisplayControls}
+        onDisplayToggle={this.handleModalToggle}
+        onFullscreen={this.handleFullscreen}
+        onToggleFretboards={this.handleToggleFretboards}
+      />
     );
   }
 
@@ -260,7 +142,6 @@ class Vid extends React.Component {
   };
 
   handleVideoLoad = details => {
-    console.log(details.duration);
     this.setState({
       mediaDuration: details.duration,
       naturalSize: details.naturalSize,
