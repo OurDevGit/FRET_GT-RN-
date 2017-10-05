@@ -253,7 +253,8 @@ PlaybackTimeline.propTypes = {
   onSeek: PropTypes.func,
   onLoopEnable: PropTypes.func,
   onMarkerPress: PropTypes.func,
-  onMarkerLongPress: PropTypes.func
+  onMarkerLongPress: PropTypes.func,
+  onForceControlsVisible: PropTypes.func
 };
 
 const mapStateToProps = (state, ownProps) => {

@@ -177,17 +177,18 @@ class BtnMyLoopsModal extends React.Component {
   };
 
   displayModal = frame => {
-    this.props.onDisplayToggle(true);
+    this.props.onForceControlsVisible(true);
     this.setState({ modalIsVisible: true, modalFrame: frame });
   };
 
   dismissModal = () => {
-    this.props.onDisplayToggle(false);
+    this.props.onForceControlsVisible(false);
     this.setState({ modalIsVisible: false });
   };
 
   handlePress = marker => {
     this.props.onMarkerPress(marker.begin);
+    this.props.onForceControlsVisible(false);
     this.dismissModal();
   };
 }
@@ -198,7 +199,7 @@ BtnMyLoopsModal.propTypes = {
   currentMarker: PropTypes.object,
   videoMarkers: PropTypes.array.isRequired,
   onMarkerPress: PropTypes.func.isRequired,
-  onDisplayToggle: PropTypes.func
+  onForceControlsVisible: PropTypes.func
 };
 
 export default BtnMyLoopsModal;

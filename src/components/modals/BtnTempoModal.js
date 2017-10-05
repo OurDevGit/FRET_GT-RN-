@@ -111,21 +111,22 @@ class BtnTempoModal extends React.Component {
   };
 
   displayModal = frame => {
-    if (this.props.onDisplayToggle !== undefined) {
-      this.props.onDisplayToggle(true);
+    if (this.props.onForceControlsVisible !== undefined) {
+      this.props.onForceControlsVisible(true);
     }
     this.setState({ modalIsVisible: true, modalFrame: frame });
   };
 
   dismissModal = () => {
-    if (this.props.onDisplayToggle !== undefined) {
-      this.props.onDisplayToggle(false);
+    if (this.props.onForceControlsVisible !== undefined) {
+      this.props.onForceControlsVisible(false);
     }
     this.setState({ modalIsVisible: false });
   };
 
   handleSelectTempo = tempo => {
     this.props.onSelectTempo(tempo);
+    this.props.onForceControlsVisible(false);
     this.setState({ modalIsVisible: false });
   };
 }
@@ -158,7 +159,7 @@ BtnTempoModal.propTypes = {
   color: PropTypes.string.isRequired,
   isPhone: PropTypes.bool.isRequired,
   onSelectTempo: PropTypes.func.isRequired,
-  onDisplayToggle: PropTypes.func
+  onForceControlsVisible: PropTypes.func
 };
 
 export default BtnTempoModal;

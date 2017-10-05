@@ -30,7 +30,7 @@ class Vid extends React.Component {
     quickLoops: [],
     isFullscreen: Dimensions.get("window").height < 500,
     areControlsVisible: true,
-    isShowingModal: false
+    forceControlsVisible: false
   };
 
   render() {
@@ -89,7 +89,7 @@ class Vid extends React.Component {
         onNextStep={this.handleNextStep}
         onDisplayInfo={this.handleDisplayInfoAlert}
         onDisplayControls={this.handleDisplayControls}
-        onDisplayToggle={this.handleModalToggle}
+        onForceControlsVisible={this.handleForceControlsVisible}
         onFullscreen={this.handleFullscreen}
         onToggleFretboards={this.handleToggleFretboards}
       />
@@ -415,8 +415,8 @@ class Vid extends React.Component {
     }
   };
 
-  handleModalToggle = bool => {
-    this.setState({ isShowingModal: bool });
+  handleForceControlsVisible = bool => {
+    this.setState({ forceControlsVisible: bool });
 
     if (!bool) {
       this.resetDisplayTimer();
@@ -434,7 +434,7 @@ class Vid extends React.Component {
     this.setState({ areControlsVisible: true });
 
     setTimeout(() => {
-      if (currentId === controlFaderId && !this.state.isShowingModal) {
+      if (currentId === controlFaderId && !this.state.forceControlsVisible) {
         this.setState({ areControlsVisible: false });
       }
     }, 3000);

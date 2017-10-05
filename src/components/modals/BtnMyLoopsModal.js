@@ -240,16 +240,16 @@ class BtnMyLoopsModal extends React.Component {
         );
       }
     } else {
-      if (this.props.onDisplayToggle !== undefined) {
-        this.props.onDisplayToggle(true);
+      if (this.props.onForceControlsVisible !== undefined) {
+        this.props.onForceControlsVisible(true);
       }
       this.setState({ modalIsVisible: true, modalFrame: frame, myLoops });
     }
   };
 
   dismissModal = () => {
-    if (this.props.onDisplayToggle !== undefined) {
-      this.props.onDisplayToggle(false);
+    if (this.props.onForceControlsVisible !== undefined) {
+      this.props.onForceControlsVisible(false);
     }
     this.setState({ modalIsVisible: false, isEditing: false });
   };
@@ -274,6 +274,7 @@ class BtnMyLoopsModal extends React.Component {
 
   handleSelectLoop = loop => {
     this.props.onSetCurrentLoop(Map(loop));
+    this.props.onForceControlsVisible(false);
     this.setState({ modalIsVisible: false });
   };
 }
@@ -287,7 +288,7 @@ BtnMyLoopsModal.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
   onSetCurrentLoop: PropTypes.func.isRequired,
-  onDisplayToggle: PropTypes.func
+  onForceControlsVisible: PropTypes.func
 };
 
 export default BtnMyLoopsModal;

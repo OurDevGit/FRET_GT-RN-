@@ -69,6 +69,7 @@ const VideoPresentation = props => {
           onMarkerPress={props.onMarkerPress}
           onDisplayControls={props.onDisplayControls}
           onFullscreen={props.onFullscreen}
+          onForceControlsVisible={props.onForceControlsVisible}
         />
 
         {(props.areControlsVisible || !props.isFullscreen) && (
@@ -129,8 +130,8 @@ const VideoPresentation = props => {
                     videoMarkers={props.videoChapters}
                     currentChapter={props.currentVideoChapter}
                     currentMarker={props.currentVideoMarker}
-                    onDisplayToggle={props.onDisplayToggle}
                     onMarkerPress={props.onMarkerPress}
+                    onForceControlsVisible={props.onForceControlsVisible}
                   />
                   <BtnToggleFretboard
                     style={{
@@ -154,6 +155,7 @@ const VideoPresentation = props => {
                 isFullscreen={props.isFullscreen}
                 onSeek={props.onSeek}
                 onLoopEnable={props.onLoopEnable}
+                onForceControlsVisible={props.onForceControlsVisible}
               />
               <PlaybackSecondary
                 mediaId={props.mediaId}
@@ -174,7 +176,7 @@ const VideoPresentation = props => {
                 onPrevStep={props.onPrevStep}
                 onNextStep={props.onNextStep}
                 onDisplayInfo={props.onDisplayInfo}
-                onDisplayToggle={props.onModalToggle}
+                onForceControlsVisible={props.onForceControlsVisible}
               />
             </View>
           </View>
@@ -228,7 +230,7 @@ VideoPresentation.propTypes = {
   onNextStep: PropTypes.func.isRequired,
   onDisplayInfo: PropTypes.func.isRequired,
   onDisplayControls: PropTypes.func.isRequired,
-  onDisplayToggle: PropTypes.func.isRequired,
+  onForceControlsVisible: PropTypes.func.isRequired,
   onFullscreen: PropTypes.func.isRequired,
   onToggleFretboards: PropTypes.func.isRequired
 };
