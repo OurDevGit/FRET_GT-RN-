@@ -287,6 +287,8 @@ class Vid extends React.Component {
           return { name: loop.name, begin: loop.begin, end: loop.end };
         });
 
+        this.resetDisplayTimer();
+
         this.setState({
           title: j.name || "",
           quickLoops: quickLoops
