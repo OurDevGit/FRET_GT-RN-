@@ -37,7 +37,7 @@ const VideoPresentation = props => {
     >
       <Midi
         midi={props.midiFile}
-        onData={props.onLoadMidi}
+        onData={props.onMidiData}
         clearMidiData={props.onClearMidiData}
         clearMidi={props.onClearMidi}
         loadMidi={props.onLoadMidi}
