@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 import RNFetchBlob from "react-native-fetch-blob";
+import { Alert } from "react-native";
 import {
   loadMidi,
   clearMidi,
