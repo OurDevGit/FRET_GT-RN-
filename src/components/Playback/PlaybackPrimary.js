@@ -68,7 +68,7 @@ const PlaybackPrimary = ({
           backgroundColor: "#222222"
         }}
       />
-      <Text style={{ flex: 1, fontSize: 18 }}>{title}</Text>
+      <Text style={{ flex: 1, fontSize: isPhone ? 15 : 18 }}>{title}</Text>
     </View>
 
     <View

@@ -78,6 +78,7 @@ class HorizontalContainer extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
+      this.props.currentPage !== nextProps.currentPage ||
       !this.props.tracks.equals(nextProps.tracks) ||
       nextProps.tracks.count() === 0 ||
       this.state.height !== nextState.height ||
