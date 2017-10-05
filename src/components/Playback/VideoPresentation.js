@@ -107,7 +107,7 @@ const VideoPresentation = props => {
               style={{
                 flex: -1,
                 width: "100%",
-                paddingBottom: props.isPhone ? 0 : 10,
+                paddingBottom: props.isPhone ? 4 : 10,
                 backgroundColor: props.isFullscreen
                   ? "rgba(255, 255, 255, 0.85)"
                   : "rgba(0, 0, 0, 0)"
@@ -120,7 +120,8 @@ const VideoPresentation = props => {
                     justifyContent: "space-between",
                     width: "100%",
                     paddingHorizontal: 10,
-                    height: props.isPhone ? 36 : 50
+                    height: props.isPhone ? 36 : 50,
+                    marginBottom: props.isPhone ? -16 : 0
                   }}
                 >
                   <BtnChapterModal

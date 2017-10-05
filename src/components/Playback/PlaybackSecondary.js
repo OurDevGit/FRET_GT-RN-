@@ -66,7 +66,8 @@ const PlaybackSecondary = ({
         height: 35,
         flexDirection: "row",
         justifyContent: "space-between",
-        alignContent: "center"
+        alignContent: "center",
+        marginTop: isPhone && isVideo ? -10 : 0
       }}
     >
       <BtnTempoModal
