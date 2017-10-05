@@ -52,6 +52,7 @@ class Root extends Component {
             onToggleLibrary={this.handleToggleLibrary}
             onToggleAd={this.handleToggleAd}
             onToggleFretboards={this.handleToggleFretboards}
+            onClearMedia={this.handleClearMedia}
           />
 
           {(this.state.song !== null || this.state.video !== null) && (
@@ -117,6 +118,14 @@ class Root extends Component {
         showAd: false
       });
     }
+  };
+
+  handleClearMedia = () => {
+    this.setState({
+      song: null,
+      video: null,
+      showAd: true
+    });
   };
 
   handleToggleAd = bool => {

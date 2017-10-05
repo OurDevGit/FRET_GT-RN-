@@ -44,8 +44,6 @@ class Vid extends React.Component {
         ? `${this.props.currentVideoMidiFile.get("name")}.midi`
         : null;
 
-    console.log("duration", this.state.mediaDuration);
-
     return (
       <VideoPresentation
         mediaId={mediaId}
@@ -135,7 +133,6 @@ class Vid extends React.Component {
     this.loadJSON("config.json");
 
     if (this.state.videoUri !== RNFetchBlob.fs.asset("lesson.mp4")) {
-      console.log("videoUri", RNFetchBlob.fs.asset("lesson.mp4"));
       this.setState({
         videoUri: RNFetchBlob.fs.asset("lesson.mp4")
       });
@@ -401,14 +398,21 @@ class Vid extends React.Component {
   handleVideoClose = () => {};
 
   handleFullscreen = () => {
-    this.resetDisplayTimer();
-    this.props.onToggleAd(this.state.isFullscreen);
+    const isPhone = Dimensions.get("window").height < 500;
 
-    if (this.state.isFullscreen) {
-      this.props.onToggleFretboards(true);
+    if (isPhone) {
+      controlFaderId = -1;
+      this.props.onClearMedia();
+    } else {
+      this.resetDisplayTimer();
+      this.props.onToggleAd(this.state.isFullscreen);
+
+      if (this.state.isFullscreen) {
+        this.props.onToggleFretboards(true);
+      }
+
+      this.setState({ isFullscreen: !this.state.isFullscreen });
     }
-
-    this.setState({ isFullscreen: !this.state.isFullscreen });
   };
 
   handleModalToggle = bool => {
@@ -463,7 +467,8 @@ Vid.propTypes = {
   setCurrentVideoMarker: PropTypes.func.isRequired,
   setCurrentVideoMidiFile: PropTypes.func.isRequired,
   onToggleAd: PropTypes.func.isRequired,
-  onToggleFretboards: PropTypes.func.isRequired
+  onToggleFretboards: PropTypes.func.isRequired,
+  onClearMedia: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => {

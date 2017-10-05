@@ -17,7 +17,7 @@ class MediaPlayer extends Component {
 
   render() {
     // console.log({ song: this.props.song });
-    console.log({ vid: this.props.video });
+    // console.log({ vid: this.props.video });
 
     return (
       <View style={{ flex: 1 }} onLayout={this.handleLayout}>
@@ -58,6 +58,7 @@ class MediaPlayer extends Component {
             setCurrentVideoMidiFile={this.props.setCurrentVideoMidiFile}
             onToggleAd={this.props.onToggleAd}
             onToggleFretboards={this.props.onToggleFretboards}
+            onClearMedia={this.props.onClearMedia}
           />
         )}
       </View>
@@ -119,7 +120,8 @@ MediaPlayer.propTypes = {
   setCurrentVideoMidiFile: PropTypes.func.isRequired,
   clearVideoLesson: PropTypes.func.isRequired,
   onToggleAd: PropTypes.func.isRequired,
-  onToggleFretboards: PropTypes.func.isRequired
+  onToggleFretboards: PropTypes.func.isRequired,
+  onClearMedia: PropTypes.func.isRequired
 };
 
 export default connect(null, actions)(MediaPlayer);
