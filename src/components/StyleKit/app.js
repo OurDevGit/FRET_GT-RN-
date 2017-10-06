@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { View } from "react-native";
 import { gtPcPressable, gtPcColorable, gtPcSizeable } from "./lib";
 import {
-  BtnLibrary_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
+  BtnLibrary_isPressed,
   BtnDetails_isPressed
 } from "./styleKitComponents";
 import {
@@ -13,15 +13,9 @@ import {
 } from "./lib";
 
 export const BtnLibrary = props => {
-  const Comp = gtPcSizeable(
-    gtPcColorable(
-      gtPcPressable(
-        BtnLibrary_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
-      )
-    )
-  );
+  const Comp = gtPcPressable(BtnLibrary_isPressed);
 
-  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+  return <Comp {...props} />;
 };
 
 export const BtnDetails = props => {
