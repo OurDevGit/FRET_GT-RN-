@@ -38,7 +38,11 @@ Shake to get **RN Menu**
 
 ## Debugging in Chrome
 
-TODO: Fill this out!
+In the RN menu, choose "Start Remote JS Debugging". A Chrome window will open. Open the console and go at it!
+
+## PaintCode and StyleKit
+
+After generating new Java code, run `node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js`
 
 ## Upgrading to the latest React Native
 
