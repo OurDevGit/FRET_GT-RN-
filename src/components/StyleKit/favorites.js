@@ -1,8 +1,7 @@
 import React, { PureComponent } from "react";
 import { TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
-import { gtPcSizeable } from "./lib";
-import { BtnFavorite_targetFrame_resizing_isPressed } from "./styleKitComponents";
+import { BtnFavoriteSmall_isPressed } from "./styleKitComponents";
 import { ResizingBehavior } from "./lib";
 import { toggleFave, getFave } from "../../models/Favorites";
 
@@ -13,13 +12,10 @@ export class BtnHeart extends PureComponent {
 
   render() {
     const { mediaId } = this.props;
-    const Comp = gtPcSizeable(BtnFavorite_targetFrame_resizing_isPressed);
-
     return (
       <TouchableOpacity onPress={this.handleTouch}>
-        <Comp
+        <BtnFavoriteSmall_isPressed
           {...this.props}
-          resizing={ResizingBehavior.AspectFit}
           isPressed={this.state.isFilled}
         />
       </TouchableOpacity>
