@@ -3,6 +3,7 @@ package com.optek.guitartunes;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.brentvatne.react.ReactVideoPackage;
 import com.tavernari.volumecontroller.ReactNativeVolumeControllerPackage;
 import com.idehub.Billing.InAppBillingBridgePackage;
 import com.brentvatne.react.ReactVideoPackage;
@@ -27,6 +28,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new ReactVideoPackage(),
             new ReactNativeVolumeControllerPackage(),
             new InAppBillingBridgePackage(), new ReactVideoPackage(),
           new RNSoundPackage(), new RNFetchBlobPackage(), new BSTestViewReactPackage());
