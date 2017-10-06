@@ -1,8 +1,15 @@
 import React, { Component } from "react";
 import { View, Text } from "react-native";
-import { PaintCode, PaintCodeButton, PaintCodeButtonWithColor } from "./lib";
+import {
+  PaintCode,
+  PaintCodeButton,
+  PaintCodeButtonWithColor,
+  gtPcSizeable,
+  ResizingBehavior
+} from "./lib";
 import {
   BuyButton_priceText_fontSize_topText_bottomText,
+  BtnCloudDownload_targetFrame_resizing,
   BtnCloudDownload,
   CircularProgress_angle,
   IndeterminateCircle_angle
@@ -18,9 +25,10 @@ const BtnBuy = props => {
   );
 };
 
-const BtnDownload = () => {
-  return <Text>DL</Text>;
-  // return <BtnCloudDownload style={{ width: 44, height: 44 }} />;
+const BtnDownload = props => {
+  const Comp = gtPcSizeable(BtnCloudDownload_targetFrame_resizing);
+
+  return <Comp {...props} resize={ResizingBehavior.Stretch} />;
 };
 
 const BtnDownloading = ({ progress }) => {
@@ -32,6 +40,13 @@ const BtnDownloading = ({ progress }) => {
 };
 
 export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
+  // hard-returning the download button for debugging right now...
+  return (
+    <BtnCloudDownload
+      style={{ backgroundColor: "#dfd", height: 44, width: 44 }}
+    />
+  );
+
   switch (mode) {
     case GetMediaButtonMode.Play:
       return <View />;

@@ -1,6 +1,6 @@
 import React from "react";
 import { View } from "react-native";
-import InAppBilling from "react-native-billing";
+// import InAppBilling from "react-native-billing";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
