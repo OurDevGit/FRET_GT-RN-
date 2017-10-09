@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { View } from "react-native";
 // import InAppBilling from "react-native-billing";
 import { connect } from "react-redux";
@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
 import { syncStore } from "../../Store";
 import { addPurchase, getIsPurchased } from "../../models/Purchases";
-import { getProductDetails } from "../../models/Products";
+import { getProductDetails, loadPurchases } from "../../models/Products";
 import { downloadSong } from "../../DownloadManager";
 
 import Categories from "./Categories";
@@ -33,7 +33,7 @@ const makePurchase = async media => {
   //   });
 };
 
-class Store extends React.PureComponent {
+class Store extends Component {
   state = {
     categoryIndex: 0,
     category: null,
@@ -85,6 +85,10 @@ class Store extends React.PureComponent {
     // sync with the backend
     const storeObjects = await syncStore();
     this.props.storeLoaded(storeObjects); // dispatch
+
+    // load which products we own from Google
+    const purchasedMedia = await loadPurchases();
+    this.props.setPurchasedMedia(purchasedMedia);
 
     // get the latest info from Google Play In-App Products
     const mediaIds = Object.keys(storeObjects.mediaById);
