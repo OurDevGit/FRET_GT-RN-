@@ -478,17 +478,17 @@ public class GuitarTunesStyleKit {
         {
             // Bezier
             RectF bezierRect = CacheForBtnLibrary.bezierRect;
-            bezierRect.set(3.5f, 4.5f, 41.5f, 40.5f);
+            bezierRect.set(3.27f, 4.5f, 41.27f, 40.5f);
             Path bezierPath = CacheForBtnLibrary.bezierPath;
             bezierPath.reset();
-            bezierPath.moveTo(22.5f, 10.8f);
-            bezierPath.cubicTo(22.5f, 7.32f, 31.39f, 4.5f, 41.5f, 4.5f);
-            bezierPath.lineTo(41.5f, 34.2f);
-            bezierPath.cubicTo(31.39f, 34.2f, 22.5f, 37.02f, 22.5f, 40.5f);
-            bezierPath.cubicTo(22.5f, 37.02f, 13.61f, 34.2f, 3.5f, 34.2f);
-            bezierPath.lineTo(3.5f, 4.5f);
-            bezierPath.cubicTo(13.61f, 4.5f, 22.5f, 7.32f, 22.5f, 10.8f);
-            bezierPath.lineTo(22.5f, 10.8f);
+            bezierPath.moveTo(22.27f, 10.8f);
+            bezierPath.cubicTo(22.27f, 7.32f, 31.16f, 4.5f, 41.27f, 4.5f);
+            bezierPath.lineTo(41.27f, 34.2f);
+            bezierPath.cubicTo(31.16f, 34.2f, 22.27f, 37.02f, 22.27f, 40.5f);
+            bezierPath.cubicTo(22.27f, 37.02f, 13.38f, 34.2f, 3.27f, 34.2f);
+            bezierPath.lineTo(3.27f, 4.5f);
+            bezierPath.cubicTo(13.38f, 4.5f, 22.27f, 7.32f, 22.27f, 10.8f);
+            bezierPath.lineTo(22.27f, 10.8f);
             bezierPath.close();
             
             paint.reset();
@@ -505,11 +505,11 @@ public class GuitarTunesStyleKit {
             
             // Bezier 2
             RectF bezier2Rect = CacheForBtnLibrary.bezier2Rect;
-            bezier2Rect.set(22.5f, 9.42f, 22.5f, 38.89f);
+            bezier2Rect.set(22.27f, 9.42f, 22.27f, 38.89f);
             Path bezier2Path = CacheForBtnLibrary.bezier2Path;
             bezier2Path.reset();
-            bezier2Path.moveTo(22.5f, 9.42f);
-            bezier2Path.lineTo(22.5f, 38.89f);
+            bezier2Path.moveTo(22.27f, 9.42f);
+            bezier2Path.lineTo(22.27f, 38.89f);
             
             paint.reset();
             paint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -4355,20 +4355,20 @@ public class GuitarTunesStyleKit {
         {
             // Bezier 2
             RectF bezier2Rect = CacheForBtnCloudDownload.bezier2Rect;
-            bezier2Rect.set(10.56f, 21.37f, 19.6f, 27.39f);
+            bezier2Rect.set(10.45f, 21.25f, 19.49f, 27.28f);
             Path bezier2Path = CacheForBtnCloudDownload.bezier2Path;
             bezier2Path.reset();
-            bezier2Path.moveTo(19.6f, 27.02f);
-            bezier2Path.cubicTo(19.6f, 26.81f, 19.43f, 26.64f, 19.23f, 26.64f);
-            bezier2Path.lineTo(13.58f, 26.64f);
-            bezier2Path.cubicTo(12.33f, 26.64f, 11.31f, 25.63f, 11.31f, 24.38f);
-            bezier2Path.cubicTo(11.31f, 23.14f, 12.33f, 22.12f, 13.58f, 22.12f);
-            bezier2Path.cubicTo(13.78f, 22.12f, 13.95f, 21.95f, 13.95f, 21.75f);
-            bezier2Path.cubicTo(13.95f, 21.54f, 13.78f, 21.37f, 13.58f, 21.37f);
-            bezier2Path.cubicTo(11.91f, 21.37f, 10.56f, 22.72f, 10.56f, 24.38f);
-            bezier2Path.cubicTo(10.56f, 26.04f, 11.91f, 27.39f, 13.58f, 27.39f);
-            bezier2Path.lineTo(19.23f, 27.39f);
-            bezier2Path.cubicTo(19.43f, 27.39f, 19.6f, 27.23f, 19.6f, 27.02f);
+            bezier2Path.moveTo(19.49f, 26.9f);
+            bezier2Path.cubicTo(19.49f, 26.7f, 19.32f, 26.53f, 19.11f, 26.53f);
+            bezier2Path.lineTo(13.46f, 26.53f);
+            bezier2Path.cubicTo(12.21f, 26.53f, 11.2f, 25.51f, 11.2f, 24.27f);
+            bezier2Path.cubicTo(11.2f, 23.02f, 12.21f, 22.01f, 13.46f, 22.01f);
+            bezier2Path.cubicTo(13.67f, 22.01f, 13.84f, 21.84f, 13.84f, 21.63f);
+            bezier2Path.cubicTo(13.84f, 21.42f, 13.67f, 21.25f, 13.46f, 21.25f);
+            bezier2Path.cubicTo(11.8f, 21.25f, 10.45f, 22.61f, 10.45f, 24.27f);
+            bezier2Path.cubicTo(10.45f, 25.93f, 11.8f, 27.28f, 13.46f, 27.28f);
+            bezier2Path.lineTo(19.11f, 27.28f);
+            bezier2Path.cubicTo(19.32f, 27.28f, 19.49f, 27.11f, 19.49f, 26.9f);
             bezier2Path.close();
             
             paint.reset();
@@ -4379,20 +4379,20 @@ public class GuitarTunesStyleKit {
             
             // Bezier 3
             RectF bezier3Rect = CacheForBtnCloudDownload.bezier3Rect;
-            bezier3Rect.set(10.56f, 21.37f, 19.6f, 27.39f);
+            bezier3Rect.set(10.45f, 21.25f, 19.49f, 27.28f);
             Path bezier3Path = CacheForBtnCloudDownload.bezier3Path;
             bezier3Path.reset();
-            bezier3Path.moveTo(19.6f, 27.02f);
-            bezier3Path.cubicTo(19.6f, 26.81f, 19.43f, 26.64f, 19.23f, 26.64f);
-            bezier3Path.lineTo(13.58f, 26.64f);
-            bezier3Path.cubicTo(12.33f, 26.64f, 11.31f, 25.63f, 11.31f, 24.38f);
-            bezier3Path.cubicTo(11.31f, 23.14f, 12.33f, 22.12f, 13.58f, 22.12f);
-            bezier3Path.cubicTo(13.78f, 22.12f, 13.95f, 21.95f, 13.95f, 21.75f);
-            bezier3Path.cubicTo(13.95f, 21.54f, 13.78f, 21.37f, 13.58f, 21.37f);
-            bezier3Path.cubicTo(11.91f, 21.37f, 10.56f, 22.72f, 10.56f, 24.38f);
-            bezier3Path.cubicTo(10.56f, 26.04f, 11.91f, 27.39f, 13.58f, 27.39f);
-            bezier3Path.lineTo(19.23f, 27.39f);
-            bezier3Path.cubicTo(19.43f, 27.39f, 19.6f, 27.23f, 19.6f, 27.02f);
+            bezier3Path.moveTo(19.49f, 26.9f);
+            bezier3Path.cubicTo(19.49f, 26.7f, 19.32f, 26.53f, 19.11f, 26.53f);
+            bezier3Path.lineTo(13.46f, 26.53f);
+            bezier3Path.cubicTo(12.21f, 26.53f, 11.2f, 25.51f, 11.2f, 24.27f);
+            bezier3Path.cubicTo(11.2f, 23.02f, 12.21f, 22.01f, 13.46f, 22.01f);
+            bezier3Path.cubicTo(13.67f, 22.01f, 13.84f, 21.84f, 13.84f, 21.63f);
+            bezier3Path.cubicTo(13.84f, 21.42f, 13.67f, 21.25f, 13.46f, 21.25f);
+            bezier3Path.cubicTo(11.8f, 21.25f, 10.45f, 22.61f, 10.45f, 24.27f);
+            bezier3Path.cubicTo(10.45f, 25.93f, 11.8f, 27.28f, 13.46f, 27.28f);
+            bezier3Path.lineTo(19.11f, 27.28f);
+            bezier3Path.cubicTo(19.32f, 27.28f, 19.49f, 27.11f, 19.49f, 26.9f);
             bezier3Path.close();
             
             paint.reset();
@@ -4407,21 +4407,21 @@ public class GuitarTunesStyleKit {
             
             // Bezier 4
             RectF bezier4Rect = CacheForBtnCloudDownload.bezier4Rect;
-            bezier4Rect.set(19.05f, 12.33f, 30.15f, 20.24f);
+            bezier4Rect.set(18.94f, 12.21f, 30.03f, 20.12f);
             Path bezier4Path = CacheForBtnCloudDownload.bezier4Path;
             bezier4Path.reset();
-            bezier4Path.moveTo(19.22f, 15.52f);
-            bezier4Path.cubicTo(19.39f, 15.64f, 19.62f, 15.59f, 19.74f, 15.42f);
-            bezier4Path.cubicTo(20.72f, 13.96f, 22.36f, 13.08f, 24.12f, 13.08f);
-            bezier4Path.cubicTo(27.03f, 13.08f, 29.4f, 15.45f, 29.4f, 18.36f);
-            bezier4Path.cubicTo(29.4f, 18.83f, 29.33f, 19.31f, 29.21f, 19.76f);
-            bezier4Path.cubicTo(29.15f, 19.96f, 29.27f, 20.17f, 29.47f, 20.23f);
-            bezier4Path.cubicTo(29.5f, 20.23f, 29.54f, 20.24f, 29.57f, 20.24f);
-            bezier4Path.cubicTo(29.74f, 20.24f, 29.89f, 20.13f, 29.93f, 19.96f);
-            bezier4Path.cubicTo(30.08f, 19.44f, 30.15f, 18.9f, 30.15f, 18.36f);
-            bezier4Path.cubicTo(30.15f, 15.03f, 27.45f, 12.33f, 24.12f, 12.33f);
-            bezier4Path.cubicTo(22.11f, 12.33f, 20.24f, 13.33f, 19.12f, 15f);
-            bezier4Path.cubicTo(19f, 15.17f, 19.05f, 15.41f, 19.22f, 15.52f);
+            bezier4Path.moveTo(19.1f, 15.41f);
+            bezier4Path.cubicTo(19.28f, 15.52f, 19.51f, 15.48f, 19.63f, 15.31f);
+            bezier4Path.cubicTo(20.61f, 13.84f, 22.25f, 12.97f, 24.01f, 12.97f);
+            bezier4Path.cubicTo(26.92f, 12.97f, 29.28f, 15.33f, 29.28f, 18.24f);
+            bezier4Path.cubicTo(29.28f, 18.72f, 29.22f, 19.19f, 29.09f, 19.65f);
+            bezier4Path.cubicTo(29.04f, 19.85f, 29.15f, 20.05f, 29.35f, 20.11f);
+            bezier4Path.cubicTo(29.39f, 20.12f, 29.42f, 20.12f, 29.45f, 20.12f);
+            bezier4Path.cubicTo(29.62f, 20.12f, 29.77f, 20.01f, 29.82f, 19.85f);
+            bezier4Path.cubicTo(29.96f, 19.33f, 30.03f, 18.79f, 30.03f, 18.24f);
+            bezier4Path.cubicTo(30.03f, 14.92f, 27.33f, 12.21f, 24.01f, 12.21f);
+            bezier4Path.cubicTo(22f, 12.21f, 20.12f, 13.21f, 19f, 14.89f);
+            bezier4Path.cubicTo(18.88f, 15.06f, 18.93f, 15.29f, 19.1f, 15.41f);
             bezier4Path.close();
             
             paint.reset();
@@ -4432,21 +4432,21 @@ public class GuitarTunesStyleKit {
             
             // Bezier 5
             RectF bezier5Rect = CacheForBtnCloudDownload.bezier5Rect;
-            bezier5Rect.set(19.05f, 12.33f, 30.15f, 20.24f);
+            bezier5Rect.set(19.16f, 12.55f, 30.26f, 20.46f);
             Path bezier5Path = CacheForBtnCloudDownload.bezier5Path;
             bezier5Path.reset();
-            bezier5Path.moveTo(19.22f, 15.52f);
-            bezier5Path.cubicTo(19.39f, 15.64f, 19.62f, 15.59f, 19.74f, 15.42f);
-            bezier5Path.cubicTo(20.72f, 13.96f, 22.36f, 13.08f, 24.12f, 13.08f);
-            bezier5Path.cubicTo(27.03f, 13.08f, 29.4f, 15.45f, 29.4f, 18.36f);
-            bezier5Path.cubicTo(29.4f, 18.83f, 29.33f, 19.31f, 29.21f, 19.76f);
-            bezier5Path.cubicTo(29.15f, 19.96f, 29.27f, 20.17f, 29.47f, 20.23f);
-            bezier5Path.cubicTo(29.5f, 20.23f, 29.54f, 20.24f, 29.57f, 20.24f);
-            bezier5Path.cubicTo(29.74f, 20.24f, 29.89f, 20.13f, 29.93f, 19.96f);
-            bezier5Path.cubicTo(30.08f, 19.44f, 30.15f, 18.9f, 30.15f, 18.36f);
-            bezier5Path.cubicTo(30.15f, 15.03f, 27.45f, 12.33f, 24.12f, 12.33f);
-            bezier5Path.cubicTo(22.11f, 12.33f, 20.24f, 13.33f, 19.12f, 15f);
-            bezier5Path.cubicTo(19f, 15.17f, 19.05f, 15.41f, 19.22f, 15.52f);
+            bezier5Path.moveTo(19.33f, 15.75f);
+            bezier5Path.cubicTo(19.5f, 15.86f, 19.74f, 15.82f, 19.85f, 15.65f);
+            bezier5Path.cubicTo(20.84f, 14.18f, 22.47f, 13.31f, 24.23f, 13.31f);
+            bezier5Path.cubicTo(27.14f, 13.31f, 29.51f, 15.67f, 29.51f, 18.58f);
+            bezier5Path.cubicTo(29.51f, 19.06f, 29.44f, 19.53f, 29.32f, 19.99f);
+            bezier5Path.cubicTo(29.26f, 20.19f, 29.38f, 20.39f, 29.58f, 20.45f);
+            bezier5Path.cubicTo(29.61f, 20.46f, 29.65f, 20.46f, 29.68f, 20.46f);
+            bezier5Path.cubicTo(29.85f, 20.46f, 30f, 20.35f, 30.04f, 20.19f);
+            bezier5Path.cubicTo(30.19f, 19.67f, 30.26f, 19.13f, 30.26f, 18.58f);
+            bezier5Path.cubicTo(30.26f, 15.26f, 27.56f, 12.55f, 24.23f, 12.55f);
+            bezier5Path.cubicTo(22.22f, 12.55f, 20.35f, 13.55f, 19.23f, 15.23f);
+            bezier5Path.cubicTo(19.11f, 15.4f, 19.16f, 15.63f, 19.33f, 15.75f);
             bezier5Path.close();
             
             paint.reset();
@@ -4461,21 +4461,21 @@ public class GuitarTunesStyleKit {
             
             // Bezier 6
             RectF bezier6Rect = CacheForBtnCloudDownload.bezier6Rect;
-            bezier6Rect.set(12.07f, 15.34f, 19.96f, 21f);
+            bezier6Rect.set(11.95f, 15.23f, 19.85f, 20.88f);
             Path bezier6Path = CacheForBtnCloudDownload.bezier6Path;
             bezier6Path.reset();
-            bezier6Path.moveTo(12.51f, 21f);
-            bezier6Path.cubicTo(12.54f, 21f, 12.56f, 20.99f, 12.58f, 20.99f);
-            bezier6Path.cubicTo(12.79f, 20.95f, 12.92f, 20.75f, 12.88f, 20.55f);
-            bezier6Path.cubicTo(12.84f, 20.33f, 12.82f, 20.09f, 12.82f, 19.86f);
-            bezier6Path.cubicTo(12.82f, 17.79f, 14.51f, 16.1f, 16.59f, 16.1f);
-            bezier6Path.cubicTo(17.63f, 16.1f, 18.6f, 16.51f, 19.32f, 17.26f);
-            bezier6Path.cubicTo(19.46f, 17.41f, 19.7f, 17.42f, 19.85f, 17.28f);
-            bezier6Path.cubicTo(20f, 17.13f, 20f, 16.9f, 19.86f, 16.74f);
-            bezier6Path.cubicTo(19f, 15.84f, 17.84f, 15.34f, 16.59f, 15.34f);
-            bezier6Path.cubicTo(14.1f, 15.34f, 12.07f, 17.37f, 12.07f, 19.86f);
-            bezier6Path.cubicTo(12.07f, 20.14f, 12.09f, 20.42f, 12.14f, 20.69f);
-            bezier6Path.cubicTo(12.18f, 20.87f, 12.34f, 21f, 12.51f, 21f);
+            bezier6Path.moveTo(12.4f, 20.88f);
+            bezier6Path.cubicTo(12.42f, 20.88f, 12.44f, 20.88f, 12.47f, 20.87f);
+            bezier6Path.cubicTo(12.67f, 20.84f, 12.81f, 20.64f, 12.77f, 20.44f);
+            bezier6Path.cubicTo(12.73f, 20.21f, 12.71f, 19.98f, 12.71f, 19.75f);
+            bezier6Path.cubicTo(12.71f, 17.67f, 14.4f, 15.98f, 16.47f, 15.98f);
+            bezier6Path.cubicTo(17.51f, 15.98f, 18.48f, 16.4f, 19.2f, 17.15f);
+            bezier6Path.cubicTo(19.34f, 17.3f, 19.58f, 17.31f, 19.73f, 17.16f);
+            bezier6Path.cubicTo(19.88f, 17.02f, 19.89f, 16.78f, 19.75f, 16.63f);
+            bezier6Path.cubicTo(18.88f, 15.73f, 17.72f, 15.23f, 16.47f, 15.23f);
+            bezier6Path.cubicTo(13.98f, 15.23f, 11.95f, 17.26f, 11.95f, 19.75f);
+            bezier6Path.cubicTo(11.95f, 20.02f, 11.98f, 20.3f, 12.03f, 20.57f);
+            bezier6Path.cubicTo(12.06f, 20.75f, 12.22f, 20.88f, 12.4f, 20.88f);
             bezier6Path.close();
             
             paint.reset();
@@ -4486,21 +4486,21 @@ public class GuitarTunesStyleKit {
             
             // Bezier 7
             RectF bezier7Rect = CacheForBtnCloudDownload.bezier7Rect;
-            bezier7Rect.set(12.07f, 15.34f, 19.96f, 21f);
+            bezier7Rect.set(11.95f, 15.23f, 19.85f, 20.88f);
             Path bezier7Path = CacheForBtnCloudDownload.bezier7Path;
             bezier7Path.reset();
-            bezier7Path.moveTo(12.51f, 21f);
-            bezier7Path.cubicTo(12.54f, 21f, 12.56f, 20.99f, 12.58f, 20.99f);
-            bezier7Path.cubicTo(12.79f, 20.95f, 12.92f, 20.75f, 12.88f, 20.55f);
-            bezier7Path.cubicTo(12.84f, 20.33f, 12.82f, 20.09f, 12.82f, 19.86f);
-            bezier7Path.cubicTo(12.82f, 17.79f, 14.51f, 16.1f, 16.59f, 16.1f);
-            bezier7Path.cubicTo(17.63f, 16.1f, 18.6f, 16.51f, 19.32f, 17.26f);
-            bezier7Path.cubicTo(19.46f, 17.41f, 19.7f, 17.42f, 19.85f, 17.28f);
-            bezier7Path.cubicTo(20f, 17.13f, 20f, 16.9f, 19.86f, 16.74f);
-            bezier7Path.cubicTo(19f, 15.84f, 17.84f, 15.34f, 16.59f, 15.34f);
-            bezier7Path.cubicTo(14.1f, 15.34f, 12.07f, 17.37f, 12.07f, 19.86f);
-            bezier7Path.cubicTo(12.07f, 20.14f, 12.09f, 20.42f, 12.14f, 20.69f);
-            bezier7Path.cubicTo(12.18f, 20.87f, 12.34f, 21f, 12.51f, 21f);
+            bezier7Path.moveTo(12.4f, 20.88f);
+            bezier7Path.cubicTo(12.42f, 20.88f, 12.44f, 20.88f, 12.47f, 20.87f);
+            bezier7Path.cubicTo(12.67f, 20.84f, 12.81f, 20.64f, 12.77f, 20.44f);
+            bezier7Path.cubicTo(12.73f, 20.21f, 12.71f, 19.98f, 12.71f, 19.75f);
+            bezier7Path.cubicTo(12.71f, 17.67f, 14.4f, 15.98f, 16.47f, 15.98f);
+            bezier7Path.cubicTo(17.51f, 15.98f, 18.48f, 16.4f, 19.2f, 17.15f);
+            bezier7Path.cubicTo(19.34f, 17.3f, 19.58f, 17.31f, 19.73f, 17.16f);
+            bezier7Path.cubicTo(19.88f, 17.02f, 19.89f, 16.78f, 19.75f, 16.63f);
+            bezier7Path.cubicTo(18.88f, 15.73f, 17.72f, 15.23f, 16.47f, 15.23f);
+            bezier7Path.cubicTo(13.98f, 15.23f, 11.95f, 17.26f, 11.95f, 19.75f);
+            bezier7Path.cubicTo(11.95f, 20.02f, 11.98f, 20.3f, 12.03f, 20.57f);
+            bezier7Path.cubicTo(12.06f, 20.75f, 12.22f, 20.88f, 12.4f, 20.88f);
             bezier7Path.close();
             
             paint.reset();
@@ -4515,20 +4515,20 @@ public class GuitarTunesStyleKit {
             
             // Bezier 8
             RectF bezier8Rect = CacheForBtnCloudDownload.bezier8Rect;
-            bezier8Rect.set(23.37f, 19.11f, 33.16f, 27.39f);
+            bezier8Rect.set(23.25f, 19f, 33.05f, 27.28f);
             Path bezier8Path = CacheForBtnCloudDownload.bezier8Path;
             bezier8Path.reset();
-            bezier8Path.moveTo(31.25f, 19.18f);
-            bezier8Path.cubicTo(31.08f, 19.06f, 30.84f, 19.1f, 30.72f, 19.27f);
-            bezier8Path.cubicTo(30.6f, 19.44f, 30.64f, 19.68f, 30.81f, 19.8f);
-            bezier8Path.cubicTo(31.81f, 20.5f, 32.41f, 21.65f, 32.41f, 22.88f);
-            bezier8Path.cubicTo(32.41f, 24.95f, 30.72f, 26.64f, 28.64f, 26.64f);
-            bezier8Path.lineTo(23.75f, 26.64f);
-            bezier8Path.cubicTo(23.54f, 26.64f, 23.37f, 26.81f, 23.37f, 27.02f);
-            bezier8Path.cubicTo(23.37f, 27.23f, 23.54f, 27.39f, 23.75f, 27.39f);
-            bezier8Path.lineTo(28.64f, 27.39f);
-            bezier8Path.cubicTo(31.14f, 27.39f, 33.16f, 25.37f, 33.16f, 22.88f);
-            bezier8Path.cubicTo(33.16f, 21.41f, 32.45f, 20.03f, 31.25f, 19.18f);
+            bezier8Path.moveTo(31.13f, 19.07f);
+            bezier8Path.cubicTo(30.96f, 18.95f, 30.73f, 18.99f, 30.61f, 19.16f);
+            bezier8Path.cubicTo(30.49f, 19.33f, 30.53f, 19.56f, 30.7f, 19.68f);
+            bezier8Path.cubicTo(31.7f, 20.39f, 32.29f, 21.54f, 32.29f, 22.76f);
+            bezier8Path.cubicTo(32.29f, 24.84f, 30.6f, 26.53f, 28.53f, 26.53f);
+            bezier8Path.lineTo(23.63f, 26.53f);
+            bezier8Path.cubicTo(23.42f, 26.53f, 23.25f, 26.7f, 23.25f, 26.9f);
+            bezier8Path.cubicTo(23.25f, 27.11f, 23.42f, 27.28f, 23.63f, 27.28f);
+            bezier8Path.lineTo(28.53f, 27.28f);
+            bezier8Path.cubicTo(31.02f, 27.28f, 33.05f, 25.25f, 33.05f, 22.76f);
+            bezier8Path.cubicTo(33.05f, 21.29f, 32.33f, 19.91f, 31.13f, 19.07f);
             bezier8Path.close();
             
             paint.reset();
@@ -4539,20 +4539,20 @@ public class GuitarTunesStyleKit {
             
             // Bezier 9
             RectF bezier9Rect = CacheForBtnCloudDownload.bezier9Rect;
-            bezier9Rect.set(23.37f, 19.11f, 33.16f, 27.39f);
+            bezier9Rect.set(23.25f, 19f, 33.05f, 27.28f);
             Path bezier9Path = CacheForBtnCloudDownload.bezier9Path;
             bezier9Path.reset();
-            bezier9Path.moveTo(31.25f, 19.18f);
-            bezier9Path.cubicTo(31.08f, 19.06f, 30.84f, 19.1f, 30.72f, 19.27f);
-            bezier9Path.cubicTo(30.6f, 19.44f, 30.64f, 19.68f, 30.81f, 19.8f);
-            bezier9Path.cubicTo(31.81f, 20.5f, 32.41f, 21.65f, 32.41f, 22.88f);
-            bezier9Path.cubicTo(32.41f, 24.95f, 30.72f, 26.64f, 28.64f, 26.64f);
-            bezier9Path.lineTo(23.75f, 26.64f);
-            bezier9Path.cubicTo(23.54f, 26.64f, 23.37f, 26.81f, 23.37f, 27.02f);
-            bezier9Path.cubicTo(23.37f, 27.23f, 23.54f, 27.39f, 23.75f, 27.39f);
-            bezier9Path.lineTo(28.64f, 27.39f);
-            bezier9Path.cubicTo(31.14f, 27.39f, 33.16f, 25.37f, 33.16f, 22.88f);
-            bezier9Path.cubicTo(33.16f, 21.41f, 32.45f, 20.03f, 31.25f, 19.18f);
+            bezier9Path.moveTo(31.13f, 19.07f);
+            bezier9Path.cubicTo(30.96f, 18.95f, 30.73f, 18.99f, 30.61f, 19.16f);
+            bezier9Path.cubicTo(30.49f, 19.33f, 30.53f, 19.56f, 30.7f, 19.68f);
+            bezier9Path.cubicTo(31.7f, 20.39f, 32.29f, 21.54f, 32.29f, 22.76f);
+            bezier9Path.cubicTo(32.29f, 24.84f, 30.6f, 26.53f, 28.53f, 26.53f);
+            bezier9Path.lineTo(23.63f, 26.53f);
+            bezier9Path.cubicTo(23.42f, 26.53f, 23.25f, 26.7f, 23.25f, 26.9f);
+            bezier9Path.cubicTo(23.25f, 27.11f, 23.42f, 27.28f, 23.63f, 27.28f);
+            bezier9Path.lineTo(28.53f, 27.28f);
+            bezier9Path.cubicTo(31.02f, 27.28f, 33.05f, 25.25f, 33.05f, 22.76f);
+            bezier9Path.cubicTo(33.05f, 21.29f, 32.33f, 19.91f, 31.13f, 19.07f);
             bezier9Path.close();
             
             paint.reset();
@@ -4567,26 +4567,26 @@ public class GuitarTunesStyleKit {
             
             // Bezier 10
             RectF bezier10Rect = CacheForBtnCloudDownload.bezier10Rect;
-            bezier10Rect.set(17.34f, 20.62f, 25.63f, 34.93f);
+            bezier10Rect.set(17.23f, 20.5f, 25.51f, 34.81f);
             Path bezier10Path = CacheForBtnCloudDownload.bezier10Path;
             bezier10Path.reset();
-            bezier10Path.moveTo(24.99f, 30.52f);
-            bezier10Path.lineTo(21.86f, 33.64f);
-            bezier10Path.lineTo(21.86f, 20.99f);
-            bezier10Path.cubicTo(21.86f, 20.78f, 21.69f, 20.62f, 21.49f, 20.62f);
-            bezier10Path.cubicTo(21.28f, 20.62f, 21.11f, 20.78f, 21.11f, 20.99f);
-            bezier10Path.lineTo(21.11f, 33.64f);
-            bezier10Path.lineTo(17.98f, 30.52f);
-            bezier10Path.cubicTo(17.84f, 30.37f, 17.6f, 30.37f, 17.45f, 30.52f);
-            bezier10Path.cubicTo(17.31f, 30.67f, 17.31f, 30.9f, 17.45f, 31.05f);
-            bezier10Path.lineTo(21.22f, 34.82f);
-            bezier10Path.cubicTo(21.25f, 34.85f, 21.3f, 34.88f, 21.34f, 34.9f);
-            bezier10Path.cubicTo(21.39f, 34.92f, 21.44f, 34.93f, 21.49f, 34.93f);
-            bezier10Path.cubicTo(21.53f, 34.93f, 21.58f, 34.92f, 21.63f, 34.9f);
-            bezier10Path.cubicTo(21.68f, 34.88f, 21.72f, 34.85f, 21.75f, 34.82f);
-            bezier10Path.lineTo(25.52f, 31.05f);
-            bezier10Path.cubicTo(25.67f, 30.9f, 25.67f, 30.67f, 25.52f, 30.52f);
-            bezier10Path.cubicTo(25.37f, 30.37f, 25.13f, 30.37f, 24.99f, 30.52f);
+            bezier10Path.moveTo(24.87f, 30.4f);
+            bezier10Path.lineTo(21.75f, 33.53f);
+            bezier10Path.lineTo(21.75f, 20.88f);
+            bezier10Path.cubicTo(21.75f, 20.67f, 21.58f, 20.5f, 21.37f, 20.5f);
+            bezier10Path.cubicTo(21.16f, 20.5f, 20.99f, 20.67f, 20.99f, 20.88f);
+            bezier10Path.lineTo(20.99f, 33.53f);
+            bezier10Path.lineTo(17.87f, 30.4f);
+            bezier10Path.cubicTo(17.72f, 30.26f, 17.48f, 30.26f, 17.34f, 30.4f);
+            bezier10Path.cubicTo(17.19f, 30.55f, 17.19f, 30.79f, 17.34f, 30.94f);
+            bezier10Path.lineTo(21.1f, 34.7f);
+            bezier10Path.cubicTo(21.14f, 34.74f, 21.18f, 34.76f, 21.23f, 34.78f);
+            bezier10Path.cubicTo(21.27f, 34.8f, 21.32f, 34.81f, 21.37f, 34.81f);
+            bezier10Path.cubicTo(21.42f, 34.81f, 21.47f, 34.8f, 21.51f, 34.78f);
+            bezier10Path.cubicTo(21.56f, 34.76f, 21.6f, 34.74f, 21.64f, 34.7f);
+            bezier10Path.lineTo(25.4f, 30.94f);
+            bezier10Path.cubicTo(25.55f, 30.79f, 25.55f, 30.55f, 25.4f, 30.4f);
+            bezier10Path.cubicTo(25.26f, 30.26f, 25.02f, 30.26f, 24.87f, 30.4f);
             bezier10Path.close();
             
             paint.reset();
@@ -4597,27 +4597,33 @@ public class GuitarTunesStyleKit {
             
             // Bezier 11
             RectF bezier11Rect = CacheForBtnCloudDownload.bezier11Rect;
-            bezier11Rect.set(17.34f, 20.62f, 25.63f, 34.93f);
+            bezier11Rect.set(17.23f, 20.5f, 25.51f, 34.81f);
             Path bezier11Path = CacheForBtnCloudDownload.bezier11Path;
             bezier11Path.reset();
-            bezier11Path.moveTo(24.99f, 30.52f);
-            bezier11Path.lineTo(21.86f, 33.64f);
-            bezier11Path.lineTo(21.86f, 20.99f);
-            bezier11Path.cubicTo(21.86f, 20.78f, 21.69f, 20.62f, 21.49f, 20.62f);
-            bezier11Path.cubicTo(21.28f, 20.62f, 21.11f, 20.78f, 21.11f, 20.99f);
-            bezier11Path.lineTo(21.11f, 33.64f);
-            bezier11Path.lineTo(17.98f, 30.52f);
-            bezier11Path.cubicTo(17.84f, 30.37f, 17.6f, 30.37f, 17.45f, 30.52f);
-            bezier11Path.cubicTo(17.31f, 30.67f, 17.31f, 30.9f, 17.45f, 31.05f);
-            bezier11Path.lineTo(21.22f, 34.82f);
-            bezier11Path.cubicTo(21.25f, 34.85f, 21.3f, 34.88f, 21.34f, 34.9f);
-            bezier11Path.cubicTo(21.39f, 34.92f, 21.44f, 34.93f, 21.49f, 34.93f);
-            bezier11Path.cubicTo(21.53f, 34.93f, 21.58f, 34.92f, 21.63f, 34.9f);
-            bezier11Path.cubicTo(21.68f, 34.88f, 21.72f, 34.85f, 21.75f, 34.82f);
-            bezier11Path.lineTo(25.52f, 31.05f);
-            bezier11Path.cubicTo(25.67f, 30.9f, 25.67f, 30.67f, 25.52f, 30.52f);
-            bezier11Path.cubicTo(25.37f, 30.37f, 25.13f, 30.37f, 24.99f, 30.52f);
+            bezier11Path.moveTo(24.87f, 30.4f);
+            bezier11Path.lineTo(21.75f, 33.53f);
+            bezier11Path.lineTo(21.75f, 20.88f);
+            bezier11Path.cubicTo(21.75f, 20.67f, 21.58f, 20.5f, 21.37f, 20.5f);
+            bezier11Path.cubicTo(21.16f, 20.5f, 20.99f, 20.67f, 20.99f, 20.88f);
+            bezier11Path.lineTo(20.99f, 33.53f);
+            bezier11Path.lineTo(17.87f, 30.4f);
+            bezier11Path.cubicTo(17.72f, 30.26f, 17.48f, 30.26f, 17.34f, 30.4f);
+            bezier11Path.cubicTo(17.19f, 30.55f, 17.19f, 30.79f, 17.34f, 30.94f);
+            bezier11Path.lineTo(21.1f, 34.7f);
+            bezier11Path.cubicTo(21.14f, 34.74f, 21.18f, 34.76f, 21.23f, 34.78f);
+            bezier11Path.cubicTo(21.27f, 34.8f, 21.32f, 34.81f, 21.37f, 34.81f);
+            bezier11Path.cubicTo(21.42f, 34.81f, 21.47f, 34.8f, 21.51f, 34.78f);
+            bezier11Path.cubicTo(21.56f, 34.76f, 21.6f, 34.74f, 21.64f, 34.7f);
+            bezier11Path.lineTo(25.4f, 30.94f);
+            bezier11Path.cubicTo(25.55f, 30.79f, 25.55f, 30.55f, 25.4f, 30.4f);
+            bezier11Path.cubicTo(25.26f, 30.26f, 25.02f, 30.26f, 24.87f, 30.4f);
             bezier11Path.close();
+            
+            paint.reset();
+            paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(GuitarTunesStyleKit.goldDark);
+            canvas.drawPath(bezier11Path, paint);
             
             paint.reset();
             paint.setFlags(Paint.ANTI_ALIAS_FLAG);
@@ -4725,10 +4731,10 @@ public class GuitarTunesStyleKit {
         {
             // Oval
             canvas.save();
-            canvas.translate(11f, 9.5f);
-            currentTransformation.peek().postTranslate(11f, 9.5f);
+            canvas.translate(10.12f, 9.5f);
+            currentTransformation.peek().postTranslate(10.12f, 9.5f);
             RectF ovalRect = CacheForCircularProgress.ovalRect;
-            ovalRect.set(1f, 1f, 20f, 20.44f);
+            ovalRect.set(1f, 1f, 20.88f, 20.44f);
             Path ovalPath = CacheForCircularProgress.ovalPath;
             ovalPath.reset();
             ovalPath.addArc(ovalRect, -90f, 90f - convertedAngle + (-convertedAngle < -90f ? 360f * (float) Math.ceil((convertedAngle - 90f) / 360f) : 0f));

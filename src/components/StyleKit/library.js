@@ -25,10 +25,9 @@ const BtnBuy = props => {
   );
 };
 
-const BtnDownload = props => {
+export const BtnDownload = props => {
   const Comp = gtPcSizeable(BtnCloudDownload_targetFrame_resizing);
-
-  return <Comp {...props} resize={ResizingBehavior.Stretch} />;
+  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
 
 export const BtnDownloading = props => {

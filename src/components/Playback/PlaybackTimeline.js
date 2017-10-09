@@ -9,7 +9,7 @@ import Playhead from "./Playhead";
 import PlaybackMarkers from "./PlaybackMarkers";
 import LoopFlag from "./PlaybackTimelineLoopFlag.js";
 
-import { BtnDownloading } from "../StyleKit";
+import { BtnDownload, BtnDownloading } from "../StyleKit";
 
 class PlaybackTimeline extends Component {
   state = {
@@ -82,6 +82,7 @@ class PlaybackTimeline extends Component {
         )}
 
         <BtnDownloading style={{ width: 50, height: 50 }} progress={progress} />
+        <BtnDownload style={{ width: 50, height: 50 }} color={PrimaryBlue} />
 
         <Text
           style={{
