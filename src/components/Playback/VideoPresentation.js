@@ -82,27 +82,27 @@ const VideoPresentation = props => {
             }}
           >
             {props.isFullscreen &&
-            !props.isPhone && (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "flex-end",
-                  width: "100%",
-                  height: 60,
-                  paddingRight: 10,
-                  paddingBottom: 10
-                }}
-              >
-                <BtnVideoExitFullScreen
+              !props.isPhone && (
+                <View
                   style={{
-                    width: 50,
-                    height: 50
+                    flexDirection: "row",
+                    justifyContent: "flex-end",
+                    width: "100%",
+                    height: 60,
+                    paddingRight: 10,
+                    paddingBottom: 10
                   }}
-                  color={"#FFFFFF"}
-                  onPress={props.onFullscreen}
-                />
-              </View>
-            )}
+                >
+                  <BtnVideoExitFullScreen
+                    style={{
+                      width: 50,
+                      height: 50
+                    }}
+                    color={"#FFFFFF"}
+                    onPress={props.onFullscreen}
+                  />
+                </View>
+              )}
 
             <View
               style={{
@@ -149,8 +149,9 @@ const VideoPresentation = props => {
                 currentLoop={props.currentLoop}
                 loopIsEnabled={props.loopIsEnabled}
                 videoMarkers={props.videoMarkers}
+                currentVideoChapter={props.currentVideoChapter}
                 currentVideoMarker={props.currentVideoMarker}
-                isPhone={props.isPhone}
+                iisPhone={props.isPhone}
                 isVideo={true}
                 isFullscreen={props.isFullscreen}
                 onSeek={props.onSeek}
