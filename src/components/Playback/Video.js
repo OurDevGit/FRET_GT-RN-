@@ -19,7 +19,7 @@ var controlFaderId = 0;
 
 class Vid extends React.Component {
   state = {
-    isPlaying: true,
+    isPlaying: false,
     mediaDuration: 0,
     playbackRate: 1,
     videoRate: 1,
