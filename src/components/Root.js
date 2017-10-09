@@ -89,7 +89,8 @@ class Root extends Component {
               </View>
             )}
 
-          {supportsMultipleFretboards && <TrackSelector />}
+          {supportsMultipleFretboards &&
+            this.state.showFretboards && <TrackSelector />}
         </View>
       </Provider>
     );
