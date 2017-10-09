@@ -11,7 +11,7 @@ import {
   BuyButton_priceText_fontSize_topText_bottomText,
   BtnCloudDownload_targetFrame_resizing,
   BtnCloudDownload,
-  CircularProgress_angle,
+  CircularProgress_targetFrame_resizing_angle,
   IndeterminateCircle_angle
 } from "./styleKitComponents";
 import { GetMediaButtonMode } from "../../models/Media";
@@ -31,12 +31,13 @@ const BtnDownload = props => {
   return <Comp {...props} resize={ResizingBehavior.Stretch} />;
 };
 
-const BtnDownloading = ({ progress }) => {
-  return <Text>{progress}</Text>;
-  // const angle = progress / 360;
-  // return (
-  //   <CircularProgress_angle angle={angle} style={{ width: 44, height: 44 }} />
-  // );
+export const BtnDownloading = props => {
+  const angle = props.progress * 360;
+
+  const Comp = gtPcSizeable(CircularProgress_targetFrame_resizing_angle);
+  return (
+    <Comp {...props} angle={angle} resizing={ResizingBehavior.AspectFit} />
+  );
 };
 
 export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {

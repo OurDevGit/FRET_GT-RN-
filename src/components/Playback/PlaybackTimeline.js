@@ -9,6 +9,8 @@ import Playhead from "./Playhead";
 import PlaybackMarkers from "./PlaybackMarkers";
 import LoopFlag from "./PlaybackTimelineLoopFlag.js";
 
+import { BtnDownloading } from "../StyleKit";
+
 class PlaybackTimeline extends Component {
   state = {
     layout: { width: 1, x: 0 },
@@ -78,6 +80,8 @@ class PlaybackTimeline extends Component {
             onMarkerLongPress={onMarkerLongPress}
           />
         )}
+
+        <BtnDownloading style={{ width: 50, height: 50 }} progress={progress} />
 
         <Text
           style={{
@@ -202,14 +206,19 @@ class PlaybackTimeline extends Component {
   };
 
   handlePlayheadPanStart = () => {
-    this.props.onForceControlsVisible(true);
+    if (this.props.onForceControlsVisible !== undefined) {
+      this.props.onForceControlsVisible(true);
+    }
+
     this.setState({
       ignorePropsProgress: true
     });
   };
 
   handlePlayheadPanEnd = () => {
-    this.props.onForceControlsVisible(false);
+    if (this.props.onForceControlsVisible !== undefined) {
+      this.props.onForceControlsVisible(false);
+    }
     this.setState({
       ignorePropsProgress: false
     });

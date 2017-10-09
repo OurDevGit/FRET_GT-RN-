@@ -57,7 +57,6 @@ const PlaybackSecondary = ({
   onDisplayInfo,
   onForceControlsVisible
 }) => {
-  console.log("render");
   return (
     <View
       style={{
