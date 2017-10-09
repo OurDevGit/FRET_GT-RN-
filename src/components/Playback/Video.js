@@ -200,7 +200,7 @@ class Vid extends React.Component {
       } else {
         if (
           playableDuration !== this.state.mediaDuration &&
-          playableDuration > 0
+          playableDuration > 1
         ) {
           this.setState({
             mediaDuration: playableDuration
