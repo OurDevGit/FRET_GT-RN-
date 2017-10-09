@@ -28,8 +28,8 @@
       "mediaName": "1_2",
       "parentId": 7,
       "children": [],
-      "begin": 446.1338232,
-      "end": 463.2127641,
+      "begin": 580,
+      "end": 600,
       "duration": 17.07894090000002,
       "name": "Basic E7 Rhythm"
     },
@@ -39,8 +39,8 @@
       "mediaName": "1_4",
       "parentId": 12,
       "children": [],
-      "begin": 569.2019105000001,
-      "end": 585.9921255,
+      "begin": 640,
+      "end": 680,
       "duration": 16.79021499999999,
       "name": "Shuffle Rhythm"
     },
@@ -50,8 +50,8 @@
       "mediaName": "2_1",
       "parentId": 15,
       "children": [],
-      "begin": 920.5962688,
-      "end": 954.4786048,
+      "begin": 748,
+      "end": 768,
       "duration": 33.88233600000001,
       "name": "12 Bar Blues Progression"
     },
@@ -61,76 +61,10 @@
       "mediaName": "2_4",
       "parentId": 26,
       "children": [],
-      "begin": 1289.5605685,
-      "end": 1323.4429045,
+      "begin": 800,
+      "end": 900,
       "duration": 33.8823359999999,
       "name": "Blues Riff Using E Blues"
-    },
-    {
-      "type": 3,
-      "uniqueId": 54,
-      "mediaName": "3_1",
-      "parentId": 30,
-      "children": [],
-      "begin": 1468.6733592,
-      "end": 1502.5556952,
-      "duration": 33.8823359999999,
-      "name": "Rock Style Blues Rhythm"
-    },
-    {
-      "type": 3,
-      "uniqueId": 55,
-      "mediaName": "3_4",
-      "parentId": 34,
-      "children": [],
-      "begin": 1563.7916496,
-      "end": 1578.4365938,
-      "duration": 14.64494420000005,
-      "name": "Blues Lick 1"
-    },
-    {
-      "type": 3,
-      "uniqueId": 56,
-      "mediaName": "3_5",
-      "parentId": 34,
-      "children": [],
-      "begin": 1600.969695,
-      "end": 1616.8465725,
-      "duration": 15.87687750000009,
-      "name": "Double Stops"
-    },
-    {
-      "type": 3,
-      "uniqueId": 57,
-      "mediaName": "3_6",
-      "parentId": 34,
-      "children": [],
-      "begin": 1653.2400726,
-      "end": 1670.8140766,
-      "duration": 17.57400399999983,
-      "name": "Bends"
-    },
-    {
-      "type": 3,
-      "uniqueId": 58,
-      "mediaName": "4_1",
-      "parentId": 42,
-      "children": [],
-      "begin": 1804.3474583,
-      "end": 1838.2297943,
-      "duration": 33.88233600000012,
-      "name": "SRV Shuffle Rhythm"
-    },
-    {
-      "type": 3,
-      "uniqueId": 59,
-      "mediaName": "4_3",
-      "parentId": 42,
-      "children": [],
-      "begin": 1942.0661585,
-      "end": 1975.889671,
-      "duration": 33.82351249999988,
-      "name": "Improvisation Practice"
     }
   ],
   "chapters": [

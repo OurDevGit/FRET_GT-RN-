@@ -28,6 +28,7 @@ class BtnMyLoopsModal extends React.Component {
     const { quickLoops, currentLoop, color, isPhone, isVideo } = this.props;
     const { isEditing, modalFrame, myLoops } = this.state;
     var allLoops = [];
+    var myLoopsFirstIndex = 0;
 
     if (isVideo) {
       if (quickLoops.length > 0) {
@@ -35,6 +36,7 @@ class BtnMyLoopsModal extends React.Component {
       }
 
       if (myLoops.length > 0) {
+        myLoopsFirstIndex = allLoops.length;
         allLoops = [...allLoops, { name: "USER LOOPS" }, ...myLoops];
       }
     } else {
@@ -143,7 +145,8 @@ class BtnMyLoopsModal extends React.Component {
                   {isEditing &&
                     item.name !== "None" &&
                     item.name !== "SMARTLOOPS™" &&
-                    item.name !== "USER LOOPS" && (
+                    item.name !== "USER LOOPS" &&
+                    index > myLoopsFirstIndex && (
                       <BtnLoopDelete
                         style={{
                           width: 30,
