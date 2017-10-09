@@ -113,6 +113,8 @@ class Vid extends React.Component {
       this.state.quickLoops !== nextState.quickLoops ||
       this.state.isFullscreen !== nextState.isFullscreen ||
       this.state.areControlsVisible !== nextState.areControlsVisible ||
+      this.props.loopIsEnabled !== nextProps.loopIsEnabled ||
+      !this.props.currentLoop.equals(nextProps.currentLoop) ||
       !this.props.currentVideoChapter.equals(nextProps.currentVideoChapter) ||
       !this.props.currentVideoMarker.equals(nextProps.currentVideoMarker) ||
       !this.props.currentVideoMidiFile.equals(nextProps.currentVideoMidiFile)
