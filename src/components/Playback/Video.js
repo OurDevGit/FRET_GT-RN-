@@ -306,8 +306,7 @@ class Vid extends React.Component {
   // TIMELINE METHODS
 
   handleMarkerPress = time => {
-    console.log(time);
-    //this.props.clearCurrentLoop();
+    this.props.clearCurrentLoop();
     this.goToTime(time);
   };
 

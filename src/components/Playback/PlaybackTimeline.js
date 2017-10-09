@@ -51,8 +51,8 @@ class PlaybackTimeline extends Component {
     );
 
     const loop = currentLoop.toJS() || { begin: -1, end: -1 };
-    const beginLeft = loop.begin / offsetDuration;
-    const endLeft = loop.end / offsetDuration;
+    const beginLeft = this.offsetTime(loop.begin) / offsetDuration;
+    const endLeft = this.offsetTime(loop.end) / offsetDuration;
 
     return (
       <View
@@ -225,6 +225,23 @@ class PlaybackTimeline extends Component {
     this.setState({
       layout: { ...e.nativeEvent.layout }
     });
+  };
+
+  offsetTime = time => {
+    const { currentVideoMarker, currentVideoChapter } = this.props;
+    if (
+      currentVideoMarker !== undefined &&
+      currentVideoMarker.begin !== undefined
+    ) {
+      return time - currentVideoMarker.begin;
+    } else if (
+      currentVideoChapter !== undefined &&
+      currentVideoChapter.begin !== undefined
+    ) {
+      return time - currentVideoChapter.begin;
+    } else {
+      return time;
+    }
   };
 
   offsetProgress = (progress, duration, chapter, marker) => {

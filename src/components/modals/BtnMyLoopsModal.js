@@ -278,7 +278,9 @@ class BtnMyLoopsModal extends React.Component {
 
   handleSelectLoop = loop => {
     this.props.onSetCurrentLoop(Map(loop));
-    this.props.onForceControlsVisible(false);
+    if (this.props.onForceControlsVisible !== undefined) {
+      this.props.onForceControlsVisible(false);
+    }
     this.setState({ modalIsVisible: false });
   };
 }
