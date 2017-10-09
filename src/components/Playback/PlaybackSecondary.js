@@ -218,7 +218,11 @@ PlaybackSecondary.propTypes = {
 };
 
 export default connect()(
-  onlyUpdateForKeys(["mediaId", "tempo", "loopIsEnabled", "isFullscreen"])(
-    PlaybackSecondary
-  )
+  onlyUpdateForKeys([
+    "mediaId",
+    "tempo",
+    "loopIsEnabled",
+    "isFullscreen",
+    "quickLoops"
+  ])(PlaybackSecondary)
 );

@@ -141,22 +141,22 @@ class BtnMyLoopsModal extends React.Component {
                     ✓
                   </Text>
                   {isEditing &&
-                  item.name !== "None" &&
-                  item.name !== "SMARTLOOPS™" &&
-                  item.name !== "USER LOOPS" && (
-                    <BtnLoopDelete
-                      style={{
-                        width: 30,
-                        height: 30,
-                        marginRight: 10,
-                        marginTop: 6
-                      }}
-                      color={"#B20000"}
-                      onPress={() => {
-                        this.handleDeleteLoop(item);
-                      }}
-                    />
-                  )}
+                    item.name !== "None" &&
+                    item.name !== "SMARTLOOPS™" &&
+                    item.name !== "USER LOOPS" && (
+                      <BtnLoopDelete
+                        style={{
+                          width: 30,
+                          height: 30,
+                          marginRight: 10,
+                          marginTop: 6
+                        }}
+                        color={"#B20000"}
+                        onPress={() => {
+                          this.handleDeleteLoop(item);
+                        }}
+                      />
+                    )}
 
                   {item.name !== "SMARTLOOPS™" && item.name !== "USER LOOPS" ? (
                     <TouchableOpacity
@@ -203,6 +203,7 @@ class BtnMyLoopsModal extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.props.mediaId !== nextProps.mediaId ||
+      this.props.quickLoops.length !== nextProps.quickLoops.length ||
       !this.props.currentLoop.equals(nextProps.currentLoop) ||
       this.state.isEditing !== nextState.isEditing ||
       this.state.modalFrame !== nextState.modalFrame ||
