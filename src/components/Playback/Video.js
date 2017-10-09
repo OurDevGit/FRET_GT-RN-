@@ -249,6 +249,18 @@ class Vid extends React.Component {
       this.updateChaptersAndMarkers(time);
       this.props.updateTime(time);
     }
+
+    if (
+      this.props.currentLoop.get("begin") !== undefined &&
+      this.props.currentLoop.get("end")
+    ) {
+      if (
+        time < this.props.currentLoop.get("begin") ||
+        time > this.props.currentLoop.get("end")
+      ) {
+        this.props.enableLoop(false);
+      }
+    }
   };
 
   // PLAYBACK METHODS
