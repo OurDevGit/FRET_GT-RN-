@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Button, Text } from "react-native";
+import Dimensions from "Dimensions";
 import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
@@ -108,6 +109,7 @@ class Root extends Component {
 
   handleSelectMedia = mediaIndex => {
     const media = testMedia[mediaIndex];
+    const isPhone = Dimensions.get("window").height < 500;
     if (media.type === "song") {
       this.setState({
         libIsOpen: false,
@@ -120,7 +122,7 @@ class Root extends Component {
         libIsOpen: false,
         song: null,
         video: media,
-        showAd: false
+        showAd: !isPhone
       });
     }
   };
