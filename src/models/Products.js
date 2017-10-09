@@ -45,22 +45,19 @@ const closeBilling = async () => {
   }
 };
 
-// const loadPurchases = () => {
-//   console.debug("loadPurchases()");
-//   this.openBilling().then(closeBilling => {
-//     InAppBilling.loadOwnedPurchasesFromGoogle()
-//       .then(() => InAppBilling.listOwnedProducts())
-//       .then(listResults => {
-//         const allPurchases = addPurchases(listResults);
-//         Alert.alert("Purchased Items", JSON.stringify(allPurchases, null, 2));
-//       })
-//       .then(() => closeBilling())
-//       .catch(err => {
-//         console.error(err);
-//         InAppBilling.close();
-//       });
-//   });
-// };
+export const loadPurchases = async () => {
+  console.debug("loadPurchases()");
+
+  await openBilling();
+
+  await InAppBilling.loadOwnedPurchasesFromGoogle();
+  const ownedProducts = await InAppBilling.listOwnedProducts();
+  // const allPurchases = addPurchases(ownedProducts);
+
+  await closeBilling();
+
+  return ownedProducts;
+};
 
 export const getProductDetails = async mediaIds => {
   console.debug("getProductDetails()");
