@@ -101,6 +101,22 @@ export const getProductDetails = async mediaIds => {
   return productDetailsById;
 };
 
+export const makePurchase = async mediaId => {
+  await openBilling();
+
+  var success = false;
+  try {
+    const purchaseDetails = await InAppBilling.purchase(mediaId.toLowerCase());
+    success = true;
+  } catch (error) {
+    console.debug("got error when purchasing");
+  }
+
+  await closeBilling();
+
+  return success;
+};
+
 const normalizeProductDetails = details => {
   var byId = {};
   details.forEach(product => {
@@ -111,5 +127,3 @@ const normalizeProductDetails = details => {
 
   // keyBy(details, "productId")
 };
-
-const getPrice = async mediaId => {};

@@ -6,32 +6,18 @@ import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
 import { syncStore } from "../../Store";
 import { addPurchase, getIsPurchased } from "../../models/Purchases";
-import { getProductDetails, loadPurchases } from "../../models/Products";
+import {
+  getProductDetails,
+  loadPurchases,
+  makePurchase
+} from "../../models/Products";
 import { downloadSong } from "../../DownloadManager";
 
+import { GetMediaButtonMode } from "../../models/Media";
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
 import { StoreDark, StoreLight, LibraryDark, LibraryLight } from "../../design";
-
-const makePurchase = async media => {
-  // console.debug(media);
-  const mediaId = media.mediaID.toLowerCase();
-
-  await addPurchase(mediaId);
-  console.debug(`added purchased ${mediaId}`);
-
-  // InAppBilling.open()
-  //   .then(() => InAppBilling.purchase(media.mediaID.toLowerCase()))
-  //   .then(details => {
-  //     console.log("You purchased: ", details);
-  //     return InAppBilling.close();
-  //   })
-  //   .catch(err => {
-  //     InAppBilling.close();
-  //     console.log(err);
-  //   });
-};
 
 class Store extends Component {
   state = {
@@ -155,16 +141,10 @@ class Store extends Component {
     });
   };
 
-  handleChooseMedia = async media => {
-    console.debug(`chose media: ${media.title}`);
-    console.debug(media);
-    await makePurchase(media);
-
-    const mediaId = media.mediaID.toLowerCase();
+  downloadMedia = async mediaId => {
     const files = this.props.downloadedMedia[mediaId];
 
     if (files === undefined) {
-      this.props.addPurchasedMedia(media.mediaID);
       const paths = await downloadSong(
         "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.m4a",
         "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.mid",
@@ -173,6 +153,43 @@ class Store extends Component {
       // console.debug(paths);
     } else {
       console.debug({ files });
+    }
+  };
+
+  doPurchase = async media => {
+    // console.debug(media);
+    const mediaId = media.mediaID.toLowerCase();
+
+    const purchaseSuccess = await makePurchase(mediaId);
+
+    if (purchaseSuccess === true) {
+      this.props.addPurchasedMedia(mediaId);
+      console.debug(`added purchased ${mediaId}`);
+    }
+  };
+
+  handleChooseMedia = async media => {
+    console.debug(`chose media: ${media.title}`);
+    console.debug(media);
+
+    switch (media.getMode) {
+      case GetMediaButtonMode.Purchase:
+        await this.doPurchase(media);
+        break;
+      case GetMediaButtonMode.Download:
+        this.props.addPurchasedMedia(media.mediaID);
+        this.downloadMedia(mediaId);
+        break;
+      case GetMediaButtonMode.Downloading:
+        break;
+      case GetMediaButtonMode.ComingSoon:
+        break;
+      case GetMediaButtonMode.Indetermindate:
+        break;
+      case GetMediaButtonMode.Play:
+        break;
+      default:
+        break;
     }
   };
 
