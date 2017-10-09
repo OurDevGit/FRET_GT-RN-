@@ -269,10 +269,7 @@ class PlaybackTimeline extends Component {
 PlaybackTimeline.propTypes = {
   duration: PropTypes.number,
   progress: PropTypes.number,
-  markers: React.PropTypes.oneOfType([
-    React.PropTypes.array,
-    React.PropTypes.object
-  ]),
+  markers: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   videoMarkers: PropTypes.array,
   currentLoop: PropTypes.object,
   currentVideoMarker: PropTypes.object,
