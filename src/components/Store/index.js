@@ -9,7 +9,8 @@ import { addPurchase, getIsPurchased } from "../../models/Purchases";
 import {
   getProductDetails,
   loadPurchases,
-  makePurchase
+  makePurchase,
+  getPurchasedTransactionDetails
 } from "../../models/Products";
 import { downloadSong } from "../../DownloadManager";
 
@@ -141,8 +142,12 @@ class Store extends Component {
     });
   };
 
-  downloadMedia = async mediaId => {
+  downloadMedia = async media => {
+    const mediaId = media.mediaID.toLowerCase();
     const files = this.props.downloadedMedia[mediaId];
+
+    const transactionStatus = await getPurchasedTransactionDetails(mediaId);
+    console.debug({ transactionStatus });
 
     if (files === undefined) {
       const paths = await downloadSong(
@@ -177,8 +182,7 @@ class Store extends Component {
         await this.doPurchase(media);
         break;
       case GetMediaButtonMode.Download:
-        this.props.addPurchasedMedia(media.mediaID);
-        this.downloadMedia(mediaId);
+        this.downloadMedia(media);
         break;
       case GetMediaButtonMode.Downloading:
         break;
