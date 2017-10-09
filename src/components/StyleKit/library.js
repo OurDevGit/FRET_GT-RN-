@@ -41,25 +41,31 @@ const BtnDownloading = ({ progress }) => {
 
 export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
   // hard-returning the download button for debugging right now...
-  return (
-    <BtnCloudDownload
-      style={{ backgroundColor: "#dfd", height: 44, width: 44 }}
-    />
-  );
+  // return (
+  //   <BtnCloudDownload
+  //     style={{ backgroundColor: "#dfd", height: 44, width: 44 }}
+  //   />
+  // );
 
   switch (mode) {
     case GetMediaButtonMode.Play:
       return <View />;
     case GetMediaButtonMode.Purchase:
       return (
-        <BtnBuy priceText={price} fontSize={14} topText="" bottomText="" />
+        <BtnBuy
+          priceText={price}
+          fontSize={14}
+          topText=""
+          bottomText=""
+          style={{ backgroundColor: "green" }}
+        />
       );
     case GetMediaButtonMode.ComingSoon:
       return (
         <BtnBuy priceText="" fontSize={14} topText="COMING" bottomText="SOON" />
       );
     case GetMediaButtonMode.Download:
-      return <BtnDownload />;
+      return <BtnDownload style={{ backgroundColor: "blue" }} />;
     case GetMediaButtonMode.Downloading:
       return <BtnDownloading progress={progress} />;
     case GetMediaButtonMode.Indetermindate:
