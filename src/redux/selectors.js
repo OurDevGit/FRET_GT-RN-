@@ -93,7 +93,7 @@ const mergeProductDetails = (state, singleMedia) => {
 
   return singleMedia.set(
     "productDetails",
-    productDetails.get(mediaId) || Map()
+    productDetails.get(mediaId) || Map({ priceText: "LOADING" })
   );
 };
 
