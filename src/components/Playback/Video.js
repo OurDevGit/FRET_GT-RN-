@@ -307,7 +307,7 @@ class Vid extends React.Component {
 
   handleMarkerPress = time => {
     this.props.clearCurrentLoop();
-    this.goToTime(time);
+    this.goToTime(time + 0.01);
   };
 
   handleSeek = progress => {
