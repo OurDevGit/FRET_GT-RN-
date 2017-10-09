@@ -406,7 +406,7 @@ class Vid extends React.Component {
     } else {
       this.resetDisplayTimer();
       this.props.onToggleAd(this.state.isFullscreen);
-
+      console.log("this.state.isFullscreen", this.state.isFullscreen);
       if (this.state.isFullscreen) {
         this.props.onToggleFretboards(true);
       }
@@ -423,9 +423,9 @@ class Vid extends React.Component {
     }
   };
 
-  handleToggleFretboards = bool => {
+  handleToggleFretboards = () => {
     this.resetDisplayTimer();
-    this.props.onToggleFretboards(bool);
+    this.props.onToggleFretboards();
   };
 
   resetDisplayTimer = () => {

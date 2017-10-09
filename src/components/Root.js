@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { View, Button, Text } from "react-native";
+import Dimensions from "Dimensions";
 import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
@@ -72,22 +73,22 @@ class Root extends Component {
           />
 
           {this.state.showAd &&
-          trackCount < 4 && (
-            <View style={{ position: "absolute", left: 5, top: 5 }}>
-              {!this.state.libIsOpen && (
-                <BtnLibrary
-                  style={{
-                    marginLeft: 10,
-                    marginTop: 10,
-                    width: 40,
-                    height: 40
-                  }}
-                  color={"#FFFFFF"}
-                  onPress={this.handleToggleLibrary}
-                />
-              )}
-            </View>
-          )}
+            trackCount < 4 && (
+              <View style={{ position: "absolute", left: 5, top: 5 }}>
+                {!this.state.libIsOpen && (
+                  <BtnLibrary
+                    style={{
+                      marginLeft: 10,
+                      marginTop: 10,
+                      width: 40,
+                      height: 40
+                    }}
+                    color={"#FFFFFF"}
+                    onPress={this.handleToggleLibrary}
+                  />
+                )}
+              </View>
+            )}
 
           {supportsMultipleFretboards && <TrackSelector />}
         </View>
@@ -103,6 +104,7 @@ class Root extends Component {
 
   handleSelectMedia = mediaIndex => {
     const media = testMedia[mediaIndex];
+    const isPhone = Dimensions.get("window").height < 500;
     if (media.type === "song") {
       this.setState({
         libIsOpen: false,
@@ -115,7 +117,7 @@ class Root extends Component {
         libIsOpen: false,
         song: null,
         video: media,
-        showAd: false
+        showAd: !isPhone
       });
     }
   };
@@ -132,8 +134,8 @@ class Root extends Component {
     this.setState({ showAd: bool });
   };
 
-  handleToggleFretboards = () => {
-    this.setState({ showFretboards: !this.state.showFretboards });
+  handleToggleFretboards = (bool = !this.state.showFretboards) => {
+    this.setState({ showFretboards: bool });
   };
 
   handleLayout = e => {
