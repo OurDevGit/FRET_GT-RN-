@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { View, Button, Text } from "react-native";
-import Dimensions from "Dimensions";
 import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
@@ -11,12 +10,13 @@ import TrackSelector from "./TrackSelector";
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
 
-// import RealmTester from "./RealmTester";
-// import Store from "./Store";
+import Store from "./Store";
 
 import { BtnLibrary } from "./StyleKit";
 
 const testMedia = [...testVideos, ...testSongs];
+
+const _doTestLibrary = true;
 
 class Root extends Component {
   state = {
@@ -25,6 +25,7 @@ class Root extends Component {
     video: null,
     showAd: true,
     showFretboards: true,
+    isShowingStore: false,
     layout: { width: 1, height: 1 }
   };
 
@@ -41,11 +42,8 @@ class Root extends Component {
           style={{ backgroundColor: "white", flexGrow: 1 }}
           onLayout={this.handleLayout}
         >
-          {/* <Store testProp="test 1" /> */}
-          {/* <RealmTester />  */}
-          {this.state.showAd && (
-            <AdContainer onToggleLibrary={this.handleToggleLibrary} />
-          )}
+          {this.state.isShowingStore && <Store />}
+          {this.state.showAd && <AdContainer />}
           <Playback
             song={this.state.song}
             video={this.state.video}
@@ -74,8 +72,8 @@ class Root extends Component {
 
           {this.state.showAd &&
             trackCount < 4 && (
-              <View style={{ position: "absolute", left: 5, top: 5 }}>
-                {!this.state.libIsOpen && (
+              <View style={{ position: "absolute", right: 5, top: 5 }}>
+                {!this.state.isShowingStore && (
                   <BtnLibrary
                     style={{
                       marginLeft: 10,
@@ -97,14 +95,19 @@ class Root extends Component {
   }
 
   handleToggleLibrary = () => {
-    this.setState({
-      libIsOpen: !this.state.libIsOpen
-    });
+    if (_doTestLibrary) {
+      this.setState({
+        libIsOpen: !this.state.libIsOpen
+      });
+    } else {
+      this.setState({
+        isShowingStore: true
+      });
+    }
   };
 
   handleSelectMedia = mediaIndex => {
     const media = testMedia[mediaIndex];
-    const isPhone = Dimensions.get("window").height < 500;
     if (media.type === "song") {
       this.setState({
         libIsOpen: false,
@@ -117,7 +120,7 @@ class Root extends Component {
         libIsOpen: false,
         song: null,
         video: media,
-        showAd: !isPhone
+        showAd: false
       });
     }
   };
@@ -134,8 +137,8 @@ class Root extends Component {
     this.setState({ showAd: bool });
   };
 
-  handleToggleFretboards = (bool = !this.state.showFretboards) => {
-    this.setState({ showFretboards: bool });
+  handleToggleFretboards = () => {
+    this.setState({ showFretboards: !this.state.showFretboards });
   };
 
   handleLayout = e => {
