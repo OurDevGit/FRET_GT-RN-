@@ -116,7 +116,11 @@ const mergeGetMode = (state, singleMedia) => {
   if (isDownloaded === true) {
     mode = GetMediaButtonMode.Play;
   } else if (isDownloading === true) {
-    mode = GetMediaButtonMode.Downloading;
+    if (downloadProgress === -1) {
+      mode = GetMediaButtonMode.Indetermindate;
+    } else {
+      mode = GetMediaButtonMode.Downloading;
+    }
   } else if (isPurchased === true) {
     mode = GetMediaButtonMode.Download;
   }

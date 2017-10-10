@@ -142,59 +142,11 @@ class Store extends Component {
     });
   };
 
-  downloadMedia = async media => {
-    const mediaId = media.mediaID.toLowerCase();
-    const files = this.props.downloadedMedia[mediaId];
-
-    const transactionStatus = await getPurchasedTransactionDetails(mediaId);
-    console.debug({ transactionStatus });
-
-    if (files === undefined) {
-      const paths = await downloadSong(
-        "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.m4a",
-        "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.mid",
-        media.mediaID
-      );
-      // console.debug(paths);
-    } else {
-      console.debug({ files });
-    }
-  };
-
-  doPurchase = async media => {
-    // console.debug(media);
-    const mediaId = media.mediaID.toLowerCase();
-
-    const purchaseSuccess = await makePurchase(mediaId);
-
-    if (purchaseSuccess === true) {
-      this.props.addPurchasedMedia(mediaId);
-      console.debug(`added purchased ${mediaId}`);
-    }
-  };
-
   handleChooseMedia = async media => {
     console.debug(`chose media: ${media.title}`);
     console.debug(media);
 
-    switch (media.getMode) {
-      case GetMediaButtonMode.Purchase:
-        await this.doPurchase(media);
-        break;
-      case GetMediaButtonMode.Download:
-        this.downloadMedia(media);
-        break;
-      case GetMediaButtonMode.Downloading:
-        break;
-      case GetMediaButtonMode.ComingSoon:
-        break;
-      case GetMediaButtonMode.Indetermindate:
-        break;
-      case GetMediaButtonMode.Play:
-        break;
-      default:
-        break;
-    }
+    this.props.chooseMedia(media);
   };
 
   handleIsStoreChange = isStore => {
