@@ -28,7 +28,10 @@ class Song extends React.Component {
     playbackSeconds: 0.0,
     musicRate: 1,
     playbackRate: 1,
-    seek: -1
+    seek: -1,
+    volume: 0.5,
+    playbackVolume: 0.5,
+    isSettingVolume: false
   };
 
   render() {
@@ -54,8 +57,10 @@ class Song extends React.Component {
           rate={this.state.musicRate}
           isPlaying={this.state.isPlaying}
           song={this.props.song}
+          volume={this.state.volume}
           onProgress={this.handleProgress}
           onData={this.handleMusicData}
+          onGetVolume={this.handleGetVolume}
         />
         <Midi
           midi={this.props.song.midi}
@@ -105,11 +110,14 @@ class Song extends React.Component {
               title={mediaTitle}
               isPlaying={this.state.isPlaying}
               isPhone={isPhone}
+              volume={this.state.playbackVolume}
               onPreviousPress={this.handlePreviousPress}
               onBackPress={this.handleBackPress}
               onPlayPausePress={this.handlePlayPausePress}
               onForwardPress={this.handleForwardPress}
               onNextPress={this.handleNextPress}
+              onSetVolume={this.handleSetVolume}
+              onSetVolumeComplete={this.handleSetVolumeComplete}
             />
             <PlaybackTimeline
               progress={this.state.playbackProgress}
@@ -244,6 +252,7 @@ class Song extends React.Component {
   };
 
   handlePlayPausePress = () => {
+    console.log("PAUSE");
     this.setState({
       isPlaying: !this.state.isPlaying,
       musicRate: this.state.playbackRate
@@ -371,6 +380,20 @@ class Song extends React.Component {
     );
 
     this.setState({ seek: time });
+  };
+
+  handleGetVolume = volume => {
+    if (volume !== this.state.volume && !this.state.isSettingVolume) {
+      this.setState({ playbackVolume: volume });
+    }
+  };
+
+  handleSetVolume = volume => {
+    this.setState({ volume: volume, isSettingVolume: true });
+  };
+
+  handleSetVolumeComplete = volume => {
+    this.setState({ playbackVolume: volume, isSettingVolume: false });
   };
 }
 

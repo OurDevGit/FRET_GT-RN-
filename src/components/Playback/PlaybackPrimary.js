@@ -37,11 +37,14 @@ const PlaybackPrimary = ({
   title,
   isPlaying,
   isPhone,
+  volume,
   onPreviousPress,
   onBackPress,
   onPlayPausePress,
   onForwardPress,
-  onNextPress
+  onNextPress,
+  onSetVolume,
+  onSetVolumeComplete
 }) => (
   <View
     style={{
@@ -119,7 +122,12 @@ const PlaybackPrimary = ({
         justifyContent: "center"
       }}
     >
-      <Slider style={{ marginTop: isPhone ? 50 : 40, height: 44 }} />
+      <Slider
+        style={{ marginTop: isPhone ? 50 : 40, height: 44 }}
+        value={volume}
+        onValueChange={onSetVolume}
+        onSlidingComplete={onSetVolumeComplete}
+      />
       <Text
         style={{
           position: "absolute",
@@ -154,11 +162,14 @@ PlaybackPrimary.propTypes = {
   title: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  volume: PropTypes.number.isRequired,
   onPreviousPress: PropTypes.func.isRequired,
   onBackPress: PropTypes.func.isRequired,
   onPlayPausePress: PropTypes.func.isRequired,
   onForwardPress: PropTypes.func.isRequired,
-  onNextPress: PropTypes.func.isRequired
+  onNextPress: PropTypes.func.isRequired,
+  onSetVolume: PropTypes.func.isRequired,
+  onSetVolumeComplete: PropTypes.func.isRequired
 };
 
 export default pure(PlaybackPrimary);
