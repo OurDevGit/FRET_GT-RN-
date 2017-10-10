@@ -15,6 +15,7 @@ import {
   IndeterminateCircle_angle
 } from "./styleKitComponents";
 import { GetMediaButtonMode } from "../../models/Media";
+import { PrimaryBlue } from "../../design";
 
 const BtnBuy = props => {
   return (
@@ -38,6 +39,42 @@ export const BtnDownloading = props => {
     <Comp {...props} angle={angle} resizing={ResizingBehavior.AspectFit} />
   );
 };
+
+class IndetermindateProgress extends React.Component {
+  _isMounted = false; //https://reactjs.org/blog/2015/12/16/ismounted-antipattern.html
+
+  state = {
+    angle: 0
+  };
+
+  render() {
+    return <IndeterminateCircle_angle angle={this.state.angle} />;
+  }
+
+  componentDidMount() {
+    this._isMounted = true;
+    requestAnimationFrame(this.handleAnimationFrame);
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
+  handleAnimationFrame = time => {
+    if (this._isMounted === false) {
+      return;
+    }
+
+    const diff = time - this.lastTime;
+    this.lastTime = time;
+    if (!isNaN(diff)) {
+      this.setState({
+        angle: this.state.angle - diff / 20
+      });
+    }
+    requestAnimationFrame(this.handleAnimationFrame);
+  };
+}
 
 export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
   // hard-returning the download button for debugging right now...
@@ -65,11 +102,14 @@ export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
         <BtnBuy priceText="" fontSize={14} topText="COMING" bottomText="SOON" />
       );
     case GetMediaButtonMode.Download:
-      return <BtnDownload style={{ backgroundColor: "blue" }} />;
+      return (
+        <BtnDownload style={{ width: 50, height: 50 }} color={PrimaryBlue} />
+      );
     case GetMediaButtonMode.Downloading:
       return <BtnDownloading progress={progress} />;
     case GetMediaButtonMode.Indetermindate:
-      return <IndeterminateCircle_angle angle={0} />;
+      // return <IndeterminateCircle_angle angle={0} />;
+      return <IndetermindateProgress />;
     default:
       break;
   }
