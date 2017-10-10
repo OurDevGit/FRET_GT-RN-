@@ -53,7 +53,6 @@ class Music extends React.Component {
     // new volume
     if (newProps.volume !== this.props.volume) {
       if (this.songSound) {
-        console.log("setting", newProps.volume);
         this.songSound.setSystemVolume(newProps.volume);
       }
     }
