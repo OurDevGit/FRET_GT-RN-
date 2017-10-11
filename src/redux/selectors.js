@@ -82,11 +82,6 @@ const getDownloadProgress = (state, mediaId) => {
   return downloadProgress.get(mediaId);
 };
 
-const getFiles = (state, mediaId) => {
-  const downloadFiles = state.get("downloadedMedia");
-  return downloadFiles.get(mediaId);
-};
-
 const mergeProductDetails = (state, singleMedia) => {
   const productDetails = state.get("productDetails") || Map();
   const mediaId = singleMedia.get("mediaID").toLowerCase();
@@ -98,18 +93,19 @@ const mergeProductDetails = (state, singleMedia) => {
 };
 
 const mergeGetMode = (state, singleMedia) => {
-  const mediaId = singleMedia.get("mediaID").toLowerCase();
+  const mediaId = singleMedia.get("mediaID");
+  const lcMediaId = mediaId.toLowerCase();
 
   // is purchased
   const purchasedMedia = state.get("purchasedMedia");
-  const isPurchased = purchasedMedia.has(mediaId);
+  const isPurchased = purchasedMedia.has(lcMediaId);
 
   // is downloading
-  const downloadProgress = getDownloadProgress(state, mediaId);
+  const downloadProgress = getDownloadProgress(state, lcMediaId);
   const isDownloading = downloadProgress !== undefined;
 
   // is downloaded
-  const mediaFiles = getFiles(state, mediaId);
+  const mediaFiles = getDownloadedMediaFiles(state, mediaId);
   const isDownloaded = mediaFiles !== undefined;
 
   let mode = GetMediaButtonMode.Purchase;
@@ -165,6 +161,9 @@ const mergeMediaDetails = (state, mediaSections) => {
 
   return mediaWithProductDetails;
 };
+
+export const getDownloadedMediaFiles = (state, mediaId) =>
+  state.get("downloadedMedia").get(mediaId);
 
 export const selectMedia = (state, category, subCategory, group) => {
   // console.debug({ category });

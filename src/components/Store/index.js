@@ -159,8 +159,7 @@ const mapStateToProps = state => {
   return {
     categories: cats.toJS(),
     subCategories: state.get("subCategoriesByCategoryId").toJS(),
-    groups: state.get("groupsBySubCategoryId").toJS(),
-    downloadedMedia: state.get("downloadedMedia").toJS()
+    groups: state.get("groupsBySubCategoryId").toJS()
   };
 };
 

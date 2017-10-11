@@ -8,12 +8,12 @@ import {
 import { GetMediaButtonMode } from "./models/Media";
 import { setDownload } from "./models/Downloads";
 import * as actions from "./redux/actions";
+import { getDownloadedMediaFiles } from "./redux/selectors";
 
 function* getDownloadedMedia(mediaId) {
-  const dlMedia = yield select(state => state.get("downloadedMedia"));
-  // console.debug(`downloaded media:`);
-  // console.debug(dlMedia.toJS());
-  return dlMedia.get(mediaId);
+  const files = yield select(getDownloadedMediaFiles, mediaId);
+  console.debug({ files });
+  return files;
 }
 
 const getDownloadProgress = mediaId =>
@@ -43,7 +43,6 @@ function* watchChooseMedia(action) {
   // If so, play it!
   const downloadedMedia = yield getDownloadedMedia(mediaId);
   if (downloadedMedia !== undefined) {
-    console.debug("PLAY!");
     yield put(actions.setCurrentMedia(mediaId));
     return;
   }
@@ -68,7 +67,16 @@ function* watchChooseMedia(action) {
       if (purchaseSuccess === true) {
         yield put(actions.addPurchasedMedia(mediaId));
         console.debug(`added purchased ${mediaId}`);
+      } else {
+        // remove the indeterminate spinner state
+        yield put({
+          type: "SET_DOWNLOAD_PROGRESS",
+          payload: {
+            [iabMediaId]: undefined
+          }
+        });
       }
+
       break;
     case GetMediaButtonMode.Download:
       console.debug("do download!");

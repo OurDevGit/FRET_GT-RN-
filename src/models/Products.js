@@ -127,8 +127,10 @@ export const makePurchase = async mediaId => {
 
     success = true;
   } catch (error) {
-    console.debug("got error when purchasing");
+    console.debug("got error when purchasing:");
     console.debug(error);
+
+    success = false;
   }
 
   await closeBilling();

@@ -8,8 +8,8 @@ import { fetchMediaLinks } from "./api";
 
 import { downloadSong } from "./DownloadManager";
 
-export const doPurchase = async mediaId => {
-  const purchaseSuccess = await makePurchase(mediaId);
+export const doPurchase = async media => {
+  const purchaseSuccess = await makePurchase(media.mediaID);
   return purchaseSuccess;
 };
 
