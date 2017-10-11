@@ -3,6 +3,8 @@ import { View } from "react-native";
 import PropTypes from "prop-types";
 import Sound from "react-native-sound";
 
+var systemVolume = 0;
+
 class Music extends React.Component {
   songSound = null;
 
@@ -45,6 +47,13 @@ class Music extends React.Component {
     if (newProps.seek !== this.props.seek && newProps.seek !== -1) {
       if (this.songSound) {
         this.songSound.setCurrentTime(newProps.seek);
+      }
+    }
+
+    // new volume
+    if (newProps.volume !== this.props.volume) {
+      if (this.songSound) {
+        this.songSound.setSystemVolume(newProps.volume);
       }
     }
   }
@@ -90,6 +99,7 @@ class Music extends React.Component {
         });
       }
     });
+
     requestAnimationFrame(this.handleAnimationFrame);
   };
 
@@ -105,6 +115,12 @@ class Music extends React.Component {
           this.props.onProgress(progress);
         }
       });
+
+      this.songSound.getSystemVolume((val, volume) => {
+        this.props.onGetVolume(volume);
+      });
+
+      this.props.on;
     }
   };
 }
@@ -113,9 +129,11 @@ Music.propTypes = {
   rate: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool,
   song: PropTypes.object,
+  seek: PropTypes.number,
+  volume: PropTypes.number,
   onProgress: PropTypes.func.isRequired,
   onData: PropTypes.func.isRequired,
-  seek: PropTypes.number
+  onGetVolume: PropTypes.func.isRequired
 };
 
 export default Music;
