@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
+import { View, Button, Text, TouchableOpacity } from "react-native";
 import { pure } from "recompose";
 import { PrimaryBlue, playerBackground } from "../../design";
 import {
@@ -11,6 +11,7 @@ import {
   BtnNext,
   BtnHeart
 } from "../StyleKit";
+import VolumeSlider from "./VolumeSlider";
 
 const buttonStyle = {
   flex: 1,
@@ -37,14 +38,11 @@ const PlaybackPrimary = ({
   title,
   isPlaying,
   isPhone,
-  volume,
   onPreviousPress,
   onBackPress,
   onPlayPausePress,
   onForwardPress,
-  onNextPress,
-  onSetVolume,
-  onSetVolumeComplete
+  onNextPress
 }) => (
   <View
     style={{
@@ -122,12 +120,7 @@ const PlaybackPrimary = ({
         justifyContent: "center"
       }}
     >
-      <Slider
-        style={{ marginTop: isPhone ? 50 : 40, height: 44 }}
-        value={volume}
-        onValueChange={onSetVolume}
-        onSlidingComplete={onSetVolumeComplete}
-      />
+      <VolumeSlider style={{ marginTop: isPhone ? 50 : 40, height: 44 }} />
       <Text
         style={{
           position: "absolute",
@@ -162,14 +155,11 @@ PlaybackPrimary.propTypes = {
   title: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,
-  volume: PropTypes.number.isRequired,
   onPreviousPress: PropTypes.func.isRequired,
   onBackPress: PropTypes.func.isRequired,
   onPlayPausePress: PropTypes.func.isRequired,
   onForwardPress: PropTypes.func.isRequired,
-  onNextPress: PropTypes.func.isRequired,
-  onSetVolume: PropTypes.func.isRequired,
-  onSetVolumeComplete: PropTypes.func.isRequired
+  onNextPress: PropTypes.func.isRequired
 };
 
 export default pure(PlaybackPrimary);

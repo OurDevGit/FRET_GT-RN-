@@ -81,9 +81,6 @@ class PlaybackTimeline extends Component {
           />
         )}
 
-        <BtnDownloading style={{ width: 50, height: 50 }} progress={progress} />
-        <BtnDownload style={{ width: 50, height: 50 }} color={PrimaryBlue} />
-
         <Text
           style={{
             width: 40,
