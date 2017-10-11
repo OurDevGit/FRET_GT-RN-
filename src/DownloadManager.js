@@ -1,7 +1,7 @@
 import RNFetchBlob from "react-native-fetch-blob";
 import { downloadProgress, finishDownload } from "./redux/actions";
 import { setDownload } from "./models/Downloads";
-import { guid } from "./models/utils";
+import { guid } from "./utils";
 
 // const android = RNFetchBlob.android;
 const dirs = RNFetchBlob.fs.dirs;
