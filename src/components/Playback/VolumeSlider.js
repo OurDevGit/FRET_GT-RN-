@@ -1,5 +1,5 @@
 import React from "react";
-import { Slider, NativeModules } from "react-native";
+import { Slider, NativeModules, DeviceEventEmitter } from "react-native";
 import PropTypes from "prop-types";
 
 var volumeController = NativeModules.BSVolumeController;
@@ -22,12 +22,14 @@ class VolumeSlider extends React.Component {
     );
   }
 
-  componentDidMount() {
-    volumeController.subscribe(this.handleGetVolume);
+  componentWillMount() {
+    volumeController.subscribe();
+    DeviceEventEmitter.addListener("VOLUME_CHANGE", this.handleGetVolume);
   }
 
   componentWillUnmount() {
     volumeController.unsubscribe();
+    DeviceEventEmitter.removeListener("VOLUME_CHANGE", this.handleGetVolume);
   }
 
   handleGetVolume = volume => {
