@@ -7,8 +7,8 @@ import timingTrack from "./timing-track";
 import noteTrack from "./note-track";
 import patternTrack from "./pattern-track";
 
-module.exports = filename => {
-  const path = RNFetchBlob.fs.asset(filename);
+module.exports = (filename, isAsset = false) => {
+  const path = isAsset === true ? RNFetchBlob.fs.asset(filename) : filename;
   return RNFetchBlob.fs.readFile(path, "base64").then(data => {
     var binary = decode(data);
     var midi = midiFileParser(binary);

@@ -285,6 +285,10 @@ class BtnMyLoopsModal extends React.Component {
   };
 }
 
+BtnMyLoopsModal.defaultProps = {
+  quickLoops: []
+};
+
 BtnMyLoopsModal.propTypes = {
   style: PropTypes.object.isRequired,
   mediaId: PropTypes.string.isRequired,

@@ -29,9 +29,10 @@ const styles = StyleSheet.create({
   }
 });
 
-class BtnMyLoopsModal extends React.Component {
+class BtnChapterModal extends React.Component {
   state = {
     modalIsVisible: false,
+    videoMarkers: [],
     modalFrame: { x: 0, y: 0, width: 0, height: 0 }
   };
 
@@ -193,7 +194,7 @@ class BtnMyLoopsModal extends React.Component {
   };
 }
 
-BtnMyLoopsModal.propTypes = {
+BtnChapterModal.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   currentChapter: PropTypes.object,
   currentMarker: PropTypes.object,
@@ -202,4 +203,4 @@ BtnMyLoopsModal.propTypes = {
   onForceControlsVisible: PropTypes.func
 };
 
-export default BtnMyLoopsModal;
+export default BtnChapterModal;

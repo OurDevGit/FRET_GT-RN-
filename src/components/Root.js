@@ -7,6 +7,8 @@ import Playback from "./Playback";
 import FretboardsContainer from "./Fretboards";
 import Library from "./Library";
 import TrackSelector from "./TrackSelector";
+import { getDownload } from "../models/Downloads";
+import { getMediaForPlay } from "../redux/selectors";
 
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
