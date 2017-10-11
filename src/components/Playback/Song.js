@@ -41,6 +41,7 @@ class Song extends React.Component {
     const isCompact = this.props.height < 150;
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
+    const isVideo = this.props.video !== undefined;
 
     return (
       <View
@@ -78,6 +79,7 @@ class Song extends React.Component {
               trackCount={this.props.trackCount}
               isPlaying={this.state.isPlaying}
               isPhone={isPhone}
+              isVideo={isVideo}
               tempo={this.state.playbackRate}
               loopIsEnabled={this.props.loopIsEnabled}
               currentLoop={this.props.currentLoop}

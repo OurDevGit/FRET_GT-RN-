@@ -96,12 +96,18 @@ class Root extends Component {
     );
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
       if (prevProps.currentMedia !== this.props.currentMedia) {
+        const song =
+          this.props.mediaForPlay.id !== undefined
+            ? this.props.mediaForPlay
+            : null;
+
         this.setState({
-          isShowingStore: false
+          isShowingStore: false,
+          song
         });
       }
     }
@@ -163,8 +169,11 @@ class Root extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  const currentMedia = state.get("currentMedia");
+  const mediaForPlay = getMediaForPlay(state, currentMedia).toJS();
   return {
-    currentMedia: state.get("currentMedia"),
+    currentMedia,
+    mediaForPlay,
     trackCount: state.get("visibleTracks").count()
   };
 };

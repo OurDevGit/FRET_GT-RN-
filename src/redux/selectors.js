@@ -186,3 +186,23 @@ export const selectMedia = (state, category, subCategory, group) => {
 
   return Seq();
 };
+
+export const getMediaForPlay = (state, mediaId) => {
+  const files = state.get("downloadedMedia").get(mediaId);
+  const details = state.get("mediaById").get(mediaId);
+
+  if (details === undefined) {
+    return Map();
+  }
+
+  const media = {
+    audio: files.get("songPath"),
+    key: details.get("iTunesID"),
+    id: details.get("iTunesID"),
+    midi: files.get("midiPath"),
+    name: details.get("title"),
+    type: "song"
+  };
+
+  return Map(media);
+};
