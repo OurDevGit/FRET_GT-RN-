@@ -27,11 +27,15 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(),
-            new ReactVideoPackage(),
-            new ReactNativeVolumeControllerPackage(),
-            new InAppBillingBridgePackage(), new ReactVideoPackage(),
-          new RNSoundPackage(), new RNFetchBlobPackage(), new BSTestViewReactPackage());
+      return Arrays.<ReactPackage>asList(
+        new MainReactPackage(),
+        new ReactVideoPackage(),
+        new ReactNativeVolumeControllerPackage(),
+        new InAppBillingBridgePackage(), 
+        new ReactVideoPackage(),
+        new RNSoundPackage(), 
+        new RNFetchBlobPackage(), 
+        new GTReactPackage());
     }
   };
 

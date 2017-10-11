@@ -28,10 +28,7 @@ class Song extends React.Component {
     playbackSeconds: 0.0,
     musicRate: 1,
     playbackRate: 1,
-    seek: -1,
-    volume: 0.5,
-    playbackVolume: 0.5,
-    isSettingVolume: false
+    seek: -1
   };
 
   render() {
@@ -112,14 +109,11 @@ class Song extends React.Component {
               title={mediaTitle}
               isPlaying={this.state.isPlaying}
               isPhone={isPhone}
-              volume={this.state.playbackVolume}
               onPreviousPress={this.handlePreviousPress}
               onBackPress={this.handleBackPress}
               onPlayPausePress={this.handlePlayPausePress}
               onForwardPress={this.handleForwardPress}
               onNextPress={this.handleNextPress}
-              onSetVolume={this.handleSetVolume}
-              onSetVolumeComplete={this.handleSetVolumeComplete}
             />
             <PlaybackTimeline
               progress={this.state.playbackProgress}
@@ -382,20 +376,6 @@ class Song extends React.Component {
     );
 
     this.setState({ seek: time });
-  };
-
-  handleGetVolume = volume => {
-    if (volume !== this.state.volume && !this.state.isSettingVolume) {
-      this.setState({ playbackVolume: volume });
-    }
-  };
-
-  handleSetVolume = volume => {
-    this.setState({ volume: volume, isSettingVolume: true });
-  };
-
-  handleSetVolumeComplete = volume => {
-    this.setState({ playbackVolume: volume, isSettingVolume: false });
   };
 }
 

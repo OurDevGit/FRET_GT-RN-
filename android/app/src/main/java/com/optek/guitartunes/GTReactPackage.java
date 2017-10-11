@@ -8,10 +8,10 @@ import com.facebook.react.uimanager.ViewManager;
 
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Collections; // can I remove this?
+import java.util.Collections;
 import java.util.List;
 
-public class BSTestViewReactPackage implements ReactPackage {
+public class GTReactPackage implements ReactPackage {
 
   @Override
   public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
@@ -20,6 +20,10 @@ public class BSTestViewReactPackage implements ReactPackage {
 
   @Override
   public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-    return Collections.emptyList();
+    List<NativeModule> modules = new ArrayList<>();
+
+    modules.add(new BSVolumeController(reactContext));
+
+    return modules;
   }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Button, Text, TouchableOpacity, Slider } from "react-native";
+import { View, Button, Text, TouchableOpacity } from "react-native";
 import Video from "react-native-video";
 import { pure } from "recompose";
 import { PrimaryBlue, playerBackground } from "../../design";
@@ -13,6 +13,7 @@ import {
   BtnVideoFullScreen,
   BtnHeart
 } from "../StyleKit";
+import VolumeSlider from "./VolumeSlider";
 import VideoMarkersTable from "./VideoMarkersTable";
 
 const buttonStyle = isPhone => {
@@ -101,12 +102,7 @@ class PlaybackVideoPrimary extends React.Component {
                 justifyContent: "flex-end"
               }}
             >
-              <Slider
-                style={{
-                  width: "100%",
-                  height: 44
-                }}
-              />
+              <VolumeSlider style={{ width: "100%", height: 44 }} />
               <Text
                 style={{
                   position: "absolute",
@@ -258,56 +254,56 @@ class PlaybackVideoPrimary extends React.Component {
         )}
 
         {isFullscreen &&
-        areControlsVisible && (
-          <View
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              flex: -1,
-              width: "100%",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              backgroundColor: "rgba(255, 255, 255, 0.85)"
-            }}
-          >
-            <TouchableOpacity style={{ flex: -1 }} onPress={onFullscreen}>
-              <Text
-                style={{
-                  marginLeft: 20,
-                  marginVertical: isPhone ? 6 : 12,
-                  fontSize: isPhone ? 14 : 18,
-                  fontWeight: "800"
-                }}
-              >
-                Done
-              </Text>
-            </TouchableOpacity>
-
-            <Text
+          areControlsVisible && (
+            <View
               style={{
-                flex: 1,
+                position: "absolute",
+                top: 0,
+                left: 0,
+                flex: -1,
                 width: "100%",
-                marginVertical: isPhone ? 6 : 12,
-                fontSize: isPhone ? 14 : 18,
-                fontWeight: "400",
-                textAlign: "center"
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                backgroundColor: "rgba(255, 255, 255, 0.85)"
               }}
             >
-              {videoTitle}
-            </Text>
+              <TouchableOpacity style={{ flex: -1 }} onPress={onFullscreen}>
+                <Text
+                  style={{
+                    marginLeft: 20,
+                    marginVertical: isPhone ? 6 : 12,
+                    fontSize: isPhone ? 14 : 18,
+                    fontWeight: "800"
+                  }}
+                >
+                  Done
+                </Text>
+              </TouchableOpacity>
 
-            <BtnHeart
-              style={{
-                width: isPhone ? 34 : 40,
-                height: isPhone ? 34 : 40,
-                marginRight: 10
-              }}
-              mediaId={mediaId}
-            />
-          </View>
-        )}
+              <Text
+                style={{
+                  flex: 1,
+                  width: "100%",
+                  marginVertical: isPhone ? 6 : 12,
+                  fontSize: isPhone ? 14 : 18,
+                  fontWeight: "400",
+                  textAlign: "center"
+                }}
+              >
+                {videoTitle}
+              </Text>
+
+              <BtnHeart
+                style={{
+                  width: isPhone ? 34 : 40,
+                  height: isPhone ? 34 : 40,
+                  marginRight: 10
+                }}
+                mediaId={mediaId}
+              />
+            </View>
+          )}
       </View>
     );
   }

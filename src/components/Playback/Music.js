@@ -49,13 +49,6 @@ class Music extends React.Component {
         this.songSound.setCurrentTime(newProps.seek);
       }
     }
-
-    // new volume
-    if (newProps.volume !== this.props.volume) {
-      if (this.songSound) {
-        this.songSound.setSystemVolume(newProps.volume);
-      }
-    }
   }
 
   setPlaying = isPlaying => {
@@ -116,10 +109,6 @@ class Music extends React.Component {
         }
       });
 
-      this.songSound.getSystemVolume((val, volume) => {
-        this.props.onGetVolume(volume);
-      });
-
       this.props.on;
     }
   };
@@ -130,10 +119,8 @@ Music.propTypes = {
   isPlaying: PropTypes.bool,
   song: PropTypes.object,
   seek: PropTypes.number,
-  volume: PropTypes.number,
   onProgress: PropTypes.func.isRequired,
-  onData: PropTypes.func.isRequired,
-  onGetVolume: PropTypes.func.isRequired
+  onData: PropTypes.func.isRequired
 };
 
 export default Music;
