@@ -6,9 +6,16 @@ import {
   downloadMedia
 } from "./sagas-media";
 import { GetMediaButtonMode } from "./models/Media";
+import { setDownload } from "./models/Downloads";
 import * as actions from "./redux/actions";
 
-const getDownloadedMedia = () => select(state => state.get("downloadedMedia"));
+function* getDownloadedMedia(mediaId) {
+  const dlMedia = yield select(state => state.get("downloadedMedia"));
+  console.debug(`downloaded media:`);
+  console.debug(dlMedia.toJS());
+  return dlMedia.get(mediaId);
+}
+
 const getDownloadProgress = mediaId =>
   select(state => state.get("downloadedMedia")).get(mediaId);
 
@@ -29,9 +36,19 @@ function* fetchAd(action) {
 
 function* watchChooseMedia(action) {
   const media = action.payload;
+  const mediaId = media.mediaID;
   const iabMediaId = media.mediaID.toLowerCase();
   console.debug(`watchChooseMedia: ${iabMediaId}`);
   console.debug(media);
+
+  // First, see if we have downloaded media.
+  // If so, play it!
+  const downloadedMedia = yield getDownloadedMedia(mediaId);
+  if (downloadedMedia !== undefined) {
+    console.debug("PLAY!");
+    yield put(actions.setCurrentMedia(mediaId));
+    return;
+  }
 
   // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
   yield put({
@@ -59,8 +76,8 @@ function* watchChooseMedia(action) {
       console.debug("do download!");
       const songFiles = yield downloadMedia(media);
       console.debug({ songFiles });
-      // const downloadedMedia = yield getDownloadedMedia();
-      console.debug(downloadedMedia.toJS());
+      const success = yield setDownload(mediaId, songFiles);
+      // console.debug(downloadedMedia.toJS());
       break;
     case GetMediaButtonMode.Downloading:
       break;

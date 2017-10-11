@@ -30,6 +30,7 @@ import {
 import { productDetails, productDetailsHaveLoaded } from "./products";
 import { purchasedMedia } from "./purchases";
 import { downloadProgress, downloadedMedia } from "./downloads";
+import { currentMedia } from "./current_media";
 
 const appReducer = combineReducers({
   ad,
@@ -62,7 +63,9 @@ const appReducer = combineReducers({
   purchasedMedia,
   // Downloads
   downloadProgress,
-  downloadedMedia
+  downloadedMedia,
+  // Current Media
+  currentMedia
 });
 
 export default appReducer;

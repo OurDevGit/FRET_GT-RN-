@@ -7,3 +7,8 @@ export const finishDownload = payload => ({
   type: "FINISH_DOWNLOAD",
   payload
 });
+
+export const setDownloads = payload => ({
+  type: "SET_DOWNLOADS",
+  payload
+});
