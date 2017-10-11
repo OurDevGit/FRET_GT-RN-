@@ -4,17 +4,13 @@ import {
   makePurchase,
   getPurchasedTransactionDetails
 } from "./models/Products";
+import { fetchMediaLinks } from "./api";
 
-const doPurchase = async media => {
-  // console.debug(media);
-  const mediaId = media.mediaID.toLowerCase();
+import { downloadSong } from "./DownloadManager";
 
+export const doPurchase = async mediaId => {
   const purchaseSuccess = await makePurchase(mediaId);
-
-  if (purchaseSuccess === true) {
-    this.props.addPurchasedMedia(mediaId);
-    console.debug(`added purchased ${mediaId}`);
-  }
+  return purchaseSuccess;
 };
 
 export const getTransactionDetails = async mediaId => {
@@ -26,18 +22,14 @@ export const getTransactionDetails = async mediaId => {
   }
 };
 
-const downloadMedia = async media => {
-  const mediaId = media.mediaID.toLowerCase();
-  const files = this.props.downloadedMedia[mediaId];
+export const downloadMedia = async (media, transactionDetails) => {
+  // const mediaId = media.mediaID.toLowerCase();
 
-  if (files === undefined) {
-    const paths = await downloadSong(
-      "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.m4a",
-      "http://guitar-tunes-open.s3.amazonaws.com/TEST_RICK/1979/song.mid",
-      media.mediaID
-    );
-    // console.debug(paths);
-  } else {
-    console.debug({ files });
-  }
+  const links = await fetchMediaLinks(media.mediaID, transactionDetails);
+  console.debug(`got links!`);
+  console.debug(links);
+
+  const paths = await downloadSong(links, media.mediaID);
+  return paths;
+  // console.debug(paths);
 };

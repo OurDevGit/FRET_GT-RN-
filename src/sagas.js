@@ -1,9 +1,16 @@
 import { call, put, takeEvery, takeLatest, select } from "redux-saga/effects";
 import * as Api from "./api";
-import { getTransactionDetails } from "./sagas-media";
+import {
+  getTransactionDetails,
+  doPurchase,
+  downloadMedia
+} from "./sagas-media";
 import { GetMediaButtonMode } from "./models/Media";
+import * as actions from "./redux/actions";
 
-const getState = state => state;
+const getDownloadedMedia = () => select(state => state.get("downloadedMedia"));
+const getDownloadProgress = mediaId =>
+  select(state => state.get("downloadedMedia")).get(mediaId);
 
 function* fetchAd(action) {
   // console.log(`fetchAd!`)
@@ -24,7 +31,7 @@ function* watchChooseMedia(action) {
   const media = action.payload;
   const iabMediaId = media.mediaID.toLowerCase();
   console.debug(`watchChooseMedia: ${iabMediaId}`);
-  console.debug(media.getMode);
+  console.debug(media);
 
   // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
   yield put({
@@ -34,30 +41,38 @@ function* watchChooseMedia(action) {
     }
   });
 
-  const state = yield select(getState);
-  console.debug(state.toJS());
+  // const state = yield select(state => state);
+  // console.debug(state.toJS());
 
   const transactionDetails = yield getTransactionDetails(iabMediaId);
   console.debug({ transactionDetails });
 
-  // switch (media.getMode) {
-  //   case GetMediaButtonMode.Purchase:
-  //     yield doPurchase(media);
-  //     break;
-  //   case GetMediaButtonMode.Download:
-  //     yield downloadMedia(media);
-  //     break;
-  //   case GetMediaButtonMode.Downloading:
-  //     break;
-  //   case GetMediaButtonMode.ComingSoon:
-  //     break;
-  //   case GetMediaButtonMode.Indetermindate:
-  //     break;
-  //   case GetMediaButtonMode.Play:
-  //     break;
-  //   default:
-  //     break;
-  // }
+  switch (media.getMode) {
+    case GetMediaButtonMode.Purchase:
+      const purchaseSuccess = yield doPurchase(media);
+      if (purchaseSuccess === true) {
+        yield put(actions.addPurchasedMedia(mediaId));
+        console.debug(`added purchased ${mediaId}`);
+      }
+      break;
+    case GetMediaButtonMode.Download:
+      console.debug("do download!");
+      const songFiles = yield downloadMedia(media);
+      console.debug({ songFiles });
+      // const downloadedMedia = yield getDownloadedMedia();
+      console.debug(downloadedMedia.toJS());
+      break;
+    case GetMediaButtonMode.Downloading:
+      break;
+    case GetMediaButtonMode.ComingSoon:
+      break;
+    case GetMediaButtonMode.Indetermindate:
+      break;
+    case GetMediaButtonMode.Play:
+      break;
+    default:
+      break;
+  }
 }
 
 function* mySaga() {

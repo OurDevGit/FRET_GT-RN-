@@ -1,5 +1,5 @@
 import { makeStore } from "./StorageFactory";
-import { guid } from "./utils";
+import { guid } from "../utils";
 
 const Loops = makeStore("Loops");
 
