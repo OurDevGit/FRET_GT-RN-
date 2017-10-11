@@ -73,7 +73,7 @@ class Root extends Component {
 
           {this.state.showAd &&
             trackCount < 4 && (
-              <View style={{ position: "absolute", right: 5, top: 5 }}>
+              <View style={{ position: "absolute", right: 30, top: 5 }}>
                 {!this.state.isShowingStore && (
                   <BtnLibrary
                     style={{
