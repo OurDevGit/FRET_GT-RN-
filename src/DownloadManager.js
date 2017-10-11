@@ -1,6 +1,7 @@
 import RNFetchBlob from "react-native-fetch-blob";
 import { downloadProgress, finishDownload } from "./redux/actions";
 import { setDownload } from "./models/Downloads";
+import { guid } from "./models/utils";
 
 // const android = RNFetchBlob.android;
 const dirs = RNFetchBlob.fs.dirs;
@@ -14,9 +15,8 @@ let _dispatchFinish = () => {
 };
 
 const downloadFile = url => {
-  const path = `${dirs.MainBundleDir}/Media/${Math.random()
-    .toString()
-    .slice(2)}`;
+  const randFilename = guid();
+  const path = `${dirs.MainBundleDir}/Media/${randFilename}`;
 
   return RNFetchBlob.config({
     path
@@ -38,7 +38,32 @@ const downloadFile = url => {
   }).fetch("GET", url, { "Transfer-Encoding": "Chunked" });
 };
 
-export const downloadSong = async (song, midi, mediaId) => {
+const findExt = (files, targetExt) => {
+  var foundFile = null;
+  files.forEach(file => {
+    const url = file.url;
+    const parts = url.split(".");
+    const last = parts[parts.length - 1];
+    const ext = last.split("?")[0];
+
+    if (ext.toLowerCase() === targetExt.toLowerCase()) {
+      foundFile = file;
+    }
+  });
+
+  return foundFile;
+};
+
+export const downloadSong = async (files, mediaId) => {
+  const song = findExt(files, "m4a");
+  const midi = findExt(files, "mid");
+
+  console.debug({ song });
+  console.debug({ midi });
+
+  const songURL = song.url;
+  const midiURL = midi.url;
+
   return new Promise((resolve, reject) => {
     let songTotal = 0;
     let midiTotal = 0;
@@ -72,7 +97,7 @@ export const downloadSong = async (song, midi, mediaId) => {
       }
     };
 
-    downloadFile(song)
+    downloadFile(songURL)
       .progress({ interval: 250 }, (received, total) => {
         songReceived = received;
         songTotal = total;
@@ -84,7 +109,7 @@ export const downloadSong = async (song, midi, mediaId) => {
         finish();
       });
 
-    downloadFile(midi)
+    downloadFile(midiURL)
       .progress({ interval: 250 }, (received, total) => {
         midiReceived = received;
         midiTotal = total;
