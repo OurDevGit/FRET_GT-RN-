@@ -9,7 +9,7 @@ var _productDetailsById = null;
 const openBilling = async () => {
   // if billing is open, resolve right away
   if (_billingIsOpen === true) {
-    console.debug("billing is already open");
+    // console.debug("billing is already open");
     return Promise.resolve();
   } else {
     // create a promise for this caller to wait on
@@ -46,7 +46,7 @@ const closeBilling = async () => {
 };
 
 export const loadPurchases = async () => {
-  console.debug("loadPurchases()");
+  // console.debug("loadPurchases()");
 
   await openBilling();
 
@@ -60,7 +60,7 @@ export const loadPurchases = async () => {
 };
 
 export const getProductDetails = async mediaIds => {
-  console.debug("getProductDetails()");
+  // console.debug("getProductDetails()");
   // console.debug(mediaIds);
 
   // return the cached version

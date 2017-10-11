@@ -11,8 +11,8 @@ import * as actions from "./redux/actions";
 
 function* getDownloadedMedia(mediaId) {
   const dlMedia = yield select(state => state.get("downloadedMedia"));
-  console.debug(`downloaded media:`);
-  console.debug(dlMedia.toJS());
+  // console.debug(`downloaded media:`);
+  // console.debug(dlMedia.toJS());
   return dlMedia.get(mediaId);
 }
 
@@ -38,8 +38,6 @@ function* watchChooseMedia(action) {
   const media = action.payload;
   const mediaId = media.mediaID;
   const iabMediaId = media.mediaID.toLowerCase();
-  console.debug(`watchChooseMedia: ${iabMediaId}`);
-  console.debug(media);
 
   // First, see if we have downloaded media.
   // If so, play it!

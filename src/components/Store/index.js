@@ -138,9 +138,6 @@ class Store extends Component {
   };
 
   handleChooseMedia = async media => {
-    console.debug(`chose media: ${media.title}`);
-    console.debug(media);
-
     this.props.chooseMedia(media);
   };
 
