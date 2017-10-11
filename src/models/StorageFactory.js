@@ -1,15 +1,16 @@
 import { AsyncStorage } from "react-native";
-import { toPairs, mapKeys, mapValues } from "lodash";
+import { toPairs, fromPairs, mapKeys, mapValues } from "lodash";
 
 const makeNamespacedKey = (name, key) => `@${name}:${key}`;
+const unNamespaceKey = (name, key) => key.slice(name.length + 2);
 
-export const makeStore = name => {
+export const makeStore = storeName => {
   return {
     // set a single object
     setObj: async (key, val) => {
       try {
         return await AsyncStorage.setItem(
-          makeNamespacedKey(name, key),
+          makeNamespacedKey(storeName, key),
           JSON.stringify(val)
         );
       } catch (error) {
@@ -22,7 +23,7 @@ export const makeStore = name => {
     getObj: async key => {
       try {
         let itemString = await AsyncStorage.getItem(
-          makeNamespacedKey(name, key)
+          makeNamespacedKey(storeName, key)
         );
         return JSON.parse(itemString);
       } catch (error) {
@@ -31,10 +32,29 @@ export const makeStore = name => {
       }
     },
 
+    // get multiple objects
+    getObjs: async keys => {
+      try {
+        const namespacedKeys = keys.map(key =>
+          makeNamespacedKey(storeName, key)
+        );
+        const objs = await AsyncStorage.multiGet(namespacedKeys);
+        const keyValsNamespaced = fromPairs(objs);
+        const keyValsPlainKeys = mapKeys(keyValsNamespaced, (val, key) =>
+          unNamespaceKey(storeName, key)
+        );
+        const keyVals = mapValues(keyValsPlainKeys, val => JSON.parse(val));
+        return keyVals;
+      } catch (error) {
+        console.error(error);
+        return [];
+      }
+    },
+
     // set multiple objects
     setObjs: async keyValMap => {
       const namespaced = mapKeys(keyValMap, (v, k) =>
-        makeNamespacedKey(name, k)
+        makeNamespacedKey(storeName, k)
       );
       const stringified = mapValues(namespaced, val => JSON.stringify(val));
       const pairs = toPairs(stringified);
@@ -43,6 +63,22 @@ export const makeStore = name => {
         return await AsyncStorage.multiSet(pairs);
       } catch (error) {
         return null;
+      }
+    },
+
+    getAllKeys: async () => {
+      try {
+        const allKeys = await AsyncStorage.getAllKeys();
+        const myAllKeys = allKeys.filter(
+          key => key.indexOf(`@${storeName}`) === 0
+        );
+        const withoutNamespace = myAllKeys.map(key =>
+          key.slice(storeName.length + 2)
+        );
+        console.debug({ withoutNamespace });
+        return withoutNamespace;
+      } catch (error) {
+        console.error(error);
       }
     }
   };

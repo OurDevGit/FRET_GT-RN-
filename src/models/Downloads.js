@@ -6,6 +6,13 @@ export const getDownload = mediaId => {
   return Downloads.getObj(mediaId);
 };
 
+export const getAllDownloads = async () => {
+  const allKeys = await Downloads.getAllKeys();
+  const allObjs = await Downloads.getObjs(allKeys);
+
+  return allObjs;
+};
+
 export const setDownload = async (mediaId, paths) => {
   try {
     await Downloads.setObj(mediaId, paths);

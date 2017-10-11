@@ -11,6 +11,9 @@ export const downloadProgress = (state = Map(), action) => {
 
 export const downloadedMedia = (state = Map(), action) => {
   switch (action.type) {
+    case "SET_DOWNLOADS":
+      const mapped = Map(action.payload);
+      return mapped;
     case "FINISH_DOWNLOAD":
       console.debug("reducing finished dl");
       console.debug({ action });

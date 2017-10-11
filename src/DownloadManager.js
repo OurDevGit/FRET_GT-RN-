@@ -1,6 +1,10 @@
 import RNFetchBlob from "react-native-fetch-blob";
-import { downloadProgress, finishDownload } from "./redux/actions";
-import { setDownload } from "./models/Downloads";
+import {
+  downloadProgress,
+  finishDownload,
+  setDownloads
+} from "./redux/actions";
+import { setDownload, getAllDownloads } from "./models/Downloads";
 import { guid } from "./utils";
 
 // const android = RNFetchBlob.android;
@@ -129,7 +133,7 @@ export const downloadSong = async (files, mediaId) => {
   });
 };
 
-export const configureDownloadManager = store => {
+export const configureDownloadManager = async store => {
   _dispatchProgress = progressMap => {
     store.dispatch(downloadProgress(progressMap));
   };
@@ -137,6 +141,9 @@ export const configureDownloadManager = store => {
   _dispatchFinish = fileMap => {
     store.dispatch(finishDownload(fileMap));
   };
+
+  const allDownloads = await getAllDownloads();
+  store.dispatch(setDownloads(allDownloads));
 
   console.debug("DL manager is configured");
 };
