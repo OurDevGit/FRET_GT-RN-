@@ -96,6 +96,17 @@ class Root extends Component {
     );
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    // hide the store when selecting new Current Media
+    if (this.props.currentMedia !== null) {
+      if (prevProps.currentMedia !== this.props.currentMedia) {
+        this.setState({
+          isShowingStore: false
+        });
+      }
+    }
+  }
+
   handleToggleLibrary = () => {
     if (_doTestLibrary) {
       this.setState({
@@ -153,6 +164,7 @@ class Root extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    currentMedia: state.get("currentMedia"),
     trackCount: state.get("visibleTracks").count()
   };
 };

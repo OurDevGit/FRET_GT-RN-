@@ -8,3 +8,4 @@ export * from "./products";
 export * from "./purchases";
 export * from "./downloads";
 export * from "./media";
+export * from "./current_media";

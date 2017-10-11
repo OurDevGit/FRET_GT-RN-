@@ -46,6 +46,7 @@ function* watchChooseMedia(action) {
   const downloadedMedia = yield getDownloadedMedia(mediaId);
   if (downloadedMedia !== undefined) {
     console.debug("PLAY!");
+    yield put(actions.setCurrentMedia(mediaId));
     return;
   }
 
