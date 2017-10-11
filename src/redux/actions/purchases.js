@@ -1,6 +1,6 @@
-export const addPurchasedMedia = payload => ({
+export const addPurchasedMedia = mediaId => ({
   type: "ADD_PURCHASED_MEDIA",
-  payload
+  payload: mediaId
 });
 
 export const setPurchasedMedia = payload => ({
