@@ -4,12 +4,12 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
-import { syncStore } from "../../Store";
 import { addPurchase, getIsPurchased } from "../../models/Purchases";
 import { getProductDetails, loadPurchases } from "../../models/Products";
 import { downloadSong } from "../../DownloadManager";
 
 import { GetMediaButtonMode } from "../../models/Media";
+import { getStore } from "../../models/Store";
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
@@ -63,19 +63,19 @@ class Store extends Component {
     );
   }
 
+  async componentWillMount() {
+    // load the Store data from storage
+    const storeObjects = await getStore();
+    this.props.storeLoaded(storeObjects);
+  }
+
   async componentDidMount() {
     // sync with the backend
-    const storeObjects = await syncStore();
-    this.props.storeLoaded(storeObjects); // dispatch
+    this.props.refreshStore();
 
     // load which products we own from Google
     const purchasedMedia = await loadPurchases();
     this.props.setPurchasedMedia(purchasedMedia);
-
-    // get the latest info from Google Play In-App Products
-    const mediaIds = Object.keys(storeObjects.mediaById);
-    const productDetails = await getProductDetails(mediaIds);
-    this.props.productDetailsLoaded(productDetails); // dispatch
   }
 
   componentWillReceiveProps(newProps) {
@@ -153,7 +153,7 @@ const mapQueriesToProps = (realm, ownProps) => {
 };
 
 const mapStateToProps = state => {
-  // console.debug("mapping state to props in Store/index");
+  console.debug("mapping state to props in Store/index");
   const cats = state.get("categories");
 
   return {

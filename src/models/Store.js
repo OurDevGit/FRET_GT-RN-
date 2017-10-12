@@ -56,4 +56,17 @@ export const setStore = async store => {
   // console.debug(await Store.getObj("categories"));
 };
 
+export const getStore = async () => {
+  const storeObjects = await Store.getObjs([
+    "categories",
+    "subCategoriesByCategoryId",
+    "groupsBySubCategoryId",
+    "mediaByListId",
+    "mediaById",
+    "storeSorting"
+  ]);
+
+  return storeObjects;
+};
+
 export default Store;

@@ -75,7 +75,6 @@ export const makeStore = storeName => {
         const withoutNamespace = myAllKeys.map(key =>
           key.slice(storeName.length + 2)
         );
-        console.debug({ withoutNamespace });
         return withoutNamespace;
       } catch (error) {
         console.error(error);
