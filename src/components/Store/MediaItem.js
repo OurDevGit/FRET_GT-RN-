@@ -27,10 +27,14 @@ class MediaItem extends PureComponent {
           </View>
           <MediaDetails
             isVisible={this.state.isShowingDetails}
+            hasFiles={true}
             artworkURL={this.props.artworkURL}
             title={this.props.title}
             subtitle={this.props.subtitle}
+            details={this.props.details}
             onClose={() => this.setState({ isShowingDetails: false })}
+            onRemoveFiles={() =>
+              console.debug(`remove files for ${this.props.title}`)}
           />
           <BtnDetails
             onPress={() => {

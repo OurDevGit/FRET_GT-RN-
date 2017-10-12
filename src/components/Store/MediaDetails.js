@@ -1,4 +1,5 @@
 import React, { PureComponent } from "react";
+import PropTypes from "prop-types";
 import {
   View,
   Text,
@@ -10,10 +11,19 @@ import {
   ScrollView
 } from "react-native";
 
-import { PrimaryGold } from "../../design";
+import { PrimaryGold, Danger } from "../../design";
 import { FlatButton } from "../Material";
 
-const MediaDetails = ({ isVisible, artworkURL, title, subtitle, onClose }) => (
+const MediaDetails = ({
+  isVisible,
+  artworkURL,
+  title,
+  subtitle,
+  details,
+  hasFiles,
+  onClose,
+  onRemoveFiles
+}) => (
   <Modal
     animationType="fade"
     transparent={true}
@@ -33,35 +43,7 @@ const MediaDetails = ({ isVisible, artworkURL, title, subtitle, onClose }) => (
             </View>
           </View>
           <ScrollView style={{ height: 1 }}>
-            <Text>
-              Here's a bunch of body text! Here's a bunch of body text! Here's a
-              bunch of body text! Here's a bunch of body text! Here's a bunch of
-              body text! Here's a bunch of body text! Here's a bunch of body
-              text! Here's a bunch of body text! Here's a bunch of body text!
-              Here's a bunch of body text! Here's a bunch of body text! Here's a
-              bunch of body text! Here's a bunch of body text! Here's a bunch of
-              body text! Here's a bunch of body text! Here's a bunch of body
-              text! Here's a bunch of body text! Here's a bunch of body text!
-              Here's a bunch of body text! Here's a bunch of body text! Here's a
-              bunch of body text! Here's a bunch of body text! Here's a bunch of
-              body text! Here's a bunch of body text! Here's a bunch of body
-              text! Here's a bunch of body text! Here's a bunch of body text!
-              Here's a bunch of body text! Here's a bunch of body text! Here's a
-              bunch of body text! Here's a bunch of body text! Here's a bunch of
-              body text! Here's a bunch of body text! Here's a bunch of body
-              text! Here's a bunch of body text! Here's a bunch of body text!
-              Here's a bunch of body text! Here's a bunch of body text! Here's a
-              bunch of body text! Here's a bunch of body text! Here's a bunch of
-              body text! Here's a bunch of body text! Here's a bunch of body
-              text! Here's a bunch of body text! Here's a bunch of body text!
-              Here's a bunch of body text! Here's a bunch of body text! Here's a
-              bunch of body text! Here's a bunch of body text! Here's a bunch of
-              body text! Here's a bunch of body text! Here's a bunch of body
-              text! Here's a bunch of body text! Here's a bunch of body text!
-              Here's a bunch of body text! Here's a bunch of body text! Here's a
-              bunch of body text! Here's a bunch of body text! Here's a bunch of
-              body text! Here's a bunch of body text!
-            </Text>
+            <Text>{details}</Text>
           </ScrollView>
         </View>
         <View
@@ -72,6 +54,12 @@ const MediaDetails = ({ isVisible, artworkURL, title, subtitle, onClose }) => (
             borderTopWidth: 1
           }}
         >
+          <FlatButton
+            title="Remove Files"
+            style={{ color: Danger }}
+            onPress={onRemoveFiles}
+          />
+
           <FlatButton
             title="Close"
             style={{ color: PrimaryGold }}
@@ -125,5 +113,16 @@ const styles = StyleSheet.create({
     // backgroundColor: "blue"
   }
 });
+
+MediaDetails.propTypes = {
+  isVisible: PropTypes.bool.isRequired,
+  hasFiles: PropTypes.bool.isRequired,
+  artworkURL: PropTypes.string,
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  details: PropTypes.string,
+  onClose: PropTypes.func.isRequired,
+  onRemoveFiles: PropTypes.func.isRequired
+};
 
 export default MediaDetails;
