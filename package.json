@@ -32,7 +32,6 @@
     "react-native-sound": "big-swing/react-native-sound",
     "react-native-tab-view": "0.0.69",
     "react-native-video": "^2.0.0",
-    "react-native-volume-controller": "^1.1.6",
     "react-redux": "^5.0.5",
     "recompose": "^0.25.1",
     "redux": "^3.6.0",

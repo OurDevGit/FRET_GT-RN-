@@ -38,7 +38,6 @@
 		B597C354883D499B9CCBD9FB /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F73AF6C0B2384FBA8171E403 /* libRNFetchBlob.a */; };
 		49586F6D5222476B8FE84B86 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33503853203940F9A176D74C /* libRNSound.a */; };
 		AB79C92AC3804036B4B05225 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7496B0D12EE5402984E23648 /* libRCTVideo.a */; };
-		037305354434448B8B05A150 /* libReactNativeVolumeController.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B5678EE80E2D4086A47C8694 /* libReactNativeVolumeController.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -264,8 +263,6 @@
 		33503853203940F9A176D74C /* libRNSound.a */ = {isa = PBXFileReference; name = "libRNSound.a"; path = "libRNSound.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		D7C6FCBA9885468F9E81DF48 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; name = "RCTVideo.xcodeproj"; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		7496B0D12EE5402984E23648 /* libRCTVideo.a */ = {isa = PBXFileReference; name = "libRCTVideo.a"; path = "libRCTVideo.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		D85A031329904CF58D6B8B5A /* ReactNativeVolumeController.xcodeproj */ = {isa = PBXFileReference; name = "ReactNativeVolumeController.xcodeproj"; path = "../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		B5678EE80E2D4086A47C8694 /* libReactNativeVolumeController.a */ = {isa = PBXFileReference; name = "libReactNativeVolumeController.a"; path = "libReactNativeVolumeController.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -295,7 +292,6 @@
 				B597C354883D499B9CCBD9FB /* libRNFetchBlob.a in Frameworks */,
 				49586F6D5222476B8FE84B86 /* libRNSound.a in Frameworks */,
 				AB79C92AC3804036B4B05225 /* libRCTVideo.a in Frameworks */,
-				037305354434448B8B05A150 /* libReactNativeVolumeController.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,7 +461,6 @@
 				F9084DE7968249C292D05194 /* RNFetchBlob.xcodeproj */,
 				872EED099A184C2EB69C7714 /* RNSound.xcodeproj */,
 				D7C6FCBA9885468F9E81DF48 /* RCTVideo.xcodeproj */,
-				D85A031329904CF58D6B8B5A /* ReactNativeVolumeController.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1008,7 +1003,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
 			name = Debug;
@@ -1035,7 +1029,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
 			name = Release;
@@ -1060,7 +1053,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
 			name = Debug;
@@ -1084,7 +1076,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
 			name = Release;
@@ -1120,7 +1111,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
 			name = Debug;
@@ -1156,7 +1146,6 @@
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
-					"$(SRCROOT)/../node_modules/react-native-volume-controller/ios/ReactNativeVolumeController",
 				);
 			};
 			name = Release;
