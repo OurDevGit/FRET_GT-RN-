@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
 import Fretboard from "./Fretboard";
+import PageControl from "./PageControl";
 
 const keyExtractor = (item, index) => index;
 const emptyTrack = { name: undefined, isBass: false };
@@ -29,6 +30,9 @@ class HorizontalContainer extends React.Component {
             horizontal
             pagingEnabled
             directionalLockEnabled
+            ref={ref => {
+              this.flatList = ref;
+            }}
             removeClippedSubviews={false}
             initialNumToRender={1}
             keyExtractor={keyExtractor}
@@ -60,21 +64,26 @@ class HorizontalContainer extends React.Component {
           />
         </View>
 
-        {/* 
-
-TODO: implement our own page control (this one was causing crahes)
-
         <PageControl
-          style={{ position: "absolute", left: 0, right: 0, bottom: 7 }}
-          numberOfPages={this.props.tracks.count()}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            bottom: 7
+          }}
+          indicatorStyle={{
+            marginLeft: 5,
+            marginRight: 5,
+            width: 8,
+            height: 8,
+            borderRadius: 5
+          }}
+          count={this.props.tracks.count()}
           currentPage={this.props.currentPage}
-          hidesForSinglePage={true}
-          pageIndicatorTintColor="gray"
-          currentPageIndicatorTintColor="white"
-          indicatorStyle={{ borderRadius: 5 }}
-          currentIndicatorStyle={{ borderRadius: 5 }}
-          indicatorSize={{ width: 8, height: 8 }}
-        /> */}
+          offColor="gray"
+          onColor="white"
+          onPage={this.handlePage.bind(this)}
+        />
       </View>
     );
   }
@@ -95,6 +104,11 @@ TODO: implement our own page control (this one was causing crahes)
       width: e.nativeEvent.layout.width
     });
   }
+
+  handlePage(page) {
+    this.props.onPage(page);
+    this.flatList.scrollToIndex({ animated: true, index: page });
+  }
 }
 
 HorizontalContainer.propTypes = {
@@ -103,7 +117,8 @@ HorizontalContainer.propTypes = {
   deviceWidth: PropTypes.number.isRequired,
   tracks: PropTypes.object.isRequired,
   currentPage: PropTypes.number.isRequired,
-  onScrollEnd: PropTypes.func.isRequired
+  onScrollEnd: PropTypes.func.isRequired,
+  onPage: PropTypes.func.isRequired
 };
 
 export default HorizontalContainer;
