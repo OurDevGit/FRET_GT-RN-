@@ -34,7 +34,6 @@ const PageControl = ({
   offColor,
   onPage
 }) => {
-  console.log(currentPage);
   return (
     <View style={[styles.container, style]}>
       {count > 0 &&
