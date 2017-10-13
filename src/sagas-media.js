@@ -26,8 +26,8 @@ export const downloadMedia = async (media, transactionDetails) => {
   // const mediaId = media.mediaID.toLowerCase();
 
   const links = await fetchMediaLinks(media.mediaID, transactionDetails);
-  console.debug(`got links!`);
-  console.debug(links);
+  // console.debug(`got links!`);
+  // console.debug(links);
 
   const paths = await downloadSong(links, media.mediaID);
   return paths;

@@ -14,7 +14,7 @@ import { setStore } from "./models/Store";
 
 function* getDownloadedMedia(mediaId) {
   const files = yield select(getDownloadedMediaFiles, mediaId);
-  console.debug({ files });
+  // console.debug({ files });
   return files;
 }
 
@@ -82,9 +82,9 @@ function* watchChooseMedia(action) {
       break;
     case GetMediaButtonMode.Download:
       console.debug("do download!");
-      const songFiles = yield downloadMedia(media);
-      console.debug({ songFiles });
-      const success = yield setDownload(mediaId, songFiles);
+      const mediaFiles = yield downloadMedia(media);
+      console.debug({ mediaFiles });
+      const success = yield setDownload(mediaId, mediaFiles);
       // console.debug(downloadedMedia.toJS());
       break;
     case GetMediaButtonMode.Downloading:

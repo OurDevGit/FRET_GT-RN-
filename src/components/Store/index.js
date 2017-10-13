@@ -153,7 +153,7 @@ const mapQueriesToProps = (realm, ownProps) => {
 };
 
 const mapStateToProps = state => {
-  console.debug("mapping state to props in Store/index");
+  // console.debug("mapping state to props in Store/index");
   const cats = state.get("categories");
 
   return {

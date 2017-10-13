@@ -195,7 +195,7 @@ export const getMediaForPlay = (state, mediaId) => {
   }
 
   const media = {
-    audio: files.get("songPath"),
+    audio: files.get("mediaPath"),
     key: details.get("iTunesID"),
     id: details.get("iTunesID"),
     midi: files.get("midiPath"),
