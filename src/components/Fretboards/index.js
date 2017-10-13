@@ -39,13 +39,6 @@ class FretboardsRoot extends React.PureComponent {
       }
     }
 
-    boardTracks = List([
-      { name: "Guitar 1" },
-      { name: "Guitar 2" },
-      { name: "Guitar 3" },
-      { name: "Guitar 4" }
-    ]);
-
     var boardHeight = supportsMultipleFretboards
       ? deviceWidth * 0.17
       : isVideo ? deviceWidth * 0.18 : deviceWidth * 0.23;
