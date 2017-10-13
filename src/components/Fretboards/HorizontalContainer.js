@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
-import PageControl from "react-native-page-control";
 import Fretboard from "./Fretboard";
 
 const keyExtractor = (item, index) => index;
@@ -61,6 +60,10 @@ class HorizontalContainer extends React.Component {
           />
         </View>
 
+        {/* 
+
+TODO: implement our own page control (this one was causing crahes)
+
         <PageControl
           style={{ position: "absolute", left: 0, right: 0, bottom: 7 }}
           numberOfPages={this.props.tracks.count()}
@@ -71,7 +74,7 @@ class HorizontalContainer extends React.Component {
           indicatorStyle={{ borderRadius: 5 }}
           currentIndicatorStyle={{ borderRadius: 5 }}
           indicatorSize={{ width: 8, height: 8 }}
-        />
+        /> */}
       </View>
     );
   }

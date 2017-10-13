@@ -2,7 +2,6 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View } from "react-native";
-import PageControl from "react-native-page-control";
 import Fretboard from "./Fretboard";
 
 const keyExtractor = (item, index) => index;
