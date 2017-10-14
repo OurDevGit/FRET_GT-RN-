@@ -157,10 +157,10 @@ class TabbedMedia extends PureComponent {
       // const mediaIds = ["4_non_blondes_whats_up", "smashing_pumpkins_1979"];
 
       const currMedia = _.flatMap(this.props.media, m => _.toArray(m.data));
-      const currMediaIds = currMedia.map(o => o.mediaID.toLowerCase());
+      const currMediaIds = currMedia.map(o => o.mediaID);
 
       const nextMedia = _.flatMap(nextProps.media, m => _.toArray(m.data));
-      const nextMediaIds = nextMedia.map(o => o.mediaID.toLowerCase());
+      const nextMediaIds = nextMedia.map(o => o.mediaID);
 
       if (!_.isEqual(currMediaIds, nextMediaIds)) {
         // console.debug(mediaIds);

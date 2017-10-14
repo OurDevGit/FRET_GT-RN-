@@ -55,7 +55,7 @@ const MediaDetails = ({
           }}
         >
           <FlatButton
-            title="Remove Files"
+            title="Archive Files"
             style={{ color: Danger }}
             onPress={onRemoveFiles}
           />

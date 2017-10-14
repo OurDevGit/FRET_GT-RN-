@@ -1,11 +1,11 @@
-export const downloadProgress = payload => ({
+export const downloadProgress = (mediaId, progress) => ({
   type: "SET_DOWNLOAD_PROGRESS",
-  payload
+  payload: { [mediaId]: progress }
 });
 
-export const finishDownload = payload => ({
+export const finishDownload = (mediaId, details) => ({
   type: "FINISH_DOWNLOAD",
-  payload
+  payload: { mediaId, details }
 });
 
 export const setDownloads = payload => ({

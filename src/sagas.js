@@ -39,7 +39,6 @@ function* fetchAd(action) {
 function* watchChooseMedia(action) {
   const media = action.payload;
   const mediaId = media.mediaID;
-  const iabMediaId = media.mediaID.toLowerCase();
 
   // First, see if we have downloaded media.
   // If so, play it!
@@ -50,17 +49,12 @@ function* watchChooseMedia(action) {
   }
 
   // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
-  yield put({
-    type: "SET_DOWNLOAD_PROGRESS",
-    payload: {
-      [iabMediaId]: -1
-    }
-  });
+  yield put(actions.downloadProgress(mediaId, -1));
 
   // const state = yield select(state => state);
   // console.debug(state.toJS());
 
-  const transactionDetails = yield getTransactionDetails(iabMediaId);
+  const transactionDetails = yield getTransactionDetails(mediaId);
   console.debug({ transactionDetails });
 
   switch (media.getMode) {
@@ -71,12 +65,7 @@ function* watchChooseMedia(action) {
         console.debug(`added purchased ${mediaId}`);
       } else {
         // remove the indeterminate spinner state
-        yield put({
-          type: "SET_DOWNLOAD_PROGRESS",
-          payload: {
-            [iabMediaId]: undefined
-          }
-        });
+        yield put(actions.downloadProgress(mediaId, undefined));
       }
 
       break;
@@ -85,6 +74,7 @@ function* watchChooseMedia(action) {
       const mediaFiles = yield downloadMedia(media);
       console.debug({ mediaFiles });
       const success = yield setDownload(mediaId, mediaFiles);
+      yield put(actions.finishDownload(mediaId, mediaFiles));
       // console.debug(downloadedMedia.toJS());
       break;
     case GetMediaButtonMode.Downloading:

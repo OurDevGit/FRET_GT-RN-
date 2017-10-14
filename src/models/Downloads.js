@@ -13,9 +13,9 @@ export const getAllDownloads = async () => {
   return allObjs;
 };
 
-export const setDownload = async (mediaId, paths) => {
+export const setDownload = async (mediaId, details) => {
   try {
-    await Downloads.setObj(mediaId, paths);
+    await Downloads.setObj(mediaId, details);
     return true;
   } catch (error) {
     return false;

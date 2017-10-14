@@ -5,8 +5,7 @@ import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
 import { addPurchase, getIsPurchased } from "../../models/Purchases";
-import { getProductDetails, loadPurchases } from "../../models/Products";
-import { downloadSong } from "../../DownloadManager";
+import { loadPurchases } from "../../models/Products";
 
 import { GetMediaButtonMode } from "../../models/Media";
 import { getStore } from "../../models/Store";

@@ -84,24 +84,23 @@ const getDownloadProgress = (state, mediaId) => {
 
 const mergeProductDetails = (state, singleMedia) => {
   const productDetails = state.get("productDetails") || Map();
-  const mediaId = singleMedia.get("mediaID").toLowerCase();
+  const mediaId = singleMedia.get("mediaID");
 
   return singleMedia.set(
     "productDetails",
-    productDetails.get(mediaId) || Map({ priceText: "LOADING" })
+    productDetails.get(mediaId.toLowerCase()) || Map({ priceText: "LOADING" })
   );
 };
 
 const mergeGetMode = (state, singleMedia) => {
   const mediaId = singleMedia.get("mediaID");
-  const lcMediaId = mediaId.toLowerCase();
 
   // is purchased
   const purchasedMedia = state.get("purchasedMedia");
-  const isPurchased = purchasedMedia.has(lcMediaId);
+  const isPurchased = purchasedMedia.has(mediaId);
 
   // is downloading
-  const downloadProgress = getDownloadProgress(state, lcMediaId);
+  const downloadProgress = getDownloadProgress(state, mediaId);
   const isDownloading = downloadProgress !== undefined;
 
   // is downloaded

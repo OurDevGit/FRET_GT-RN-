@@ -104,7 +104,7 @@ export const getProductDetails = async mediaIds => {
 export const getPurchasedTransactionDetails = async mediaId => {
   await openBilling();
   const transactionStatus = await InAppBilling.getPurchaseTransactionDetails(
-    mediaId
+    mediaId.toLowerCase()
   );
   await closeBilling();
 
@@ -116,9 +116,10 @@ export const makePurchase = async mediaId => {
 
   var success = false;
   try {
-    const safeMediaId = mediaId.toLowerCase();
     const testId = "android.test.purchased";
-    const purchaseDetails = await InAppBilling.purchase(safeMediaId);
+    const purchaseDetails = await InAppBilling.purchase(
+      safeMediaId.toLowerCase()
+    );
     const transactionStatus = await InAppBilling.getPurchaseTransactionDetails(
       mediaId
     );

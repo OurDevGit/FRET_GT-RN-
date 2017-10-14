@@ -1,12 +1,11 @@
 import {
-  getProductDetails,
   loadPurchases,
   makePurchase,
   getPurchasedTransactionDetails
 } from "./models/Products";
 import { fetchMediaLinks } from "./api";
 
-import { downloadSong } from "./DownloadManager";
+import { downloadMediaFiles } from "./DownloadManager";
 
 export const doPurchase = async media => {
   const purchaseSuccess = await makePurchase(media.mediaID);
@@ -23,13 +22,13 @@ export const getTransactionDetails = async mediaId => {
 };
 
 export const downloadMedia = async (media, transactionDetails) => {
-  // const mediaId = media.mediaID.toLowerCase();
+  // const mediaId = media.mediaID;
 
   const links = await fetchMediaLinks(media.mediaID, transactionDetails);
   // console.debug(`got links!`);
   // console.debug(links);
 
-  const paths = await downloadSong(links, media.mediaID);
+  const paths = await downloadMediaFiles(links, media.mediaID);
   return paths;
   // console.debug(paths);
 };
