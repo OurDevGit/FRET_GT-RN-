@@ -74,6 +74,7 @@ class FretboardsRoot extends React.PureComponent {
             tracks={boardTracks}
             currentPage={this.state.selectedIndex}
             onScrollEnd={this.onScrollEnd.bind(this)}
+            onPage={this.handlePagePress.bind(this)}
           />
         )}
       </View>
@@ -86,6 +87,10 @@ class FretboardsRoot extends React.PureComponent {
 
     // Divide the horizontal offset by the width of the view to see which page is visible
     let page = Math.round(contentOffset.x / viewSize.width);
+    this.setState({ selectedIndex: page });
+  }
+
+  handlePagePress(page) {
     this.setState({ selectedIndex: page });
   }
 }
