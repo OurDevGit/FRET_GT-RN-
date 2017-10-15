@@ -5,7 +5,7 @@ import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
 import FretboardsContainer from "./Fretboards";
-import Library from "./Library";
+import TestLibrary from "./TestLibrary";
 import TrackSelector from "./TrackSelector";
 import { getDownload } from "../models/Downloads";
 import { getMediaForPlay } from "../redux/selectors";
@@ -19,7 +19,7 @@ import { BtnLibrary } from "./StyleKit";
 
 const testMedia = [...testVideos, ...testSongs];
 
-const _doTestLibrary = true;
+const _doTestLibrary = false;
 
 class Root extends Component {
   state = {
@@ -67,7 +67,7 @@ class Root extends Component {
             />
           )}
 
-          <Library
+          <TestLibrary
             isOpen={this.state.libIsOpen}
             onSelect={this.handleSelectMedia}
             media={testMedia}

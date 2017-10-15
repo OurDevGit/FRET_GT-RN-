@@ -3,7 +3,7 @@ import { View, FlatList, Text, Button } from "react-native";
 
 const width = 100;
 
-const Library = ({ isOpen, onSelect, media }) =>
+const TestLibrary = ({ isOpen, onSelect, media }) => (
   <View
     style={{
       backgroundColor: "#fff",
@@ -15,10 +15,12 @@ const Library = ({ isOpen, onSelect, media }) =>
     }}
   >
     <FlatList
-      data={media.map(song => Object.assign(song, { key: song.name }))}
-      renderItem={item =>
-        <Button title={item.item.name} onPress={() => onSelect(item.index)} />}
+      data={media.map(m => Object.assign(m, { key: m.name }))}
+      renderItem={item => (
+        <Button title={item.item.name} onPress={() => onSelect(item.index)} />
+      )}
     />
-  </View>;
+  </View>
+);
 
-export default Library;
+export default TestLibrary;
