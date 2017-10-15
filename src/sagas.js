@@ -39,14 +39,18 @@ function* fetchAd(action) {
 function* watchChooseMedia(action) {
   const media = action.payload;
   const mediaId = media.mediaID;
+  console.debug(`chose media: ${mediaId}`);
 
   // First, see if we have downloaded media.
   // If so, play it!
   const downloadedMedia = yield getDownloadedMedia(mediaId);
   if (downloadedMedia !== undefined) {
+    console.debug("we have this media, so we're going to play it now");
     yield put(actions.setCurrentMedia(mediaId));
     return;
   }
+
+  console.debug("we don't have that media...");
 
   // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
   yield put(actions.downloadProgress(mediaId, -1));
@@ -54,8 +58,20 @@ function* watchChooseMedia(action) {
   // const state = yield select(state => state);
   // console.debug(state.toJS());
 
+  console.debug("going to ask Google IAB if we've bought that media");
   const transactionDetails = yield getTransactionDetails(mediaId);
   console.debug({ transactionDetails });
+
+  if (transactionDetails.purchaseState === "PurchasedSuccessfully") {
+    console.debug("We own this. Downloading the media now.");
+    const mediaFiles = yield downloadMedia(media);
+    // console.debug({ mediaFiles });
+    const success = yield setDownload(mediaId, mediaFiles);
+    yield put(actions.finishDownload(mediaId, mediaFiles));
+    return;
+  }
+
+  console.debug("going into getMode switch");
 
   switch (media.getMode) {
     case GetMediaButtonMode.Purchase:

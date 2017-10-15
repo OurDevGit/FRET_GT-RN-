@@ -117,9 +117,7 @@ export const makePurchase = async mediaId => {
   var success = false;
   try {
     const testId = "android.test.purchased";
-    const purchaseDetails = await InAppBilling.purchase(
-      safeMediaId.toLowerCase()
-    );
+    const purchaseDetails = await InAppBilling.purchase(mediaId.toLowerCase());
     const transactionStatus = await InAppBilling.getPurchaseTransactionDetails(
       mediaId
     );

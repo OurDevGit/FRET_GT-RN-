@@ -33,8 +33,8 @@ class Song extends React.Component {
 
   render() {
     const mediaTitle =
-      this.props.song !== undefined ? this.props.song.name : "";
-    const mediaId = this.props.song !== undefined ? this.props.song.midi : "";
+      this.props.song !== undefined ? this.props.song.title : "";
+    const mediaId = this.props.song !== undefined ? this.props.song.id : "";
     const isCompact = this.props.height < 150;
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
@@ -61,7 +61,7 @@ class Song extends React.Component {
           onGetVolume={this.handleGetVolume}
         />
         <Midi
-          midi={this.props.song.midi}
+          midi={this.getMidi()}
           onData={this.props.updateMidiData}
           clearMidiData={this.props.clearMidiData}
           clearMidi={clearMidi}
@@ -183,6 +183,24 @@ class Song extends React.Component {
       </View>
     );
   }
+
+  // SONG PARSING
+  getMidi = () => {
+    var midiFile = null;
+
+    console.debug(this.props.song);
+
+    Object.keys(this.props.song.files).forEach(key => {
+      const ext = key.split(".")[1];
+      if (ext === "mid" || ext === "midi") {
+        midiFile = this.props.song.files[key];
+      }
+    });
+
+    return midiFile;
+  };
+
+  // getAudio
 
   // DATA METHODS
 

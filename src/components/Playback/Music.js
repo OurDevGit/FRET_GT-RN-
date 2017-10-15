@@ -24,8 +24,8 @@ class Music extends React.Component {
 
   componentWillReceiveProps(newProps) {
     // new song
-    const oldName = this.props.song !== undefined ? this.props.song.name : "";
-    const newName = newProps.song !== undefined ? newProps.song.name : "";
+    const oldName = this.props.song !== undefined ? this.props.song.title : "";
+    const newName = newProps.song !== undefined ? newProps.song.title : "";
 
     if (oldName !== newName) {
       this.resetSong(newProps.song);
@@ -51,6 +51,22 @@ class Music extends React.Component {
     }
   }
 
+  // SONG PARSING
+  getAudio = () => {
+    var audioFile = null;
+
+    console.debug(this.props.song);
+
+    Object.keys(this.props.song.files).forEach(key => {
+      const ext = key.split(".")[1];
+      if (ext === "m4a") {
+        audioFile = this.props.song.files[key];
+      }
+    });
+
+    return audioFile;
+  };
+
   setPlaying = isPlaying => {
     if (this.songSound) {
       if (isPlaying === true) {
@@ -71,7 +87,7 @@ class Music extends React.Component {
     }
 
     if (song) {
-      this.loadMusic(song.audio);
+      this.loadMusic(this.getAudio());
     }
   };
 

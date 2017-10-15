@@ -194,13 +194,13 @@ export const getMediaForPlay = (state, mediaId) => {
   }
 
   const media = {
-    audio: files.get("mediaPath"),
-    key: details.get("iTunesID"),
-    id: details.get("iTunesID"),
-    midi: files.get("midiPath"),
-    name: details.get("title"),
-    type: "song"
+    ...details.toJS(),
+    key: details.get("mediaID"),
+    id: details.get("mediaID"),
+    files: files.toJS()
   };
+
+  console.debug(media);
 
   return Map(media);
 };

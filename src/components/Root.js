@@ -102,15 +102,24 @@ class Root extends Component {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
       if (prevProps.currentMedia !== this.props.currentMedia) {
-        const song =
-          this.props.mediaForPlay.id !== undefined
-            ? this.props.mediaForPlay
-            : null;
+        if (this.props.mediaForPlay.id !== undefined) {
+          var song = null;
+          var video = null;
 
-        this.setState({
-          isShowingStore: false,
-          song
-        });
+          if (this.props.mediaForPlay.isSong === true) {
+            song = this.props.mediaForPlay;
+          } else if (this.props.mediaForPlay.isVideo === true) {
+            video = this.props.mediaForPlay;
+          }
+
+          const newState = {
+            isShowingStore: false,
+            song,
+            video
+          };
+          console.debug({ newState });
+          this.setState(newState);
+        }
       }
     }
   }
