@@ -35,7 +35,7 @@ class Vid extends React.Component {
 
   render() {
     const mediaTitle =
-      this.props.video !== undefined ? this.props.video.name : "";
+      this.props.video !== undefined ? this.props.video.title : "";
     const mediaId = this.props.video !== undefined ? this.props.video.id : "";
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
@@ -131,8 +131,25 @@ class Vid extends React.Component {
 
   // DATA METHODS
 
+  findConfigFile = files => {
+    var configFile = null;
+
+    Object.keys(files).forEach(key => {
+      const slashParts = key.split("/");
+      const filename = slashParts[slashParts.length - 1];
+      if (filename === "config.json") {
+        configFile = files[key];
+      }
+    });
+
+    return configFile;
+  };
+
   handleNewVideo = () => {
-    this.loadJSON("config.json");
+    console.debug(`handleNewVideo()`);
+    console.debug(this.props.video);
+    const configFile = this.findConfigFile(this.props.video.files);
+    this.loadJSON(configFile);
 
     if (this.state.videoUri !== RNFetchBlob.fs.asset("lesson.mp4")) {
       this.setState({
@@ -153,25 +170,28 @@ class Vid extends React.Component {
     console.error(err);
   };
 
-  loadJSON = fileName => {
+  loadJSON = path => {
+    console.debug(`loading ${path}`);
     this.handleDisplayControls();
-    const path = RNFetchBlob.fs.asset(fileName);
+    // const path = RNFetchBlob.fs.asset(fileName);
     RNFetchBlob.fs
       .readFile(path, "utf8")
       .then(json => {
-        const j = JSON.parse(json);
+        const configObject = JSON.parse(json);
 
-        this.props.setVideoChapters(j.chapters);
-        this.props.setVideoMidiFiles(j.midiTimes);
+        console.debug({ configObject });
 
-        const quickLoops = j.quickLoops.map(loop => {
+        this.props.setVideoChapters(configObject.chapters);
+        this.props.setVideoMidiFiles(configObject.midiTimes);
+
+        const quickLoops = configObject.quickLoops.map(loop => {
           return { name: loop.name, begin: loop.begin, end: loop.end };
         });
 
         this.resetDisplayTimer();
 
         this.setState({
-          title: j.name || "",
+          title: configObject.name || "",
           quickLoops: quickLoops
         });
       })
