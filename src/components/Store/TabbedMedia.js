@@ -125,6 +125,11 @@ class TabbedMedia extends PureComponent {
         price={item.productDetails.priceText}
         getMode={item.getMode}
         progress={item.downloadProgress}
+        onArchiveFiles={() => {
+          console.debug(`TabbedMedia onArchiveFiles()`);
+          console.debug(item);
+          this.props.onArchiveFiles(item);
+        }}
         onPress={() => {
           this.props.onChoose(item);
         }}

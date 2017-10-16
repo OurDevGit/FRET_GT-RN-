@@ -4,18 +4,7 @@ import { keyBy } from "lodash";
 import { makeStore } from "./StorageFactory";
 
 const Store = makeStore("Store");
-
-// const makeIdMap = (objects, idKey = "id") => {
-//   var byId = {};
-
-//   objects.forEach(o => {
-//     if (o.has) {
-//       byId[o[idKey]] = o;
-//     }
-//   });
-
-//   return byId;
-// };
+// const ProductDetails = makeStore("ProductDetails")
 
 export const setStore = async store => {
   const {
@@ -67,6 +56,16 @@ export const getStore = async () => {
   ]);
 
   return storeObjects;
+};
+
+export const setProductDetails = async productDetails => {
+  await Store.setObj("ProductDetails", productDetails);
+  return;
+};
+
+export const getProductDetails = async () => {
+  const pd = await Store.getObj("ProductDetails");
+  return pd;
 };
 
 export default Store;

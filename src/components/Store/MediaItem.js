@@ -33,8 +33,7 @@ class MediaItem extends PureComponent {
             subtitle={this.props.subtitle}
             details={this.props.details}
             onClose={() => this.setState({ isShowingDetails: false })}
-            onRemoveFiles={() =>
-              console.debug(`remove files for ${this.props.title}`)}
+            onArchiveFiles={this.props.onArchiveFiles}
           />
           <BtnDetails
             onPress={() => {

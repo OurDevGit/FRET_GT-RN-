@@ -21,3 +21,5 @@ export const setDownload = async (mediaId, details) => {
     return false;
   }
 };
+
+export const removeDownload = async mediaId => {};

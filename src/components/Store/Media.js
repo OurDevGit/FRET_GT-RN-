@@ -7,6 +7,7 @@ import { toJS } from "immutable";
 import Fuse from "fuse.js";
 import _ from "lodash";
 
+import * as actions from "../../redux/actions";
 import { selectMedia } from "../../redux/selectors";
 import { PrimaryGold } from "../../design";
 import { FlatButton } from "../Material";
@@ -61,6 +62,7 @@ class Media extends React.PureComponent {
           media={this.state.searchResults || this.props.media || []}
           onChoose={this.props.onChoose}
           onIsStoreChange={this.props.onIsStoreChange}
+          onArchiveFiles={this.handleArchiveFiles}
         />
       </View>
     );
@@ -96,6 +98,12 @@ class Media extends React.PureComponent {
 
     this.setState({ searchText: text });
   };
+
+  handleArchiveFiles = media => {
+    console.debug(`handleArchiveFiles`);
+    console.debug(media);
+    this.props.deleteMedia(media);
+  };
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -115,4 +123,4 @@ Media.propTypes = {
   group: PropTypes.object
 };
 
-export default connect(mapStateToProps)(Media);
+export default connect(mapStateToProps, actions)(Media);

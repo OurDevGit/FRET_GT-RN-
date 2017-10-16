@@ -8,7 +8,7 @@ import { addPurchase, getIsPurchased } from "../../models/Purchases";
 import { loadPurchases } from "../../models/Products";
 
 import { GetMediaButtonMode } from "../../models/Media";
-import { getStore } from "../../models/Store";
+import { getStore, getProductDetails } from "../../models/Store";
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
@@ -65,7 +65,10 @@ class Store extends Component {
   async componentWillMount() {
     // load the Store data from storage
     const storeObjects = await getStore();
+    const productDetails = await getProductDetails();
+
     this.props.storeLoaded(storeObjects);
+    this.props.productDetailsLoaded(productDetails);
   }
 
   async componentDidMount() {

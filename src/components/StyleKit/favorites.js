@@ -27,9 +27,11 @@ export class BtnHeart extends PureComponent {
   }
 
   async componentWillMount() {
-    this.setState({
-      isFilled: await getFave(this.props.mediaId)
-    });
+    // TODO: this is causing warnings about updating unmounted components.
+    // I want to move this to be Props-driven for the table anyway...
+    // this.setState({
+    //   isFilled: await getFave(this.props.mediaId)
+    // });
   }
 
   handleTouch = async () => {

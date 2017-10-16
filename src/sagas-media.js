@@ -32,3 +32,5 @@ export const downloadMedia = async (media, transactionDetails) => {
   return paths;
   // console.debug(paths);
 };
+
+export const deleteMedia = async mediaId => {};

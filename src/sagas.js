@@ -6,11 +6,11 @@ import {
   downloadMedia
 } from "./sagas-media";
 import { GetMediaButtonMode } from "./models/Media";
-import { setDownload } from "./models/Downloads";
+import { setDownload, getDownload, removeDownload } from "./models/Downloads";
 import { getProductDetails } from "./models/Products";
 import * as actions from "./redux/actions";
 import { getDownloadedMediaFiles } from "./redux/selectors";
-import { setStore } from "./models/Store";
+import { setStore, setProductDetails } from "./models/Store";
 
 function* getDownloadedMedia(mediaId) {
   const files = yield select(getDownloadedMediaFiles, mediaId);
@@ -106,7 +106,7 @@ function* watchChooseMedia(action) {
   }
 }
 
-function* watchRereshStore(action) {
+function* watchRefreshStore(action) {
   try {
     // get store from backend
     const storeRaw = yield Api.fetchStore();
@@ -117,6 +117,7 @@ function* watchRereshStore(action) {
     // get store details from Google In-App Billing
     const mediaIds = Object.keys(storeDb.mediaById);
     const productDetails = yield getProductDetails(mediaIds);
+    yield setProductDetails(productDetails);
     yield put(actions.productDetailsLoaded(productDetails));
   } catch (error) {
     console.debug(error);
@@ -125,10 +126,20 @@ function* watchRereshStore(action) {
   // this.props.storeLoaded(storeObjects); // dispatch
 }
 
+function* watchDeleteMedia(action) {
+  console.debug(`watchDeleteMedia`);
+  console.debug(action);
+  const mediaId = action.payload.mediaID;
+
+  const downloads = yield getDownloadedMedia(mediaId);
+  console.debug(downloads.toJS());
+}
+
 function* mySaga() {
   yield takeLatest("AD_FETCH_REQUESTED", fetchAd);
   yield takeEvery("CHOOSE_MEDIA", watchChooseMedia);
-  yield takeLatest("REFRESH_STORE", watchRereshStore);
+  yield takeLatest("REFRESH_STORE", watchRefreshStore);
+  yield takeEvery("DELETE_MEDIA", watchDeleteMedia);
 }
 
 export default mySaga;

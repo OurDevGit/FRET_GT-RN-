@@ -22,7 +22,7 @@ const MediaDetails = ({
   details,
   hasFiles,
   onClose,
-  onRemoveFiles
+  onArchiveFiles
 }) => (
   <Modal
     animationType="fade"
@@ -57,7 +57,7 @@ const MediaDetails = ({
           <FlatButton
             title="Archive Files"
             style={{ color: Danger }}
-            onPress={onRemoveFiles}
+            onPress={onArchiveFiles}
           />
 
           <FlatButton
@@ -122,7 +122,7 @@ MediaDetails.propTypes = {
   subtitle: PropTypes.string,
   details: PropTypes.string,
   onClose: PropTypes.func.isRequired,
-  onRemoveFiles: PropTypes.func.isRequired
+  onArchiveFiles: PropTypes.func.isRequired
 };
 
 export default MediaDetails;
