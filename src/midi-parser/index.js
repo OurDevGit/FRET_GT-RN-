@@ -9,78 +9,93 @@ import patternTrack from "./pattern-track";
 
 module.exports = (filename, isAsset = false) => {
   const path = isAsset === true ? RNFetchBlob.fs.asset(filename) : filename;
-  return RNFetchBlob.fs.readFile(path, "base64").then(data => {
-    var binary = decode(data);
-    var midi = midiFileParser(binary);
-    var { markers, secondsForTicks } = timingTrack(midi.tracks[0], midi.header);
+  console.debug(`loading MIDI: ${path}`);
+  return RNFetchBlob.fs
+    .readFile(path, "base64")
+    .then(data => {
+      console.debug("loaded data");
+      var binary = decode(data);
+      var midi = midiFileParser(binary);
+      console.debug({ midi });
+      var { markers, secondsForTicks } = timingTrack(
+        midi.tracks[0],
+        midi.header
+      );
 
-    var guitarTracks = List();
-    var tuningTracks = List();
-    var patterns = List();
-    var notes = Map();
+      var guitarTracks = List();
+      var tuningTracks = List();
+      var patterns = List();
+      var notes = Map();
 
-    midi.tracks.forEach((arr, index) => {
-      if (arr[0].text !== undefined) {
-        // load guitar tracks
-        if (arr[0].text.includes("FMP -") && arr[0].text !== "FMP - Jam Bar") {
-          var track = noteTrack(arr, secondsForTicks);
-          const trackName = track.get("name");
+      midi.tracks.forEach((arr, index) => {
+        if (arr[0].text !== undefined) {
+          // load guitar tracks
+          if (
+            arr[0].text.includes("FMP -") &&
+            arr[0].text !== "FMP - Jam Bar"
+          ) {
+            var track = noteTrack(arr, secondsForTicks);
+            const trackName = track.get("name");
 
-          track.get("notes").forEach(note => {
-            const fret = note.get("fret");
-            const string = note.get("string");
+            track.get("notes").forEach(note => {
+              const fret = note.get("fret");
+              const string = note.get("string");
 
-            if (notes.getIn([trackName, fret, string]) === undefined) {
-              notes = notes.setIn([trackName, fret, string], Set());
-            }
+              if (notes.getIn([trackName, fret, string]) === undefined) {
+                notes = notes.setIn([trackName, fret, string], Set());
+              }
 
-            notes = notes.updateIn([trackName, fret, string], notesSet =>
-              notesSet.add(note)
+              notes = notes.updateIn([trackName, fret, string], notesSet =>
+                notesSet.add(note)
+              );
+            });
+
+            track = track.delete("notes");
+
+            // check to see if a track with the same name has been added
+            // (video has multiple tracks with same name)
+            const index = guitarTracks.findIndex(
+              guitarTrack => guitarTrack.get("name") === track.get("name")
             );
-          });
 
-          track = track.delete("notes");
-
-          // check to see if a track with the same name has been added
-          // (video has multiple tracks with same name)
-          const index = guitarTracks.findIndex(
-            guitarTrack => guitarTrack.get("name") === track.get("name")
-          );
-
-          if (index === -1) {
-            guitarTracks = guitarTracks.push(track);
-          } else {
-            const existing = guitarTracks.get(index);
-            const firstFret = Math.min(existing.firstFret, track.firstFret);
-            const lastFret = Math.max(existing.lastFret, track.lastFret);
-            const combined = existing
-              .set("firstFret", firstFret)
-              .set("lastFret", lastFret);
-            guitarTracks = guitarTracks.set(index, combined);
+            if (index === -1) {
+              guitarTracks = guitarTracks.push(track);
+            } else {
+              const existing = guitarTracks.get(index);
+              const firstFret = Math.min(existing.firstFret, track.firstFret);
+              const lastFret = Math.max(existing.lastFret, track.lastFret);
+              const combined = existing
+                .set("firstFret", firstFret)
+                .set("lastFret", lastFret);
+              guitarTracks = guitarTracks.set(index, combined);
+            }
           }
-        }
 
-        // load tuning tracks
-        if (arr[0].text.includes("T -")) {
-          var track = noteTrack(arr, secondsForTicks);
-          tuningTracks = tuningTracks.push(track);
-        }
+          // load tuning tracks
+          if (arr[0].text.includes("T -")) {
+            var track = noteTrack(arr, secondsForTicks);
+            tuningTracks = tuningTracks.push(track);
+          }
 
-        // load jambar track
-        if (arr[0].text.includes("FMP - Jam Bar")) {
-          patterns = List(patternTrack(arr, secondsForTicks));
-        }
+          // load jambar track
+          if (arr[0].text.includes("FMP - Jam Bar")) {
+            patterns = List(patternTrack(arr, secondsForTicks));
+          }
 
-        // console.log(notes.toJS());
-      }
+          // console.log(notes.toJS());
+        }
+      });
+
+      return {
+        markers,
+        guitarTracks,
+        tuningTracks,
+        patterns,
+        notes
+      };
+    })
+    .catch(err => {
+      console.debug("error loading midi...");
+      console.error(err);
     });
-
-    return {
-      markers,
-      guitarTracks,
-      tuningTracks,
-      patterns,
-      notes
-    };
-  });
 };

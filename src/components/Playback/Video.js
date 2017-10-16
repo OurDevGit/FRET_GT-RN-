@@ -39,10 +39,13 @@ class Vid extends React.Component {
     const mediaId = this.props.video !== undefined ? this.props.video.id : "";
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
-    const midiFile =
+    const midiFileName =
       this.props.currentVideoMidiFile.get("name") !== undefined
         ? `${this.props.currentVideoMidiFile.get("name")}.midi`
         : null;
+    const midiFile = this.getMidiFile(midiFileName);
+
+    console.debug(`render Video with midi file: ${midiFile}`);
 
     return (
       <VideoPresentation
@@ -145,10 +148,32 @@ class Vid extends React.Component {
     return configFile;
   };
 
+  getMidiFile = midiName => {
+    const fileKeys = Object.keys(this.props.video.files);
+    const fileVals = Object.values(this.props.video.files);
+
+    if (fileVals.indexOf(midiName) !== -1) {
+      console.debug("already a midi file");
+      return midiName;
+    }
+
+    var midiFile = null;
+    fileKeys.forEach(fileKey => {
+      const parts = fileKey.split("/");
+      const keyFilename = parts[parts.length - 1];
+      if (keyFilename === midiName) {
+        midiFile = this.props.video.files[fileKey];
+      }
+    });
+
+    return midiFile;
+  };
+
   loadMidiName = midiName => {
-    console.debug({ midiName });
-    console.debug(this.props.video.files);
-    loadMidi(midiName);
+    console.debug(`loadMidiName ${midiName}`);
+    const midiFile = this.getMidiFile(midiName);
+    console.debug(midiFile);
+    return loadMidi(midiFile);
   };
 
   handleNewVideo = () => {
@@ -264,14 +289,17 @@ class Vid extends React.Component {
     console.debug(midi.toJS());
 
     if (!chapter.equals(currentVideoChapter)) {
+      console.debug("setting new chapter");
       this.props.setCurrentVideoChapter(chapter);
     }
 
     if (!marker.equals(this.props.currentVideoMarker)) {
+      console.debug("setting new marker");
       this.props.setCurrentVideoMarker(marker);
     }
 
     if (!midi.equals(this.props.currentVideoMidiFile)) {
+      console.debug("setting new midi file");
       this.props.setCurrentVideoMidiFile(midi);
     }
   };
@@ -280,6 +308,7 @@ class Vid extends React.Component {
     this.player.seek(time);
 
     if (!this.state.isPlaying) {
+      console.debug("manually firing updateChaps");
       this.playbackSeconds = time;
       this.updateChaptersAndMarkers(time);
       this.props.updateTime(time);
@@ -355,6 +384,7 @@ class Vid extends React.Component {
   // TIMELINE METHODS
 
   handleMarkerPress = time => {
+    console.debug("handleMarkerPress");
     this.props.clearCurrentLoop();
     this.goToTime(time + 0.01);
   };
