@@ -58,8 +58,8 @@ module.exports = (track, header) => {
   track.forEach((event, index) => {
     if (event.subtype === "timeSignature") {
       var tempo = track[index + 2];
-      if (tempo.microsecondsPerTick !== undefined) {
-        secondsPerTick = tempo.microsecondsPerBeat / header.ticksPerBeat;
+      if (tempo !== undefined && tempo.microsecondsPerTick !== undefined) {
+        microsecondsPerTick = tempo.microsecondsPerBeat / header.ticksPerBeat;
       }
     }
 
