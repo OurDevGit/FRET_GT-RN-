@@ -64,7 +64,7 @@ class Vid extends React.Component {
         areControlsVisible={this.state.areControlsVisible}
         loopIsEnabled={this.props.loopIsEnabled}
         onVideoLoad={this.handleVideoLoad}
-        onLoadMidi={loadMidi}
+        onLoadMidi={this.loadMidiName}
         onMidiData={this.props.updateMidiData}
         onClearMidi={clearMidi}
         onClearMidiData={this.props.clearMidiData}
@@ -145,15 +145,25 @@ class Vid extends React.Component {
     return configFile;
   };
 
+  loadMidiName = midiName => {
+    console.debug({ midiName });
+    console.debug(this.props.video.files);
+    loadMidi(midiName);
+  };
+
   handleNewVideo = () => {
     console.debug(`handleNewVideo()`);
     console.debug(this.props.video);
     const configFile = this.findConfigFile(this.props.video.files);
     this.loadJSON(configFile);
 
-    if (this.state.videoUri !== RNFetchBlob.fs.asset("lesson.mp4")) {
+    if (
+      this.state.videoUri !==
+      "/data/user/0/com.optek.guitartunes/Media/1c533c54-be41-2a09-b125-1c47c3dbde66"
+    ) {
       this.setState({
-        videoUri: RNFetchBlob.fs.asset("lesson.mp4")
+        videoUri:
+          "/data/user/0/com.optek.guitartunes/Media/1c533c54-be41-2a09-b125-1c47c3dbde66"
       });
     }
   };
@@ -236,6 +246,7 @@ class Vid extends React.Component {
   };
 
   updateChaptersAndMarkers = time => {
+    console.debug(`updateChaptersAndMarkers`);
     const {
       videoChapters,
       videoMidiFiles,
@@ -247,6 +258,10 @@ class Vid extends React.Component {
     const chapter = chapterForTime(time, videoChapters);
     const marker = markerForTime(time, videoChapters);
     const midi = midiForTime(time, videoMidiFiles);
+
+    console.debug(videoMidiFiles);
+    console.debug(videoMidiFiles.toJS());
+    console.debug(midi.toJS());
 
     if (!chapter.equals(currentVideoChapter)) {
       this.props.setCurrentVideoChapter(chapter);

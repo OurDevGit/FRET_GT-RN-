@@ -16,7 +16,8 @@ export const downloadedMedia = (state = Map(), action) => {
       return mapped;
     case "FINISH_DOWNLOAD":
       console.debug("reducing finished dl");
-      console.debug({ action });
+      console.debug(action.payload);
+      // action.payload
       return state.merge(action.payload);
     default:
       return state;

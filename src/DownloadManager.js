@@ -43,11 +43,13 @@ const downloadFile = url => {
 };
 
 const urlToPath = url => {
-  return url
+  const path = url
     .split("/")
     .slice(3)
     .join("/")
     .split("?")[0];
+
+  return unescape(path);
 };
 
 const downloadFiles = (urls, progressCallback) => {

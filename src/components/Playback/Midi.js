@@ -20,6 +20,7 @@ class Midi extends React.Component {
 
   resetMidi = midi => {
     console.debug("resetting midi");
+    console.debug(midi);
     this.props.clearMidiData();
     this.loadMidi(midi);
     this.props.clearMidi();

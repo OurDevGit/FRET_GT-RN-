@@ -200,7 +200,5 @@ export const getMediaForPlay = (state, mediaId) => {
     files: files.toJS()
   };
 
-  console.debug(media);
-
   return Map(media);
 };
