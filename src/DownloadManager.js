@@ -50,7 +50,9 @@ const urlToPath = url => {
     .join("/")
     .split("?")[0];
 
-  return unescape(path);
+  const unescapedPath = unescape(unescape(path));
+
+  return unescapedPath;
 };
 
 // download multiple files
