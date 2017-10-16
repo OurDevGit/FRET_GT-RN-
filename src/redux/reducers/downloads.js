@@ -15,10 +15,10 @@ export const downloadedMedia = (state = Map(), action) => {
       const mapped = fromJS(action.payload);
       return mapped;
     case "FINISH_DOWNLOAD":
-      console.debug("reducing finished dl");
-      console.debug(action.payload);
-      // action.payload
-      return state.merge(action.payload);
+      const newEntry = fromJS({
+        [action.payload.mediaId]: action.payload.details
+      });
+      return state.merge(newEntry);
     case "REMOVE_DOWNLOAD":
       const mediaId = action.payload;
       return state.delete(mediaId);

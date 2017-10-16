@@ -79,6 +79,15 @@ export const makeStore = storeName => {
       } catch (error) {
         console.error(error);
       }
+    },
+
+    deleteKey: async key => {
+      try {
+        return await AsyncStorage.removeItem(makeNamespacedKey(storeName, key));
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
     }
   };
 };

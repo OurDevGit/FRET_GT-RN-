@@ -1,5 +1,7 @@
 import { call, put, takeEvery, takeLatest, select } from "redux-saga/effects";
 import * as Api from "./api";
+import RNFetchBlob from "react-native-fetch-blob";
+const fs = RNFetchBlob.fs;
 import {
   getTransactionDetails,
   doPurchase,
@@ -62,11 +64,12 @@ function* watchChooseMedia(action) {
   const transactionDetails = yield getTransactionDetails(mediaId);
   console.debug({ transactionDetails });
 
+  // if we already bought this, then download it and finish
   if (transactionDetails.purchaseState === "PurchasedSuccessfully") {
     console.debug("We own this. Downloading the media now.");
     const mediaFiles = yield downloadMedia(media);
     // console.debug({ mediaFiles });
-    const success = yield setDownload(mediaId, mediaFiles);
+    yield setDownload(mediaId, mediaFiles);
     yield put(actions.finishDownload(mediaId, mediaFiles));
     return;
   }
@@ -127,12 +130,25 @@ function* watchRefreshStore(action) {
 }
 
 function* watchDeleteMedia(action) {
-  console.debug(`watchDeleteMedia`);
-  console.debug(action);
   const mediaId = action.payload.mediaID;
 
+  // send and action to remove this media from state
+  yield put(actions.removeDownload(mediaId));
+
+  // delete each file
   const downloads = yield getDownloadedMedia(mediaId);
-  console.debug(downloads.toJS());
+  console.debug({ downloads });
+  if (downloads !== undefined) {
+    console.debug({ downloads });
+    const files = Object.values(downloads);
+    files.forEach(file => {
+      console.debug(file);
+      fs.unlink(file);
+    });
+  }
+
+  // remove the record from the Downloads Store
+  removeDownload(mediaId);
 }
 
 function* mySaga() {

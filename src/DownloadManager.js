@@ -18,6 +18,7 @@ let _dispatchFinish = () => {
   console.warn("_dispatchFinish is not hooked up in DownloadManager");
 };
 
+// download 1 file
 const downloadFile = url => {
   const randFilename = guid();
   const path = `${dirs.MainBundleDir}/Media/${randFilename}`;
@@ -52,6 +53,7 @@ const urlToPath = url => {
   return unescape(path);
 };
 
+// download multiple files
 const downloadFiles = (urls, progressCallback) => {
   let progressMap = {};
   let filesMap = {};
@@ -95,28 +97,7 @@ const downloadFiles = (urls, progressCallback) => {
   });
 };
 
-// const findExt = (files, targetExt) => {
-//   var foundFiles = [];
-//   files.forEach(file => {
-//     const url = file.url;
-//     const parts = url.split(".");
-//     const last = parts[parts.length - 1];
-//     const ext = last.split("?")[0];
-
-//     if (ext.toLowerCase() === targetExt.toLowerCase()) {
-//       foundFiles.push(file);
-//     }
-//   });
-
-//   return foundFiles;
-// };
-
 export const downloadMediaFiles = async (files, mediaId) => {
-  // console.debug({ files });
-  // const song = findExt(files, "m4a")[0];
-  // const video = findExt(files, "mp4")[0];
-  // const mediaType = video !== undefined ? "video" : "song";
-
   const filesMap = await downloadFiles(files.map(f => f.url), progress => {
     console.debug(mediaId, progress);
     _dispatchProgress(mediaId, progress);
@@ -124,69 +105,6 @@ export const downloadMediaFiles = async (files, mediaId) => {
 
   console.debug(filesMap);
   return filesMap;
-
-  // console.debug({ mediaType });
-  // console.debug({ song });
-  // console.debug({ midis });
-  // console.debug({ video });
-
-  // const mediaFileURL = mediaType === "video" ? video.url : song.url;
-  // const midiURLs = midis.map(m => m.url);
-
-  // return new Promise((resolve, reject) => {
-  //   let mediaFileTotal = 0;
-  //   let midiTotal = 0;
-  //   let mediaFileReceived = 0;
-  //   let midiReceived = 0;
-  //   let mediaPath = null;
-  //   let midiPaths = null;
-
-  //   const sendProgress = () => {
-  //     const progress =
-  //       (mediaFileReceived + midiReceived) / (mediaFileTotal + midiTotal);
-  //     console.debug(progress);
-  //     _dispatchProgress({
-  //       [mediaId.toLowerCase()]: progress
-  //     });
-  //   };
-
-  //   const mediaPromise = downloadFile(mediaFileURL)
-  //     .progress({ interval: 250 }, (received, total) => {
-  //       mediaFileReceived = received;
-  //       mediaFileTotal = total;
-  //       sendProgress();
-  //     })
-  //     .then(res => {
-  //       console.debug("media file done!");
-  //       mediaPath = res.path();
-  //     });
-
-  //   const midiPromise = downloadFiles(midiURLs).then(res => {
-  //     console.debug("midis done!");
-  //     console.debug(res);
-  //     midiPaths = res;
-  //   });
-
-  //   Promise.all([mediaPromise, midiPromise]).then(result => {
-  //     console.debug(`done downloading ${mediaId}`);
-  //     var files = {};
-  //     if (mediaType === "song") {
-  //       files = {
-  //         midiPath: midiPaths[0],
-  //         mediaPath,
-  //         mediaType
-  //       };
-  //     } else {
-  //       files = {
-  //         mediaPath,
-  //         midiPaths,
-  //         mediaType
-  //       };
-  //     }
-  //     resolve(files);
-  //     _dispatchFinish({ [mediaId]: files });
-  //   });
-  // });
 };
 
 export const configureDownloadManager = async store => {

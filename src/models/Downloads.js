@@ -22,4 +22,11 @@ export const setDownload = async (mediaId, details) => {
   }
 };
 
-export const removeDownload = async mediaId => {};
+export const removeDownload = async mediaId => {
+  try {
+    await Downloads.deleteKey(mediaId);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};

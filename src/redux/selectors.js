@@ -161,8 +161,12 @@ const mergeMediaDetails = (state, mediaSections) => {
   return mediaWithProductDetails;
 };
 
-export const getDownloadedMediaFiles = (state, mediaId) =>
-  state.get("downloadedMedia").get(mediaId);
+export const getDownloadedMediaFiles = (state, mediaId) => {
+  console.debug(mediaId);
+  console.debug(state.toJS());
+  console.debug(state.get("downloadedMedia").toJS());
+  return state.get("downloadedMedia").get(mediaId);
+};
 
 export const selectMedia = (state, category, subCategory, group) => {
   // console.debug({ category });

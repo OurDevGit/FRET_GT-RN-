@@ -4,8 +4,6 @@ export const chooseMedia = media => ({
 });
 
 export const deleteMedia = media => {
-  console.debug("deleteMedia");
-  console.debug(media);
   return {
     type: "DELETE_MEDIA",
     payload: media

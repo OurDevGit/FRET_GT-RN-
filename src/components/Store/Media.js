@@ -100,8 +100,6 @@ class Media extends React.PureComponent {
   };
 
   handleArchiveFiles = media => {
-    console.debug(`handleArchiveFiles`);
-    console.debug(media);
     this.props.deleteMedia(media);
   };
 }
