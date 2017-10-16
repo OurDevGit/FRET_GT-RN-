@@ -19,6 +19,9 @@ export const downloadedMedia = (state = Map(), action) => {
       console.debug(action.payload);
       // action.payload
       return state.merge(action.payload);
+    case "REMOVE_DOWNLOAD":
+      const mediaId = action.payload;
+      return state.delete(mediaId);
     default:
       return state;
   }

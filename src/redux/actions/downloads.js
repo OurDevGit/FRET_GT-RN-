@@ -12,3 +12,8 @@ export const setDownloads = payload => ({
   type: "SET_DOWNLOADS",
   payload
 });
+
+export const removeDownload = mediaId => ({
+  type: "REMOVE_DOWNLOAD",
+  payload: mediaId
+});
