@@ -131,20 +131,18 @@ function* watchRefreshStore(action) {
 
 function* watchDeleteMedia(action) {
   const mediaId = action.payload.mediaID;
+  const downloads = yield getDownloadedMedia(mediaId);
 
   // send and action to remove this media from state
   yield put(actions.removeDownload(mediaId));
 
   // delete each file
-  const downloads = yield getDownloadedMedia(mediaId);
-  console.debug({ downloads });
   if (downloads !== undefined) {
-    console.debug({ downloads });
-    const files = Object.values(downloads);
-    files.forEach(file => {
-      console.debug(file);
-      fs.unlink(file);
-    });
+    const vals = downloads.values();
+
+    for (let filePath of vals) {
+      fs.unlink(filePath);
+    }
   }
 
   // remove the record from the Downloads Store
