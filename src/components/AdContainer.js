@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, StyleSheet } from "react-native";
+import { Image } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
@@ -33,7 +33,7 @@ AdContainer.propTypes = {
   ad: PropTypes.object.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
     ad: state.get("ad"),
     visibleTracks: state.get("visibleTracks")
