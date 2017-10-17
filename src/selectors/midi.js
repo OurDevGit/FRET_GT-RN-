@@ -15,17 +15,14 @@ const getTempoSelector = (_, props) => props.tempo;
 var notes = Map();
 
 exports.loadMidi = path => {
-  console.debug(`midi.js loadMidi ${path}`);
   return MidiParser(path)
     .then(midi => {
-      console.debug("yay midi");
       notes = Map(midi.notes);
       delete midi.notes;
       return midi;
     })
     .catch(err => {
-      console.debug("error loading midi");
-      console.debug(err);
+      // TODO: should probably handle this
     });
 };
 

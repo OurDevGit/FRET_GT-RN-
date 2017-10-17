@@ -9,14 +9,11 @@ import patternTrack from "./pattern-track";
 
 module.exports = (filename, isAsset = false) => {
   const path = isAsset === true ? RNFetchBlob.fs.asset(filename) : filename;
-  console.debug(`loading MIDI: ${path}`);
   return RNFetchBlob.fs
     .readFile(path, "base64")
     .then(data => {
-      console.debug("loaded data");
       var binary = decode(data);
       var midi = midiFileParser(binary);
-      console.debug({ midi });
       var { markers, secondsForTicks } = timingTrack(
         midi.tracks[0],
         midi.header

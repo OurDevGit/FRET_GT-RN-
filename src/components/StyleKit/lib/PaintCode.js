@@ -42,9 +42,6 @@ export const PaintCode = class extends Component {
       nativeArgs
     };
 
-    // console.log({ newState });
-    // console.log({ newProps });
-
     this.setState(newState);
   }
 

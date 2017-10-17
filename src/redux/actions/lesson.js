@@ -8,14 +8,10 @@ export const setVideoMidiFiles = midi => ({
   payload: midi
 });
 
-export const setCurrentVideoChapter = chapter => {
-  console.debug("setCurrentVideoChapter action creator");
-  console.debug(chapter.toJS());
-  return {
-    type: "SET_CURRENT_VIDEO_CHAPTER",
-    payload: chapter
-  };
-};
+export const setCurrentVideoChapter = chapter => ({
+  type: "SET_CURRENT_VIDEO_CHAPTER",
+  payload: chapter
+});
 
 export const setCurrentVideoMarker = marker => ({
   type: "SET_CURRENT_VIDEO_MARKER",

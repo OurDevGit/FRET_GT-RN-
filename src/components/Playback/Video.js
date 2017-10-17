@@ -45,8 +45,6 @@ class Vid extends React.Component {
         : null;
     const midiFile = this.getMidiFile(midiFileName);
 
-    console.debug(`render Video with midi file: ${midiFile}`);
-
     return (
       <VideoPresentation
         mediaId={mediaId}
@@ -167,8 +165,8 @@ class Vid extends React.Component {
     const fileKeys = Object.keys(this.props.video.files);
     const fileVals = Object.values(this.props.video.files);
 
+    // we should clean things up a bit, but there a few spots where this gets called and sometimes it's already a valid filename
     if (fileVals.indexOf(midiName) !== -1) {
-      console.debug("already a midi file");
       return midiName;
     }
 
@@ -185,15 +183,11 @@ class Vid extends React.Component {
   };
 
   loadMidiName = midiName => {
-    console.debug(`loadMidiName ${midiName}`);
     const midiFile = this.getMidiFile(midiName);
-    console.debug(midiFile);
     return loadMidi(midiFile);
   };
 
   handleNewVideo = () => {
-    console.debug(`handleNewVideo()`);
-    console.debug(this.props.video);
     const configFile = this.findConfigFile(this.props.video.files);
     this.loadJSON(configFile);
 
@@ -219,16 +213,11 @@ class Vid extends React.Component {
   };
 
   loadJSON = path => {
-    console.debug(`loading ${path}`);
     this.handleDisplayControls();
-    // const path = RNFetchBlob.fs.asset(fileName);
     RNFetchBlob.fs
       .readFile(path, "utf8")
       .then(json => {
         const configObject = JSON.parse(json);
-
-        console.debug("opened video config object");
-        console.debug(configObject);
 
         this.props.setVideoChapters(configObject.chapters);
         this.props.setVideoMidiFiles(configObject.midiTimes);
@@ -285,7 +274,6 @@ class Vid extends React.Component {
   };
 
   updateChaptersAndMarkers = time => {
-    console.debug(`updateChaptersAndMarkers`);
     const {
       videoChapters,
       videoMidiFiles,
@@ -298,22 +286,15 @@ class Vid extends React.Component {
     const marker = markerForTime(time, videoChapters);
     const midi = midiForTime(time, videoMidiFiles);
 
-    console.debug(videoMidiFiles);
-    console.debug(videoMidiFiles.toJS());
-    console.debug(midi.toJS());
-
     if (!chapter.equals(currentVideoChapter)) {
-      console.debug("setting new chapter");
       this.props.setCurrentVideoChapter(chapter);
     }
 
     if (!marker.equals(this.props.currentVideoMarker)) {
-      console.debug("setting new marker");
       this.props.setCurrentVideoMarker(marker);
     }
 
     if (!midi.equals(this.props.currentVideoMidiFile)) {
-      console.debug("setting new midi file");
       this.props.setCurrentVideoMidiFile(midi);
     }
   };
@@ -322,7 +303,6 @@ class Vid extends React.Component {
     this.player.seek(time);
 
     if (!this.state.isPlaying) {
-      console.debug("manually firing updateChaps");
       this.playbackSeconds = time;
       this.updateChaptersAndMarkers(time);
       this.props.updateTime(time);
@@ -398,7 +378,6 @@ class Vid extends React.Component {
   // TIMELINE METHODS
 
   handleMarkerPress = time => {
-    console.debug("handleMarkerPress");
     this.props.clearCurrentLoop();
     this.goToTime(time + 0.01);
   };
