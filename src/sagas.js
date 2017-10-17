@@ -3,13 +3,14 @@ import * as Api from "./api";
 import RNFetchBlob from "react-native-fetch-blob";
 const fs = RNFetchBlob.fs;
 import {
-  getTransactionDetails,
+  fetchTransactionDetails,
   doPurchase,
   downloadMedia
 } from "./sagas-media";
 import { GetMediaButtonMode } from "./models/Media";
-import { setDownload, getDownload, removeDownload } from "./models/Downloads";
-import { getProductDetails } from "./models/Products";
+import { setPurchased } from "./models/Purchases";
+import { setDownload, removeDownload } from "./models/Downloads";
+import { fetchProductDetails, fetchPurchases } from "./models/Products";
 import * as actions from "./redux/actions";
 import { getDownloadedMediaFiles } from "./redux/selectors";
 import { setStore, setProductDetails } from "./models/Store";
@@ -61,8 +62,7 @@ function* watchChooseMedia(action) {
   // console.debug(state.toJS());
 
   console.debug("going to ask Google IAB if we've bought that media");
-  const transactionDetails = yield getTransactionDetails(mediaId);
-  console.debug({ transactionDetails });
+  const transactionDetails = yield fetchTransactionDetails(mediaId);
 
   // if we already bought this, then download it and finish
   if (transactionDetails.purchaseState === "PurchasedSuccessfully") {
@@ -77,7 +77,7 @@ function* watchChooseMedia(action) {
   console.debug("going into getMode switch");
 
   switch (media.getMode) {
-    case GetMediaButtonMode.Purchase:
+    case GetMediaButtonMode.Purchase: {
       const purchaseSuccess = yield doPurchase(media);
       if (purchaseSuccess === true) {
         yield put(actions.addPurchasedMedia(mediaId));
@@ -88,7 +88,8 @@ function* watchChooseMedia(action) {
       }
 
       break;
-    case GetMediaButtonMode.Download:
+    }
+    case GetMediaButtonMode.Download: {
       console.debug("do download!");
       const mediaFiles = yield downloadMedia(media);
       console.debug({ mediaFiles });
@@ -96,6 +97,7 @@ function* watchChooseMedia(action) {
       yield put(actions.finishDownload(mediaId, mediaFiles));
       // console.debug(downloadedMedia.toJS());
       break;
+    }
     case GetMediaButtonMode.Downloading:
       break;
     case GetMediaButtonMode.ComingSoon:
@@ -115,13 +117,17 @@ function* watchRefreshStore(action) {
     const storeRaw = yield Api.fetchStore();
     const storeDb = yield setStore(storeRaw);
     yield put(actions.storeLoaded(storeDb));
-    console.debug("got store from backend");
 
     // get store details from Google In-App Billing
     const mediaIds = Object.keys(storeDb.mediaById);
-    const productDetails = yield getProductDetails(mediaIds);
+    const productDetails = yield fetchProductDetails(mediaIds);
     yield setProductDetails(productDetails);
     yield put(actions.productDetailsLoaded(productDetails));
+
+    // load which products we own from Google
+    const purchasedMedia = yield fetchPurchases();
+    yield setPurchased(purchasedMedia);
+    yield put(actions.setPurchasedMedia(purchasedMedia));
   } catch (error) {
     console.debug(error);
     console.debug(error.stack);

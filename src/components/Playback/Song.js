@@ -188,8 +188,6 @@ class Song extends React.Component {
   getMidi = () => {
     var midiFile = null;
 
-    console.debug(this.props.song);
-
     Object.keys(this.props.song.files).forEach(key => {
       const ext = key.split(".")[1];
       if (ext === "mid" || ext === "midi") {

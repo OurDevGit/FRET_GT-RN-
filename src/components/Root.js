@@ -187,7 +187,7 @@ class Root extends Component {
 Root.propTypes = {
   trackCount: PropTypes.number,
   store: PropTypes.object,
-  currentMedia: PropTypes.object,
+  currentMedia: PropTypes.string,
   mediaForPlay: PropTypes.object
 };
 

@@ -55,8 +55,6 @@ class Music extends React.Component {
   getAudio = () => {
     var audioFile = null;
 
-    console.debug(this.props.song);
-
     Object.keys(this.props.song.files).forEach(key => {
       const ext = key.split(".")[1];
       if (ext === "m4a") {

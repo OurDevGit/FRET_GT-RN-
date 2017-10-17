@@ -4,8 +4,8 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
-import { loadPurchases } from "../../models/Products";
 import { getStore, getProductDetails } from "../../models/Store";
+import { loadedPurchased } from "../../models/Purchases";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
@@ -64,7 +64,9 @@ class Store extends Component {
     // load the Store data from storage
     const storeObjects = await getStore();
     const productDetails = await getProductDetails();
+    const purchases = await loadedPurchased();
 
+    this.props.setPurchasedMedia(purchases);
     this.props.storeLoaded(storeObjects);
     this.props.productDetailsLoaded(productDetails);
   }
@@ -72,10 +74,6 @@ class Store extends Component {
   async componentDidMount() {
     // sync with the backend
     this.props.refreshStore();
-
-    // load which products we own from Google
-    const purchasedMedia = await loadPurchases();
-    this.props.setPurchasedMedia(purchasedMedia);
   }
 
   componentWillReceiveProps(newProps) {

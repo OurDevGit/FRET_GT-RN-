@@ -1,5 +1,5 @@
 import {
-  loadPurchases,
+  fetchPurchases,
   makePurchase,
   getPurchasedTransactionDetails
 } from "./models/Products";
@@ -12,7 +12,7 @@ export const doPurchase = async media => {
   return purchaseSuccess;
 };
 
-export const getTransactionDetails = async mediaId => {
+export const fetchTransactionDetails = async mediaId => {
   try {
     const transactionStatus = await getPurchasedTransactionDetails(mediaId);
     return transactionStatus;

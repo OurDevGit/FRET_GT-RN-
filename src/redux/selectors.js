@@ -8,9 +8,10 @@ const getMediaByListId = (state, id) => getMediaByListIds(state).get(id);
 
 const getClientSidedMedia = (state, obj) => {
   switch (obj.title) {
-    case "All Content":
+    case "All Content": {
       const allMedia = getAllMedia(state);
       return List([Map({ data: allMedia })]);
+    }
     default:
       return List();
   }
@@ -44,7 +45,6 @@ const getMediaForCategory = (state, category) => {
     });
     return media;
   } else {
-    console.log("not grouped");
     const data = getMediaByListId(state, category.id) || List();
     return List([Map({ data })]);
   }
@@ -97,7 +97,7 @@ const mergeGetMode = (state, singleMedia) => {
 
   // is purchased
   const purchasedMedia = state.get("purchasedMedia");
-  const isPurchased = purchasedMedia.has(mediaId);
+  const isPurchased = purchasedMedia.has(mediaId.toLowerCase());
 
   // is downloading
   const downloadProgress = getDownloadProgress(state, mediaId);

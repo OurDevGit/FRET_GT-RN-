@@ -1,10 +1,10 @@
 import InAppBilling from "react-native-billing";
-import { keyBy, chunk } from "lodash";
+import { chunk } from "lodash";
+import { makeStore } from "./StorageFactory";
 
 var _openCount = 0;
 var _billingIsOpen = false;
 var _billingSubscribers = [];
-var _productDetailsById = null;
 
 const openBilling = async () => {
   // if billing is open, resolve right away
@@ -45,9 +45,7 @@ const closeBilling = async () => {
   }
 };
 
-export const loadPurchases = async () => {
-  // console.debug("loadPurchases()");
-
+export const fetchPurchases = async () => {
   await openBilling();
 
   await InAppBilling.loadOwnedPurchasesFromGoogle();
@@ -59,15 +57,9 @@ export const loadPurchases = async () => {
   return ownedProducts;
 };
 
-export const getProductDetails = async mediaIds => {
+export const fetchProductDetails = async mediaIds => {
   // console.debug("getProductDetails()");
   // console.debug(mediaIds);
-
-  // return the cached version
-  if (_productDetailsById !== null) {
-    console.debug("using cached product details");
-    return _productDetailsById;
-  }
 
   // break the mediaIds into chunks of 20. It's undocumented, but the Google's InAppBilling API can only take 20 at a time. Any more will result in errors.
   const lowercased = mediaIds.map(m => m.toLowerCase()); // Google Product Id's are always lower case
@@ -93,9 +85,6 @@ export const getProductDetails = async mediaIds => {
 
   // create an id-based mapping of the product details and cache it
   const productDetailsById = normalizeProductDetails(productDetails);
-  _productDetailsById = productDetailsById;
-
-  // console.debug(productDetailsById);
 
   // return the mapping
   return productDetailsById;
@@ -116,7 +105,7 @@ export const makePurchase = async mediaId => {
 
   var success = false;
   try {
-    const testId = "android.test.purchased";
+    // const testId = "android.test.purchased";
     const purchaseDetails = await InAppBilling.purchase(mediaId.toLowerCase());
     const transactionStatus = await InAppBilling.getPurchaseTransactionDetails(
       mediaId
