@@ -52,6 +52,7 @@ class Vid extends React.Component {
         mediaId={mediaId}
         title={mediaTitle}
         midiFile={midiFile}
+        videoUri={this.state.videoUri}
         tempo={this.state.playbackRate}
         duration={this.state.mediaDuration}
         videoChapters={this.props.videoChapters.toJS()}
@@ -148,6 +149,20 @@ class Vid extends React.Component {
     return configFile;
   };
 
+  findVideoFile = files => {
+    var videoFile = null;
+
+    Object.keys(files).forEach(key => {
+      const slashParts = key.split("/");
+      const filename = slashParts[slashParts.length - 1];
+      if (filename === "lesson.mp4") {
+        videoFile = files[key];
+      }
+    });
+
+    return videoFile;
+  };
+
   getMidiFile = midiName => {
     const fileKeys = Object.keys(this.props.video.files);
     const fileVals = Object.values(this.props.video.files);
@@ -182,13 +197,11 @@ class Vid extends React.Component {
     const configFile = this.findConfigFile(this.props.video.files);
     this.loadJSON(configFile);
 
-    if (
-      this.state.videoUri !==
-      "/data/user/0/com.optek.guitartunes/Media/1c533c54-be41-2a09-b125-1c47c3dbde66"
-    ) {
+    const videoFile = this.findVideoFile(this.props.video.files);
+
+    if (this.state.videoUri !== videoFile) {
       this.setState({
-        videoUri:
-          "/data/user/0/com.optek.guitartunes/Media/1c533c54-be41-2a09-b125-1c47c3dbde66"
+        videoUri: videoFile
       });
     }
   };
@@ -214,7 +227,8 @@ class Vid extends React.Component {
       .then(json => {
         const configObject = JSON.parse(json);
 
-        console.debug({ configObject });
+        console.debug("opened video config object");
+        console.debug(configObject);
 
         this.props.setVideoChapters(configObject.chapters);
         this.props.setVideoMidiFiles(configObject.midiTimes);

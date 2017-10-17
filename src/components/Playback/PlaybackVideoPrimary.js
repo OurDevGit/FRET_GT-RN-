@@ -27,6 +27,7 @@ const buttonStyle = isPhone => {
 class PlaybackVideoPrimary extends React.Component {
   render() {
     const {
+      videoUri,
       mediaId,
       title,
       tempo,
@@ -132,8 +133,7 @@ class PlaybackVideoPrimary extends React.Component {
           <Video
             style={{ width: "100%", height: "100%" }}
             source={{
-              uri:
-                "/data/user/0/com.optek.guitartunes/Media/1c533c54-be41-2a09-b125-1c47c3dbde66"
+              uri: videoUri
             }}
             paused={!isPlaying}
             rate={tempo}
@@ -313,6 +313,7 @@ class PlaybackVideoPrimary extends React.Component {
 }
 
 PlaybackVideoPrimary.propTypes = {
+  videoUri: PropTypes.string.isRequired,
   mediaId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   tempo: PropTypes.number.isRequired,
