@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { View, Button, Text } from "react-native";
+import PropTypes from "prop-types";
+import { View } from "react-native";
 import Dimensions from "Dimensions";
 import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
@@ -97,7 +98,7 @@ class Root extends Component {
     );
   }
 
-  async componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps) {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
       if (prevProps.currentMedia !== this.props.currentMedia) {
@@ -183,7 +184,14 @@ class Root extends Component {
   };
 }
 
-const mapStateToProps = (state, ownProps) => {
+Root.propTypes = {
+  trackCount: PropTypes.number,
+  store: PropTypes.object,
+  currentMedia: PropTypes.object,
+  mediaForPlay: PropTypes.object
+};
+
+const mapStateToProps = state => {
   const currentMedia = state.get("currentMedia");
   const mediaForPlay = getMediaForPlay(state, currentMedia).toJS();
   return {
