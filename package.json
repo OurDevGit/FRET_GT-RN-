@@ -10,7 +10,8 @@
     "cleanjs": "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
     "build": "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
     "run": "react-native run-android",
-    "runrel": "react-native run-android --variant=release"
+    "runrel": "react-native run-android --variant=release",
+    "lint": "eslint -c .eslintrc - ext .js src"
   },
   "dependencies": {
     "base-64": "^0.1.0",
@@ -47,6 +48,7 @@
     "commander": "^2.11.0",
     "eslint": "^4.8.0",
     "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-react": "^7.4.0",
     "jest": "20.0.4",
     "react-test-renderer": "16.0.0-beta.5"
   },
