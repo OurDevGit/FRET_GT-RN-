@@ -3,17 +3,16 @@ import {
   View,
   SectionList,
   StyleSheet,
-  TextInput,
   Text,
   Animated,
-  I18nManager,
-  Alert
+  I18nManager
 } from "react-native";
 import PropTypes from "prop-types";
 
 import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 import _ from "lodash";
 
+import { GetMediaButtonMode } from "../../models/Media";
 import { addPurchases } from "../../models/Purchases";
 import MediaItem from "./MediaItem";
 import { StoreDark, LibraryDark } from "../../design";
@@ -57,9 +56,36 @@ const renderIndicator = ({ width, position, navigationState: { index } }) => {
   );
 };
 
+const filterMedia = (media, tabIndex) => {
+  console.debug(tabIndex);
+  console.debug(media);
+
+  switch (tabIndex) {
+    case 1: {
+      // filter just the stuff we've bought (don't show stuff with a GetMode of Purchase)
+      return media.map(mediaList => ({
+        ...mediaList,
+        data: mediaList.data.filter(
+          m =>
+            m.getMode !== GetMediaButtonMode.Purchase &&
+            m.getMode !== GetMediaButtonMode.ComingSoon
+        )
+      }));
+    }
+    case 2:
+      // filter just the stuff we can play
+      return media.map(mediaList => ({
+        ...mediaList,
+        data: mediaList.data.filter(m => m.getMode === GetMediaButtonMode.Play)
+      }));
+    default:
+      return media;
+  }
+};
+
 class TabbedMedia extends PureComponent {
   state = {
-    // used by the react-native-tab-view
+    // used by the react-77native-tab-view
     index: 0,
     // used by the react-native-tab-view
     routes: [
@@ -70,7 +96,7 @@ class TabbedMedia extends PureComponent {
   };
 
   render() {
-    const { style, media } = this.props;
+    const { media } = this.props;
     // console.debug("Tabbed Media render");
     return (
       <TabViewAnimated
@@ -85,33 +111,51 @@ class TabbedMedia extends PureComponent {
   }
 
   renderScene = ({ route }) => {
+    const tab1 = filterMedia(this.props.media, 0);
+    const tab2 = filterMedia(this.props.media, 1);
+    const tab3 = filterMedia(this.props.media, 2);
+
     switch (route.key) {
       case "1":
         return (
           <SectionList
-            sections={this.props.media}
+            sections={tab1}
             renderSectionHeader={this.renderTableHeader}
             renderItem={this.renderItem}
             keyExtractor={item => item.mediaID}
             style={this.props.style}
             initialNumToRender={10}
-            getItemLayout={(data, index) => {
-              return {
-                length: 51,
-                offset: 51 * index,
-                index
-              };
-            }}
+            getItemLayout={this.getItemLayout}
           />
         );
       case "2":
-        return <View />;
+        return (
+          <SectionList
+            sections={tab2}
+            renderSectionHeader={this.renderTableHeader}
+            renderItem={this.renderItem}
+            keyExtractor={item => item.mediaID}
+            style={this.props.style}
+            initialNumToRender={10}
+            getItemLayout={this.getItemLayout}
+          />
+        );
       case "3":
-        return <View />;
+        return (
+          <SectionList
+            sections={tab3}
+            renderSectionHeader={this.renderTableHeader}
+            renderItem={this.renderItem}
+            keyExtractor={item => item.mediaID}
+            style={this.props.style}
+            initialNumToRender={10}
+            getItemLayout={this.getItemLayout}
+          />
+        );
     }
   };
 
-  renderItem = ({ item, index }) => {
+  renderItem = ({ item }) => {
     // console.debug(`render item ${index}`);
     // console.debug(item);
 
@@ -148,6 +192,14 @@ class TabbedMedia extends PureComponent {
     </View>
   );
 
+  getItemLayout = (data, index) => {
+    return {
+      length: 51,
+      offset: 51 * index,
+      index
+    };
+  };
+
   componentWillMount() {
     // this.loadPurchases();
   }
@@ -176,8 +228,8 @@ class TabbedMedia extends PureComponent {
   }
 
   handleIndexChange = index => {
+    console.debug("TabbedMedia handleIndex Change");
     this.props.onIsStoreChange(index === 0);
-
     this.setState({ index });
   };
 }
@@ -204,6 +256,7 @@ const styles = StyleSheet.create({
 });
 
 TabbedMedia.propTypes = {
+  onArchiveFiles: PropTypes.func.isRequired,
   media: PropTypes.array,
   onIsStoreChange: PropTypes.func.isRequired,
   onChoose: PropTypes.func.isRequired

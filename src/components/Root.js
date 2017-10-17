@@ -69,7 +69,7 @@ class Root extends Component {
 
           <TestLibrary
             isOpen={this.state.libIsOpen}
-            onSelect={this.handleSelectMedia}
+            onSelect={this.handleChooseMedia}
             media={testMedia}
           />
 
@@ -141,7 +141,7 @@ class Root extends Component {
     }
   };
 
-  handleSelectMedia = mediaIndex => {
+  handleChooseMedia = mediaIndex => {
     const media = testMedia[mediaIndex];
     const isPhone = Dimensions.get("window").height < 500;
     if (media.type === "song") {
