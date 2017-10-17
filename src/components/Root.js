@@ -7,15 +7,12 @@ import Playback from "./Playback";
 import FretboardsContainer from "./Fretboards";
 import TestLibrary from "./TestLibrary";
 import TrackSelector from "./TrackSelector";
-import { getDownload } from "../models/Downloads";
+import Store from "./Store";
+import { BtnLibrary } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 
 import testSongs from "../testSongs";
 import testVideos from "../testVideos";
-
-import Store from "./Store";
-
-import { BtnLibrary } from "./StyleKit";
 
 const testMedia = [...testVideos, ...testSongs];
 
@@ -45,7 +42,9 @@ class Root extends Component {
           style={{ backgroundColor: "white", flexGrow: 1 }}
           onLayout={this.handleLayout}
         >
-          {this.state.isShowingStore && <Store />}
+          {this.state.isShowingStore && (
+            <Store onClose={this.handleCloseStore} />
+          )}
           {this.state.showAd && <AdContainer />}
           <Playback
             song={this.state.song}
@@ -122,6 +121,12 @@ class Root extends Component {
       }
     }
   }
+
+  handleCloseStore = () => {
+    this.setState({
+      isShowingStore: false
+    });
+  };
 
   handleToggleLibrary = () => {
     if (_doTestLibrary) {

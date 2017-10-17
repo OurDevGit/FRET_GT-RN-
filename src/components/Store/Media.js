@@ -54,7 +54,7 @@ class Media extends React.PureComponent {
           <FlatButton
             title="Close"
             style={{ color: PrimaryGold }}
-            onPress={() => null}
+            onPress={this.props.onClose}
           />
         </View>
 
@@ -118,7 +118,8 @@ const mapStateToProps = (state, ownProps) => {
 Media.propTypes = {
   category: PropTypes.object,
   subCategory: PropTypes.object,
-  group: PropTypes.object
+  group: PropTypes.object,
+  onClose: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, actions)(Media);

@@ -1,18 +1,15 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import { View } from "react-native";
-// import InAppBilling from "react-native-billing";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
-import { addPurchase, getIsPurchased } from "../../models/Purchases";
 import { loadPurchases } from "../../models/Products";
-
-import { GetMediaButtonMode } from "../../models/Media";
 import { getStore, getProductDetails } from "../../models/Store";
+
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
-import { StoreDark, StoreLight, LibraryDark, LibraryLight } from "../../design";
 
 class Store extends Component {
   state = {
@@ -57,6 +54,7 @@ class Store extends Component {
           group={this.state.group}
           onIsStoreChange={this.handleIsStoreChange}
           onChoose={this.handleChooseMedia}
+          onClose={this.props.onClose}
         />
       </View>
     );
@@ -140,6 +138,7 @@ class Store extends Component {
   };
 
   handleChooseMedia = async media => {
+    // action
     this.props.chooseMedia(media);
   };
 
@@ -148,10 +147,9 @@ class Store extends Component {
   };
 }
 
-const mapQueriesToProps = (realm, ownProps) => {
-  return {
-    categories: null //realm.objects("Category")
-  };
+Store.propTypes = {
+  chooseMedia: PropTypes.func.isRequired, // action
+  onClose: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
