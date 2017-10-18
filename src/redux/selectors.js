@@ -5,12 +5,25 @@ import { GetMediaButtonMode } from "../models/Media";
 const getMediaByListIds = state => state.get("mediaByListId");
 const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
 const getMediaByListId = (state, id) => getMediaByListIds(state).get(id);
+const getFaves = state => state.get("favorites");
+const getPurchasedMedia = state => state.get("purchasedMedia");
 
 const getClientSidedMedia = (state, obj) => {
   switch (obj.title) {
     case "All Content": {
       const allMedia = getAllMedia(state);
       return List([Map({ data: allMedia })]);
+    }
+    case "Wishlist": {
+      const allMedia = getAllMedia(state);
+      const faves = getFaves(state);
+      const purchased = getPurchasedMedia(state);
+      const favedMedia = allMedia.filter(
+        media =>
+          faves.includes(media.get("mediaID")) &&
+          purchased.includes(media.get("mediaID").toLowerCase()) === false
+      );
+      return List([Map({ data: favedMedia })]);
     }
     default:
       return List();
