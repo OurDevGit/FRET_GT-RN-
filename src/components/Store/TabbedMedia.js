@@ -57,9 +57,6 @@ const renderIndicator = ({ width, position, navigationState: { index } }) => {
 };
 
 const filterMedia = (media, tabIndex) => {
-  console.debug(tabIndex);
-  console.debug(media);
-
   switch (tabIndex) {
     case 1: {
       // filter just the stuff we've bought (don't show stuff with a GetMode of Purchase)
@@ -97,7 +94,6 @@ class TabbedMedia extends PureComponent {
 
   render() {
     const { media } = this.props;
-    // console.debug("Tabbed Media render");
     return (
       <TabViewAnimated
         style={styles.container}
@@ -169,10 +165,9 @@ class TabbedMedia extends PureComponent {
         price={item.productDetails.priceText}
         getMode={item.getMode}
         progress={item.downloadProgress}
-        onArchiveFiles={() => this.props.onArchiveFiles(item)}
-        onPress={() => {
-          this.props.onChoose(item);
-        }}
+        item={item}
+        onArchiveFiles={this.handleArchiveFiles}
+        onPress={this.handleChooseMedia}
       />
     );
   };
@@ -199,10 +194,6 @@ class TabbedMedia extends PureComponent {
       index
     };
   };
-
-  componentWillMount() {
-    // this.loadPurchases();
-  }
 
   async componentWillReceiveProps(nextProps) {
     // console.debug(nextProps);
@@ -231,6 +222,14 @@ class TabbedMedia extends PureComponent {
     console.debug("TabbedMedia handleIndex Change");
     this.props.onIsStoreChange(index === 0);
     this.setState({ index });
+  };
+
+  handleArchiveFiles = media => {
+    this.props.onArchiveFiles(media);
+  };
+
+  handleChooseMedia = media => {
+    this.props.onChoose(media);
   };
 }
 

@@ -1,13 +1,6 @@
 import React, { PureComponent } from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Button,
-  StyleSheet,
-  Modal
-} from "react-native";
+import PropTypes from "prop-types";
+import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { BtnDetails, BtnHeart, BtnGetMedia } from "../StyleKit";
 import MediaDetails from "./MediaDetails";
 
@@ -15,8 +8,9 @@ class MediaItem extends PureComponent {
   state = {
     isShowingDetails: false
   };
+
   render() {
-    // console.debug(this.props);
+    // console.debug("MediaItem render()");
     return (
       <TouchableOpacity onPress={this.props.onPress}>
         <View style={styles.row}>
@@ -25,6 +19,7 @@ class MediaItem extends PureComponent {
             <Text style={styles.title}>{this.props.title}</Text>
             <Text style={styles.subtitle}>{this.props.subtitle}</Text>
           </View>
+
           <MediaDetails
             isVisible={this.state.isShowingDetails}
             hasFiles={true}
@@ -33,14 +28,10 @@ class MediaItem extends PureComponent {
             subtitle={this.props.subtitle}
             details={this.props.details}
             onClose={() => this.setState({ isShowingDetails: false })}
-            onArchiveFiles={this.props.onArchiveFiles}
+            onArchiveFiles={() => this.props.onArchiveFiles(this.props.item)}
           />
-          <BtnDetails
-            onPress={() => {
-              console.debug("info!");
-              this.setState({ isShowingDetails: true });
-            }}
-          />
+
+          <BtnDetails onPress={this.handleTapDetails} />
           <BtnGetMedia
             mode={this.props.getMode}
             price={this.props.price}
@@ -51,6 +42,10 @@ class MediaItem extends PureComponent {
       </TouchableOpacity>
     );
   }
+
+  handleTapDetails = () => {
+    this.setState({ isShowingDetails: true });
+  };
 }
 
 const styles = StyleSheet.create({
@@ -69,5 +64,19 @@ const styles = StyleSheet.create({
   title: { fontSize: 12, width: "100%", color: "#4f4f4f" },
   subtitle: { fontSize: 10, width: "100%", color: "#8f8e94" }
 });
+
+MediaItem.propTypes = {
+  item: PropTypes.object,
+  getMode: PropTypes.string,
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  details: PropTypes.string,
+  id: PropTypes.string,
+  artworkURL: PropTypes.string,
+  price: PropTypes.string,
+  progress: PropTypes.number,
+  onPress: PropTypes.func.isRequired,
+  onArchiveFiles: PropTypes.func.isRequired
+};
 
 export default MediaItem;

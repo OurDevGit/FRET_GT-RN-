@@ -14,7 +14,8 @@ const configureStore = () => {
   const store = createStore(
     appReducer,
     initialState,
-    applyMiddleware(/*logger, */sagaMiddleware)
+    // applyMiddleware(logger, sagaMiddleware)
+    applyMiddleware(sagaMiddleware)
   );
   sagaMiddleware.run(fetchAd);
 
