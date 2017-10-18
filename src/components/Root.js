@@ -6,22 +6,13 @@ import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
 import FretboardsContainer from "./Fretboards";
-import TestLibrary from "./TestLibrary";
 import TrackSelector from "./TrackSelector";
 import Store from "./Store";
 import { BtnLibrary } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 
-import testSongs from "../testSongs";
-import testVideos from "../testVideos";
-
-const testMedia = [...testVideos, ...testSongs];
-
-const _doTestLibrary = false;
-
 class Root extends Component {
   state = {
-    libIsOpen: false,
     song: null,
     video: null,
     showAd: true,
@@ -66,12 +57,6 @@ class Root extends Component {
               supportsMultipleFretboards={supportsMultipleFretboards}
             />
           )}
-
-          <TestLibrary
-            isOpen={this.state.libIsOpen}
-            onSelect={this.handleChooseMedia}
-            media={testMedia}
-          />
 
           {this.state.showAd &&
             trackCount < 4 && (
@@ -130,30 +115,21 @@ class Root extends Component {
   };
 
   handleToggleLibrary = () => {
-    if (_doTestLibrary) {
-      this.setState({
-        libIsOpen: !this.state.libIsOpen
-      });
-    } else {
-      this.setState({
-        isShowingStore: true
-      });
-    }
+    this.setState({
+      isShowingStore: true
+    });
   };
 
   handleChooseMedia = mediaIndex => {
-    const media = testMedia[mediaIndex];
     const isPhone = Dimensions.get("window").height < 500;
     if (media.type === "song") {
       this.setState({
-        libIsOpen: false,
         song: media,
         video: null,
         showAd: true
       });
     } else if (media.type === "video") {
       this.setState({
-        libIsOpen: false,
         song: null,
         video: media,
         showAd: !isPhone
