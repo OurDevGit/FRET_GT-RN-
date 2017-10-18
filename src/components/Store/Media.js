@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, TextInput, TouchableOpacity, Text, Button } from "react-native";
-
-import { toJS } from "immutable";
+import { View, TextInput, Text } from "react-native";
 import Fuse from "fuse.js";
+
 import _ from "lodash";
 
 import * as actions from "../../redux/actions";
@@ -63,6 +62,7 @@ class Media extends React.PureComponent {
           onChoose={this.props.onChoose}
           onIsStoreChange={this.props.onIsStoreChange}
           onArchiveFiles={this.handleArchiveFiles}
+          onFavePress={this.handleFavePress}
         />
       </View>
     );
@@ -102,6 +102,10 @@ class Media extends React.PureComponent {
   handleArchiveFiles = media => {
     this.props.deleteMedia(media);
   };
+
+  handleFavePress = mediaId => {
+    this.props.toggleFavorite(mediaId);
+  };
 }
 
 const mapStateToProps = (state, ownProps) => {
@@ -116,9 +120,15 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 Media.propTypes = {
+  media: PropTypes.array,
+  style: PropTypes.object,
   category: PropTypes.object,
   subCategory: PropTypes.object,
   group: PropTypes.object,
+  toggleFavorite: PropTypes.func.isRequired, // action creator
+  deleteMedia: PropTypes.func.isRequired, // action creator
+  onChoose: PropTypes.func.isRequired,
+  onIsStoreChange: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

@@ -251,7 +251,6 @@ class PlaybackVideoPrimary extends React.Component {
                 width: 40,
                 height: 40
               }}
-              mediaId={mediaId}
             />
           </View>
         )}
@@ -303,7 +302,6 @@ class PlaybackVideoPrimary extends React.Component {
                   height: isPhone ? 34 : 40,
                   marginRight: 10
                 }}
-                mediaId={mediaId}
               />
             </View>
           )}

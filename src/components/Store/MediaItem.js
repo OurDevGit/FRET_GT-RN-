@@ -43,7 +43,7 @@ class MediaItem extends PureComponent {
             price={this.props.price}
             progress={this.props.progress}
           />
-          <BtnHeart mediaId={this.props.id} />
+          <BtnHeart onPress={this.handleFavePress} isOn={this.props.isFaved} />
         </View>
       </TouchableOpacity>
     );
@@ -55,6 +55,11 @@ class MediaItem extends PureComponent {
 
   handleTouch = () => {
     this.props.onPress(this.props.item);
+  };
+
+  handleFavePress = () => {
+    console.debug("press heart");
+    this.props.onFavePress(this.props.id);
   };
 }
 
@@ -85,6 +90,7 @@ MediaItem.propTypes = {
   artworkURL: PropTypes.string,
   price: PropTypes.string,
   progress: PropTypes.number,
+  isFaved: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
   onArchiveFiles: PropTypes.func.isRequired
 };

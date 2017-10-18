@@ -143,7 +143,6 @@ const PlaybackPrimary = ({
             width: 40,
             height: 40
           }}
-          mediaId={mediaId}
         />
       </View>
     )}

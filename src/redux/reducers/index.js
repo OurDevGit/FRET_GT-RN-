@@ -31,6 +31,7 @@ import { productDetails, productDetailsHaveLoaded } from "./products";
 import { purchasedMedia } from "./purchases";
 import { downloadProgress, downloadedMedia } from "./downloads";
 import { currentMedia } from "./current_media";
+import { favorites } from "./favorites";
 
 const appReducer = combineReducers({
   ad,
@@ -65,7 +66,8 @@ const appReducer = combineReducers({
   downloadProgress,
   downloadedMedia,
   // Current Media
-  currentMedia
+  currentMedia,
+  favorites
 });
 
 export default appReducer;

@@ -129,6 +129,13 @@ const mergeGetMode = (state, singleMedia, detailsHaveLoaded = false) => {
   return singleMedia.merge({ getMode: mode, downloadProgress });
 };
 
+const mergeFavorites = (state, singleMedia) => {
+  const mediaId = singleMedia.get("mediaID");
+  const isFaved = state.get("favorites").includes(mediaId);
+
+  return singleMedia.merge({ isFaved });
+};
+
 // Loop the media sections, and the media inside them.
 // Merge in details to each media item, like the In-App Billing details (price),
 // "get button mode" (i.e. downloading vs. downloaded)
@@ -164,7 +171,8 @@ const mergeMediaDetails = (state, mediaSections) => {
         withProductDetails,
         detailsHaveLoaded
       );
-      return withGetMode;
+      const withFave = mergeFavorites(state, withGetMode);
+      return withFave;
     });
 
     const newSection = mediaSection.set("data", newData);

@@ -159,6 +159,7 @@ class TabbedMedia extends PureComponent {
       <MediaItem
         id={item.mediaID}
         title={item.title}
+        isFaved={item.isFaved}
         subtitle={item.artist}
         details={item.details}
         artworkURL={item.artworkURL}
@@ -168,6 +169,7 @@ class TabbedMedia extends PureComponent {
         item={item}
         onArchiveFiles={this.handleArchiveFiles}
         onPress={this.handleChooseMedia}
+        onFavePress={this.props.onFavePress}
       />
     );
   };
@@ -219,7 +221,6 @@ class TabbedMedia extends PureComponent {
   }
 
   handleIndexChange = index => {
-    console.debug("TabbedMedia handleIndex Change");
     this.props.onIsStoreChange(index === 0);
     this.setState({ index });
   };
@@ -258,7 +259,8 @@ TabbedMedia.propTypes = {
   onArchiveFiles: PropTypes.func.isRequired,
   media: PropTypes.array,
   onIsStoreChange: PropTypes.func.isRequired,
-  onChoose: PropTypes.func.isRequired
+  onChoose: PropTypes.func.isRequired,
+  onFavePress: PropTypes.func.isRequired
 };
 
 export default TabbedMedia;
