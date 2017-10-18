@@ -8,6 +8,10 @@ export const favorites = (state = Set(), action) => {
       } else {
         return state.add(action.payload);
       }
+    case "SET_FAVORITES": {
+      const faves = Set(action.payload);
+      return faves;
+    }
     default:
       return state;
   }

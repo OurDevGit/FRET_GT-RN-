@@ -7,7 +7,12 @@ import {
   doPurchase,
   downloadMedia
 } from "./sagas-media";
-import { GetMediaButtonMode } from "./models/Media";
+import {
+  GetMediaButtonMode,
+  getFaves,
+  addFave,
+  deleteFave
+} from "./models/Media";
 import { setPurchased } from "./models/Purchases";
 import { setDownload, removeDownload } from "./models/Downloads";
 import { fetchProductDetails, fetchPurchases } from "./models/Products";
@@ -21,8 +26,8 @@ function* getDownloadedMedia(mediaId) {
   return files;
 }
 
-const getDownloadProgress = mediaId =>
-  select(state => state.get("downloadedMedia")).get(mediaId);
+const getFavorite = mediaId =>
+  select(state => state.get("favorites").includes(mediaId));
 
 function* fetchAd(action) {
   // console.log(`fetchAd!`)
@@ -128,6 +133,10 @@ function* watchRefreshStore(action) {
     const purchasedMedia = yield fetchPurchases();
     yield setPurchased(purchasedMedia);
     yield put(actions.setPurchasedMedia(purchasedMedia));
+
+    // load favorites
+    const faves = yield getFaves();
+    yield put(actions.setFavorites(faves));
   } catch (error) {
     console.debug(error);
     console.debug(error.stack);
@@ -155,11 +164,23 @@ function* watchDeleteMedia(action) {
   removeDownload(mediaId);
 }
 
+function* watchToggleFavorite(action) {
+  const mediaId = action.payload;
+  const isFavorite = yield getFavorite(mediaId);
+
+  if (isFavorite === true) {
+    addFave(mediaId);
+  } else {
+    deleteFave(mediaId);
+  }
+}
+
 function* mySaga() {
   yield takeLatest("AD_FETCH_REQUESTED", fetchAd);
   yield takeEvery("CHOOSE_MEDIA", watchChooseMedia);
   yield takeLatest("REFRESH_STORE", watchRefreshStore);
   yield takeEvery("DELETE_MEDIA", watchDeleteMedia);
+  yield takeEvery("TOGGLE_FAVORITE", watchToggleFavorite);
 }
 
 export default mySaga;
