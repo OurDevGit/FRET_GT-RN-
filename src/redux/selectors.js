@@ -82,17 +82,19 @@ const getDownloadProgress = (state, mediaId) => {
   return downloadProgress.get(mediaId);
 };
 
-const mergeProductDetails = (state, singleMedia) => {
+const mergeProductDetails = (state, singleMedia, detailsHaveLoaded = false) => {
   const productDetails = state.get("productDetails") || Map();
   const mediaId = singleMedia.get("mediaID");
 
   return singleMedia.set(
     "productDetails",
-    productDetails.get(mediaId.toLowerCase()) || Map({ priceText: "LOADING" })
+    productDetails.get(mediaId.toLowerCase()) || detailsHaveLoaded
+      ? Map({ priceText: "COMING SOON" })
+      : Map({ priceText: "LOADING" })
   );
 };
 
-const mergeGetMode = (state, singleMedia) => {
+const mergeGetMode = (state, singleMedia, detailsHaveLoaded = false) => {
   const mediaId = singleMedia.get("mediaID");
 
   // is purchased
@@ -118,6 +120,10 @@ const mergeGetMode = (state, singleMedia) => {
     }
   } else if (isPurchased === true) {
     mode = GetMediaButtonMode.Download;
+  } else if (
+    singleMedia.get("productDetails").get("priceText") === "COMING SOON"
+  ) {
+    mode = GetMediaButtonMode.ComingSoon;
   }
 
   return singleMedia.merge({ getMode: mode, downloadProgress });
@@ -131,20 +137,22 @@ const mergeMediaDetails = (state, mediaSections) => {
     return mediaSections;
   }
 
-  const productDetails = state.get("productDetails") || Map();
+  // const productDetails = state.get("productDetails") || Map();
   const mediaWithProductDetails = mediaSections.map(mediaSection => {
     const media = mediaSection.get("data");
-    // filter the media to just the stuff we have Product Details for (aka. if it's in Google Play as an In-App Product)
-    const filteredData =
-      state.get("productDetailsHaveLoaded") === true
-        ? media.filter(
-            m =>
-              productDetails.get(m.get("mediaID").toLowerCase()) !== undefined
-          )
-        : media;
-    const newData = filteredData.map(m => {
-      const withProductDetails = mergeProductDetails(state, m);
-      const withGetMode = mergeGetMode(state, withProductDetails);
+    const detailsHaveLoaded = state.get("productDetailsHaveLoaded") === true;
+    // merge in product details and Get Mode for each media item
+    const newData = media.map(m => {
+      const withProductDetails = mergeProductDetails(
+        state,
+        m,
+        detailsHaveLoaded
+      );
+      const withGetMode = mergeGetMode(
+        state,
+        withProductDetails,
+        detailsHaveLoaded
+      );
       return withGetMode;
     });
 
