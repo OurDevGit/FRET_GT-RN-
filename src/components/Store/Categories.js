@@ -31,11 +31,19 @@ class Categories extends React.PureComponent {
   }
 
   renderItem = ({ item, index }) => {
-    // console.debug({ index });
+    var title = item.title;
+    if (
+      this.props.isStore !== true &&
+      item.libraryTitle !== undefined &&
+      item.libraryTitle.trim() !== ""
+    ) {
+      title = item.libraryTitle;
+    }
+
     return (
       <LargeButton
         id={item.id}
-        title={item.title}
+        title={title}
         iconURL={item.iconURL}
         isSelected={index === this.props.selectedIndex}
         onPress={() => this.props.onChoose(item, index)}

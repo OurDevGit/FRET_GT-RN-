@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
 const LargeButton = ({ isSelected, iconURL, title, onPress, color }) => (
@@ -36,11 +37,12 @@ const LargeButton = ({ isSelected, iconURL, title, onPress, color }) => (
   </TouchableOpacity>
 );
 
-export default LargeButton;
+LargeButton.propTypes = {
+  isSelected: PropTypes.bool.isRequired,
+  iconURL: PropTypes.string,
+  title: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  color: PropTypes.string.isRequired
+};
 
-/*
-    
-        
-      
-    </View>
-  </TouchableOpacity>*/
+export default LargeButton;

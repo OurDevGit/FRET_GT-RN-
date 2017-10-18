@@ -31,16 +31,27 @@ class SubCategories extends React.PureComponent {
     );
   }
 
-  renderItem = ({ item, index }) => (
-    <LargeButton
-      id={item.id}
-      title={item.title}
-      iconURL={item.iconURL}
-      isSelected={index === this.props.selectedIndex}
-      onPress={() => this.props.onChoose(item, index)}
-      color={this.props.isStore ? StoreDark : LibraryDark}
-    />
-  );
+  renderItem = ({ item, index }) => {
+    var title = item.title;
+    if (
+      this.props.isStore !== true &&
+      item.libraryTitle !== undefined &&
+      item.libraryTitle.trim() !== ""
+    ) {
+      title = item.libraryTitle;
+    }
+
+    return (
+      <LargeButton
+        id={item.id}
+        title={title}
+        iconURL={item.iconURL}
+        isSelected={index === this.props.selectedIndex}
+        onPress={() => this.props.onChoose(item, index)}
+        color={this.props.isStore ? StoreDark : LibraryDark}
+      />
+    );
+  };
 }
 
 export default SubCategories;
