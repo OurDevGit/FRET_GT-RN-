@@ -141,6 +141,17 @@ const mergeMediaDetails = (state, mediaSections) => {
   const mediaWithProductDetails = mediaSections.map(mediaSection => {
     const media = mediaSection.get("data");
     const detailsHaveLoaded = state.get("productDetailsHaveLoaded") === true;
+
+    // TEMP until the IAPs get filled out
+    const productDetails = state.get("productDetails") || Map();
+    const filteredData =
+      state.get("productDetailsHaveLoaded") === true
+        ? media.filter(
+            m =>
+              productDetails.get(m.get("mediaID").toLowerCase()) !== undefined
+          )
+        : media;
+
     // merge in product details and Get Mode for each media item
     const newData = media.map(m => {
       const withProductDetails = mergeProductDetails(
