@@ -81,7 +81,7 @@ class Media extends React.PureComponent {
   }
 
   handleChangeText = text => {
-    if (this.fuse) {
+    if (this.fuse && text.length > 1) {
       const result = this.fuse.search(text);
 
       // console.debug(text);
