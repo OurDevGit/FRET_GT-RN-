@@ -28,9 +28,7 @@ const MediaDetails = ({
     animationType="fade"
     transparent={true}
     visible={isVisible}
-    onRequestClose={() => {
-      console.debug("dismiss details");
-    }}
+    onRequestClose={onClose}
   >
     <View style={styles.shade}>
       <View style={styles.container}>
@@ -54,11 +52,13 @@ const MediaDetails = ({
             borderTopWidth: 1
           }}
         >
-          <FlatButton
-            title="Archive Files"
-            style={{ color: Danger }}
-            onPress={onArchiveFiles}
-          />
+          {hasFiles === true && (
+            <FlatButton
+              title="Archive Files"
+              style={{ color: Danger }}
+              onPress={onArchiveFiles}
+            />
+          )}
 
           <FlatButton
             title="Close"

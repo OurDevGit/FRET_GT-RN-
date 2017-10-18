@@ -1,5 +1,4 @@
 import {
-  fetchPurchases,
   makePurchase,
   getPurchasedTransactionDetails
 } from "./models/Products";

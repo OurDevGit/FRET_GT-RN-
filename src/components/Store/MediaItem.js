@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { BtnDetails, BtnHeart, BtnGetMedia } from "../StyleKit";
 import MediaDetails from "./MediaDetails";
+import { GetMediaButtonMode } from "../../models/Media";
 
 class MediaItem extends PureComponent {
   state = {
@@ -11,8 +12,10 @@ class MediaItem extends PureComponent {
 
   render() {
     // console.debug("MediaItem render()");
+    const hasFiles = this.props.getMode === GetMediaButtonMode.Play;
+
     return (
-      <TouchableOpacity onPress={this.props.onPress}>
+      <TouchableOpacity onPress={this.handleTouch}>
         <View style={styles.row}>
           <Image source={{ uri: this.props.artworkURL }} style={styles.thumb} />
           <View style={styles.titleContainer}>
@@ -22,13 +25,16 @@ class MediaItem extends PureComponent {
 
           <MediaDetails
             isVisible={this.state.isShowingDetails}
-            hasFiles={true}
+            hasFiles={hasFiles}
             artworkURL={this.props.artworkURL}
             title={this.props.title}
             subtitle={this.props.subtitle}
             details={this.props.details}
             onClose={() => this.setState({ isShowingDetails: false })}
-            onArchiveFiles={() => this.props.onArchiveFiles(this.props.item)}
+            onArchiveFiles={() => {
+              this.setState({ isShowingDetails: false });
+              this.props.onArchiveFiles(this.props.item);
+            }}
           />
 
           <BtnDetails onPress={this.handleTapDetails} />
@@ -45,6 +51,10 @@ class MediaItem extends PureComponent {
 
   handleTapDetails = () => {
     this.setState({ isShowingDetails: true });
+  };
+
+  handleTouch = () => {
+    this.props.onPress(this.props.item);
   };
 }
 
