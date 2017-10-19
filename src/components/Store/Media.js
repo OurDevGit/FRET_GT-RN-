@@ -11,6 +11,8 @@ import { selectMedia } from "../../redux/selectors";
 import { PrimaryGold } from "../../design";
 import { FlatButton } from "../Material";
 import TabbedMedia from "./TabbedMedia";
+import FacebookIcon from "./social_icons/Facebook";
+import TwitterIcon from "./social_icons/Twitter";
 
 const fuseOptions = {
   shouldSort: true,
@@ -50,6 +52,8 @@ class Media extends React.PureComponent {
             value={this.state.searchText}
           />
           <Text>{this.state.mediaCount}</Text>
+          <FacebookIcon />
+          <TwitterIcon />
           <FlatButton
             title="Close"
             style={{ color: PrimaryGold }}
