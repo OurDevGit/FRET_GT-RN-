@@ -105,7 +105,9 @@ const RegularTableHeader = ({ section }) => (
 const NavigableHeader = ({ section, onPress, isExpanded }) => (
   <TouchableHighlight onPress={onPress}>
     <View style={styles.navigableHeader}>
-      <Text>{section.title}</Text>
+      <Text style={{ color: isExpanded ? "gray" : "black" }}>
+        {section.title}
+      </Text>
       <View style={{ height: 15, width: 23 }}>
         <BtnExpand isExpanded={isExpanded} />
       </View>
