@@ -157,6 +157,7 @@ class TabbedMedia extends PureComponent {
       case "1":
         return (
           <SectionList
+            stickySectionHeadersEnabled={this.props.isNavigableSubCategory}
             sections={tab1}
             renderSectionHeader={this.renderTableHeader}
             renderItem={this.renderItem}
@@ -169,6 +170,7 @@ class TabbedMedia extends PureComponent {
       case "2":
         return (
           <SectionList
+            stickySectionHeadersEnabled={this.props.isNavigableSubCategory}
             sections={tab2}
             renderSectionHeader={this.renderTableHeader}
             renderItem={this.renderItem}
@@ -181,6 +183,7 @@ class TabbedMedia extends PureComponent {
       case "3":
         return (
           <SectionList
+            stickySectionHeadersEnabled={this.props.isNavigableSubCategory}
             sections={tab3}
             renderSectionHeader={this.renderTableHeader}
             renderItem={this.renderItem}
@@ -225,9 +228,13 @@ class TabbedMedia extends PureComponent {
           <NavigableHeader
             section={section}
             onPress={() => {
-              this.setState({
-                navigableOpenSection: section.title
-              });
+              if (section.title === this.state.navigableOpenSection) {
+                this.setState({ navigableOpenSection: "_ALLCLOSED" });
+              } else {
+                this.setState({
+                  navigableOpenSection: section.title
+                });
+              }
             }}
           />
         );
