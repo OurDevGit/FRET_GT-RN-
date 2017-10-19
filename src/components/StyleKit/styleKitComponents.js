@@ -541,6 +541,18 @@ export const BtnDetails_targetFrame_resizing_isPressed = props => <PaintCode
   {...props}
 />
 
+export const BtnExpand_rotation = props => <PaintCode
+  drawMethod="BtnExpand"
+  drawArgs={["rotation"]}
+  {...props}
+/>
+
+export const BtnExpand_targetFrame_resizing_rotation = props => <PaintCode
+  drawMethod="BtnExpand"
+  drawArgs={["targetFrame","resizing","rotation"]}
+  {...props}
+/>
+
 export const TunerBG_tuningDistance = props => <PaintCode
   drawMethod="TunerBG"
   drawArgs={["tuningDistance"]}

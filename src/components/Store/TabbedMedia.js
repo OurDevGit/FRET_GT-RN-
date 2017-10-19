@@ -17,6 +17,7 @@ import { GetMediaButtonMode } from "../../models/Media";
 import { addPurchases } from "../../models/Purchases";
 import MediaItem from "./MediaItem";
 import { StoreDark, LibraryDark } from "../../design";
+import { BtnExpand } from "../StyleKit";
 
 const renderHeader = props => {
   return (
@@ -101,10 +102,13 @@ const RegularTableHeader = ({ section }) => (
     <Text>{section.title}</Text>
   </View>
 );
-const NavigableHeader = ({ section, onPress }) => (
+const NavigableHeader = ({ section, onPress, isExpanded }) => (
   <TouchableHighlight onPress={onPress}>
     <View style={styles.navigableHeader}>
       <Text>{section.title}</Text>
+      <View style={{ height: 15, width: 23 }}>
+        <BtnExpand isExpanded={isExpanded} />
+      </View>
     </View>
   </TouchableHighlight>
 );
@@ -227,6 +231,7 @@ class TabbedMedia extends PureComponent {
         return (
           <NavigableHeader
             section={section}
+            isExpanded={this.state.navigableOpenSection === section.title}
             onPress={() => {
               if (section.title === this.state.navigableOpenSection) {
                 this.setState({ navigableOpenSection: "_ALLCLOSED" });
@@ -338,6 +343,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     width: "100%",
     height: 51,
+    alignItems: "center",
+    justifyContent: "space-between",
     borderBottomColor: "#d9d9d9",
     borderBottomWidth: 1,
     padding: 5,

@@ -12,7 +12,8 @@ import {
   BtnCloudDownload_targetFrame_resizing,
   BtnCloudDownload,
   CircularProgress_targetFrame_resizing_angle,
-  IndeterminateCircle_angle
+  IndeterminateCircle_angle,
+  BtnExpand_rotation
 } from "./styleKitComponents";
 import { GetMediaButtonMode } from "../../models/Media";
 import { PrimaryBlue } from "../../design";
@@ -113,4 +114,15 @@ export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
     default:
       break;
   }
+};
+
+export const BtnExpand = props => {
+  const Comp = BtnExpand_rotation;
+  return (
+    <Comp
+      {...props}
+      rotation={props.isExpanded === true ? 180 : 0}
+      style={{ width: 23, height: 15 }}
+    />
+  );
 };
