@@ -66,27 +66,21 @@ const getMediaForCategory = (state, category) => {
 const getMediaforSubCategory = (state, subCategory) => {
   const groups = getGroups(state, subCategory.id);
 
-  if (subCategory.isNavigable === true) {
-    // TODO: implement
-    return List([Map({ data: [], title: "TODO: navigable groups" })]);
-  } else {
-    console.debug("not a navigable Sub Category");
-    if (groups !== undefined) {
-      console.debug("Sub Category has Groups");
-      const media = groups.map(group => {
-        const mediaIds = getMediaByListId(state, group.get("id")) || List();
-        const data = getMediaForIds(state, mediaIds);
-        return Map({ data, title: group.get("title") });
-      });
-
-      return media;
-    } else {
-      console.debug("Sub Category without Groups");
-      // sub-category without groups
-      const mediaIds = getMediaByListId(state, subCategory.id) || List();
+  if (groups !== undefined) {
+    console.debug("Sub Category has Groups");
+    const media = groups.map(group => {
+      const mediaIds = getMediaByListId(state, group.get("id")) || List();
       const data = getMediaForIds(state, mediaIds);
-      return List([Map({ data })]);
-    }
+      return Map({ data, title: group.get("title") });
+    });
+
+    return media;
+  } else {
+    console.debug("Sub Category without Groups");
+    // sub-category without groups
+    const mediaIds = getMediaByListId(state, subCategory.id) || List();
+    const data = getMediaForIds(state, mediaIds);
+    return List([Map({ data })]);
   }
 };
 

@@ -63,6 +63,7 @@ class Media extends React.PureComponent {
           onIsStoreChange={this.props.onIsStoreChange}
           onArchiveFiles={this.handleArchiveFiles}
           onFavePress={this.handleFavePress}
+          isNavigableSubCategory={this.props.isNavigableSubCategory}
         />
       </View>
     );
@@ -120,6 +121,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 Media.propTypes = {
+  isNavigableSubCategory: PropTypes.bool.isRequired,
   media: PropTypes.array,
   style: PropTypes.object,
   category: PropTypes.object,

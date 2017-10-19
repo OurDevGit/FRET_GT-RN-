@@ -55,6 +55,9 @@ class Store extends Component {
           onIsStoreChange={this.handleIsStoreChange}
           onChoose={this.handleChooseMedia}
           onClose={this.props.onClose}
+          isNavigableSubCategory={
+            (this.state.subCategory || {}).isNavigable === true
+          }
         />
       </View>
     );
@@ -125,7 +128,7 @@ class Store extends Component {
   };
 
   handleChooseSubCategory = (subCategory, subCategoryIndex) => {
-    console.debug(subCategoryIndex, subCategory);
+    // console.debug(subCategoryIndex, subCategory);
 
     const groups = this.props.groups[subCategory.id];
 

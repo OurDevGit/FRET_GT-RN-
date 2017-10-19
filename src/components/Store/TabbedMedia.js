@@ -1,6 +1,7 @@
 import React, { PureComponent } from "react";
 import {
   View,
+  TouchableHighlight,
   SectionList,
   StyleSheet,
   Text,
@@ -56,11 +57,21 @@ const renderIndicator = ({ width, position, navigationState: { index } }) => {
   );
 };
 
-const filterMedia = (media, tabIndex) => {
+const filterMedia = (media, tabIndex, navigableOpenSection) => {
+  var preFilteredMedia = media;
+
+  if (navigableOpenSection !== null) {
+    preFilteredMedia = media.map(mediaList => ({
+      ...mediaList,
+      data: mediaList.title === navigableOpenSection ? mediaList.data : []
+    }));
+  }
+
+  var filteredMedia = null;
   switch (tabIndex) {
     case 1: {
       // filter just the stuff we've bought (don't show stuff with a GetMode of Purchase)
-      return media.map(mediaList => ({
+      filteredMedia = preFilteredMedia.map(mediaList => ({
         ...mediaList,
         data: mediaList.data.filter(
           m =>
@@ -68,28 +79,47 @@ const filterMedia = (media, tabIndex) => {
             m.getMode !== GetMediaButtonMode.ComingSoon
         )
       }));
+      break;
     }
     case 2:
       // filter just the stuff we can play
-      return media.map(mediaList => ({
+      filteredMedia = preFilteredMedia.map(mediaList => ({
         ...mediaList,
         data: mediaList.data.filter(m => m.getMode === GetMediaButtonMode.Play)
       }));
+      break;
     default:
-      return media;
+      filteredMedia = preFilteredMedia;
   }
+
+  return filteredMedia;
 };
+
+const HiddenTableHeader = () => <View style={styles.hiddenHeader} />;
+const RegularTableHeader = ({ section }) => (
+  <View style={styles.regularHeader}>
+    <Text>{section.title}</Text>
+  </View>
+);
+const NavigableHeader = ({ section, onPress }) => (
+  <TouchableHighlight onPress={onPress}>
+    <View style={styles.navigableHeader}>
+      <Text>{section.title}</Text>
+    </View>
+  </TouchableHighlight>
+);
 
 class TabbedMedia extends PureComponent {
   state = {
-    // used by the react-77native-tab-view
+    // used by the react-native-tab-view
     index: 0,
     // used by the react-native-tab-view
     routes: [
       { key: "1", title: "Store" },
       { key: "2", title: "Purchased" },
       { key: "3", title: "Downloaded" }
-    ]
+    ],
+    navigableOpenSection: null
   };
 
   render() {
@@ -107,9 +137,21 @@ class TabbedMedia extends PureComponent {
   }
 
   renderScene = ({ route }) => {
-    const tab1 = filterMedia(this.props.media, 0);
-    const tab2 = filterMedia(this.props.media, 1);
-    const tab3 = filterMedia(this.props.media, 2);
+    const tab1 = filterMedia(
+      this.props.media,
+      0,
+      this.state.navigableOpenSection
+    );
+    const tab2 = filterMedia(
+      this.props.media,
+      1,
+      this.state.navigableOpenSection
+    );
+    const tab3 = filterMedia(
+      this.props.media,
+      2,
+      this.state.navigableOpenSection
+    );
 
     switch (route.key) {
       case "1":
@@ -174,20 +216,26 @@ class TabbedMedia extends PureComponent {
     );
   };
 
-  renderTableHeader = ({ section }) => (
-    <View
-      style={{
-        // height: 30,
-        padding: 8,
-        backgroundColor: "lightgray",
-        alignItems: "center",
-        justifyContent: "center",
-        display: section.title === undefined ? "none" : "flex"
-      }}
-    >
-      <Text>{section.title}</Text>
-    </View>
-  );
+  renderTableHeader = ({ section }) => {
+    if (section.title === undefined) {
+      return <HiddenTableHeader />;
+    } else {
+      if (this.props.isNavigableSubCategory) {
+        return (
+          <NavigableHeader
+            section={section}
+            onPress={() => {
+              this.setState({
+                navigableOpenSection: section.title
+              });
+            }}
+          />
+        );
+      } else {
+        return <RegularTableHeader section={section} />;
+      }
+    }
+  };
 
   getItemLayout = (data, index) => {
     return {
@@ -217,6 +265,22 @@ class TabbedMedia extends PureComponent {
         //   productDetailsById
         // });
       }
+    }
+
+    // changing TO navigable sub categories
+    if (
+      nextProps.isNavigableSubCategory === true &&
+      this.props.isNavigableSubCategory === false
+    ) {
+      this.setState({ navigableOpenSection: "_ALLCLOSED" });
+    }
+
+    // changing FROM navigable sub categories
+    if (
+      nextProps.isNavigableSubCategory === false &&
+      this.props.isNavigableSubCategory === true
+    ) {
+      this.setState({ navigableOpenSection: null });
     }
   }
 
@@ -252,6 +316,25 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     height: 2
+  },
+  regularHeader: {
+    padding: 8,
+    backgroundColor: "lightgray",
+    alignItems: "center",
+    justifyContent: "center",
+    display: "flex"
+  },
+  hiddenHeader: {
+    display: "none"
+  },
+  navigableHeader: {
+    backgroundColor: "white",
+    width: "100%",
+    height: 51,
+    borderBottomColor: "#d9d9d9",
+    borderBottomWidth: 1,
+    padding: 5,
+    flexDirection: "row"
   }
 });
 
@@ -260,7 +343,8 @@ TabbedMedia.propTypes = {
   media: PropTypes.array,
   onIsStoreChange: PropTypes.func.isRequired,
   onChoose: PropTypes.func.isRequired,
-  onFavePress: PropTypes.func.isRequired
+  onFavePress: PropTypes.func.isRequired,
+  isNavigableSubCategory: PropTypes.bool.isRequired
 };
 
 export default TabbedMedia;
