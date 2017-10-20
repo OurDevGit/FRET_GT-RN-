@@ -104,6 +104,12 @@ module.exports = (track, secondsForTicks) => {
           if (lastFret === undefined || lastFret < fret) {
             lastFret = fret;
           }
+
+          // handling if frets are below 0 (bass)
+          if (firstFret < 0) {
+            lastFret += firstFret;
+            firstFret = 0;
+          }
         }
       }
 
