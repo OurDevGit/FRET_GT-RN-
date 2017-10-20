@@ -32,7 +32,8 @@ const notation = (fret, string, isLeft) => {
 
 const notes = (track, fret, isSmart, isLeft, frets, boardWidth, fretHeight) => {
   var views = [];
-  const fretIndex = isLeft ? 23 - fret : fret;
+  const last = isSmart ? track.lastFret : 23;
+  const fretIndex = isLeft ? last - fret : fret;
 
   for (var i = 0; i < 6; i++) {
     if (i < 4 || !track.isBass) {
