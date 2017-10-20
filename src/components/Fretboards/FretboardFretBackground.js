@@ -12,7 +12,7 @@ const frets = (track, isSmart, isLeft, boardWidth, onToggleOrientation) => {
 
   for (let i = first; i <= last; i++) {
     let color = "black";
-    if ((isLeft && i === 23) || (!isLeft && i === 0)) {
+    if ((isLeft && i === last) || (!isLeft && i === 0)) {
       color = "#f0b072";
     }
     frets.push(

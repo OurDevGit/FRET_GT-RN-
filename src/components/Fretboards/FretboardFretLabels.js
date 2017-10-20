@@ -10,7 +10,7 @@ const labels = (style, track, isSmart, isLeft, boardWidth) => {
 
   for (var i = first; i <= last; i++) {
     var label = "Nut";
-    if (isLeft && i < 23) {
+    if (isLeft && i < last) {
       label = last - i;
     } else if (!isLeft && i > 0) {
       label = i;
