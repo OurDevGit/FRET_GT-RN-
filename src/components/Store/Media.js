@@ -47,6 +47,9 @@ class Media extends React.PureComponent {
           <TextInput
             disableFullscreenUI={true}
             returnKeyType="search"
+            placeholder="Search"
+            placeholderTextColor="lightgray"
+            inlineImageLeft="search_icon"
             style={{
               flexGrow: 1,
               marginRight: 8
