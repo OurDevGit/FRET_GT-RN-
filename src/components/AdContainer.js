@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image } from "react-native";
+import { View, Image } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
@@ -17,6 +17,22 @@ class AdContainer extends Component {
         }}
         source={require("../images/topiPhone.png")}
       >
+        <View
+          style={{
+            position: "absolute",
+            height: "100%",
+            padding: 10
+          }}
+        >
+          <Image
+            style={{
+              height: "100%",
+              aspectRatio: 2.63
+            }}
+            resizeMode={"contain"}
+            source={require("../images/logo-guitar-tunes.png")}
+          />
+        </View>
         <AdPresentation onTap={this.handleTap} imageUrl={ad.get("phone")} />
       </Image>
     );
