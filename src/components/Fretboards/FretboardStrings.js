@@ -42,6 +42,7 @@ const strings = (track, boardWidth) => {
 
 const FretboardStrings = ({ track, boardWidth }) => (
   <View
+    pointerEvents={"none"}
     style={{
       position: "absolute",
       top: 0,

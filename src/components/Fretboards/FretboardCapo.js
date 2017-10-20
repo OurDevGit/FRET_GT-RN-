@@ -5,7 +5,7 @@ import { View, Text } from "react-native";
 import FretboardNote from "./FretboardNote";
 import { FretCapo } from "../StyleKit";
 
-const capo = (track, isSmart, boardWidth, fretHeight) => {
+const capo = (track, isSmart, isLeft, boardWidth, fretHeight) => {
   if (fretHeight > 0) {
     var frets = [];
     const first = isSmart ? track.firstFret : 0;
@@ -14,13 +14,14 @@ const capo = (track, isSmart, boardWidth, fretHeight) => {
     const fretWidth = boardWidth / diff;
 
     for (var i = first; i <= last; i++) {
+      const isVisible = track.capo === (isLeft ? 23 - i : i);
       frets.push(
         <View key={i} style={{ flex: 1 }}>
-          {track.capo === i && (
+          {isVisible && (
             <FretCapo
               style={{
                 position: "absolute",
-                right: 6,
+                right: isLeft ? 12 : 6,
                 top: 0,
                 width: fretWidth - 20,
                 height: fretHeight + 15
@@ -34,7 +35,7 @@ const capo = (track, isSmart, boardWidth, fretHeight) => {
   }
 };
 
-const FretboardCapo = ({ track, isSmart, boardWidth, fretHeight }) => (
+const FretboardCapo = ({ track, isSmart, isLeft, boardWidth, fretHeight }) => (
   <View
     style={{
       position: "absolute",
@@ -46,13 +47,14 @@ const FretboardCapo = ({ track, isSmart, boardWidth, fretHeight }) => (
       justifyContent: "space-between"
     }}
   >
-    {capo(track, isSmart, boardWidth, fretHeight)}
+    {capo(track, isSmart, isLeft, boardWidth, fretHeight)}
   </View>
 );
 
 FretboardCapo.propTypes = {
   track: PropTypes.object.isRequired,
   isSmart: PropTypes.bool.isRequired,
+  isLeft: PropTypes.bool.isRequired,
   boardWidth: PropTypes.number.isRequired,
   fretHeight: PropTypes.number.isRequired
 };

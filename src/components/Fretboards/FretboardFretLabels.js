@@ -2,13 +2,19 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View, Text } from "react-native";
 
-const labels = (style, track, isSmart, boardWidth) => {
+const labels = (style, track, isSmart, isLeft, boardWidth) => {
   var frets = [];
   const first = isSmart ? track.firstFret : 0;
   const last = isSmart ? track.lastFret : 23;
   const diff = last - first;
 
   for (var i = first; i <= last; i++) {
+    var label = "Nut";
+    if (isLeft && i < 23) {
+      label = last - i;
+    } else if (!isLeft && i > 0) {
+      label = i;
+    }
     frets.push(
       <View
         key={i}
@@ -23,7 +29,7 @@ const labels = (style, track, isSmart, boardWidth) => {
             textAlign: "center"
           }}
         >
-          {i > 0 ? i : "Nut"}
+          {label}
         </Text>
       </View>
     );
@@ -31,14 +37,14 @@ const labels = (style, track, isSmart, boardWidth) => {
   return frets;
 };
 
-const FretboardFretLabels = ({ style, track, isSmart, boardWidth }) => (
+const FretboardFretLabels = ({ style, track, isSmart, isLeft, boardWidth }) => (
   <View
     style={{
       flexDirection: "row",
       justifyContent: "space-between"
     }}
   >
-    {labels(style, track, isSmart, boardWidth)}
+    {labels(style, track, isSmart, isLeft, boardWidth)}
   </View>
 );
 
@@ -46,6 +52,7 @@ FretboardFretLabels.propTypes = {
   style: PropTypes.object,
   track: PropTypes.object.isRequired,
   isSmart: PropTypes.bool.isRequired,
+  isLeft: PropTypes.bool.isRequired,
   boardWidth: PropTypes.number.isRequired
 };
 

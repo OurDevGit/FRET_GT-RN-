@@ -53,12 +53,20 @@ const notes = (track, fret, isSmart, frets, boardWidth, fretHeight) => {
   return views;
 };
 
-const frets = (track, isSmart, boardWidth, fretHeight) => {
+const frets = (track, isSmart, isLeft, boardWidth, fretHeight) => {
   if (fretHeight > 0) {
     var frets = [];
-    const first = isSmart ? track.firstFret : 0;
-    const last = isSmart ? track.lastFret : 23;
-    const diff = last - first;
+    var first, last, diff;
+
+    if (isLeft) {
+      first = isSmart ? track.lastFret : 23;
+      last = isSmart ? track.firstFret : 0;
+      diff = first - last;
+    } else {
+      first = isSmart ? track.firstFret : 0;
+      last = isSmart ? track.lastFret : 23;
+      diff = last - first;
+    }
 
     for (var i = first; i <= last; i++) {
       frets.push(
@@ -83,11 +91,14 @@ const frets = (track, isSmart, boardWidth, fretHeight) => {
 const FretboardFrets = ({
   track,
   isSmart,
+  isLeft,
   boardWidth,
   fretHeight,
-  onLayout
+  onLayout,
+  onToggleOrientation
 }) => (
   <View
+    pointerEvents={"none"}
     style={{
       position: "absolute",
       top: 0,
@@ -100,13 +111,14 @@ const FretboardFrets = ({
     }}
     onLayout={onLayout}
   >
-    {frets(track, isSmart, boardWidth, fretHeight)}
+    {frets(track, isSmart, isLeft, boardWidth, fretHeight)}
   </View>
 );
 
 FretboardFrets.propTypes = {
   track: PropTypes.object.isRequired,
   isSmart: PropTypes.bool.isRequired,
+  isLeft: PropTypes.bool.isRequired,
   boardWidth: PropTypes.number.isRequired,
   fretHeight: PropTypes.number.isRequired,
   onLayout: PropTypes.func.isRequired

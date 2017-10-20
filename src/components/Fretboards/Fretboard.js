@@ -15,7 +15,8 @@ import SmartFretText from "../modals/SmartFretText";
 
 class Fretboard extends React.Component {
   state = {
-    fretHeight: 0
+    fretHeight: 0,
+    isLeft: false
   };
 
   render() {
@@ -63,7 +64,7 @@ class Fretboard extends React.Component {
               >
                 <SmartFretText
                   color={PrimaryBlue}
-                  size={isSmart ? isPhone ? 16 : 20 : isPhone ? 13 : 17}
+                  size={isSmart ? (isPhone ? 16 : 20) : isPhone ? 13 : 17}
                 />
               </TouchableOpacity>
             )}
@@ -73,22 +74,27 @@ class Fretboard extends React.Component {
         <FretboardLabels
           track={track}
           isSmart={isSmart}
+          isLeft={this.state.isLeft}
           boardWidth={boardWidth}
         />
-        <View style={{ flex: 1, backgroundColor: "red" }}>
+        <View style={{ flex: 1 }}>
           <FretboardBackground
             track={track}
             isSmart={isSmart}
+            isLeft={this.state.isLeft}
             boardWidth={boardWidth}
+            onToggleOrientation={this.handleToggleOrientation}
           />
           <FretboardStrings
             track={track}
             isSmart={isSmart}
+            isLeft={this.state.isLeft}
             boardWidth={boardWidth}
           />
           <FretboardFrets
             track={track}
             isSmart={isSmart}
+            isLeft={this.state.isLeft}
             fretHeight={this.state.fretHeight}
             onLayout={this.handleLayout.bind(this)}
             boardWidth={boardWidth}
@@ -96,6 +102,7 @@ class Fretboard extends React.Component {
           <FretboardCapo
             track={track}
             isSmart={isSmart}
+            isLeft={this.state.isLeft}
             fretHeight={this.state.fretHeight}
             boardWidth={boardWidth}
           />
@@ -109,6 +116,10 @@ class Fretboard extends React.Component {
       fretHeight: e.nativeEvent.layout.height
     });
   }
+
+  handleToggleOrientation = () => {
+    this.setState({ isLeft: !this.state.isLeft });
+  };
 }
 
 Fretboard.propTypes = {

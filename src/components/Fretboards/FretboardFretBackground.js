@@ -1,19 +1,35 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { View } from "react-native";
+import { View, TouchableWithoutFeedback } from "react-native";
 import FretMarkers from "./FretboardMarkers";
 
-const frets = (track, isSmart, boardWidth) => {
+const frets = (track, isSmart, isLeft, boardWidth, onToggleOrientation) => {
   var frets = [];
-  var first = isSmart ? track.firstFret : 0;
-  var last = isSmart ? track.lastFret : 23;
+  const first = isSmart ? track.firstFret : 0;
+  const last = isSmart ? track.lastFret : 23;
+  const diff = last - first;
 
-  for (var i = first; i <= last; i++) {
+  for (let i = first; i <= last; i++) {
+    let color = "black";
+    if ((isLeft && i === 23) || (!isLeft && i === 0)) {
+      color = "#f0b072";
+    }
     frets.push(
-      <View key={i} style={{ flex: 1 }}>
+      <TouchableWithoutFeedback
+        key={i}
+        style={{ flex: 1 }}
+        onPress={() => {
+          if (color === "#f0b072") {
+            onToggleOrientation();
+          }
+        }}
+      >
         <View
-          style={{ flex: 1, backgroundColor: i === 0 ? "#f0b072" : "black" }}
+          style={{
+            flex: 1,
+            backgroundColor: color
+          }}
         >
           <View
             style={{
@@ -25,15 +41,21 @@ const frets = (track, isSmart, boardWidth) => {
             }}
           />
 
-          <FretMarkers fret={i} />
+          <FretMarkers fret={i} isLeft={isLeft} />
         </View>
-      </View>
+      </TouchableWithoutFeedback>
     );
   }
   return frets;
 };
 
-const FretboardFretBackground = ({ track, isSmart, boardWidth }) => (
+const FretboardFretBackground = ({
+  track,
+  isSmart,
+  isLeft,
+  boardWidth,
+  onToggleOrientation
+}) => (
   <View
     style={{
       position: "absolute",
@@ -45,14 +67,16 @@ const FretboardFretBackground = ({ track, isSmart, boardWidth }) => (
       justifyContent: "space-between"
     }}
   >
-    {frets(track, isSmart, boardWidth)}
+    {frets(track, isSmart, isLeft, boardWidth, onToggleOrientation)}
   </View>
 );
 
 FretboardFretBackground.propTypes = {
   track: PropTypes.object.isRequired,
   isSmart: PropTypes.bool.isRequired,
-  boardWidth: PropTypes.number.isRequired
+  isLeft: PropTypes.bool.isRequired,
+  boardWidth: PropTypes.number.isRequired,
+  onToggleOrientation: PropTypes.func.isRequired
 };
 
 export default FretboardFretBackground;
