@@ -89,16 +89,17 @@ const getDownloadProgress = (state, mediaId) => {
   return downloadProgress.get(mediaId);
 };
 
-const mergeProductDetails = (state, singleMedia, detailsHaveLoaded = false) => {
+const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
   const productDetails = state.get("productDetails") || Map();
   const mediaId = singleMedia.get("mediaID");
-
-  return singleMedia.set(
-    "productDetails",
-    productDetails.get(mediaId.toLowerCase()) || detailsHaveLoaded
+  const mediaDetails =
+    productDetails.get(mediaId.toLowerCase()) ||
+    // if the above is null/undefined then we fall back to LOADING / COMING SOON
+    (detailsHaveLoaded === true
       ? Map({ priceText: "COMING SOON" })
-      : Map({ priceText: "LOADING" })
-  );
+      : Map({ priceText: "LOADING" }));
+
+  return singleMedia.set("productDetails", mediaDetails);
 };
 
 const mergeGetMode = (state, singleMedia, detailsHaveLoaded = false) => {
@@ -156,7 +157,7 @@ const mergeMediaDetails = (state, mediaSections) => {
     const media = mediaSection.get("data");
     const detailsHaveLoaded = state.get("productDetailsHaveLoaded") === true;
 
-    const _TEST_USE_FILTER = false;
+    const _TEST_USE_FILTER = true;
 
     // TEMP until the IAPs get filled out
     const productDetails = state.get("productDetails") || Map();
@@ -223,8 +224,8 @@ export const selectMedia = (state, category, subCategory, group) => {
 };
 
 export const getMediaForPlay = (state, mediaId) => {
-  const files = state.get("downloadedMedia").get(mediaId);
-  const details = state.get("mediaById").get(mediaId);
+  const files = state.get("downloadedMedia").get(mediaId) || Map();
+  const details = state.get("mediaById").get(mediaId) || Map();
 
   if (details === undefined) {
     return Map();
