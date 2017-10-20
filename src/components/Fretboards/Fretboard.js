@@ -59,7 +59,9 @@ class Fretboard extends React.Component {
                   marginBottom: isSmart ? 10 : 5
                 }}
                 onPress={() => {
-                  isSmart ? clearSmartTrack() : setSmartTrack(track);
+                  isSmart
+                    ? clearSmartTrack()
+                    : setSmartTrack(track, this.state.isLeft);
                 }}
               >
                 <SmartFretText

@@ -15,7 +15,7 @@ const scaleForNotation = notation => {
   }
 };
 
-const notation = (fret, string) => {
+const notation = (fret, string, isLeft) => {
   const roots = ["E", "B", "G", "D", "A", "E"];
   const defaultName = roots[string];
   const scale = scaleForNotation();
@@ -30,8 +30,9 @@ const notation = (fret, string) => {
   return scale[remainder];
 };
 
-const notes = (track, fret, isSmart, frets, boardWidth, fretHeight) => {
+const notes = (track, fret, isSmart, isLeft, frets, boardWidth, fretHeight) => {
   var views = [];
+  const fretIndex = isLeft ? 23 - fret : fret;
 
   for (var i = 0; i < 6; i++) {
     if (i < 4 || !track.isBass) {
@@ -39,10 +40,10 @@ const notes = (track, fret, isSmart, frets, boardWidth, fretHeight) => {
         <FretboardNote
           key={i}
           track={track.name}
-          fret={fret}
+          fret={fretIndex}
           frets={frets}
           string={track.isBass ? i + 2 : i}
-          notation={notation(fret, i)}
+          notation={notation(fretIndex, i, isLeft)}
           boardWidth={boardWidth}
           fretHeight={fretHeight}
           isSmart={isSmart}
@@ -56,17 +57,9 @@ const notes = (track, fret, isSmart, frets, boardWidth, fretHeight) => {
 const frets = (track, isSmart, isLeft, boardWidth, fretHeight) => {
   if (fretHeight > 0) {
     var frets = [];
-    var first, last, diff;
-
-    if (isLeft) {
-      first = isSmart ? track.lastFret : 23;
-      last = isSmart ? track.firstFret : 0;
-      diff = first - last;
-    } else {
-      first = isSmart ? track.firstFret : 0;
-      last = isSmart ? track.lastFret : 23;
-      diff = last - first;
-    }
+    const first = isSmart ? track.firstFret : 0;
+    const last = isSmart ? track.lastFret : 23;
+    const diff = last - first;
 
     for (var i = first; i <= last; i++) {
       frets.push(
@@ -79,7 +72,7 @@ const frets = (track, isSmart, isLeft, boardWidth, fretHeight) => {
               alignItems: "center"
             }}
           >
-            {notes(track, i, isSmart, diff, boardWidth, fretHeight)}
+            {notes(track, i, isSmart, isLeft, diff, boardWidth, fretHeight)}
           </View>
         </View>
       );

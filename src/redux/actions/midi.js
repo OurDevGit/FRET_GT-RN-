@@ -13,9 +13,9 @@ export const updateVisibleTracks = tracks => ({
   payload: tracks
 });
 
-export const setSmartTrack = track => ({
+export const setSmartTrack = (track, isLeft) => ({
   type: "SET_SMART_TRACK",
-  payload: track
+  payload: { ...track, isLeft }
 });
 
 export const clearSmartTrack = () => ({

@@ -3,17 +3,19 @@ import PropTypes from "prop-types";
 import { View } from "react-native";
 
 const bar = { position: "absolute", width: "100%", height: "100%" };
-
-const markers = fret => {
+const fretCheck = (fret, number, isLeft) => {
+  return fret === (isLeft ? 23 - number : number);
+};
+const markers = (fret, isLeft) => {
   if (
-    fret === 3 ||
-    fret === 5 ||
-    fret === 7 ||
-    fret === 9 ||
-    fret === 15 ||
-    fret === 17 ||
-    fret === 19 ||
-    fret === 21
+    fretCheck(fret, 3, isLeft) ||
+    fretCheck(fret, 5, isLeft) ||
+    fretCheck(fret, 7, isLeft) ||
+    fretCheck(fret, 9, isLeft) ||
+    fretCheck(fret, 15, isLeft) ||
+    fretCheck(fret, 17, isLeft) ||
+    fretCheck(fret, 19, isLeft) ||
+    fretCheck(fret, 21, isLeft)
   ) {
     return (
       <View
@@ -26,7 +28,7 @@ const markers = fret => {
         }}
       />
     );
-  } else if (fret === 12) {
+  } else if (fretCheck(fret, 12, isLeft)) {
     return (
       <View>
         <View
@@ -54,7 +56,7 @@ const markers = fret => {
   }
 };
 
-const FretboardMarkers = ({ fret }) => (
+const FretboardMarkers = ({ fret, isLeft }) => (
   <View
     style={{
       position: "absolute",
@@ -65,11 +67,12 @@ const FretboardMarkers = ({ fret }) => (
       justifyContent: "center"
     }}
   >
-    {markers(fret)}
+    {markers(fret, isLeft)}
   </View>
 );
 
 FretboardMarkers.propTypes = {
+  isLeft: PropTypes.bool.isRequired,
   fret: PropTypes.number.isRequired
 };
 

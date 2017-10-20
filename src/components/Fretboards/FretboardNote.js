@@ -66,5 +66,5 @@ FretboardNote.propTypes = {
 };
 
 export default connect(mapStateToProps, undefined)(
-  onlyUpdateForKeys(["isVisible", "fretHeight"])(FretboardNote)
+  onlyUpdateForKeys(["isVisible", "notation", "fretHeight"])(FretboardNote)
 );
