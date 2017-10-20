@@ -113,6 +113,12 @@ class Fretboard extends React.Component {
     );
   }
 
+  componentWillMount() {
+    if (this.props.track.isLeft) {
+      this.setState({ isLeft: true });
+    }
+  }
+
   handleLayout(e) {
     this.setState({
       fretHeight: e.nativeEvent.layout.height

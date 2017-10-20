@@ -137,6 +137,7 @@ class SmartFretModal extends React.Component {
                 mediaId={this.props.mediaId}
                 title={this.props.mediaTitle}
                 isPlaying={this.props.isPlaying}
+                isPhone={this.props.isPhone}
                 onPreviousPress={this.props.onPreviousPress}
                 onBackPress={this.props.onBackPress}
                 onPlayPausePress={this.props.onPlayPausePress}
@@ -162,6 +163,7 @@ class SmartFretModal extends React.Component {
                 connectedDevices={this.props.connectedDevices}
                 isPhone={this.props.isPhone}
                 isVideo={false}
+                isFullscreen={false}
                 onSelectTempo={this.props.onSelectTempo}
                 onLoopEnable={this.props.onLoopEnable}
                 onLoopBegin={this.props.onLoopBegin}
@@ -178,7 +180,6 @@ class SmartFretModal extends React.Component {
           <Fretboard
             track={this.props.track}
             isSmart={true}
-            isLeft={this.props.track.isLeft}
             isPhone={this.props.isPhone}
             isHidingLabels={this.props.isPhone}
             showSmart={!this.props.isPhone}
