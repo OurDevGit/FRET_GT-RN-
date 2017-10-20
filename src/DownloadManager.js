@@ -6,6 +6,7 @@ import {
 } from "./redux/actions";
 import { setDownload, getAllDownloads } from "./models/Downloads";
 import { guid } from "./utils";
+import { throttle } from "lodash";
 
 // const android = RNFetchBlob.android;
 const dirs = RNFetchBlob.fs.dirs;
@@ -101,17 +102,22 @@ const downloadFiles = (urls, progressCallback) => {
 
 export const downloadMediaFiles = async (files, mediaId) => {
   const filesMap = await downloadFiles(files.map(f => f.url), progress => {
-    console.debug(mediaId, progress);
+    // console.debug(mediaId, progress);
     _dispatchProgress(mediaId, progress);
   });
 
-  console.debug(filesMap);
+  // console.debug(filesMap);
   return filesMap;
 };
 
 export const configureDownloadManager = async store => {
+  const throttledDispatch = throttle(store.dispatch, 500, {
+    leading: true,
+    trailing: false
+  });
+
   _dispatchProgress = (mediaId, progress) => {
-    store.dispatch(downloadProgress(mediaId, progress));
+    throttledDispatch(downloadProgress(mediaId, progress));
   };
 
   _dispatchFinish = fileMap => {
