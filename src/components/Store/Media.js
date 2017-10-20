@@ -30,6 +30,9 @@ class Media extends React.PureComponent {
   };
 
   render() {
+    const media = this.state.searchResults || this.props.media || [];
+    const isSearch = this.state.searchResults !== null;
+
     return (
       <View style={this.props.style}>
         <View
@@ -62,12 +65,14 @@ class Media extends React.PureComponent {
         </View>
 
         <TabbedMedia
-          media={this.state.searchResults || this.props.media || []}
+          media={media}
           onChoose={this.props.onChoose}
           onIsStoreChange={this.props.onIsStoreChange}
           onArchiveFiles={this.handleArchiveFiles}
           onFavePress={this.handleFavePress}
-          isNavigableSubCategory={this.props.isNavigableSubCategory}
+          isNavigableSubCategory={
+            isSearch === true ? this.props.isNavigableSubCategory : false
+          }
         />
       </View>
     );
@@ -82,15 +87,13 @@ class Media extends React.PureComponent {
     this.setState({
       mediaCount: allMedia.length
     });
+
     this.fuse = new Fuse(allMedia, fuseOptions); // "list" is the item array
   }
 
   handleChangeText = text => {
     if (this.fuse && text.length > 1) {
       const result = this.fuse.search(text);
-
-      // console.debug(text);
-      // console.debug({ searchResult: result.length });
 
       this.setState({
         searchResults: [{ data: result }]
