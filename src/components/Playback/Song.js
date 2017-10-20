@@ -35,7 +35,7 @@ class Song extends React.Component {
     const mediaTitle =
       this.props.song !== undefined ? this.props.song.title : "";
     const mediaId = this.props.song !== undefined ? this.props.song.id : "";
-    const isCompact = this.props.height < 150;
+    const isCompact = this.props.height > 10 && this.props.height < 150;
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
     const isVideo = this.props.video !== undefined;

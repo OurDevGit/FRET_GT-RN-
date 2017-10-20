@@ -22,45 +22,45 @@ class MediaPlayer extends Component {
     return (
       <View style={{ flex: 1 }} onLayout={this.handleLayout}>
         {this.props.song !== undefined &&
-        this.props.song !== null && (
-          <Song
-            song={this.props.song}
-            trackCount={this.props.trackCount}
-            height={this.state.layout.height}
-            updateMidiData={this.props.updateMidiData}
-            clearMidiData={this.props.clearMidiData}
-            updateTime={this.props.updateTime}
-            connectedDevices={0}
-            enableLoop={this.props.enableLoop}
-            setCurrentLoop={this.props.setCurrentLoop}
-            clearCurrentLoop={this.props.clearCurrentLoop}
-            onSelectTempo={this.handleSelectTempo}
-            onToggleLibrary={this.props.onToggleLibrary}
-          />
-        )}
+          this.props.song !== null && (
+            <Song
+              song={this.props.song}
+              trackCount={this.props.trackCount}
+              height={this.state.layout.height}
+              updateMidiData={this.props.updateMidiData}
+              clearMidiData={this.props.clearMidiData}
+              updateTime={this.props.updateTime}
+              connectedDevices={0}
+              enableLoop={this.props.enableLoop}
+              setCurrentLoop={this.props.setCurrentLoop}
+              clearCurrentLoop={this.props.clearCurrentLoop}
+              onSelectTempo={this.handleSelectTempo}
+              onToggleLibrary={this.props.onToggleLibrary}
+            />
+          )}
         {this.props.video !== undefined &&
-        this.props.video !== null && (
-          <Video
-            video={this.props.video}
-            height={this.state.layout.height}
-            updateMidiData={this.props.updateMidiData}
-            clearMidiData={this.props.clearMidiData}
-            updateTime={this.props.updateTime}
-            connectedDevices={0}
-            enableLoop={this.props.enableLoop}
-            setCurrentLoop={this.props.setCurrentLoop}
-            clearCurrentLoop={this.props.clearCurrentLoop}
-            onSelectTempo={this.handleSelectTempo}
-            setVideoChapters={this.props.setVideoChapters}
-            setVideoMidiFiles={this.props.setVideoMidiFiles}
-            setCurrentVideoChapter={this.props.setCurrentVideoChapter}
-            setCurrentVideoMarker={this.props.setCurrentVideoMarker}
-            setCurrentVideoMidiFile={this.props.setCurrentVideoMidiFile}
-            onToggleAd={this.props.onToggleAd}
-            onToggleFretboards={this.props.onToggleFretboards}
-            onClearMedia={this.props.onClearMedia}
-          />
-        )}
+          this.props.video !== null && (
+            <Video
+              video={this.props.video}
+              height={this.state.layout.height}
+              updateMidiData={this.props.updateMidiData}
+              clearMidiData={this.props.clearMidiData}
+              updateTime={this.props.updateTime}
+              connectedDevices={0}
+              enableLoop={this.props.enableLoop}
+              setCurrentLoop={this.props.setCurrentLoop}
+              clearCurrentLoop={this.props.clearCurrentLoop}
+              onSelectTempo={this.handleSelectTempo}
+              setVideoChapters={this.props.setVideoChapters}
+              setVideoMidiFiles={this.props.setVideoMidiFiles}
+              setCurrentVideoChapter={this.props.setCurrentVideoChapter}
+              setCurrentVideoMarker={this.props.setCurrentVideoMarker}
+              setCurrentVideoMidiFile={this.props.setCurrentVideoMidiFile}
+              onToggleAd={this.props.onToggleAd}
+              onToggleFretboards={this.props.onToggleFretboards}
+              onClearMedia={this.props.onClearMedia}
+            />
+          )}
       </View>
     );
   }
@@ -69,7 +69,8 @@ class MediaPlayer extends Component {
     return (
       this.props.song !== nextProps.song ||
       this.props.video !== nextProps.video ||
-      this.state.layout.width !== nextState.layout.width
+      this.state.layout.width !== nextState.layout.width ||
+      this.state.layout.height !== nextState.layout.height
     );
   }
 
