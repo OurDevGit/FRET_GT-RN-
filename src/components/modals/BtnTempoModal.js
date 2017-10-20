@@ -126,7 +126,9 @@ class BtnTempoModal extends React.Component {
 
   handleSelectTempo = tempo => {
     this.props.onSelectTempo(tempo);
-    this.props.onForceControlsVisible(false);
+    if (this.props.onForceControlsVisible !== undefined) {
+      this.props.onForceControlsVisible(false);
+    }
     this.setState({ modalIsVisible: false });
   };
 }
