@@ -55,10 +55,12 @@ class TrackSelector extends Component {
             }}
           >
             <Text
+              numberOfLines={1}
+              ellipsizeMode={"tail"}
               style={{
                 textAlign: "center",
                 color: trackIsVisible ? "white" : PrimaryGold,
-                fontSize: 18
+                fontSize: 16
               }}
             >
               {track.get("name")}
