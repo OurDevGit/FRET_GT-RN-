@@ -60,9 +60,6 @@ function* watchChooseMedia(action) {
 
   console.debug("we don't have that media...");
 
-  // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
-  yield put(actions.downloadProgress(mediaId, -1));
-
   // const state = yield select(state => state);
   // console.debug(state.toJS());
 
@@ -70,8 +67,13 @@ function* watchChooseMedia(action) {
   const transactionDetails = yield fetchTransactionDetails(mediaId);
 
   // if we already bought this, then download it and finish
-  if (transactionDetails.purchaseState === "PurchasedSuccessfully") {
+  if (
+    transactionDetails !== null &&
+    transactionDetails.purchaseState === "PurchasedSuccessfully"
+  ) {
     console.debug("We own this. Downloading the media now.");
+    // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
+    yield put(actions.downloadProgress(mediaId, -1));
     const mediaFiles = yield downloadMedia(media);
     // console.debug({ mediaFiles });
     yield setDownload(mediaId, mediaFiles);
@@ -80,9 +82,12 @@ function* watchChooseMedia(action) {
   }
 
   console.debug("going into getMode switch");
+  console.debug(media.getMode);
 
   switch (media.getMode) {
     case GetMediaButtonMode.Purchase: {
+      // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
+      yield put(actions.downloadProgress(mediaId, -1));
       const purchaseSuccess = yield doPurchase(media);
       if (purchaseSuccess === true) {
         yield put(actions.addPurchasedMedia(mediaId));
@@ -95,6 +100,8 @@ function* watchChooseMedia(action) {
       break;
     }
     case GetMediaButtonMode.Download: {
+      // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
+      yield put(actions.downloadProgress(mediaId, -1));
       console.debug("do download!");
       const mediaFiles = yield downloadMedia(media);
       console.debug({ mediaFiles });
