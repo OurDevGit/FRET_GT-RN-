@@ -4,7 +4,15 @@ import { View } from "react-native";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
-import { getStore, getProductDetails } from "../../models/Store";
+import {
+  getStore,
+  getProductDetails,
+  setCategoryIndex,
+  setSubCategoryIndex,
+  setGroupIndex,
+  setTabIndex,
+  getUIState
+} from "../../models/Store";
 import { loadedPurchased } from "../../models/Purchases";
 
 import Categories from "./Categories";
@@ -13,6 +21,7 @@ import Media from "./Media";
 
 class Store extends Component {
   state = {
+    isMounted: false,
     categoryIndex: 0,
     category: null,
     subCategory: null,
@@ -72,6 +81,26 @@ class Store extends Component {
     this.props.setPurchasedMedia(purchases);
     this.props.storeLoaded(storeObjects);
     this.props.productDetailsLoaded(productDetails);
+
+    // load the UI state
+    const { categoryIndex, subCategoryIndex } = await getUIState();
+    console.debug("loaded", categoryIndex, subCategoryIndex, false);
+    const category = this.props.categories[categoryIndex];
+    const subCategory = this.getSubCategory(
+      this.props,
+      category,
+      subCategoryIndex
+    );
+
+    this.handleChooseCategory(
+      category,
+      categoryIndex,
+      subCategory,
+      subCategoryIndex
+    );
+    this.handleChooseSubCategory(subCategory, subCategoryIndex);
+
+    this.setState({ isMounted: true });
   }
 
   async componentDidMount() {
@@ -80,19 +109,41 @@ class Store extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    // console.debug("Store gets props");
+    if (this.state.isMounted !== true) {
+      return;
+    }
+
+    console.debug("Store gets props");
     // console.debug(newProps.categories.length);
     if (newProps.categories.length > this.state.categoryIndex) {
+      const category = newProps.categories[this.state.categoryIndex];
+      const subCategory = this.getSubCategory(
+        newProps,
+        category,
+        this.state.subCategoryIndex
+      );
       this.handleChooseCategory(
         newProps.categories[this.state.categoryIndex],
-        this.state.categoryIndex
+        this.state.categoryIndex,
+        subCategory,
+        this.state.subCategoryIndex
       );
     }
   }
 
-  handleChooseCategory = (category, categoryIndex) => {
+  handleChooseCategory = async (
+    category,
+    categoryIndex,
+    subCategory,
+    subCategoryIndex
+  ) => {
     // console.debug(categoryIndex, category);
 
+    if (!category) {
+      return;
+    }
+
+    await setCategoryIndex(categoryIndex);
     const subCategories = this.props.subCategories[category.id];
 
     // category without sub-categories
@@ -122,15 +173,23 @@ class Store extends Component {
           subCategories
         });
 
-        this.handleChooseSubCategory(subCategories[0], 0);
+        this.handleChooseSubCategory(
+          subCategory || subCategories[0],
+          subCategoryIndex || 0
+        );
       }
     }
   };
 
   handleChooseSubCategory = (subCategory, subCategoryIndex) => {
-    // console.debug(subCategoryIndex, subCategory);
+    if (!subCategory) {
+      console.debug("no sub cat object");
+      return;
+    }
+    console.debug(subCategoryIndex, subCategory);
 
     const groups = this.props.groups[subCategory.id];
+    setSubCategoryIndex(subCategoryIndex);
 
     this.setState({
       subCategory,
@@ -146,9 +205,25 @@ class Store extends Component {
   handleIsStoreChange = isStore => {
     this.setState({ isStore });
   };
+
+  getSubCategory = (props, category, subCategoryIndex) => {
+    if (category !== undefined && category !== null) {
+      const subCategories = this.props.subCategories[category.id];
+      if (subCategoryIndex !== undefined && subCategoryIndex !== null) {
+        return subCategories[subCategoryIndex];
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  };
 }
 
 Store.propTypes = {
+  categories: PropTypes.array,
+  subCategories: PropTypes.object,
+  group: PropTypes.array,
   chooseMedia: PropTypes.func.isRequired, // action
   onClose: PropTypes.func.isRequired
 };

@@ -68,4 +68,35 @@ export const getProductDetails = async () => {
   return pd;
 };
 
+export const setCategoryIndex = async index => {
+  console.debug(`setting cat index ${index}`);
+  return Store.setObj("categoryIndex", index);
+};
+
+export const setSubCategoryIndex = async index => {
+  return Store.setObj("subCategoryIndex", index);
+};
+
+export const setGroupIndex = async index => {
+  return Store.setObj("groupIndex", index);
+};
+
+export const setTabIndex = async index => {
+  return Store.setObj("tabIndex", index);
+};
+
+export const getUIState = async () => {
+  const categoryIndex = await Store.getObj("categoryIndex");
+  const subCategoryIndex = await Store.getObj("subCategoryIndex");
+  const groupIndex = await Store.getObj("groupIndex");
+  const tabIndex = await Store.getObj("tabIndex");
+
+  return {
+    categoryIndex,
+    subCategoryIndex,
+    groupIndex,
+    tabIndex
+  };
+};
+
 export default Store;
