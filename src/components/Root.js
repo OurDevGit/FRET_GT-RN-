@@ -22,11 +22,12 @@ class Root extends Component {
   };
 
   render() {
-    const { store, trackCount } = this.props;
+    const { store, visibleTracks } = this.props;
     const aspectRatio = this.state.layout.width / this.state.layout.height;
     const supportsMultipleFretboards =
       this.state.layout.width > 1 && aspectRatio < 1.6;
     const isVideo = this.state.video !== null;
+    const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
 
     return (
       <Provider store={store}>
@@ -41,7 +42,7 @@ class Root extends Component {
           <Playback
             song={this.state.song}
             video={this.state.video}
-            trackCount={this.props.trackCount}
+            visibleTracks={this.props.visibleTracks}
             onToggleLibrary={this.handleToggleLibrary}
             onToggleAd={this.handleToggleAd}
             onToggleFretboards={this.handleToggleFretboards}
@@ -161,7 +162,7 @@ class Root extends Component {
 }
 
 Root.propTypes = {
-  trackCount: PropTypes.number,
+  visibleTracks: PropTypes.object,
   store: PropTypes.object,
   currentMedia: PropTypes.string,
   mediaForPlay: PropTypes.object
@@ -173,7 +174,7 @@ const mapStateToProps = state => {
   return {
     currentMedia,
     mediaForPlay,
-    trackCount: state.get("visibleTracks").count()
+    visibleTracks: state.get("visibleTracks")
   };
 };
 

@@ -18,14 +18,17 @@ class MediaPlayer extends Component {
   render() {
     // console.log({ song: this.props.song });
     // console.log({ vid: this.props.video });
-
+    const trackCount =
+      this.props.visibleTracks !== undefined
+        ? this.props.visibleTracks.count()
+        : 0;
     return (
       <View style={{ flex: 1 }} onLayout={this.handleLayout}>
         {this.props.song !== undefined &&
           this.props.song !== null && (
             <Song
               song={this.props.song}
-              trackCount={this.props.trackCount}
+              trackCount={trackCount}
               height={this.state.layout.height}
               updateMidiData={this.props.updateMidiData}
               clearMidiData={this.props.clearMidiData}
@@ -85,6 +88,7 @@ class MediaPlayer extends Component {
 
   handleSelectTempo = tempo => {
     if (tempo === 0) {
+      console.log(this.props.visibleTracks);
       const first = this.props.visibleTracks.first();
       this.props.updateVisibleTracks(List([first]));
     }
@@ -103,7 +107,6 @@ class MediaPlayer extends Component {
 MediaPlayer.propTypes = {
   song: PropTypes.object,
   video: PropTypes.object,
-  trackCount: PropTypes.number,
   visibleTracks: PropTypes.object,
   videoChapters: PropTypes.object,
   videoMarkers: PropTypes.object,
