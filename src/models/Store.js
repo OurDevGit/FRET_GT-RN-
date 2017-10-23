@@ -89,7 +89,7 @@ export const getUIState = async () => {
   const categoryIndex = await Store.getObj("categoryIndex");
   const subCategoryIndex = await Store.getObj("subCategoryIndex");
   const groupIndex = await Store.getObj("groupIndex");
-  const tabIndex = await Store.getObj("tabIndex");
+  const tabIndex = (await Store.getObj("tabIndex")) || 0;
 
   return {
     categoryIndex,

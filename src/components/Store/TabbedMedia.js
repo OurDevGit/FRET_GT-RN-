@@ -14,7 +14,7 @@ import { TabViewAnimated, TabBar, SceneMap } from "react-native-tab-view";
 import _ from "lodash";
 
 import { GetMediaButtonMode } from "../../models/Media";
-import { addPurchases } from "../../models/Purchases";
+import { setTabIndex, getUIState } from "../../models/Store";
 import MediaItem from "./MediaItem";
 import { StoreDark, LibraryDark } from "../../design";
 import { BtnExpand } from "../StyleKit";
@@ -259,6 +259,12 @@ class TabbedMedia extends PureComponent {
     };
   };
 
+  async componentWillMount() {
+    const { tabIndex } = await getUIState();
+    this.setState({ index: tabIndex });
+    this.props.onIsStoreChange(tabIndex === 0);
+  }
+
   async componentWillReceiveProps(nextProps) {
     // console.debug(nextProps);
     if (nextProps.media.length > 0) {
@@ -301,6 +307,7 @@ class TabbedMedia extends PureComponent {
   handleIndexChange = index => {
     this.props.onIsStoreChange(index === 0);
     this.setState({ index });
+    setTabIndex(index);
   };
 
   handleArchiveFiles = media => {
