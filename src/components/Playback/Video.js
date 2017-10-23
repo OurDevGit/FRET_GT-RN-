@@ -391,7 +391,13 @@ class Vid extends React.Component {
 
   handleSelectTempo = tempo => {
     this.props.onSelectTempo(tempo);
-    this.setState({ playbackRate: tempo });
+    var newState = { playbackRate: tempo };
+
+    if (this.state.isPlaying) {
+      newState.musicRate = tempo;
+    }
+
+    this.setState(newState);
   };
 
   // LOOP METHODS
