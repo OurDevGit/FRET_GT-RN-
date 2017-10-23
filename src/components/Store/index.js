@@ -84,7 +84,6 @@ class Store extends Component {
 
     // load the UI state
     const { categoryIndex, subCategoryIndex } = await getUIState();
-    console.debug("loaded", categoryIndex, subCategoryIndex, false);
     const category = this.props.categories[categoryIndex];
     const subCategory = this.getSubCategory(
       this.props,
@@ -109,11 +108,13 @@ class Store extends Component {
   }
 
   componentWillReceiveProps(newProps) {
+    // console.debug("Store gets props");
+
+    // skip if we aren't mounted. componentWillMount is async here, so this can happen too soon.
     if (this.state.isMounted !== true) {
       return;
     }
 
-    console.debug("Store gets props");
     // console.debug(newProps.categories.length);
     if (newProps.categories.length > this.state.categoryIndex) {
       const category = newProps.categories[this.state.categoryIndex];
@@ -183,11 +184,8 @@ class Store extends Component {
 
   handleChooseSubCategory = (subCategory, subCategoryIndex) => {
     if (!subCategory) {
-      console.debug("no sub cat object");
       return;
     }
-    console.debug(subCategoryIndex, subCategory);
-
     const groups = this.props.groups[subCategory.id];
     setSubCategoryIndex(subCategoryIndex);
 

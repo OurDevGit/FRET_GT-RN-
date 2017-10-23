@@ -69,7 +69,6 @@ export const getProductDetails = async () => {
 };
 
 export const setCategoryIndex = async index => {
-  console.debug(`setting cat index ${index}`);
   return Store.setObj("categoryIndex", index);
 };
 

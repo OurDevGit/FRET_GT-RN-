@@ -67,7 +67,6 @@ const getMediaforSubCategory = (state, subCategory) => {
   const groups = getGroups(state, subCategory.id);
 
   if (groups !== undefined) {
-    console.debug("Sub Category has Groups");
     const media = groups.map(group => {
       const mediaIds = getMediaByListId(state, group.get("id")) || List();
       const data = getMediaForIds(state, mediaIds);
@@ -76,7 +75,6 @@ const getMediaforSubCategory = (state, subCategory) => {
 
     return media;
   } else {
-    console.debug("Sub Category without Groups");
     // sub-category without groups
     const mediaIds = getMediaByListId(state, subCategory.id) || List();
     const data = getMediaForIds(state, mediaIds);
