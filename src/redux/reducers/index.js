@@ -29,7 +29,7 @@ import {
 } from "./store";
 import { productDetails, productDetailsHaveLoaded } from "./products";
 import { purchasedMedia } from "./purchases";
-import { downloadProgress, downloadedMedia } from "./downloads";
+import { downloadedMedia } from "./downloads";
 import { currentMedia } from "./current_media";
 import { favorites } from "./favorites";
 
@@ -63,7 +63,6 @@ const appReducer = combineReducers({
   productDetailsHaveLoaded,
   purchasedMedia,
   // Downloads
-  downloadProgress,
   downloadedMedia,
   // Current Media
   currentMedia,

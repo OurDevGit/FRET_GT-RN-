@@ -1,19 +1,11 @@
 import RNFetchBlob from "react-native-fetch-blob";
-import {
-  downloadProgress,
-  finishDownload,
-  setDownloads
-} from "./redux/actions";
+import { finishDownload, setDownloads } from "./redux/actions";
 import { setDownload, getAllDownloads } from "./models/Downloads";
 import { guid } from "./utils";
 import { throttle } from "lodash";
 
 // const android = RNFetchBlob.android;
 const dirs = RNFetchBlob.fs.dirs;
-
-let _dispatchProgress = () => {
-  console.warn("_dispatchProgress is not hooked up in DownloadManager");
-};
 
 let _dispatchFinish = () => {
   console.warn("_dispatchFinish is not hooked up in DownloadManager");
@@ -101,25 +93,23 @@ const downloadFiles = (urls, progressCallback) => {
 };
 
 export const downloadMediaFiles = async (files, mediaId) => {
+  // set progress to -1 to indicate Indeterminate mode
+  throttledUpdate(mediaId, -1);
+
   const filesMap = await downloadFiles(files.map(f => f.url), progress => {
-    // console.debug(mediaId, progress);
-    _dispatchProgress(mediaId, progress);
+    throttledUpdate(mediaId, progress);
   });
+
+  // finish download
+  console.debug("done with download");
+  updateSubscribers(mediaId, 1);
+  _dispatchFinish();
 
   // console.debug(filesMap);
   return filesMap;
 };
 
 export const configureDownloadManager = async store => {
-  const throttledDispatch = throttle(store.dispatch, 500, {
-    leading: true,
-    trailing: false
-  });
-
-  _dispatchProgress = (mediaId, progress) => {
-    throttledDispatch(downloadProgress(mediaId, progress));
-  };
-
   _dispatchFinish = fileMap => {
     console.debug("finishing DL");
     console.debug(fileMap);
@@ -130,4 +120,34 @@ export const configureDownloadManager = async store => {
   store.dispatch(setDownloads(allDownloads));
 
   console.debug("DL manager is configured");
+};
+
+/*
+ * Subscription mechanism
+ * Instead of going through state and props, we update download UI directly.
+ * This avoids a lot of re-renders
+ */
+
+var _subscribers = [];
+
+const updateSubscribers = (mediaId, progress) => {
+  _subscribers.forEach(callback => {
+    callback(mediaId, progress);
+  });
+};
+
+const throttledUpdate = throttle(updateSubscribers, 250, {
+  leading: true,
+  trailing: false
+});
+
+export const subscribe = callback => {
+  _subscribers.push(callback);
+};
+
+export const remove = callback => {
+  console.debug("remove");
+  console.debug(_subscribers.length);
+  _subscribers = _subscribers.filter(cb => cb !== callback);
+  console.debug(_subscribers.length);
 };

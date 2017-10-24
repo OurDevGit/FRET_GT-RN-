@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { BtnDetails, BtnHeart, BtnGetMedia } from "../StyleKit";
+import { BtnDetails, BtnHeart, BtnGetMediaProgress } from "../StyleKit";
 import MediaDetails from "./MediaDetails";
 import { GetMediaButtonMode } from "../../models/Media";
 
@@ -38,10 +38,11 @@ class MediaItem extends PureComponent {
           />
 
           <BtnDetails onPress={this.handleTapDetails} />
-          <BtnGetMedia
+          <BtnGetMediaProgress
             mode={this.props.getMode}
             price={this.props.price}
             progress={this.props.progress}
+            mediaId={this.props.id}
           />
           <BtnHeart onPress={this.handleFavePress} isOn={this.props.isFaved} />
         </View>

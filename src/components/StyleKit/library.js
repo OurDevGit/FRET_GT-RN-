@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
-import {
-  PaintCode,
-  PaintCodeButton,
-  PaintCodeButtonWithColor,
-  gtPcSizeable,
-  ResizingBehavior
-} from "./lib";
+import PropTypes from "prop-types";
+import { View } from "react-native";
+import { gtPcSizeable, ResizingBehavior } from "./lib";
 import {
   BuyButton_priceText_fontSize_topText_bottomText,
   BtnCloudDownload_targetFrame_resizing,
@@ -17,6 +12,7 @@ import {
 } from "./styleKitComponents";
 import { GetMediaButtonMode } from "../../models/Media";
 import { PrimaryBlue } from "../../design";
+import { subscribe, remove } from "../../DownloadManager";
 
 const BtnBuy = props => {
   return (
@@ -77,7 +73,7 @@ class IndetermindateProgress extends React.Component {
   };
 }
 
-export const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
+const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
   // hard-returning the download button for debugging right now...
   // return (
   //   <BtnCloudDownload
@@ -125,4 +121,59 @@ export const BtnExpand = props => {
       style={{ width: 23, height: 15 }}
     />
   );
+};
+
+export class BtnGetMediaProgress extends Component {
+  state = {
+    progress: null,
+    mode: GetMediaButtonMode.Indetermindate
+  };
+  render() {
+    const { mode, price, progress, ...rest } = this.props;
+    return (
+      <BtnGetMedia
+        mode={this.state.progress === null ? mode : this.state.mode}
+        price={price}
+        progress={this.state.progress}
+        {...rest}
+      />
+    );
+  }
+
+  componentWillMount() {
+    console.debug("BtnGetMediaProgress will mount");
+    subscribe(this.handleProgress);
+  }
+
+  componentWillUnmount() {
+    console.debug("BtnGetMediaProgress unmount!");
+    remove(this.handleProgress);
+  }
+
+  handleProgress = (mediaId, progress) => {
+    // console.debug({ mediaId, progress });
+
+    if (mediaId === this.props.mediaId) {
+      // console.debug(`progress: ${progress}`);
+      var mode = this.props.mode;
+      if (progress < 0) {
+        mode = GetMediaButtonMode.Indetermindate;
+      } else if (progress < 1) {
+        mode = GetMediaButtonMode.Downloading;
+      } else if (progress >= 1) {
+        mode = GetMediaButtonMode.Play;
+      }
+
+      this.setState({
+        progress,
+        mode
+      });
+    }
+  };
+}
+
+BtnGetMediaProgress.propTypes = {
+  progress: PropTypes.number,
+  mode: PropTypes.string,
+  price: PropTypes.string
 };

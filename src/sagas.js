@@ -72,8 +72,6 @@ function* watchChooseMedia(action) {
     transactionDetails.purchaseState === "PurchasedSuccessfully"
   ) {
     console.debug("We own this. Downloading the media now.");
-    // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
-    yield put(actions.downloadProgress(mediaId, -1));
     const mediaFiles = yield downloadMedia(media);
     // console.debug({ mediaFiles });
     yield setDownload(mediaId, mediaFiles);
@@ -86,22 +84,15 @@ function* watchChooseMedia(action) {
 
   switch (media.getMode) {
     case GetMediaButtonMode.Purchase: {
-      // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
-      yield put(actions.downloadProgress(mediaId, -1));
       const purchaseSuccess = yield doPurchase(media);
       if (purchaseSuccess === true) {
         yield put(actions.addPurchasedMedia(mediaId));
         console.debug(`added purchased ${mediaId}`);
-      } else {
-        // remove the indeterminate spinner state
-        yield put(actions.downloadProgress(mediaId, undefined));
       }
 
       break;
     }
     case GetMediaButtonMode.Download: {
-      // put the media into indeterminate mode since the rest is async (the UI will show a spinner in the mean time)
-      yield put(actions.downloadProgress(mediaId, -1));
       console.debug("do download!");
       const mediaFiles = yield downloadMedia(media);
       console.debug({ mediaFiles });

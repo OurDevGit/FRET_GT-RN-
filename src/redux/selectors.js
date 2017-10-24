@@ -1,4 +1,3 @@
-// import { createSelector } from "reselect";
 import { List, Seq, Map, Stack } from "immutable";
 import { GetMediaButtonMode } from "../models/Media";
 
@@ -9,7 +8,6 @@ const getFaves = state => state.get("favorites");
 const getPurchasedMedia = state => state.get("purchasedMedia");
 
 const getClientSidedMedia = (state, obj, isStore) => {
-  console.debug(obj.title);
   switch (obj.title) {
     case "All Content": {
       const allMedia = getAllMedia(state);
@@ -84,11 +82,6 @@ const getMediaforSubCategory = (state, subCategory) => {
   }
 };
 
-const getDownloadProgress = (state, mediaId) => {
-  const downloadProgress = state.get("downloadProgress");
-  return downloadProgress.get(mediaId);
-};
-
 const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
   const productDetails = state.get("productDetails") || Map();
   const mediaId = singleMedia.get("mediaID");
@@ -109,10 +102,6 @@ const mergeGetMode = (state, singleMedia, detailsHaveLoaded = false) => {
   const purchasedMedia = state.get("purchasedMedia");
   const isPurchased = purchasedMedia.has(mediaId.toLowerCase());
 
-  // is downloading
-  const downloadProgress = getDownloadProgress(state, mediaId);
-  const isDownloading = downloadProgress !== undefined;
-
   // is downloaded
   const mediaFiles = getDownloadedMediaFiles(state, mediaId);
   const isDownloaded = mediaFiles !== undefined;
@@ -120,12 +109,6 @@ const mergeGetMode = (state, singleMedia, detailsHaveLoaded = false) => {
   let mode = GetMediaButtonMode.Purchase;
   if (isDownloaded === true) {
     mode = GetMediaButtonMode.Play;
-  } else if (isDownloading === true) {
-    if (downloadProgress === -1) {
-      mode = GetMediaButtonMode.Indetermindate;
-    } else {
-      mode = GetMediaButtonMode.Downloading;
-    }
   } else if (isPurchased === true) {
     mode = GetMediaButtonMode.Download;
   } else if (
@@ -134,7 +117,7 @@ const mergeGetMode = (state, singleMedia, detailsHaveLoaded = false) => {
     mode = GetMediaButtonMode.ComingSoon;
   }
 
-  return singleMedia.merge({ getMode: mode, downloadProgress });
+  return singleMedia.merge({ getMode: mode });
 };
 
 const mergeFavorites = (state, singleMedia) => {
