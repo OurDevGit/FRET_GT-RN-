@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
@@ -57,7 +57,7 @@ class Store extends Component {
         />
 
         <Media
-          style={{ flexGrow: 1 }}
+          style={styles.media}
           category={this.state.category}
           subCategory={this.state.subCategory}
           group={this.state.group}
@@ -233,6 +233,12 @@ Store.propTypes = {
   chooseMedia: PropTypes.func.isRequired, // action
   onClose: PropTypes.func.isRequired
 };
+
+const styles = StyleSheet.create({
+  media: {
+    flexGrow: 1
+  }
+});
 
 const mapStateToProps = state => {
   // console.debug("mapping state to props in Store/index");

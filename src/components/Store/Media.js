@@ -135,7 +135,6 @@ Media.propTypes = {
   isNavigableSubCategory: PropTypes.bool.isRequired,
   isStore: PropTypes.bool.isRequired,
   media: PropTypes.array,
-  style: PropTypes.object,
   category: PropTypes.object,
   subCategory: PropTypes.object,
   group: PropTypes.object,
