@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { View, TextInput, Text } from "react-native";
 import Fuse from "fuse.js";
 
-import _ from "lodash";
+import { flatMap, toArray, isEqual } from "lodash";
 
 import * as actions from "../../redux/actions";
 import { selectMedia } from "../../redux/selectors";
@@ -86,12 +86,16 @@ class Media extends React.PureComponent {
     // console.log(nextProps.media.length);
     // console.log(nextProps.media[0].data.length);
 
-    const allMedia = _.flatMap(nextProps.media, m => _.toArray(m.data));
-    this.setState({
-      mediaCount: allMedia.length
-    });
+    if (!isEqual(this.props.media, nextProps.media)) {
+      const allMedia = flatMap(nextProps.media, m => toArray(m.data));
+      this.setState({
+        mediaCount: allMedia.length
+      });
 
-    this.fuse = new Fuse(allMedia, fuseOptions); // "list" is the item array
+      this.fuse = new Fuse(allMedia, fuseOptions); // "list" is the item array
+
+      this.handleChangeText(this.state.searchText);
+    }
   }
 
   handleChangeText = text => {
