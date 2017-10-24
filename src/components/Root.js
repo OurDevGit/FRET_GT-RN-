@@ -121,23 +121,6 @@ class Root extends Component {
     });
   };
 
-  handleChooseMedia = mediaIndex => {
-    const isPhone = Dimensions.get("window").height < 500;
-    if (media.type === "song") {
-      this.setState({
-        song: media,
-        video: null,
-        showAd: true
-      });
-    } else if (media.type === "video") {
-      this.setState({
-        song: null,
-        video: media,
-        showAd: !isPhone
-      });
-    }
-  };
-
   handleClearMedia = () => {
     this.setState({
       song: null,

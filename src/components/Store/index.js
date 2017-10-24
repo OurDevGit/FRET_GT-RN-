@@ -198,6 +198,12 @@ class Store extends Component {
   handleChooseMedia = async media => {
     // action
     this.props.chooseMedia(media);
+
+    // if we re-choose the current media, then nothing will change in props and the Store won't close.
+    // In this case, we close manually here
+    if (media.mediaID === this.props.currentMedia) {
+      this.props.onClose();
+    }
   };
 
   handleIsStoreChange = isStore => {
@@ -219,6 +225,7 @@ class Store extends Component {
 }
 
 Store.propTypes = {
+  currentMedia: PropTypes.string,
   categories: PropTypes.array,
   subCategories: PropTypes.object,
   group: PropTypes.array,
@@ -233,7 +240,8 @@ const mapStateToProps = state => {
   return {
     categories: cats.toJS(),
     subCategories: state.get("subCategoriesByCategoryId").toJS(),
-    groups: state.get("groupsBySubCategoryId").toJS()
+    groups: state.get("groupsBySubCategoryId").toJS(),
+    currentMedia: state.get("currentMedia")
   };
 };
 
