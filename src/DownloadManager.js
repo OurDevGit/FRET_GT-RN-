@@ -119,7 +119,7 @@ export const configureDownloadManager = async store => {
   const allDownloads = await getAllDownloads();
   store.dispatch(setDownloads(allDownloads));
 
-  console.debug("DL manager is configured");
+  // console.debug("DL manager is configured");
 };
 
 /*
@@ -146,8 +146,5 @@ export const subscribe = callback => {
 };
 
 export const remove = callback => {
-  console.debug("remove");
-  console.debug(_subscribers.length);
   _subscribers = _subscribers.filter(cb => cb !== callback);
-  console.debug(_subscribers.length);
 };

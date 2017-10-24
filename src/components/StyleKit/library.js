@@ -141,12 +141,10 @@ export class BtnGetMediaProgress extends Component {
   }
 
   componentWillMount() {
-    console.debug("BtnGetMediaProgress will mount");
     subscribe(this.handleProgress);
   }
 
   componentWillUnmount() {
-    console.debug("BtnGetMediaProgress unmount!");
     remove(this.handleProgress);
   }
 

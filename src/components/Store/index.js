@@ -20,8 +20,9 @@ import SubCategories from "./SubCategories";
 import Media from "./Media";
 
 class Store extends Component {
+  isMounted_ = false;
+
   state = {
-    isMounted: false,
     categoryIndex: 0,
     category: null,
     subCategory: null,
@@ -99,22 +100,21 @@ class Store extends Component {
       subCategoryIndex
     );
     this.handleChooseSubCategory(subCategory, subCategoryIndex);
-
-    this.setState({ isMounted: true });
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    this.isMounted_ = true;
+
     // sync with the backend
     this.props.refreshStore();
   }
 
+  componentWillUnmount() {
+    this.isMounted_ = false;
+  }
+
   componentWillReceiveProps(newProps) {
     // console.debug("Store gets props");
-
-    // skip if we aren't mounted. componentWillMount is async here, so this can happen too soon.
-    if (this.state.isMounted !== true) {
-      return;
-    }
 
     // console.debug(newProps.categories.length);
     if (newProps.categories.length > this.state.categoryIndex) {
@@ -146,6 +146,11 @@ class Store extends Component {
     }
 
     await setCategoryIndex(categoryIndex);
+    // since this function is async, the component can unmount here
+    if (this.isMounted_ !== true) {
+      return;
+    }
+
     const subCategories = this.props.subCategories[category.id];
 
     // category without sub-categories
@@ -187,7 +192,7 @@ class Store extends Component {
     if (!subCategory) {
       return;
     }
-    const groups = this.props.groups[subCategory.id];
+    // const groups = this.props.groups[subCategory.id];
     setSubCategoryIndex(subCategoryIndex);
 
     this.setState({
@@ -214,7 +219,11 @@ class Store extends Component {
   getSubCategory = (props, category, subCategoryIndex) => {
     if (category !== undefined && category !== null) {
       const subCategories = this.props.subCategories[category.id];
-      if (subCategoryIndex !== undefined && subCategoryIndex !== null) {
+      if (
+        subCategories !== undefined &&
+        subCategoryIndex !== undefined &&
+        subCategoryIndex !== null
+      ) {
         return subCategories[subCategoryIndex];
       } else {
         return null;
