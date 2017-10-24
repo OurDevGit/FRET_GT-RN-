@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Image, StyleSheet } from "react-native";
+import { TouchableOpacity, Image } from "react-native";
 
-const AdPresentation = ({ onTap, imageUrl }) =>
+const AdPresentation = ({ onTap, imageUrl }) => (
   <TouchableOpacity onPress={onTap} style={{ flex: 1 }}>
     <Image
       style={{ flex: 1, marginVertical: 10 }}
@@ -11,6 +11,12 @@ const AdPresentation = ({ onTap, imageUrl }) =>
       }}
       resizeMode="contain"
     />
-  </TouchableOpacity>;
+  </TouchableOpacity>
+);
+
+AdPresentation.propTypes = {
+  onTap: PropTypes.func.isRequired,
+  imageUrl: PropTypes.string
+};
 
 export default AdPresentation;
