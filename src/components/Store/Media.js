@@ -124,7 +124,8 @@ const mapStateToProps = (state, ownProps) => {
     state,
     ownProps.category,
     ownProps.subCategory,
-    ownProps.group
+    ownProps.group,
+    ownProps.isStore
   ).toJS();
 
   return { media };
@@ -132,6 +133,7 @@ const mapStateToProps = (state, ownProps) => {
 
 Media.propTypes = {
   isNavigableSubCategory: PropTypes.bool.isRequired,
+  isStore: PropTypes.bool.isRequired,
   media: PropTypes.array,
   style: PropTypes.object,
   category: PropTypes.object,

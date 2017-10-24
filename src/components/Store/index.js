@@ -62,6 +62,7 @@ class Store extends Component {
           subCategory={this.state.subCategory}
           group={this.state.group}
           onIsStoreChange={this.handleIsStoreChange}
+          isStore={this.state.isStore}
           onChoose={this.handleChooseMedia}
           onClose={this.props.onClose}
           isNavigableSubCategory={

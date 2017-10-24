@@ -8,7 +8,8 @@ const getMediaByListId = (state, id) => getMediaByListIds(state).get(id);
 const getFaves = state => state.get("favorites");
 const getPurchasedMedia = state => state.get("purchasedMedia");
 
-const getClientSidedMedia = (state, obj) => {
+const getClientSidedMedia = (state, obj, isStore) => {
+  console.debug(obj.title);
   switch (obj.title) {
     case "All Content": {
       const allMedia = getAllMedia(state);
@@ -21,7 +22,8 @@ const getClientSidedMedia = (state, obj) => {
       const favedMedia = allMedia.filter(
         media =>
           faves.includes(media.get("mediaID")) &&
-          purchased.includes(media.get("mediaID").toLowerCase()) === false
+          purchased.includes(media.get("mediaID").toLowerCase()) ===
+            (isStore === true ? false : true)
       );
       return List([Map({ data: favedMedia })]);
     }
@@ -200,14 +202,14 @@ const mergeMediaDetails = (state, mediaSections) => {
 export const getDownloadedMediaFiles = (state, mediaId) =>
   state.get("downloadedMedia").get(mediaId);
 
-export const selectMedia = (state, category, subCategory, group) => {
+export const selectMedia = (state, category, subCategory, group, isStore) => {
   // console.debug({ category });
   // console.debug({ subCategory });
   // console.debug({ group });
 
   if (category) {
     if (category.isClientSided === true) {
-      const media = getClientSidedMedia(state, category);
+      const media = getClientSidedMedia(state, category, isStore);
       return mergeMediaDetails(state, media);
     } else if (subCategory === undefined || subCategory === null) {
       const media = getMediaForCategory(state, category);
