@@ -1,5 +1,6 @@
 import { List, Seq, Map, Stack } from "immutable";
 import { GetMediaButtonMode } from "../models/Media";
+import { filterComingSoon, doFreeMedia } from "../Config";
 
 const getMediaByListIds = state => state.get("mediaByListId");
 const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
@@ -95,7 +96,7 @@ const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
   return singleMedia.set("productDetails", mediaDetails);
 };
 
-const mergeGetMode = (state, singleMedia, detailsHaveLoaded = false) => {
+const mergeGetMode = (state, singleMedia) => {
   const mediaId = singleMedia.get("mediaID");
 
   // is purchased
@@ -140,18 +141,18 @@ const mergeMediaDetails = (state, mediaSections) => {
     const media = mediaSection.get("data");
     const detailsHaveLoaded = state.get("productDetailsHaveLoaded") === true;
 
-    const _TEST_USE_FILTER = true;
-
     // TEMP until the IAPs get filled out
     const productDetails = state.get("productDetails") || Map();
-    const filteredData = _TEST_USE_FILTER
-      ? state.get("productDetailsHaveLoaded") === true
-        ? media.filter(
-            m =>
-              productDetails.get(m.get("mediaID").toLowerCase()) !== undefined
-          )
-        : media
-      : media;
+    const filteredData = doFreeMedia
+      ? media
+      : filterComingSoon === true
+        ? detailsHaveLoaded
+          ? media.filter(
+              m =>
+                productDetails.get(m.get("mediaID").toLowerCase()) !== undefined
+            )
+          : media
+        : media;
 
     // merge in product details and Get Mode for each media item
     const newData = filteredData.map(m => {
@@ -160,11 +161,7 @@ const mergeMediaDetails = (state, mediaSections) => {
         m,
         detailsHaveLoaded
       );
-      const withGetMode = mergeGetMode(
-        state,
-        withProductDetails,
-        detailsHaveLoaded
-      );
+      const withGetMode = mergeGetMode(state, withProductDetails);
       const withFave = mergeFavorites(state, withGetMode);
       return withFave;
     });
@@ -172,9 +169,6 @@ const mergeMediaDetails = (state, mediaSections) => {
     const newSection = mediaSection.set("data", newData);
 
     return newSection;
-    // console.debug(mediaSection.toJS().data);
-    // console.debug(m.get("mediaID"));
-    // console.debug(details);
   });
 
   // console.debug(mediaWithProductDetails.toJS());

@@ -19,6 +19,7 @@ import { fetchProductDetails, fetchPurchases } from "./models/Products";
 import * as actions from "./redux/actions";
 import { getDownloadedMediaFiles } from "./redux/selectors";
 import { setStore, setProductDetails } from "./models/Store";
+import { doFreeMedia } from "./Config";
 
 function* getDownloadedMedia(mediaId) {
   const files = yield select(getDownloadedMediaFiles, mediaId);
@@ -64,7 +65,9 @@ function* watchChooseMedia(action) {
   // console.debug(state.toJS());
 
   console.debug("going to ask Google IAB if we've bought that media");
-  const transactionDetails = yield fetchTransactionDetails(mediaId);
+  const transactionDetails = doFreeMedia
+    ? { purchaseState: "PurchasedSuccessfully" }
+    : yield fetchTransactionDetails(mediaId);
 
   // if we already bought this, then download it and finish
   if (
@@ -122,15 +125,17 @@ function* watchRefreshStore(action) {
     yield put(actions.storeLoaded(storeDb));
 
     // get store details from Google In-App Billing
-    const mediaIds = Object.keys(storeDb.mediaById);
-    const productDetails = yield fetchProductDetails(mediaIds);
-    yield setProductDetails(productDetails);
-    yield put(actions.productDetailsLoaded(productDetails));
+    if (doFreeMedia !== true) {
+      const mediaIds = Object.keys(storeDb.mediaById);
+      const productDetails = yield fetchProductDetails(mediaIds);
+      yield setProductDetails(productDetails);
+      yield put(actions.productDetailsLoaded(productDetails));
 
-    // load which products we own from Google
-    const purchasedMedia = yield fetchPurchases();
-    yield setPurchased(purchasedMedia);
-    yield put(actions.setPurchasedMedia(purchasedMedia));
+      // load which products we own from Google
+      const purchasedMedia = yield fetchPurchases();
+      yield setPurchased(purchasedMedia);
+      yield put(actions.setPurchasedMedia(purchasedMedia));
+    }
 
     // load favorites
     const faves = yield getFaves();
