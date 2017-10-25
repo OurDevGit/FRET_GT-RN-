@@ -1,7 +1,7 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { BtnDetails, BtnHeart, BtnGetMediaProgress } from "../StyleKit";
+import { BtnDetails, BtnHeartSmart, BtnGetMediaProgress } from "../StyleKit";
 import MediaDetails from "./MediaDetails";
 import { GetMediaButtonMode } from "../../models/Media";
 
@@ -44,7 +44,8 @@ class MediaItem extends PureComponent {
             progress={this.props.progress}
             mediaId={this.props.id}
           />
-          <BtnHeart onPress={this.handleFavePress} isOn={this.props.isFaved} />
+
+          <BtnHeartSmart mediaId={this.props.id} />
         </View>
       </TouchableOpacity>
     );
@@ -91,7 +92,6 @@ MediaItem.propTypes = {
   artworkURL: PropTypes.string,
   price: PropTypes.string,
   progress: PropTypes.number,
-  isFaved: PropTypes.bool,
   onPress: PropTypes.func.isRequired,
   onArchiveFiles: PropTypes.func.isRequired
 };

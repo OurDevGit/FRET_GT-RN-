@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Button, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Video from "react-native-video";
 import { pure } from "recompose";
-import { PrimaryBlue, playerBackground } from "../../design";
+import { PrimaryBlue } from "../../design";
 import {
   BtnPrevious,
   BtnRewind,
@@ -11,7 +11,7 @@ import {
   BtnForward,
   BtnNext,
   BtnVideoFullScreen,
-  BtnHeart
+  BtnHeartSmart
 } from "../StyleKit";
 import VolumeSlider from "./VolumeSlider";
 import VideoMarkersTable from "./VideoMarkersTable";
@@ -38,7 +38,6 @@ class PlaybackVideoPrimary extends React.Component {
       markers,
       currentChapter,
       currentMarker,
-      duration,
       onPlayerRegister,
       onVideoLoad,
       onProgress,
@@ -246,12 +245,7 @@ class PlaybackVideoPrimary extends React.Component {
 
         {!isFullscreen && (
           <View style={{ position: "absolute", top: -8, right: -8 }}>
-            <BtnHeart
-              style={{
-                width: 40,
-                height: 40
-              }}
-            />
+            <BtnHeartSmart mediaId={mediaId} />
           </View>
         )}
 
@@ -296,13 +290,7 @@ class PlaybackVideoPrimary extends React.Component {
                 {videoTitle}
               </Text>
 
-              <BtnHeart
-                style={{
-                  width: isPhone ? 34 : 40,
-                  height: isPhone ? 34 : 40,
-                  marginRight: 10
-                }}
-              />
+              <BtnHeartSmart mediaId={mediaId} style={styles.heart} />
             </View>
           )}
       </View>
@@ -338,3 +326,7 @@ PlaybackVideoPrimary.propTypes = {
 };
 
 export default pure(PlaybackVideoPrimary);
+
+const styles = StyleSheet.create({
+  heart: { marginRight: 10 }
+});

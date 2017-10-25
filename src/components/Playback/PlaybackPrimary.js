@@ -9,7 +9,7 @@ import {
   BtnPlay,
   BtnForward,
   BtnNext,
-  BtnHeart
+  BtnHeartSmart
 } from "../StyleKit";
 import VolumeSlider from "./VolumeSlider";
 
@@ -138,12 +138,7 @@ const PlaybackPrimary = ({
 
     {!isPhone && (
       <View style={{ position: "absolute", top: 0, right: 0 }}>
-        <BtnHeart
-          style={{
-            width: 40,
-            height: 40
-          }}
-        />
+        <BtnHeartSmart mediaId={mediaId} />
       </View>
     )}
   </View>

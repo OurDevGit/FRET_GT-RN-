@@ -210,7 +210,6 @@ class TabbedMedia extends PureComponent {
       <MediaItem
         id={item.mediaID}
         title={item.title}
-        isFaved={item.isFaved}
         subtitle={item.artist}
         details={item.details}
         artworkURL={item.artworkURL}
