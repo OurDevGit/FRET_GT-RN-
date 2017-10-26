@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, Dimensions, Text } from "react-native";
 
@@ -10,6 +9,10 @@ import PlaybackMarkers from "./PlaybackMarkers";
 import LoopFlag from "./PlaybackTimelineLoopFlag.js";
 
 import { BtnDownload, BtnDownloading } from "../StyleKit";
+import {
+  subscribeToTimeUpdates,
+  unsubscribeToTimeUpdates
+} from "../../time-store";
 
 class PlaybackTimeline extends Component {
   state = {
@@ -147,14 +150,19 @@ class PlaybackTimeline extends Component {
     );
   }
 
-  componentWillReceiveProps(newProps) {
-    if (
-      newProps.progress != this.state.progress &&
-      this.state.ignorePropsProgress === false
-    ) {
-      this.setState({ progress: newProps.progress });
-    }
+  componentDidMount() {
+    subscribeToTimeUpdates(this.handleTimeUpdate);
   }
+
+  componentWillUnmount() {
+    unsubscribeToTimeUpdates(this.handleTimeUpdate);
+  }
+
+  handleTimeUpdate = time => {
+    if (this.state.ignorePropsProgress === false && time > -1) {
+      this.setState({ progress: time / this.props.duration });
+    }
+  };
 
   handlePlayheadPan = x => {
     const {
@@ -211,6 +219,8 @@ class PlaybackTimeline extends Component {
     this.setState({
       ignorePropsProgress: true
     });
+    this.props.onSeekStart();
+    console.log("START");
   };
 
   handlePlayheadPanEnd = () => {
@@ -220,6 +230,7 @@ class PlaybackTimeline extends Component {
     this.setState({
       ignorePropsProgress: false
     });
+    this.props.onSeekEnd();
   };
 
   handleContainerLayout = e => {
@@ -300,17 +311,13 @@ PlaybackTimeline.propTypes = {
   loopIsEnabled: PropTypes.bool,
   isVideo: PropTypes.bool,
   isFullscreen: PropTypes.bool,
+  onSeekStart: PropTypes.func,
   onSeek: PropTypes.func,
+  onSeekEnd: PropTypes.func,
   onLoopEnable: PropTypes.func,
   onMarkerPress: PropTypes.func,
   onMarkerLongPress: PropTypes.func,
   onForceControlsVisible: PropTypes.func
 };
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    progress: state.get("time") / ownProps.duration
-  };
-};
-
-export default connect(mapStateToProps)(PlaybackTimeline);
+export default PlaybackTimeline;

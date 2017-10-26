@@ -8,6 +8,8 @@ import { List, Map } from "immutable";
 
 import Song from "./Song";
 import Video from "./Video";
+import { setTime } from "../../time-store";
+import { setMidiOffset, clearMidiOffset } from "../../midi-store";
 
 class MediaPlayer extends Component {
   state = {
@@ -32,7 +34,7 @@ class MediaPlayer extends Component {
               height={this.state.layout.height}
               updateMidiData={this.props.updateMidiData}
               clearMidiData={this.props.clearMidiData}
-              updateTime={this.props.updateTime}
+              updateTime={setTime}
               connectedDevices={0}
               enableLoop={this.props.enableLoop}
               setCurrentLoop={this.props.setCurrentLoop}
@@ -48,7 +50,7 @@ class MediaPlayer extends Component {
               height={this.state.layout.height}
               updateMidiData={this.props.updateMidiData}
               clearMidiData={this.props.clearMidiData}
-              updateTime={this.props.updateTime}
+              updateTime={setTime}
               connectedDevices={0}
               enableLoop={this.props.enableLoop}
               setCurrentLoop={this.props.setCurrentLoop}
@@ -58,7 +60,7 @@ class MediaPlayer extends Component {
               setVideoMidiFiles={this.props.setVideoMidiFiles}
               setCurrentVideoChapter={this.props.setCurrentVideoChapter}
               setCurrentVideoMarker={this.props.setCurrentVideoMarker}
-              setCurrentVideoMidiFile={this.props.setCurrentVideoMidiFile}
+              setCurrentVideoMidiFile={this.handleSetCurrentVideoMidiFile}
               onToggleAd={this.props.onToggleAd}
               onToggleFretboards={this.props.onToggleFretboards}
               onClearMedia={this.props.onClearMedia}
@@ -82,13 +84,13 @@ class MediaPlayer extends Component {
       this.props.song !== nextProps.song ||
       this.props.video !== nextProps.video
     ) {
+      clearMidiOffset();
       this.props.clearVideoLesson();
     }
   }
 
   handleSelectTempo = tempo => {
     if (tempo === 0) {
-      console.log(this.props.visibleTracks);
       const first = this.props.visibleTracks.first();
       this.props.updateVisibleTracks(List([first]));
     }
@@ -102,6 +104,11 @@ class MediaPlayer extends Component {
       }
     });
   };
+
+  handleSetCurrentVideoMidiFile = midi => {
+    setMidiOffset(midi.get("begin"));
+    this.props.setCurrentVideoMidiFile(midi);
+  };
 }
 
 MediaPlayer.propTypes = {
@@ -113,7 +120,6 @@ MediaPlayer.propTypes = {
   onToggleLibrary: PropTypes.func.isRequired,
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
-  updateTime: PropTypes.func.isRequired,
   enableLoop: PropTypes.func.isRequired,
   setCurrentLoop: PropTypes.func.isRequired,
   clearCurrentLoop: PropTypes.func.isRequired,

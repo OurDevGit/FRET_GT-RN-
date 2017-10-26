@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Map } from "immutable";
 import Dimensions from "Dimensions";
-import { timeForPrevStep, timeForNextStep } from "../../selectors";
 
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
@@ -17,7 +16,12 @@ import Music from "./Music";
 import Midi from "./Midi";
 import { playerBackground } from "../../design";
 
-import { loadMidi, clearMidi } from "../../selectors";
+import {
+  loadMidi,
+  clearMidi,
+  timeForPrevStep,
+  timeForNextStep
+} from "../../midi-store";
 
 const emptyArray = [];
 
@@ -25,6 +29,7 @@ class Song extends React.Component {
   state = {
     isVideo: false,
     isPlaying: false,
+    isSeeking: false,
     mediaDuration: 0,
     playbackProgress: 0.0,
     playbackSeconds: 0.0,
@@ -57,6 +62,7 @@ class Song extends React.Component {
           seek={this.state.seek}
           rate={this.state.musicRate}
           isPlaying={this.state.isPlaying}
+          isSeeking={this.state.isSeeking}
           song={this.props.song}
           volume={this.state.volume}
           onProgress={this.handleProgress}
@@ -100,7 +106,9 @@ class Song extends React.Component {
               markers={this.props.markers}
               currentLoop={this.props.currentLoop}
               loopIsEnabled={this.props.loopIsEnabled}
+              onSeekStart={this.handleSeekStart}
               onSeek={this.handleSeek}
+              onSeekEnd={this.handleSeekEnd}
               onMarkerPress={this.handleMarkerPress}
               onMarkerLongPress={this.handleMarkerLongPress}
             />
@@ -124,7 +132,9 @@ class Song extends React.Component {
               markers={this.props.markers}
               currentLoop={this.props.currentLoop}
               loopIsEnabled={this.props.loopIsEnabled}
+              onSeekStart={this.handleSeekStart}
               onSeek={this.handleSeek}
+              onSeekEnd={this.handleSeekEnd}
               onMarkerPress={this.handleMarkerPress}
               onMarkerLongPress={this.handleMarkerLongPress}
               onLoopEnable={this.handleLoopEnable}
@@ -170,7 +180,9 @@ class Song extends React.Component {
           onPlayPausePress={this.handlePlayPausePress}
           onForwardPress={this.handleForwardPress}
           onNextPress={this.handleNextPress}
+          onSeekStart={this.handleSeekStart}
           onSeek={this.handleSeek}
+          onSeekEnd={this.handleSeekEnd}
           onMarkerPress={this.handleMarkerPress}
           onMarkerLongPress={this.handleMarkerLongPress}
           onSelectTempo={this.handleSelectTempo}
@@ -212,28 +224,52 @@ class Song extends React.Component {
     });
   };
 
+  goToTime = time => {
+    // if we're playing, just seek the music player and let its progress update
+    if (this.state.isPlaying) {
+      this.setState({ seek: time });
+
+      // if not, update time and handle loop
+    } else {
+      this.props.updateTime(time);
+      const playbackProgress = time / this.state.mediaDuration;
+      this.setState({ seek: time, playbackSeconds: time, playbackProgress });
+
+      // disable loop if needed
+      const loop = this.props.currentLoop.toJS() || {
+        begin: -1,
+        end: duration
+      };
+      if (time < loop.begin || time > loop) {
+        this.props.enableLoop(false);
+      }
+    }
+  };
+
   // PROGRESS
 
   handleProgress = progress => {
-    const { currentTime, duration } = progress;
-    const { loopIsEnabled, currentLoop, updateTime } = this.props;
-    const { playbackProgress, seconds } = this.state;
-    const currentProgress = currentTime / duration;
-    if (currentProgress != playbackProgress || currentTime !== seconds) {
-      const loop = currentLoop.toJS() || { begin: -1, end: duration };
+    if (this.state.isPlaying && !this.state.isSeeking) {
+      const { currentTime, duration } = progress;
+      const { loopIsEnabled, currentLoop, updateTime } = this.props;
+      const { playbackProgress, seconds } = this.state;
+      const currentProgress = currentTime / duration;
+      if (currentProgress != playbackProgress || currentTime !== seconds) {
+        const loop = currentLoop.toJS() || { begin: -1, end: duration };
 
-      if (loopIsEnabled && currentTime >= loop.end && loop.begin > -1) {
-        this.setState({
-          seek: loop.begin
-        });
-      } else {
-        this.setState({
-          playbackProgress: currentProgress,
-          playbackSeconds: currentTime,
-          seek: -1
-        });
+        if (loopIsEnabled && currentTime >= loop.end && loop.begin > -1) {
+          this.setState({
+            seek: loop.begin
+          });
+        } else {
+          this.setState({
+            playbackProgress: currentProgress,
+            playbackSeconds: currentTime,
+            seek: -1
+          });
 
-        updateTime(currentTime);
+          updateTime(currentTime);
+        }
       }
     }
   };
@@ -245,15 +281,11 @@ class Song extends React.Component {
     const seconds = this.state.playbackSeconds;
 
     if (markers.count() === 0 || markers.first().time > seconds) {
-      this.setState({
-        seek: 0
-      });
+      this.goToTime(0);
     } else {
       for (let marker of markers.reverse()) {
         if (marker.time + 1 < seconds) {
-          this.setState({
-            seek: marker.time
-          });
+          this.goToTime(marker.time);
           break;
         }
       }
@@ -261,22 +293,26 @@ class Song extends React.Component {
   };
 
   handleBackPress = () => {
-    this.setState({
-      seek: this.state.playbackSeconds - 5
-    });
+    this.goToTime(this.state.playbackSeconds - 5);
   };
 
   handlePlayPausePress = () => {
-    this.setState({
-      isPlaying: !this.state.isPlaying,
-      musicRate: this.state.playbackRate
-    });
+    if (this.state.playbackRate === 0) {
+      this.setState({
+        isPlaying: true,
+        musicRate: 1.0,
+        playbackRate: 1.0
+      });
+    } else {
+      this.setState({
+        isPlaying: !this.state.isPlaying,
+        musicRate: this.state.playbackRate
+      });
+    }
   };
 
   handleForwardPress = () => {
-    this.setState({
-      seek: this.state.playbackSeconds + 30
-    });
+    this.goToTime(this.state.playbackSeconds + 30);
   };
 
   handleNextPress = marker => {
@@ -284,15 +320,11 @@ class Song extends React.Component {
     const seconds = this.state.playbackSeconds;
 
     if (markers.count() === 0 || markers.last().time < seconds) {
-      this.setState({
-        seek: 0
-      });
+      this.goToTime(0);
     } else {
       for (let marker of markers) {
         if (marker.time > seconds) {
-          this.setState({
-            seek: marker.time
-          });
+          this.goToTime(marker.time);
           break;
         }
       }
@@ -303,21 +335,27 @@ class Song extends React.Component {
 
   handleMarkerPress = time => {
     this.props.clearCurrentLoop();
-    this.setState({
-      seek: time
-    });
+    this.goToTime(time);
   };
 
   handleMarkerLongPress = (begin, end) => {
     const loop = Map({ begin, end });
     this.props.setCurrentLoop(loop);
-    this.setState({ seek: begin });
+    this.goToTime(begin);
+  };
+
+  handleSeekStart = () => {
+    this.setState({ isSeeking: true });
+    this.props.updateTime(-1);
   };
 
   handleSeek = progress => {
-    this.setState({
-      seek: progress * this.state.mediaDuration
-    });
+    this.setState({ seek: progress * this.state.mediaDuration });
+  };
+
+  handleSeekEnd = () => {
+    this.setState({ isSeeking: false });
+    this.goToTime(this.state.seek);
   };
 
   // TEMPO METHODS
@@ -328,6 +366,10 @@ class Song extends React.Component {
 
     if (this.state.isPlaying) {
       newState.musicRate = tempo;
+    }
+
+    if (tempo === 0) {
+      newState.isPlaying = false;
     }
 
     this.setState(newState);
@@ -361,7 +403,7 @@ class Song extends React.Component {
 
   handleSetCurrentLoop = loop => {
     const begin = loop.get("begin");
-    this.setState({ seek: begin });
+    this.goToTime(begin);
     this.props.setCurrentLoop(loop);
   };
 
@@ -386,7 +428,7 @@ class Song extends React.Component {
       loopIsEnabled
     );
 
-    this.setState({ seek: time });
+    this.goToTime(time);
   };
 
   handleNextStep = () => {
@@ -399,7 +441,7 @@ class Song extends React.Component {
       loopIsEnabled
     );
 
-    this.setState({ seek: time });
+    this.goToTime(time);
   };
 }
 

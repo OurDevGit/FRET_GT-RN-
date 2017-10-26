@@ -36,6 +36,15 @@ class Music extends React.Component {
       this.setPlaying(newProps.isPlaying);
     }
 
+    // new seek
+    if (newProps.isSeeking !== this.props.isSeeking) {
+      if (newProps.isSeeking) {
+        this.setPlaying(false);
+      } else {
+        this.setPlaying(newProps.isPlaying);
+      }
+    }
+
     // new rate
     if (newProps.rate !== this.props.rate) {
       if (this.songSound) {
@@ -132,6 +141,7 @@ class Music extends React.Component {
 Music.propTypes = {
   rate: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool,
+  isSeeking: PropTypes.bool,
   song: PropTypes.object,
   seek: PropTypes.number,
   onProgress: PropTypes.func.isRequired,

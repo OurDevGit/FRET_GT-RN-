@@ -24,8 +24,14 @@ class Root extends Component {
   render() {
     const { store, visibleTracks } = this.props;
     const aspectRatio = this.state.layout.width / this.state.layout.height;
-    const supportsMultipleFretboards =
-      this.state.layout.width > 1 && aspectRatio < 1.6;
+
+    var availableFretboardCount = 1;
+    if (this.state.layout.width) {
+      if (aspectRatio < 1.6) {
+        availableFretboardCount = 4;
+      }
+    }
+
     const isVideo = this.state.video !== null;
     const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
     const showLibraryButton = this.state.showAd && trackCount < 4;
@@ -56,7 +62,7 @@ class Root extends Component {
               isVisible={this.state.showFretboards}
               deviceWidth={this.state.layout.width}
               deviceHeight={this.state.layout.height}
-              supportsMultipleFretboards={supportsMultipleFretboards}
+              availableFretboardCount={availableFretboardCount}
             />
           )}
 
@@ -71,8 +77,10 @@ class Root extends Component {
             </View>
           )}
 
-          {supportsMultipleFretboards &&
-            this.state.showFretboards && <TrackSelector />}
+          {availableFretboardCount > 1 &&
+            this.state.showFretboards && (
+              <TrackSelector max={availableFretboardCount} />
+            )}
         </View>
       </Provider>
     );
@@ -128,8 +136,12 @@ class Root extends Component {
     this.setState({ showAd: bool });
   };
 
-  handleToggleFretboards = () => {
-    this.setState({ showFretboards: !this.state.showFretboards });
+  handleToggleFretboards = bool => {
+    if (bool === undefined) {
+      this.setState({ showFretboards: !this.state.showFretboards });
+    } else {
+      this.setState({ showFretboards: bool });
+    }
   };
 
   handleLayout = e => {

@@ -33,19 +33,15 @@ module.exports = (filename, isAsset = false) => {
           ) {
             var track = noteTrack(arr, secondsForTicks);
             const trackName = track.get("name");
+            const trackNotes = track.get("notes");
+            const loadedTrackNotes = notes.get(trackName);
 
-            track.get("notes").forEach(note => {
-              const fret = note.get("fret");
-              const string = note.get("string");
-
-              if (notes.getIn([trackName, fret, string]) === undefined) {
-                notes = notes.setIn([trackName, fret, string], Set());
-              }
-
-              notes = notes.updateIn([trackName, fret, string], notesSet =>
-                notesSet.add(note)
-              );
-            });
+            if (loadedTrackNotes === undefined) {
+              notes = notes.set(trackName, trackNotes);
+            } else {
+              const combined = loadedTrackNotes.concat(trackNotes);
+              notes = notes.set(trackName, combined);
+            }
 
             track = track.delete("notes");
 
@@ -78,8 +74,6 @@ module.exports = (filename, isAsset = false) => {
           if (arr[0].text.includes("FMP - Jam Bar")) {
             patterns = List(patternTrack(arr, secondsForTicks));
           }
-
-          // console.log(notes.toJS());
         }
       });
 

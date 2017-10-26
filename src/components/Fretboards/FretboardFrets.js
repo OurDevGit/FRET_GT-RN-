@@ -1,10 +1,202 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, Text } from "react-native";
+import { View, StyleSheet, Text } from "react-native";
+import { List, Map } from "immutable";
 import FretboardNote from "./FretboardNote";
+import {
+  subscribeToTimeUpdates,
+  unsubscribeToTimeUpdates
+} from "../../time-store";
+import { notesForTrackAtTime } from "../../midi-store";
 
 // TODO: IMPLEMENT TUNING ADJUSTMENT AND NOTATION SETTINGS
+
+const noteStyles = StyleSheet.create({
+  noteContainer: {
+    flex: 1,
+    aspectRatio: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 1
+  },
+  noteView: {
+    flex: -1,
+    aspectRatio: 1,
+    backgroundColor: "#17A3E3",
+    borderRadius: 1000,
+    alignItems: "center"
+  },
+  noteText: {
+    height: "100%",
+    textAlignVertical: "center"
+  }
+});
+
+class FretboardFrets extends React.Component {
+  constructor(props) {
+    super(props);
+    this.noteRefs = {};
+    this.prevOn = [];
+  }
+
+  render() {
+    const {
+      track,
+      isSmart,
+      isLeft,
+      boardWidth,
+      fretHeight,
+      onLayout,
+      onToggleOrientation
+    } = this.props;
+
+    return (
+      <View
+        pointerEvents={"none"}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          paddingVertical: track.isBass
+            ? boardWidth * 0.005
+            : boardWidth * 0.003,
+          flexDirection: "row",
+          justifyContent: "space-between"
+        }}
+        onLayout={onLayout}
+      >
+        {this.frets(track, isSmart, isLeft, boardWidth, fretHeight)}
+      </View>
+    );
+  }
+
+  componentDidMount() {
+    subscribeToTimeUpdates(this.handleTimeUpdate);
+  }
+
+  componentWillUnmount() {
+    unsubscribeToTimeUpdates(this.handleTimeUpdate);
+  }
+
+  handleTimeUpdate = time => {
+    if (time !== 0 && this.props.track.name !== "") {
+      const on = notesForTrackAtTime(this.props.track, time);
+
+      if (on.length > 0) {
+        if (this.prevOn.length === 0) {
+          on.forEach(note => {
+            if (this.noteRefs[note.ref] !== undefined) {
+              this.noteRefs[note.ref].show();
+            }
+          });
+        } else {
+          this.prevOn.forEach(note => {
+            const index = on.findIndex(
+              onNote =>
+                onNote.fret === note.fret && onNote.string === note.string
+            );
+
+            if (index === -1) {
+              if (this.noteRefs[note.ref] !== undefined) {
+                this.noteRefs[note.ref].hide();
+              }
+            }
+          });
+
+          on.forEach(note => {
+            if (this.noteRefs[note.ref] !== undefined) {
+              this.noteRefs[note.ref].show();
+            }
+          });
+        }
+      } else {
+        this.prevOn.forEach(note => {
+          if (this.noteRefs[note.ref] !== undefined) {
+            this.noteRefs[note.ref].hide();
+          }
+        });
+      }
+      this.prevOn = on;
+    }
+  };
+
+  frets = (track, isSmart, isLeft, boardWidth, fretHeight) => {
+    if (fretHeight > 0) {
+      var frets = [];
+      const first = isSmart ? track.firstFret : 0;
+      const last = isSmart ? track.lastFret : 23;
+      const diff = last - first;
+
+      for (var i = first; i <= last; i++) {
+        frets.push(
+          <View key={i} style={{ flex: 1 }}>
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center"
+              }}
+            >
+              {this.notes(
+                track,
+                i,
+                isSmart,
+                isLeft,
+                diff,
+                boardWidth,
+                fretHeight
+              )}
+            </View>
+          </View>
+        );
+      }
+      return frets;
+    }
+  };
+
+  notes = (track, fret, isSmart, isLeft, frets, boardWidth, fretHeight) => {
+    var views = [];
+    const last = isSmart ? track.lastFret : 23;
+    const fretIndex = isLeft ? last - fret : fret;
+
+    for (var i = 0; i < 6; i++) {
+      if (i < 4 || !track.isBass) {
+        const stringIndex = track.isBass ? i + 2 : i;
+        const key = `${fretIndex}-${stringIndex}`;
+        views.push(
+          <FretboardNote
+            key={i}
+            styles={noteStyles}
+            notation={this.notation(fretIndex, i, isLeft)}
+            boardWidth={boardWidth}
+            fretHeight={fretHeight}
+            ref={ref => (this.noteRefs[key] = ref)}
+          />
+        );
+      }
+    }
+    return views;
+  };
+
+  notation = (fret, string, isLeft) => {
+    const roots = ["E", "B", "G", "D", "A", "E"];
+    const defaultName = roots[string];
+    const scale = scaleForNotation();
+    const index = scale.indexOf(defaultName) || 0;
+    const adjusted = fret + index; // + adjustment
+    var remainder = adjusted % scale.length;
+
+    if (remainder < 0) {
+      remainder = scale.count + remainder;
+    }
+
+    return scale[remainder];
+  };
+}
 
 const scaleForNotation = notation => {
   switch (notation) {
@@ -14,100 +206,6 @@ const scaleForNotation = notation => {
       return ["E", "F", "G♭", "G", "A♭", "A", "B♭", "B", "C", "D♭", "D", "E♭"];
   }
 };
-
-const notation = (fret, string, isLeft) => {
-  const roots = ["E", "B", "G", "D", "A", "E"];
-  const defaultName = roots[string];
-  const scale = scaleForNotation();
-  const index = scale.indexOf(defaultName) || 0;
-  const adjusted = fret + index; // + adjustment
-  var remainder = adjusted % scale.length;
-
-  if (remainder < 0) {
-    remainder = scale.count + remainder;
-  }
-
-  return scale[remainder];
-};
-
-const notes = (track, fret, isSmart, isLeft, frets, boardWidth, fretHeight) => {
-  var views = [];
-  const last = isSmart ? track.lastFret : 23;
-  const fretIndex = isLeft ? last - fret : fret;
-
-  for (var i = 0; i < 6; i++) {
-    if (i < 4 || !track.isBass) {
-      views.push(
-        <FretboardNote
-          key={i}
-          track={track.name}
-          fret={fretIndex}
-          frets={frets}
-          string={track.isBass ? i + 2 : i}
-          notation={notation(fretIndex, i, isLeft)}
-          boardWidth={boardWidth}
-          fretHeight={fretHeight}
-          isSmart={isSmart}
-        />
-      );
-    }
-  }
-  return views;
-};
-
-const frets = (track, isSmart, isLeft, boardWidth, fretHeight) => {
-  if (fretHeight > 0) {
-    var frets = [];
-    const first = isSmart ? track.firstFret : 0;
-    const last = isSmart ? track.lastFret : 23;
-    const diff = last - first;
-
-    for (var i = first; i <= last; i++) {
-      frets.push(
-        <View key={i} style={{ flex: 1 }}>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            {notes(track, i, isSmart, isLeft, diff, boardWidth, fretHeight)}
-          </View>
-        </View>
-      );
-    }
-    return frets;
-  }
-};
-
-const FretboardFrets = ({
-  track,
-  isSmart,
-  isLeft,
-  boardWidth,
-  fretHeight,
-  onLayout,
-  onToggleOrientation
-}) => (
-  <View
-    pointerEvents={"none"}
-    style={{
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      paddingVertical: track.isBass ? boardWidth * 0.005 : boardWidth * 0.003,
-      flexDirection: "row",
-      justifyContent: "space-between"
-    }}
-    onLayout={onLayout}
-  >
-    {frets(track, isSmart, isLeft, boardWidth, fretHeight)}
-  </View>
-);
 
 FretboardFrets.propTypes = {
   track: PropTypes.object.isRequired,

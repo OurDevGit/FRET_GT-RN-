@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, TouchableOpacity } from "react-native";
 import { gtPcPressable, gtPcColorable, gtPcSizeable } from "./lib";
 import {
   BtnPrevious_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,

@@ -5,14 +5,18 @@ import Dimensions from "Dimensions";
 import RNFetchBlob from "react-native-fetch-blob";
 import { Alert } from "react-native";
 import {
-  loadMidi,
-  clearMidi,
   chapterForTime,
   markerForTime,
   midiForTime,
   midiOffsetForTime
 } from "../../selectors";
 import VideoPresentation from "./VideoPresentation";
+import {
+  loadMidi,
+  clearMidi,
+  timeForPrevStep,
+  timeForNextStep
+} from "../../midi-store";
 
 this.playbackSeconds = 0.0;
 var controlFaderId = 0;
@@ -80,7 +84,9 @@ class Vid extends React.Component {
         onForwardPress={this.handleForwardPress}
         onNextPress={this.handleNextPress}
         onMarkerPress={this.handleMarkerPress}
+        onSeekStart={this.handleSeekStart}
         onSeek={this.handleSeek}
+        onSeekEnd={this.handleSeekEnd}
         onSelectTempo={this.handleSelectTempo}
         onLoopEnable={this.handleLoopEnable}
         onLoopBegin={this.handleLoopBegin}
@@ -325,15 +331,15 @@ class Vid extends React.Component {
 
   handlePreviousPress = () => {
     this.resetDisplayTimer();
-    const { markers } = this.props;
-    const seconds = this.playbackSeconds;
+    const { videoChapters } = this.props;
+    const seconds = this.playbackSeconds || 0;
 
-    if (markers.count() === 0 || markers.first().time > seconds) {
+    if (videoChapters.count() === 0 || videoChapters.last().time < seconds) {
       this.goToTime(0);
     } else {
-      for (let marker of markers.reverse()) {
-        if (marker.time + 1 < seconds) {
-          this.goToTime(marker.time);
+      for (let chapter of videoChapters.reverse()) {
+        if (chapter.begin + 1 < seconds) {
+          this.goToTime(chapter.begin + 0.1);
           break;
         }
       }
@@ -347,10 +353,19 @@ class Vid extends React.Component {
 
   handlePlayPausePress = () => {
     this.resetDisplayTimer();
-    this.setState({
-      isPlaying: !this.state.isPlaying,
-      videoRate: this.state.playbackRate
-    });
+
+    if (this.state.playbackRate === 0) {
+      this.setState({
+        isPlaying: true,
+        videoRate: 1.0,
+        playbackRate: 1.0
+      });
+    } else {
+      this.setState({
+        isPlaying: !this.state.isPlaying,
+        videoRate: this.state.playbackRate
+      });
+    }
   };
 
   handleForwardPress = () => {
@@ -358,17 +373,17 @@ class Vid extends React.Component {
     this.goToTime(this.playbackSeconds + 30);
   };
 
-  handleNextPress = marker => {
+  handleNextPress = () => {
     this.resetDisplayTimer();
-    const { markers } = this.props;
-    const seconds = this.playbackSeconds;
+    const { videoChapters } = this.props;
+    const seconds = this.playbackSeconds || 0;
 
-    if (markers.count() === 0 || markers.last().time < seconds) {
+    if (videoChapters.count() === 0 || videoChapters.last().time < seconds) {
       this.goToTime(0);
     } else {
-      for (let marker of markers) {
-        if (marker.time > seconds) {
-          this.goToTime(marker.time);
+      for (let chapter of videoChapters) {
+        if (chapter.begin > seconds) {
+          this.goToTime(chapter.begin + 0.1);
           break;
         }
       }
@@ -382,9 +397,19 @@ class Vid extends React.Component {
     this.goToTime(time + 0.01);
   };
 
+  handleSeekStart = () => {
+    this.setState({ isSeeking: true });
+    this.props.updateTime(-1);
+  };
+
   handleSeek = progress => {
     const time = progress * this.state.mediaDuration;
     this.goToTime(time);
+  };
+
+  handleSeekEnd = () => {
+    this.setState({ isSeeking: false });
+    this.goToTime(this.state.seek);
   };
 
   // TEMPO METHODS
@@ -395,6 +420,10 @@ class Vid extends React.Component {
 
     if (this.state.isPlaying) {
       newState.musicRate = tempo;
+    }
+
+    if (tempo === 0) {
+      newState.isPlaying = false;
     }
 
     this.setState(newState);
@@ -444,24 +473,36 @@ class Vid extends React.Component {
   // STEP
 
   handlePrevStep = () => {
-    const { visibleTracks, currentLoop, loopIsEnabled } = this.props;
+    const {
+      visibleTracks,
+      currentLoop,
+      loopIsEnabled,
+      currentVideoMarker
+    } = this.props;
     const time = timeForPrevStep(
       this.playbackSeconds,
       visibleTracks.first().get("name"),
       currentLoop,
-      loopIsEnabled
+      loopIsEnabled,
+      currentVideoMarker
     );
 
     this.goToTime(time);
   };
 
   handleNextStep = () => {
-    const { visibleTracks, currentLoop, loopIsEnabled } = this.props;
+    const {
+      visibleTracks,
+      currentLoop,
+      loopIsEnabled,
+      currentVideoMarker
+    } = this.props;
     const time = timeForNextStep(
       this.playbackSeconds,
       visibleTracks.first().get("name"),
       currentLoop,
-      loopIsEnabled
+      loopIsEnabled,
+      currentVideoMarker
     );
 
     this.goToTime(time);
@@ -499,9 +540,9 @@ class Vid extends React.Component {
     }
   };
 
-  handleToggleFretboards = () => {
+  handleToggleFretboards = bool => {
     this.resetDisplayTimer();
-    this.props.onToggleFretboards();
+    this.props.onToggleFretboards(bool);
   };
 
   resetDisplayTimer = () => {

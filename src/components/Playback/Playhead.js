@@ -6,10 +6,9 @@ const styles = {
   circle: {
     position: "absolute",
     top: 15,
-    width: 18,
-    height: 18,
-    borderRadius: 18 / 2,
-    backgroundColor: "black"
+    width: 40,
+    height: 40,
+    backgroundColor: "rgba(0, 0, 0, 0)"
   }
 };
 
@@ -34,7 +33,16 @@ class Playhead extends Component {
           height: 18
         }}
       >
-        <View style={styleWithLeft} {...this._panResponder.panHandlers} />
+        <View style={styleWithLeft} {...this._panResponder.panHandlers}>
+          <View
+            style={{
+              width: 18,
+              height: 18,
+              borderRadius: 18 / 2,
+              backgroundColor: "black"
+            }}
+          />
+        </View>
       </View>
     );
   }

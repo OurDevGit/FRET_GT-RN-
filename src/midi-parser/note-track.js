@@ -10,7 +10,7 @@ module.exports = (track, secondsForTicks) => {
     firstFret,
     lastFret;
 
-  var notes = List();
+  var notes = [];
   var notesOn = [];
   var totalTicks = 0;
   var capo = -1;
@@ -86,14 +86,15 @@ module.exports = (track, secondsForTicks) => {
         ) {
           const string = noteOn.channel - 10;
           const fret = noteOn.noteNumber - stringOffset[string];
-          const note = Map({
+          const note = {
             begin: parseFloat(noteOn.begin.toFixed(3)),
             end: parseFloat(secondsForTicks(totalTicks).toFixed(3)),
             fret: fret,
-            string: string
-          });
+            string: string,
+            ref: `${fret}-${string}`
+          };
 
-          notes = notes.push(note);
+          notes.push(note);
 
           notesOn.splice(i, 1);
 

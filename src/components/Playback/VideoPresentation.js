@@ -140,7 +140,9 @@ const VideoPresentation = props => {
                       height: props.isPhone ? 36 : 50
                     }}
                     color={"#FFFFFF"}
-                    onPress={props.onToggleFretboards}
+                    onPress={() => {
+                      props.onToggleFretboards();
+                    }}
                   />
                 </View>
               )}
@@ -155,7 +157,9 @@ const VideoPresentation = props => {
                 iisPhone={props.isPhone}
                 isVideo={true}
                 isFullscreen={props.isFullscreen}
+                onSeekStart={props.onSeekStart}
                 onSeek={props.onSeek}
+                onSeekEnd={props.onSeekEnd}
                 onLoopEnable={props.onLoopEnable}
                 onForceControlsVisible={props.onForceControlsVisible}
               />
@@ -222,7 +226,9 @@ VideoPresentation.propTypes = {
   onForwardPress: PropTypes.func.isRequired,
   onNextPress: PropTypes.func.isRequired,
   onMarkerPress: PropTypes.func.isRequired,
+  onSeekStart: PropTypes.func.isRequired,
   onSeek: PropTypes.func.isRequired,
+  onSeekEnd: PropTypes.func.isRequired,
   onSelectTempo: PropTypes.func.isRequired,
   onLoopEnable: PropTypes.func.isRequired,
   onLoopBegin: PropTypes.func.isRequired,

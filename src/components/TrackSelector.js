@@ -81,7 +81,7 @@ class TrackSelector extends Component {
         updateVisibleTracks(tracks);
       }
     } else {
-      if (visibleTracks.count() < 4) {
+      if (visibleTracks.count() < this.props.max) {
         const newVisible = visibleTracks.push(track);
         const newTracks = tracks.filter(tr => newVisible.includes(tr));
         updateVisibleTracks(newTracks);

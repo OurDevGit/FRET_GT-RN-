@@ -126,7 +126,8 @@ class PlaybackVideoPrimary extends React.Component {
             aspectRatio: 1.778,
             flexDirection: "row",
             justifyContent: "center",
-            alignItems: "flex-start"
+            alignItems: "flex-start",
+            backgroundColor: "black"
           }}
         >
           <Video

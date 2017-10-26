@@ -118,7 +118,9 @@ class SmartFretModal extends React.Component {
                 markers={this.props.markers}
                 currentLoop={this.props.currentLoop}
                 loopIsEnabled={this.props.loopIsEnabled}
-                onSeek={this.props.onSeek}
+                onSeekStart={this.handleSeekStart}
+                onSeek={this.handleSeek}
+                onSeekEnd={this.handleSeekEnd}
                 onMarkerPress={this.props.onMarkerPress}
                 onMarkerLongPress={this.props.onMarkerLongPress}
               />
@@ -227,7 +229,9 @@ SmartFretModal.propTypes = {
   onPlayPausePress: PropTypes.func.isRequired,
   onForwardPress: PropTypes.func.isRequired,
   onNextPress: PropTypes.func.isRequired,
-  onSeek: PropTypes.func.isRequired,
+  onSeekStart: PropTypes.func,
+  onSeek: PropTypes.func,
+  onSeekEnd: PropTypes.func,
   onMarkerPress: PropTypes.func.isRequired,
   onMarkerLongPress: PropTypes.func.isRequired,
   onLoopEnable: PropTypes.func.isRequired,

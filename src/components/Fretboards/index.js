@@ -18,7 +18,7 @@ class FretboardsRoot extends React.PureComponent {
       isVisible,
       deviceWidth,
       deviceHeight,
-      supportsMultipleFretboards,
+      availableFretboardCount,
       tracks,
       visibleTracks
     } = this.props;
@@ -30,26 +30,28 @@ class FretboardsRoot extends React.PureComponent {
 
     if (isVisible) {
       // applying visible tracks for tablet on audio
-      if (supportsMultipleFretboards && visibleTracks.count() > 0) {
+      if (availableFretboardCount > 1 && visibleTracks.count() > 0) {
         boardTracks = visibleTracks;
       }
       // applying tracks for phone on audio
-      if (!supportsMultipleFretboards && tracks.count() > 0) {
+      if (!availableFretboardCount > 1 && tracks.count() > 0) {
         boardTracks = tracks;
       }
     }
 
-    var boardHeight = supportsMultipleFretboards
-      ? deviceWidth * 0.17
-      : isVideo ? deviceWidth * 0.18 : deviceWidth * 0.23;
+    var boardHeight =
+      availableFretboardCount > 1
+        ? deviceWidth * 0.17
+        : isVideo ? deviceWidth * 0.18 : deviceWidth * 0.23;
 
     if (visibleTracks.count() === 4) {
       boardHeight = (deviceHeight - 110) / 4;
     }
 
-    const height = supportsMultipleFretboards
-      ? boardHeight * boardTracks.count()
-      : boardHeight;
+    const height =
+      availableFretboardCount > 1
+        ? boardHeight * boardTracks.count()
+        : boardHeight;
 
     return (
       <View
@@ -59,7 +61,7 @@ class FretboardsRoot extends React.PureComponent {
           backgroundColor: "#E6D9B9"
         }}
       >
-        {supportsMultipleFretboards ? (
+        {availableFretboardCount > 1 ? (
           <VerticalContainer
             isVideo={isVideo}
             isPhone={isPhone}
@@ -107,7 +109,7 @@ FretboardsRoot.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   deviceHeight: PropTypes.number.isRequired,
-  supportsMultipleFretboards: PropTypes.bool.isRequired,
+  availableFretboardCount: PropTypes.number.isRequired,
   tracks: PropTypes.object,
   visibleTracks: PropTypes.object
 };

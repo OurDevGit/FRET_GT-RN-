@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { View } from "react-native";
 
 import { PrimaryBlue } from "../../../design";
@@ -8,6 +7,7 @@ import { PrimaryBlue } from "../../../design";
 import Playline from "./Playline";
 import PlaybackMarkers from "./Markers";
 import LoopFlag from "./LoopFlag.js";
+import { subscribeToTimeUpdates } from "../../../time-store";
 
 class PlaybackTimeline extends Component {
   state = {
@@ -91,6 +91,12 @@ class PlaybackTimeline extends Component {
     );
   }
 
+  componentDidMount() {
+    subscribeToTimeUpdates(time => {
+      this.setState({ progress: time / this.props.duration });
+    });
+  }
+
   componentWillReceiveProps(newProps) {
     if (
       newProps.progress != this.state.progress &&
@@ -113,12 +119,14 @@ class PlaybackTimeline extends Component {
     this.setState({
       ignorePropsProgress: true
     });
+    this.props.onSeekStart();
   };
 
   handlePlayheadPanEnd = () => {
     this.setState({
       ignorePropsProgress: false
     });
+    this.props.onSeekEnd();
   };
 
   handleContainerLayout = e => {
@@ -139,6 +147,9 @@ PlaybackTimeline.propTypes = {
   markers: PropTypes.object.isRequired,
   currentLoop: PropTypes.object.isRequired,
   loopIsEnabled: PropTypes.bool.isRequired,
+  onSeekStart: PropTypes.func,
+  onSeek: PropTypes.func,
+  onSeekEnd: PropTypes.func,
   onMarkerPress: PropTypes.func.isRequired,
   onMarkerLongPress: PropTypes.func.isRequired
 };
@@ -149,4 +160,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(PlaybackTimeline);
+export default PlaybackTimeline;
