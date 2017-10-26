@@ -131,12 +131,14 @@ export class BtnGetMediaProgress extends Component {
   render() {
     const { mode, price, progress, ...rest } = this.props;
     return (
-      <BtnGetMedia
-        mode={this.state.progress === null ? mode : this.state.mode}
-        price={price}
-        progress={this.state.progress}
-        {...rest}
-      />
+      <View>
+        <BtnGetMedia
+          mode={this.state.progress === null ? mode : this.state.mode}
+          price={price}
+          progress={this.state.progress}
+          {...rest}
+        />
+      </View>
     );
   }
 

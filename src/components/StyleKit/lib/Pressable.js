@@ -1,58 +1,42 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import {
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  View
-} from "react-native";
-import PaintCode from "./PaintCode";
+import { TouchableOpacity, View, StyleSheet } from "react-native";
+import { doDebugPcButtons } from "../../../Config";
 
 export const gtPcPressable = WrappedComponent => {
-  return class extends Component {
-    state = {
-      isPressed: false
-    };
-
+  class PaintCodePressable extends Component {
     render() {
-      const pcbProps = {
+      const pressableProps = {
         ...this.props,
-        ...this.state
+        isPressed: false
       };
 
-      delete pcbProps.onPress;
+      delete pressableProps.onPress;
 
       return (
-        <TouchableWithoutFeedback
-          onPressIn={this.handlePressIn}
-          onPressOut={this.handlePressOut}
-          onPress={this.handlePress}
-          style={{ flex: 1 }}
-        >
-          <View>
-            <WrappedComponent {...pcbProps} />
+        <TouchableOpacity onPress={this.handlePress}>
+          <View style={doDebugPcButtons ? styles.buttonDebug : styles.button}>
+            <WrappedComponent {...pressableProps} />
           </View>
-        </TouchableWithoutFeedback>
+        </TouchableOpacity>
       );
     }
 
-    handlePressIn = () => {
-      // console.log("press in");
-      this.setState({ isPressed: true });
-    };
-
-    handlePressOut = () => {
-      // console.log("press out");
-      this.setState({ isPressed: false });
-    };
-
     handlePress = e => {
-      // console.log("press done");
-      this.setState({ isPressed: false });
-
       if (typeof this.props.onPress === "function") {
         this.props.onPress(e);
       }
     };
+  }
+
+  PaintCodePressable.propTypes = {
+    onPress: PropTypes.func
   };
+
+  return PaintCodePressable;
 };
+
+const styles = StyleSheet.create({
+  button: {},
+  buttonDebug: { backgroundColor: "rgba(255, 255, 0, 0.66)" }
+});

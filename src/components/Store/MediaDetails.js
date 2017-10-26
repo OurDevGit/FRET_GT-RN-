@@ -95,8 +95,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     padding: basePadding * 2,
     paddingBottom: 0
-    // flexDirection: "row",
-    // backgroundColor: "yellow"
   },
   thumb: {
     width: iconSize,

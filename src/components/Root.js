@@ -28,6 +28,7 @@ class Root extends Component {
       this.state.layout.width > 1 && aspectRatio < 1.6;
     const isVideo = this.state.video !== null;
     const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
+    const showLibraryButton = this.state.showAd && trackCount < 4;
 
     return (
       <Provider store={store}>
@@ -59,23 +60,16 @@ class Root extends Component {
             />
           )}
 
-          {this.state.showAd &&
-            trackCount < 4 && (
-              <View style={{ position: "absolute", right: 30, top: 5 }}>
-                {!this.state.isShowingStore && (
-                  <BtnLibrary
-                    style={{
-                      marginLeft: 10,
-                      marginTop: 10,
-                      width: 40,
-                      height: 40
-                    }}
-                    color={"#FFFFFF"}
-                    onPress={this.handleToggleLibrary}
-                  />
-                )}
-              </View>
-            )}
+          {showLibraryButton && (
+            <View style={{ position: "absolute", right: 30, top: 5 }}>
+              {!this.state.isShowingStore && (
+                <BtnLibrary
+                  color={"#FFFFFF"}
+                  onPress={this.handleToggleLibrary}
+                />
+              )}
+            </View>
+          )}
 
           {supportsMultipleFretboards &&
             this.state.showFretboards && <TrackSelector />}
@@ -116,6 +110,7 @@ class Root extends Component {
   };
 
   handleToggleLibrary = () => {
+    console.debug("toggle lib press");
     this.setState({
       isShowingStore: true
     });

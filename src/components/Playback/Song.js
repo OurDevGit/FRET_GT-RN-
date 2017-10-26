@@ -19,6 +19,8 @@ import { playerBackground } from "../../design";
 
 import { loadMidi, clearMidi } from "../../selectors";
 
+const emptyArray = [];
+
 class Song extends React.Component {
   state = {
     isVideo: false,
@@ -36,7 +38,8 @@ class Song extends React.Component {
       this.props.song !== undefined ? this.props.song.title : "";
     const mediaId = this.props.song !== undefined ? this.props.song.id : "";
     const isCompact = this.props.height > 10 && this.props.height < 150;
-    const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
+    const savedLoops =
+      this.props.loops === undefined ? emptyArray : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
     const isVideo = this.props.video !== undefined;
 
@@ -134,7 +137,7 @@ class Song extends React.Component {
               isVideo={false}
               isFullscreen={false}
               currentLoop={this.props.currentLoop}
-              quickLoops={[]}
+              quickLoops={emptyArray}
               connectedDevices={this.props.connectedDevices}
               onSelectTempo={this.handleSelectTempo}
               onLoopEnable={this.handleLoopEnable}

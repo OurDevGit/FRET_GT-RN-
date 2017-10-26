@@ -38,6 +38,7 @@ class MediaItem extends PureComponent {
           />
 
           <BtnDetails onPress={this.handleTapDetails} />
+
           <BtnGetMediaProgress
             mode={this.props.getMode}
             price={this.props.price}
@@ -74,10 +75,13 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     padding: 5,
     flexDirection: "row"
-    // alignItems: "flex-end",
   },
   thumb: { width: 40, height: 40 },
-  titleContainer: { flexDirection: "column", marginLeft: 10, flexGrow: 1 },
+  titleContainer: {
+    flexDirection: "column",
+    marginLeft: 10,
+    flexGrow: 1
+  },
   title: { fontSize: 12, width: "100%", color: "#4f4f4f" },
   subtitle: { fontSize: 10, width: "100%", color: "#8f8e94" }
 });
