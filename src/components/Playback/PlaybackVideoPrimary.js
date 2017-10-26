@@ -138,6 +138,7 @@ class PlaybackVideoPrimary extends React.Component {
             paused={!isPlaying}
             rate={tempo}
             resizeMode="contain"
+            progressUpdateInterval={50.0}
             onLoad={onVideoLoad}
             onProgress={onProgress}
             onEnd={onEnd}
