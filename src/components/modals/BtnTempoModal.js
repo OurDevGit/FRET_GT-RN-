@@ -15,6 +15,14 @@ class BtnTempoModal extends React.Component {
   };
 
   render() {
+    var tempos = defaultTempos;
+
+    if (this.props.currentVideoMidiFile === undefined) {
+      tempos[19] = 0.1;
+    } else if (this.props.currentVideoMidiFile !== null) {
+      tempos[19] = 0.1;
+    }
+
     var currentIndex = tempos.indexOf(this.props.currentTempo);
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
     const color = this.props.color || "#222222";
@@ -133,7 +141,7 @@ class BtnTempoModal extends React.Component {
   };
 }
 
-const tempos = [
+var defaultTempos = [
   1.25,
   1.2,
   1.115,
@@ -152,14 +160,14 @@ const tempos = [
   0.5,
   0.45,
   0.4,
-  0.35,
-  0.1
+  0.35
 ];
 
 BtnTempoModal.propTypes = {
   currentTempo: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  currentVideoMidiFile: PropTypes.object,
   onSelectTempo: PropTypes.func.isRequired,
   onForceControlsVisible: PropTypes.func
 };

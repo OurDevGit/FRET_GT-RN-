@@ -61,6 +61,7 @@ class Vid extends React.Component {
         videoMarkers={this.props.videoMarkers.toJS()}
         currentVideoChapter={this.props.currentVideoChapter.toJS()}
         currentVideoMarker={this.props.currentVideoMarker.toJS()}
+        currentVideoMidiFile={midiFileName}
         quickLoops={this.state.quickLoops}
         connectedDevices={this.props.connectedDevices}
         currentLoop={this.props.currentLoop}
@@ -504,7 +505,6 @@ class Vid extends React.Component {
       loopIsEnabled,
       currentVideoMarker
     );
-
     this.goToTime(time);
   };
 

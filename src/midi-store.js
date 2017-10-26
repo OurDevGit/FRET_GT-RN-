@@ -34,7 +34,6 @@ exports.clearMidiOffset = () => {
 };
 
 exports.notesForTrackAtTime = (track, time) => {
-  console.log(time);
   if (notes[track.name] === undefined || time == -1) {
     return [];
   } else {
@@ -89,11 +88,10 @@ const timeForStep = (
     });
   }
 
-  const midiTime = time - midiOffset;
   const filtered = timesForTrack.filter(noteTime => {
     return type === "PREV"
-      ? noteTime < midiTime
-      : midiTime === 0 ? noteTime >= 0 : noteTime > midiTime;
+      ? noteTime < time
+      : time === 0 ? noteTime >= 0 : noteTime > time;
   });
 
   if (filtered.count() > 0) {
@@ -103,8 +101,6 @@ const timeForStep = (
             .sort()
             .reverse()
         : List(filtered).sort();
-
-    console.log("times: ", sorted.toJS());
 
     const currentNotes = notesForTrack
       .filter(note => note.begin <= time && note.end > time)
@@ -119,18 +115,19 @@ const timeForStep = (
       if (!currentNotes.equals(nextNotes)) {
         newTime = noteTime;
         return true;
+      } else {
+        console.log("MATCHING");
       }
     });
 
     if (newTime > -1) {
-      console.log(newTime);
-      return newTime + midiOffset;
+      return newTime;
     }
   }
 
   const sorted = List(timesForTrack).sort();
   const chosenTime = type === "PREV" ? sorted.last() : sorted.first();
-  const adjustedTime = chosenTime + midiOffset;
+  const adjustedTime = chosenTime;
   return adjustedTime;
 };
 

@@ -171,6 +171,7 @@ const VideoPresentation = props => {
                 isVideo={true}
                 isFullscreen={props.isFullscreen}
                 currentLoop={props.currentLoop}
+                currentVideoMidiFile={props.currentVideoMidiFile}
                 quickLoops={props.quickLoops}
                 connectedDevices={props.connectedDevices}
                 onSelectTempo={props.onSelectTempo}
@@ -205,6 +206,7 @@ VideoPresentation.propTypes = {
   currentVideoMarker: PropTypes.object.isRequired,
   quickLoops: PropTypes.array.isRequired,
   connectedDevices: PropTypes.number.isRequired,
+  currentVideoMidiFile: PropTypes.object,
   currentLoop: PropTypes.object.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,

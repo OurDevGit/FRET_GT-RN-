@@ -45,6 +45,7 @@ class PlaybackSecondary extends PureComponent {
       currentLoop,
       quickLoops,
       connectedDevices,
+      currentVideoMidiFile,
       isPhone,
       isVideo,
       isFullscreen,
@@ -76,6 +77,7 @@ class PlaybackSecondary extends PureComponent {
           currentTempo={tempo}
           color={"#222222"}
           isPhone={isPhone}
+          currentVideoMidiFile={currentVideoMidiFile}
           onSelectTempo={onSelectTempo}
           onForceControlsVisible={onForceControlsVisible}
         />
@@ -204,6 +206,7 @@ PlaybackSecondary.propTypes = {
   currentLoop: PropTypes.object.isRequired,
   quickLoops: PropTypes.array,
   connectedDevices: PropTypes.number.isRequired,
+  currentVideoMidiFile: PropTypes.object,
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
   isFullscreen: PropTypes.bool.isRequired,
@@ -226,6 +229,7 @@ export default connect()(
     "tempo",
     "loopIsEnabled",
     "isFullscreen",
-    "quickLoops"
+    "quickLoops",
+    "currentVideoMidiFile"
   ])(PlaybackSecondary)
 );
