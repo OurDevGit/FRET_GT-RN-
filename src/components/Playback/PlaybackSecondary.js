@@ -85,9 +85,7 @@ class PlaybackSecondary extends PureComponent {
         {tempo === 0 && (
           <View
             style={{
-              marginLeft: -60,
               marginTop: -4,
-              flex: -1,
               flexDirection: "row"
             }}
           >
