@@ -59,6 +59,7 @@ const renderIndicator = ({ width, position, navigationState: { index } }) => {
 };
 
 const filterMedia = (media, tabIndex, navigableOpenSection) => {
+  // console.time("filterMedia");
   var preFilteredMedia = media;
 
   if (navigableOpenSection !== null) {
@@ -93,6 +94,7 @@ const filterMedia = (media, tabIndex, navigableOpenSection) => {
       filteredMedia = preFilteredMedia;
   }
 
+  // console.time("filterMedia");
   return filteredMedia;
 };
 

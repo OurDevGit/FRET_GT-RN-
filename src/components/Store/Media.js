@@ -124,6 +124,8 @@ class Media extends React.PureComponent {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // console.time("selectMedia");
+
   const media = selectMedia(
     state,
     ownProps.category,
@@ -131,6 +133,8 @@ const mapStateToProps = (state, ownProps) => {
     ownProps.group,
     ownProps.isStore
   ).toJS();
+
+  // console.timeEnd("selectMedia");
 
   return { media };
 };
