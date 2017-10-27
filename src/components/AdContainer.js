@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Image } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
@@ -10,25 +10,16 @@ class AdContainer extends Component {
     const { ad } = this.props;
     return (
       <Image
-        style={{
-          height: this.props.visibleTracks.count() > 3 ? 0 : 80,
-          width: "100%",
-          flexDirection: "row"
-        }}
+        style={
+          this.props.visibleTracks.count() > 3
+            ? styles.bgImageHidden
+            : styles.bgImage
+        }
         source={require("../images/topiPhone.png")}
       >
-        <View
-          style={{
-            position: "absolute",
-            height: "100%",
-            padding: 10
-          }}
-        >
+        <View style={styles.logoContainer}>
           <Image
-            style={{
-              height: "100%",
-              aspectRatio: 2.63
-            }}
+            style={styles.logo}
             resizeMode={"contain"}
             source={require("../images/logo-guitar-tunes.png")}
           />
@@ -48,6 +39,29 @@ class AdContainer extends Component {
 AdContainer.propTypes = {
   ad: PropTypes.object.isRequired
 };
+
+const styles = StyleSheet.create({
+  bgImage: {
+    height: "17%",
+    maxHeight: 80,
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  bgImageHidden: {
+    display: "none"
+  },
+  logoContainer: {
+    position: "absolute",
+    height: "100%",
+    padding: 10
+  },
+  logo: {
+    height: "100%",
+    aspectRatio: 2.63
+  }
+});
 
 const mapStateToProps = state => {
   return {
