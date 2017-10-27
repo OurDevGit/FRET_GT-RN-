@@ -1,15 +1,6 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Image,
-  Button,
-  StyleSheet,
-  Modal,
-  ScrollView
-} from "react-native";
+import { View, Text, Image, StyleSheet, Modal, ScrollView } from "react-native";
 
 import { PrimaryGold, Danger } from "../../design";
 import { FlatButton } from "../Material";
