@@ -1,33 +1,31 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { gtPcPressable, gtPcColorable, gtPcSizeable } from "./lib";
+import { TouchableOpacity } from "react-native";
+import { gtPcPressable, gtPcColorable } from "./lib";
 import {
-  BtnLibrary_targetFrame_resizing_isPressed_redValue_greenValue_blueValue,
-  BtnDetails_isPressed
+  BtnLibrary_isPressed_redValue_greenValue_blueValue,
+  BtnDetails_isPressed,
+  BtnHome_isHome
 } from "./styleKitComponents";
 import { ResizingBehavior } from "./lib";
 
 export const BtnLibrary = props => {
-  const Comp = gtPcSizeable(
-    gtPcColorable(
-      gtPcPressable(
-        BtnLibrary_targetFrame_resizing_isPressed_redValue_greenValue_blueValue
-      )
-    )
+  const BtnLibraryComp = gtPcColorable(
+    gtPcPressable(BtnLibrary_isPressed_redValue_greenValue_blueValue)
   );
 
-  return <Comp {...props} resizing={ResizingBehavior.AspectFit} />;
+  return <BtnLibraryComp {...props} resizing={ResizingBehavior.AspectFit} />;
+};
+
+export const BtnHome = ({ onPress, ...rest }) => {
+  return (
+    <TouchableOpacity onPress={onPress}>
+      <BtnHome_isHome isHome={false} {...rest} />
+    </TouchableOpacity>
+  );
 };
 
 export const BtnDetails = props => {
   const Comp = gtPcPressable(BtnDetails_isPressed);
 
-  return <Comp {...props} style={this.btnDetails} />;
+  return <Comp {...props} />;
 };
-
-const styles = StyleSheet.create({
-  btnDetails: {
-    width: 44,
-    height: 44
-  }
-});

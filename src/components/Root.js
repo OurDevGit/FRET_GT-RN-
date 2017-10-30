@@ -1,15 +1,22 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
-import Dimensions from "Dimensions";
 import { Provider, connect } from "react-redux";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
+import Home from "./Home";
 import FretboardsContainer from "./Fretboards";
 import TrackSelector from "./TrackSelector";
 import Store from "./Store";
-import { BtnLibrary } from "./StyleKit";
+import { BtnLibrary, BtnHome } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
+import * as actions from "../redux/actions";
+
+const Sections = {
+  Home: 0,
+  Library: 1,
+  Playback: 2
+};
 
 class Root extends Component {
   state = {
@@ -18,7 +25,8 @@ class Root extends Component {
     showAd: true,
     showFretboards: true,
     isShowingStore: false,
-    layout: { width: 1, height: 1 }
+    layout: { width: 1, height: 1 },
+    currentSection: Sections.Home
   };
 
   render() {
@@ -46,28 +54,46 @@ class Root extends Component {
             <Store onClose={this.handleCloseStore} />
           )}
           {this.state.showAd && <AdContainer />}
-          <Playback
-            song={this.state.song}
-            video={this.state.video}
-            visibleTracks={this.props.visibleTracks}
-            onToggleLibrary={this.handleToggleLibrary}
-            onToggleAd={this.handleToggleAd}
-            onToggleFretboards={this.handleToggleFretboards}
-            onClearMedia={this.handleClearMedia}
-          />
 
-          {(this.state.song !== null || this.state.video !== null) && (
-            <FretboardsContainer
-              isVideo={isVideo}
-              isVisible={this.state.showFretboards}
-              deviceWidth={this.state.layout.width}
-              deviceHeight={this.state.layout.height}
-              availableFretboardCount={availableFretboardCount}
+          {this.state.currentSection === Sections.Playback && (
+            <Playback
+              song={this.state.song}
+              video={this.state.video}
+              visibleTracks={this.props.visibleTracks}
+              onToggleLibrary={this.handleToggleLibrary}
+              onToggleAd={this.handleToggleAd}
+              onToggleFretboards={this.handleToggleFretboards}
+              onClearMedia={this.handleClearMedia}
+            />
+          )}
+          {(this.state.song !== null || this.state.video !== null) &&
+            this.state.currentSection === Sections.Playback && (
+              <FretboardsContainer
+                isVideo={isVideo}
+                isVisible={this.state.showFretboards}
+                deviceWidth={this.state.layout.width}
+                deviceHeight={this.state.layout.height}
+                availableFretboardCount={availableFretboardCount}
+              />
+            )}
+
+          {this.state.currentSection === Sections.Home && (
+            <Home
+              onBuy={this.handleHomeBuy}
+              onDetails={this.handleHomeDetails}
             />
           )}
 
           {showLibraryButton && (
-            <View style={{ position: "absolute", right: 30, top: 5 }}>
+            <View
+              style={{
+                position: "absolute",
+                right: 30,
+                top: 5,
+                flexDirection: "row"
+              }}
+            >
+              <BtnHome onPress={this.handleHomePress} />
               {!this.state.isShowingStore && (
                 <BtnLibrary
                   color={"#FFFFFF"}
@@ -78,6 +104,7 @@ class Root extends Component {
           )}
 
           {availableFretboardCount > 1 &&
+            this.state.currentSection === Sections.Playback &&
             this.state.showFretboards && (
               <TrackSelector max={availableFretboardCount} />
             )}
@@ -117,6 +144,10 @@ class Root extends Component {
     });
   };
 
+  handleHomePress = () => {
+    this.setState({ isShowingStore: false });
+  };
+
   handleToggleLibrary = () => {
     console.debug("toggle lib press");
     this.setState({
@@ -130,6 +161,15 @@ class Root extends Component {
       video: null,
       showAd: true
     });
+  };
+
+  handleHomeBuy = productId => {
+    console.debug("buy media");
+    // this.props.chooseMedia(media);
+  };
+
+  handleHomeDetails = mediaId => {
+    console.debug("show details");
   };
 
   handleToggleAd = bool => {
@@ -168,4 +208,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Root);
+export default connect(mapStateToProps, actions)(Root);
