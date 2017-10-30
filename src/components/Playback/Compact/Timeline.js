@@ -7,9 +7,12 @@ import { PrimaryBlue } from "../../../design";
 import Playline from "./Playline";
 import PlaybackMarkers from "./Markers";
 import LoopFlag from "./LoopFlag.js";
-import { subscribeToTimeUpdates } from "../../../time-store";
+import {
+  subscribeToTimeUpdates,
+  unsubscribeToTimeUpdates
+} from "../../../time-store";
 
-class PlaybackTimeline extends Component {
+class Timeline extends Component {
   state = {
     layout: { width: 1, x: 0 },
     containerLayout: { width: 1 },
@@ -92,9 +95,11 @@ class PlaybackTimeline extends Component {
   }
 
   componentDidMount() {
-    subscribeToTimeUpdates(time => {
-      this.setState({ progress: time / this.props.duration });
-    });
+    subscribeToTimeUpdates(this.handleTime);
+  }
+
+  componentWillUnmount() {
+    unsubscribeToTimeUpdates(this.handleTime);
   }
 
   componentWillReceiveProps(newProps) {
@@ -105,6 +110,10 @@ class PlaybackTimeline extends Component {
       this.setState({ progress: newProps.progress });
     }
   }
+
+  handleTime = time => {
+    this.setState({ progress: time / this.props.duration });
+  };
 
   handlePlayheadPan = x => {
     var progress = x > 0 ? x / this.state.layout.width : 0;
@@ -142,7 +151,7 @@ class PlaybackTimeline extends Component {
   };
 }
 
-PlaybackTimeline.propTypes = {
+Timeline.propTypes = {
   duration: PropTypes.number.isRequired,
   markers: PropTypes.object.isRequired,
   currentLoop: PropTypes.object.isRequired,
@@ -160,4 +169,4 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default PlaybackTimeline;
+export default Timeline;
