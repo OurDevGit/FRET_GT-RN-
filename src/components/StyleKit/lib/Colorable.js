@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 // TODO: this hasn't been tested yet! So it may be broken or incomplete
 
 export const gtPcColorable = WrappedComponent => {
-  return class extends Component {
+  return class PaintCodeColorable extends Component {
     state = {
       redValue: 1,
       greenValue: 0,
@@ -25,7 +25,7 @@ export const gtPcColorable = WrappedComponent => {
     }
 
     makeColor = props => {
-      const hex = this.props.color || "#ff00ff";
+      const hex = props.color || "#ff00ff";
       const rgb = this.hexToRgb(hex);
 
       return {
