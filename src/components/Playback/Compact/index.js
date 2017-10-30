@@ -71,13 +71,14 @@ const PlaybackCompact = ({
         alignItems: "center"
       }}
     >
-      {trackCount > 3 && (
-        <BtnLibrary
-          style={{ ...primaryStyle(isPhone), marginRight: 30 }}
-          color={PrimaryBlue}
-          onPress={onToggleLibrary}
-        />
-      )}
+      {trackCount > 3 &&
+        onToggleLibrary !== undefined && (
+          <BtnLibrary
+            style={{ ...primaryStyle(isPhone), marginRight: 30 }}
+            color={PrimaryBlue}
+            onPress={onToggleLibrary}
+          />
+        )}
 
       <BtnPrevious
         style={primaryStyle(isPhone)}
