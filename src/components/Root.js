@@ -26,7 +26,8 @@ class Root extends Component {
     showFretboards: true,
     isShowingStore: false,
     layout: { width: 1, height: 1 },
-    currentSection: Sections.Home
+    currentSection: Sections.Home,
+    storeDetailMediaId: null
   };
 
   render() {
@@ -51,7 +52,10 @@ class Root extends Component {
           onLayout={this.handleLayout}
         >
           {this.state.isShowingStore && (
-            <Store onClose={this.handleCloseStore} />
+            <Store
+              onClose={this.handleCloseStore}
+              detailMediaId={this.state.storeDetailMediaId}
+            />
           )}
           {this.state.showAd && <AdContainer />}
 
@@ -140,7 +144,8 @@ class Root extends Component {
 
   handleCloseStore = () => {
     this.setState({
-      isShowingStore: false
+      isShowingStore: false,
+      storeDetailMediaId: null
     });
   };
 
@@ -169,6 +174,10 @@ class Root extends Component {
   };
 
   handleHomeDetails = mediaId => {
+    this.setState({
+      isShowingStore: true,
+      storeDetailMediaId: mediaId
+    });
     console.debug("show details");
   };
 

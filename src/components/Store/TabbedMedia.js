@@ -219,6 +219,7 @@ class TabbedMedia extends PureComponent {
         getMode={item.getMode}
         progress={item.downloadProgress}
         item={item}
+        onShowDetails={this.props.onShowDetails}
         onArchiveFiles={this.handleArchiveFiles}
         onPress={this.handleChooseMedia}
         onFavePress={this.props.onFavePress}
@@ -363,6 +364,7 @@ const styles = StyleSheet.create({
 });
 
 TabbedMedia.propTypes = {
+  onShowDetails: PropTypes.func.isRequired,
   onArchiveFiles: PropTypes.func.isRequired,
   media: PropTypes.array,
   onIsStoreChange: PropTypes.func.isRequired,

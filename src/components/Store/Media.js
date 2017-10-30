@@ -11,6 +11,7 @@ import { selectMedia } from "../../redux/selectors";
 import { PrimaryGold } from "../../design";
 import { FlatButton } from "../Material";
 import TabbedMedia from "./TabbedMedia";
+import MediaDetails from "./MediaDetails";
 import FacebookIcon from "./social_icons/Facebook";
 import TwitterIcon from "./social_icons/Twitter";
 
@@ -26,7 +27,8 @@ class Media extends React.PureComponent {
   state = {
     searchText: "",
     searchResults: null,
-    mediaCount: 0
+    mediaCount: 0,
+    detailMedia: null
   };
 
   render() {
@@ -66,7 +68,6 @@ class Media extends React.PureComponent {
             onPress={this.props.onClose}
           />
         </View>
-
         <TabbedMedia
           media={media}
           onChoose={this.props.onChoose}
@@ -76,7 +77,23 @@ class Media extends React.PureComponent {
           isNavigableSubCategory={
             isSearch === true ? this.props.isNavigableSubCategory : false
           }
+          onShowDetails={this.handleShowDetails}
         />
+        {this.state.detailMedia !== null && (
+          <MediaDetails
+            isVisible={this.state.detailMedia !== null}
+            hasFiles={this.state.detailMedia.hasFiles}
+            artworkURL={this.state.detailMedia.artworkURL}
+            title={this.state.detailMedia.title}
+            subtitle={this.state.detailMedia.subtitle}
+            details={this.state.detailMedia.details}
+            onClose={() => this.setState({ detailMedia: null })}
+            onArchiveFiles={() => {
+              this.setState({ detailMedia: null });
+              this.state.detailMedia.onArchiveFiles();
+            }}
+          />
+        )}
       </View>
     );
   }
@@ -114,6 +131,13 @@ class Media extends React.PureComponent {
     this.setState({ searchText: text });
   };
 
+  handleShowDetails = detailMedia => {
+    console.debug({ detailMedia });
+    this.setState({
+      detailMedia
+    });
+  };
+
   handleArchiveFiles = media => {
     this.props.deleteMedia(media);
   };
@@ -142,6 +166,7 @@ const mapStateToProps = (state, ownProps) => {
 Media.propTypes = {
   isNavigableSubCategory: PropTypes.bool.isRequired,
   isStore: PropTypes.bool.isRequired,
+  detailMediaId: PropTypes.string,
   media: PropTypes.array,
   category: PropTypes.object,
   subCategory: PropTypes.object,

@@ -58,6 +58,7 @@ class Store extends Component {
         />
 
         <Media
+          detailMediaId={this.props.detailMediaId}
           style={styles.media}
           category={this.state.category}
           subCategory={this.state.subCategory}
@@ -236,6 +237,7 @@ class Store extends Component {
 
 Store.propTypes = {
   currentMedia: PropTypes.string,
+  detailMediaId: PropTypes.string,
   categories: PropTypes.array,
   subCategories: PropTypes.object,
   group: PropTypes.array,

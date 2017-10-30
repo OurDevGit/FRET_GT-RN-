@@ -53,7 +53,19 @@ class MediaItem extends PureComponent {
   }
 
   handleTapDetails = () => {
-    this.setState({ isShowingDetails: true });
+    const showDetails = {
+      hasFiles: this.props.getMode === GetMediaButtonMode.Play,
+      artworkURL: this.props.artworkURL,
+      title: this.props.title,
+      subtitle: this.props.subtitle,
+      details: this.props.details,
+      onArchiveFiles: () => {
+        this.props.onArchiveFiles(this.props.item);
+      }
+    };
+
+    this.props.onShowDetails(showDetails);
+    // this.setState({ isShowingDetails: true });
   };
 
   handleTouch = () => {
@@ -97,7 +109,8 @@ MediaItem.propTypes = {
   price: PropTypes.string,
   progress: PropTypes.number,
   onPress: PropTypes.func.isRequired,
-  onArchiveFiles: PropTypes.func.isRequired
+  onArchiveFiles: PropTypes.func.isRequired,
+  onShowDetails: PropTypes.func.isRequired
 };
 
 export default MediaItem;
