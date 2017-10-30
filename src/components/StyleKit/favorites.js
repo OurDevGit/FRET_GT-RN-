@@ -2,12 +2,11 @@ import React from "react";
 import { TouchableOpacity, StyleSheet } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { gtPcSizeable } from "./lib";
-import { BtnFavorite_targetFrame_resizing_isPressed } from "./styleKitComponents";
+import { BtnFavorite_isPressed } from "./styleKitComponents";
 import { ResizingBehavior } from "./lib";
 import * as actions from "../../redux/actions";
 
-const Heart = gtPcSizeable(BtnFavorite_targetFrame_resizing_isPressed);
+const Heart = BtnFavorite_isPressed;
 
 class BtnHeartWithState extends React.PureComponent {
   render() {
