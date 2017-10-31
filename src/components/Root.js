@@ -27,7 +27,7 @@ class Root extends Component {
     isShowingStore: false,
     layout: { width: 1, height: 1 },
     currentSection: Sections.Home,
-    storeDetailMediaId: null
+    storeDetailMediaId: ""
   };
 
   render() {
@@ -145,7 +145,7 @@ class Root extends Component {
   handleCloseStore = () => {
     this.setState({
       isShowingStore: false,
-      storeDetailMediaId: null
+      storeDetailMediaId: ""
     });
   };
 
@@ -178,7 +178,6 @@ class Root extends Component {
       isShowingStore: true,
       storeDetailMediaId: mediaId
     });
-    console.debug("show details");
   };
 
   handleToggleAd = bool => {

@@ -36,7 +36,6 @@ class Home extends PureComponent {
         case "//store": {
           const mediaId = search.split("=")[1];
           this.props.onDetails(mediaId);
-          console.debug(`show ${mediaId}`);
           break;
         }
         default:

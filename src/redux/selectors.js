@@ -7,6 +7,15 @@ const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
 const getMediaByListId = (state, id) => getMediaByListIds(state).get(id);
 const getFaves = state => state.get("favorites");
 const getPurchasedMedia = state => state.get("purchasedMedia");
+const getSubCategories = (state, categoryId) =>
+  state.get("subCategoriesByCategoryId").get(categoryId);
+const getGroups = (state, subCategoryId) =>
+  state.get("groupsBySubCategoryId").get(subCategoryId);
+
+export const getMediaById = (state, mediaId) =>
+  state.get("mediaById").get(mediaId);
+export const getDownloadedMediaFiles = (state, mediaId) =>
+  state.get("downloadedMedia").get(mediaId);
 
 const getClientSidedMedia = (state, obj, isStore) => {
   switch (obj.title) {
@@ -42,12 +51,6 @@ const getMediaForIds = (state, mediaIds) => {
 
   return media;
 };
-
-const getSubCategories = (state, categoryId) =>
-  state.get("subCategoriesByCategoryId").get(categoryId);
-
-const getGroups = (state, subCategoryId) =>
-  state.get("groupsBySubCategoryId").get(subCategoryId);
 
 const getMediaForCategory = (state, category) => {
   if (category.isGrouped) {
@@ -167,9 +170,6 @@ const mergeMediaDetails = (state, mediaSections) => {
 
   return mediaWithProductDetails;
 };
-
-export const getDownloadedMediaFiles = (state, mediaId) =>
-  state.get("downloadedMedia").get(mediaId);
 
 export const selectMedia = (state, category, subCategory, group, isStore) => {
   // console.debug({ category });

@@ -28,7 +28,7 @@ class Media extends React.PureComponent {
     searchText: "",
     searchResults: null,
     mediaCount: 0,
-    detailMedia: null
+    detailMediaId: ""
   };
 
   render() {
@@ -72,36 +72,35 @@ class Media extends React.PureComponent {
           media={media}
           onChoose={this.props.onChoose}
           onIsStoreChange={this.props.onIsStoreChange}
-          onArchiveFiles={this.handleArchiveFiles}
           onFavePress={this.handleFavePress}
           isNavigableSubCategory={
             isSearch === true ? this.props.isNavigableSubCategory : false
           }
           onShowDetails={this.handleShowDetails}
         />
-        {this.state.detailMedia !== null && (
-          <MediaDetails
-            isVisible={this.state.detailMedia !== null}
-            hasFiles={this.state.detailMedia.hasFiles}
-            artworkURL={this.state.detailMedia.artworkURL}
-            title={this.state.detailMedia.title}
-            subtitle={this.state.detailMedia.subtitle}
-            details={this.state.detailMedia.details}
-            onClose={() => this.setState({ detailMedia: null })}
-            onArchiveFiles={() => {
-              this.setState({ detailMedia: null });
-              this.state.detailMedia.onArchiveFiles();
-            }}
-          />
-        )}
+        <MediaDetails
+          isVisible={this.state.detailMediaId !== ""}
+          mediaId={this.state.detailMediaId}
+          onClose={() => this.setState({ detailMediaId: "" })}
+          onArchiveFiles={() => {
+            this.handleArchiveFiles(this.state.detailMediaId);
+            this.setState({ detailMediaId: "" });
+          }}
+        />
       </View>
     );
+  }
+
+  componentWillMount() {
+    this.setState({
+      detailMediaId: this.props.detailMediaId
+    });
   }
 
   componentWillReceiveProps(nextProps) {
     // console.log("Media next props");
     // console.log(nextProps.media.length);
-    // console.log(nextProps.media[0].data.length);
+    // console.log(nextProps.media[0].data.length)
 
     if (!isEqual(this.props.media, nextProps.media)) {
       const allMedia = flatMap(nextProps.media, m => toArray(m.data));
@@ -131,15 +130,14 @@ class Media extends React.PureComponent {
     this.setState({ searchText: text });
   };
 
-  handleShowDetails = detailMedia => {
-    console.debug({ detailMedia });
+  handleShowDetails = detailMediaId => {
     this.setState({
-      detailMedia
+      detailMediaId: detailMediaId
     });
   };
 
-  handleArchiveFiles = media => {
-    this.props.deleteMedia(media);
+  handleArchiveFiles = mediaId => {
+    this.props.deleteMedia(mediaId);
   };
 
   handleFavePress = mediaId => {

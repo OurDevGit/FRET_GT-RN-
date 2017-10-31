@@ -23,20 +23,6 @@ class MediaItem extends PureComponent {
             <Text style={styles.subtitle}>{this.props.subtitle}</Text>
           </View>
 
-          <MediaDetails
-            isVisible={this.state.isShowingDetails}
-            hasFiles={hasFiles}
-            artworkURL={this.props.artworkURL}
-            title={this.props.title}
-            subtitle={this.props.subtitle}
-            details={this.props.details}
-            onClose={() => this.setState({ isShowingDetails: false })}
-            onArchiveFiles={() => {
-              this.setState({ isShowingDetails: false });
-              this.props.onArchiveFiles(this.props.item);
-            }}
-          />
-
           <BtnDetails onPress={this.handleTapDetails} />
 
           <BtnGetMediaProgress
@@ -53,19 +39,7 @@ class MediaItem extends PureComponent {
   }
 
   handleTapDetails = () => {
-    const showDetails = {
-      hasFiles: this.props.getMode === GetMediaButtonMode.Play,
-      artworkURL: this.props.artworkURL,
-      title: this.props.title,
-      subtitle: this.props.subtitle,
-      details: this.props.details,
-      onArchiveFiles: () => {
-        this.props.onArchiveFiles(this.props.item);
-      }
-    };
-
-    this.props.onShowDetails(showDetails);
-    // this.setState({ isShowingDetails: true });
+    this.props.onShowDetails(this.props.id);
   };
 
   handleTouch = () => {
@@ -109,7 +83,6 @@ MediaItem.propTypes = {
   price: PropTypes.string,
   progress: PropTypes.number,
   onPress: PropTypes.func.isRequired,
-  onArchiveFiles: PropTypes.func.isRequired,
   onShowDetails: PropTypes.func.isRequired
 };
 

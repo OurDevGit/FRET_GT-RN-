@@ -1,66 +1,74 @@
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, Text, Image, StyleSheet, Modal, ScrollView } from "react-native";
+import { Map } from "immutable";
 
+import { getMediaById, getDownloadedMediaFiles } from "../../redux/selectors";
 import { PrimaryGold, Danger } from "../../design";
 import { FlatButton } from "../Material";
 
-const MediaDetails = ({
-  isVisible,
-  artworkURL,
-  title,
-  subtitle,
-  details,
-  hasFiles,
-  onClose,
-  onArchiveFiles
-}) => (
-  <Modal
-    animationType="fade"
-    transparent={true}
-    visible={isVisible}
-    onRequestClose={onClose}
-  >
-    <View style={styles.shade}>
-      <View style={styles.container}>
-        <View style={styles.content}>
-          <View style={styles.contentTop}>
-            <Image source={{ uri: artworkURL }} style={styles.thumb} />
-            <View style={styles.contentText}>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.subtitle}>{subtitle}</Text>
+class MediaDetails extends React.PureComponent {
+  render() {
+    const {
+      isVisible,
+      artworkURL,
+      title,
+      subtitle,
+      details,
+      hasFiles,
+      onClose,
+      onArchiveFiles
+    } = this.props;
+    return (
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isVisible}
+        onRequestClose={onClose}
+      >
+        <View style={styles.shade}>
+          <View style={styles.container}>
+            <View style={styles.content}>
+              <View style={styles.contentTop}>
+                <Image source={{ uri: artworkURL }} style={styles.thumb} />
+                <View style={styles.contentText}>
+                  <Text style={styles.title}>{title}</Text>
+                  <Text style={styles.subtitle}>{subtitle}</Text>
+                </View>
+              </View>
+              <ScrollView style={{ height: 1 }}>
+                <Text>{details}</Text>
+              </ScrollView>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                borderTopColor: "lightgray",
+                borderTopWidth: 1
+              }}
+            >
+              {hasFiles === true && (
+                <FlatButton
+                  title="Archive Files"
+                  style={{ color: Danger }}
+                  onPress={onArchiveFiles}
+                />
+              )}
+
+              <FlatButton
+                title="Close"
+                style={{ color: PrimaryGold }}
+                onPress={onClose}
+              />
             </View>
           </View>
-          <ScrollView style={{ height: 1 }}>
-            <Text>{details}</Text>
-          </ScrollView>
         </View>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            borderTopColor: "lightgray",
-            borderTopWidth: 1
-          }}
-        >
-          {hasFiles === true && (
-            <FlatButton
-              title="Archive Files"
-              style={{ color: Danger }}
-              onPress={onArchiveFiles}
-            />
-          )}
-
-          <FlatButton
-            title="Close"
-            style={{ color: PrimaryGold }}
-            onPress={onClose}
-          />
-        </View>
-      </View>
-    </View>
-  </Modal>
-);
+      </Modal>
+    );
+  }
+}
 
 const basePadding = 8;
 const titleSize = 18;
@@ -111,7 +119,22 @@ MediaDetails.propTypes = {
   subtitle: PropTypes.string,
   details: PropTypes.string,
   onClose: PropTypes.func.isRequired,
-  onArchiveFiles: PropTypes.func.isRequired
+  onArchiveFiles: PropTypes.func.isRequired,
+  mediaId: PropTypes.string.isRequired
 };
 
-export default MediaDetails;
+const mapStateToProps = (state, ownProps) => {
+  const media = (getMediaById(state, ownProps.mediaId) || Map()).toJS();
+  const files = getDownloadedMediaFiles(state, ownProps.mediaId);
+  const hasFiles = files !== undefined && files !== null;
+
+  return {
+    hasFiles,
+    artworkURL: media.artworkURL,
+    title: media.title,
+    subtitle: media.artist,
+    details: media.details
+  };
+};
+
+export default connect(mapStateToProps)(MediaDetails);

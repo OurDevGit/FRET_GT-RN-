@@ -148,7 +148,7 @@ function* watchRefreshStore(action) {
 }
 
 function* watchDeleteMedia(action) {
-  const mediaId = action.payload.mediaID;
+  const mediaId = action.payload;
   const downloads = yield getDownloadedMedia(mediaId);
 
   // send and action to remove this media from state
