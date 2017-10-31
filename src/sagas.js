@@ -24,10 +24,8 @@ import { doFreeMedia } from "./Config";
 function* getMedia(mediaId) {
   const mediaImm = yield select(getMediaById, mediaId);
   if (mediaImm !== undefined) {
-    console.debug("found it");
     return mediaImm.toJS();
   } else {
-    console.debug("not found");
     return {};
   }
 }
@@ -77,9 +75,10 @@ function* watchChooseMedia(action) {
   // console.debug(state.toJS());
 
   console.debug("going to ask Google IAB if we've bought that media");
-  const transactionDetails = doFreeMedia
-    ? { purchaseState: "PurchasedSuccessfully" }
-    : yield fetchTransactionDetails(mediaId);
+  var transactionDetails = { purchaseState: "PurchasedSuccessfully" };
+  if (doFreeMedia !== true) {
+    transactionDetails = yield fetchTransactionDetails(mediaId);
+  }
 
   // if we already bought this, then download it and finish
   if (
@@ -124,8 +123,13 @@ function* watchChooseMedia(action) {
       break;
     case GetMediaButtonMode.Play:
       break;
-    default:
-      break;
+    default: {
+      const purchaseSuccess = yield doPurchase(media);
+      if (purchaseSuccess === true) {
+        yield put(actions.addPurchasedMedia(mediaId));
+        console.debug(`added purchased ${mediaId}`);
+      }
+    }
   }
 }
 
