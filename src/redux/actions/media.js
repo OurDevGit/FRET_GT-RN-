@@ -1,6 +1,6 @@
-export const chooseMedia = media => ({
+export const chooseMedia = mediaId => ({
   type: "CHOOSE_MEDIA",
-  payload: media
+  payload: mediaId
 });
 
 export const deleteMedia = media => {

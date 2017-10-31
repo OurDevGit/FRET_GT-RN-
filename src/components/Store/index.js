@@ -5,15 +5,10 @@ import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
 import {
-  getStore,
-  getProductDetails,
   setCategoryIndex,
   setSubCategoryIndex,
-  setGroupIndex,
-  setTabIndex,
   getUIState
 } from "../../models/Store";
-import { loadedPurchased } from "../../models/Purchases";
 
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
@@ -76,15 +71,6 @@ class Store extends Component {
   }
 
   async componentWillMount() {
-    // load the Store data from storage
-    const storeObjects = await getStore();
-    const productDetails = await getProductDetails();
-    const purchases = await loadedPurchased();
-
-    this.props.setPurchasedMedia(purchases);
-    this.props.storeLoaded(storeObjects);
-    this.props.productDetailsLoaded(productDetails);
-
     // load the UI state
     const { categoryIndex, subCategoryIndex } = await getUIState();
     const category = this.props.categories[categoryIndex];
@@ -204,7 +190,7 @@ class Store extends Component {
 
   handleChooseMedia = async media => {
     // action
-    this.props.chooseMedia(media);
+    this.props.chooseMedia(media.mediaID);
 
     // if we re-choose the current media, then nothing will change in props and the Store won't close.
     // In this case, we close manually here

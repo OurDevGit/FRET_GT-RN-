@@ -12,6 +12,9 @@ import { BtnLibrary, BtnHome } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 
+import { getStore, getProductDetails } from "../models/Store";
+import { loadPurchased } from "../models/Purchases";
+
 const Sections = {
   Home: 0,
   Library: 1,
@@ -83,7 +86,7 @@ class Root extends Component {
 
           {this.state.currentSection === Sections.Home && (
             <Home
-              onBuy={this.handleHomeBuy}
+              onChoose={this.handleHomeChoose}
               onDetails={this.handleHomeDetails}
             />
           )}
@@ -117,13 +120,28 @@ class Root extends Component {
     );
   }
 
+  async componentWillMount() {
+    // load the Store data from storage
+    const storeObjects = await getStore();
+    const productDetails = await getProductDetails();
+    const purchases = await loadPurchased();
+
+    this.props.setPurchasedMedia(purchases);
+    this.props.storeLoaded(storeObjects);
+    this.props.productDetailsLoaded(productDetails);
+  }
+
   async componentDidUpdate(prevProps) {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
       if (prevProps.currentMedia !== this.props.currentMedia) {
+        console.debug("currentMedia changed");
+        console.debug(this.props.currentMedia);
+        console.debug(this.props.mediaForPlay);
         if (this.props.mediaForPlay.id !== undefined) {
           var song = null;
           var video = null;
+          const currentSection = Sections.Playback;
 
           if (this.props.mediaForPlay.isSong === true) {
             song = this.props.mediaForPlay;
@@ -134,7 +152,8 @@ class Root extends Component {
           const newState = {
             isShowingStore: false,
             song,
-            video
+            video,
+            currentSection
           };
           this.setState(newState);
         }
@@ -150,7 +169,7 @@ class Root extends Component {
   };
 
   handleHomePress = () => {
-    this.setState({ isShowingStore: false });
+    this.setState({ isShowingStore: false, currentSection: Sections.Home });
   };
 
   handleToggleLibrary = () => {
@@ -168,9 +187,9 @@ class Root extends Component {
     });
   };
 
-  handleHomeBuy = productId => {
+  handleHomeChoose = mediaId => {
     console.debug("buy media");
-    // this.props.chooseMedia(media);
+    this.props.chooseMedia(mediaId);
   };
 
   handleHomeDetails = mediaId => {

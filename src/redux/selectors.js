@@ -12,8 +12,11 @@ const getSubCategories = (state, categoryId) =>
 const getGroups = (state, subCategoryId) =>
   state.get("groupsBySubCategoryId").get(subCategoryId);
 
-export const getMediaById = (state, mediaId) =>
-  state.get("mediaById").get(mediaId);
+export const getMediaById = (state, mediaId) => {
+  console.debug(mediaId);
+  console.debug(state.get("mediaById").toJS());
+  return state.get("mediaById").get(mediaId);
+};
 export const getDownloadedMediaFiles = (state, mediaId) =>
   state.get("downloadedMedia").get(mediaId);
 

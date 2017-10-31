@@ -26,11 +26,12 @@ class Home extends PureComponent {
 
     if (protocol === "optkguitartunes:") {
       console.debug({ pathname });
+
       switch (pathname) {
         case "//purchase": {
-          const productId = (search.split("=")[1] || "").toLowerCase();
-          this.props.onBuy(productId);
-          console.debug(`Buy ${productId}`);
+          const mediaId = search.split("=")[1] || "";
+          console.debug(`Choose ${mediaId}`);
+          this.props.onChoose(mediaId);
           break;
         }
         case "//store": {
@@ -46,7 +47,7 @@ class Home extends PureComponent {
 }
 
 Home.propTypes = {
-  onBuy: PropTypes.func.isRequired,
+  onChoose: PropTypes.func.isRequired,
   onDetails: PropTypes.func.isRequired
 };
 

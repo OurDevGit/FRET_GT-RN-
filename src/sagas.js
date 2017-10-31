@@ -17,9 +17,20 @@ import { setPurchased } from "./models/Purchases";
 import { setDownload, removeDownload } from "./models/Downloads";
 import { fetchProductDetails, fetchPurchases } from "./models/Products";
 import * as actions from "./redux/actions";
-import { getDownloadedMediaFiles } from "./redux/selectors";
+import { getMediaById, getDownloadedMediaFiles } from "./redux/selectors";
 import { setStore, setProductDetails } from "./models/Store";
 import { doFreeMedia } from "./Config";
+
+function* getMedia(mediaId) {
+  const mediaImm = yield select(getMediaById, mediaId);
+  if (mediaImm !== undefined) {
+    console.debug("found it");
+    return mediaImm.toJS();
+  } else {
+    console.debug("not found");
+    return {};
+  }
+}
 
 function* getDownloadedMedia(mediaId) {
   const files = yield select(getDownloadedMediaFiles, mediaId);
@@ -46,9 +57,10 @@ function* fetchAd(action) {
 }
 
 function* watchChooseMedia(action) {
-  const media = action.payload;
-  const mediaId = media.mediaID;
+  const mediaId = action.payload;
+  const media = yield getMedia(mediaId);
   console.debug(`chose media: ${mediaId}`);
+  console.debug(media);
 
   // First, see if we have downloaded media.
   // If so, play it!
