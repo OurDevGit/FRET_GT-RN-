@@ -9,8 +9,13 @@ import SwitchRow from "./SwitchRow";
 
 class Settings extends React.Component {
   render() {
-    const { countDownIsOn, onClose } = this.props;
-    console.log(countDownIsOn);
+    const {
+      countdownTimerState,
+      leftHandState,
+      autoPartSwitchingState,
+      onClose
+    } = this.props;
+
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
         <View style={styles.container}>
@@ -34,19 +39,19 @@ class Settings extends React.Component {
             <ScrollView>
               <SwitchRow
                 label={"Countdown Timer"}
-                isOn={countDownIsOn}
+                isOn={countdownTimerState}
                 onSwitch={this.handleToggleCountdown}
               />
-              {/* <SwitchRow
+              <SwitchRow
                 label={"Global Left-Hand Mode"}
-                isOn={true}
+                isOn={leftHandState}
                 onSwitch={this.handleToggleLeftMode}
               />
               <SwitchRow
                 label={"Fretlight Automatic Part Switching"}
-                isOn={false}
+                isOn={autoPartSwitchingState}
                 onSwitch={this.handleToggleAutoPartSwitching}
-              /> */}
+              />
               {/* <NoteNamesRow
                 label={"Note Names"}
                 currentNoteName={"Flats"}
@@ -60,7 +65,7 @@ class Settings extends React.Component {
   }
 
   handleToggleCountdown = () => {
-    this.props.setCountdownState(!this.props.countdownTimerState);
+    this.props.setCountdownTimerState(!this.props.countdownTimerState);
   };
 
   handleToggleLeftMode = () => {
@@ -92,7 +97,6 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  console.log(state.get("countdownTimerState"));
   return {
     countdownTimerState: state.get("countdownTimerState"),
     leftHandState: state.get("leftHandState"),

@@ -11,7 +11,7 @@ const SwitchRow = ({ label, isOn, onSwitch }) => (
     }}
   >
     <Text style={{ fontSize: 12 }}>{label}</Text>
-    <Switch onTintColor={PrimaryBlue} onValueChange={onSwitch} />
+    <Switch value={isOn} onTintColor={PrimaryBlue} onValueChange={onSwitch} />
   </View>
 );
 
