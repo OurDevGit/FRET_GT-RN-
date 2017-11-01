@@ -44,6 +44,7 @@ class HorizontalContainer extends React.Component {
                 isPhone={this.props.isPhone}
                 isHidingLabels={true}
                 leftHandState={this.props.leftHandState}
+                currentNotation={this.props.currentNotation}
                 track={emptyTrack}
                 showSmart={false}
                 isSmart={false}
@@ -58,6 +59,7 @@ class HorizontalContainer extends React.Component {
                 isPhone={this.props.isPhone}
                 isHidingLabels={this.props.isVideo && this.props.isPhone}
                 leftHandState={this.props.leftHandState}
+                currentNotation={this.props.currentNotation}
                 track={item}
                 showSmart={item.name !== "" && !this.props.isVideo}
                 isSmart={false}
@@ -97,6 +99,7 @@ class HorizontalContainer extends React.Component {
   shouldComponentUpdate(nextProps, nextState) {
     return (
       this.props.currentPage !== nextProps.currentPage ||
+      this.props.currentNotation !== nextProps.currentNotation ||
       !this.props.tracks.equals(nextProps.tracks) ||
       nextProps.tracks.count() === 0 ||
       this.state.height !== nextState.height ||
@@ -121,6 +124,7 @@ HorizontalContainer.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
   leftHandState: PropTypes.bool.isRequired,
+  currentNotation: PropTypes.string.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   tracks: PropTypes.object.isRequired,
   currentPage: PropTypes.number.isRequired,

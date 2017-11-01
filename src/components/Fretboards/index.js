@@ -18,13 +18,13 @@ class FretboardsRoot extends React.PureComponent {
       isVideo,
       isVisible,
       leftHandState,
+      currentNotation,
       deviceWidth,
       deviceHeight,
       availableFretboardCount,
       tracks,
       visibleTracks
     } = this.props;
-
     const isPhone = Dimensions.get("window").height < 500;
 
     // empty tracks (mainly for video)
@@ -68,6 +68,7 @@ class FretboardsRoot extends React.PureComponent {
             isVideo={isVideo}
             isPhone={isPhone}
             leftHandState={leftHandState}
+            currentNotation={currentNotation}
             deviceWidth={deviceWidth}
             tracks={boardTracks}
           />
@@ -76,6 +77,7 @@ class FretboardsRoot extends React.PureComponent {
             isVideo={isVideo}
             isPhone={isPhone}
             leftHandState={leftHandState}
+            currentNotation={currentNotation}
             deviceWidth={deviceWidth}
             tracks={boardTracks}
             currentPage={this.state.selectedIndex}
@@ -109,7 +111,8 @@ const mapStateToProps = state => {
   return {
     tracks: state.get("guitarTracks"),
     visibleTracks: state.get("visibleTracks"),
-    leftHandState: state.get("leftHandState")
+    leftHandState: state.get("leftHandState"),
+    currentNotation: state.get("currentNotation")
   };
 };
 
@@ -117,6 +120,7 @@ FretboardsRoot.propTypes = {
   isVideo: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
   leftHandState: PropTypes.bool.isRequired,
+  currentNotation: PropTypes.string.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   deviceHeight: PropTypes.number.isRequired,
   availableFretboardCount: PropTypes.number.isRequired,

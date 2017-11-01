@@ -28,9 +28,10 @@ class VerticalContainer extends React.Component {
     return this.props.tracks.map(track => {
       return (
         <Fretboard
+          key={track.get("name")}
           isPhone={this.props.isPhone}
           leftHandState={this.props.leftHandState}
-          key={track.get("name")}
+          currentNotation={this.props.currentNotation}
           showSmart={track.get("name") !== "" && !this.props.isVideo}
           track={track.toJS()}
           isSmart={false}
@@ -52,6 +53,7 @@ class VerticalContainer extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return (
+      this.props.currentNotation !== nextProps.currentNotation ||
       !this.props.tracks.equals(nextProps.tracks) ||
       nextProps.tracks.count() === 0 ||
       this.state.width === 0
@@ -70,6 +72,7 @@ VerticalContainer.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
   leftHandState: PropTypes.bool.isRequired,
+  currentNotation: PropTypes.string.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   tracks: PropTypes.object
 };

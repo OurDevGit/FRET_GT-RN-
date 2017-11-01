@@ -27,6 +27,7 @@ class Fretboard extends React.Component {
       isSmart,
       isHidingLabels,
       leftHandState,
+      currentNotation,
       trackIndex,
       scrollIndex,
       showSmart,
@@ -102,6 +103,7 @@ class Fretboard extends React.Component {
             trackIndex={trackIndex}
             scrollIndex={scrollIndex}
             isLeft={this.state.isLeft}
+            currentNotation={currentNotation}
             fretHeight={this.state.fretHeight}
             onLayout={this.handleLayout.bind(this)}
             boardWidth={boardWidth}
@@ -137,6 +139,7 @@ Fretboard.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isHidingLabels: PropTypes.bool,
   leftHandState: PropTypes.bool.isRequired,
+  currentNotation: PropTypes.string.isRequired,
   track: PropTypes.object.isRequired,
   showSmart: PropTypes.bool.isRequired,
   isSmart: PropTypes.bool.isRequired,
@@ -149,5 +152,10 @@ Fretboard.propTypes = {
 };
 
 export default connect(undefined, actions)(
-  onlyUpdateForKeys(["track", "boardWidth"])(Fretboard)
+  onlyUpdateForKeys([
+    "track",
+    "boardWidth",
+    "leftHandState",
+    "currentNotation"
+  ])(Fretboard)
 );

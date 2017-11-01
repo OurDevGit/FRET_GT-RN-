@@ -46,6 +46,7 @@ class FretboardFrets extends React.Component {
       track,
       isSmart,
       isLeft,
+      currentNotation,
       boardWidth,
       fretHeight,
       onLayout,
@@ -69,7 +70,14 @@ class FretboardFrets extends React.Component {
         }}
         onLayout={onLayout}
       >
-        {this.frets(track, isSmart, isLeft, boardWidth, fretHeight)}
+        {this.frets(
+          track,
+          isSmart,
+          isLeft,
+          boardWidth,
+          fretHeight,
+          currentNotation
+        )}
       </View>
     );
   }
@@ -147,7 +155,7 @@ class FretboardFrets extends React.Component {
     this.currentTime = time;
   };
 
-  frets = (track, isSmart, isLeft, boardWidth, fretHeight) => {
+  frets = (track, isSmart, isLeft, boardWidth, fretHeight, currentNotation) => {
     if (fretHeight > 0) {
       var frets = [];
       const first = isSmart ? track.firstFret : 0;
@@ -172,7 +180,8 @@ class FretboardFrets extends React.Component {
                 isLeft,
                 diff,
                 boardWidth,
-                fretHeight
+                fretHeight,
+                currentNotation
               )}
             </View>
           </View>
@@ -182,7 +191,16 @@ class FretboardFrets extends React.Component {
     }
   };
 
-  notes = (track, fret, isSmart, isLeft, frets, boardWidth, fretHeight) => {
+  notes = (
+    track,
+    fret,
+    isSmart,
+    isLeft,
+    frets,
+    boardWidth,
+    fretHeight,
+    currentNotation
+  ) => {
     var views = [];
     const last = isSmart ? track.lastFret : 23;
     const fretIndex = isLeft ? last - fret : fret;
@@ -195,7 +213,7 @@ class FretboardFrets extends React.Component {
           <FretboardNote
             key={i}
             styles={noteStyles}
-            notation={this.notation(fretIndex, i, isLeft)}
+            notation={this.notation(fretIndex, i, isLeft, currentNotation)}
             boardWidth={boardWidth}
             fretHeight={fretHeight}
             ref={ref => (this.noteRefs[key] = ref)}
@@ -206,25 +224,29 @@ class FretboardFrets extends React.Component {
     return views;
   };
 
-  notation = (fret, string, isLeft) => {
-    const roots = ["E", "B", "G", "D", "A", "E"];
-    const defaultName = roots[string];
-    const scale = scaleForNotation();
-    const index = scale.indexOf(defaultName) || 0;
-    const adjusted = fret + index; // + adjustment
-    var remainder = adjusted % scale.length;
+  notation = (fret, string, isLeft, currentNotation) => {
+    if (currentNotation === "None") {
+      return " ";
+    } else {
+      const roots = ["E", "B", "G", "D", "A", "E"];
+      const defaultName = roots[string];
+      const scale = scaleForNotation(currentNotation);
+      const index = scale.indexOf(defaultName) || 0;
+      const adjusted = fret + index; // + adjustment
+      var remainder = adjusted % scale.length;
 
-    if (remainder < 0) {
-      remainder = scale.count + remainder;
+      if (remainder < 0) {
+        remainder = scale.count + remainder;
+      }
+
+      return scale[remainder];
     }
-
-    return scale[remainder];
   };
 }
 
 const scaleForNotation = notation => {
   switch (notation) {
-    case "sharps":
+    case "Sharps":
       return ["E", "F", "F♯", "G", "G♯", "A", "A♯", "B", "C", "C♯", "D", "D♯"];
     default:
       return ["E", "F", "G♭", "G", "A♭", "A", "B♭", "B", "C", "D♭", "D", "E♭"];
@@ -235,6 +257,7 @@ FretboardFrets.propTypes = {
   track: PropTypes.object.isRequired,
   isSmart: PropTypes.bool.isRequired,
   isLeft: PropTypes.bool.isRequired,
+  currentNotation: PropTypes.string.isRequired,
   boardWidth: PropTypes.number.isRequired,
   fretHeight: PropTypes.number.isRequired,
   onLayout: PropTypes.func.isRequired

@@ -4,7 +4,6 @@ import { Modal, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { PrimaryBlue } from "../../design";
 
 const NotationsModal = ({ origin, currentNotation, onSelect, onClose }) => {
-  console.log(origin);
   return (
     <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
       <TouchableOpacity

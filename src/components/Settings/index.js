@@ -28,7 +28,7 @@ class Settings extends React.Component {
       currentNotation,
       onClose
     } = this.props;
-    console.log(countdownTimerState, leftHandState, autoPartSwitchingState);
+
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
         <TouchableOpacity style={styles.container} onPress={onClose}>
