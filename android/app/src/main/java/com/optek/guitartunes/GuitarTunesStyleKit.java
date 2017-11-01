@@ -548,8 +548,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnHome.paint;
         
         // Local Colors
-        int white = Color.argb(255, 255, 255, 255);
         int gold = Color.argb(255, 158, 136, 68);
+        int white = Color.argb(255, 255, 255, 255);
         
         // Local Variables
         int btnHomeColor = isHome ? gold : white;
@@ -956,8 +956,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnMail.paint;
         
         // Local Colors
-        int upControls = Color.argb(255, 0, 0, 0);
         int downControls = Color.argb(255, 132, 132, 132);
+        int upControls = Color.argb(255, 0, 0, 0);
         
         // Local Variables
         int btnDarkColor = isPressed ? downControls : upControls;
@@ -1074,8 +1074,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnMailSignup.paint;
         
         // Local Colors
-        int upControls = Color.argb(255, 0, 0, 0);
         int downControls = Color.argb(255, 132, 132, 132);
+        int upControls = Color.argb(255, 0, 0, 0);
         
         // Local Variables
         int btnDarkColor = isPressed ? downControls : upControls;
@@ -1231,8 +1231,8 @@ public class GuitarTunesStyleKit {
         int downControls = Color.argb(255, 132, 132, 132);
         
         // Local Variables
-        int backgroundColor = isPressed ? downControls : Color.argb(255, (int) (redValue * 255f), (int) (greenValue * 255f), (int) (blueValue * 255f));
         boolean isPlaying = !isShowingPause;
+        int backgroundColor = isPressed ? downControls : Color.argb(255, (int) (redValue * 255f), (int) (greenValue * 255f), (int) (blueValue * 255f));
         
         // Resize to Target Frame
         canvas.save();
@@ -1720,12 +1720,12 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnLoop.paint;
         
         // Local Colors
-        int upControls = Color.argb(255, 0, 0, 0);
         int downControls = Color.argb(255, 132, 132, 132);
+        int upControls = Color.argb(255, 0, 0, 0);
         
         // Local Variables
-        int btnDarkColor = isPressed ? downControls : upControls;
         boolean loopsDisabled = !loopsEnabled;
+        int btnDarkColor = isPressed ? downControls : upControls;
         
         // Resize to Target Frame
         canvas.save();
@@ -2637,12 +2637,12 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForPhoneBtnLoopToggle.paint;
         
         // Local Colors
-        int connectedColor = Color.argb(255, 255, 0, 0);
         int downControls = Color.argb(255, 132, 132, 132);
+        int connectedColor = Color.argb(255, 255, 0, 0);
         
         // Local Variables
-        int backgroundColor = isPressed ? downControls : Color.argb(255, (int) (redValue * 255f), (int) (greenValue * 255f), (int) (blueValue * 255f));
         boolean loopsDisabled = !loopsEnabled;
+        int backgroundColor = isPressed ? downControls : Color.argb(255, (int) (redValue * 255f), (int) (greenValue * 255f), (int) (blueValue * 255f));
         
         // Resize to Target Frame
         canvas.save();
@@ -2988,8 +2988,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnStepNext.paint;
         
         // Local Colors
-        int downColor = Color.argb(255, 63, 113, 129);
         int upColor = Color.argb(255, 76, 142, 162);
+        int downColor = Color.argb(255, 63, 113, 129);
         
         // Local Variables
         int btnColor = isPressed ? downColor : upColor;
@@ -3063,8 +3063,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnStepPrev.paint;
         
         // Local Colors
-        int downColor = Color.argb(255, 63, 113, 129);
         int upColor = Color.argb(255, 76, 142, 162);
+        int downColor = Color.argb(255, 63, 113, 129);
         
         // Local Variables
         int btnColor = isPressed ? downColor : upColor;
@@ -3309,10 +3309,10 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnFretboard.paint;
         
         // Local Colors
-        int fillColor10 = Color.argb(255, 255, 255, 255);
         int fretIconDown = Color.argb(255, 75, 75, 75);
-        int fretIconUp = Color.argb(255, 40, 40, 40);
         int fillColor11 = Color.argb(255, 23, 163, 227);
+        int fillColor10 = Color.argb(255, 255, 255, 255);
+        int fretIconUp = Color.argb(255, 40, 40, 40);
         
         // Local Variables
         int fretIconColor = isPressed ? fretIconDown : fretIconUp;
@@ -3474,12 +3474,12 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForJambarLens.paint;
         
         // Local Colors
-        int color7 = Color.argb(51, 146, 146, 146);
-        int jambarLensEdge = Color.argb(26, 255, 255, 255);
         int jambarLensOuter = Color.argb(0, 255, 255, 255);
-        int jambarLensMiddle = Color.argb(64, 195, 195, 195);
+        int jambarLensEdge = Color.argb(26, 255, 255, 255);
         int jambarLensInner = Color.argb(26, 195, 195, 195);
+        int color7 = Color.argb(51, 146, 146, 146);
         int white = Color.argb(255, 255, 255, 255);
+        int jambarLensMiddle = Color.argb(64, 195, 195, 195);
         
         // Local Gradients
         if (CacheForJambarLens.jambarLensGradient == null)
@@ -3576,12 +3576,12 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForJambarLensWide.paint;
         
         // Local Colors
-        int color7 = Color.argb(51, 146, 146, 146);
-        int jambarLensMiddle = Color.argb(64, 195, 195, 195);
         int jambarLensOuter = Color.argb(0, 255, 255, 255);
-        int jambarLensEdge = Color.argb(26, 255, 255, 255);
+        int jambarLensMiddle = Color.argb(64, 195, 195, 195);
         int jambarLensInner = Color.argb(26, 195, 195, 195);
+        int color7 = Color.argb(51, 146, 146, 146);
         int white = Color.argb(255, 255, 255, 255);
+        int jambarLensEdge = Color.argb(26, 255, 255, 255);
         
         // Local Gradients
         if (CacheForJambarLensWide.jambarLensGradientWide == null)
@@ -3951,8 +3951,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnDelete.paint;
         
         // Local Colors
-        int connectedGradient = Color.argb(255, 181, 0, 0);
         int downControls = Color.argb(255, 132, 132, 132);
+        int connectedGradient = Color.argb(255, 181, 0, 0);
         
         // Local Variables
         int backgroundColor = isPressed ? downControls : Color.argb(255, (int) (redValue * 255f), (int) (greenValue * 255f), (int) (blueValue * 255f));
@@ -5200,8 +5200,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnDetails.paint;
         
         // Local Colors
-        int upColor = Color.argb(255, 76, 142, 162);
         int downColor = Color.argb(255, 63, 113, 129);
+        int upColor = Color.argb(255, 76, 142, 162);
         
         // Local Variables
         int btnColor = isPressed ? downColor : upColor;
@@ -5366,14 +5366,14 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForTunerBG.paint;
         
         // Local Colors
-        int tunerOn = Color.argb(255, 255, 0, 0);
-        int color8 = Color.argb(0, 255, 255, 255);
-        int connectedColor = Color.argb(255, 255, 0, 0);
         int tunerOff = Color.argb(255, 76, 1, 1);
+        int tunerOn = Color.argb(255, 255, 0, 0);
+        int connectedColor = Color.argb(255, 255, 0, 0);
+        int color8 = Color.argb(0, 255, 255, 255);
         
         // Local Variables
-        boolean tuningIsFlat = tuningDistance < 0.2f;
         boolean tuningIsSharp = tuningDistance > -0.2f;
+        boolean tuningIsFlat = tuningDistance < 0.2f;
         
         // Resize to Target Frame
         canvas.save();
@@ -6067,8 +6067,8 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForBtnTuner.paint;
         
         // Local Colors
-        int tunerStandard = Color.argb(255, 0, 0, 0);
         int tunerAlternate = Color.argb(255, 227, 54, 54);
+        int tunerStandard = Color.argb(255, 0, 0, 0);
         
         // Local Variables
         int tunerColor = hasAlternateTuning ? tunerAlternate : tunerStandard;
@@ -6282,10 +6282,10 @@ public class GuitarTunesStyleKit {
         
         // Local Colors
         int jambarGradientColor = Color.argb(255, 126, 178, 191);
-        int jambarGradientColor5 = Color.argb(255, 230, 239, 243);
-        int jambarGradientColor4 = Color.argb(255, 233, 242, 246);
-        int jambarGradientColor2 = Color.argb(255, 198, 219, 226);
         int jambarGradientColor3 = Color.argb(255, 224, 233, 239);
+        int jambarGradientColor5 = Color.argb(255, 230, 239, 243);
+        int jambarGradientColor2 = Color.argb(255, 198, 219, 226);
+        int jambarGradientColor4 = Color.argb(255, 233, 242, 246);
         
         // Local Gradients
         if (CacheForJambarBG.jambarGradient == null)
@@ -6325,9 +6325,9 @@ public class GuitarTunesStyleKit {
         Paint paint = CacheForFretNutBG.paint;
         
         // Local Colors
+        int fretNut3 = Color.argb(255, 75, 72, 69);
         int fretNut1 = Color.argb(255, 243, 178, 115);
         int fretNut2 = Color.argb(255, 206, 161, 116);
-        int fretNut3 = Color.argb(255, 75, 72, 69);
         
         // Local Gradients
         if (CacheForFretNutBG.fretNutGradient == null)
