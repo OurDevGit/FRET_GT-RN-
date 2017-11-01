@@ -18,3 +18,10 @@ export const setAutoPartSwitchingState = bool => {
     payload: bool
   };
 };
+
+export const setCurrentNotation = notation => {
+  return {
+    type: "SET_CURRENT_NOTATION",
+    payload: notation
+  };
+};

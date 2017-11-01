@@ -1,19 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, Switch, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { PrimaryBlue } from "../../design";
 
-const SwitchRow = ({ label, isOn, onSwitch }) => (
+const NotationsRow = ({ label, currentNoteName, onPress }) => (
   <View style={styles.row}>
     <Text style={styles.label}>{label}</Text>
-    <Switch value={isOn} onTintColor={PrimaryBlue} onValueChange={onSwitch} />
+    <TouchableOpacity onPress={onPress}>
+      <Text style={styles.button}>{currentNoteName}</Text>
+    </TouchableOpacity>
   </View>
 );
 
-SwitchRow.propTypes = {
+NotationsRow.propTypes = {
   label: PropTypes.string.isRequired,
-  isOn: PropTypes.bool.isRequired,
-  onSwitch: PropTypes.func.isRequired
+  currentNoteName: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired
 };
 
 const styles = StyleSheet.create({
@@ -27,7 +29,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20
   },
-  label: { fontSize: 18 }
+  label: { fontSize: 18 },
+  button: { fontSize: 18, color: PrimaryBlue, marginRight: 10 }
 });
 
-export default SwitchRow;
+export default NotationsRow;

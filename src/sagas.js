@@ -23,7 +23,8 @@ import { doFreeMedia } from "./Config";
 import {
   setCountdownTimerState,
   setLeftHandState,
-  setAutoPartSwitchingState
+  setAutoPartSwitchingState,
+  setCurrentNotation
 } from "./models/Settings";
 
 function* getMedia(mediaId) {
@@ -209,8 +210,12 @@ function* watchSetLeftHandState(action) {
   setLeftHandState(action.payload);
 }
 
-function* watchSetAutoPartSwitchingState(action) {
+function* watchSetAutoPartSwitching(action) {
   setAutoPartSwitchingState(action.payload);
+}
+
+function* watchCurrentNotation(action) {
+  setCurrentNotation(action.payload);
 }
 
 function* mySaga() {
@@ -221,10 +226,8 @@ function* mySaga() {
   yield takeEvery("TOGGLE_FAVORITE", watchToggleFavorite);
   yield takeEvery("SET_COUNTDOWN_TIMER_STATE", watchSetCountdownTimerState);
   yield takeEvery("SET_LEFT_HAND_STATE", watchSetLeftHandState);
-  yield takeEvery(
-    "SET_AUTO_PART_SWITCHING_STATE",
-    watchSetAutoPartSwitchingState
-  );
+  yield takeEvery("SET_AUTO_PART_SWITCHING_STATE", watchSetAutoPartSwitching);
+  yield takeEvery("SET_CURRENT_NOTATION", watchCurrentNotation);
 }
 
 export default mySaga;

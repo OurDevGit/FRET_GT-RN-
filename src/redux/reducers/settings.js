@@ -24,3 +24,12 @@ exports.autoPartSwitchingState = (state = false, action) => {
       return state;
   }
 };
+
+exports.currentNotation = (state = "Flats", action) => {
+  switch (action.type) {
+    case "SET_CURRENT_NOTATION":
+      return action.payload;
+    default:
+      return state;
+  }
+};

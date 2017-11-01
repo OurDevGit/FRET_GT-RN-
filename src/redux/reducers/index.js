@@ -34,7 +34,8 @@ import { favorites } from "./favorites";
 import {
   countdownTimerState,
   leftHandState,
-  autoPartSwitchingState
+  autoPartSwitchingState,
+  currentNotation
 } from "./settings";
 import { guitars } from "./guitar";
 
@@ -75,7 +76,8 @@ const appReducer = combineReducers({
   // Settings
   countdownTimerState,
   leftHandState,
-  autoPartSwitchingState
+  autoPartSwitchingState,
+  currentNotation
 });
 
 export default appReducer;

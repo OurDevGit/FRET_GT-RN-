@@ -5,38 +5,49 @@ import { Provider, connect } from "react-redux";
 import * as actions from "../../redux/actions";
 import { PrimaryGold, Danger } from "../../design";
 import SwitchRow from "./SwitchRow";
-//import NoteNamesRow from "./NoteNamesRow";
+import NotationsRow from "./NotationsRow";
+import NotationsModal from "./NotationsModal";
 
 class Settings extends React.Component {
+  state = {
+    isShowingNotationModal: false
+  };
   render() {
     const {
       countdownTimerState,
       leftHandState,
       autoPartSwitchingState,
+      currentNotation,
       onClose
     } = this.props;
-
+    console.log(countdownTimerState, leftHandState, autoPartSwitchingState);
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
         <View style={styles.container}>
           <View style={styles.content}>
-            <Text>Settings 1!</Text>
             <View
               style={{
+                width: "100%",
+                height: 50,
                 flexDirection: "row",
-                justifyContent: "flex-end",
-                borderTopColor: "lightgray",
-                borderTopWidth: 1
+                justifyContent: "space-between",
+                borderBottomColor: "lightgray",
+                borderBottomWidth: 1
               }}
             >
-              <FlatButton
-                title="Close"
-                style={{ color: PrimaryGold }}
-                onPress={onClose}
-              />
+              <Text style={styles.heading}>Settings</Text>
+              <View>
+                <FlatButton
+                  title="Close"
+                  style={{
+                    color: PrimaryGold
+                  }}
+                  onPress={onClose}
+                />
+              </View>
             </View>
 
-            <ScrollView>
+            <ScrollView style={styles.scrollView}>
               <SwitchRow
                 label={"Countdown Timer"}
                 isOn={countdownTimerState}
@@ -52,11 +63,19 @@ class Settings extends React.Component {
                 isOn={autoPartSwitchingState}
                 onSwitch={this.handleToggleAutoPartSwitching}
               />
-              {/* <NoteNamesRow
+              <NotationsRow
                 label={"Note Names"}
-                currentNoteName={"Flats"}
-                onSelect={this.handleNoteNameUpdate}
-              /> */}
+                currentNoteName={currentNotation}
+                onPress={this.handleToggleNotationModal}
+              />
+
+              {this.state.isShowingNotationModal && (
+                <NotationsModal
+                  currentNotation={currentNotation}
+                  onSelect={this.handleNotationSelect}
+                  onClose={this.handleToggleNotationModal}
+                />
+              )}
             </ScrollView>
           </View>
         </View>
@@ -76,8 +95,14 @@ class Settings extends React.Component {
     this.props.setAutoPartSwitchingState(!this.props.autoPartSwitchingState);
   };
 
-  handleNoteNameUpdate = () => {
-    // toggle !bool
+  handleToggleNotationModal = () => {
+    const isShowingNotationModal = !this.state.isShowingNotationModal;
+    this.setState({ isShowingNotationModal });
+  };
+
+  handleNotationSelect = notation => {
+    this.props.setCurrentNotation(notation);
+    this.setState({ isShowingNotationModal: false });
   };
 }
 
@@ -92,15 +117,26 @@ const styles = StyleSheet.create({
   content: {
     width: "90%",
     height: "90%",
-    backgroundColor: "#dddddd"
-  }
+    backgroundColor: "#dddddd",
+    padding: 15
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: "800",
+    marginHorizontal: 4,
+    height: 50,
+    textAlignVertical: "center",
+    marginLeft: 10
+  },
+  scrollView: {}
 });
 
 const mapStateToProps = state => {
   return {
     countdownTimerState: state.get("countdownTimerState"),
     leftHandState: state.get("leftHandState"),
-    autoPartSwitchingState: state.get("autoPartSwitchingState")
+    autoPartSwitchingState: state.get("autoPartSwitchingState"),
+    currentNotation: state.get("currentNotation")
   };
 };
 
