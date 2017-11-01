@@ -20,6 +20,10 @@ import * as actions from "./redux/actions";
 import { getMediaById, getDownloadedMediaFiles } from "./redux/selectors";
 import { setStore, setProductDetails } from "./models/Store";
 import { doFreeMedia } from "./Config";
+import {
+  getCountdownTimerState,
+  setCountdownTimerState
+} from "./models/Settings";
 
 function* getMedia(mediaId) {
   const mediaImm = yield select(getMediaById, mediaId);
@@ -194,12 +198,17 @@ function* watchToggleFavorite(action) {
   }
 }
 
+function* watchSetCountdownTimerState(action) {
+  setCountdownTimerState(action.payload);
+}
+
 function* mySaga() {
   yield takeLatest("AD_FETCH_REQUESTED", fetchAd);
   yield takeEvery("CHOOSE_MEDIA", watchChooseMedia);
   yield takeLatest("REFRESH_STORE", watchRefreshStore);
   yield takeEvery("DELETE_MEDIA", watchDeleteMedia);
   yield takeEvery("TOGGLE_FAVORITE", watchToggleFavorite);
+  yield takeEvery("SET_COUNTDOWN_TIMER_STATE", watchSetCountdownTimerState);
 }
 
 export default mySaga;

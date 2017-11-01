@@ -112,7 +112,7 @@ class Root extends Component {
                   onPress={this.handleToggleLibrary}
                 />
               )}
-              <BtnSettings onPress={this.handleToggleSettings} />
+              {/* <BtnSettings onPress={this.handleToggleSettings} /> */}
             </View>
           )}
 
@@ -121,6 +121,13 @@ class Root extends Component {
             this.state.showFretboards && (
               <TrackSelector max={availableFretboardCount} />
             )}
+
+          {this.state.isShowingFretlightAdmin && (
+            <FretlightAdmin
+              isPhone={isPhone}
+              onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
+            />
+          )}
 
           {this.state.isShowingSettings && (
             <Settings onClose={this.handleToggleSettings} />
