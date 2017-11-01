@@ -14,11 +14,8 @@ const getGroups = (state, subCategoryId) =>
 export const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
 export const getDownloadedMediaFiles = (state, mediaId) =>
   state.get("downloadedMedia").get(mediaId);
-export const getMediaById = (state, mediaId) => {
-  console.debug(mediaId);
-  console.debug(state.get("mediaById").toJS());
-  return state.get("mediaById").get(mediaId);
-};
+export const getMediaById = (state, mediaId) =>
+  state.get("mediaById").get(mediaId);
 
 const getClientSidedMedia = (state, obj, isStore) => {
   switch (obj.title) {
