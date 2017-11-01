@@ -169,11 +169,13 @@ class FretlightModal extends React.Component {
   };
 
   handleAssignTrack = (track, guitar) => {
+    guitarController.clearAll(guitar.id);
     guitar.track = track;
     this.props.updateGuitarSetting(Map(guitar));
   };
 
   handleAssignAll = track => {
+    guitarController.clearAllGuitars();
     this.props.guitars.forEach(guitar => {
       this.props.updateGuitarSetting(guitar.set("track", track));
     });
