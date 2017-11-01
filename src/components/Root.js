@@ -7,6 +7,7 @@ import Playback from "./Playback";
 import Home from "./Home";
 import FretboardsContainer from "./Fretboards";
 import TrackSelector from "./TrackSelector";
+import Settings from "./Settings";
 import Store from "./Store";
 import { BtnLibrary, BtnHome } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
@@ -115,6 +116,8 @@ class Root extends Component {
             this.state.showFretboards && (
               <TrackSelector max={availableFretboardCount} />
             )}
+
+          {/* <Settings /> */}
         </View>
       </Provider>
     );
