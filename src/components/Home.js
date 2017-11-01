@@ -1,6 +1,9 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { WebView } from "react-native";
+import { WebView, Alert } from "react-native";
+import { connect } from "react-redux";
+import { Set } from "immutable";
+import { getAllMedia } from "../redux/selectors";
 
 class Home extends PureComponent {
   render() {
@@ -39,6 +42,9 @@ class Home extends PureComponent {
           const mediaId = search.split("=")[1] || "";
           console.debug(`Choose ${mediaId}`);
           this.props.onChoose(mediaId);
+          if (this.props.downloadedMediaIds.includes(mediaId) !== true) {
+            Alert.alert(null, "Your Media is downloading.", [{ text: "OK" }]);
+          }
           break;
         }
         case "//store": {
@@ -54,11 +60,16 @@ class Home extends PureComponent {
 
   handleStringMessage = message => {
     if (message === "GET_PURCHASES") {
-      console.debug("GET PURCHASES!");
+      // console.debug("GET PURCHASES!");
+      // console.debug(this.props.purchasedMedia);
+      // console.debug(JSON.stringify(this.props.purchasedMedia));
 
-      this.webView.injectJavaScript(
-        "window.handlePurchases([{purchaseId:'200_Acoustic_Licks_Part1', isCached:true}]);"
-      );
+      const injection = `window.handlePurchases(${JSON.stringify(
+        this.props.purchasedMedia
+      )});`;
+      // console.debug(injection);
+
+      this.webView.injectJavaScript(injection);
     }
   };
 }
@@ -68,10 +79,37 @@ Home.propTypes = {
   onDetails: PropTypes.func.isRequired
 };
 
-export default Home;
+const mapStateToProps = state => {
+  // get downloads and purchases from state
+  const downloadedMediaIds = Set.fromKeys(state.get("downloadedMedia"));
+  const purchasedIds = state.get("purchasedMedia");
+
+  // purchases will be lowercase for Google IAB, but we need the upper-case versions
+  const allMediaIds = getAllMedia(state)
+    .toJS()
+    .map(m => m.mediaID);
+  const purchasedMediaIds = allMediaIds.filter(id =>
+    purchasedIds.includes(id.toLowerCase())
+  );
+
+  // combine downloads and purchases
+  const allIds = downloadedMediaIds.union(purchasedMediaIds);
+
+  // map them for what the webview expects
+  const purchasedMedia = allIds
+    .map(id => ({
+      purchaseId: id,
+      isCached: downloadedMediaIds.includes(id)
+    }))
+    .toJS();
+
+  return { purchasedMedia, downloadedMediaIds: downloadedMediaIds };
+};
+
+export default connect(mapStateToProps)(Home);
 
 /*
- * This function is going to be stringified and then run INSIDE the in-app browser that loads Home.
+ * This function is going to be stringified and then injected and runs INSIDE the in-app browser that loads Home.
  * Therefore, you can't use ES6 here or anything you've imported into this file.
  * to get the body text: injectAnchors.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]
  */
@@ -80,8 +118,7 @@ function injectAnchors() {
   window.callback = null;
 
   window.handlePurchases = function(purchases) {
-    alert(JSON.stringify(purchases[0]));
-    window.callback(purchases);
+    window.callback(null, purchases);
     window.callback = null;
   };
 
@@ -111,7 +148,6 @@ function injectAnchors() {
           search: search
         })
       );
-      // alert("link: " + href);
     };
   }
 }
