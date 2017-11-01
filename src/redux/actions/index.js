@@ -9,3 +9,4 @@ export * from "./downloads";
 export * from "./media";
 export * from "./current_media";
 export * from "./favorites";
+export * from "./settings";

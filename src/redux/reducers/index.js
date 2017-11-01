@@ -31,6 +31,11 @@ import { purchasedMedia } from "./purchases";
 import { downloadedMedia } from "./downloads";
 import { currentMedia } from "./current_media";
 import { favorites } from "./favorites";
+import {
+  countdownTimerState,
+  leftHandState,
+  autoPartSwitchingState
+} from "./settings";
 
 const appReducer = combineReducers({
   ad,
@@ -63,7 +68,11 @@ const appReducer = combineReducers({
   downloadedMedia,
   // Current Media
   currentMedia,
-  favorites
+  favorites,
+  // Settings
+  countdownTimerState,
+  leftHandState,
+  autoPartSwitchingState
 });
 
 export default appReducer;

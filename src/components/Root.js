@@ -102,7 +102,6 @@ class Root extends Component {
                 flexDirection: "row"
               }}
             >
-              <BtnSettings onPress={this.handleToggleSettings} />
               <BtnHome onPress={this.handleHomePress} />
               {!this.state.isShowingStore && (
                 <BtnLibrary
@@ -110,6 +109,7 @@ class Root extends Component {
                   onPress={this.handleToggleLibrary}
                 />
               )}
+              <BtnSettings onPress={this.handleToggleSettings} />
             </View>
           )}
 

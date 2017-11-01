@@ -1,18 +1,16 @@
 import React from "react";
 import { View, Text, Modal, StyleSheet, ScrollView } from "react-native";
 import { FlatButton } from "../Material";
+import { Provider, connect } from "react-redux";
+import * as actions from "../../redux/actions";
 import { PrimaryGold, Danger } from "../../design";
 import SwitchRow from "./SwitchRow";
-import { getCountdownState, setCountdownState } from "../../models/Settings";
 //import NoteNamesRow from "./NoteNamesRow";
 
 class Settings extends React.Component {
-  state = {
-    countDownIsOn: false
-  };
-
   render() {
-    const { onClose } = this.props;
+    const { countDownIsOn, onClose } = this.props;
+    console.log(countDownIsOn);
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
         <View style={styles.container}>
@@ -36,7 +34,7 @@ class Settings extends React.Component {
             <ScrollView>
               <SwitchRow
                 label={"Countdown Timer"}
-                isOn={this.state.countDownIsOn}
+                isOn={countDownIsOn}
                 onSwitch={this.handleToggleCountdown}
               />
               {/* <SwitchRow
@@ -61,24 +59,16 @@ class Settings extends React.Component {
     );
   }
 
-  async componentWillMount() {
-    const countDownIsOn = await getCountdownState();
-    this.setState({ countDownIsOn });
-    console.log("countDownIsOn: ", countDownIsOn);
-  }
-
-  handleToggleCountdown = async () => {
-    const countDownIsOn = !this.state.countDownIsOn;
-    await setCountdownState(countDownIsOn);
-    this.setState({ countDownIsOn });
+  handleToggleCountdown = () => {
+    this.props.setCountdownState(!this.props.countdownTimerState);
   };
 
   handleToggleLeftMode = () => {
-    // toggle !bool
+    this.props.setLeftHandState(!this.props.leftHandState);
   };
 
   handleToggleAutoPartSwitching = () => {
-    // toggle !bool
+    this.props.setAutoPartSwitchingState(!this.props.autoPartSwitchingState);
   };
 
   handleNoteNameUpdate = () => {
@@ -101,4 +91,13 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Settings;
+const mapStateToProps = state => {
+  console.log(state);
+  return {
+    countdownTimerState: state.get("countdownTimerState"),
+    leftHandState: state.get("leftHandState"),
+    autoPartSwitchingState: state.get("autoPartSwitchingState")
+  };
+};
+
+export default connect(mapStateToProps, actions)(Settings);
