@@ -122,11 +122,8 @@ class Root extends Component {
               <TrackSelector max={availableFretboardCount} />
             )}
 
-          {this.state.isShowingFretlightAdmin && (
-            <FretlightAdmin
-              isPhone={isPhone}
-              onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
-            />
+          {this.state.isShowingSettings && (
+            <Settings onClose={this.handleToggleSettings} />
           )}
         </View>
       </Provider>
