@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 import RNFetchBlob from "react-native-fetch-blob";
-import { Alert } from "react-native";
+import { Alert, NativeModules } from "react-native";
 import {
   chapterForTime,
   markerForTime,
@@ -18,6 +18,7 @@ import {
   timeForNextStep
 } from "../../midi-store";
 
+var idleTimer = NativeModules.GTIdleTimerController;
 this.playbackSeconds = 0.0;
 var controlFaderId = 0;
 
@@ -101,6 +102,7 @@ class Vid extends React.Component {
         onForceControlsVisible={this.handleForceControlsVisible}
         onFullscreen={this.handleFullscreen}
         onToggleFretboards={this.handleToggleFretboards}
+        onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
       />
     );
   }
@@ -132,6 +134,16 @@ class Vid extends React.Component {
 
   componentWillMount() {
     this.handleNewVideo();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isPlaying !== prevState.isPlaying) {
+      if (this.state.isPlaying) {
+        idleTimer.stop();
+      } else {
+        idleTimer.start();
+      }
+    }
   }
 
   handlePlayerRegister = player => {
@@ -462,6 +474,13 @@ class Vid extends React.Component {
     this.props.setCurrentLoop(loop);
   };
 
+  // FRETLIGHT ADMIN
+
+  handleToggleFretlightAdmin = () => {
+    this.setState({ isPlaying: false });
+    this.props.onToggleFretlightAdmin(true);
+  };
+
   // INFO
 
   handleDisplayInfoAlert = () => {
@@ -585,6 +604,7 @@ Vid.propTypes = {
   setCurrentVideoMidiFile: PropTypes.func.isRequired,
   onToggleAd: PropTypes.func.isRequired,
   onToggleFretboards: PropTypes.func.isRequired,
+  onToggleFretlightAdmin: PropTypes.func.isRequired,
   onClearMedia: PropTypes.func.isRequired
 };
 
@@ -599,7 +619,8 @@ const mapStateToProps = (state, props) => {
     videoMidiFiles: state.get("videoMidiFiles"),
     currentVideoChapter: state.get("currentVideoChapter"),
     currentVideoMarker: state.get("currentVideoMarker"),
-    currentVideoMidiFile: state.get("currentVideoMidiFile")
+    currentVideoMidiFile: state.get("currentVideoMidiFile"),
+    connectedDevices: state.get("guitars").count()
   };
 };
 

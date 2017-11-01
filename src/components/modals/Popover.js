@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Modal, TouchableOpacity, View } from "react-native";
+import {
+  Modal,
+  TouchableOpacity,
+  View,
+  KeyboardAvoidingView
+} from "react-native";
 import PropTypes from "prop-types";
 import { ModalType, ModalTypePropType } from "./ModalType";
 
@@ -53,7 +58,9 @@ const Popover = ({ type, style, children, isVisible, onDismiss }) => (
         }}
       />
 
-      <View style={style}>{children}</View>
+      <KeyboardAvoidingView style={style} behavior="padding">
+        {children}
+      </KeyboardAvoidingView>
     </View>
   </Modal>
 );

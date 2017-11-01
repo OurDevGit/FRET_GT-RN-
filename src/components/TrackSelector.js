@@ -63,7 +63,7 @@ class TrackSelector extends Component {
                 fontSize: 16
               }}
             >
-              {track.get("name")}
+              {track.get("shortName")}
             </Text>
           </View>
         </TouchableOpacity>

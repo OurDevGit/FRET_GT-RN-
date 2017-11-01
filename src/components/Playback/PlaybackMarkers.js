@@ -45,11 +45,12 @@ class PlaybackMarkers extends React.Component {
     } = this.props;
 
     var operationalWidth = width - left * 2;
+
     if (
       markers &&
       duration > 0 &&
       markers.count() > 0 &&
-      operationalWidth > 0
+      operationalWidth > 10
     ) {
       var buttons = [];
 
@@ -63,7 +64,7 @@ class PlaybackMarkers extends React.Component {
         if (height > 100) {
           return (
             <MarkerFull
-              key={marker.name}
+              key={index}
               marker={marker}
               end={end}
               left={x}
@@ -74,7 +75,7 @@ class PlaybackMarkers extends React.Component {
         } else {
           return (
             <MarkerAbbreviated
-              key={marker.name}
+              key={index}
               marker={marker}
               end={end}
               left={x}

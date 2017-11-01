@@ -34,13 +34,13 @@ exports.clearMidiOffset = () => {
 };
 
 exports.notesForTrackAtTime = (track, time) => {
-  if (notes[track.name] === undefined || time == -1) {
+  if (notes[track] === undefined || time == -1) {
     return [];
   } else {
     const midiTime = time - midiOffset;
     var shouldProcessNotes = midiTime !== currentTime;
-    if (watchedNotes[track.name] === undefined) {
-      watchedNotes[track.name] = notes[track.name];
+    if (watchedNotes[track] === undefined) {
+      watchedNotes[track] = notes[track];
       shouldProcessNotes = true;
     }
 
@@ -48,14 +48,14 @@ exports.notesForTrackAtTime = (track, time) => {
       for (trackName in watchedNotes) {
         const trackNotes = watchedNotes[trackName];
         const active = trackNotes.filter(
-          note => note.begin <= midiTime && note.end >= midiTime
+          note => note.begin <= midiTime && note.end > midiTime
         );
         currentNotes[trackName] = active;
       }
 
       currentTime = midiTime;
     }
-    return currentNotes[track.name];
+    return currentNotes[track];
   }
 };
 
@@ -115,8 +115,6 @@ const timeForStep = (
       if (!currentNotes.equals(nextNotes)) {
         newTime = noteTime;
         return true;
-      } else {
-        console.log("MATCHING");
       }
     });
 

@@ -46,17 +46,21 @@ class HorizontalContainer extends React.Component {
                 track={emptyTrack}
                 showSmart={false}
                 isSmart={false}
+                trackIndex={-1}
+                scrollIndex={-1}
                 boardWidth={this.state.width}
                 style={boardStyle}
               />
             )}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <Fretboard
                 isPhone={this.props.isPhone}
                 isHidingLabels={this.props.isVideo && this.props.isPhone}
                 track={item}
                 showSmart={item.name !== "" && !this.props.isVideo}
                 isSmart={false}
+                trackIndex={index}
+                scrollIndex={this.props.currentPage}
                 boardWidth={this.state.width}
                 style={boardStyle}
               />

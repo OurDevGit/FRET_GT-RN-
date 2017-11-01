@@ -36,6 +36,7 @@ import {
   leftHandState,
   autoPartSwitchingState
 } from "./settings";
+import { guitars } from "./guitar";
 
 const appReducer = combineReducers({
   ad,
@@ -69,6 +70,8 @@ const appReducer = combineReducers({
   // Current Media
   currentMedia,
   favorites,
+  // Guitars
+  guitars,
   // Settings
   countdownTimerState,
   leftHandState,

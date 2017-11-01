@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import * as actions from "../../redux/actions";
 import { View } from "react-native";
 import { List, Map } from "immutable";
 import Dimensions from "Dimensions";
@@ -34,7 +35,7 @@ class FretboardsRoot extends React.PureComponent {
         boardTracks = visibleTracks;
       }
       // applying tracks for phone on audio
-      if (!availableFretboardCount > 1 && tracks.count() > 0) {
+      if (availableFretboardCount === 1 && tracks.count() > 0) {
         boardTracks = tracks;
       }
     }
@@ -90,10 +91,14 @@ class FretboardsRoot extends React.PureComponent {
     // Divide the horizontal offset by the width of the view to see which page is visible
     let page = Math.round(contentOffset.x / viewSize.width);
     this.setState({ selectedIndex: page });
+    const track = this.props.tracks.get(page);
+    this.props.updateVisibleTracks(List([track]));
   }
 
   handlePagePress(page) {
     this.setState({ selectedIndex: page });
+    const track = this.props.tracks.get(page);
+    this.props.updateVisibleTracks(List([track]));
   }
 }
 
@@ -114,4 +119,4 @@ FretboardsRoot.propTypes = {
   visibleTracks: PropTypes.object
 };
 
-export default connect(mapStateToProps, null)(FretboardsRoot);
+export default connect(mapStateToProps, actions)(FretboardsRoot);

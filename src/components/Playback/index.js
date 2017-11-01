@@ -35,12 +35,12 @@ class MediaPlayer extends Component {
               updateMidiData={this.props.updateMidiData}
               clearMidiData={this.props.clearMidiData}
               updateTime={setTime}
-              connectedDevices={0}
               enableLoop={this.props.enableLoop}
               setCurrentLoop={this.props.setCurrentLoop}
               clearCurrentLoop={this.props.clearCurrentLoop}
               onSelectTempo={this.handleSelectTempo}
               onToggleLibrary={this.props.onToggleLibrary}
+              onToggleFretlightAdmin={this.props.onToggleFretlightAdmin}
             />
           )}
         {this.props.video !== undefined &&
@@ -51,7 +51,6 @@ class MediaPlayer extends Component {
               updateMidiData={this.props.updateMidiData}
               clearMidiData={this.props.clearMidiData}
               updateTime={setTime}
-              connectedDevices={0}
               enableLoop={this.props.enableLoop}
               setCurrentLoop={this.props.setCurrentLoop}
               clearCurrentLoop={this.props.clearCurrentLoop}
@@ -64,6 +63,7 @@ class MediaPlayer extends Component {
               onToggleAd={this.props.onToggleAd}
               onToggleFretboards={this.props.onToggleFretboards}
               onClearMedia={this.props.onClearMedia}
+              onToggleFretlightAdmin={this.props.onToggleFretlightAdmin}
             />
           )}
       </View>
@@ -131,6 +131,7 @@ MediaPlayer.propTypes = {
   clearVideoLesson: PropTypes.func.isRequired,
   onToggleAd: PropTypes.func.isRequired,
   onToggleFretboards: PropTypes.func.isRequired,
+  onToggleFretlightAdmin: PropTypes.func.isRequired,
   onClearMedia: PropTypes.func.isRequired
 };
 

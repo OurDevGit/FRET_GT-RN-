@@ -186,6 +186,8 @@ class SmartFretModal extends React.Component {
             isHidingLabels={this.props.isPhone}
             showSmart={!this.props.isPhone}
             boardWidth={boardWidth}
+            trackIndex={-1}
+            scrollIndex={-1}
             style={{
               width: boardWidth,
               height: boardHeight,

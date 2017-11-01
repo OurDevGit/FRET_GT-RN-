@@ -2,12 +2,15 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import { Provider, connect } from "react-redux";
+import Dimensions from "Dimensions";
 import AdContainer from "./AdContainer";
 import Playback from "./Playback";
 import Home from "./Home";
 import FretboardsContainer from "./Fretboards";
 import TrackSelector from "./TrackSelector";
+import FretlightAdmin from "./FretlightAdmin";
 import Settings from "./Settings";
+import GuitarController from "./GuitarController";
 import Store from "./Store";
 import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
@@ -20,6 +23,7 @@ const Sections = {
   Home: 0,
   Library: 1,
   Playback: 2
+  Settings: 3
 };
 
 class Root extends Component {
@@ -30,32 +34,31 @@ class Root extends Component {
     showFretboards: true,
     isShowingStore: false,
     isShowingSettings: false,
-    layout: { width: 1, height: 1 },
+    isShowingFretlightAdmin: false,
     currentSection: Sections.Home,
     storeDetailMediaId: ""
   };
 
   render() {
     const { store, visibleTracks } = this.props;
-    const aspectRatio = this.state.layout.width / this.state.layout.height;
+    const deviceWidth = Dimensions.get("window").width;
+    const deviceHeight = Dimensions.get("window").height;
+    const aspectRatio = deviceWidth / deviceHeight;
 
     var availableFretboardCount = 1;
-    if (this.state.layout.width) {
-      if (aspectRatio < 1.6) {
-        availableFretboardCount = 4;
-      }
+    if (aspectRatio < 1.6) {
+      availableFretboardCount = 4;
     }
 
     const isVideo = this.state.video !== null;
     const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
     const showLibraryButton = this.state.showAd && trackCount < 4;
+    const isPhone = Dimensions.get("window").height < 500;
 
     return (
       <Provider store={store}>
-        <View
-          style={{ backgroundColor: "white", flexGrow: 1 }}
-          onLayout={this.handleLayout}
-        >
+        <View style={{ backgroundColor: "white", flexGrow: 1 }}>
+          <GuitarController />
           {this.state.isShowingStore && (
             <Store
               onClose={this.handleCloseStore}
@@ -73,6 +76,7 @@ class Root extends Component {
               onToggleAd={this.handleToggleAd}
               onToggleFretboards={this.handleToggleFretboards}
               onClearMedia={this.handleClearMedia}
+              onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
             />
           )}
           {(this.state.song !== null || this.state.video !== null) &&
@@ -80,8 +84,8 @@ class Root extends Component {
               <FretboardsContainer
                 isVideo={isVideo}
                 isVisible={this.state.showFretboards}
-                deviceWidth={this.state.layout.width}
-                deviceHeight={this.state.layout.height}
+                deviceWidth={deviceWidth}
+                deviceHeight={deviceHeight}
                 availableFretboardCount={availableFretboardCount}
               />
             )}
@@ -102,6 +106,7 @@ class Root extends Component {
                 flexDirection: "row"
               }}
             >
+              <BtnSettings onPress={this.handleSettingsPress} />
               <BtnHome onPress={this.handleHomePress} />
               {!this.state.isShowingStore && (
                 <BtnLibrary
@@ -119,8 +124,11 @@ class Root extends Component {
               <TrackSelector max={availableFretboardCount} />
             )}
 
-          {this.state.isShowingSettings && (
-            <Settings onClose={this.handleToggleSettings} />
+          {this.state.isShowingFretlightAdmin && (
+            <FretlightAdmin
+              isPhone={isPhone}
+              onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
+            />
           )}
         </View>
       </Provider>
@@ -229,10 +237,8 @@ class Root extends Component {
     }
   };
 
-  handleLayout = e => {
-    this.setState({
-      layout: { ...e.nativeEvent.layout }
-    });
+  handleToggleFretlightAdmin = bool => {
+    this.setState({ isShowingFretlightAdmin: bool });
   };
 }
 

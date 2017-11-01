@@ -7,7 +7,11 @@ import AdPresentation from "./AdPresentation";
 
 class AdContainer extends Component {
   render() {
-    const { ad } = this.props;
+    const { ad, guitars } = this.props;
+    const logo =
+      guitars.count() > 0
+        ? require("../images/logo-guitar-tunes-glow.png")
+        : require("../images/logo-guitar-tunes.png");
     return (
       <Image
         style={
@@ -18,11 +22,7 @@ class AdContainer extends Component {
         source={require("../images/topiPhone.png")}
       >
         <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            resizeMode={"contain"}
-            source={require("../images/logo-guitar-tunes.png")}
-          />
+          <Image style={styles.logo} resizeMode={"contain"} source={logo} />
         </View>
         <AdPresentation onTap={this.handleTap} imageUrl={ad.get("phone")} />
       </Image>
@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
     ad: state.get("ad"),
-    visibleTracks: state.get("visibleTracks")
+    visibleTracks: state.get("visibleTracks"),
+    guitars: state.get("guitars")
   };
 };
 

@@ -7,3 +7,4 @@ export * from "./fretboard";
 export * from "./favorites";
 export * from "./loop";
 export * from "./lib";
+export * from "./guitar";

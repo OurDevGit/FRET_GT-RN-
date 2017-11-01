@@ -34,6 +34,8 @@ class VerticalContainer extends React.Component {
           track={track.toJS()}
           isSmart={false}
           boardWidth={this.state.width}
+          trackIndex={-1}
+          scrollIndex={-1}
           style={{
             flex: 1,
             width: this.state.width,

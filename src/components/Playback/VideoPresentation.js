@@ -184,6 +184,7 @@ const VideoPresentation = props => {
                 onNextStep={props.onNextStep}
                 onDisplayInfo={props.onDisplayInfo}
                 onForceControlsVisible={props.onForceControlsVisible}
+                onToggleFretlightAdmin={props.onToggleFretlightAdmin}
               />
             </View>
           </View>
@@ -243,7 +244,8 @@ VideoPresentation.propTypes = {
   onDisplayControls: PropTypes.func.isRequired,
   onForceControlsVisible: PropTypes.func.isRequired,
   onFullscreen: PropTypes.func.isRequired,
-  onToggleFretboards: PropTypes.func.isRequired
+  onToggleFretboards: PropTypes.func.isRequired,
+  onToggleFretlightAdmin: PropTypes.func.isRequired
 };
 
 export default VideoPresentation;

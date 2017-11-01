@@ -38,6 +38,7 @@ class FretboardFrets extends React.Component {
     super(props);
     this.noteRefs = {};
     this.prevOn = [];
+    this.currentTime = 0;
   }
 
   render() {
@@ -81,9 +82,31 @@ class FretboardFrets extends React.Component {
     unsubscribeToTimeUpdates(this.handleTimeUpdate);
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.isLeft !== this.props.isLeft &&
+      prevProps.scrollIndex !== this.props.scrollIndex &&
+      this.currentTime !== 0 &&
+      this.props.track.name !== ""
+    ) {
+      for (key in this.noteRefs) {
+        const noteRef = this.noteRefs[key];
+        if (noteRef !== undefined) {
+          noteRef.hide();
+        }
+      }
+
+      this.handleTimeUpdate(this.currentTime);
+    }
+  }
+
   handleTimeUpdate = time => {
-    if (time !== 0 && this.props.track.name !== "") {
-      const on = notesForTrackAtTime(this.props.track, time);
+    if (
+      time !== 0 &&
+      this.props.track.name !== "" &&
+      this.props.trackIndex === this.props.scrollIndex
+    ) {
+      const on = notesForTrackAtTime(this.props.track.name, time);
 
       if (on.length > 0) {
         if (this.prevOn.length === 0) {
@@ -121,6 +144,7 @@ class FretboardFrets extends React.Component {
       }
       this.prevOn = on;
     }
+    this.currentTime = time;
   };
 
   frets = (track, isSmart, isLeft, boardWidth, fretHeight) => {

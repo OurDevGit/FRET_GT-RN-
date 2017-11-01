@@ -1,5 +1,7 @@
 package com.optek.guitartunes;
 
+import com.optek.guitartunes.ble.GTGuitarController;
+
 import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.JavaScriptModule;
@@ -23,6 +25,8 @@ public class GTReactPackage implements ReactPackage {
     List<NativeModule> modules = new ArrayList<>();
 
     modules.add(new BSVolumeController(reactContext));
+    modules.add(new GTGuitarController(reactContext));
+    modules.add(new GTIdleTimerController(reactContext));
 
     return modules;
   }

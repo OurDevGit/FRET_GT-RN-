@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Alert } from "react-native";
+import { View, Alert, NativeModules } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Map } from "immutable";
@@ -15,6 +15,7 @@ import { SmartFretModal } from "../modals";
 import Music from "./Music";
 import Midi from "./Midi";
 import { playerBackground } from "../../design";
+var idleTimer = NativeModules.GTIdleTimerController;
 
 import {
   loadMidi,
@@ -158,6 +159,7 @@ class Song extends React.Component {
               onPrevStep={this.handlePrevStep}
               onNextStep={this.handleNextStep}
               onDisplayInfo={this.handleDisplayInfoAlert}
+              onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
             />
           </View>
         )}
@@ -194,9 +196,20 @@ class Song extends React.Component {
           onPrevStep={this.handlePrevStep}
           onNextStep={this.handleNextStep}
           onDisplayInfo={this.handleDisplayInfoAlert}
+          onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
         />
       </View>
     );
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.isPlaying !== prevState.isPlaying) {
+      if (this.state.isPlaying) {
+        idleTimer.stop();
+      } else {
+        idleTimer.start();
+      }
+    }
   }
 
   // SONG PARSING
@@ -407,6 +420,13 @@ class Song extends React.Component {
     this.props.setCurrentLoop(loop);
   };
 
+  // FRETLIGHT ADMIN
+
+  handleToggleFretlightAdmin = () => {
+    this.setState({ isPlaying: false });
+    this.props.onToggleFretlightAdmin(true);
+  };
+
   // INFO
 
   handleDisplayInfoAlert = () => {
@@ -451,7 +471,8 @@ Song.propTypes = {
   clearCurrentLoop: PropTypes.func,
   updateMidiData: PropTypes.func,
   clearMidiData: PropTypes.func,
-  loopIsEnabled: PropTypes.bool
+  loopIsEnabled: PropTypes.bool,
+  onToggleFretlightAdmin: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => {
@@ -459,7 +480,8 @@ const mapStateToProps = (state, props) => {
     markers: state.get("markers"),
     currentLoop: state.get("currentLoop"),
     loopIsEnabled: state.get("loopIsEnabled"),
-    visibleTracks: state.get("visibleTracks")
+    visibleTracks: state.get("visibleTracks"),
+    connectedDevices: state.get("guitars").count()
   };
 };
 

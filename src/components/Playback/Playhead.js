@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
 import { View, PanResponder } from "react-native";
 
 const styles = {
@@ -41,7 +42,42 @@ class Playhead extends Component {
               borderRadius: 18 / 2,
               backgroundColor: "black"
             }}
-          />
+          >
+            {this.props.guitars.count() > 0 && (
+              <View
+                style={{
+                  marginHorizontal: "15%",
+                  marginVertical: "15%",
+                  width: "70%",
+                  height: "70%",
+                  borderRadius: 10,
+                  backgroundColor: "rgba(181, 0, 0, 0.6)"
+                }}
+              >
+                <View
+                  style={{
+                    marginHorizontal: "15%",
+                    marginVertical: "15%",
+                    width: "70%",
+                    height: "70%",
+                    borderRadius: 10,
+                    backgroundColor: "rgba(181, 0, 0, 0.6)"
+                  }}
+                >
+                  <View
+                    style={{
+                      marginHorizontal: "15%",
+                      marginVertical: "15%",
+                      width: "70%",
+                      height: "70%",
+                      borderRadius: 10,
+                      backgroundColor: "rgba(181, 0, 0, 1.0)"
+                    }}
+                  />
+                </View>
+              </View>
+            )}
+          </View>
         </View>
       </View>
     );
@@ -99,6 +135,7 @@ class Playhead extends Component {
 }
 
 Playhead.propTypes = {
+  guitars: PropTypes.object,
   onPan: PropTypes.func.isRequired,
   onPanStart: PropTypes.func.isRequired,
   onPanEnd: PropTypes.func.isRequired,
@@ -106,4 +143,10 @@ Playhead.propTypes = {
   containerLeft: PropTypes.number.isRequired
 };
 
-export default Playhead;
+const mapStateToProps = state => {
+  return {
+    guitars: state.get("guitars")
+  };
+};
+
+export default connect(mapStateToProps)(Playhead);

@@ -16,12 +16,8 @@ import {
   BtnPhoneMyLoops
 } from "../StyleKit";
 import { PrimaryBlue } from "../../design";
-import {
-  BtnTempoModal,
-  BtnSaveLoopModal,
-  BtnMyLoopsModal,
-  BtnFretlightModal
-} from "../modals";
+import { BtnTempoModal, BtnSaveLoopModal, BtnMyLoopsModal } from "../modals";
+import BtnFretlightAdmin from "./BtnFretlightAdmin";
 
 const buttonStyle = {
   flex: 1,
@@ -58,7 +54,8 @@ class PlaybackSecondary extends PureComponent {
       onSetCurrentLoop,
       onClearCurrentLoop,
       onDisplayInfo,
-      onForceControlsVisible
+      onForceControlsVisible,
+      onToggleFretlightAdmin
     } = this.props;
 
     return (
@@ -162,19 +159,6 @@ class PlaybackSecondary extends PureComponent {
           onForceControlsVisible={onForceControlsVisible}
         />
 
-        <BtnMyLoopsModal
-          style={buttonStyle}
-          mediaId={mediaId}
-          currentLoop={currentLoop}
-          quickLoops={quickLoops}
-          isPhone={isPhone}
-          isVideo={isVideo}
-          color={"#222222"}
-          onSetCurrentLoop={onSetCurrentLoop}
-          onClearCurrentLoop={onClearCurrentLoop}
-          onForceControlsVisible={onForceControlsVisible}
-        />
-
         <View style={{ flex: -1, flexDirection: "row" }}>
           <BtnFretlightInfo
             style={{
@@ -186,10 +170,10 @@ class PlaybackSecondary extends PureComponent {
             onPress={onDisplayInfo}
           />
 
-          <BtnFretlightModal
+          <BtnFretlightAdmin
             isPhone={isPhone}
-            devices={connectedDevices}
-            onForceControlsVisible={onForceControlsVisible}
+            guitars={this.props.connectedDevices}
+            onPress={onToggleFretlightAdmin}
           />
         </View>
       </View>
@@ -218,7 +202,8 @@ PlaybackSecondary.propTypes = {
   onClearCurrentLoop: PropTypes.func.isRequired,
   onDisplayInfo: PropTypes.func.isRequired,
   onDisplayToggle: PropTypes.func,
-  onForceControlsVisible: PropTypes.func
+  onForceControlsVisible: PropTypes.func,
+  onToggleFretlightAdmin: PropTypes.func.isRequired
 };
 
 export default connect()(
@@ -228,6 +213,8 @@ export default connect()(
     "loopIsEnabled",
     "isFullscreen",
     "quickLoops",
-    "currentVideoMidiFile"
+    "currentLoop",
+    "currentVideoMidiFile",
+    "connectedDevices"
   ])(PlaybackSecondary)
 );
