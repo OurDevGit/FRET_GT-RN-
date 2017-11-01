@@ -148,9 +148,6 @@ class Root extends Component {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
       if (prevProps.currentMedia !== this.props.currentMedia) {
-        console.debug("currentMedia changed");
-        console.debug(this.props.currentMedia);
-        console.debug(this.props.mediaForPlay);
         if (this.props.mediaForPlay.id !== undefined) {
           var song = null;
           var video = null;
