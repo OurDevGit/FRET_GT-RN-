@@ -37,10 +37,11 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
       public void onChange(String action, String guitarId) {
         if (action == "connect") {
           guitarEmitter.emit("GUITAR_CONNECTED", guitarId);
+          startScanning();
         } else {
           guitarEmitter.emit("GUITAR_DISCONNECTED", guitarId);
+          startScanning();
         }
-        startScanning();
       }
     });
   }
