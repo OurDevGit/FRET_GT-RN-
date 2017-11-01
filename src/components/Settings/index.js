@@ -1,31 +1,77 @@
 import React from "react";
-import { View, Text, Modal, StyleSheet } from "react-native";
+import { View, Text, Modal, StyleSheet, ScrollView } from "react-native";
 import { FlatButton } from "../Material";
 import { PrimaryGold, Danger } from "../../design";
+//import { SwitchRow } from "./SwitchRow";
+//import { NoteNamesRow } from "./NoteNamesRow";
 
-const Settings = ({ onClose }) => (
-  <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <Text>Settings 1!</Text>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "flex-end",
-            borderTopColor: "lightgray",
-            borderTopWidth: 1
-          }}
-        >
-          <FlatButton
-            title="Close"
-            style={{ color: PrimaryGold }}
-            onPress={onClose}
-          />
+class Settings extends React.Component {
+  render() {
+    const { onClose } = this.props;
+    return (
+      <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
+        <View style={styles.container}>
+          <View style={styles.content}>
+            <Text>Settings 1!</Text>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "flex-end",
+                borderTopColor: "lightgray",
+                borderTopWidth: 1
+              }}
+            >
+              <FlatButton
+                title="Close"
+                style={{ color: PrimaryGold }}
+                onPress={onClose}
+              />
+            </View>
+
+            {/* <ScrollView>
+              <SwitchRow
+                label={"Countdown Timer"}
+                isOn={false}
+                onSwitch={this.handleToggleCountdown}
+              />
+              <SwitchRow
+                label={"Global Left-Hand Mode"}
+                isOn={true}
+                onSwitch={this.handleToggleLeftMode}
+              />
+              <SwitchRow
+                label={"Fretlight Automatic Part Switching"}
+                isOn={false}
+                onSwitch={this.handleToggleAutoPartSwitching}
+              />
+              <NoteNamesRow
+                label={"Note Names"}
+                currentNoteName={"Flats"}
+                onSelect={this.handleNoteNameUpdate}
+              />
+            </ScrollView> */}
+          </View>
         </View>
-      </View>
-    </View>
-  </Modal>
-);
+      </Modal>
+    );
+  }
+
+  handleToggleCountdown = () => {
+    // toggle !bool
+  };
+
+  handleToggleLeftMode = () => {
+    // toggle !bool
+  };
+
+  handleToggleAutoPartSwitching = () => {
+    // toggle !bool
+  };
+
+  handleNoteNameUpdate = () => {
+    // toggle !bool
+  };
+}
 
 const styles = StyleSheet.create({
   container: {
