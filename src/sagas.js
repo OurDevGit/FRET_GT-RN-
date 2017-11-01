@@ -21,8 +21,9 @@ import { getMediaById, getDownloadedMediaFiles } from "./redux/selectors";
 import { setStore, setProductDetails } from "./models/Store";
 import { doFreeMedia } from "./Config";
 import {
-  getCountdownTimerState,
-  setCountdownTimerState
+  setCountdownTimerState,
+  setLeftHandState,
+  setAutoPartSwitchingState
 } from "./models/Settings";
 
 function* getMedia(mediaId) {
@@ -198,8 +199,18 @@ function* watchToggleFavorite(action) {
   }
 }
 
+// SETTINGS
+
 function* watchSetCountdownTimerState(action) {
   setCountdownTimerState(action.payload);
+}
+
+function* watchSetLeftHandState(action) {
+  setLeftHandState(action.payload);
+}
+
+function* watchSetAutoPartSwitchingState(action) {
+  setAutoPartSwitchingState(action.payload);
 }
 
 function* mySaga() {
@@ -209,6 +220,11 @@ function* mySaga() {
   yield takeEvery("DELETE_MEDIA", watchDeleteMedia);
   yield takeEvery("TOGGLE_FAVORITE", watchToggleFavorite);
   yield takeEvery("SET_COUNTDOWN_TIMER_STATE", watchSetCountdownTimerState);
+  yield takeEvery("SET_LEFT_HAND_STATE", watchSetLeftHandState);
+  yield takeEvery(
+    "SET_AUTO_PART_SWITCHING_STATE",
+    watchSetAutoPartSwitchingState
+  );
 }
 
 export default mySaga;
