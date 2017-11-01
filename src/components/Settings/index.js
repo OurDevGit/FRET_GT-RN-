@@ -3,12 +3,8 @@ import { View, Text, Modal, StyleSheet } from "react-native";
 import { FlatButton } from "../Material";
 import { PrimaryGold, Danger } from "../../design";
 
-const Settings = () => (
-  <Modal
-    animationType="fade"
-    transparent={true}
-    onRequestClose={() => console.debug("close!")}
-  >
+const Settings = ({ onClose }) => (
+  <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
     <View style={styles.container}>
       <View style={styles.content}>
         <Text>Settings 1!</Text>
@@ -23,7 +19,7 @@ const Settings = () => (
           <FlatButton
             title="Close"
             style={{ color: PrimaryGold }}
-            onPress={() => console.debug("close!")}
+            onPress={onClose}
           />
         </View>
       </View>
@@ -40,8 +36,8 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   content: {
-    maxWidth: 320,
-    maxHeight: 240,
+    width: "90%",
+    height: "90%",
     backgroundColor: "#dddddd"
   }
 });

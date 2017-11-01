@@ -4,7 +4,8 @@ import { gtPcPressable, gtPcColorable } from "./lib";
 import {
   BtnLibrary_isPressed_redValue_greenValue_blueValue,
   BtnDetails_isPressed,
-  BtnHome_isHome
+  BtnHome_isHome,
+  BtnSettings_isPressed
 } from "./styleKitComponents";
 import { ResizingBehavior } from "./lib";
 
@@ -22,6 +23,12 @@ export const BtnHome = ({ onPress, ...rest }) => {
       <BtnHome_isHome isHome={false} {...rest} />
     </TouchableOpacity>
   );
+};
+
+export const BtnSettings = props => {
+  const BtnSettingsComp = gtPcPressable(BtnSettings_isPressed);
+
+  return <BtnSettingsComp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
 
 export const BtnDetails = props => {

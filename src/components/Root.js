@@ -9,7 +9,7 @@ import FretboardsContainer from "./Fretboards";
 import TrackSelector from "./TrackSelector";
 import Settings from "./Settings";
 import Store from "./Store";
-import { BtnLibrary, BtnHome } from "./StyleKit";
+import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 
@@ -29,6 +29,7 @@ class Root extends Component {
     showAd: true,
     showFretboards: true,
     isShowingStore: false,
+    isShowingSettings: false,
     layout: { width: 1, height: 1 },
     currentSection: Sections.Home,
     storeDetailMediaId: ""
@@ -101,6 +102,7 @@ class Root extends Component {
                 flexDirection: "row"
               }}
             >
+              <BtnSettings onPress={this.handleToggleSettings} />
               <BtnHome onPress={this.handleHomePress} />
               {!this.state.isShowingStore && (
                 <BtnLibrary
@@ -117,7 +119,9 @@ class Root extends Component {
               <TrackSelector max={availableFretboardCount} />
             )}
 
-          {/* <Settings /> */}
+          {this.state.isShowingSettings && (
+            <Settings onClose={this.handleToggleSettings} />
+          )}
         </View>
       </Provider>
     );
@@ -172,7 +176,18 @@ class Root extends Component {
   };
 
   handleHomePress = () => {
-    this.setState({ isShowingStore: false, currentSection: Sections.Home });
+    this.setState({
+      isShowingStore: false,
+      isShowingSettings: false,
+      currentSection: Sections.Home
+    });
+  };
+
+  handleToggleSettings = () => {
+    this.setState({
+      isShowingStore: false,
+      isShowingSettings: !this.state.isShowingSettings
+    });
   };
 
   handleToggleLibrary = () => {
