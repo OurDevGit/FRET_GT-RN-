@@ -112,7 +112,7 @@ class Root extends Component {
                   onPress={this.handleToggleLibrary}
                 />
               )}
-              {/* <BtnSettings onPress={this.handleToggleSettings} /> */}
+              <BtnSettings onPress={this.handleToggleSettings} />
             </View>
           )}
 
