@@ -40,6 +40,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
         } else {
           guitarEmitter.emit("GUITAR_DISCONNECTED", guitarId);
         }
+        startScanning();
       }
     });
   }

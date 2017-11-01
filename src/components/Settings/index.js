@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  console.log(state);
+  console.log(state.get("countdownTimerState"));
   return {
     countdownTimerState: state.get("countdownTimerState"),
     leftHandState: state.get("leftHandState"),

@@ -143,7 +143,7 @@ class BleClient {
     @Override
     public void onScanSuccess(BluetoothDevice device) {
       mDelegate.bleDeviceFound(device);
-      //stopScanning();
+      stopScanning();
     }
 
     @Override
