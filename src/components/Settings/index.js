@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, Modal, StyleSheet, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView
+} from "react-native";
 import { FlatButton } from "../Material";
 import { Provider, connect } from "react-redux";
 import * as actions from "../../redux/actions";
@@ -10,7 +17,8 @@ import NotationsModal from "./NotationsModal";
 
 class Settings extends React.Component {
   state = {
-    isShowingNotationModal: false
+    isShowingNotationModal: false,
+    notationModalFrame: {}
   };
   render() {
     const {
@@ -23,7 +31,7 @@ class Settings extends React.Component {
     console.log(countdownTimerState, leftHandState, autoPartSwitchingState);
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
-        <View style={styles.container}>
+        <TouchableOpacity style={styles.container} onPress={onClose}>
           <View style={styles.content}>
             <View
               style={{
@@ -71,6 +79,7 @@ class Settings extends React.Component {
 
               {this.state.isShowingNotationModal && (
                 <NotationsModal
+                  origin={this.state.notationModalFrame}
                   currentNotation={currentNotation}
                   onSelect={this.handleNotationSelect}
                   onClose={this.handleToggleNotationModal}
@@ -78,7 +87,7 @@ class Settings extends React.Component {
               )}
             </ScrollView>
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
     );
   }
@@ -95,9 +104,9 @@ class Settings extends React.Component {
     this.props.setAutoPartSwitchingState(!this.props.autoPartSwitchingState);
   };
 
-  handleToggleNotationModal = () => {
+  handleToggleNotationModal = frame => {
     const isShowingNotationModal = !this.state.isShowingNotationModal;
-    this.setState({ isShowingNotationModal });
+    this.setState({ isShowingNotationModal, notationModalFrame: frame });
   };
 
   handleNotationSelect = notation => {

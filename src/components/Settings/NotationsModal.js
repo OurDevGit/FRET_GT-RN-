@@ -3,29 +3,38 @@ import PropTypes from "prop-types";
 import { Modal, View, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { PrimaryBlue } from "../../design";
 
-const NotationsModal = ({ currentNotation, onSelect, onClose }) => (
-  <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
-    <View style={styles.container}>
-      <View style={styles.content}>
-        <NotationsModalRow
-          currentNotation={currentNotation}
-          notation={"Flats"}
-          onSelect={onSelect}
-        />
-        <NotationsModalRow
-          currentNotation={currentNotation}
-          notation={"Sharps"}
-          onSelect={onSelect}
-        />
-        <NotationsModalRow
-          currentNotation={currentNotation}
-          notation={"None"}
-          onSelect={onSelect}
-        />
-      </View>
-    </View>
-  </Modal>
-);
+const NotationsModal = ({ origin, currentNotation, onSelect, onClose }) => {
+  console.log(origin);
+  return (
+    <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
+      <TouchableOpacity
+        style={styles.container}
+        onPress={onClose}
+        activeOpacity={1}
+      >
+        <View
+          style={[styles.content, { top: origin.y - 5, left: origin.x - 180 }]}
+        >
+          <NotationsModalRow
+            currentNotation={currentNotation}
+            notation={"Flats"}
+            onSelect={onSelect}
+          />
+          <NotationsModalRow
+            currentNotation={currentNotation}
+            notation={"Sharps"}
+            onSelect={onSelect}
+          />
+          <NotationsModalRow
+            currentNotation={currentNotation}
+            notation={"None"}
+            onSelect={onSelect}
+          />
+        </View>
+      </TouchableOpacity>
+    </Modal>
+  );
+};
 
 const NotationsModalRow = ({ currentNotation, notation, onSelect }) => (
   <TouchableOpacity
@@ -40,6 +49,7 @@ const NotationsModalRow = ({ currentNotation, notation, onSelect }) => (
 );
 
 NotationsModal.propTypes = {
+  origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
@@ -54,7 +64,8 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   content: {
-    width: 160,
+    position: "absolute",
+    width: 150,
     height: 120,
     backgroundColor: "#dddddd"
   },

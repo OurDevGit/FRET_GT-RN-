@@ -3,14 +3,26 @@ import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { PrimaryBlue } from "../../design";
 
-const NotationsRow = ({ label, currentNoteName, onPress }) => (
-  <View style={styles.row}>
-    <Text style={styles.label}>{label}</Text>
-    <TouchableOpacity onPress={onPress}>
-      <Text style={styles.button}>{currentNoteName}</Text>
-    </TouchableOpacity>
-  </View>
-);
+class NotationsRow extends React.Component {
+  render() {
+    const { label, currentNoteName } = this.props;
+    return (
+      <View style={styles.row}>
+        <Text style={styles.label}>{label}</Text>
+        <TouchableOpacity ref="Touchable" onPress={this.handlePress}>
+          <Text style={styles.button}>{currentNoteName}</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
+  handlePress = () => {
+    this.refs.Touchable.measure((fx, fy, width, height, px, py) => {
+      const frame = { x: px, y: py, width, height };
+      this.props.onPress(frame);
+    });
+  };
+}
 
 NotationsRow.propTypes = {
   label: PropTypes.string.isRequired,
