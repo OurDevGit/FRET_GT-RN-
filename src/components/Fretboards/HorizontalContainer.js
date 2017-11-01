@@ -43,6 +43,7 @@ class HorizontalContainer extends React.Component {
               <Fretboard
                 isPhone={this.props.isPhone}
                 isHidingLabels={true}
+                leftHandState={this.props.leftHandState}
                 track={emptyTrack}
                 showSmart={false}
                 isSmart={false}
@@ -56,6 +57,7 @@ class HorizontalContainer extends React.Component {
               <Fretboard
                 isPhone={this.props.isPhone}
                 isHidingLabels={this.props.isVideo && this.props.isPhone}
+                leftHandState={this.props.leftHandState}
                 track={item}
                 showSmart={item.name !== "" && !this.props.isVideo}
                 isSmart={false}
@@ -118,6 +120,7 @@ class HorizontalContainer extends React.Component {
 HorizontalContainer.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
+  leftHandState: PropTypes.bool.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   tracks: PropTypes.object.isRequired,
   currentPage: PropTypes.number.isRequired,

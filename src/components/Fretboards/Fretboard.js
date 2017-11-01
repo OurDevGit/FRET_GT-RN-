@@ -26,6 +26,7 @@ class Fretboard extends React.Component {
       isPhone,
       isSmart,
       isHidingLabels,
+      leftHandState,
       trackIndex,
       scrollIndex,
       showSmart,
@@ -118,9 +119,7 @@ class Fretboard extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.track.isLeft) {
-      this.setState({ isLeft: true });
-    }
+    this.setState({ isLeft: this.props.leftHandState });
   }
 
   handleLayout(e) {
@@ -137,6 +136,7 @@ class Fretboard extends React.Component {
 Fretboard.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isHidingLabels: PropTypes.bool,
+  leftHandState: PropTypes.bool.isRequired,
   track: PropTypes.object.isRequired,
   showSmart: PropTypes.bool.isRequired,
   isSmart: PropTypes.bool.isRequired,

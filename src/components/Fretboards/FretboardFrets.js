@@ -84,9 +84,9 @@ class FretboardFrets extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (
-      prevProps.isLeft !== this.props.isLeft &&
-      prevProps.scrollIndex !== this.props.scrollIndex &&
-      this.currentTime !== 0 &&
+      prevProps.isLeft !== this.props.isLeft ||
+      prevProps.scrollIndex !== this.props.scrollIndex ||
+      this.currentTime !== 0 ||
       this.props.track.name !== ""
     ) {
       for (key in this.noteRefs) {

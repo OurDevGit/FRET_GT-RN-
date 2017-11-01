@@ -29,6 +29,7 @@ class VerticalContainer extends React.Component {
       return (
         <Fretboard
           isPhone={this.props.isPhone}
+          leftHandState={this.props.leftHandState}
           key={track.get("name")}
           showSmart={track.get("name") !== "" && !this.props.isVideo}
           track={track.toJS()}
@@ -68,6 +69,7 @@ class VerticalContainer extends React.Component {
 VerticalContainer.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
+  leftHandState: PropTypes.bool.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   tracks: PropTypes.object
 };
