@@ -10,7 +10,7 @@ import {
 } from "../../time-store";
 import { notesForTrackAtTime } from "../../midi-store";
 
-// TODO: IMPLEMENT TUNING ADJUSTMENT AND NOTATION SETTINGS
+// TODO: IMPLEMENT TUNING ADJUSTMENT
 
 const noteStyles = StyleSheet.create({
   noteContainer: {

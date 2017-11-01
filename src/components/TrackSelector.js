@@ -1,10 +1,18 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { View, Text, TouchableOpacity, Button } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Button,
+  NativeModules
+} from "react-native";
 import { List } from "immutable";
 
 import * as actions from "../redux/actions";
 import { PrimaryGold } from "../design";
+
+var guitarController = NativeModules.GTGuitarController;
 
 class TrackSelector extends Component {
   render() {
@@ -79,13 +87,24 @@ class TrackSelector extends Component {
       if (visibleTracks.count() > 1) {
         const tracks = visibleTracks.remove(visibleIndex);
         updateVisibleTracks(tracks);
+        this.checkForAutoPartSwitching(tracks.last().toJS());
       }
     } else {
       if (visibleTracks.count() < this.props.max) {
         const newVisible = visibleTracks.push(track);
         const newTracks = tracks.filter(tr => newVisible.includes(tr));
         updateVisibleTracks(newTracks);
+        this.checkForAutoPartSwitching(newTracks.last().toJS());
       }
+    }
+  }
+
+  checkForAutoPartSwitching(track) {
+    if (this.props.autoPartSwitchingState) {
+      guitarController.clearAllGuitars();
+      this.props.guitars.forEach(guitar => {
+        this.props.updateGuitarSetting(guitar.set("track", track.name));
+      });
     }
   }
 }
@@ -93,7 +112,9 @@ class TrackSelector extends Component {
 const mapStateToProps = state => {
   return {
     tracks: state.get("guitarTracks"),
-    visibleTracks: state.get("visibleTracks")
+    visibleTracks: state.get("visibleTracks"),
+    guitars: state.get("guitars"),
+    autoPartSwitchingState: state.get("autoPartSwitchingState")
   };
 };
 

@@ -2,11 +2,13 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as actions from "../../redux/actions";
-import { View } from "react-native";
+import { View, NativeModules } from "react-native";
 import { List, Map } from "immutable";
 import Dimensions from "Dimensions";
 import VerticalContainer from "./VerticalContainer";
 import HorizontalContainer from "./HorizontalContainer";
+
+var guitarController = NativeModules.GTGuitarController;
 
 class FretboardsRoot extends React.PureComponent {
   state = {
@@ -98,12 +100,23 @@ class FretboardsRoot extends React.PureComponent {
     this.setState({ selectedIndex: page });
     const track = this.props.tracks.get(page);
     this.props.updateVisibleTracks(List([track]));
+    this.checkForAutoPartSwitching(track);
   }
 
   handlePagePress(page) {
     this.setState({ selectedIndex: page });
     const track = this.props.tracks.get(page);
     this.props.updateVisibleTracks(List([track]));
+    this.checkForAutoPartSwitching(track);
+  }
+
+  checkForAutoPartSwitching(track) {
+    if (this.props.autoPartSwitchingState) {
+      guitarController.clearAllGuitars();
+      this.props.guitars.forEach(guitar => {
+        this.props.updateGuitarSetting(guitar.set("track", track.get("name")));
+      });
+    }
   }
 }
 
@@ -112,7 +125,9 @@ const mapStateToProps = state => {
     tracks: state.get("guitarTracks"),
     visibleTracks: state.get("visibleTracks"),
     leftHandState: state.get("leftHandState"),
-    currentNotation: state.get("currentNotation")
+    currentNotation: state.get("currentNotation"),
+    guitars: state.get("guitars"),
+    autoPartSwitchingState: state.get("autoPartSwitchingState")
   };
 };
 
