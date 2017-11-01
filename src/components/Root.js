@@ -22,8 +22,7 @@ import { loadPurchased } from "../models/Purchases";
 const Sections = {
   Home: 0,
   Library: 1,
-  Playback: 2,
-  Settings: 3
+  Playback: 2
 };
 
 class Root extends Component {
@@ -106,7 +105,6 @@ class Root extends Component {
                 flexDirection: "row"
               }}
             >
-              <BtnSettings onPress={this.handleSettingsPress} />
               <BtnHome onPress={this.handleHomePress} />
               {!this.state.isShowingStore && (
                 <BtnLibrary
