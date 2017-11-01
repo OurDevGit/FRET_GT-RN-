@@ -7,7 +7,7 @@ const SwitchRow = ({ label, isOn, onSwitch }) => (
   <View
     style={{
       flex: 1,
-      justifyContent: "row"
+      flexDirection: "row"
     }}
   >
     <Text style={{ fontSize: 12 }}>{label}</Text>

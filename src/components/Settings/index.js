@@ -2,10 +2,15 @@ import React from "react";
 import { View, Text, Modal, StyleSheet, ScrollView } from "react-native";
 import { FlatButton } from "../Material";
 import { PrimaryGold, Danger } from "../../design";
-//import { SwitchRow } from "./SwitchRow";
-//import { NoteNamesRow } from "./NoteNamesRow";
+import SwitchRow from "./SwitchRow";
+import { getCountdownState, setCountdownState } from "../../models/Settings";
+//import NoteNamesRow from "./NoteNamesRow";
 
 class Settings extends React.Component {
+  state = {
+    countDownIsOn: false
+  };
+
   render() {
     const { onClose } = this.props;
     return (
@@ -28,13 +33,13 @@ class Settings extends React.Component {
               />
             </View>
 
-            {/* <ScrollView>
+            <ScrollView>
               <SwitchRow
                 label={"Countdown Timer"}
-                isOn={false}
+                isOn={this.state.countDownIsOn}
                 onSwitch={this.handleToggleCountdown}
               />
-              <SwitchRow
+              {/* <SwitchRow
                 label={"Global Left-Hand Mode"}
                 isOn={true}
                 onSwitch={this.handleToggleLeftMode}
@@ -43,21 +48,29 @@ class Settings extends React.Component {
                 label={"Fretlight Automatic Part Switching"}
                 isOn={false}
                 onSwitch={this.handleToggleAutoPartSwitching}
-              />
-              <NoteNamesRow
+              /> */}
+              {/* <NoteNamesRow
                 label={"Note Names"}
                 currentNoteName={"Flats"}
                 onSelect={this.handleNoteNameUpdate}
-              />
-            </ScrollView> */}
+              /> */}
+            </ScrollView>
           </View>
         </View>
       </Modal>
     );
   }
 
-  handleToggleCountdown = () => {
-    // toggle !bool
+  async componentWillMount() {
+    const countDownIsOn = await getCountdownState();
+    this.setState({ countDownIsOn });
+    console.log("countDownIsOn: ", countDownIsOn);
+  }
+
+  handleToggleCountdown = async () => {
+    const countDownIsOn = !this.state.countDownIsOn;
+    await setCountdownState(countDownIsOn);
+    this.setState({ countDownIsOn });
   };
 
   handleToggleLeftMode = () => {

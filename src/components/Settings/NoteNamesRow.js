@@ -7,7 +7,7 @@ const NoteNamesRow = ({ label, currentNoteName, onPress }) => (
   <View
     style={{
       flex: 1,
-      justifyContent: "row"
+      flexDirection: "row"
     }}
   >
     <Text style={{ fontSize: 12 }}>{label}</Text>
