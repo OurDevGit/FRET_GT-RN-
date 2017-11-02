@@ -1,4 +1,4 @@
-exports.countdownTimerState = (state = true, action) => {
+exports.countdownTimerState = (state = false, action) => {
   switch (action.type) {
     case "SET_COUNTDOWN_TIMER_STATE":
       return action.payload;
