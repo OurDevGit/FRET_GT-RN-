@@ -104,19 +104,27 @@ class Root extends Component {
             <View
               style={{
                 position: "absolute",
-                right: 30,
+                right: 20,
                 top: 5,
                 flexDirection: "row"
               }}
             >
-              <BtnHome onPress={this.handleHomePress} />
               {!this.state.isShowingStore && (
-                <BtnLibrary
-                  color={"#FFFFFF"}
-                  onPress={this.handleToggleLibrary}
-                />
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: "row",
+                    justifyContent: "flex-end"
+                  }}
+                >
+                  <BtnHome onPress={this.handleHomePress} />
+                  <BtnLibrary
+                    color={"#FFFFFF"}
+                    onPress={this.handleToggleLibrary}
+                  />
+                  <BtnSettings onPress={this.handleToggleSettings} />
+                </View>
               )}
-              {/* <BtnSettings onPress={this.handleToggleSettings} /> */}
             </View>
           )}
 
