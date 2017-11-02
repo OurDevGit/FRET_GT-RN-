@@ -36,6 +36,8 @@ const primaryStyle = isPhone => {
 const PlaybackPrimary = ({
   mediaId,
   title,
+  artist,
+  artworkURL,
   isPlaying,
   isPhone,
   onPreviousPress,
@@ -69,7 +71,19 @@ const PlaybackPrimary = ({
           backgroundColor: "#222222"
         }}
       />
-      <Text style={{ flex: 1, fontSize: isPhone ? 15 : 18 }}>{title}</Text>
+      <View style={{ flex: 1, justifyContent: "center" }}>
+        <Text
+          style={{
+            flex: 1,
+            color: PrimaryBlue,
+            fontSize: isPhone ? 15 : 18,
+            textAlignVertical: "bottom"
+          }}
+        >
+          {title}
+        </Text>
+        <Text style={{ flex: 1, fontSize: isPhone ? 13 : 16 }}>{artist}</Text>
+      </View>
     </View>
 
     <View
