@@ -201,7 +201,7 @@ PlaybackSecondary.propTypes = {
   currentLoop: PropTypes.object.isRequired,
   quickLoops: PropTypes.array,
   connectedDevices: PropTypes.number.isRequired,
-  currentVideoMidiFile: PropTypes.object,
+  currentVideoMidiFile: PropTypes.string,
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
   isFullscreen: PropTypes.bool.isRequired,

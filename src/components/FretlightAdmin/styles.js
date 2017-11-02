@@ -100,6 +100,25 @@ export const guitarRowStyles = {
     textAlignVertical: "center",
     marginVertical: -14
   },
+  noTracksButton: {
+    height: 40,
+    fontSize: 17,
+    textAlignVertical: "center",
+    color: "#777777"
+  },
+  noTracksAllButton: {
+    flex: 1,
+    maxWidth: 260,
+    height: 50,
+    marginHorizontal: 20,
+    paddingHorizontal: 40,
+    fontSize: 18,
+    textAlign: "center",
+    textAlignVertical: "center",
+    color: "white",
+    backgroundColor: PrimaryBlue,
+    borderRadius: 6
+  },
   settings: {
     width: 120,
     height: "100%",

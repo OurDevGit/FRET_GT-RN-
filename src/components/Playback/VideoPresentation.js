@@ -211,7 +211,7 @@ VideoPresentation.propTypes = {
   currentVideoMarker: PropTypes.object.isRequired,
   quickLoops: PropTypes.array.isRequired,
   connectedDevices: PropTypes.number.isRequired,
-  currentVideoMidiFile: PropTypes.object,
+  currentVideoMidiFile: PropTypes.string,
   currentLoop: PropTypes.object.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,

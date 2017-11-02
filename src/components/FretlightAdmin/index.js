@@ -31,7 +31,6 @@ class FretlightModal extends React.Component {
 
   render() {
     const { isPhone, guitars, tracks } = this.props;
-
     return (
       <View
         style={{
@@ -110,11 +109,13 @@ class FretlightModal extends React.Component {
             </Text>
           </TouchableOpacity>
 
-          <TrackModal
-            tracks={tracks.toJS()}
-            isPhone={isPhone}
-            onAssignAllTrack={this.handleAssignAll}
-          />
+          {tracks.count() > 0 && (
+            <TrackModal
+              tracks={tracks.toJS()}
+              isPhone={isPhone}
+              onAssignAllTrack={this.handleAssignAll}
+            />
+          )}
         </View>
       </View>
     );

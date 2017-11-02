@@ -13,6 +13,7 @@ export const getAllGuitars = async () => {
 };
 
 export const setGuitar = async guitar => {
+  delete guitar.track;
   try {
     await Guitars.setObj(guitar.id, guitar);
     return true;

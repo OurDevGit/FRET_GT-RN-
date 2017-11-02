@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import Dimensions from "Dimensions";
 import PropTypes from "prop-types";
 import { GuitarConnectedIcon } from "../StyleKit";
@@ -35,12 +35,18 @@ const GuitarRow = ({
           />
           <Text style={guitarRowStyles.id}>{`ID: ${guitar.id}`}</Text>
 
-          <TrackModal
-            guitar={guitar}
-            tracks={tracks}
-            isPhone={isPhone}
-            onAssignTrack={onAssignTrack}
-          />
+          {tracks.length > 0 ? (
+            <TrackModal
+              guitar={guitar}
+              tracks={tracks}
+              isPhone={isPhone}
+              onAssignTrack={onAssignTrack}
+            />
+          ) : (
+            <Text style={guitarRowStyles.noTracksButton}>
+              No parts to assign
+            </Text>
+          )}
         </View>
       </View>
 

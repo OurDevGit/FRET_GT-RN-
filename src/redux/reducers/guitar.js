@@ -24,7 +24,7 @@ exports.guitars = (state = List(), action) => {
 
     case "UPDATE_MIDI_DATA": {
       const updates = state.map(guitar =>
-        guitar.set("track", action.payload.guitarTracks.first())
+        guitar.set("track", action.payload.guitarTracks.first().get("name"))
       );
 
       return updates;

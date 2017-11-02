@@ -167,7 +167,7 @@ BtnTempoModal.propTypes = {
   currentTempo: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
   isPhone: PropTypes.bool.isRequired,
-  currentVideoMidiFile: PropTypes.object,
+  currentVideoMidiFile: PropTypes.string,
   onSelectTempo: PropTypes.func.isRequired,
   onForceControlsVisible: PropTypes.func
 };
