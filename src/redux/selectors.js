@@ -10,6 +10,9 @@ const getSubCategories = (state, categoryId) =>
   state.get("subCategoriesByCategoryId").get(categoryId);
 const getGroups = (state, subCategoryId) =>
   state.get("groupsBySubCategoryId").get(subCategoryId);
+const getTitleSorting = (state, thing) =>
+  (state.get("storeSorting").get((thing || {}).id) || Map({ isTitle: false })
+  ).get("isTitle") === true;
 
 export const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
 export const getDownloadedMediaFiles = (state, mediaId) =>
@@ -58,28 +61,46 @@ const getMediaForIds = (state, mediaIds) => {
   return media;
 };
 
-const getMediaForCategory = (state, category) => {
+const getMediaForCategory = (state, category, categoryIsTitleSort) => {
   if (category.isGrouped) {
     const subCats = getSubCategories(state, category.id) || List();
     const media = subCats.map(subCategory => {
       const mediaIds = getMediaByListId(state, subCategory.get("id")) || List();
-      const data = getMediaForIds(state, mediaIds);
+      const data = getMediaForIds(state, mediaIds).sort((m1, m2) => {
+        return categoryIsTitleSort
+          ? m1.get("sortTitle").localeCompare(m2.get("sortTitle"))
+          : m1.get("sortArtist").localeCompare(m2.get("sortArtist"));
+      });
       return Map({ data, title: subCategory.get("title") });
     });
     return media;
   } else {
     const data = getMediaByListId(state, category.id) || List();
-    return List([Map({ data })]);
+    const sortedData = data.sort((m1, m2) => {
+      return categoryIsTitleSort
+        ? m1.get("sortTitle").localeCompare(m2.get("sortTitle"))
+        : m1.get("sortArtist").localeCompare(m2.get("sortArtist"));
+    });
+    return List([Map({ data: sortedData })]);
   }
 };
 
-const getMediaforSubCategory = (state, subCategory) => {
+const getMediaforSubCategory = (
+  state,
+  subCategory,
+  subCategoryIsTitleSort,
+  groupIsTitleSort
+) => {
   const groups = getGroups(state, subCategory.id);
 
   if (groups !== undefined) {
     const media = groups.map(group => {
       const mediaIds = getMediaByListId(state, group.get("id")) || List();
-      const data = getMediaForIds(state, mediaIds);
+      const data = getMediaForIds(state, mediaIds).sort((m1, m2) => {
+        return groupIsTitleSort
+          ? m1.get("sortTitle").localeCompare(m2.get("sortTitle"))
+          : m1.get("sortArtist").localeCompare(m2.get("sortArtist"));
+      });
       return Map({ data, title: group.get("title") });
     });
 
@@ -87,7 +108,11 @@ const getMediaforSubCategory = (state, subCategory) => {
   } else {
     // sub-category without groups
     const mediaIds = getMediaByListId(state, subCategory.id) || List();
-    const data = getMediaForIds(state, mediaIds);
+    const data = getMediaForIds(state, mediaIds).sort((m1, m2) => {
+      return subCategoryIsTitleSort
+        ? m1.get("sortTitle").localeCompare(m2.get("sortTitle"))
+        : m1.get("sortArtist").localeCompare(m2.get("sortArtist"));
+    });
     return List([Map({ data })]);
   }
 };
@@ -182,15 +207,24 @@ export const selectMedia = (state, category, subCategory, group, isStore) => {
   // console.debug({ subCategory });
   // console.debug({ group });
 
+  const categoryIsTitleSort = getTitleSorting(state, category);
+  const subCategoryIsTitleSort = getTitleSorting(state, subCategory);
+  const groupIsTitleSort = getTitleSorting(state, group);
+
   if (category) {
     if (category.isClientSided === true) {
       const media = getClientSidedMedia(state, category, isStore);
       return mergeMediaDetails(state, media);
     } else if (subCategory === undefined || subCategory === null) {
-      const media = getMediaForCategory(state, category);
+      const media = getMediaForCategory(state, category, categoryIsTitleSort);
       return mergeMediaDetails(state, media);
     } else {
-      const media = getMediaforSubCategory(state, subCategory);
+      const media = getMediaforSubCategory(
+        state,
+        subCategory,
+        subCategoryIsTitleSort,
+        groupIsTitleSort
+      );
       return mergeMediaDetails(state, media);
     }
   }
