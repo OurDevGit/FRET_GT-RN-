@@ -310,6 +310,15 @@ class Song extends React.Component {
   };
 
   handlePlayPausePress = () => {
+    if (this.props.countdownTimerState && !this.state.isPlaying) {
+      this.props.onCountdownTimer(true);
+      setTimeout(() => this.updatePlayback(), 3000);
+    } else {
+      this.updatePlayback();
+    }
+  };
+
+  updatePlayback = () => {
     if (this.state.playbackRate === 0) {
       this.setState({
         isPlaying: true,
@@ -467,12 +476,14 @@ class Song extends React.Component {
 
 Song.propTypes = {
   song: PropTypes.object,
+  countdownTimerState: PropTypes.bool.isRequired,
   height: PropTypes.number,
   clearCurrentLoop: PropTypes.func,
   updateMidiData: PropTypes.func,
   clearMidiData: PropTypes.func,
   loopIsEnabled: PropTypes.bool,
-  onToggleFretlightAdmin: PropTypes.func.isRequired
+  onToggleFretlightAdmin: PropTypes.func.isRequired,
+  onCountdownTimer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => {

@@ -11,6 +11,7 @@ import TrackSelector from "./TrackSelector";
 import FretlightAdmin from "./FretlightAdmin";
 import Settings from "./Settings";
 import GuitarController from "./GuitarController";
+import CountdownTimer from "./CountdownTimer";
 import Store from "./Store";
 import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
@@ -34,6 +35,7 @@ class Root extends Component {
     isShowingStore: false,
     isShowingSettings: false,
     isShowingFretlightAdmin: false,
+    isShowingCountdownTimer: false,
     currentSection: Sections.Home,
     storeDetailMediaId: ""
   };
@@ -71,11 +73,13 @@ class Root extends Component {
               song={this.state.song}
               video={this.state.video}
               visibleTracks={this.props.visibleTracks}
+              countdownTimerState={this.props.countdownTimerState}
               onToggleLibrary={this.handleToggleLibrary}
               onToggleAd={this.handleToggleAd}
               onToggleFretboards={this.handleToggleFretboards}
               onClearMedia={this.handleClearMedia}
               onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
+              onCountdownTimer={this.handleCountdownTimer}
             />
           )}
           {(this.state.song !== null || this.state.video !== null) &&
@@ -131,6 +135,10 @@ class Root extends Component {
 
           {this.state.isShowingSettings && (
             <Settings onClose={this.handleToggleSettings} />
+          )}
+
+          {this.state.isShowingCountdownTimer && (
+            <CountdownTimer onComplete={this.handleCountdownTimer} />
           )}
         </View>
       </Provider>
@@ -239,13 +247,20 @@ class Root extends Component {
   handleToggleFretlightAdmin = bool => {
     this.setState({ isShowingFretlightAdmin: bool });
   };
+
+  handleCountdownTimer = bool => {
+    if (!bool || this.props.countdownTimerState) {
+      this.setState({ isShowingCountdownTimer: bool });
+    }
+  };
 }
 
 Root.propTypes = {
   visibleTracks: PropTypes.object,
   store: PropTypes.object,
   currentMedia: PropTypes.string,
-  mediaForPlay: PropTypes.object
+  mediaForPlay: PropTypes.object,
+  countdownTimerState: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => {
@@ -254,7 +269,8 @@ const mapStateToProps = state => {
   return {
     currentMedia,
     mediaForPlay,
-    visibleTracks: state.get("visibleTracks")
+    visibleTracks: state.get("visibleTracks"),
+    countdownTimerState: state.get("countdownTimerState")
   };
 };
 

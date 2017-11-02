@@ -1,4 +1,4 @@
-exports.countdownTimerState = (state = false, action) => {
+exports.countdownTimerState = (state = true, action) => {
   switch (action.type) {
     case "SET_COUNTDOWN_TIMER_STATE":
       return action.payload;
@@ -16,7 +16,7 @@ exports.leftHandState = (state = false, action) => {
   }
 };
 
-exports.autoPartSwitchingState = (state = true, action) => {
+exports.autoPartSwitchingState = (state = false, action) => {
   switch (action.type) {
     case "SET_AUTO_PART_SWITCHING_STATE":
       return action.payload;

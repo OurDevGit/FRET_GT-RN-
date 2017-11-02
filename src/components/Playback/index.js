@@ -31,6 +31,7 @@ class MediaPlayer extends Component {
             <Song
               song={this.props.song}
               trackCount={trackCount}
+              countdownTimerState={this.props.countdownTimerState}
               height={this.state.layout.height}
               updateMidiData={this.props.updateMidiData}
               clearMidiData={this.props.clearMidiData}
@@ -41,6 +42,7 @@ class MediaPlayer extends Component {
               onSelectTempo={this.handleSelectTempo}
               onToggleLibrary={this.props.onToggleLibrary}
               onToggleFretlightAdmin={this.props.onToggleFretlightAdmin}
+              onCountdownTimer={this.props.onCountdownTimer}
             />
           )}
         {this.props.video !== undefined &&
@@ -48,6 +50,7 @@ class MediaPlayer extends Component {
             <Video
               video={this.props.video}
               height={this.state.layout.height}
+              countdownTimerState={this.props.countdownTimerState}
               updateMidiData={this.props.updateMidiData}
               clearMidiData={this.props.clearMidiData}
               updateTime={setTime}
@@ -64,6 +67,7 @@ class MediaPlayer extends Component {
               onToggleFretboards={this.props.onToggleFretboards}
               onClearMedia={this.props.onClearMedia}
               onToggleFretlightAdmin={this.props.onToggleFretlightAdmin}
+              onCountdownTimer={this.props.onCountdownTimer}
             />
           )}
       </View>
@@ -114,6 +118,7 @@ class MediaPlayer extends Component {
 MediaPlayer.propTypes = {
   song: PropTypes.object,
   video: PropTypes.object,
+  countdownTimerState: PropTypes.bool.isRequired,
   visibleTracks: PropTypes.object,
   videoChapters: PropTypes.object,
   videoMarkers: PropTypes.object,
@@ -132,7 +137,8 @@ MediaPlayer.propTypes = {
   onToggleAd: PropTypes.func.isRequired,
   onToggleFretboards: PropTypes.func.isRequired,
   onToggleFretlightAdmin: PropTypes.func.isRequired,
-  onClearMedia: PropTypes.func.isRequired
+  onClearMedia: PropTypes.func.isRequired,
+  onCountdownTimer: PropTypes.func.isRequired
 };
 
 export default connect(null, actions)(MediaPlayer);

@@ -367,6 +367,15 @@ class Vid extends React.Component {
   handlePlayPausePress = () => {
     this.resetDisplayTimer();
 
+    if (this.props.countdownTimerState && !this.state.isPlaying) {
+      this.props.onCountdownTimer(true);
+      setTimeout(() => this.updatePlayback(), 3000);
+    } else {
+      this.updatePlayback();
+    }
+  };
+
+  updatePlayback = () => {
     if (this.state.playbackRate === 0) {
       this.setState({
         isPlaying: true,
@@ -587,6 +596,7 @@ class Vid extends React.Component {
 
 Vid.propTypes = {
   video: PropTypes.object,
+  countdownTimerState: PropTypes.bool.isRequired,
   markers: PropTypes.object,
   videoChapters: PropTypes.object,
   videoMarkers: PropTypes.object,
@@ -605,7 +615,8 @@ Vid.propTypes = {
   onToggleAd: PropTypes.func.isRequired,
   onToggleFretboards: PropTypes.func.isRequired,
   onToggleFretlightAdmin: PropTypes.func.isRequired,
-  onClearMedia: PropTypes.func.isRequired
+  onClearMedia: PropTypes.func.isRequired,
+  onCountdownTimer: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state, props) => {
