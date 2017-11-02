@@ -25,7 +25,7 @@ export const setStore = async store => {
       m.title !== undefined && m.title.toLowerCase().indexOf("the ") === 0
         ? m.title.slice(4)
         : m.title,
-    sortArist:
+    sortArtist:
       m.artist !== undefined && m.artist.toLowerCase().indexOf("the ") === 0
         ? m.artist.slice(4)
         : m.artist
