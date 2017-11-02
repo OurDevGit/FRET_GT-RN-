@@ -14,8 +14,8 @@
       "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
     "build":
       "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
-    "run": "react-native run-android",
-    "runrel": "react-native run-android --variant=release",
+    "dev": "react-native run-android",
+    "rel": "react-native run-android --variant=release",
     "lint": "eslint -c .eslintrc - ext .js src"
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "react-native-billing": "^2.3.1",
     "react-native-fetch-blob": "^0.10.8",
     "react-native-responsive": "^1.0.1",
+    "react-native-sentry": "^0.30.2",
     "react-native-sound": "big-swing/react-native-sound",
     "react-native-tab-view": "0.0.69",
     "react-native-video": "^2.0.0",

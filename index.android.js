@@ -4,6 +4,22 @@ import Root from "./src/components/Root";
 import configureStore from "./src/configureStore";
 import { configureDownloadManager } from "./src/DownloadManager";
 
+// Sentry is our crash reporter
+import { Sentry } from "react-native-sentry";
+Sentry.config(
+  "https://2e35d7f0dafb4e4ea9b4f6fcc787bdd3:95bc331c66e34694940f6d2bbcfb612f@sentry.io/239038"
+).install();
+
+if (__DEV__) {
+  Sentry.setTagsContext({
+    environment: "development"
+  });
+} else {
+  Sentry.setTagsContext({
+    environment: "production"
+  });
+}
+
 const _store = configureStore();
 configureDownloadManager(_store);
 
