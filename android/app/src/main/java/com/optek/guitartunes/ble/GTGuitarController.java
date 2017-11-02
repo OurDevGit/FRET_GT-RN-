@@ -16,6 +16,10 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 
+import io.sentry.Sentry;
+//import io.sentry.context.Context;
+import io.sentry.event.BreadcrumbBuilder;
+
 import java.util.Map;
 import java.util.HashMap;
 import java.lang.Thread;
@@ -23,6 +27,7 @@ import java.lang.Object;
 
 public class GTGuitarController extends ReactContextBaseJavaModule {
   ReactApplicationContext context;
+  io.sentry.context.Context sentryContext;
   private Guitars mGuitars;
   GuitarEmitter guitarEmitter;
 
@@ -30,16 +35,22 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
     super(context);
 
     this.context = context;
+    sentryContext = Sentry.getContext();
     mGuitars = Guitars.getInstance();
+
     guitarEmitter = GuitarEmitter.getInstance();
+
+    logSentryBreadcrumb("GTGuitarController instantiated");
     mGuitars.setListener(new Guitars.ChangeListener() {
       @Override
       public void onChange(String action, String guitarId) {
         if (action == "connect") {
           guitarEmitter.emit("GUITAR_CONNECTED", guitarId);
+          logSentryBreadcrumb("GTGuitarController connected to guitar: " + guitarId);
           stopScanning();
-          startScanning();
+          restartScanning();
         } else {
+          logSentryBreadcrumb("GTGuitarController discconnected from guitar: " + guitarId);
           guitarEmitter.emit("GUITAR_DISCONNECTED", guitarId);
         }
       }
@@ -51,20 +62,40 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
     return "GTGuitarController";
   }
 
+  private void logSentryBreadcrumb(String message) {
+    sentryContext.recordBreadcrumb(new BreadcrumbBuilder().setMessage(message).build());
+  }
+
+  // REGISTER EMITTER
+
+  @ReactMethod
+  public void registerEmitter() {
+    guitarEmitter.setContext(context);
+  }
+
   // SCANNING
 
   @ReactMethod
   public void startScanning() {
-    guitarEmitter.setContext(context);
+    logSentryBreadcrumb("GTGuitarController startScanning");
     Intent intent = new Intent(context, ScanningActivity.class);
     context.startActivity(intent);
   }
 
   @ReactMethod
   public void stopScanning() {
+    logSentryBreadcrumb("GTGuitarController stopScanning");
     Intent intent = new Intent(context, ScanningActivity.class);
-    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     intent.putExtra("EXIT", true);
+    context.startActivity(intent);
+  }
+
+  private void restartScanning() {
+    logSentryBreadcrumb("GTGuitarController restartScanning");
+    Intent intent = new Intent(context, ScanningActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     context.startActivity(intent);
   }
 

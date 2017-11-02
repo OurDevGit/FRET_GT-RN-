@@ -46,6 +46,7 @@ class GuitarController extends Component {
   }
 
   componentDidMount() {
+    guitarController.registerEmitter();
     subscribeToTimeUpdates(this.handleTimeUpdate);
   }
 
