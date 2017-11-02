@@ -163,6 +163,8 @@ const PlaybackPrimary = ({
 PlaybackPrimary.propTypes = {
   mediaId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  artist: PropTypes.string.isRequired,
+  artworkURL: PropTypes.string.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,
   onPreviousPress: PropTypes.func.isRequired,

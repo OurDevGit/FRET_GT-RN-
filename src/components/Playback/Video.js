@@ -41,6 +41,11 @@ class Vid extends React.Component {
   render() {
     const mediaTitle =
       this.props.video !== undefined ? this.props.video.title : "";
+    const artist =
+      this.props.video !== undefined ? this.props.video.artist : "";
+    const artworkURL =
+      this.props.video !== undefined ? this.props.video.artworkURL : "";
+
     const mediaId = this.props.video !== undefined ? this.props.video.id : "";
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = Dimensions.get("window").height < 500;
@@ -54,6 +59,8 @@ class Vid extends React.Component {
       <VideoPresentation
         mediaId={mediaId}
         title={mediaTitle}
+        artist={artist}
+        artworkURL={artworkURL}
         midiFile={midiFile}
         videoUri={this.state.videoUri}
         tempo={this.state.playbackRate}

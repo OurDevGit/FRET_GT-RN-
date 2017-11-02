@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
 import Video from "react-native-video";
 import { pure } from "recompose";
 import { PrimaryBlue } from "../../design";
@@ -30,6 +30,8 @@ class PlaybackVideoPrimary extends React.Component {
       videoUri,
       mediaId,
       title,
+      artist,
+      artworkURL,
       tempo,
       isPlaying,
       areControlsVisible,
@@ -79,19 +81,44 @@ class PlaybackVideoPrimary extends React.Component {
               flex: 1,
               flexDirection: "column",
               justifyContent: "space-between",
-              alignItems: "flex-start",
-              marginRight: 30
+              alignItems: "flex-start"
             }}
           >
-            <View
+            <Image
+              source={{ uri: artworkURL }}
               style={{
-                flex: 1,
+                flex: 2,
                 aspectRatio: 1,
                 margin: 7,
                 backgroundColor: "#222222"
               }}
             />
-            <Text style={{ flex: 1, fontSize: 18 }}>{title}</Text>
+
+            <View
+              style={{
+                flex: 1,
+                justifyContent: "center"
+              }}
+            >
+              <Text
+                style={{
+                  flex: 1,
+                  color: PrimaryBlue,
+                  fontSize: 18,
+                  textAlignVertical: "bottom"
+                }}
+              >
+                {title}
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  fontSize: 16
+                }}
+              >
+                {artist}
+              </Text>
+            </View>
 
             <View
               style={{
@@ -304,6 +331,8 @@ PlaybackVideoPrimary.propTypes = {
   videoUri: PropTypes.string.isRequired,
   mediaId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  artist: PropTypes.string.isRequired,
+  artworkURL: PropTypes.string.isRequired,
   tempo: PropTypes.number.isRequired,
   markers: PropTypes.array.isRequired,
   currentChapter: PropTypes.object.isRequired,

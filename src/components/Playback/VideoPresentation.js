@@ -47,6 +47,8 @@ const VideoPresentation = props => {
         <PlaybackVideoPrimary
           mediaId={props.mediaId}
           title={props.title}
+          artist={props.artist}
+          artworkURL={props.artworkURL}
           tempo={props.tempo}
           videoUri={props.videoUri}
           duration={props.duration}
@@ -199,6 +201,8 @@ VideoPresentation.propTypes = {
   midiFile: PropTypes.string,
   videoUri: PropTypes.string,
   title: PropTypes.string.isRequired,
+  artist: PropTypes.string.isRequired,
+  artworkURL: PropTypes.string.isRequired,
   tempo: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
   videoChapters: PropTypes.array.isRequired,
