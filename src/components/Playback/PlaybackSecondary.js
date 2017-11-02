@@ -159,6 +159,19 @@ class PlaybackSecondary extends PureComponent {
           onForceControlsVisible={onForceControlsVisible}
         />
 
+        <BtnMyLoopsModal
+          style={buttonStyle}
+          mediaId={mediaId}
+          currentLoop={currentLoop}
+          quickLoops={quickLoops}
+          isPhone={isPhone}
+          isVideo={isVideo}
+          color={"#222222"}
+          onSetCurrentLoop={onSetCurrentLoop}
+          onClearCurrentLoop={onClearCurrentLoop}
+          onForceControlsVisible={onForceControlsVisible}
+        />
+
         <View style={{ flex: -1, flexDirection: "row" }}>
           <BtnFretlightInfo
             style={{
