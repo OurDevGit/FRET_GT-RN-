@@ -20,19 +20,25 @@ export const getMediaById = (state, mediaId) =>
 const getClientSidedMedia = (state, obj, isStore) => {
   switch (obj.title) {
     case "All Content": {
-      const allMedia = getAllMedia(state);
+      const allMedia = getAllMedia(state).sort((m1, m2) => {
+        return m1.get("sortTitle").localeCompare(m2.get("sortTitle"));
+      });
       return List([Map({ data: allMedia })]);
     }
     case "Wishlist": {
       const allMedia = getAllMedia(state);
       const faves = getFaves(state);
       const purchased = getPurchasedMedia(state);
-      const favedMedia = allMedia.filter(
-        media =>
-          faves.includes(media.get("mediaID")) &&
-          purchased.includes(media.get("mediaID").toLowerCase()) ===
-            (isStore === true ? false : true)
-      );
+      const favedMedia = allMedia
+        .filter(
+          media =>
+            faves.includes(media.get("mediaID")) &&
+            purchased.includes(media.get("mediaID").toLowerCase()) ===
+              (isStore === true ? false : true)
+        )
+        .sort((m1, m2) => {
+          return m1.get("sortTitle").localeCompare(m2.get("sortTitle"));
+        });
       return List([Map({ data: favedMedia })]);
     }
     default:
