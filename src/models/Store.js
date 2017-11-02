@@ -19,7 +19,19 @@ export const setStore = async store => {
     sorting
   } = store;
 
-  const mediaById = keyBy(media, "mediaID");
+  const sortMedia = media.map(m => ({
+    ...m,
+    sortTitle:
+      m.title !== undefined && m.title.toLowerCase().indexOf("the ") === 0
+        ? m.title.slice(4)
+        : m.title,
+    sortArist:
+      m.artist !== undefined && m.artist.toLowerCase().indexOf("the ") === 0
+        ? m.artist.slice(4)
+        : m.artist
+  }));
+
+  const mediaById = keyBy(sortMedia, "mediaID");
   const subCategoriesByCategoryId = subCategories;
   const groupsBySubCategoryId = groups;
   const mediaByListId = {
