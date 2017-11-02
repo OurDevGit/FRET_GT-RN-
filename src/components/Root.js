@@ -173,7 +173,10 @@ class Root extends Component {
           var video = null;
           const currentSection = Sections.Playback;
 
-          if (this.props.mediaForPlay.isSong === true) {
+          if (
+            this.props.mediaForPlay.isSong === true ||
+            this.props.mediaForPlay.isJamAlong === true
+          ) {
             song = this.props.mediaForPlay;
           } else if (this.props.mediaForPlay.isVideo === true) {
             video = this.props.mediaForPlay;
