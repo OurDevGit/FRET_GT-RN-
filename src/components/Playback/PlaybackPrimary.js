@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Button, Text, TouchableOpacity } from "react-native";
+import { View, Button, Image, Text, TouchableOpacity } from "react-native";
 import { pure } from "recompose";
 import { PrimaryBlue, playerBackground } from "../../design";
 import {
@@ -63,7 +63,8 @@ const PlaybackPrimary = ({
         alignItems: "center"
       }}
     >
-      <View
+      <Image
+        source={{ uri: artworkURL }}
         style={{
           flex: 1,
           aspectRatio: 1,
@@ -71,6 +72,7 @@ const PlaybackPrimary = ({
           backgroundColor: "#222222"
         }}
       />
+
       <View style={{ flex: 1, justifyContent: "center" }}>
         <Text
           style={{
