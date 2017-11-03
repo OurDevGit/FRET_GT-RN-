@@ -26,7 +26,7 @@ exports.clearMidi = () => {
 };
 
 exports.setMidiOffset = offset => {
-  midiOffset = offset;
+  midiOffset = offset === undefined ? 0 : offset;
 };
 
 exports.clearMidiOffset = () => {
