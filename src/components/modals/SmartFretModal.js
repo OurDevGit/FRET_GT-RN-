@@ -184,6 +184,8 @@ class SmartFretModal extends React.Component {
             isSmart={true}
             isPhone={this.props.isPhone}
             isHidingLabels={this.props.isPhone}
+            leftHandState={this.props.leftHandState}
+            currentNotation={this.props.currentNotation}
             showSmart={!this.props.isPhone}
             boardWidth={boardWidth}
             trackIndex={-1}
@@ -219,6 +221,8 @@ SmartFretModal.propTypes = {
   trackCount: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  leftHandState: PropTypes.bool.isRequired,
+  currentNotation: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
   duration: PropTypes.number.isRequired,
   markers: PropTypes.object.isRequired,
@@ -248,7 +252,9 @@ SmartFretModal.propTypes = {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    track: state.get("smartTrack")
+    track: state.get("smartTrack"),
+    leftHandState: state.get("leftHandState"),
+    currentNotation: state.get("currentNotation")
   };
 };
 

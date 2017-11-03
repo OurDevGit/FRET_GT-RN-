@@ -16,7 +16,9 @@ class FretboardNote extends React.Component {
       <View style={styles.noteContainer}>
         {this.state.isVisible && (
           <View style={[styles.noteView, heightStyle]}>
-            <Text style={[styles.noteText, sizeStyle]}>{notation}</Text>
+            <Text style={[styles.noteText, sizeStyle]} numberOfLines={1}>
+              {notation}
+            </Text>
           </View>
         )}
       </View>
