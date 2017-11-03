@@ -143,7 +143,18 @@ class Vid extends React.Component {
     this.handleNewVideo();
   }
 
+  componentWillUnmount() {
+    this.goToTime(0);
+  }
+
   componentDidUpdate(prevProps, prevState) {
+    const prevId = prevProps.video.id || "";
+    const currentId = this.props.video.id || "";
+
+    if (prevId !== currentId) {
+      this.goToTime(0);
+    }
+
     if (this.state.isPlaying !== prevState.isPlaying) {
       if (this.state.isPlaying) {
         idleTimer.stop();
