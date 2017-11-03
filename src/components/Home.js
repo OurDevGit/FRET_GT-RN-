@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { WebView, Alert } from "react-native";
 import { connect } from "react-redux";
 import { Set } from "immutable";
+import { fromPairs } from "lodash";
 import { getAllMedia } from "../redux/selectors";
 
 class Home extends PureComponent {
@@ -16,7 +17,8 @@ class Home extends PureComponent {
           injectAnchors.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]
         }
         source={{
-          uri: "http://guitar-tunes-open.s3.amazonaws.com/home/index.html"
+          uri: `http://guitar-tunes-open.s3.amazonaws.com/home/index.html?trigger=${this
+            .props.reloadTrigger}`
         }}
       />
     );
@@ -32,10 +34,11 @@ class Home extends PureComponent {
     }
 
     const { protocol, pathname, search } = message;
-    console.debug(protocol, pathname, search);
+    // console.debug(message);
+    // console.debug(protocol, pathname, search);
 
     if (protocol === "optkguitartunes:") {
-      console.debug({ pathname });
+      // console.debug({ pathname });
 
       switch (pathname) {
         case "//purchase": {
@@ -48,8 +51,14 @@ class Home extends PureComponent {
           break;
         }
         case "//store": {
-          const mediaId = search.split("=")[1];
-          this.props.onDetails(mediaId);
+          // transform the query string into a dictionary
+          const pairs = search
+            .slice(1)
+            .split("&")
+            .map(pair => pair.split("="));
+          const params = fromPairs(pairs);
+
+          this.props.onDetails(params);
           break;
         }
         default:
@@ -76,7 +85,8 @@ class Home extends PureComponent {
 
 Home.propTypes = {
   onChoose: PropTypes.func.isRequired,
-  onDetails: PropTypes.func.isRequired
+  onDetails: PropTypes.func.isRequired,
+  reloadTrigger: PropTypes.number
 };
 
 const mapStateToProps = state => {
