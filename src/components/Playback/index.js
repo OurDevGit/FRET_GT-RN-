@@ -78,6 +78,7 @@ class MediaPlayer extends Component {
     return (
       this.props.song !== nextProps.song ||
       this.props.video !== nextProps.video ||
+      this.props.countdownTimerState !== nextProps.countdownTimerState ||
       this.state.layout.width !== nextState.layout.width ||
       this.state.layout.height !== nextState.layout.height
     );

@@ -144,8 +144,8 @@ const mapStateToProps = state => {
         assignments[guitar.track] = [...assignments[guitar.track], guitar.id];
       }
     });
-    console.log("guitars: ", guitars);
-    console.log("assignments: ", assignments);
+    //console.log("guitars: ", guitars);
+    //console.log("assignments: ", assignments);
   }
 
   return {

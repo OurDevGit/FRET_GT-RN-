@@ -25,7 +25,7 @@ class CountdownTimer extends Component {
     setTimeout(() => {
       this.setState({ number: 3 });
       this.shrinkNumber();
-      setTimeout(() => this.updateCount(), 1000);
+      setTimeout(() => this.updateCount(), 850);
     });
   }
 
@@ -34,7 +34,7 @@ class CountdownTimer extends Component {
     this.setState({ numAnim: new Animated.Value(fontSize) });
     Animated.timing(this.state.numAnim, {
       toValue: 1,
-      duration: 1000
+      duration: 850
     }).start();
   };
 
@@ -42,7 +42,7 @@ class CountdownTimer extends Component {
     if (this.state.number > 1) {
       this.setState({ number: this.state.number - 1 });
       this.shrinkNumber();
-      setTimeout(() => this.updateCount(), 1000);
+      setTimeout(() => this.updateCount(), 850);
     } else {
       this.props.onComplete(false);
     }
