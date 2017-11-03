@@ -1,11 +1,11 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import { View, Image, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
 import AdPresentation from "./AdPresentation";
 
-class AdContainer extends Component {
+class AdContainer extends PureComponent {
   render() {
     const { ad, guitars } = this.props;
     const logo =
