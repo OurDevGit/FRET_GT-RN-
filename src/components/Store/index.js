@@ -33,7 +33,9 @@ class Store extends Component {
         style={{
           width: "100%",
           height: "100%",
-          flexDirection: "row"
+          position: "absolute",
+          flexDirection: "row",
+          backgroundColor: "white"
         }}
       >
         <Categories

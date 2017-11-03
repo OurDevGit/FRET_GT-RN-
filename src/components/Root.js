@@ -60,12 +60,7 @@ class Root extends Component {
       <Provider store={store}>
         <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <GuitarController />
-          {this.state.isShowingStore && (
-            <Store
-              onClose={this.handleCloseStore}
-              detailMediaId={this.state.storeDetailMediaId}
-            />
-          )}
+
           {this.state.showAd && <AdContainer />}
 
           {this.state.currentSection === Sections.Playback && (
@@ -147,6 +142,13 @@ class Root extends Component {
 
           {this.state.isShowingCountdownTimer && (
             <CountdownTimer onComplete={this.handleCountdownTimer} />
+          )}
+
+          {this.state.isShowingStore && (
+            <Store
+              onClose={this.handleCloseStore}
+              detailMediaId={this.state.storeDetailMediaId}
+            />
           )}
         </View>
       </Provider>

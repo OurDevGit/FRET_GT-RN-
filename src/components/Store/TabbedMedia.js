@@ -171,7 +171,7 @@ class TabbedMedia extends PureComponent {
             renderItem={this.renderItem}
             keyExtractor={item => item.mediaID}
             style={this.props.style}
-            initialNumToRender={10}
+            initialNumToRender={3}
             getItemLayout={this.getItemLayout}
           />
         );
@@ -184,7 +184,7 @@ class TabbedMedia extends PureComponent {
             renderItem={this.renderItem}
             keyExtractor={item => item.mediaID}
             style={this.props.style}
-            initialNumToRender={10}
+            initialNumToRender={3}
             getItemLayout={this.getItemLayout}
           />
         );
@@ -197,14 +197,14 @@ class TabbedMedia extends PureComponent {
             renderItem={this.renderItem}
             keyExtractor={item => item.mediaID}
             style={this.props.style}
-            initialNumToRender={10}
+            initialNumToRender={3}
             getItemLayout={this.getItemLayout}
           />
         );
     }
   };
 
-  renderItem = ({ item }) => {
+  renderItem = ({ item, index }) => {
     // console.debug(`render item ${index}`);
     // console.debug(item);
 
