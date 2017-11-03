@@ -267,7 +267,7 @@ class Song extends React.Component {
       // disable loop if needed
       const loop = this.props.currentLoop.toJS() || {
         begin: -1,
-        end: duration
+        end: this.state.mediaDuration
       };
       if (time < loop.begin || time > loop) {
         this.props.enableLoop(false);
@@ -421,7 +421,7 @@ class Song extends React.Component {
 
   handleLoopBegin = () => {
     const begin = this.state.playbackSeconds;
-    const end = this.props.currentLoop.get("end") || this.props.duration;
+    const end = this.props.currentLoop.get("end") || this.state.mediaDuration;
 
     var loop = this.props.currentLoop.set("begin", begin);
     loop = begin > end ? loop.delete("end") : loop;
@@ -430,7 +430,8 @@ class Song extends React.Component {
   };
 
   handleLoopEnd = () => {
-    const begin = this.props.currentLoop.get("begin") || this.props.duration;
+    const begin =
+      this.props.currentLoop.get("begin") || this.state.mediaDuration;
     const end = this.state.playbackSeconds;
 
     var loop = this.props.currentLoop.set("end", end);
