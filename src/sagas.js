@@ -129,7 +129,7 @@ function* watchChooseMedia(action) {
       break;
     case GetMediaButtonMode.ComingSoon:
       break;
-    case GetMediaButtonMode.Indetermindate:
+    case GetMediaButtonMode.Indeterminate:
       break;
     case GetMediaButtonMode.Play:
       break;

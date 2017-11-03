@@ -104,7 +104,7 @@ const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
       );
     case GetMediaButtonMode.Downloading:
       return <BtnDownloading progress={progress} />;
-    case GetMediaButtonMode.Indetermindate:
+    case GetMediaButtonMode.Indeterminate:
       // return <IndeterminateCircle_angle angle={0} />;
       return <IndetermindateProgress />;
     default:
@@ -126,8 +126,9 @@ export const BtnExpand = props => {
 export class BtnGetMediaProgress extends Component {
   state = {
     progress: null,
-    mode: GetMediaButtonMode.Indetermindate
+    mode: GetMediaButtonMode.Indeterminate
   };
+
   render() {
     const { mode, price, progress, ...rest } = this.props;
     return (
@@ -157,7 +158,7 @@ export class BtnGetMediaProgress extends Component {
       // console.debug(`progress: ${progress}`);
       var mode = this.props.mode;
       if (progress < 0) {
-        mode = GetMediaButtonMode.Indetermindate;
+        mode = GetMediaButtonMode.Indeterminate;
       } else if (progress < 1) {
         mode = GetMediaButtonMode.Downloading;
       } else if (progress >= 1) {

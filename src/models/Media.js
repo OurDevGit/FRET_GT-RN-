@@ -5,7 +5,7 @@ export const GetMediaButtonMode = {
   ComingSoon: "comingSoonMode",
   Download: "downloadMode",
   Downloading: "downloadingMode",
-  Indetermindate: "indeterminateMode",
+  Indeterminate: "indeterminateMode",
   Play: "playMode"
 };
 
