@@ -85,27 +85,27 @@ export const IconStatusConnected_targetFrame_resizing = props => <PaintCode
   {...props}
 />
 
-export const BtnMail_isPressed = props => <PaintCode
+export const BtnMail = props => <PaintCode
   drawMethod="BtnMail"
-  drawArgs={["isPressed"]}
+  drawArgs={[]}
   {...props}
 />
 
-export const BtnMail_targetFrame_resizing_isPressed = props => <PaintCode
+export const BtnMail_targetFrame_resizing = props => <PaintCode
   drawMethod="BtnMail"
-  drawArgs={["targetFrame","resizing","isPressed"]}
+  drawArgs={["targetFrame","resizing"]}
   {...props}
 />
 
-export const BtnMailSignup_isPressed = props => <PaintCode
+export const BtnMailSignup = props => <PaintCode
   drawMethod="BtnMailSignup"
-  drawArgs={["isPressed"]}
+  drawArgs={[]}
   {...props}
 />
 
-export const BtnMailSignup_targetFrame_resizing_isPressed = props => <PaintCode
+export const BtnMailSignup_targetFrame_resizing = props => <PaintCode
   drawMethod="BtnMailSignup"
-  drawArgs={["targetFrame","resizing","isPressed"]}
+  drawArgs={["targetFrame","resizing"]}
   {...props}
 />
 

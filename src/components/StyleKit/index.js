@@ -8,3 +8,4 @@ export * from "./favorites";
 export * from "./loop";
 export * from "./lib";
 export * from "./guitar";
+export * from "./settings";

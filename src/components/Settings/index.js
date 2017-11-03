@@ -1,11 +1,13 @@
 import React from "react";
 import {
   View,
+  Alert,
   Text,
   Modal,
   TouchableOpacity,
   StyleSheet,
-  ScrollView
+  ScrollView,
+  NetInfo
 } from "react-native";
 import { FlatButton } from "../Material";
 import { Provider, connect } from "react-redux";
@@ -14,10 +16,16 @@ import { PrimaryGold, Danger } from "../../design";
 import SwitchRow from "./SwitchRow";
 import NotationsRow from "./NotationsRow";
 import NotationsModal from "./NotationsModal";
+import EmailSignupModal from "./EmailSignupModal";
+import LabelRow from "./LabelRow";
+import { BtnEmail, BtnEmailSignup } from "../StyleKit";
+import { sendSupportEmail } from "./email";
+import { registerEmail } from "../../api";
 
 class Settings extends React.Component {
   state = {
     isShowingNotationModal: false,
+    isShowingEmailSignup: false,
     notationModalFrame: {}
   };
   render() {
@@ -85,6 +93,30 @@ class Settings extends React.Component {
                   onClose={this.handleToggleNotationModal}
                 />
               )}
+
+              <LabelRow
+                label={"Email Guitar Tunes Support/Feeback"}
+                onPress={sendSupportEmail}
+              >
+                <BtnEmail style={{ width: 50, height: 50 }} color={"#333333"} />
+              </LabelRow>
+
+              <LabelRow
+                label={"Keep me up to date about Guitar Tunes!"}
+                onPress={this.handleToggleEmailSignupModal}
+              >
+                <BtnEmailSignup
+                  style={{ width: 50, height: 50 }}
+                  color={"#333333"}
+                />
+              </LabelRow>
+
+              {this.state.isShowingEmailSignup && (
+                <EmailSignupModal
+                  onCancel={this.handleToggleEmailSignupModal}
+                  onComplete={this.handleEmailSignup}
+                />
+              )}
             </ScrollView>
           </View>
         </TouchableOpacity>
@@ -112,6 +144,44 @@ class Settings extends React.Component {
   handleNotationSelect = notation => {
     this.props.setCurrentNotation(notation);
     this.setState({ isShowingNotationModal: false });
+  };
+
+  handleToggleEmailSignupModal = async () => {
+    let isShowingEmailSignup = !this.state.isShowingEmailSignup;
+    if (this.state.isShowingEmailSignup) {
+      this.setState({ isShowingEmailSignup });
+    } else {
+      const isConnected = await NetInfo.isConnected.fetch();
+      if (isConnected) {
+        this.setState({ isShowingEmailSignup });
+      } else {
+        Alert.alert(
+          "No Internet Connection",
+          "It appears you're not connected to the internet. Please check your connection and try again"
+        );
+      }
+    }
+  };
+
+  handleEmailSignup = async email => {
+    const isConnected = await NetInfo.isConnected.fetch();
+    if (isConnected) {
+      console.log("submitting: ", email);
+      let response = await registerEmail(email);
+
+      this.setState({ isShowingEmailSignup: false });
+
+      if (response.status === 200) {
+        Alert.alert("Thanks! We'll keep you posted on new Songs & Features!");
+      } else {
+        Alert.alert("There was a problem registering. Please try again later.");
+      }
+    } else {
+      Alert.alert(
+        "No Internet Connection",
+        "It appears you're not connected to the internet. Please check your connection and try again"
+      );
+    }
   };
 }
 

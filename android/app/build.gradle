@@ -150,6 +150,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-mail')
     compile project(':react-native-sentry')
     compile project(':react-native-billing')
     compile project(':react-native-video-exoplayer')
