@@ -208,6 +208,13 @@ class Song extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const prevId = prevProps.song.id || "";
+    const currentId = this.props.song.id || "";
+
+    if (prevId !== currentId) {
+      this.goToTime(0);
+    }
+
     if (this.state.isPlaying !== prevState.isPlaying) {
       if (this.state.isPlaying) {
         idleTimer.stop();
@@ -215,6 +222,10 @@ class Song extends React.Component {
         idleTimer.start();
       }
     }
+  }
+
+  componentWillUnmount() {
+    this.goToTime(0);
   }
 
   // SONG PARSING

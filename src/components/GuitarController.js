@@ -94,6 +94,8 @@ class GuitarController extends Component {
       });
 
       this.prevOn[track] = currentNotes;
+    } else {
+      guitarController.clearAllGuitars();
     }
   };
 
