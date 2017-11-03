@@ -1,5 +1,5 @@
-import { AsyncStorage } from "react-native";
 import { keyBy } from "lodash";
+import { uniq, values, flatten, includes } from "lodash";
 
 import { makeStore } from "./StorageFactory";
 
@@ -19,7 +19,17 @@ export const setStore = async store => {
     sorting
   } = store;
 
-  const sortMedia = media.map(m => ({
+  const listedMediaIds = uniq(
+    flatten(
+      values(subCategoryLists)
+        .concat(values(categoryLists))
+        .concat(values(groupLists))
+    )
+  );
+
+  const listedMedia = media.filter(m => includes(listedMediaIds, m.mediaID));
+
+  const sortMedia = listedMedia.map(m => ({
     ...m,
     sortTitle:
       m.title !== undefined && m.title.toLowerCase().indexOf("the ") === 0

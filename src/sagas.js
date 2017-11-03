@@ -151,6 +151,7 @@ function* watchRefreshStore(action) {
   try {
     // get store from backend
     const storeRaw = yield Api.fetchStore();
+    // console.debug(JSON.stringify(storeRaw.media, null, 2));
     const storeDb = yield setStore(storeRaw);
     yield put(actions.storeLoaded(storeDb));
 
