@@ -22,8 +22,7 @@ import { loadPurchased } from "../models/Purchases";
 
 const Sections = {
   Home: 0,
-  Library: 1,
-  Playback: 2
+  Playback: 1
 };
 
 class Root extends Component {
@@ -31,12 +30,15 @@ class Root extends Component {
     song: null,
     video: null,
     showAd: true,
+    categoryIndex: 0,
+    subCategoryIndex: 0,
     showFretboards: true,
     isShowingStore: false,
     isShowingSettings: false,
     isShowingFretlightAdmin: false,
     isShowingCountdownTimer: false,
     currentSection: Sections.Home,
+    homeTrigger: null,
     storeDetailMediaId: ""
   };
 
@@ -90,8 +92,10 @@ class Root extends Component {
 
           {this.state.currentSection === Sections.Home && (
             <Home
+              ref={ref => (this.Home = ref)}
               onChoose={this.handleHomeChoose}
               onDetails={this.handleHomeDetails}
+              reloadTrigger={this.state.homeTrigger}
             />
           )}
 
@@ -148,6 +152,8 @@ class Root extends Component {
             <Store
               onClose={this.handleCloseStore}
               detailMediaId={this.state.storeDetailMediaId}
+              categoryIndex={this.state.categoryIndex}
+              subCategoryIndex={this.state.subCategoryIndex}
             />
           )}
         </View>
@@ -186,6 +192,8 @@ class Root extends Component {
 
           const newState = {
             isShowingStore: false,
+            categoryIndex: 0,
+            subCategoryIndex: 0,
             song,
             video,
             currentSection
@@ -207,8 +215,11 @@ class Root extends Component {
     this.setState({
       isShowingStore: false,
       isShowingSettings: false,
-      currentSection: Sections.Home
+      currentSection: Sections.Home,
+      homeTrigger: Math.random()
     });
+
+    this.Home.forceUpdate();
   };
 
   handleToggleSettings = () => {
@@ -219,7 +230,6 @@ class Root extends Component {
   };
 
   handleToggleLibrary = () => {
-    console.debug("toggle lib press");
     this.setState({
       isShowingStore: true
     });
@@ -238,10 +248,12 @@ class Root extends Component {
     this.props.chooseMedia(mediaId);
   };
 
-  handleHomeDetails = mediaId => {
+  handleHomeDetails = params => {
     this.setState({
       isShowingStore: true,
-      storeDetailMediaId: mediaId
+      storeDetailMediaId: params.media_detail,
+      categoryIndex: Number(params.category || 0),
+      subCategoryIndex: Number(params.subcategory || 0)
     });
   };
 

@@ -15,17 +15,21 @@ import SubCategories from "./SubCategories";
 import Media from "./Media";
 
 class Store extends Component {
-  isMounted_ = false;
+  constructor(props) {
+    super(props);
 
-  state = {
-    categoryIndex: 0,
-    category: null,
-    subCategory: null,
-    subCategoryIndex: null,
-    subCategories: [],
-    media: [],
-    isStore: true
-  };
+    this.state = {
+      categoryIndex: props.categoryIndex || 0,
+      category: null,
+      subCategory: null,
+      subCategoryIndex: props.subCategoryIndex || 0,
+      subCategories: [],
+      media: [],
+      isStore: true
+    };
+  }
+
+  isMounted_ = false;
 
   render() {
     return (
@@ -55,7 +59,7 @@ class Store extends Component {
         />
 
         <Media
-          detailMediaId={this.props.detailMediaId}
+          detailMediaId={this.props.detailMediaId || ""}
           style={styles.media}
           category={this.state.category}
           subCategory={this.state.subCategory}
@@ -74,7 +78,18 @@ class Store extends Component {
 
   async componentWillMount() {
     // load the UI state
-    const { categoryIndex, subCategoryIndex } = await getUIState();
+
+    // load the sub/category index from props or fall back to the saved UI State
+    const uiState = await getUIState();
+    const categoryIndex =
+      this.state.categoryIndex === 0
+        ? uiState.categoryIndex
+        : this.state.categoryIndex;
+    const subCategoryIndex =
+      this.state.subCategoryIndex === 0
+        ? uiState.subCategoryIndex
+        : this.state.subCategoryIndex;
+
     const category = this.props.categories[categoryIndex];
     const subCategory = this.getSubCategory(
       this.props,
@@ -226,6 +241,8 @@ class Store extends Component {
 Store.propTypes = {
   currentMedia: PropTypes.string,
   detailMediaId: PropTypes.string,
+  categoryIndex: PropTypes.number,
+  subCategoryIndex: PropTypes.number,
   categories: PropTypes.array,
   subCategories: PropTypes.object,
   group: PropTypes.array,
