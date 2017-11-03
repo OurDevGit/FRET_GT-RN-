@@ -60,6 +60,13 @@ function* fetchAd(action) {
   }
 }
 
+function* doDownload(media, mediaId) {
+  const mediaFiles = yield downloadMedia(media);
+  // console.debug({ mediaFiles });
+  yield setDownload(mediaId, mediaFiles);
+  yield put(actions.finishDownload(mediaId, mediaFiles));
+}
+
 function* watchChooseMedia(action) {
   const mediaId = action.payload;
   const media = yield getMedia(mediaId);
@@ -92,15 +99,14 @@ function* watchChooseMedia(action) {
     transactionDetails.purchaseState === "PurchasedSuccessfully"
   ) {
     console.debug("We own this. Downloading the media now.");
-    const mediaFiles = yield downloadMedia(media);
-    // console.debug({ mediaFiles });
-    yield setDownload(mediaId, mediaFiles);
-    yield put(actions.finishDownload(mediaId, mediaFiles));
+    yield doDownload(media, mediaId);
     return;
+  } else {
+    console.debug("we have not bought it.");
   }
 
   console.debug("going into getMode switch");
-  console.debug(media.getMode);
+  console.debug(`getMode: ${media.getMode}`);
 
   switch (media.getMode) {
     case GetMediaButtonMode.Purchase: {
@@ -108,16 +114,14 @@ function* watchChooseMedia(action) {
       if (purchaseSuccess === true) {
         yield put(actions.addPurchasedMedia(mediaId));
         console.debug(`added purchased ${mediaId}`);
+        yield doDownload(media, mediaId);
       }
 
       break;
     }
     case GetMediaButtonMode.Download: {
       console.debug("do download!");
-      const mediaFiles = yield downloadMedia(media);
-      console.debug({ mediaFiles });
-      const success = yield setDownload(mediaId, mediaFiles);
-      yield put(actions.finishDownload(mediaId, mediaFiles));
+      yield doDownload(media, mediaId);
       // console.debug(downloadedMedia.toJS());
       break;
     }
@@ -132,8 +136,12 @@ function* watchChooseMedia(action) {
     default: {
       const purchaseSuccess = yield doPurchase(media);
       if (purchaseSuccess === true) {
+        console.debug("did purchase");
         yield put(actions.addPurchasedMedia(mediaId));
         console.debug(`added purchased ${mediaId}`);
+        yield doDownload(media, mediaId);
+      } else {
+        console.debug("did NOT purchase");
       }
     }
   }
