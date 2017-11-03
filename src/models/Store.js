@@ -27,9 +27,7 @@ export const setStore = async store => {
     )
   );
 
-  const listedMedia = media.filter(m => includes(listedMediaIds, m.mediaID));
-
-  const sortMedia = listedMedia.map(m => ({
+  const sortMedia = media.map(m => ({
     ...m,
     sortTitle:
       m.title !== undefined && m.title.toLowerCase().indexOf("the ") === 0
@@ -40,6 +38,10 @@ export const setStore = async store => {
         ? m.artist.slice(4)
         : m.artist
   }));
+
+  const listedMedia = sortMedia.filter(m =>
+    includes(listedMediaIds, m.mediaID)
+  );
 
   const mediaById = keyBy(sortMedia, "mediaID");
   const subCategoriesByCategoryId = subCategories;
@@ -57,6 +59,8 @@ export const setStore = async store => {
     groupsBySubCategoryId,
     mediaByListId,
     mediaById,
+    // listedMediaIds,
+    listedMedia,
     storeSorting
   };
 
@@ -74,7 +78,8 @@ export const getStore = async () => {
     "groupsBySubCategoryId",
     "mediaByListId",
     "mediaById",
-    "storeSorting"
+    "storeSorting",
+    "listedMedia"
   ]);
 
   return storeObjects;

@@ -23,7 +23,7 @@ export const getMediaById = (state, mediaId) =>
 const getClientSidedMedia = (state, obj, isStore) => {
   switch (obj.title) {
     case "All Content": {
-      const allMedia = getAllMedia(state).sort((m1, m2) => {
+      const allMedia = state.get("listedMedia").sort((m1, m2) => {
         return m1.get("sortTitle").localeCompare(m2.get("sortTitle"));
       });
       return List([Map({ data: allMedia })]);

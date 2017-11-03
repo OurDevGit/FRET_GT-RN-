@@ -31,9 +31,10 @@ export const groupsBySubCategoryId = (state = Map(), action) => {
 
 export const mediaByListId = (state = Map(), action) => {
   switch (action.type) {
-    case "STORE_LOADED":
+    case "STORE_LOADED": {
       const byId = Immutable.fromJS(action.payload.mediaByListId) || Map();
       return byId;
+    }
     default:
       return state;
   }
@@ -43,6 +44,15 @@ export const mediaById = (state = Map(), action) => {
   switch (action.type) {
     case "STORE_LOADED":
       return Immutable.fromJS(action.payload.mediaById) || Map();
+    default:
+      return state;
+  }
+};
+
+export const listedMedia = (state = List(), action) => {
+  switch (action.type) {
+    case "STORE_LOADED":
+      return Immutable.fromJS(action.payload.listedMedia) || List();
     default:
       return state;
   }

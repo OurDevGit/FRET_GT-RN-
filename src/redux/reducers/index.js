@@ -22,6 +22,7 @@ import {
   subCategoriesByCategoryId,
   groupsBySubCategoryId,
   mediaById,
+  listedMedia,
   mediaByListId,
   storeSorting,
   getList as getMediaList
@@ -60,6 +61,7 @@ const appReducer = combineReducers({
   subCategoriesByCategoryId,
   groupsBySubCategoryId,
   mediaById,
+  listedMedia,
   mediaByListId,
   storeSorting,
   // In-App Billing
