@@ -166,9 +166,7 @@ class Settings extends React.Component {
   handleEmailSignup = async email => {
     const isConnected = await NetInfo.isConnected.fetch();
     if (isConnected) {
-      console.log("submitting: ", email);
       let response = await registerEmail(email);
-
       this.setState({ isShowingEmailSignup: false });
 
       if (response.status === 200) {
