@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import android.util.Log;
 
+import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
+
 import com.optek.fretlight.sdk.FretlightGuitar;
 
 public class Guitars implements Iterable<FretlightGuitar> {
@@ -14,6 +17,10 @@ public class Guitars implements Iterable<FretlightGuitar> {
   private static final Guitars sInstance = new Guitars();
 
   private static final String TAG = "GTGuitarController";
+
+  private void logSentry(String message) {
+    Sentry.record(new BreadcrumbBuilder().setMessage(message).build());
+  }
 
   public static Guitars getInstance() {
     return sInstance;

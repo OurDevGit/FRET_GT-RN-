@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, NativeModules, DeviceEventEmitter } from "react-native";
+import { View, Alert, NativeModules, DeviceEventEmitter } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
@@ -40,8 +40,16 @@ class GuitarController extends Component {
       this.handleGuitarDisconnected(id);
     });
 
+    DeviceEventEmitter.addListener("GUITAR_LOST", id => {
+      this.handleGuitarLost(id);
+    });
+
     DeviceEventEmitter.addListener("BLE_STATUS", status => {
-      console.log("ble status: ", status);
+      console.log(
+        status === "SCANNING"
+          ? "STARTED SCANNING FOR GUITARS"
+          : "STOPPED SCANNING FOR GUITARS"
+      );
     });
   }
 
@@ -100,6 +108,7 @@ class GuitarController extends Component {
   };
 
   handleGuitarConnected = async id => {
+    console.log("CONNECTED TO GUITAR: ", id);
     const { tracks, assignGuitarToTrack } = this.props;
 
     var guitar = await getGuitar(id);
@@ -120,6 +129,12 @@ class GuitarController extends Component {
   };
 
   handleGuitarDisconnected = id => {
+    console.log("DISCONNECTED FROM GUITAR: ", id);
+    this.props.guitarDisconnected(id);
+  };
+
+  handleGuitarLost = async id => {
+    console.log("LOST GUITAR: ", id);
     this.props.guitarDisconnected(id);
   };
 }
