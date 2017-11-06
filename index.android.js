@@ -3,6 +3,7 @@ import { AppRegistry, StyleSheet, Text, View } from "react-native";
 import Root from "./src/components/Root";
 import configureStore from "./src/configureStore";
 import { configureDownloadManager } from "./src/DownloadManager";
+import { syncResources } from "./src/lib/resources";
 
 // Sentry is our crash reporter
 import { Sentry } from "react-native-sentry";
@@ -24,6 +25,7 @@ if (__DEV__) {
 
 const _store = configureStore();
 configureDownloadManager(_store);
+syncResources();
 
 export default class GuitarTunes extends Component {
   render() {

@@ -11,3 +11,4 @@ export * from "./current_media";
 export * from "./favorites";
 export * from "./settings";
 export * from "./guitar";
+export * from "./home";
