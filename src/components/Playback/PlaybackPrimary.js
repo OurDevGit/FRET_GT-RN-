@@ -52,24 +52,23 @@ const PlaybackPrimary = ({
       padding: 5,
       flexDirection: "row",
       justifyContent: "center",
-      alignItems: "center"
+      marginBottom: -15
     }}
   >
     <View
       style={{
         flex: 1,
         flexDirection: "row",
-        justifyContent: "space-around",
-        alignItems: "center"
+        justifyContent: "flex-start"
       }}
     >
       <Image
         source={{ uri: artworkURL }}
+        resizeMode="contain"
         style={{
-          flex: 1,
+          height: "100%",
           aspectRatio: 1,
-          margin: 7,
-          backgroundColor: "#222222"
+          marginRight: 6
         }}
       />
 
@@ -78,19 +77,20 @@ const PlaybackPrimary = ({
           style={{
             flex: 1,
             color: PrimaryBlue,
-            fontSize: isPhone ? 15 : 18,
-            textAlignVertical: "bottom"
+            fontSize: isPhone ? 15 : 18
           }}
         >
           {title}
+          <Text style={{ fontSize: isPhone ? 13 : 16, color: "black" }}>
+            {"\n" + artist}
+          </Text>
         </Text>
-        <Text style={{ flex: 1, fontSize: isPhone ? 13 : 16 }}>{artist}</Text>
       </View>
     </View>
 
     <View
       style={{
-        flex: 2,
+        flex: 1.5,
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "flex-start"
