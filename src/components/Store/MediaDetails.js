@@ -31,7 +31,11 @@ class MediaDetails extends React.PureComponent {
           <View style={styles.container}>
             <View style={styles.content}>
               <View style={styles.contentTop}>
-                <Image source={{ uri: artworkURL }} style={styles.thumb} />
+                <Image
+                  source={{ uri: artworkURL }}
+                  resizeMode="contain"
+                  style={styles.thumb}
+                />
                 <View style={styles.contentText}>
                   <Text style={styles.title}>{title}</Text>
                   <Text style={styles.subtitle}>{subtitle}</Text>

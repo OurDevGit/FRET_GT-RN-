@@ -17,7 +17,6 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 
 import io.sentry.Sentry;
-//import io.sentry.context.Context;
 import io.sentry.event.BreadcrumbBuilder;
 
 import java.util.Map;
@@ -27,7 +26,6 @@ import java.lang.Object;
 
 public class GTGuitarController extends ReactContextBaseJavaModule {
   ReactApplicationContext context;
-  io.sentry.context.Context sentryContext;
   private Guitars mGuitars;
   GuitarEmitter guitarEmitter;
 
@@ -35,22 +33,21 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
     super(context);
 
     this.context = context;
-    sentryContext = Sentry.getContext();
     mGuitars = Guitars.getInstance();
 
     guitarEmitter = GuitarEmitter.getInstance();
 
-    logSentryBreadcrumb("GTGuitarController instantiated");
+    logSentry("GTGuitarController instantiated");
     mGuitars.setListener(new Guitars.ChangeListener() {
       @Override
       public void onChange(String action, String guitarId) {
         if (action == "connect") {
           guitarEmitter.emit("GUITAR_CONNECTED", guitarId);
-          logSentryBreadcrumb("GTGuitarController connected to guitar: " + guitarId);
+          logSentry("GTGuitarController connected to guitar: " + guitarId);
           stopScanning();
           restartScanning();
         } else {
-          logSentryBreadcrumb("GTGuitarController discconnected from guitar: " + guitarId);
+          logSentry("GTGuitarController disconnected from guitar: " + guitarId);
           guitarEmitter.emit("GUITAR_DISCONNECTED", guitarId);
         }
       }
@@ -62,8 +59,25 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
     return "GTGuitarController";
   }
 
-  private void logSentryBreadcrumb(String message) {
-    sentryContext.recordBreadcrumb(new BreadcrumbBuilder().setMessage(message).build());
+  private void logSentry(String message) {
+    // throw new RuntimeException("TEST - Sentry Client Crash");
+    Sentry.record(new BreadcrumbBuilder().setMessage(message).build());
+  }
+
+  private FretlightGuitar checkForConnectedGuitar(String guitarId) {
+    FretlightGuitar guitar = mGuitars.getById(guitarId);
+    if (guitar != null) {
+      return guitar;
+    } else {
+      guitarEmitter.emit("GUITAR_LOST", guitarId);
+      Sentry.capture("GTGuitarController lost guitar: " + guitarId);
+      logSentry("GTGuitarController lost guitar: " + guitarId);
+      for (FretlightGuitar mGuit : mGuitars) {
+        Sentry.capture("still connected guitar: " + mGuit.getName());
+        logSentry("still connected guitar: " + mGuit.getName());
+      }
+      return null;
+    }
   }
 
   // REGISTER EMITTER
@@ -77,14 +91,14 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void startScanning() {
-    logSentryBreadcrumb("GTGuitarController startScanning");
+    logSentry("GTGuitarController startScanning");
     Intent intent = new Intent(context, ScanningActivity.class);
     context.startActivity(intent);
   }
 
   @ReactMethod
   public void stopScanning() {
-    logSentryBreadcrumb("GTGuitarController stopScanning");
+    logSentry("GTGuitarController stopScanning");
     Intent intent = new Intent(context, ScanningActivity.class);
     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -93,7 +107,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
   }
 
   private void restartScanning() {
-    logSentryBreadcrumb("GTGuitarController restartScanning");
+    logSentry("GTGuitarController restartScanning");
     Intent intent = new Intent(context, ScanningActivity.class);
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     context.startActivity(intent);
@@ -103,8 +117,10 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void lightAll(String guitarId) {
-    FretlightGuitar guitar = mGuitars.getById(guitarId);
-    guitar.allOn();
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
+    if (guitar != null) {
+      guitar.allOn();
+    }
   }
 
   @ReactMethod
@@ -116,22 +132,29 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void setNote(int string, int fret, boolean isOn, String guitarId) {
-    FretlightGuitar guitar = mGuitars.getById(guitarId);
-    guitar.setNote(string, fret, isOn);
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
+    if (guitar != null) {
+      guitar.setNote(string, fret, isOn);
+    }
   }
 
   // CLEARING
 
   @ReactMethod
   public void clearAll(String guitarId) {
-    FretlightGuitar guitar = mGuitars.getById(guitarId);
-    guitar.allOff();
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
+    if (guitar != null) {
+      guitar.allOff();
+    }
   }
 
   @ReactMethod
   public void clearAllGuitars() {
-    for (FretlightGuitar guitar : mGuitars) {
-      guitar.allOff();
+    for (FretlightGuitar mGuit : mGuitars) {
+      FretlightGuitar guitar = checkForConnectedGuitar(mGuit.getName());
+      if (guitar != null) {
+        guitar.allOff();
+      }
     }
   }
 
@@ -139,25 +162,29 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public boolean getLeft(String guitarId) {
-    FretlightGuitar guitar = mGuitars.getById(guitarId);
-    return guitar.isLefty();
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
+    return guitar != null ? guitar.isLefty() : false;
   }
 
   @ReactMethod
   public boolean getBass(String guitarId) {
-    FretlightGuitar guitar = mGuitars.getById(guitarId);
-    return guitar.isBass();
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
+    return guitar != null ? guitar.isBass() : false;
   }
 
   @ReactMethod
   public void setLeft(boolean isLeft, String guitarId) {
-    FretlightGuitar guitar = mGuitars.getById(guitarId);
-    guitar.setLefty(isLeft);
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
+    if (guitar != null) {
+      guitar.setLefty(isLeft);
+    }
   }
 
   @ReactMethod
   public void setBass(boolean isBass, String guitarId) {
-    FretlightGuitar guitar = mGuitars.getById(guitarId);
-    guitar.setBass(isBass);
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
+    if (guitar != null) {
+      guitar.setBass(isBass);
+    }
   }
 }

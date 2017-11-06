@@ -9,6 +9,9 @@ import com.optek.fretlight.sdk.Fretlight;
 import com.optek.fretlight.sdk.FretlightClient;
 import com.optek.fretlight.sdk.FretlightGuitar;
 
+import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
+
 public class ScanningActivity extends Activity {
   private static final int ENABLE_BT_REQUEST_ID = 1;
 
@@ -17,6 +20,10 @@ public class ScanningActivity extends Activity {
   private FretlightGuitar.Delegate mGuitarDelegate = new GuitarDelegate();
   private Guitars mGuitars;
   private GuitarEmitter guitarEmitter;
+
+  private void logSentry(String message) {
+    Sentry.record(new BreadcrumbBuilder().setMessage(message).build());
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {

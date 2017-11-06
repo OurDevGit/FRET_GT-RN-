@@ -12,9 +12,14 @@ let _dispatchFinish = () => {
 };
 
 // download 1 file
-const downloadFile = url => {
-  const randFilename = guid();
-  const path = `${dirs.MainBundleDir}/Media/${randFilename}`;
+const downloadFile = (
+  url,
+  dir = "MISC_FILES",
+  doRandomName = true,
+  filePath
+) => {
+  const filename = doRandomName === true ? guid() : filePath;
+  const path = `${dirs.MainBundleDir}/${dir}/${filename}`;
 
   return RNFetchBlob.config({
     path
@@ -49,7 +54,7 @@ const urlToPath = url => {
 };
 
 // download multiple files
-const downloadFiles = (urls, progressCallback) => {
+export const downloadFiles = (urls, dir, doRandomNames, progressCallback) => {
   let progressMap = {};
   let filesMap = {};
 
@@ -71,20 +76,23 @@ const downloadFiles = (urls, progressCallback) => {
     return progress;
   };
 
-  const filePromises = urls.map(url =>
-    downloadFile(url)
+  const filePromises = urls.map(url => {
+    const urlPath = urlToPath(url);
+    return downloadFile(url, dir, doRandomNames, urlPath)
       .progress({ interval: 250 }, (received, total) => {
         progressMap[url] = {
           received: Number(received),
           total: Number(total)
         };
-        progressCallback(makeProgress());
+        if (progressCallback !== undefined) {
+          progressCallback(makeProgress());
+        }
       })
       .then(res => {
         const dlPath = res.path();
-        filesMap[urlToPath(url)] = dlPath;
-      })
-  );
+        filesMap[urlPath] = dlPath;
+      });
+  });
 
   const allProms = Promise.all(filePromises);
   return allProms.then(() => {
@@ -96,9 +104,14 @@ export const downloadMediaFiles = async (files, mediaId) => {
   // set progress to -1 to indicate Indeterminate mode
   throttledUpdate(mediaId, -1);
 
-  const filesMap = await downloadFiles(files.map(f => f.url), progress => {
-    throttledUpdate(mediaId, progress);
-  });
+  const filesMap = await downloadFiles(
+    files.map(f => f.url),
+    "Media",
+    true,
+    progress => {
+      throttledUpdate(mediaId, progress);
+    }
+  );
 
   // finish download
   console.debug("done with download");
@@ -112,7 +125,6 @@ export const downloadMediaFiles = async (files, mediaId) => {
 export const configureDownloadManager = async store => {
   _dispatchFinish = fileMap => {
     console.debug("finishing DL");
-    console.debug(fileMap);
     store.dispatch(finishDownload(fileMap));
   };
 

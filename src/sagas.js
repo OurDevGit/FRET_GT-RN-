@@ -73,6 +73,8 @@ function* watchChooseMedia(action) {
   console.debug(`chose media: ${mediaId}`);
   console.debug(media);
 
+  yield put(actions.setIntermediate(mediaId, true));
+
   // First, see if we have downloaded media.
   // If so, play it!
   const downloadedMedia = yield getDownloadedMedia(mediaId);
@@ -145,6 +147,8 @@ function* watchChooseMedia(action) {
       }
     }
   }
+
+  yield put(actions.setIntermediate(mediaId, false));
 }
 
 function* watchRefreshStore(action) {

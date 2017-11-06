@@ -18,8 +18,7 @@ import {
 const primaryStyle = isPhone => {
   return {
     width: isPhone ? 30 : 36,
-    height: isPhone ? 30 : 36,
-    marginHorizontal: isPhone ? 4 : 20
+    height: isPhone ? 30 : 36
   };
 };
 
@@ -27,7 +26,6 @@ const secondaryStyle = isPhone => {
   return {
     marginTop: -4,
     fontSize: isPhone ? 18 : 20,
-    marginHorizontal: isPhone ? 10 : 30,
     color: PrimaryBlue
   };
 };
@@ -60,21 +58,22 @@ const PlaybackCompact = ({
       justifyContent: "center",
       alignItems: "center",
       marginTop: 10,
-      paddingHorizontal: 10
+      paddingRight: 20
     }}
   >
     <View
       style={{
-        flex: 2,
+        flex: 1.5,
         flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "center"
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingLeft: 10
       }}
     >
       {trackCount > 3 &&
         onToggleLibrary !== undefined && (
           <BtnLibrary
-            style={{ ...primaryStyle(isPhone), marginRight: 30 }}
+            style={{ width: 44, height: 44, marginTop: 4 }}
             color={PrimaryBlue}
             onPress={onToggleLibrary}
           />
@@ -110,6 +109,7 @@ const PlaybackCompact = ({
         color={PrimaryBlue}
         onPress={onNextPress}
       />
+      <View style={{ width: 30 }} />
     </View>
 
     <View
@@ -121,6 +121,8 @@ const PlaybackCompact = ({
       }}
     >
       <Text
+        numberOfLines={1}
+        ellipsizeMode={"tail"}
         style={{
           flex: 1,
           textAlign: "center",
@@ -134,44 +136,70 @@ const PlaybackCompact = ({
 
     <View
       style={{
-        flex: 2,
+        flex: 1.5,
         flexDirection: "row",
-        justifyContent: "flex-end",
+        justifyContent: "space-between",
         alignItems: "center"
       }}
     >
-      <BtnTempoModal
-        color={PrimaryBlue}
-        currentTempo={tempo}
-        isPhone={isPhone}
-        onSelectTempo={onSelectTempo}
-      />
-
-      {isPhone ? (
-        <BtnPhoneLoopToggle
-          style={{ marginLeft: 30, marginRight: 10, width: 36, height: 36 }}
-          loopsEnabled={loopIsEnabled}
+      <View style={{ width: 30 }} />
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          marginTop: -2
+        }}
+      >
+        <BtnTempoModal
           color={PrimaryBlue}
-          onPress={onLoopEnable}
+          currentTempo={tempo}
+          isPhone={isPhone}
+          onSelectTempo={onSelectTempo}
         />
-      ) : (
-        <TouchableOpacity onPress={onLoopEnable}>
-          <Text style={{ ...secondaryStyle(isPhone), marginLeft: 50 }}>
-            {loopIsEnabled ? "Loop ON" : "Loop OFF"}
-          </Text>
-        </TouchableOpacity>
-      )}
+      </View>
 
-      <BtnMyLoopsModal
-        style={secondaryStyle(isPhone)}
-        mediaId={mediaId}
-        currentLoop={currentLoop}
-        color={PrimaryBlue}
-        isPhone={isPhone}
-        isVideo={isVideo}
-        onSetCurrentLoop={onSetCurrentLoop}
-        onClearCurrentLoop={onClearCurrentLoop}
-      />
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "center"
+        }}
+      >
+        {isPhone ? (
+          <BtnPhoneLoopToggle
+            style={{ flex: 1, width: 36, height: 36 }}
+            loopsEnabled={loopIsEnabled}
+            color={PrimaryBlue}
+            onPress={onLoopEnable}
+          />
+        ) : (
+          <TouchableOpacity onPress={onLoopEnable}>
+            <Text style={{ ...secondaryStyle(isPhone) }}>
+              {loopIsEnabled ? "Loop ON" : "Loop OFF"}
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          justifyContent: "center"
+        }}
+      >
+        <BtnMyLoopsModal
+          style={secondaryStyle(isPhone)}
+          mediaId={mediaId}
+          currentLoop={currentLoop}
+          color={PrimaryBlue}
+          isPhone={isPhone}
+          isVideo={isVideo}
+          onSetCurrentLoop={onSetCurrentLoop}
+          onClearCurrentLoop={onClearCurrentLoop}
+        />
+      </View>
     </View>
   </View>
 );

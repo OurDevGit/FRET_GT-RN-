@@ -133,6 +133,9 @@ const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
 const mergeGetMode = (state, singleMedia) => {
   const mediaId = singleMedia.get("mediaID");
 
+  // is intermediate
+  const isIntermediate = state.get("intermediateMedia").includes(mediaId);
+
   // is purchased
   const purchasedMedia = state.get("purchasedMedia");
   const isPurchased = purchasedMedia.has(mediaId.toLowerCase());
@@ -146,6 +149,8 @@ const mergeGetMode = (state, singleMedia) => {
     mode = GetMediaButtonMode.Play;
   } else if (isPurchased === true) {
     mode = GetMediaButtonMode.Download;
+  } else if (isIntermediate === true) {
+    mode = GetMediaButtonMode.Indeterminate;
   } else if (
     singleMedia.get("productDetails").get("priceText") === "COMING SOON"
   ) {

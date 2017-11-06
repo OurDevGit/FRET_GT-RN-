@@ -17,7 +17,11 @@ class MediaItem extends PureComponent {
     return (
       <TouchableOpacity onPress={this.handleTouch}>
         <View style={styles.row}>
-          <Image source={{ uri: this.props.artworkURL }} style={styles.thumb} />
+          <Image
+            source={{ uri: this.props.artworkURL }}
+            resizeMode="contain"
+            style={styles.thumb}
+          />
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{this.props.title}</Text>
             <Text style={styles.subtitle}>{this.props.subtitle}</Text>

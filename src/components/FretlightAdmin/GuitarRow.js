@@ -19,6 +19,8 @@ const GuitarRow = ({
   onBass,
   onToggleScanning
 }) => {
+  var guitarID = guitar.id.replace("Fretlight Guitar - ", "");
+  guitarID = guitarID.replace("IVT DATA - ", "");
   return (
     <View style={guitarRowStyles.container}>
       <GuitarConnectedIcon style={guitarRowStyles.icon} />
@@ -33,7 +35,7 @@ const GuitarRow = ({
             onRename={onRename}
             onToggleScanning={onToggleScanning}
           />
-          <Text style={guitarRowStyles.id}>{`ID: ${guitar.id}`}</Text>
+          <Text style={guitarRowStyles.id}>{`ID: ${guitarID}`}</Text>
 
           {tracks.length > 0 ? (
             <TrackModal

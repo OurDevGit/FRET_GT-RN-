@@ -5,6 +5,9 @@ import java.util.Iterator;
 import java.util.List;
 import android.util.Log;
 
+import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
+
 import com.optek.fretlight.sdk.FretlightGuitar;
 
 public class Guitars implements Iterable<FretlightGuitar> {
@@ -14,6 +17,10 @@ public class Guitars implements Iterable<FretlightGuitar> {
   private static final Guitars sInstance = new Guitars();
 
   private static final String TAG = "GTGuitarController";
+
+  private void logSentry(String message) {
+    Sentry.record(new BreadcrumbBuilder().setMessage(message).build());
+  }
 
   public static Guitars getInstance() {
     return sInstance;
@@ -37,9 +44,7 @@ public class Guitars implements Iterable<FretlightGuitar> {
     mGuitars.add(guitar);
 
     if (listener != null) {
-      String name = guitar.getName();
-      name = name.replaceAll("Fretlight Guitar - ", "");
-      listener.onChange("connect", name);
+      listener.onChange("connect", guitar.getName());
     }
   }
 
@@ -48,9 +53,7 @@ public class Guitars implements Iterable<FretlightGuitar> {
     mGuitars.remove(guitar);
 
     if (listener != null) {
-      String name = guitar.getName();
-      name = name.replaceAll("Fretlight Guitar - ", "");
-      listener.onChange("disconnect", name);
+      listener.onChange("disconnect", guitar.getName());
     }
   }
 
@@ -60,7 +63,7 @@ public class Guitars implements Iterable<FretlightGuitar> {
 
   public FretlightGuitar getById(String guitarId) {
     for (FretlightGuitar guitar : mGuitars) {
-      if (guitar.getName().equals("Fretlight Guitar - " + guitarId)) {
+      if (guitar.getName().equals(guitarId)) {
         return guitar;
       }
     }
