@@ -39,6 +39,7 @@ import {
   currentNotation
 } from "./settings";
 import { guitars } from "./guitar";
+import { intermediateMedia } from "./media";
 
 const appReducer = combineReducers({
   ad,
@@ -64,6 +65,8 @@ const appReducer = combineReducers({
   listedMedia,
   mediaByListId,
   storeSorting,
+  // Media
+  intermediateMedia,
   // In-App Billing
   productDetails,
   productDetailsHaveLoaded,

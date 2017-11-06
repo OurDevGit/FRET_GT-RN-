@@ -9,3 +9,8 @@ export const deleteMedia = media => {
     payload: media
   };
 };
+
+export const setIntermediate = (mediaId, isOn) => ({
+  type: "SET_INTERMEDIATE",
+  payload: { mediaId, isOn }
+});

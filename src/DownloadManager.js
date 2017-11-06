@@ -112,7 +112,6 @@ export const downloadMediaFiles = async (files, mediaId) => {
 export const configureDownloadManager = async store => {
   _dispatchFinish = fileMap => {
     console.debug("finishing DL");
-    console.debug(fileMap);
     store.dispatch(finishDownload(fileMap));
   };
 
