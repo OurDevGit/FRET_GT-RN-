@@ -44,9 +44,7 @@ public class Guitars implements Iterable<FretlightGuitar> {
     mGuitars.add(guitar);
 
     if (listener != null) {
-      String name = guitar.getName();
-      name = name.replaceAll("Fretlight Guitar - ", "");
-      listener.onChange("connect", name);
+      listener.onChange("connect", guitar.getName());
     }
   }
 
@@ -55,9 +53,7 @@ public class Guitars implements Iterable<FretlightGuitar> {
     mGuitars.remove(guitar);
 
     if (listener != null) {
-      String name = guitar.getName();
-      name = name.replaceAll("Fretlight Guitar - ", "");
-      listener.onChange("disconnect", name);
+      listener.onChange("disconnect", guitar.getName());
     }
   }
 
@@ -67,7 +63,7 @@ public class Guitars implements Iterable<FretlightGuitar> {
 
   public FretlightGuitar getById(String guitarId) {
     for (FretlightGuitar guitar : mGuitars) {
-      if (guitar.getName().equals("Fretlight Guitar - " + guitarId)) {
+      if (guitar.getName().equals(guitarId)) {
         return guitar;
       }
     }
