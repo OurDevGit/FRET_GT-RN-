@@ -86,11 +86,11 @@ class PlaybackVideoPrimary extends React.Component {
           >
             <Image
               source={{ uri: artworkURL }}
+              resizeMode="contain"
               style={{
                 flex: 2,
                 aspectRatio: 1,
-                margin: 7,
-                backgroundColor: "#222222"
+                margin: 7
               }}
             />
 
