@@ -4,9 +4,15 @@ import { WebView, Alert } from "react-native";
 import { connect } from "react-redux";
 import { Set } from "immutable";
 import { fromPairs } from "lodash";
-import { getAllMedia } from "../redux/selectors";
+import { getAllMedia } from "../../redux/selectors";
+import { sync, getIndexFile } from "./sync";
 
 class Home extends PureComponent {
+  //`http://guitar-tunes-open.s3.amazonaws.com/home/index.html?trigger=${this.props.reloadTrigger}`
+  state = {
+    indexFile: null
+  };
+
   render() {
     return (
       <WebView
@@ -17,11 +23,24 @@ class Home extends PureComponent {
           injectAnchors.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]
         }
         source={{
-          uri: `http://guitar-tunes-open.s3.amazonaws.com/home/index.html?trigger=${this
-            .props.reloadTrigger}`
+          uri: `file://${this.state.indexFile}?trigger=${this.props
+            .reloadTrigger}`
         }}
       />
     );
+  }
+
+  async componentWillMount() {
+    var indexFile = await getIndexFile();
+    this.setState({
+      indexFile
+    });
+
+    indexFile = await sync();
+
+    this.setState({
+      indexFile
+    });
   }
 
   handleWebMessage = event => {
