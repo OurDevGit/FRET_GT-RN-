@@ -3,17 +3,12 @@
   "version": "0.3.3",
   "private": true,
   "scripts": {
-    "start":
-      "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "test": "jest",
-    "stylekit":
-      "node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
-    "clean":
-      "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd ..",
-    "cleanjs":
-      "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
-    "build":
-      "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
+    "stylekit": "node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
+    "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd ..",
+    "cleanjs": "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
+    "build": "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
     "dev": "react-native run-android",
     "rel": "react-native run-android --variant=release",
     "lint": "eslint -c .eslintrc - ext .js src"
