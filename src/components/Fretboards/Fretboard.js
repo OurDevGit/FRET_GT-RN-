@@ -114,7 +114,8 @@ class Fretboard extends React.Component {
               <Tuner
                 origin={this.state.tunerModalFrame}
                 track={track}
-                onComplete={this.handleToggleTuner}
+                currentNotation={this.props.currentNotation}
+                onClose={this.handleToggleTuner}
               />
             )}
           </View>
