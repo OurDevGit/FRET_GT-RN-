@@ -8,7 +8,6 @@ export const setIndex = async index => HomeCache.setObj("INDEX", index);
 
 export const getSync = async () => {
   const sync = await HomeCache.getObj("SYNC");
-  console.debug({ sync });
   return sync || 0;
 };
 

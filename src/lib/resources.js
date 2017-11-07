@@ -1,3 +1,4 @@
+import { Dimensions } from "react-native";
 import { fetchResource } from "../api";
 import { downloadFiles } from "../DownloadManager";
 import { getSync, setSync, setFile } from "../models/Resources";
@@ -15,13 +16,20 @@ const syncResource = async resource => {
     const file = localFiles[resource];
     await setSync(resource, getNow());
     await setFile(resource, file);
-
-    console.debug(`synced ${file}`);
   }
 };
 
 export const syncResources = async () => {
+  const window = Dimensions.get("window");
+  const isPhone = Dimensions.get("window").width < 1024;
+
   syncResource("legal.pdf");
-  syncResource("help-ipad.pdf");
-  syncResource("overlay-ipad.pdf");
+
+  if (isPhone) {
+    syncResource("help-iphone.pdf");
+    syncResource("overlay-iphone.pdf");
+  } else {
+    syncResource("help-ipad.pdf");
+    syncResource("overlay-ipad.pdf");
+  }
 };

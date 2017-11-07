@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Image, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
-const LabelRow = ({ children, label, color, onPress }) => (
+const LabelRow = ({ children, label, color = "black", onPress }) => (
   <TouchableOpacity style={styles.row} onPress={onPress}>
     {children}
-    <Text style={styles.label}>{label}</Text>
+    <Text style={[{ color: color }, styles.label]}>{label}</Text>
   </TouchableOpacity>
 );
 
