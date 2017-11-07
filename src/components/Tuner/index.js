@@ -18,7 +18,7 @@ import { getTuningNotation } from "../Fretboards/notations";
 
 class Tuner extends React.Component {
   state = {
-    isDigital: false,
+    isDigital: true,
     currentIndex: 0,
     currentNote: "E"
   };

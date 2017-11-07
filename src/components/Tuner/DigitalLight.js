@@ -5,7 +5,7 @@ import { View, StyleSheet } from "react-native";
 const DigitalLight = ({ type, isOn }) => {
   var containerStyle = [styles.triangle, styles.container];
   containerStyle.push(type === "left" ? styles.left : styles.right);
-  containerStyle.push(type === "left" ? { left: "10%" } : { right: "10%" });
+  containerStyle.push(type === "left" ? { left: "22%" } : { right: "22%" });
 
   var style = [styles.triangle, styles.inset];
   style.push(isOn ? styles.on : styles.off);

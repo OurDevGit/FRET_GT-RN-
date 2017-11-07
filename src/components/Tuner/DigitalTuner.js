@@ -13,16 +13,16 @@ class DigitalTuner extends React.Component {
           style={styles.image}
           source={require("../../images/tuner-background.png")}
           resizeMode="contain"
-        >
-          <DigitalLight type={"left"} isOn={true} />
-          <DigitalLight type={"right"} isOn={false} />
-          <DigitalNeedle rotation={0} />
-          <Image
-            style={styles.housing}
-            source={require("../../images/tuner-housing.png")}
-            resizeMode="contain"
-          />
-        </Image>
+        />
+
+        <DigitalLight type={"left"} isOn={true} />
+        <DigitalLight type={"right"} isOn={false} />
+        <DigitalNeedle rotation={0} />
+        <Image
+          style={styles.housing}
+          source={require("../../images/tuner-housing.png")}
+          resizeMode="contain"
+        />
       </View>
     );
   }
