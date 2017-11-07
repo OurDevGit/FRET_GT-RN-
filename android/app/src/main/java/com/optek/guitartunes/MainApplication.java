@@ -3,6 +3,7 @@ package com.optek.guitartunes;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import org.wonday.pdf.RCTPdfView;
 import com.chirag.RNMail.RNMail;
 import io.sentry.RNSentryPackage;
 import com.brentvatne.react.ReactVideoPackage;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new RCTPdfView(),
             new RNMail(),
             new RNSentryPackage(MainApplication.this), new ReactVideoPackage(),
           new InAppBillingBridgePackage(), new RNSoundPackage(), new RNFetchBlobPackage(), new GTReactPackage());

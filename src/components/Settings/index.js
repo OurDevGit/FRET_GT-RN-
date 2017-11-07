@@ -14,6 +14,7 @@ import { Provider, connect } from "react-redux";
 import * as actions from "../../redux/actions";
 import { PrimaryGold, Danger } from "../../design";
 import SwitchRow from "./SwitchRow";
+import PdfViewer from "./PdfViewer";
 import NotationsRow from "./NotationsRow";
 import NotationsModal from "./NotationsModal";
 import EmailSignupModal from "./EmailSignupModal";
@@ -21,12 +22,14 @@ import LabelRow from "./LabelRow";
 import { BtnEmail, BtnEmailSignup } from "../StyleKit";
 import { sendSupportEmail } from "./email";
 import { registerEmail } from "../../api";
+import { getLegal, getHelp, getOverlay } from "../../models/Resources";
 
 class Settings extends React.Component {
   state = {
     isShowingNotationModal: false,
     isShowingEmailSignup: false,
-    notationModalFrame: {}
+    notationModalFrame: {},
+    pdfFile: null
   };
   render() {
     const {
@@ -64,6 +67,15 @@ class Settings extends React.Component {
             </View>
 
             <ScrollView style={styles.scrollView}>
+              {/* <LabelRow
+                label={"About this App"}
+                onPress={this.handleAboutPress}
+              /> */}
+              <LabelRow label={"Help"} onPress={this.handleHelpPress} />
+              <LabelRow
+                label={"Controls Overlay"}
+                onPress={this.handleOverlayPress}
+              />
               <SwitchRow
                 label={"Countdown Timer"}
                 isOn={countdownTimerState}
@@ -111,6 +123,12 @@ class Settings extends React.Component {
                 />
               </LabelRow>
 
+              <LabelRow
+                color="blue"
+                label={"Guitar Tunes Legal Information"}
+                onPress={this.handleLegalPress}
+              />
+
               {this.state.isShowingEmailSignup && (
                 <EmailSignupModal
                   onCancel={this.handleToggleEmailSignupModal}
@@ -120,9 +138,33 @@ class Settings extends React.Component {
             </ScrollView>
           </TouchableOpacity>
         </TouchableOpacity>
+        <Modal
+          visible={this.state.pdfFile !== null}
+          onRequestClose={() => {
+            this.setState({ pdfFile: null });
+          }}
+        >
+          <PdfViewer
+            filePath={this.state.pdfFile}
+            onClose={() => this.setState({ pdfFile: null })}
+          />
+        </Modal>
       </Modal>
     );
   }
+
+  handleAboutPress = () => {};
+
+  handleHelpPress = async () => {
+    const pdfFile = await getHelp();
+    console.debug({ pdfFile });
+    this.setState({ pdfFile });
+  };
+
+  handleOverlayPress = async () => {
+    const pdfFile = await getOverlay();
+    this.setState({ pdfFile });
+  };
 
   handleToggleCountdown = () => {
     this.props.setCountdownTimerState(!this.props.countdownTimerState);
@@ -180,6 +222,11 @@ class Settings extends React.Component {
         "It appears you're not connected to the internet. Please check your connection and try again"
       );
     }
+  };
+
+  handleLegalPress = async () => {
+    const pdfFile = await getLegal();
+    this.setState({ pdfFile });
   };
 }
 
