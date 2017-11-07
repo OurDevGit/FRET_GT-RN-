@@ -1,22 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 
-const AdPresentation = ({ onTap, imageUrl }) => (
-  <TouchableOpacity onPress={onTap} style={{ flex: 1 }}>
-    <Image
-      style={{ flex: 1, marginVertical: 10 }}
-      source={{
-        uri: imageUrl
-      }}
-      resizeMode="contain"
-    />
-  </TouchableOpacity>
+const AdPresentation = ({ onTap, imageUrl, aspectRatio }) => (
+  <View style={{ flex: 1, marginVertical: 10, alignItems: "center" }}>
+    <TouchableOpacity onPress={onTap} style={{ flex: 1, aspectRatio }}>
+      <Image
+        style={{
+          flex: 1
+        }}
+        source={{
+          uri: imageUrl
+        }}
+        resizeMode="contain"
+      />
+    </TouchableOpacity>
+  </View>
 );
 
 AdPresentation.propTypes = {
   onTap: PropTypes.func.isRequired,
-  imageUrl: PropTypes.string
+  imageUrl: PropTypes.string,
+  aspectRatio: PropTypes.number
 };
 
 export default AdPresentation;

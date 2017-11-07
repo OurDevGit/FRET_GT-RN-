@@ -1,5 +1,6 @@
 import React, { PureComponent } from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Linking } from "react-native";
+import Dimensions from "Dimensions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
@@ -8,6 +9,10 @@ import AdPresentation from "./AdPresentation";
 class AdContainer extends PureComponent {
   render() {
     const { ad, guitars } = this.props;
+    const isPhone = Dimensions.get("window").height < 500;
+    const adURL = isPhone ? ad.get("phone") : ad.get("tablet");
+    const aspectRatio = isPhone ? 7.26 : 6.64;
+
     const logo =
       guitars.count() > 0
         ? require("../images/logo-guitar-tunes-glow.png")
@@ -24,7 +29,11 @@ class AdContainer extends PureComponent {
         <View style={styles.logoContainer}>
           <Image style={styles.logo} resizeMode={"contain"} source={logo} />
         </View>
-        <AdPresentation onTap={this.handleTap} imageUrl={ad.get("phone")} />
+        <AdPresentation
+          onTap={this.handleTap}
+          imageUrl={adURL}
+          aspectRatio={aspectRatio}
+        />
       </Image>
     );
   }
@@ -33,7 +42,10 @@ class AdContainer extends PureComponent {
     this.props.fetchAd();
   }
 
-  handleTap = () => {};
+  handleTap = () => {
+    const url = this.props.ad.get("link");
+    Linking.openURL(url).catch(err => console.error("An error occurred", err));
+  };
 }
 
 AdContainer.propTypes = {
