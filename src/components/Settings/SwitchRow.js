@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, Switch, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, Switch, StyleSheet } from "react-native";
 import { PrimaryBlue } from "../../design";
 
 const SwitchRow = ({ label, isOn, onSwitch }) => (
-  <View style={styles.row}>
+  <TouchableOpacity activeOpacity={1} style={styles.row}>
     <Text style={styles.label}>{label}</Text>
     <Switch value={isOn} onTintColor={PrimaryBlue} onValueChange={onSwitch} />
-  </View>
+  </TouchableOpacity>
 );
 
 SwitchRow.propTypes = {

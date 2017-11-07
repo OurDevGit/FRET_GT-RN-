@@ -7,12 +7,12 @@ class NotationsRow extends React.Component {
   render() {
     const { label, currentNoteName } = this.props;
     return (
-      <View style={styles.row}>
+      <TouchableOpacity activeOpacity={1} style={styles.row}>
         <Text style={styles.label}>{label}</Text>
         <TouchableOpacity ref="Touchable" onPress={this.handlePress}>
           <Text style={styles.button}>{currentNoteName}</Text>
         </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     );
   }
 
