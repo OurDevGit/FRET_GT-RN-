@@ -19,6 +19,7 @@ import NotationsRow from "./NotationsRow";
 import NotationsModal from "./NotationsModal";
 import EmailSignupModal from "./EmailSignupModal";
 import LabelRow from "./LabelRow";
+import AboutModal from "./AboutModal";
 import { BtnEmail, BtnEmailSignup } from "../StyleKit";
 import { sendSupportEmail } from "./email";
 import { registerEmail } from "../../api";
@@ -26,6 +27,7 @@ import { getLegal, getHelp, getOverlay } from "../../models/Resources";
 
 class Settings extends React.Component {
   state = {
+    isShowingAbout: false,
     isShowingNotationModal: false,
     isShowingEmailSignup: false,
     notationModalFrame: {},
@@ -67,10 +69,10 @@ class Settings extends React.Component {
             </View>
 
             <ScrollView style={styles.scrollView}>
-              {/* <LabelRow
+              <LabelRow
                 label={"About this App"}
                 onPress={this.handleAboutPress}
-              /> */}
+              />
               <LabelRow label={"Help"} onPress={this.handleHelpPress} />
               <LabelRow
                 label={"Controls Overlay"}
@@ -138,6 +140,11 @@ class Settings extends React.Component {
             </ScrollView>
           </TouchableOpacity>
         </TouchableOpacity>
+
+        {this.state.isShowingAbout && (
+          <AboutModal onClose={this.handleAboutPress} />
+        )}
+
         <Modal
           visible={this.state.pdfFile !== null}
           onRequestClose={() => {
@@ -153,7 +160,9 @@ class Settings extends React.Component {
     );
   }
 
-  handleAboutPress = () => {};
+  handleAboutPress = () => {
+    this.setState({ isShowingAbout: !this.state.isShowingAbout });
+  };
 
   handleHelpPress = async () => {
     const pdfFile = await getHelp();
