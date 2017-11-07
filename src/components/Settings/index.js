@@ -64,6 +64,7 @@ class Settings extends React.Component {
             </View>
 
             <ScrollView style={styles.scrollView}>
+              <LabelRow label={"Help"} onPress={this.handleHelpPress} />
               <SwitchRow
                 label={"Countdown Timer"}
                 isOn={countdownTimerState}
@@ -123,6 +124,10 @@ class Settings extends React.Component {
       </Modal>
     );
   }
+
+  handleAboutPress = () => {};
+
+  handleHelpPress = () => {};
 
   handleToggleCountdown = () => {
     this.props.setCountdownTimerState(!this.props.countdownTimerState);
