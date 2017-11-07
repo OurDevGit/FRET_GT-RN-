@@ -70,10 +70,8 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
       return guitar;
     } else {
       guitarEmitter.emit("GUITAR_LOST", guitarId);
-      Sentry.capture("GTGuitarController lost guitar: " + guitarId);
       logSentry("GTGuitarController lost guitar: " + guitarId);
       for (FretlightGuitar mGuit : mGuitars) {
-        Sentry.capture("still connected guitar: " + mGuit.getName());
         logSentry("still connected guitar: " + mGuit.getName());
       }
       return null;

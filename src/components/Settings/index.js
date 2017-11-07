@@ -40,7 +40,7 @@ class Settings extends React.Component {
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
         <TouchableOpacity style={styles.container} onPress={onClose}>
-          <View style={styles.content}>
+          <TouchableOpacity activeOpacity={1} style={styles.content}>
             <View
               style={{
                 width: "100%",
@@ -118,7 +118,7 @@ class Settings extends React.Component {
                 />
               )}
             </ScrollView>
-          </View>
+          </TouchableOpacity>
         </TouchableOpacity>
       </Modal>
     );
