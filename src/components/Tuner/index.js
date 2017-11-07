@@ -18,11 +18,13 @@ import { getTuningNotation } from "../Fretboards/notations";
 
 class Tuner extends React.Component {
   state = {
-    isDigital: true
+    isDigital: false,
+    currentIndex: 0,
+    currentNote: "E"
   };
   render() {
     const { track, origin, onClose } = this.props;
-    const { isDigital } = this.state;
+    const { isDigital, currentNote, currentIndex } = this.state;
     const isPhone = Dimensions.get("window").height < 500;
     const contentStyle = isPhone
       ? styles.contentFull
@@ -59,9 +61,16 @@ class Tuner extends React.Component {
 
             <View style={{ flex: 1 }}>
               {isDigital ? (
-                <DigitalTuner currentNote={"E"} />
+                <DigitalTuner
+                  currentNote={currentNote}
+                  currentIndex={currentIndex}
+                />
               ) : (
-                <AudioTuner currentNote={"E"} />
+                <AudioTuner
+                  currentNote={currentNote}
+                  currentIndex={currentIndex}
+                  isBass={track.isBass}
+                />
               )}
               <View style={styles.noteContainer}>
                 <View style={styles.noteRow}>{this.noteButtons()}</View>
@@ -81,7 +90,13 @@ class Tuner extends React.Component {
       if (i < 4 || !track.isBass) {
         const note = getTuningNotation(5 - i, currentNotation);
         buttons.push(
-          <Note key={i} note={note} onPress={this.handleNotePress} />
+          <Note
+            key={i}
+            index={i}
+            note={note}
+            currentIndex={this.state.currentIndex}
+            onPress={this.handleNotePress}
+          />
         );
       }
     }
@@ -92,8 +107,8 @@ class Tuner extends React.Component {
     this.setState({ isDigital: !this.state.isDigital });
   };
 
-  handleNotePress = note => {
-    console.log(note);
+  handleNotePress = (currentNote, currentIndex) => {
+    this.setState({ currentNote, currentIndex });
   };
 }
 
@@ -150,7 +165,7 @@ const styles = StyleSheet.create({
     height: 60,
     flexDirection: "row",
     justifyContent: "center",
-    marginTop: 8
+    marginTop: 12
   },
   noteRow: {
     width: "100%",

@@ -29,7 +29,8 @@ class DigitalTuner extends React.Component {
 }
 
 DigitalTuner.propTypes = {
-  currentNote: PropTypes.string.isRequired
+  currentNote: PropTypes.string.isRequired,
+  currentIndex: PropTypes.number.isRequired
 };
 
 const styles = StyleSheet.create({
