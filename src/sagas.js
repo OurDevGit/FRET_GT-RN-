@@ -27,6 +27,8 @@ import {
   setCurrentNotation
 } from "./models/Settings";
 
+const dirs = RNFetchBlob.fs.dirs;
+
 function* getMedia(mediaId) {
   const mediaImm = yield select(getMediaById, mediaId);
   if (mediaImm !== undefined) {
@@ -202,6 +204,11 @@ function* watchDeleteMedia(action) {
   removeDownload(mediaId);
 }
 
+function watchDeleteAllMedia(action) {
+  const dir = `${dirs.MainBundleDir}/Media`;
+  fs.unlink(dir);
+}
+
 function* watchToggleFavorite(action) {
   const mediaId = action.payload;
   const isFavorite = yield getFavorite(mediaId);
@@ -241,6 +248,7 @@ function* mySaga() {
   yield takeEvery("SET_LEFT_HAND_STATE", watchSetLeftHandState);
   yield takeEvery("SET_AUTO_PART_SWITCHING_STATE", watchSetAutoPartSwitching);
   yield takeEvery("SET_CURRENT_NOTATION", watchCurrentNotation);
+  yield takeLatest("DELETE_ALL_MEDIA", watchDeleteAllMedia);
 }
 
 export default mySaga;

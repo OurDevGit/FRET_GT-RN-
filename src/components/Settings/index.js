@@ -131,6 +131,12 @@ class Settings extends React.Component {
                 onPress={this.handleLegalPress}
               />
 
+              <LabelRow
+                color="red"
+                label={"Archive All Media"}
+                onPress={this.handleArchiveAlllPress}
+              />
+
               {this.state.isShowingEmailSignup && (
                 <EmailSignupModal
                   onCancel={this.handleToggleEmailSignupModal}
@@ -236,6 +242,18 @@ class Settings extends React.Component {
   handleLegalPress = async () => {
     const pdfFile = await getLegal();
     this.setState({ pdfFile });
+  };
+
+  handleArchiveAlllPress = () => {
+    Alert.alert("Confirm", "Are you sure you want to remove all saved media?", [
+      { text: "Cancel", onPress: () => console.debug("Cancel") },
+      { text: "Archive", onPress: this.doArchiveAll }
+    ]);
+  };
+
+  doArchiveAll = () => {
+    console.debug("Archive All");
+    this.props.deleteAllMedia();
   };
 }
 
