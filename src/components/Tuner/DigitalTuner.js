@@ -1,13 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TouchableOpacity, Image, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Image, Text, StyleSheet } from "react-native";
 
-const DigitalTuner = ({ onNotePress }) => (
-  <TouchableOpacity style={styles.row} onPress={onPress}>
-    {children}
-    <Text style={styles.label}>{label}</Text>
-  </TouchableOpacity>
-);
+const DigitalTuner = ({ onNotePress }) => <View />;
 
 DigitalTuner.propTypes = {
   label: PropTypes.string.isRequired,

@@ -1,12 +1,15 @@
 import React from "react";
 import {
   View,
+  Modal,
   Text,
   Image,
-  FlatButton,
   TouchableOpacity,
   StyleSheet
 } from "react-native";
+import PropTypes from "prop-types";
+import { FlatButton } from "../Material";
+import { PrimaryGold } from "../../design";
 import DigitalTuner from "./DigitalTuner";
 import AudioTuner from "./AudioTuner";
 
@@ -43,7 +46,6 @@ class Tuner extends React.Component {
                 />
               </View>
             </View>
-
             {isDigital ? <DigitalTuner /> : <AudioTuner />}
           </View>
         </TouchableOpacity>

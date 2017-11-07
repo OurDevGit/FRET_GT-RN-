@@ -54,21 +54,26 @@ class HorizontalContainer extends React.Component {
                 style={boardStyle}
               />
             )}
-            renderItem={({ item, index }) => (
-              <Fretboard
-                isPhone={this.props.isPhone}
-                isHidingLabels={this.props.isVideo && this.props.isPhone}
-                leftHandState={this.props.leftHandState}
-                currentNotation={this.props.currentNotation}
-                track={item}
-                showSmart={item.name !== "" && !this.props.isVideo}
-                isSmart={false}
-                trackIndex={index}
-                scrollIndex={this.props.currentPage}
-                boardWidth={this.state.width}
-                style={boardStyle}
-              />
-            )}
+            renderItem={({ item, index }) => {
+              const fretRange = item.lastFret - item.firstFret;
+              const showSmart =
+                track.name !== "" && !this.props.isVideo && fretRange < 12;
+              return (
+                <Fretboard
+                  isPhone={this.props.isPhone}
+                  isHidingLabels={this.props.isVideo && this.props.isPhone}
+                  leftHandState={this.props.leftHandState}
+                  currentNotation={this.props.currentNotation}
+                  track={item}
+                  showSmart={showSmart}
+                  isSmart={false}
+                  trackIndex={index}
+                  scrollIndex={this.props.currentPage}
+                  boardWidth={this.state.width}
+                  style={boardStyle}
+                />
+              );
+            }}
           />
         </View>
 
