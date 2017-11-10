@@ -14,9 +14,15 @@ import {
   addFave,
   deleteFave
 } from "./models/Media";
-import { setPurchased } from "./models/Purchases";
+import { setPurchased, loadPurchased } from "./models/Purchases";
 import { setDownload, removeDownload } from "./models/Downloads";
 import { fetchProductDetails, fetchPurchases } from "./models/Products";
+import {
+  setStore,
+  setProductDetails,
+  getStore,
+  getProductDetails
+} from "./models/Store";
 import {
   getAutoPartSwitchingState,
   getCountdownTimerState,
@@ -25,7 +31,6 @@ import {
 } from "./models/Settings";
 import * as actions from "./redux/actions";
 import { getMediaById, getDownloadedMediaFiles } from "./redux/selectors";
-import { setStore, setProductDetails } from "./models/Store";
 import { doFreeMedia } from "./Config";
 import {
   setCountdownTimerState,
@@ -328,16 +333,25 @@ function watchDeleteAllMedia() {
 function* watchBootstrap() {
   console.debug("do some bootstrapping");
 
+  // Settings
   const autoPartSwitching = yield getAutoPartSwitchingState();
   const countdownTimer = yield getCountdownTimerState();
   const currentNotation = yield getCurrentNotation();
   const leftHanded = yield getLeftHandState();
 
+  // Store
+  const storeObjects = yield getStore();
+  const productDetails = yield getProductDetails();
+  const purchasedMedia = yield loadPurchased();
+
   const bootStrapState = {
     autoPartSwitching,
     countdownTimer,
     currentNotation,
-    leftHanded
+    leftHanded,
+    storeObjects,
+    productDetails,
+    purchasedMedia
   };
 
   yield put(actions.setBootstrap(bootStrapState));
