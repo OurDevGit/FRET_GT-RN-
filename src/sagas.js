@@ -17,6 +17,12 @@ import {
 import { setPurchased } from "./models/Purchases";
 import { setDownload, removeDownload } from "./models/Downloads";
 import { fetchProductDetails, fetchPurchases } from "./models/Products";
+import {
+  getAutoPartSwitchingState,
+  getCountdownTimerState,
+  getCurrentNotation,
+  getLeftHandState
+} from "./models/Settings";
 import * as actions from "./redux/actions";
 import { getMediaById, getDownloadedMediaFiles } from "./redux/selectors";
 import { setStore, setProductDetails } from "./models/Store";
@@ -314,9 +320,27 @@ function* watchDeleteMedia(action) {
   removeDownload(mediaId);
 }
 
-function watchDeleteAllMedia(action) {
+function watchDeleteAllMedia() {
   const dir = `${dirs.MainBundleDir}/Media`;
   fs.unlink(dir);
+}
+
+function* watchBootstrap() {
+  console.debug("do some bootstrapping");
+
+  const autoPartSwitching = yield getAutoPartSwitchingState();
+  const countdownTimer = yield getCountdownTimerState();
+  const currentNotation = yield getCurrentNotation();
+  const leftHanded = yield getLeftHandState();
+
+  const bootStrapState = {
+    autoPartSwitching,
+    countdownTimer,
+    currentNotation,
+    leftHanded
+  };
+
+  yield put(actions.setBootstrap(bootStrapState));
 }
 
 function* watchToggleFavorite(action) {
@@ -359,6 +383,7 @@ function* mySaga() {
   yield takeEvery("SET_AUTO_PART_SWITCHING_STATE", watchSetAutoPartSwitching);
   yield takeEvery("SET_CURRENT_NOTATION", watchCurrentNotation);
   yield takeLatest("DELETE_ALL_MEDIA", watchDeleteAllMedia);
+  yield takeLatest("REQUEST_BOOTSTRAP", watchBootstrap);
 }
 
 export default mySaga;

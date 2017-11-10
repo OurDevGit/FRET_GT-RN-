@@ -163,6 +163,8 @@ class Root extends Component {
   }
 
   async componentWillMount() {
+    this.props.requestBootstrap();
+
     // load the Store data from storage
     const storeObjects = await getStore();
     const productDetails = await getProductDetails();

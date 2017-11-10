@@ -30,7 +30,7 @@ export const setLeftHandState = async bool => {
 
 export const getAutoPartSwitchingState = async () => {
   const bool = await Settings.getObj("AUTO_PART_SWITCHING_STATE");
-  return bool || false;
+  return bool || true;
 };
 
 export const setAutoPartSwitchingState = async bool => {
@@ -42,7 +42,7 @@ export const setAutoPartSwitchingState = async bool => {
 
 export const getCurrentNotation = async () => {
   const notation = await Settings.getObj("CURRENT_NOTATION");
-  return counotationntdown || "Flats";
+  return notation || "Sharps";
 };
 
 export const setCurrentNotation = async notation => {
