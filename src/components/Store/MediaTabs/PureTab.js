@@ -86,6 +86,7 @@ class PureTab extends Component {
         style={styles.list}
         keyExtractor={extractItemKey}
         getItemLayout={getItemLayout}
+        initialNumToRender={1}
       />
     );
   }
