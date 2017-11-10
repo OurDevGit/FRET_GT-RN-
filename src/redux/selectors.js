@@ -1,6 +1,8 @@
 import { List, Seq, Map, Stack } from "immutable";
 import { GetMediaButtonMode } from "../models/Media";
 import { filterComingSoon, doFreeMedia } from "../Config";
+import { isEqual } from "lodash";
+import memoize from "fast-memoize";
 
 const getMediaByListIds = state => state.get("mediaByListId");
 const getMediaByListId = (state, id) => getMediaByListIds(state).get(id);
@@ -207,7 +209,8 @@ const mergeMediaDetails = (state, mediaSections) => {
   return mediaWithProductDetails;
 };
 
-export const selectMedia = (state, category, subCategory, group, isStore) => {
+const selectMediaRaw = (state, category, subCategory, group, isStore) => {
+  console.debug(`selectMediaRaw()`);
   // console.debug({ category });
   // console.debug({ subCategory });
   // console.debug({ group });
@@ -236,6 +239,8 @@ export const selectMedia = (state, category, subCategory, group, isStore) => {
 
   return Seq();
 };
+
+export const selectMedia = memoize(selectMediaRaw);
 
 export const getMediaForPlay = (state, mediaId) => {
   const files = state.get("downloadedMedia").get(mediaId) || Map();

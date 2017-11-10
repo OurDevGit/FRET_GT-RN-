@@ -130,6 +130,7 @@ export class BtnGetMediaProgress extends Component {
   };
 
   render() {
+    // console.debug(`BtnGetMediaProgress render()`);
     const { mode, price, progress, ...rest } = this.props;
     return (
       <View>

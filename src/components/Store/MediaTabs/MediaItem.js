@@ -1,9 +1,8 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { BtnDetails, BtnHeartSmart, BtnGetMediaProgress } from "../StyleKit";
-import MediaDetails from "./MediaDetails";
-import { GetMediaButtonMode } from "../../models/Media";
+import { BtnDetails, BtnHeartSmart, BtnGetMediaProgress } from "../../StyleKit";
+import { GetMediaButtonMode } from "../../../models/Media";
 
 class MediaItem extends PureComponent {
   state = {
@@ -11,7 +10,8 @@ class MediaItem extends PureComponent {
   };
 
   render() {
-    // console.debug("MediaItem render()");
+    // console.debug(`MediaItem render()`);
+    // console.debug(`MediaItem render() ${this.props.title}`);
     const hasFiles = this.props.getMode === GetMediaButtonMode.Play;
 
     return (

@@ -43,6 +43,7 @@ class Root extends Component {
   };
 
   render() {
+    console.debug(`Root render()`);
     const { store, visibleTracks } = this.props;
     const deviceWidth = Dimensions.get("window").width;
     const deviceHeight = Dimensions.get("window").height;
