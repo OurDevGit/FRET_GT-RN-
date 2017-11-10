@@ -1,5 +1,11 @@
 import React, { PureComponent } from "react";
-import { View, Image, StyleSheet, Linking } from "react-native";
+import {
+  View,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Linking
+} from "react-native";
 import Dimensions from "Dimensions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -18,7 +24,7 @@ class AdContainer extends PureComponent {
         ? require("../images/logo-guitar-tunes-glow.png")
         : require("../images/logo-guitar-tunes.png");
     return (
-      <Image
+      <ImageBackground
         style={
           this.props.visibleTracks.count() > 3
             ? styles.bgImageHidden
@@ -34,7 +40,7 @@ class AdContainer extends PureComponent {
           imageUrl={adURL}
           aspectRatio={aspectRatio}
         />
-      </Image>
+      </ImageBackground>
     );
   }
 
