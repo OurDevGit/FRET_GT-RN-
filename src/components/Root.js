@@ -210,7 +210,9 @@ class Root extends Component {
       homeTrigger: Math.random()
     });
 
-    this.Home.forceUpdate();
+    if (this.Home) {
+      this.Home.forceUpdate();
+    }
   };
 
   handleToggleSettings = () => {
