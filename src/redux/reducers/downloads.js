@@ -17,6 +17,8 @@ export const downloadedMedia = (state = Map(), action) => {
       const mediaId = action.payload;
       return state.delete(mediaId);
     }
+    case "DELETE_ALL_MEDIA":
+      return Map();
     default:
       return state;
   }

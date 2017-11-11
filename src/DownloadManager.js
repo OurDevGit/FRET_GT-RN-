@@ -157,6 +157,6 @@ export const subscribe = callback => {
   _subscribers.push(callback);
 };
 
-export const remove = callback => {
+export const unsubscribe = callback => {
   _subscribers = _subscribers.filter(cb => cb !== callback);
 };

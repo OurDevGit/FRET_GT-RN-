@@ -10,6 +10,7 @@ const Heart = BtnFavorite_isPressed;
 
 class BtnHeartWithState extends React.PureComponent {
   render() {
+    // console.debug(`BtnHeartWithState render()`);
     return (
       <TouchableOpacity onPress={this.handleTap} style={styles.heart}>
         <Heart

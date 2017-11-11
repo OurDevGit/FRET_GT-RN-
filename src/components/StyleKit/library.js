@@ -12,7 +12,7 @@ import {
 } from "./styleKitComponents";
 import { GetMediaButtonMode } from "../../models/Media";
 import { PrimaryBlue } from "../../design";
-import { subscribe, remove } from "../../DownloadManager";
+import { subscribe, unsubscribe } from "../../DownloadManager";
 
 const BtnBuy = props => {
   return (
@@ -130,6 +130,7 @@ export class BtnGetMediaProgress extends Component {
   };
 
   render() {
+    // console.debug(`BtnGetMediaProgress render()`);
     const { mode, price, progress, ...rest } = this.props;
     return (
       <View>
@@ -148,7 +149,7 @@ export class BtnGetMediaProgress extends Component {
   }
 
   componentWillUnmount() {
-    remove(this.handleProgress);
+    unsubscribe(this.handleProgress);
   }
 
   handleProgress = (mediaId, progress) => {

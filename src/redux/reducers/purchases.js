@@ -7,6 +7,8 @@ export const purchasedMedia = (state = Set(), action) => {
     }
     case "SET_PURCHASED_MEDIA":
       return Set(action.payload);
+    case "SET_BOOTSTRAP":
+      return Set(action.payload.purchasedMedia);
     default:
       return state;
   }

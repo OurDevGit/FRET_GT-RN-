@@ -1,6 +1,6 @@
-import React, { Component } from "react";
+import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
@@ -14,7 +14,7 @@ import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
 
-class Store extends Component {
+class Store extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -32,6 +32,7 @@ class Store extends Component {
   isMounted_ = false;
 
   render() {
+    // console.debug(`Store render()`);
     return (
       <View
         style={{
@@ -57,21 +58,21 @@ class Store extends Component {
           selectedIndex={this.state.subCategoryIndex}
           isStore={this.state.isStore}
         />
-
-        <Media
-          detailMediaId={this.props.detailMediaId || ""}
-          style={styles.media}
-          category={this.state.category}
-          subCategory={this.state.subCategory}
-          group={this.state.group}
-          onIsStoreChange={this.handleIsStoreChange}
-          isStore={this.state.isStore}
-          onChoose={this.handleChooseMedia}
-          onClose={this.props.onClose}
-          isNavigableSubCategory={
-            (this.state.subCategory || {}).isNavigable === true
-          }
-        />
+        <KeyboardAvoidingView style={styles.media} behavior="padding">
+          <Media
+            detailMediaId={this.props.detailMediaId || ""}
+            style={styles.media}
+            category={this.state.category}
+            subCategory={this.state.subCategory}
+            group={this.state.group}
+            onIsStoreChange={this.handleIsStoreChange}
+            onChoose={this.handleChooseMedia}
+            onClose={this.props.onClose}
+            isNavigableSubCategory={
+              (this.state.subCategory || {}).isNavigable === true
+            }
+          />
+        </KeyboardAvoidingView>
       </View>
     );
   }

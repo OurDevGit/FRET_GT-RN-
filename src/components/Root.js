@@ -18,9 +18,6 @@ import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 
-import { getStore, getProductDetails } from "../models/Store";
-import { loadPurchased } from "../models/Purchases";
-
 const Sections = {
   Home: 0,
   Playback: 1
@@ -44,6 +41,7 @@ class Root extends Component {
   };
 
   render() {
+    console.debug(`Root render()`);
     const { store, visibleTracks } = this.props;
     const deviceWidth = Dimensions.get("window").width;
     const deviceHeight = Dimensions.get("window").height;
@@ -182,14 +180,7 @@ class Root extends Component {
   }
 
   async componentWillMount() {
-    // load the Store data from storage
-    const storeObjects = await getStore();
-    const productDetails = await getProductDetails();
-    const purchases = await loadPurchased();
-
-    this.props.setPurchasedMedia(purchases);
-    this.props.storeLoaded(storeObjects);
-    this.props.productDetailsLoaded(productDetails);
+    this.props.requestBootstrap();
   }
 
   async componentDidUpdate(prevProps) {
@@ -239,7 +230,9 @@ class Root extends Component {
       homeTrigger: Math.random()
     });
 
-    this.Home.forceUpdate();
+    if (this.Home) {
+      this.Home.forceUpdate();
+    }
   };
 
   handleToggleSettings = () => {

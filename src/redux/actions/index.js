@@ -12,3 +12,4 @@ export * from "./favorites";
 export * from "./settings";
 export * from "./guitar";
 export * from "./home";
+export * from "./app";
