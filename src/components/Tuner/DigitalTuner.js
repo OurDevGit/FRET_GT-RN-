@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, Image, Text, StyleSheet } from "react-native";
+import Recorder from "react-native-recording";
+import PitchFinder from "pitchfinder";
 import DigitalLight from "./DigitalLight";
 import DigitalNeedle from "./DigitalNeedle";
 
@@ -26,6 +28,26 @@ class DigitalTuner extends React.Component {
       </View>
     );
   }
+
+  componentDidMount = () => {
+    Recorder.init(this.sampleRate, this.bufferSize);
+    Recorder.start();
+    Recorder.on("recording", data => {
+      const frequency = this.pitchFinder(data);
+      console.log("freq: ", frequency);
+      /*
+      if (frequency && this.onNoteDetected) {
+        const note = this.getNote(frequency)
+        this.onNoteDetected({
+          name: this.noteStrings[note % 12],
+          value: note,
+          cents: this.getCents(frequency, note),
+          octave: parseInt(note / 12) - 1,
+          frequency: frequency,
+        })
+      }*/
+    });
+  };
 }
 
 DigitalTuner.propTypes = {
