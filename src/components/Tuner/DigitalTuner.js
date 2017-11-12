@@ -7,6 +7,30 @@ import DigitalLight from "./DigitalLight";
 import DigitalNeedle from "./DigitalNeedle";
 
 class DigitalTuner extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.middleA = 440;
+    this.semitone = 69;
+    this.notations = [
+      "C",
+      "C♯",
+      "D",
+      "D♯",
+      "E",
+      "F",
+      "F♯",
+      "G",
+      "G♯",
+      "A",
+      "A♯",
+      "B"
+    ];
+    this.sampleRate = 22050; // FM radio
+    this.buffer = 2048;
+    this.pitchFinder = new PitchFinder.YIN({ sampleRate: this.sampleRate });
+  }
+
   render() {
     const { currentNote } = this.props;
     return (
@@ -30,23 +54,34 @@ class DigitalTuner extends React.Component {
   }
 
   componentDidMount = () => {
-    Recorder.init(this.sampleRate, this.bufferSize);
+    Recorder.init(this.sampleRate, this.buffer);
     Recorder.start();
     Recorder.on("recording", data => {
-      const frequency = this.pitchFinder(data);
-      console.log("freq: ", frequency);
-      /*
-      if (frequency && this.onNoteDetected) {
-        const note = this.getNote(frequency)
-        this.onNoteDetected({
-          name: this.noteStrings[note % 12],
-          value: note,
-          cents: this.getCents(frequency, note),
-          octave: parseInt(note / 12) - 1,
-          frequency: frequency,
-        })
-      }*/
+      this.handleData(data);
     });
+  };
+
+  handleData = data => {
+    const frequency = this.pitchFinder(data);
+
+    if (frequency) {
+      const note = this.getNote(frequency);
+      const cents = this.getCents(frequency, note);
+      const octave = parseInt(note / 12) - 1;
+      const name = this.notations[note % 12];
+
+      console.log(note, cents, octave, name);
+    }
+  };
+
+  getNote = frequency => {
+    const note = 12 * (Math.log(frequency / this.middleA) / Math.log(2));
+    return Math.round(note) + this.semitone;
+  };
+
+  getCents = (frequency, note) => {
+    const standard = this.middleA * Math.pow(2, (note - this.semitone) / 12);
+    return Math.floor(1200 * Math.log(frequency / standard) / Math.log(2));
   };
 }
 
