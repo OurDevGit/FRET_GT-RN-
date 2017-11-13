@@ -5,6 +5,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  NativeModules,
   StyleSheet
 } from "react-native";
 import PropTypes from "prop-types";
@@ -16,12 +17,15 @@ import AudioTuner from "./AudioTuner";
 import Note from "./NoteButton";
 import { setTuningParameters, pitchForString } from "./TuningPitch";
 
+var guitarController = NativeModules.GTGuitarController;
+
 class Tuner extends React.Component {
   state = {
     isDigital: true,
     currentIndex: 0,
     currentNote: "E"
   };
+
   render() {
     const { track, origin, currentNotation, tuningNotes, onClose } = this.props;
     const { isDigital, currentNote, currentIndex } = this.state;
@@ -95,6 +99,17 @@ class Tuner extends React.Component {
     );
   }
 
+  componentDidMount = () => {
+    guitarController.clearAllGuitars();
+    this.props.assignedGuitars.forEach(guitar =>
+      guitarController.lightString(5, guitar.id)
+    );
+  };
+
+  componentWillUnmount = () => {
+    guitarController.clearAllGuitars();
+  };
+
   noteButtons = () => {
     var buttons = [];
     const { track, currentNotation } = this.props;
@@ -121,6 +136,10 @@ class Tuner extends React.Component {
   };
 
   handleNotePress = (currentNote, currentIndex) => {
+    guitarController.clearAllGuitars();
+    this.props.assignedGuitars.forEach(guitar =>
+      guitarController.lightString(5 - currentIndex, guitar.id)
+    );
     this.setState({ currentNote, currentIndex });
   };
 }
@@ -192,6 +211,7 @@ const styles = StyleSheet.create({
 Tuner.propTypes = {
   track: PropTypes.object.isRequired,
   tuningNotes: PropTypes.array.isRequired,
+  assignedGuitars: PropTypes.array.isRequired,
   origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired

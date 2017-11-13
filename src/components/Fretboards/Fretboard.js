@@ -28,6 +28,7 @@ class Fretboard extends React.Component {
       style,
       track,
       tuningTracks,
+      guitars,
       isPhone,
       isSmart,
       isHidingLabels,
@@ -42,6 +43,9 @@ class Fretboard extends React.Component {
     } = this.props;
     const hasAlternateTuning =
       track.tuning !== undefined || track.fullTuning !== undefined;
+
+    const assigned = guitars.filter(item => item.track === track.name);
+    console.log(assigned);
     return (
       <View
         style={{
@@ -117,6 +121,7 @@ class Fretboard extends React.Component {
                 origin={this.state.tunerModalFrame}
                 track={track}
                 tuningNotes={tuningTracks[track.name]}
+                assignedGuitars={assigned}
                 currentNotation={this.props.currentNotation}
                 onClose={this.handleToggleTuner}
               />
@@ -205,13 +210,16 @@ Fretboard.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    tuningTracks: state.get("tuningTracks").toJS()
+    tuningTracks: state.get("tuningTracks").toJS(),
+    guitars: state.get("guitars").toJS()
   };
 };
 
 export default connect(mapStateToProps, actions)(
   onlyUpdateForKeys([
     "track",
+    "tuningTracks",
+    "guitars",
     "boardWidth",
     "leftHandState",
     "currentNotation"
