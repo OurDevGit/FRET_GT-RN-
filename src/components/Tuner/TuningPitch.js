@@ -43,6 +43,8 @@ export const pitchForString = (string, isBass, notation) => {
 };
 
 // FLAGGED FOR REMOVAL; MAY NOT NEED
+// MAY ALSO NOT NEED allPitches
+
 /*
 
 export const distanceToPitchBelow = pitch => {

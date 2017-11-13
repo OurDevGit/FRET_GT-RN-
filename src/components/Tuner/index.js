@@ -45,13 +45,14 @@ class Tuner extends React.Component {
             <View style={styles.titlebar}>
               <Text style={styles.heading}>{`Tuning for ${track.name}`}</Text>
               <View style={styles.barButtons}>
-                <FlatButton
+                {/* <FlatButton
                   title={isDigital ? "Go to Audible" : "Go to Digital"}
                   style={{
                     color: PrimaryGold
                   }}
                   onPress={this.handleToggleMode}
-                />
+                /> */}
+
                 <FlatButton
                   title="Close"
                   style={{
