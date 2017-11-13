@@ -9,11 +9,6 @@ const tuningPitch = (defaultNote, string, octave) => {
   var tuningIndex = tuningNotes.findIndex(item => string === item.string);
 
   if (tuningIndex > -1) {
-    console.log(
-      "applying adjustment to string: ",
-      string,
-      tuningNotes[tuningIndex].fret
-    );
     const mod = tuningNotes[tuningIndex].fret;
     let adjusted = index + mod;
 
@@ -28,7 +23,6 @@ const tuningPitch = (defaultNote, string, octave) => {
     }
   }
 
-  console.log("index: ", index);
   note = allNotes[index].note;
   let midFrequency = middleA * Math.pow(2, index / 12);
   let frequency = midFrequency * Math.pow(2, octave - 4);

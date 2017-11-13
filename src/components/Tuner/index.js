@@ -36,9 +36,12 @@ class Tuner extends React.Component {
       tuningInfo = `Custom Tuning: ${track.fullTuning}`;
     }
 
+    const top = Math.max(-170, origin.y - 520);
+    const left = origin.x - 940;
+
     const contentStyle = isPhone
       ? styles.contentFull
-      : [styles.contentOrigin, { top: origin.y - 520, left: origin.x - 900 }];
+      : [styles.contentOrigin, { top, left }];
 
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
