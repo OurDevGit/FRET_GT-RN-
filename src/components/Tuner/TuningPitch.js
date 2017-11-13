@@ -1,15 +1,42 @@
 const middleA = 440;
+var tuningNotes = [];
 var allNotes = [];
 var allPitches = [];
 
-const tuningPitch = (note, octave) => {
-  let index = allNotes.findIndex(item => note === item);
+const tuningPitch = (defaultNote, string, octave) => {
+  var note = defaultNote;
+  var index = allNotes.findIndex(item => note === item.note);
+  var tuningIndex = tuningNotes.findIndex(item => string === item.string);
+
+  if (tuningIndex > -1) {
+    console.log(
+      "applying adjustment to string: ",
+      string,
+      tuningNotes[tuningIndex].fret
+    );
+    const mod = tuningNotes[tuningIndex].fret;
+    let adjusted = index + mod;
+
+    if (adjusted > allNotes.length) {
+      let remainder = adjusted % allNotes.length;
+      index = remainder;
+    } else if (adjusted < 0) {
+      let remainder = adjusted % allNotes.length;
+      index = allNotes.length + remainder;
+    } else {
+      index = index + mod;
+    }
+  }
+
+  console.log("index: ", index);
+  note = allNotes[index].note;
   let midFrequency = middleA * Math.pow(2, index / 12);
   let frequency = midFrequency * Math.pow(2, octave - 4);
+
   return { note, octave, frequency };
 };
 
-export const setTuningNotation = notation => {
+export const setTuningParameters = (notation, tuningTrackNotes) => {
   let strings =
     notation === "Sharps"
       ? ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"]
@@ -20,6 +47,7 @@ export const setTuningNotation = notation => {
     return { note, frequency };
   });
 
+  tuningNotes = tuningTrackNotes;
   allPitches = [];
   for (var octave = 0; octave < 7; octave++) {
     allNotes.forEach(item => allPitches.push({ ...item, octave }));
@@ -27,15 +55,21 @@ export const setTuningNotation = notation => {
 };
 
 export const pitchForString = (string, isBass, notation) => {
-  const mod = isBass ? 1 : 0;
-  const pitches = [
-    tuningPitch("E", 2 - mod),
-    tuningPitch("A", 2 - mod),
-    tuningPitch("D", 3 - mod),
-    tuningPitch("G", 3 - mod),
-    tuningPitch("B", 3 - mod),
-    tuningPitch("E", 4 - mod)
-  ];
+  const pitches = isBass
+    ? [
+        tuningPitch("E", 5, 1),
+        tuningPitch("A", 4, 1),
+        tuningPitch("D", 3, 2),
+        tuningPitch("G", 2, 2)
+      ]
+    : [
+        tuningPitch("E", 5, 2),
+        tuningPitch("A", 4, 2),
+        tuningPitch("D", 3, 3),
+        tuningPitch("G", 2, 3),
+        tuningPitch("B", 1, 3),
+        tuningPitch("E", 0, 4)
+      ];
 
   var pitch = pitches[string];
   // TODO: handle tuning adjustments

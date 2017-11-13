@@ -14,8 +14,7 @@ import { PrimaryGold } from "../../design";
 import DigitalTuner from "./DigitalTuner";
 import AudioTuner from "./AudioTuner";
 import Note from "./NoteButton";
-import { getTuningNotation } from "../Fretboards/notations";
-import { setTuningNotation, pitchForString } from "./TuningPitch";
+import { setTuningParameters, pitchForString } from "./TuningPitch";
 
 class Tuner extends React.Component {
   state = {
@@ -24,11 +23,18 @@ class Tuner extends React.Component {
     currentNote: "E"
   };
   render() {
-    const { track, origin, currentNotation, onClose } = this.props;
+    const { track, origin, currentNotation, tuningNotes, onClose } = this.props;
     const { isDigital, currentNote, currentIndex } = this.state;
     const isPhone = Dimensions.get("window").height < 500;
-    setTuningNotation(currentNotation);
+    setTuningParameters(currentNotation, tuningNotes);
     const pitch = pitchForString(currentIndex);
+
+    var tuningInfo = "Standard Tuning";
+    if (track.tuning !== undefined) {
+      tuningInfo = `Custom Tuning: ${track.tuning}`;
+    } else if (track.fullTuning !== undefined) {
+      tuningInfo = `Custom Tuning: ${track.fullTuning}`;
+    }
 
     const contentStyle = isPhone
       ? styles.contentFull
@@ -43,7 +49,9 @@ class Tuner extends React.Component {
         >
           <TouchableOpacity activeOpacity={1} style={contentStyle}>
             <View style={styles.titlebar}>
-              <Text style={styles.heading}>{`Tuning for ${track.name}`}</Text>
+              <Text
+                style={styles.heading}
+              >{`Tuning for ${track.shortName}`}</Text>
               <View style={styles.barButtons}>
                 {/* <FlatButton
                   title={isDigital ? "Go to Audible" : "Go to Digital"}
@@ -62,7 +70,7 @@ class Tuner extends React.Component {
                 />
               </View>
             </View>
-            <Text style={styles.label}>Tuning Info Here</Text>
+            <Text style={styles.label}>{tuningInfo}</Text>
 
             <View style={{ flex: 1 }}>
               {isDigital ? (
@@ -90,12 +98,12 @@ class Tuner extends React.Component {
 
     for (var i = 0; i < 6; i++) {
       if (i < 4 || !track.isBass) {
-        const note = getTuningNotation(5 - i, currentNotation);
+        const pitch = pitchForString(i);
         buttons.push(
           <Note
             key={i}
             index={i}
-            note={note}
+            note={pitch.note}
             currentIndex={this.state.currentIndex}
             onPress={this.handleNotePress}
           />
@@ -180,6 +188,7 @@ const styles = StyleSheet.create({
 
 Tuner.propTypes = {
   track: PropTypes.object.isRequired,
+  tuningNotes: PropTypes.array.isRequired,
   origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired

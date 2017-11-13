@@ -60,6 +60,7 @@ class DigitalTuner extends React.Component {
       frequencies.pop();
     }
 
+    //console.log(this.props.currentPitch.frequency);
     let median = this.getMedianFrequency();
     let diff = median - this.props.currentPitch.frequency;
 

@@ -13,7 +13,6 @@ import Settings from "./Settings";
 import GuitarController from "./GuitarController";
 import CountdownTimer from "./CountdownTimer";
 import Store from "./Store";
-import Tuner from "./Tuner";
 import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
@@ -155,25 +154,6 @@ class Root extends Component {
               subCategoryIndex={this.state.subCategoryIndex}
             />
           )}
-
-          {/* TUNING DEV ONLY; REMOVE ON COMPLETION */}
-          <Tuner
-            origin={{ x: 1200, y: 588 }}
-            track={{
-              fullTuning: undefined,
-              shortName: "Acoustic Guitar",
-              isBass: false,
-              firstFret: 0,
-              name: "Acoustic Guitar",
-              lastFret: 7,
-              tuning: undefined,
-              capo: -1
-            }}
-            currentNotation={"Flats"}
-            onClose={() => {
-              console.log("should close tuner");
-            }}
-          />
         </View>
       </Provider>
     );

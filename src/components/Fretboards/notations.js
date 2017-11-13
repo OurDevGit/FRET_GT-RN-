@@ -17,10 +17,6 @@ export const getNotation = (fret, string, isLeft, currentNotation) => {
   }
 };
 
-export const getTuningNotation = (string, currentNotation) => {
-  return getNotation(0, string, false, currentNotation);
-};
-
 const scaleForNotation = notation => {
   switch (notation) {
     case "Sharps":

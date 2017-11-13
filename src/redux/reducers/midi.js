@@ -35,10 +35,10 @@ exports.visibleTracks = (state = List(), action) => {
   }
 };
 
-exports.tuningTracks = (state = List(), action) => {
+exports.tuningTracks = (state = Map(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
-      return List(action.payload.tuningTracks);
+      return action.payload.tuningTracks;
     case "CLEAR_MIDI_DATA":
       return List();
     default:

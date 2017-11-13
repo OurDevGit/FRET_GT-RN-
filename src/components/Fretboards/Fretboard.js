@@ -27,6 +27,7 @@ class Fretboard extends React.Component {
     const {
       style,
       track,
+      tuningTracks,
       isPhone,
       isSmart,
       isHidingLabels,
@@ -39,7 +40,8 @@ class Fretboard extends React.Component {
       setSmartTrack,
       clearSmartTrack
     } = this.props;
-
+    const hasAlternateTuning =
+      track.tuning !== undefined || track.fullTuning !== undefined;
     return (
       <View
         style={{
@@ -104,7 +106,7 @@ class Fretboard extends React.Component {
                 }}
               >
                 <TunerButton
-                  hasAlternateTuning={true}
+                  hasAlternateTuning={hasAlternateTuning}
                   size={{ width: 40, height: 40 }}
                 />
               </TouchableOpacity>
@@ -114,6 +116,7 @@ class Fretboard extends React.Component {
               <Tuner
                 origin={this.state.tunerModalFrame}
                 track={track}
+                tuningNotes={tuningTracks[track.name]}
                 currentNotation={this.props.currentNotation}
                 onClose={this.handleToggleTuner}
               />
@@ -200,7 +203,13 @@ Fretboard.propTypes = {
   clearSmartTrack: PropTypes.func
 };
 
-export default connect(undefined, actions)(
+const mapStateToProps = state => {
+  return {
+    tuningTracks: state.get("tuningTracks").toJS()
+  };
+};
+
+export default connect(mapStateToProps, actions)(
   onlyUpdateForKeys([
     "track",
     "boardWidth",

@@ -4,7 +4,7 @@ import { View, TouchableOpacity, Image, Text, StyleSheet } from "react-native";
 
 const NoteButton = ({ index, note, currentIndex, onPress }) => {
   const backgroundColor = index === currentIndex ? "#17A3E3" : "#EEEEEE";
-  console.log(index, note, backgroundColor);
+
   return (
     <TouchableOpacity
       style={[styles.view, { backgroundColor }]}
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   text: {
     height: "100%",
     textAlignVertical: "center",
-    fontSize: 18
+    fontSize: 22
   }
 });
 
