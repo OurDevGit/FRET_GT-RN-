@@ -42,6 +42,9 @@ export const pitchForString = (string, isBass, notation) => {
   return pitch;
 };
 
+// FLAGGED FOR REMOVAL; MAY NOT NEED
+/*
+
 export const distanceToPitchBelow = pitch => {
   let matching = allPitches.filter(item => item.frequency < pitch.frequency);
 
@@ -63,3 +66,4 @@ export const distanceToPitchAbove = pitch => {
     return 0.0;
   }
 };
+*/

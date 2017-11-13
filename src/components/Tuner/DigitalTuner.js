@@ -5,7 +5,6 @@ import Recorder from "react-native-recording";
 import PitchFinder from "pitchfinder";
 import DigitalLight from "./DigitalLight";
 import DigitalNeedle from "./DigitalNeedle";
-import { distanceToPitchBelow, distanceToPitchAbove } from "./TuningPitch";
 var frequencies = [];
 
 class DigitalTuner extends React.Component {
