@@ -5,34 +5,24 @@ import Recorder from "react-native-recording";
 import PitchFinder from "pitchfinder";
 import DigitalLight from "./DigitalLight";
 import DigitalNeedle from "./DigitalNeedle";
+import { distanceToPitchBelow, distanceToPitchAbove } from "./TuningPitch";
+var frequencies = [];
 
 class DigitalTuner extends React.Component {
   constructor(props) {
     super(props);
 
-    this.middleA = 440;
-    this.semitone = 69;
-    this.notations = [
-      "C",
-      "C♯",
-      "D",
-      "D♯",
-      "E",
-      "F",
-      "F♯",
-      "G",
-      "G♯",
-      "A",
-      "A♯",
-      "B"
-    ];
-    this.sampleRate = 22050; // FM radio
-    this.buffer = 2048;
+    this.sampleRate = 22050;
     this.pitchFinder = new PitchFinder.YIN({ sampleRate: this.sampleRate });
   }
 
+  state = {
+    rotation: 0
+  };
+
   render() {
     const { currentNote } = this.props;
+    const { rotation } = this.state;
     return (
       <View style={styles.container}>
         <Image
@@ -41,9 +31,10 @@ class DigitalTuner extends React.Component {
           resizeMode="contain"
         />
 
-        <DigitalLight type={"left"} isOn={true} />
-        <DigitalLight type={"right"} isOn={false} />
-        <DigitalNeedle rotation={0} />
+        <DigitalLight type={"left"} isOn={rotation < -3} />
+        <DigitalLight type={"right"} isOn={rotation > 3} />
+        <DigitalNeedle rotation={rotation} />
+
         <Image
           style={styles.housing}
           source={require("../../images/tuner-housing.png")}
@@ -54,7 +45,7 @@ class DigitalTuner extends React.Component {
   }
 
   componentDidMount = () => {
-    Recorder.init(this.sampleRate, this.buffer);
+    Recorder.init(this.sampleRate, 2048);
     Recorder.start();
     Recorder.on("recording", data => {
       this.handleData(data);
@@ -62,32 +53,33 @@ class DigitalTuner extends React.Component {
   };
 
   handleData = data => {
-    const frequency = this.pitchFinder(data);
+    const frequency =
+      this.pitchFinder(data) || this.props.currentPitch.frequency;
 
-    if (frequency) {
-      const note = this.getNote(frequency);
-      const cents = this.getCents(frequency, note);
-      const octave = parseInt(note / 12) - 1;
-      const name = this.notations[note % 12];
-
-      console.log(note, cents, octave, name);
+    frequencies.unshift(frequency);
+    if (frequencies.length > 10) {
+      frequencies.pop();
     }
+
+    let median = this.getMedianFrequency();
+    let diff = median - this.props.currentPitch.frequency;
+
+    var rotation = diff * 5;
+    rotation = Math.min(rotation, 60);
+    rotation = Math.max(rotation, -60);
+
+    this.setState({ rotation });
   };
 
-  getNote = frequency => {
-    const note = 12 * (Math.log(frequency / this.middleA) / Math.log(2));
-    return Math.round(note) + this.semitone;
-  };
-
-  getCents = (frequency, note) => {
-    const standard = this.middleA * Math.pow(2, (note - this.semitone) / 12);
-    return Math.floor(1200 * Math.log(frequency / standard) / Math.log(2));
+  getMedianFrequency = () => {
+    var values = [...frequencies];
+    values.sort((a, b) => a - b);
+    return (values[(values.length - 1) >> 1] + values[values.length >> 1]) / 2;
   };
 }
 
 DigitalTuner.propTypes = {
-  currentNote: PropTypes.string.isRequired,
-  currentIndex: PropTypes.number.isRequired
+  currentPitch: PropTypes.object.isRequired
 };
 
 const styles = StyleSheet.create({

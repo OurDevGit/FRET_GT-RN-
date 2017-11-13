@@ -15,6 +15,7 @@ import DigitalTuner from "./DigitalTuner";
 import AudioTuner from "./AudioTuner";
 import Note from "./NoteButton";
 import { getTuningNotation } from "../Fretboards/notations";
+import { setTuningNotation, pitchForString } from "./TuningPitch";
 
 class Tuner extends React.Component {
   state = {
@@ -23,9 +24,12 @@ class Tuner extends React.Component {
     currentNote: "E"
   };
   render() {
-    const { track, origin, onClose } = this.props;
+    const { track, origin, currentNotation, onClose } = this.props;
     const { isDigital, currentNote, currentIndex } = this.state;
     const isPhone = Dimensions.get("window").height < 500;
+    setTuningNotation(currentNotation);
+    const pitch = pitchForString(currentIndex);
+
     const contentStyle = isPhone
       ? styles.contentFull
       : [styles.contentOrigin, { top: origin.y - 520, left: origin.x - 900 }];
@@ -61,10 +65,7 @@ class Tuner extends React.Component {
 
             <View style={{ flex: 1 }}>
               {isDigital ? (
-                <DigitalTuner
-                  currentNote={currentNote}
-                  currentIndex={currentIndex}
-                />
+                <DigitalTuner currentPitch={pitch} />
               ) : (
                 <AudioTuner
                   currentNote={currentNote}

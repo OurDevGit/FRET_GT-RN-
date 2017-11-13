@@ -46,10 +46,10 @@ const styles = StyleSheet.create({
     top: 7,
     left: -20
   },
-  off: {
+  on: {
     borderBottomColor: "red"
   },
-  on: {
+  off: {
     borderBottomColor: "#8a0000"
   },
   left: {
