@@ -49,7 +49,7 @@ class Fretboard extends React.Component {
       .map((item, index) => {
         const name =
           item.name !== undefined
-            ? item.name.replace("'s Fretlight")
+            ? item.name.replace("'s Fretlight", "")
             : `Fretlight ${index + 1}`;
         return { ...item, name };
       });
