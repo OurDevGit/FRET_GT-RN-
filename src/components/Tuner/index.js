@@ -9,6 +9,7 @@ import {
   StyleSheet
 } from "react-native";
 import PropTypes from "prop-types";
+import { onlyUpdateForKeys } from "recompose";
 import Dimensions from "Dimensions";
 import { FlatButton } from "../Material";
 import { PrimaryGold } from "../../design";
@@ -30,7 +31,7 @@ class Tuner extends React.Component {
     const { track, origin, currentNotation, tuningNotes, onClose } = this.props;
     const { isDigital, currentNote, currentIndex } = this.state;
     const isPhone = Dimensions.get("window").height < 500;
-    setTuningParameters(currentNotation, tuningNotes);
+    setTuningParameters(track, currentNotation, tuningNotes);
     const pitch = pitchForString(currentIndex);
 
     var tuningInfo = "Standard Tuning";
@@ -217,4 +218,10 @@ Tuner.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-export default Tuner;
+export default onlyUpdateForKeys([
+  "track",
+  "tuningNotes",
+  "guitars",
+  "assignedGuitars",
+  "origin"
+])(Tuner);

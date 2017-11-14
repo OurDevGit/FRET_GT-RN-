@@ -2,6 +2,7 @@ const middleA = 440;
 var tuningNotes = [];
 var allNotes = [];
 var allPitches = [];
+var stringPitches = [];
 
 const tuningPitch = (defaultNote, string, octave) => {
   var note = defaultNote;
@@ -30,10 +31,12 @@ const tuningPitch = (defaultNote, string, octave) => {
   let midFrequency = middleA * Math.pow(2, index / 12);
   let frequency = midFrequency * Math.pow(2, octave - 4);
 
+  console.log(note, midFrequency, frequency);
+
   return { note, octave, frequency };
 };
 
-export const setTuningParameters = (notation, tuningTrackNotes) => {
+export const setTuningParameters = (track, notation, tuningTrackNotes) => {
   let strings =
     notation === "Sharps"
       ? ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A♯", "B"]
@@ -49,10 +52,8 @@ export const setTuningParameters = (notation, tuningTrackNotes) => {
   for (var octave = 0; octave < 7; octave++) {
     allNotes.forEach(item => allPitches.push({ ...item, octave }));
   }
-};
 
-export const pitchForString = (string, isBass, notation) => {
-  const pitches = isBass
+  stringPitches = track.isBass
     ? [
         tuningPitch("E", 5, 1),
         tuningPitch("A", 4, 1),
@@ -67,10 +68,10 @@ export const pitchForString = (string, isBass, notation) => {
         tuningPitch("B", 1, 3),
         tuningPitch("E", 0, 4)
       ];
+};
 
-  var pitch = pitches[string];
-  // TODO: handle tuning adjustments
-  return pitch;
+export const pitchForString = string => {
+  return stringPitches[string];
 };
 
 // FLAGGED FOR REMOVAL; MAY NOT NEED
