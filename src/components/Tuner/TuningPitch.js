@@ -6,20 +6,23 @@ var allPitches = [];
 const tuningPitch = (defaultNote, string, octave) => {
   var note = defaultNote;
   var index = allNotes.findIndex(item => note === item.note);
-  var tuningIndex = tuningNotes.findIndex(item => string === item.string);
 
-  if (tuningIndex > -1) {
-    const mod = tuningNotes[tuningIndex].fret;
-    let adjusted = index + mod;
+  if (tuningNotes !== undefined) {
+    var tuningIndex = tuningNotes.findIndex(item => string === item.string);
 
-    if (adjusted > allNotes.length) {
-      let remainder = adjusted % allNotes.length;
-      index = remainder;
-    } else if (adjusted < 0) {
-      let remainder = adjusted % allNotes.length;
-      index = allNotes.length + remainder;
-    } else {
-      index = index + mod;
+    if (tuningIndex > -1) {
+      const mod = tuningNotes[tuningIndex].fret;
+      let adjusted = index + mod;
+
+      if (adjusted > allNotes.length) {
+        let remainder = adjusted % allNotes.length;
+        index = remainder;
+      } else if (adjusted < 0) {
+        let remainder = adjusted % allNotes.length;
+        index = allNotes.length + remainder;
+      } else {
+        index = index + mod;
+      }
     }
   }
 
