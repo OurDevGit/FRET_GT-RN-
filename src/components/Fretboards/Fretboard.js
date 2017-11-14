@@ -44,8 +44,19 @@ class Fretboard extends React.Component {
     const hasAlternateTuning =
       track.tuning !== undefined || track.fullTuning !== undefined;
 
-    const assigned = guitars.filter(item => item.track === track.name);
-    console.log(assigned);
+    const assigned = guitars
+      .filter(item => item.track === track.name)
+      .map((item, index) => {
+        const name =
+          item.name !== undefined
+            ? item.name.replace("'s Fretlight")
+            : `Fretlight ${index + 1}`;
+        return { ...item, name };
+      });
+
+    var assignedLabel = "  |  Assigned to:";
+    assigned.forEach(item => (assignedLabel += ` ${item.name},`));
+    assignedLabel = assignedLabel.replace(/,\s*$/, "");
     return (
       <View
         style={{
@@ -64,6 +75,20 @@ class Fretboard extends React.Component {
               }}
             >
               {isSmart ? " " : track.name || " "}
+
+              {!isSmart && (
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode={"tail"}
+                  style={{
+                    fontSize: isPhone ? 13 : 17,
+                    marginBottom: 1,
+                    color: "#4e3200"
+                  }}
+                >
+                  {assignedLabel}
+                </Text>
+              )}
             </Text>
 
             <View
