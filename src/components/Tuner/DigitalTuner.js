@@ -5,6 +5,7 @@ import Recorder from "react-native-recording";
 import PitchFinder from "pitchfinder";
 import DigitalLight from "./DigitalLight";
 import DigitalNeedle from "./DigitalNeedle";
+import { fineTuningAdjustment } from "./TuningPitch";
 
 class DigitalTuner extends React.Component {
   constructor(props) {
@@ -66,7 +67,7 @@ class DigitalTuner extends React.Component {
   };
 
   handleData = data => {
-    const { currentPitch } = this.props;
+    const { currentPitch, fineTuning } = this.props;
     const frequency = this.pitchFinder(data) || currentPitch.frequency;
 
     this.frequencies.unshift(frequency);
@@ -74,8 +75,9 @@ class DigitalTuner extends React.Component {
       this.frequencies.pop();
     }
 
+    let adjustment = fineTuningAdjustment(currentPitch.frequency, fineTuning);
     let median = this.getMedianFrequency();
-    let diff = median - currentPitch.frequency;
+    let diff = median - currentPitch.frequency - adjustment;
 
     var rotation = diff * 5;
     rotation = Math.min(rotation, 60);
@@ -90,18 +92,18 @@ class DigitalTuner extends React.Component {
   };
 
   handleAnimationFrame = () => {
-    let rotation =
-      this.state.rotation + (this.currentRotation - this.state.rotation);
-    this.setState({ rotation });
-
     if (this.isRecording) {
+      let rotation =
+        this.state.rotation + (this.currentRotation - this.state.rotation);
+      this.setState({ rotation });
       requestAnimationFrame(this.handleAnimationFrame);
     }
   };
 }
 
 DigitalTuner.propTypes = {
-  currentPitch: PropTypes.object
+  currentPitch: PropTypes.object,
+  fineTuning: PropTypes.number
 };
 
 const styles = StyleSheet.create({

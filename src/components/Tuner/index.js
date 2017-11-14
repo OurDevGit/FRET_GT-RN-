@@ -33,6 +33,7 @@ class Tuner extends React.Component {
     const isPhone = Dimensions.get("window").height < 500;
     setTuningParameters(track, currentNotation, tuningNotes);
     const pitch = pitchForString(currentIndex);
+    const fineTuning = track.fineTuneVal || 0;
 
     var tuningInfo = "Standard Tuning";
     if (track.tuning !== undefined) {
@@ -82,7 +83,7 @@ class Tuner extends React.Component {
 
             <View style={{ flex: 1 }}>
               {isDigital ? (
-                <DigitalTuner currentPitch={pitch} />
+                <DigitalTuner fineTuning={fineTuning} currentPitch={pitch} />
               ) : (
                 <AudioTuner
                   currentNote={currentNote}

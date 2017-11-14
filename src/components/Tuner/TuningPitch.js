@@ -1,7 +1,7 @@
 const middleA = 440;
 var tuningNotes = [];
 var allNotes = [];
-var allPitches = [];
+var allFrequencies = [];
 var stringPitches = [];
 
 const tuningPitch = (defaultNote, string, octave) => {
@@ -41,14 +41,16 @@ export const setTuningParameters = (track, notation, tuningTrackNotes) => {
       : ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"];
 
   allNotes = strings.map((note, index) => {
-    let frequency = middleA * Math.pow(2, index / 12);
+    let frequency = middleA * Math.pow(2, (index - 9) / 12);
     return { note, frequency };
   });
 
   tuningNotes = tuningTrackNotes;
-  allPitches = [];
+  allFrequencies = [];
   for (var octave = 0; octave < 7; octave++) {
-    allNotes.forEach(item => allPitches.push({ ...item, octave }));
+    allNotes.forEach(item =>
+      allFrequencies.push(item.frequency * Math.pow(2, octave - 4))
+    );
   }
 
   stringPitches = track.isBass
@@ -72,30 +74,37 @@ export const pitchForString = string => {
   return stringPitches[string];
 };
 
-// FLAGGED FOR REMOVAL; MAY NOT NEED
-// MAY ALSO NOT NEED allPitches
-
-/*
-
-export const distanceToPitchBelow = pitch => {
-  let matching = allPitches.filter(item => item.frequency < pitch.frequency);
+// used for fine-tuning
+const distanceToPitchBelow = frequency => {
+  let matching = allFrequencies.filter(item => item < frequency);
 
   if (matching.length > 0) {
-    let pitchBelow = matching[matching.length - 1];
-    return pitch.frequency - pitchBelow.frequency;
+    let freqBelow = matching[matching.length - 1];
+    return frequency - freqBelow;
   } else {
     return 0.0;
   }
 };
 
-export const distanceToPitchAbove = pitch => {
-  let matching = allPitches.filter(item => item.frequency > pitch.frequency);
+const distanceToPitchAbove = frequency => {
+  let matching = allFrequencies.filter(item => item > frequency);
 
   if (matching.length > 0) {
-    let pitchAbove = matching[0];
-    return pitchAbove.frequency - pitch.frequency;
+    let freqAbove = matching[0];
+    return freqAbove - frequency;
   } else {
     return 0.0;
   }
 };
-*/
+
+export const fineTuningAdjustment = (frequency, fineTuning) => {
+  let tuning = fineTuning / 8192;
+
+  if (tuning < 0) {
+    return distanceToPitchBelow(frequency) * tuning;
+  } else if (tuning > 0) {
+    return distanceToPitchAbove(frequency) * tuning;
+  } else {
+    return 0;
+  }
+};
