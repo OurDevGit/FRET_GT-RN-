@@ -22,8 +22,8 @@ var guitarController = NativeModules.GTGuitarController;
 class Tuner extends React.Component {
   state = {
     isDigital: true,
-    currentIndex: 0,
-    currentNote: "E"
+    currentIndex: -1,
+    currentNote: ""
   };
 
   render() {

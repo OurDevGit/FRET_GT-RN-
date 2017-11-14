@@ -5,13 +5,14 @@ import Recorder from "react-native-recording";
 import PitchFinder from "pitchfinder";
 import DigitalLight from "./DigitalLight";
 import DigitalNeedle from "./DigitalNeedle";
-var frequencies = [];
 
 class DigitalTuner extends React.Component {
   constructor(props) {
     super(props);
 
+    this.hasStartedRecording = false;
     this.sampleRate = 22050;
+    this.frequencies = [];
     this.pitchFinder = new PitchFinder.YIN({ sampleRate: this.sampleRate });
   }
 
@@ -43,24 +44,33 @@ class DigitalTuner extends React.Component {
     );
   }
 
-  componentDidMount = () => {
-    Recorder.init(this.sampleRate, 2048);
-    Recorder.start();
-    Recorder.on("recording", data => {
-      this.handleData(data);
-    });
+  componentWillUnmount = () => {
+    Recorder.stop();
+  };
+
+  componentWillReceiveProps = nextProps => {
+    if (nextProps.currentPitch !== undefined && !this.hasStartedRecording) {
+      Recorder.init(this.sampleRate, 2048);
+      Recorder.start();
+      Recorder.on("recording", data => {
+        this.handleData(data);
+      });
+      this.hasStartedRecording = true;
+    }
+    this.frequencies = [];
   };
 
   handleData = data => {
     const { currentPitch } = this.props;
     const frequency = this.pitchFinder(data) || currentPitch.frequency;
 
-    frequencies.unshift(frequency);
-    if (frequencies.length > 10) {
-      frequencies.pop();
+    this.frequencies.unshift(frequency);
+    if (this.frequencies.length > 10) {
+      this.frequencies.pop();
     }
 
-    console.log(currentPitch.note, currentPitch.frequency);
+    //console.log(frequency, currentPitch.note, currentPitch.frequency);
+
     let median = this.getMedianFrequency();
     let diff = median - currentPitch.frequency;
 
@@ -72,7 +82,7 @@ class DigitalTuner extends React.Component {
   };
 
   getMedianFrequency = () => {
-    var values = [...frequencies];
+    var values = [...this.frequencies];
     values.sort((a, b) => a - b);
     return (values[(values.length - 1) >> 1] + values[values.length >> 1]) / 2;
   };
