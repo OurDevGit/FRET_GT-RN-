@@ -57,7 +57,7 @@ class HorizontalContainer extends React.Component {
             renderItem={({ item, index }) => {
               const fretRange = item.lastFret - item.firstFret;
               const showSmart =
-                track.name !== "" && !this.props.isVideo && fretRange < 12;
+                item.name !== "" && !this.props.isVideo && fretRange < 12;
               return (
                 <Fretboard
                   isPhone={this.props.isPhone}

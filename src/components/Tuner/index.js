@@ -154,8 +154,8 @@ const styles = StyleSheet.create({
     height: "100%"
   },
   contentFull: {
-    width: "90%",
-    height: "90%",
+    width: "100%",
+    height: "100%",
     backgroundColor: "#222222",
     padding: 15
   },
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   },
   titlebar: {
     width: "100%",
-    height: 50,
+    height: 40,
     flexDirection: "row",
     justifyContent: "space-between",
     borderBottomWidth: 1
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: "white",
     marginHorizontal: 4,
-    height: 50,
+    height: 40,
     textAlignVertical: "center",
     marginLeft: 10
   },
@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
   },
   noteContainer: {
     width: "100%",
-    height: 60,
+    height: 44,
     flexDirection: "row",
     justifyContent: "center",
     marginTop: 12
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   noteRow: {
     width: "100%",
     maxWidth: 500,
-    height: 60,
+    height: 44,
     flexDirection: "row",
     justifyContent: "space-between"
   }
@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
 
 Tuner.propTypes = {
   track: PropTypes.object.isRequired,
-  tuningNotes: PropTypes.array.isRequired,
+  tuningNotes: PropTypes.array,
   assignedGuitars: PropTypes.array.isRequired,
   origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,

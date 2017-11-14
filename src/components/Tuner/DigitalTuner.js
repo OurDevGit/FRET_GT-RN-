@@ -25,21 +25,23 @@ class DigitalTuner extends React.Component {
     const { rotation } = this.state;
     return (
       <View style={styles.container}>
-        <Image
-          style={styles.image}
-          source={require("../../images/tuner-background.png")}
-          resizeMode="contain"
-        />
+        <View style={styles.innerContainer}>
+          <Image
+            style={styles.image}
+            source={require("../../images/tuner-background.png")}
+            resizeMode="contain"
+          />
 
-        <DigitalLight type={"left"} isOn={rotation < -3} />
-        <DigitalLight type={"right"} isOn={rotation > 3} />
-        <DigitalNeedle rotation={rotation} />
+          <DigitalLight type={"left"} isOn={rotation < -3} />
+          <DigitalLight type={"right"} isOn={rotation > 3} />
+          <DigitalNeedle rotation={rotation} />
 
-        <Image
-          style={styles.housing}
-          source={require("../../images/tuner-housing.png")}
-          resizeMode="contain"
-        />
+          <Image
+            style={styles.housing}
+            source={require("../../images/tuner-housing.png")}
+            resizeMode="contain"
+          />
+        </View>
       </View>
     );
   }
@@ -89,15 +91,19 @@ class DigitalTuner extends React.Component {
 }
 
 DigitalTuner.propTypes = {
-  currentPitch: PropTypes.object.isRequired
+  currentPitch: PropTypes.object
 };
 
 const styles = StyleSheet.create({
   container: { flex: 1, alignItems: "center" },
-  image: {
+  innerContainer: {
     height: "100%",
     aspectRatio: 1.333,
     alignItems: "center"
+  },
+  image: {
+    height: "100%",
+    aspectRatio: 1.333
   },
   housing: { position: "absolute", bottom: "10%" }
 });

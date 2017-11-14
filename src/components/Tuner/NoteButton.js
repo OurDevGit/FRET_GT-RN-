@@ -29,8 +29,8 @@ NoteButton.propTypes = {
 
 const styles = StyleSheet.create({
   view: {
-    width: 60,
-    height: 60,
+    width: 44,
+    height: 44,
     borderRadius: 1000,
     alignItems: "center"
   },
