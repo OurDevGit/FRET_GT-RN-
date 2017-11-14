@@ -10,9 +10,10 @@ class DigitalTuner extends React.Component {
   constructor(props) {
     super(props);
 
-    this.hasStartedRecording = false;
+    this.isRecording = false;
     this.sampleRate = 22050;
     this.frequencies = [];
+    this.currentRotation = 0;
     this.pitchFinder = new PitchFinder.YIN({ sampleRate: this.sampleRate });
   }
 
@@ -48,16 +49,18 @@ class DigitalTuner extends React.Component {
 
   componentWillUnmount = () => {
     Recorder.stop();
+    this.isRecording = false;
   };
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.currentPitch !== undefined && !this.hasStartedRecording) {
+    if (nextProps.currentPitch !== undefined && !this.isRecording) {
       Recorder.init(this.sampleRate, 2048);
       Recorder.start();
       Recorder.on("recording", data => {
         this.handleData(data);
       });
-      this.hasStartedRecording = true;
+      this.isRecording = true;
+      requestAnimationFrame(this.handleAnimationFrame);
     }
     this.frequencies = [];
   };
@@ -71,22 +74,29 @@ class DigitalTuner extends React.Component {
       this.frequencies.pop();
     }
 
-    //console.log(frequency, currentPitch.note, currentPitch.frequency);
-
     let median = this.getMedianFrequency();
     let diff = median - currentPitch.frequency;
 
     var rotation = diff * 5;
     rotation = Math.min(rotation, 60);
     rotation = Math.max(rotation, -60);
-
-    this.setState({ rotation });
+    this.currentRotation = rotation;
   };
 
   getMedianFrequency = () => {
     var values = [...this.frequencies];
     values.sort((a, b) => a - b);
     return (values[(values.length - 1) >> 1] + values[values.length >> 1]) / 2;
+  };
+
+  handleAnimationFrame = () => {
+    let rotation =
+      this.state.rotation + (this.currentRotation - this.state.rotation);
+    this.setState({ rotation });
+
+    if (this.isRecording) {
+      requestAnimationFrame(this.handleAnimationFrame);
+    }
   };
 }
 
