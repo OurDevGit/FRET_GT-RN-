@@ -52,17 +52,17 @@ class DigitalTuner extends React.Component {
   };
 
   handleData = data => {
-    const frequency =
-      this.pitchFinder(data) || this.props.currentPitch.frequency;
+    const { currentPitch } = this.props;
+    const frequency = this.pitchFinder(data) || currentPitch.frequency;
 
     frequencies.unshift(frequency);
     if (frequencies.length > 10) {
       frequencies.pop();
     }
 
-    //console.log(this.props.currentPitch.frequency);
+    console.log(currentPitch.note, currentPitch.frequency);
     let median = this.getMedianFrequency();
-    let diff = median - this.props.currentPitch.frequency;
+    let diff = median - currentPitch.frequency;
 
     var rotation = diff * 5;
     rotation = Math.min(rotation, 60);

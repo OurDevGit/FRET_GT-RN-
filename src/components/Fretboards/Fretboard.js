@@ -54,9 +54,13 @@ class Fretboard extends React.Component {
         return { ...item, name };
       });
 
-    var assignedLabel = "  |  Assigned to:";
-    assigned.forEach(item => (assignedLabel += ` ${item.name},`));
-    assignedLabel = assignedLabel.replace(/,\s*$/, "");
+    var assignedLabel = "";
+    if (assigned.length > 0) {
+      assignedLabel = "  |  Assigned to:";
+      assigned.forEach(item => (assignedLabel += ` ${item.name},`));
+      assignedLabel = assignedLabel.replace(/,\s*$/, "");
+    }
+
     return (
       <View
         style={{
