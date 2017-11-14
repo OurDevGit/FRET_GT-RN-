@@ -31,8 +31,6 @@ const tuningPitch = (defaultNote, string, octave) => {
   let midFrequency = middleA * Math.pow(2, (index - 9) / 12);
   let frequency = midFrequency * Math.pow(2, octave - 4);
 
-  console.log(note, midFrequency, frequency);
-
   return { note, octave, frequency };
 };
 
