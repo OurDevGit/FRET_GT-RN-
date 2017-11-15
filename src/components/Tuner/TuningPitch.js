@@ -98,12 +98,16 @@ const distanceToPitchAbove = frequency => {
 };
 
 export const fineTuningAdjustment = (frequency, fineTuning) => {
-  let tuning = fineTuning / 8192;
+  let proportion = fineTuning / 16384;
+  let positiveNote = proportion * 200;
+  let modifier = (positiveNote - 100) * 0.01;
 
-  if (tuning < 0) {
-    return distanceToPitchBelow(frequency) * tuning;
-  } else if (tuning > 0) {
-    return distanceToPitchAbove(frequency) * tuning;
+  console.log(fineTuning, modifier);
+
+  if (modifier < 0) {
+    return distanceToPitchBelow(frequency) * modifier;
+  } else if (modifier > 0) {
+    return distanceToPitchAbove(frequency) * modifier;
   } else {
     return 0;
   }

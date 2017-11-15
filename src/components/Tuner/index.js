@@ -28,12 +28,12 @@ class Tuner extends React.Component {
   };
 
   render() {
-    const { track, origin, currentNotation, tuningNotes, onClose } = this.props;
+    const { track, origin, currentNotation, tuningTrack, onClose } = this.props;
     const { isDigital, currentNote, currentIndex } = this.state;
     const isPhone = Dimensions.get("window").height < 500;
-    setTuningParameters(track, currentNotation, tuningNotes);
+    setTuningParameters(track, currentNotation, tuningTrack.notes);
     const pitch = pitchForString(currentIndex);
-    const fineTuning = track.fineTuneVal || 0;
+    const fineTuning = tuningTrack.fineTuning || 0;
 
     var tuningInfo = "Standard Tuning";
     if (track.tuning !== undefined) {
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
 
 Tuner.propTypes = {
   track: PropTypes.object.isRequired,
-  tuningNotes: PropTypes.array,
+  tuningTrack: PropTypes.object,
   assignedGuitars: PropTypes.array.isRequired,
   origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,
@@ -221,7 +221,7 @@ Tuner.propTypes = {
 
 export default onlyUpdateForKeys([
   "track",
-  "tuningNotes",
+  "tuningTrack",
   "guitars",
   "assignedGuitars",
   "origin"

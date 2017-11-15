@@ -61,6 +61,8 @@ class Fretboard extends React.Component {
       assignedLabel = assignedLabel.replace(/,\s*$/, "");
     }
 
+    //console.log(track.name, tuningTracks[track.name]);
+
     return (
       <View
         style={{
@@ -149,7 +151,7 @@ class Fretboard extends React.Component {
               <Tuner
                 origin={this.state.tunerModalFrame}
                 track={track}
-                tuningNotes={tuningTracks[track.name]}
+                tuningTrack={tuningTracks[track.name]}
                 assignedGuitars={assigned}
                 currentNotation={this.props.currentNotation}
                 onClose={this.handleToggleTuner}

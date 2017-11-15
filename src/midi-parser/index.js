@@ -73,7 +73,11 @@ module.exports = (filename, isAsset = false) => {
               .map(note => ({ fret: note.fret, string: note.string }))
               .sort((a, b) => a.string - b.string);
 
-            tuningTracks = tuningTracks.set(name, tuningNotes);
+            let fineTuning = track.get("fineTuneVal") || 0;
+            tuningTracks = tuningTracks.set(
+              track.get("name"),
+              Map({ fineTuning, notes: tuningNotes })
+            );
           }
 
           // load jambar track
