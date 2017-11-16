@@ -9,6 +9,7 @@ import {
   unsubscribeToTimeUpdates
 } from "../../time-store";
 import { notesForTrackAtTime } from "../../midi-store";
+import { getNotation } from "./notations";
 
 // TODO: IMPLEMENT TUNING ADJUSTMENT
 
@@ -213,7 +214,7 @@ class FretboardFrets extends React.Component {
           <FretboardNote
             key={i}
             styles={noteStyles}
-            notation={this.notation(fretIndex, i, isLeft, currentNotation)}
+            notation={getNotation(fretIndex, i, isLeft, currentNotation)}
             boardWidth={boardWidth}
             fretHeight={fretHeight}
             ref={ref => (this.noteRefs[key] = ref)}
@@ -223,35 +224,7 @@ class FretboardFrets extends React.Component {
     }
     return views;
   };
-
-  notation = (fret, string, isLeft, currentNotation) => {
-    if (currentNotation === "None") {
-      return " ";
-    } else {
-      const roots = ["E", "B", "G", "D", "A", "E"];
-      const defaultName = roots[string];
-      const scale = scaleForNotation(currentNotation);
-      const index = scale.indexOf(defaultName) || 0;
-      const adjusted = fret + index; // + adjustment
-      var remainder = adjusted % scale.length;
-
-      if (remainder < 0) {
-        remainder = scale.count + remainder;
-      }
-
-      return scale[remainder];
-    }
-  };
 }
-
-const scaleForNotation = notation => {
-  switch (notation) {
-    case "Sharps":
-      return ["E", "F", "F♯", "G", "G♯", "A", "A♯", "B", "C", "C♯", "D", "D♯"];
-    default:
-      return ["E", "F", "G♭", "G", "A♭", "A", "B♭", "B", "C", "D♭", "D", "E♭"];
-  }
-};
 
 FretboardFrets.propTypes = {
   track: PropTypes.object.isRequired,

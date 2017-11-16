@@ -6,23 +6,29 @@ import { onlyUpdateForKeys } from "recompose";
 
 import * as actions from "../../redux/actions";
 import { PrimaryBlue, adjustedFontSize } from "../../design";
+import { TunerButton } from "../StyleKit";
 import FretboardLabels from "./FretboardFretLabels";
 import FretboardBackground from "./FretboardFretBackground";
 import FretboardFrets from "./FretboardFrets";
 import FretboardStrings from "./FretboardStrings";
 import FretboardCapo from "./FretboardCapo";
 import SmartFretText from "../modals/SmartFretText";
+import Tuner from "../Tuner";
 
 class Fretboard extends React.Component {
   state = {
     fretHeight: 0,
-    isLeft: false
+    isLeft: false,
+    isShowingTuner: false,
+    tunerModalFrame: {}
   };
 
   render() {
     const {
       style,
       track,
+      tuningTracks,
+      guitars,
       isPhone,
       isSmart,
       isHidingLabels,
@@ -35,6 +41,30 @@ class Fretboard extends React.Component {
       setSmartTrack,
       clearSmartTrack
     } = this.props;
+    const hasAlternateTuning =
+      track.tuning !== undefined || track.fullTuning !== undefined;
+
+    const assigned = guitars
+      .filter(item => item.track === track.name)
+      .map((item, index) => {
+        const name =
+          item.name !== undefined
+            ? item.name.replace("'s Fretlight", "")
+            : `Fretlight ${index + 1}`;
+        return { ...item, name };
+      });
+
+    var assignedLabel = "";
+    if (assigned.length > 0) {
+      assignedLabel = "  |  Assigned to:";
+      assigned.forEach(item => (assignedLabel += ` ${item.name},`));
+      assignedLabel = assignedLabel.replace(/,\s*$/, "");
+    }
+
+    const tuningTrack = tuningTracks[track.name] || {
+      fineTuning: 0,
+      notes: []
+    };
 
     return (
       <View
@@ -54,25 +84,81 @@ class Fretboard extends React.Component {
               }}
             >
               {isSmart ? " " : track.name || " "}
+
+              {!isSmart && (
+                <Text
+                  numberOfLines={1}
+                  ellipsizeMode={"tail"}
+                  style={{
+                    fontSize: isPhone ? 13 : 17,
+                    marginBottom: 1,
+                    color: "#4e3200"
+                  }}
+                >
+                  {assignedLabel}
+                </Text>
+              )}
             </Text>
 
-            {showSmart && (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "flex-end"
+              }}
+            >
+              {showSmart && (
+                <TouchableOpacity
+                  style={{
+                    marginRight: isSmart ? 10 : 0,
+                    marginBottom: isSmart ? 10 : 5
+                  }}
+                  onPress={() => {
+                    isSmart
+                      ? clearSmartTrack()
+                      : setSmartTrack(track, this.state.isLeft);
+                  }}
+                >
+                  <SmartFretText
+                    color={PrimaryBlue}
+                    size={isSmart ? (isPhone ? 16 : 20) : isPhone ? 13 : 17}
+                  />
+                </TouchableOpacity>
+              )}
+
               <TouchableOpacity
                 style={{
-                  marginRight: isSmart ? 10 : 0,
-                  marginBottom: isSmart ? 10 : 5
+                  flex: -1,
+                  marginTop: -8,
+                  marginBottom: -14,
+                  marginLeft: 10
                 }}
+                ref="BtnTuner"
                 onPress={() => {
-                  isSmart
-                    ? clearSmartTrack()
-                    : setSmartTrack(track, this.state.isLeft);
+                  this.refs.BtnTuner.measure(
+                    (fx, fy, width, height, px, py) => {
+                      const frame = { x: px, y: py, width, height };
+                      this.handleToggleTuner(frame);
+                    }
+                  );
                 }}
               >
-                <SmartFretText
-                  color={PrimaryBlue}
-                  size={isSmart ? (isPhone ? 16 : 20) : isPhone ? 13 : 17}
+                <TunerButton
+                  hasAlternateTuning={hasAlternateTuning}
+                  size={{ width: 40, height: 40 }}
                 />
               </TouchableOpacity>
+            </View>
+
+            {this.state.isShowingTuner && (
+              <Tuner
+                origin={this.state.tunerModalFrame}
+                track={track}
+                tuningTrack={tuningTrack}
+                assignedGuitars={assigned}
+                currentNotation={this.props.currentNotation}
+                onClose={this.handleToggleTuner}
+              />
             )}
           </View>
         )}
@@ -133,6 +219,11 @@ class Fretboard extends React.Component {
   handleToggleOrientation = () => {
     this.setState({ isLeft: !this.state.isLeft });
   };
+
+  handleToggleTuner = frame => {
+    const isShowingTuner = !this.state.isShowingTuner;
+    this.setState({ isShowingTuner, tunerModalFrame: frame });
+  };
 }
 
 Fretboard.propTypes = {
@@ -151,9 +242,18 @@ Fretboard.propTypes = {
   clearSmartTrack: PropTypes.func
 };
 
-export default connect(undefined, actions)(
+const mapStateToProps = state => {
+  return {
+    tuningTracks: state.get("tuningTracks").toJS(),
+    guitars: state.get("guitars").toJS()
+  };
+};
+
+export default connect(mapStateToProps, actions)(
   onlyUpdateForKeys([
     "track",
+    "tuningTracks",
+    "guitars",
     "boardWidth",
     "leftHandState",
     "currentNotation"

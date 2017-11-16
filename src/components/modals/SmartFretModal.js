@@ -138,6 +138,8 @@ class SmartFretModal extends React.Component {
               <PlaybackPrimary
                 mediaId={this.props.mediaId}
                 title={this.props.mediaTitle}
+                artist={this.props.artist}
+                artworkURL={this.props.artworkURL}
                 isPlaying={this.props.isPlaying}
                 isPhone={this.props.isPhone}
                 onPreviousPress={this.props.onPreviousPress}
@@ -175,6 +177,7 @@ class SmartFretModal extends React.Component {
                 onPrevStep={this.props.onPrevStep}
                 onNextStep={this.props.onNextStep}
                 onDisplayInfo={this.props.onDisplayInfo}
+                onToggleFretlightAdmin={this.props.onToggleFretlightAdmin}
               />
             </View>
           )}

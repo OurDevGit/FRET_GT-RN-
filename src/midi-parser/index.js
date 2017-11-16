@@ -20,7 +20,7 @@ module.exports = (filename, isAsset = false) => {
       );
 
       var guitarTracks = List();
-      var tuningTracks = List();
+      var tuningTracks = Map();
       var patterns = List();
       var notes = Map();
 
@@ -66,8 +66,18 @@ module.exports = (filename, isAsset = false) => {
 
           // load tuning tracks
           if (arr[0].text.includes("T -")) {
+            const name = arr[0].text.replace("T - ", "");
             var track = noteTrack(arr, secondsForTicks);
-            tuningTracks = tuningTracks.push(track);
+            const tuningNotes = track
+              .get("notes")
+              .map(note => ({ fret: note.fret, string: note.string }))
+              .sort((a, b) => a.string - b.string);
+
+            let fineTuning = track.get("fineTuneVal") || 0;
+            tuningTracks = tuningTracks.set(
+              track.get("name"),
+              Map({ fineTuning, notes: tuningNotes })
+            );
           }
 
           // load jambar track

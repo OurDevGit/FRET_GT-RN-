@@ -154,8 +154,6 @@ module.exports = (track, secondsForTicks) => {
     name,
     shortName,
     notes,
-    tuning,
-    fullTuning,
     isBass,
     firstFret,
     lastFret
@@ -163,6 +161,14 @@ module.exports = (track, secondsForTicks) => {
 
   if (capo !== undefined) {
     returnObj.capo = capo;
+  }
+
+  if (tuning !== undefined) {
+    returnObj.tuning = tuning;
+  }
+
+  if (fullTuning !== undefined) {
+    returnObj.fullTuning = fullTuning;
   }
 
   if (fineTuneVal !== undefined) {

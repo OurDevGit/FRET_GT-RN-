@@ -26,13 +26,16 @@ class VerticalContainer extends React.Component {
 
   fretboards() {
     return this.props.tracks.map(track => {
+      const fretRange = track.get("lastFret") - track.get("firstFret");
+      const showSmart =
+        track.get("name") !== "" && !this.props.isVideo && fretRange < 12;
       return (
         <Fretboard
           key={track.get("name")}
           isPhone={this.props.isPhone}
           leftHandState={this.props.leftHandState}
           currentNotation={this.props.currentNotation}
-          showSmart={track.get("name") !== "" && !this.props.isVideo}
+          showSmart={showSmart}
           track={track.toJS()}
           isSmart={false}
           boardWidth={this.state.width}
