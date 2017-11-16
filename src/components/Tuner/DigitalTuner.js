@@ -71,7 +71,7 @@ class DigitalTuner extends React.Component {
     const frequency = this.pitchFinder(data) || currentPitch.frequency;
 
     this.frequencies.unshift(frequency);
-    if (this.frequencies.length > 10) {
+    if (this.frequencies.length > 4) {
       this.frequencies.pop();
     }
 
@@ -93,8 +93,11 @@ class DigitalTuner extends React.Component {
 
   handleAnimationFrame = () => {
     if (this.isRecording) {
-      let rotation =
-        this.state.rotation + (this.currentRotation - this.state.rotation);
+      var diff = this.currentRotation - this.state.rotation;
+      diff = Math.max(diff, -4);
+      diff = Math.min(diff, 4);
+
+      let rotation = this.state.rotation + diff;
       this.setState({ rotation });
       requestAnimationFrame(this.handleAnimationFrame);
     }
