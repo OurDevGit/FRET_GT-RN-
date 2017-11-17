@@ -52,9 +52,8 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void play() {
-    // 0x3C = middle C
-    byte[] event = noteEvent(0x3C, true);
+  public void play(int note) {
+    byte[] event = noteEvent(note, true);
     midiDriver.write(event);
   }
 
