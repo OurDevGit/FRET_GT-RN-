@@ -42,6 +42,8 @@ class Settings extends React.Component {
       onClose
     } = this.props;
 
+    console.debug("Render Settings");
+
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
         <TouchableOpacity style={styles.container} onPress={onClose}>
@@ -171,7 +173,12 @@ class Settings extends React.Component {
   };
 
   handleHelpPress = async () => {
+    console.debug("handleHelpPress!");
     const pdfFile = await getHelp();
+    getHelp().then(helpFile => {
+      console.debug({ helpFile });
+      this.setState({ pdfFile: helpFile });
+    });
     console.debug({ pdfFile });
     this.setState({ pdfFile });
   };

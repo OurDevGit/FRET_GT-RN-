@@ -12,16 +12,28 @@ export const getSync = async resource => {
 export const setSync = async (resource, time) =>
   SyncStore.setObj(resource, time);
 
-export const getFile = async resource => FilesStore.getObj(resource);
+export const getFile = async resource => {
+  console.debug(`getting ${resource}`);
+  const file = await FilesStore.getObj(resource);
+  console.debug({ file });
+  return file;
+};
 
 export const setFile = async (resource, file) =>
   FilesStore.setObj(resource, file);
 
 export const getLegal = () => getFile("legal.pdf");
 
-export const getHelp = () => {
+export const getHelp = async () => {
+  console.debug("get help!");
   const isPhone = Dimensions.get("window").width < 1024;
-  return isPhone ? getFile("help-iphone.pdf") : getFile("help-ipad.pdf");
+  console.debug({ isPhone });
+  const file = isPhone
+    ? await getFile("help-iphone.pdf")
+    : await getFile("help-ipad.pdf");
+  console.debug({ file });
+
+  return file;
 };
 
 export const getOverlay = () => {

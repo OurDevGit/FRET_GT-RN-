@@ -21,10 +21,12 @@ export const makeStore = storeName => {
 
     // get a single object
     getObj: async key => {
+      console.debug(`getting object for key ${key}`);
       try {
-        let itemString = await AsyncStorage.getItem(
-          makeNamespacedKey(storeName, key)
-        );
+        const nameKey = makeNamespacedKey(storeName, key);
+        console.debug({ nameKey });
+        let itemString = await AsyncStorage.getItem(nameKey);
+        console.debug({ itemString });
         return JSON.parse(itemString);
       } catch (error) {
         console.error(error);
