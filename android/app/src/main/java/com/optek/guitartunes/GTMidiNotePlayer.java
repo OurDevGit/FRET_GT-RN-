@@ -21,6 +21,13 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
     midiDriver = new MidiDriver();
   }
 
+  private byte[] guitarInstrumentEvent() {
+    byte[] event = new byte[2];
+    event[0] = (byte) 0xC0;
+    event[1] = (byte) 0x19;
+    return event;
+  }
+
   private byte[] noteEvent(int note, boolean isOn) {
     byte[] event = new byte[3];
 
@@ -43,7 +50,7 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
   @ReactMethod
   public void start() {
     midiDriver.start();
-
+    midiDriver.write(guitarInstrumentEvent());
   }
 
   @ReactMethod
@@ -53,6 +60,7 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void play(int note) {
+
     byte[] event = noteEvent(note, true);
     midiDriver.write(event);
   }
