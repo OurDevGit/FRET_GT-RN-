@@ -9,13 +9,30 @@ import com.facebook.react.bridge.ReactMethod;
 
 import org.billthefarmer.mididriver.MidiDriver;
 
+// https://stackoverflow.com/questions/36193250/android-6-0-marshmallow-how-to-play-midi-notes
+
 public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
   private MidiDriver midiDriver;
+  private int currentNote;
   private byte[] event;
 
   public GTMidiNotePlayer(ReactApplicationContext context) {
     super(context);
     midiDriver = new MidiDriver();
+  }
+
+  private byte[] noteEvent(int note, boolean isOn) {
+    byte[] event = new byte[3];
+
+    // 0x90 = note On, 0x00 = channel 1 || 0x80 = note Off, 0x00 = channel 1
+    event[0] = isOn ? (byte) (0x90 | 0x00) : (byte) (0x80 | 0x00);
+    // note byte
+    event[1] = (byte) note;
+    // 0x7F = the maximum velocity (127) || 0x00 = the minimum velocity (0)
+    event[2] = isOn ? (byte) 0x7F : (byte) 0x00;
+
+    currentNote = note;
+    return event;
   }
 
   @Override
@@ -36,23 +53,14 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void play() {
-    event = new byte[3];
-    event[0] = (byte) (0x90 | 0x00); // 0x90 = note On, 0x00 = channel 1
-    event[1] = (byte) 0x3C; // 0x3C = middle C
-    event[2] = (byte) 0x7F; // 0x7F = the maximum velocity (127)
-    // Send the MIDI event to the synthesizer.
-    //261.626
+    // 0x3C = middle C
+    byte[] event = noteEvent(0x3C, true);
     midiDriver.write(event);
   }
 
   @ReactMethod
   public void clear() {
-    event = new byte[3];
-    event[0] = (byte) (0x80 | 0x00); // 0x80 = note Off, 0x00 = channel 1
-    event[1] = (byte) 0x3C; // 0x3C = middle C
-    event[2] = (byte) 0x00; // 0x00 = the minimum velocity (0)
-
-    // Send the MIDI event to the synthesizer.
+    byte[] event = noteEvent(currentNote, false);
     midiDriver.write(event);
   }
 }
