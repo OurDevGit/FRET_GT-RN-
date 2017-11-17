@@ -100,6 +100,8 @@ class Music extends React.Component {
   };
 
   loadMusic = audio => {
+    console.debug({ audio });
+
     this.songSound = new Sound(audio, Sound.MAIN_BUNDLE, (error, props) => {
       // console.log("sound init handler");
       if (error) {

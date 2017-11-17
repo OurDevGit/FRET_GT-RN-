@@ -21,6 +21,8 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
+  StreamProxy webServer;
+
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
     public boolean getUseDeveloperSupport() {
@@ -29,12 +31,9 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(),
-            new RecordingPackage(),
-            new RCTPdfView(),
-            new RNMail(),
-            new RNSentryPackage(MainApplication.this), new ReactVideoPackage(),
-          new InAppBillingBridgePackage(), new RNSoundPackage(), new RNFetchBlobPackage(), new GTReactPackage());
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RecordingPackage(), new RCTPdfView(), new RNMail(),
+          new RNSentryPackage(MainApplication.this), new ReactVideoPackage(), new InAppBillingBridgePackage(),
+          new RNSoundPackage(), new RNFetchBlobPackage(), new GTReactPackage());
     }
   };
 
@@ -47,5 +46,8 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+
+    webServer = new StreamProxy();
+    webServer.start();
   }
 }

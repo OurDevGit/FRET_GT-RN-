@@ -1,9 +1,19 @@
 import React, { Component } from "react";
-import { AppRegistry, StyleSheet, Text, View } from "react-native";
+import { AppRegistry, NativeModules } from "react-native";
+import RNFetchBlob from "react-native-fetch-blob";
+
 import Root from "./src/components/Root";
 import configureStore from "./src/configureStore";
 import { configureDownloadManager } from "./src/DownloadManager";
 import { syncResources } from "./src/lib/resources";
+import { getSalt } from "./src/models/Crypto";
+
+const crypto = NativeModules.GTCrypto;
+
+getSalt().then(salt => {
+  RNFetchBlob.setSalt(salt);
+  crypto.setSalt(salt);
+});
 
 // Sentry is our crash reporter
 import { Sentry } from "react-native-sentry";

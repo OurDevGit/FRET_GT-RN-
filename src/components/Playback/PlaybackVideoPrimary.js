@@ -160,7 +160,7 @@ class PlaybackVideoPrimary extends React.Component {
           <Video
             style={{ width: "100%", height: "100%" }}
             source={{
-              uri: videoUri
+              uri: `http://localhost:8888${videoUri}`
             }}
             paused={!isPlaying}
             rate={tempo}
