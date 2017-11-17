@@ -27,7 +27,8 @@ import {
   getAutoPartSwitchingState,
   getCountdownTimerState,
   getCurrentNotation,
-  getLeftHandState
+  getLeftHandState,
+  getTuningMode
 } from "./models/Settings";
 import * as actions from "./redux/actions";
 import { getMediaById, getDownloadedMediaFiles } from "./redux/selectors";
@@ -36,7 +37,8 @@ import {
   setCountdownTimerState,
   setLeftHandState,
   setAutoPartSwitchingState,
-  setCurrentNotation
+  setCurrentNotation,
+  setTuningMode
 } from "./models/Settings";
 
 const dirs = RNFetchBlob.fs.dirs;
@@ -338,6 +340,7 @@ function* watchBootstrap() {
   const countdownTimer = yield getCountdownTimerState();
   const currentNotation = yield getCurrentNotation();
   const leftHanded = yield getLeftHandState();
+  const tuningMode = yield getTuningMode();
 
   // Store
   const storeObjects = yield getStore();
@@ -349,6 +352,7 @@ function* watchBootstrap() {
     countdownTimer,
     currentNotation,
     leftHanded,
+    tuningMode,
     storeObjects,
     productDetails,
     purchasedMedia
@@ -386,6 +390,10 @@ function* watchCurrentNotation(action) {
   setCurrentNotation(action.payload);
 }
 
+function* watchSetTuningMode(action) {
+  setTuningMode(action.payload);
+}
+
 function* mySaga() {
   yield takeLatest("AD_FETCH_REQUESTED", fetchAd);
   yield takeEvery("CHOOSE_MEDIA", watchChooseMedia);
@@ -394,6 +402,7 @@ function* mySaga() {
   yield takeEvery("TOGGLE_FAVORITE", watchToggleFavorite);
   yield takeEvery("SET_COUNTDOWN_TIMER_STATE", watchSetCountdownTimerState);
   yield takeEvery("SET_LEFT_HAND_STATE", watchSetLeftHandState);
+  yield takeEvery("SET_TUNING_MODE", watchSetTuningMode);
   yield takeEvery("SET_AUTO_PART_SWITCHING_STATE", watchSetAutoPartSwitching);
   yield takeEvery("SET_CURRENT_NOTATION", watchCurrentNotation);
   yield takeLatest("DELETE_ALL_MEDIA", watchDeleteAllMedia);

@@ -41,3 +41,14 @@ exports.currentNotation = (state = "Flats", action) => {
       return state;
   }
 };
+
+exports.tuningMode = (state = "digital", action) => {
+  switch (action.type) {
+    case "SET_TUNING_MODE":
+      return action.payload;
+    case "SET_BOOTSTRAP":
+      return action.payload.tuningMode;
+    default:
+      return state;
+  }
+};

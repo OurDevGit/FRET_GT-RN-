@@ -22,14 +22,20 @@ var guitarController = NativeModules.GTGuitarController;
 
 class Tuner extends React.Component {
   state = {
-    isDigital: true,
     currentIndex: -1,
     currentNote: ""
   };
 
   render() {
-    const { track, origin, currentNotation, tuningTrack, onClose } = this.props;
-    const { isDigital, currentNote, currentIndex } = this.state;
+    const {
+      track,
+      origin,
+      currentNotation,
+      tuningTrack,
+      isDigital,
+      onClose
+    } = this.props;
+    const { currentNote, currentIndex } = this.state;
     const isPhone = Dimensions.get("window").height < 500;
     setTuningParameters(track, currentNotation, tuningTrack.notes);
     const pitch = pitchForString(currentIndex);
@@ -136,7 +142,7 @@ class Tuner extends React.Component {
   };
 
   handleToggleMode = () => {
-    this.setState({ isDigital: !this.state.isDigital });
+    this.props.onToggleTuningMode();
   };
 
   handleNotePress = (currentNote, currentIndex) => {
@@ -215,9 +221,11 @@ const styles = StyleSheet.create({
 Tuner.propTypes = {
   track: PropTypes.object.isRequired,
   tuningTrack: PropTypes.object,
+  isDigital: PropTypes.bool.isRequired,
   assignedGuitars: PropTypes.array.isRequired,
   origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,
+  onToggleTuningMode: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
