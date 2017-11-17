@@ -27,6 +27,7 @@ public class GTReactPackage implements ReactPackage {
     modules.add(new BSVolumeController(reactContext));
     modules.add(new GTGuitarController(reactContext));
     modules.add(new GTIdleTimerController(reactContext));
+    modules.add(new GTMidiNotePlayer(reactContext));
 
     return modules;
   }
