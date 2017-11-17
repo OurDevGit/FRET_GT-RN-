@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, Text, StyleSheet, NativeModules } from "react-native";
 import FretboardLabels from "./AudioFretboardLabels";
 import FretboardBackground from "./AudioFretboardBackground";
 import FretboardStrings from "./AudioFretboardStrings";
+var midiPlayer = NativeModules.GTMidiNotePlayer;
+var noteInterval;
 
 class AudioTuner extends React.Component {
   render() {
@@ -16,18 +18,49 @@ class AudioTuner extends React.Component {
           <FretboardLabels frets={frets} />
           <View style={{ flex: 1 }}>
             <FretboardBackground frets={frets} />
-            <FretboardStrings currentString={currentIndex} isBass={isBass} />
+            <FretboardStrings
+              currentString={5 - currentIndex}
+              isBass={isBass}
+            />
           </View>
         </View>
       </View>
     );
   }
+
+  componentDidMount = () => {
+    midiPlayer.start();
+    this.playPitch(this.props.currentPitch);
+  };
+
+  componentWillUnmount = () => {
+    midiPlayer.stop();
+    clearInterval(noteInterval);
+  };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.currentIndex !== this.props.currentIndex) {
+      clearInterval(noteInterval);
+      this.playPitch(nextProps.currentPitch);
+    }
+  }
+
+  playPitch = pitch => {
+    if (pitch !== undefined) {
+      midiPlayer.play(pitch.index);
+      noteInterval = setInterval(() => {
+        midiPlayer.play(pitch.index);
+      }, 2000);
+    }
+  };
 }
 
 AudioTuner.propTypes = {
   currentNote: PropTypes.string.isRequired,
   currentIndex: PropTypes.number.isRequired,
-  isBass: PropTypes.bool.isRequired
+  isBass: PropTypes.bool.isRequired,
+  currentPitch: PropTypes.object,
+  fineTuning: PropTypes.number
 };
 
 const styles = StyleSheet.create({

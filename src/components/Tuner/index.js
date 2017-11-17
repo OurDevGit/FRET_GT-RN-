@@ -62,13 +62,13 @@ class Tuner extends React.Component {
                 style={styles.heading}
               >{`Tuning for ${track.shortName}`}</Text>
               <View style={styles.barButtons}>
-                {/* <FlatButton
+                <FlatButton
                   title={isDigital ? "Go to Audible" : "Go to Digital"}
                   style={{
                     color: PrimaryGold
                   }}
                   onPress={this.handleToggleMode}
-                /> */}
+                />
 
                 <FlatButton
                   title="Close"
@@ -83,9 +83,11 @@ class Tuner extends React.Component {
 
             <View style={{ flex: 1 }}>
               {isDigital ? (
-                <DigitalTuner fineTuning={fineTuning} currentPitch={pitch} />
+                <DigitalTuner currentPitch={pitch} fineTuning={fineTuning} />
               ) : (
                 <AudioTuner
+                  currentPitch={pitch}
+                  fineTuning={fineTuning}
                   currentNote={currentNote}
                   currentIndex={currentIndex}
                   isBass={track.isBass}
