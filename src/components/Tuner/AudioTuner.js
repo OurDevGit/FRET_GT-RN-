@@ -29,7 +29,7 @@ class AudioTuner extends React.Component {
   }
 
   componentDidMount = () => {
-    midiPlayer.start();
+    midiPlayer.start(this.props.fineTuning);
     this.playPitch(this.props.currentPitch);
   };
 

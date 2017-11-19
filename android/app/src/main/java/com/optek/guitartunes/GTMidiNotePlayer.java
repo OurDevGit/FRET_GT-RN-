@@ -21,11 +21,22 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
     midiDriver = new MidiDriver();
   }
 
-  private byte[] guitarInstrumentEvent() {
+  private void setGuitarInstrument() {
     byte[] event = new byte[2];
     event[0] = (byte) 0xC0;
     event[1] = (byte) 0x19;
-    return event;
+    midiDriver.write(event);
+  }
+
+  private void setFineTuning(int fineTuning) {
+    byte lsb = (byte) (fineTuning & 0x7F);
+    byte msb = (byte) (fineTuning >> 7);
+
+    byte[] event = new byte[4];
+    event[0] = (byte) (0xE0 | 0x00);
+    event[1] = (byte) lsb;
+    event[2] = (byte) msb;
+    midiDriver.write(event);
   }
 
   private byte[] noteEvent(int note, boolean isOn) {
@@ -48,9 +59,11 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
   }
 
   @ReactMethod
-  public void start() {
+  public void start(int fineTuning) {
+    Log.d("GTMidiNotePlayer", "fineTuning: " + fineTuning + "; int: " + 0);
     midiDriver.start();
-    midiDriver.write(guitarInstrumentEvent());
+    setGuitarInstrument();
+    setFineTuning((int) fineTuning);
   }
 
   @ReactMethod
@@ -60,7 +73,6 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void play(int note) {
-
     byte[] event = noteEvent(note, true);
     midiDriver.write(event);
   }
