@@ -150,6 +150,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-mixpanel')
     compile project(':react-native-recording')
     compile project(':react-native-pdf')
     compile project(':react-native-mail')

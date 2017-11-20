@@ -43,6 +43,8 @@
 		CCE447B8A2314453831F0C3E /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98C7F919842843119CD65653 /* libRNMail.a */; };
 		BDA1EF1803234EE894773C27 /* libRCTPdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F72A2EBDDABB4C2A8459769C /* libRCTPdf.a */; };
 		0DE61767FFA2477B9B1F5F84 /* libRecording.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B05F7B0013472F98D62CE7 /* libRecording.a */; };
+		CADC0E8768174B5B8B4C0C7F /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F190CB05519E4858809E9D13 /* libRNMixpanel.a */; };
+		0DDAE4637A7A458BAE65E258 /* libRNMixpanel-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E94F55095A94ECF9AEBB2A0 /* libRNMixpanel-tvOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -277,6 +279,9 @@
 		F72A2EBDDABB4C2A8459769C /* libRCTPdf.a */ = {isa = PBXFileReference; name = "libRCTPdf.a"; path = "libRCTPdf.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		F8FAFFFF58A745ADB17B1E45 /* Recording.xcodeproj */ = {isa = PBXFileReference; name = "Recording.xcodeproj"; path = "../node_modules/react-native-recording/ios/Recording.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		60B05F7B0013472F98D62CE7 /* libRecording.a */ = {isa = PBXFileReference; name = "libRecording.a"; path = "libRecording.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		EE93BADA2EAD4E51969E44FA /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; name = "RNMixpanel.xcodeproj"; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		F190CB05519E4858809E9D13 /* libRNMixpanel.a */ = {isa = PBXFileReference; name = "libRNMixpanel.a"; path = "libRNMixpanel.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		6E94F55095A94ECF9AEBB2A0 /* libRNMixpanel-tvOS.a */ = {isa = PBXFileReference; name = "libRNMixpanel-tvOS.a"; path = "libRNMixpanel-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,6 +316,8 @@
 				CCE447B8A2314453831F0C3E /* libRNMail.a in Frameworks */,
 				BDA1EF1803234EE894773C27 /* libRCTPdf.a in Frameworks */,
 				0DE61767FFA2477B9B1F5F84 /* libRecording.a in Frameworks */,
+				CADC0E8768174B5B8B4C0C7F /* libRNMixpanel.a in Frameworks */,
+				0DDAE4637A7A458BAE65E258 /* libRNMixpanel-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,6 +491,7 @@
 				4A9F80B4068E4ABC88758EAD /* RNMail.xcodeproj */,
 				C1DCEC03A5E440CC9BD28203 /* RCTPdf.xcodeproj */,
 				F8FAFFFF58A745ADB17B1E45 /* Recording.xcodeproj */,
+				EE93BADA2EAD4E51969E44FA /* RNMixpanel.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1023,6 +1031,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1033,6 +1043,7 @@
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
+					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
 				);
 			};
 			name = Debug;
@@ -1055,6 +1066,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1065,6 +1078,7 @@
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
+					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
 				);
 			};
 			name = Release;
@@ -1093,6 +1107,7 @@
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
+					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
 				);
 			};
 			name = Debug;
@@ -1120,6 +1135,7 @@
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
+					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
 				);
 			};
 			name = Release;
@@ -1151,6 +1167,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1161,6 +1179,7 @@
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
+					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
 				);
 			};
 			name = Debug;
@@ -1192,6 +1211,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1202,6 +1223,7 @@
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
+					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
 				);
 			};
 			name = Release;
@@ -1228,6 +1250,8 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1252,6 +1276,8 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
