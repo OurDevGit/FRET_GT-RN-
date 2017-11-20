@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 
 import * as actions from "../../redux/actions";
-import { PrimaryBlue, adjustedFontSize } from "../../design";
+import { PrimaryBlue } from "../../design";
 import { TunerButton } from "../StyleKit";
 import FretboardLabels from "./FretboardFretLabels";
 import FretboardBackground from "./FretboardFretBackground";
@@ -14,7 +14,6 @@ import FretboardStrings from "./FretboardStrings";
 import FretboardCapo from "./FretboardCapo";
 import SmartFretText from "../modals/SmartFretText";
 import Tuner from "../Tuner";
-import { getTuningMode, setTuningMode } from "../../models/Settings";
 
 class Fretboard extends React.Component {
   state = {
@@ -33,7 +32,6 @@ class Fretboard extends React.Component {
       isPhone,
       isSmart,
       isHidingLabels,
-      leftHandState,
       tuningMode,
       currentNotation,
       trackIndex,
@@ -135,14 +133,12 @@ class Fretboard extends React.Component {
                   marginBottom: -14,
                   marginLeft: 10
                 }}
-                ref="BtnTuner"
+                ref={ref => (this.btnTuner = ref)}
                 onPress={() => {
-                  this.refs.BtnTuner.measure(
-                    (fx, fy, width, height, px, py) => {
-                      const frame = { x: px, y: py, width, height };
-                      this.handleToggleTuner(frame);
-                    }
-                  );
+                  this.btnTuner.measure((fx, fy, width, height, px, py) => {
+                    const frame = { x: px, y: py, width, height };
+                    this.handleToggleTuner(frame);
+                  });
                 }}
               >
                 <TunerButton
@@ -240,7 +236,10 @@ Fretboard.propTypes = {
   isHidingLabels: PropTypes.bool,
   leftHandState: PropTypes.bool.isRequired,
   currentNotation: PropTypes.string.isRequired,
+  tuningMode: PropTypes.string.isRequired,
   track: PropTypes.object.isRequired,
+  tuningTracks: PropTypes.object.isRequired,
+  guitars: PropTypes.array.isRequired,
   showSmart: PropTypes.bool.isRequired,
   isSmart: PropTypes.bool.isRequired,
   boardWidth: PropTypes.number.isRequired,
@@ -248,7 +247,8 @@ Fretboard.propTypes = {
   scrollIndex: PropTypes.number.isRequired,
   style: PropTypes.object.isRequired,
   setSmartTrack: PropTypes.func,
-  clearSmartTrack: PropTypes.func
+  clearSmartTrack: PropTypes.func,
+  setTuningMode: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

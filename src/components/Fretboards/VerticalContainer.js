@@ -54,7 +54,7 @@ class VerticalContainer extends React.Component {
     });
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     return (
       this.props.currentNotation !== nextProps.currentNotation ||
       !this.props.tracks.equals(nextProps.tracks) ||
