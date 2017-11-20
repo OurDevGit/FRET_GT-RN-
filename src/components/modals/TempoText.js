@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Text, View } from "react-native";
 import { BtnPhoneTempo } from "../StyleKit";
 
-export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
+const TempoText = ({ color, tempo, isPhone, withTitle }) => (
   <View
     style={{
       height: "100%",
@@ -12,31 +12,31 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
     }}
   >
     {withTitle &&
-    !isPhone && (
-      <Text
-        style={{
-          height: "100%",
-          textAlignVertical: "center",
-          fontSize: 20,
-          marginHorizontal: 2,
-          color: color
-        }}
-      >
-        Tempo:
-      </Text>
-    )}
+      !isPhone && (
+        <Text
+          style={{
+            height: "100%",
+            textAlignVertical: "center",
+            fontSize: 20,
+            marginHorizontal: 2,
+            color: color
+          }}
+        >
+          Tempo:
+        </Text>
+      )}
 
     {withTitle &&
-    isPhone && (
-      <BtnPhoneTempo
-        style={{
-          width: 40,
-          height: 40,
-          marginLeft: 5
-        }}
-        color={color}
-      />
-    )}
+      isPhone && (
+        <BtnPhoneTempo
+          style={{
+            width: 40,
+            height: 40,
+            marginLeft: 5
+          }}
+          color={color}
+        />
+      )}
 
     {tempo > 0 ? (
       <Text
@@ -81,7 +81,7 @@ export default (TempoText = ({ color, tempo, isPhone, withTitle }) => (
       </View>
     )}
   </View>
-));
+);
 
 TempoText.propTypes = {
   color: PropTypes.string.isRequired,
@@ -89,3 +89,5 @@ TempoText.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   withTitle: PropTypes.bool.isRequired
 };
+
+export default TempoText;
