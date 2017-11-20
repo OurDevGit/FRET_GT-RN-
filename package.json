@@ -34,7 +34,7 @@
     "react": "^16.1.1",
     "react-native": "^0.50.3",
     "react-native-billing": "^2.3.1",
-    "react-native-fetch-blob": "file:../react-native-fetch-blob-master/",
+    "react-native-fetch-blob": "big-swing/react-native-fetch-blob",
     "react-native-mail": "^3.0.4",
     "react-native-pdf": "^2.0.4",
     "react-native-recording": "^0.2.0",
