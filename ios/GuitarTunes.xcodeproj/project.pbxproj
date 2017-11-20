@@ -35,7 +35,6 @@
 		2DCD954D1E0B4F2C00145EB5 /* GuitarTunesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* GuitarTunesTests.m */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		B597C354883D499B9CCBD9FB /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F73AF6C0B2384FBA8171E403 /* libRNFetchBlob.a */; };
 		49586F6D5222476B8FE84B86 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 33503853203940F9A176D74C /* libRNSound.a */; };
 		AB79C92AC3804036B4B05225 /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7496B0D12EE5402984E23648 /* libRCTVideo.a */; };
 		9EE8A45FA11C4A9A94AB3EF1 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D01077E155D144D0A044337C /* libRNSentry.a */; };
@@ -43,8 +42,7 @@
 		CCE447B8A2314453831F0C3E /* libRNMail.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 98C7F919842843119CD65653 /* libRNMail.a */; };
 		BDA1EF1803234EE894773C27 /* libRCTPdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F72A2EBDDABB4C2A8459769C /* libRCTPdf.a */; };
 		0DE61767FFA2477B9B1F5F84 /* libRecording.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 60B05F7B0013472F98D62CE7 /* libRecording.a */; };
-		CADC0E8768174B5B8B4C0C7F /* libRNMixpanel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F190CB05519E4858809E9D13 /* libRNMixpanel.a */; };
-		0DDAE4637A7A458BAE65E258 /* libRNMixpanel-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E94F55095A94ECF9AEBB2A0 /* libRNMixpanel-tvOS.a */; };
+		041E084883BD41CD8E7150D3 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F4C48D86390483E83FCDE95 /* libRNFetchBlob.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -264,8 +262,6 @@
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		F9084DE7968249C292D05194 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		F73AF6C0B2384FBA8171E403 /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		872EED099A184C2EB69C7714 /* RNSound.xcodeproj */ = {isa = PBXFileReference; name = "RNSound.xcodeproj"; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		33503853203940F9A176D74C /* libRNSound.a */ = {isa = PBXFileReference; name = "libRNSound.a"; path = "libRNSound.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		D7C6FCBA9885468F9E81DF48 /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; name = "RCTVideo.xcodeproj"; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
@@ -279,9 +275,8 @@
 		F72A2EBDDABB4C2A8459769C /* libRCTPdf.a */ = {isa = PBXFileReference; name = "libRCTPdf.a"; path = "libRCTPdf.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		F8FAFFFF58A745ADB17B1E45 /* Recording.xcodeproj */ = {isa = PBXFileReference; name = "Recording.xcodeproj"; path = "../node_modules/react-native-recording/ios/Recording.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		60B05F7B0013472F98D62CE7 /* libRecording.a */ = {isa = PBXFileReference; name = "libRecording.a"; path = "libRecording.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		EE93BADA2EAD4E51969E44FA /* RNMixpanel.xcodeproj */ = {isa = PBXFileReference; name = "RNMixpanel.xcodeproj"; path = "../node_modules/react-native-mixpanel/RNMixpanel.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		F190CB05519E4858809E9D13 /* libRNMixpanel.a */ = {isa = PBXFileReference; name = "libRNMixpanel.a"; path = "libRNMixpanel.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
-		6E94F55095A94ECF9AEBB2A0 /* libRNMixpanel-tvOS.a */ = {isa = PBXFileReference; name = "libRNMixpanel-tvOS.a"; path = "libRNMixpanel-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		707F70C0A41E45318E21D12F /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		8F4C48D86390483E83FCDE95 /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,7 +303,6 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				B597C354883D499B9CCBD9FB /* libRNFetchBlob.a in Frameworks */,
 				49586F6D5222476B8FE84B86 /* libRNSound.a in Frameworks */,
 				AB79C92AC3804036B4B05225 /* libRCTVideo.a in Frameworks */,
 				9EE8A45FA11C4A9A94AB3EF1 /* libRNSentry.a in Frameworks */,
@@ -316,8 +310,7 @@
 				CCE447B8A2314453831F0C3E /* libRNMail.a in Frameworks */,
 				BDA1EF1803234EE894773C27 /* libRCTPdf.a in Frameworks */,
 				0DE61767FFA2477B9B1F5F84 /* libRecording.a in Frameworks */,
-				CADC0E8768174B5B8B4C0C7F /* libRNMixpanel.a in Frameworks */,
-				0DDAE4637A7A458BAE65E258 /* libRNMixpanel-tvOS.a in Frameworks */,
+				041E084883BD41CD8E7150D3 /* libRNFetchBlob.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -484,14 +477,13 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				F9084DE7968249C292D05194 /* RNFetchBlob.xcodeproj */,
 				872EED099A184C2EB69C7714 /* RNSound.xcodeproj */,
 				D7C6FCBA9885468F9E81DF48 /* RCTVideo.xcodeproj */,
 				51D049BD63E346238BC02B8F /* RNSentry.xcodeproj */,
 				4A9F80B4068E4ABC88758EAD /* RNMail.xcodeproj */,
 				C1DCEC03A5E440CC9BD28203 /* RCTPdf.xcodeproj */,
 				F8FAFFFF58A745ADB17B1E45 /* Recording.xcodeproj */,
-				EE93BADA2EAD4E51969E44FA /* RNMixpanel.xcodeproj */,
+				707F70C0A41E45318E21D12F /* RNFetchBlob.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1030,20 +1022,16 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
-					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 				);
 			};
 			name = Debug;
@@ -1065,20 +1053,16 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
-					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 				);
 			};
 			name = Release;
@@ -1100,14 +1084,13 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
-					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 				);
 			};
 			name = Debug;
@@ -1128,14 +1111,13 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
-					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 				);
 			};
 			name = Release;
@@ -1166,20 +1148,16 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
-					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 				);
 			};
 			name = Debug;
@@ -1210,20 +1188,16 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 					"$(SRCROOT)/../node_modules/react-native-video/ios",
 					"$(SRCROOT)/../node_modules/react-native-sentry/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-mail/RNMail",
 					"$(SRCROOT)/../node_modules/react-native-pdf/ios/RCTPdf/**",
 					"$(SRCROOT)/../node_modules/react-native-recording/ios",
-					"$(SRCROOT)/../node_modules/react-native-mixpanel/RNMixpanel",
+					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
 				);
 			};
 			name = Release;
@@ -1249,9 +1223,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};
 			name = Debug;
@@ -1276,9 +1247,6 @@
 				TVOS_DEPLOYMENT_TARGET = 10.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 			};

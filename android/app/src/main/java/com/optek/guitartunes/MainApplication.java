@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
+import com.RNFetchBlob.RNFetchBlobPackage;
 import cn.qiuxiang.react.recording.RecordingPackage;
 import org.wonday.pdf.RCTPdfView;
 import com.chirag.RNMail.RNMail;
@@ -11,7 +12,6 @@ import io.sentry.RNSentryPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import com.idehub.Billing.InAppBillingBridgePackage;
 import com.zmxv.RNSound.RNSoundPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -32,10 +32,10 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(),
-            new RNMixpanel(), new RecordingPackage(), new RCTPdfView(), new RNMail(),
-          new RNSentryPackage(MainApplication.this), new ReactVideoPackage(), new InAppBillingBridgePackage(),
-          new RNSoundPackage(), new RNFetchBlobPackage(), new GTReactPackage());
+      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNMixpanel(), new RecordingPackage(),
+          new RCTPdfView(), new RNMail(), new RNFetchBlobPackage(), new RecordingPackage(), new RCTPdfView(),
+          new RNMail(), new RNSentryPackage(MainApplication.this), new ReactVideoPackage(),
+          new InAppBillingBridgePackage(), new RNSoundPackage(), new GTReactPackage());
     }
   };
 
