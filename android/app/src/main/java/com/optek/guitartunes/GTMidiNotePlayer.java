@@ -24,7 +24,7 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
   private void setGuitarInstrument() {
     byte[] event = new byte[2];
     event[0] = (byte) 0xC0;
-    event[1] = (byte) 0x19;
+    event[1] = (byte) 0x1B;
     midiDriver.write(event);
   }
 
@@ -60,10 +60,10 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void start(int fineTuning) {
-    Log.d("GTMidiNotePlayer", "fineTuning: " + fineTuning + "; int: " + 0);
+    Log.d("GTMidiNotePlayer", "fineTuning: " + fineTuning);
     midiDriver.start();
     setGuitarInstrument();
-    setFineTuning((int) fineTuning);
+    //setFineTuning((int) fineTuning);
   }
 
   @ReactMethod
