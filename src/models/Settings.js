@@ -49,3 +49,16 @@ export const setCurrentNotation = async notation => {
   await Settings.setObj("CURRENT_NOTATION", notation);
   return notation;
 };
+
+// TUNING
+
+// "digital" || "audio"
+export const getTuningMode = async () => {
+  const mode = await Settings.getObj("TUNING_MODE");
+  return mode || "digital";
+};
+
+export const setTuningMode = async mode => {
+  await Settings.setObj("TUNING_MODE", mode);
+  return mode;
+};

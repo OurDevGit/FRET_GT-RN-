@@ -14,6 +14,7 @@ import FretboardStrings from "./FretboardStrings";
 import FretboardCapo from "./FretboardCapo";
 import SmartFretText from "../modals/SmartFretText";
 import Tuner from "../Tuner";
+import { getTuningMode, setTuningMode } from "../../models/Settings";
 
 class Fretboard extends React.Component {
   state = {
@@ -33,6 +34,7 @@ class Fretboard extends React.Component {
       isSmart,
       isHidingLabels,
       leftHandState,
+      tuningMode,
       currentNotation,
       trackIndex,
       scrollIndex,
@@ -155,8 +157,10 @@ class Fretboard extends React.Component {
                 origin={this.state.tunerModalFrame}
                 track={track}
                 tuningTrack={tuningTrack}
+                isDigital={tuningMode === "digital"}
                 assignedGuitars={assigned}
                 currentNotation={this.props.currentNotation}
+                onToggleTuningMode={this.handleToggleTuningMode}
                 onClose={this.handleToggleTuner}
               />
             )}
@@ -220,6 +224,11 @@ class Fretboard extends React.Component {
     this.setState({ isLeft: !this.state.isLeft });
   };
 
+  handleToggleTuningMode = () => {
+    const mode = this.props.tuningMode === "digital" ? "audio" : "digital";
+    this.props.setTuningMode(mode);
+  };
+
   handleToggleTuner = frame => {
     const isShowingTuner = !this.state.isShowingTuner;
     this.setState({ isShowingTuner, tunerModalFrame: frame });
@@ -245,7 +254,8 @@ Fretboard.propTypes = {
 const mapStateToProps = state => {
   return {
     tuningTracks: state.get("tuningTracks").toJS(),
-    guitars: state.get("guitars").toJS()
+    guitars: state.get("guitars").toJS(),
+    tuningMode: state.get("tuningMode")
   };
 };
 
@@ -254,6 +264,7 @@ export default connect(mapStateToProps, actions)(
     "track",
     "tuningTracks",
     "guitars",
+    "tuningMode",
     "boardWidth",
     "leftHandState",
     "currentNotation"

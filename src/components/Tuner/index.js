@@ -3,7 +3,6 @@ import {
   View,
   Modal,
   Text,
-  Image,
   TouchableOpacity,
   NativeModules,
   StyleSheet
@@ -22,14 +21,20 @@ var guitarController = NativeModules.GTGuitarController;
 
 class Tuner extends React.Component {
   state = {
-    isDigital: true,
     currentIndex: -1,
     currentNote: ""
   };
 
   render() {
-    const { track, origin, currentNotation, tuningTrack, onClose } = this.props;
-    const { isDigital, currentNote, currentIndex } = this.state;
+    const {
+      track,
+      origin,
+      currentNotation,
+      tuningTrack,
+      isDigital,
+      onClose
+    } = this.props;
+    const { currentNote, currentIndex } = this.state;
     const isPhone = Dimensions.get("window").height < 500;
     setTuningParameters(track, currentNotation, tuningTrack.notes);
     const pitch = pitchForString(currentIndex);
@@ -62,13 +67,13 @@ class Tuner extends React.Component {
                 style={styles.heading}
               >{`Tuning for ${track.shortName}`}</Text>
               <View style={styles.barButtons}>
-                {/* <FlatButton
+                <FlatButton
                   title={isDigital ? "Go to Audible" : "Go to Digital"}
                   style={{
                     color: PrimaryGold
                   }}
                   onPress={this.handleToggleMode}
-                /> */}
+                />
 
                 <FlatButton
                   title="Close"
@@ -83,9 +88,11 @@ class Tuner extends React.Component {
 
             <View style={{ flex: 1 }}>
               {isDigital ? (
-                <DigitalTuner fineTuning={fineTuning} currentPitch={pitch} />
+                <DigitalTuner currentPitch={pitch} fineTuning={fineTuning} />
               ) : (
                 <AudioTuner
+                  currentPitch={pitch}
+                  fineTuning={fineTuning}
                   currentNote={currentNote}
                   currentIndex={currentIndex}
                   isBass={track.isBass}
@@ -134,7 +141,7 @@ class Tuner extends React.Component {
   };
 
   handleToggleMode = () => {
-    this.setState({ isDigital: !this.state.isDigital });
+    this.props.onToggleTuningMode();
   };
 
   handleNotePress = (currentNote, currentIndex) => {
@@ -213,9 +220,11 @@ const styles = StyleSheet.create({
 Tuner.propTypes = {
   track: PropTypes.object.isRequired,
   tuningTrack: PropTypes.object,
+  isDigital: PropTypes.bool.isRequired,
   assignedGuitars: PropTypes.array.isRequired,
   origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,
+  onToggleTuningMode: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

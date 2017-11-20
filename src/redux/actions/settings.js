@@ -25,3 +25,10 @@ export const setCurrentNotation = notation => {
     payload: notation
   };
 };
+
+export const setTuningMode = mode => {
+  return {
+    type: "SET_TUNING_MODE",
+    payload: mode
+  };
+};

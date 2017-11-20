@@ -36,7 +36,8 @@ import {
   countdownTimerState,
   leftHandState,
   autoPartSwitchingState,
-  currentNotation
+  currentNotation,
+  tuningMode
 } from "./settings";
 import { guitars } from "./guitar";
 import { intermediateMedia } from "./media";
@@ -82,7 +83,8 @@ const appReducer = combineReducers({
   countdownTimerState,
   leftHandState,
   autoPartSwitchingState,
-  currentNotation
+  currentNotation,
+  tuningMode
 });
 
 export default appReducer;

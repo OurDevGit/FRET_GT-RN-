@@ -30,8 +30,8 @@ const tuningPitch = (defaultNote, string, octave) => {
   note = allNotes[index].note;
   let midFrequency = middleA * Math.pow(2, (index - 9) / 12);
   let frequency = midFrequency * Math.pow(2, octave - 4);
-
-  return { note, octave, frequency };
+  let frequencyIndex = allFrequencies.indexOf(frequency);
+  return { note, octave, frequency, index: frequencyIndex + 12 };
 };
 
 export const setTuningParameters = (track, notation, tuningTrackNotes) => {
@@ -102,7 +102,7 @@ export const fineTuningAdjustment = (frequency, fineTuning) => {
   let positiveNote = proportion * 200;
   let modifier = (positiveNote - 100) * 0.01;
 
-  console.log(fineTuning, modifier);
+  //console.log(fineTuning, modifier);
 
   if (modifier < 0) {
     return distanceToPitchBelow(frequency) * modifier;
