@@ -106,7 +106,7 @@ public class StreamProxy implements Runnable {
 
         StreamToMediaPlayerTask task = new StreamToMediaPlayerTask(client);
         if (task.processRequest()) {
-          task.execute();
+          task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
 
       } catch (SocketTimeoutException e) {
