@@ -57,8 +57,6 @@ public class StreamProxy implements Runnable {
   private Crypto crypto;
 
   public StreamProxy() {
-    Log.d(TAG, "instance!");
-
     // Create listening socket
     try {
       socket = new ServerSocket(SERVER_PORT, 0, InetAddress.getByAddress(new byte[] { 127, 0, 0, 1 }));
@@ -78,6 +76,13 @@ public class StreamProxy implements Runnable {
 
   public void stop() {
     isRunning = false;
+    if (socket != null) {
+      try {
+        socket.close();
+        socket = null;
+      } catch (Exception e) {
+      }
+    }
     thread.interrupt();
     try {
       thread.join(5000);
@@ -258,16 +263,26 @@ public class StreamProxy implements Runnable {
               // Log.i(TAG, "  read: " + cbRead);
               if (cbRead == -1) {
 
-                // Log.i(TAG, "no batches left");
+                Log.i(TAG, "no batches left");
                 break;
               }
               cbToSendThisBatch -= cbRead;
               cbToSend -= cbRead;
               output.write(buff, 0, cbRead);
-              output.flush();
+              // output.flush();
+
+              Log.i(TAG, "  wrote output");
+              // output.flush();
+              // Log.i(TAG, "  flushed output");
               cbSkip += cbRead;
               cbSentThisBatch += cbRead;
+              Log.i(TAG, "  sent this batch: " + cbSentThisBatch);
             }
+
+            output.flush();
+            output.close();
+
+            Log.d(TAG, "closing file and decryptor");
             inputFile.close();
             decryptor.close();
           }
@@ -289,6 +304,7 @@ public class StreamProxy implements Runnable {
         }
       } else {
         // file does not exist
+        Log.w(TAG, "file does not exist");
       }
 
       // Cleanup
@@ -296,6 +312,7 @@ public class StreamProxy implements Runnable {
         if (output != null) {
           output.close();
         }
+        Log.d(TAG, "closing client");
         client.close();
       } catch (IOException e) {
         Log.e(TAG, "IOException while cleaning up streaming task:");
@@ -303,6 +320,7 @@ public class StreamProxy implements Runnable {
         e.printStackTrace();
       }
 
+      Log.d(TAG, "end of doInBG");
       return 1;
     }
   }
