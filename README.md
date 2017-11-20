@@ -71,9 +71,9 @@ Sometimes, you get into a loop where it seems like the app crashes on start no m
 
 ``` JSX
 import React from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 
-const Root = () => <View />;
+const Root = () => <View><Text>Test!</Text></View>;
 
 export default Root;
 ```
