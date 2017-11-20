@@ -1,6 +1,6 @@
 import { List, Map } from "immutable";
 
-exports.markers = (state = List(), action) => {
+export const markers = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
       return List(action.payload.markers);
@@ -11,7 +11,7 @@ exports.markers = (state = List(), action) => {
   }
 };
 
-exports.guitarTracks = (state = List(), action) => {
+export const guitarTracks = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
       return List(action.payload.guitarTracks);
@@ -22,7 +22,7 @@ exports.guitarTracks = (state = List(), action) => {
   }
 };
 
-exports.visibleTracks = (state = List(), action) => {
+export const visibleTracks = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
       return List([action.payload.guitarTracks.first()]);
@@ -35,18 +35,18 @@ exports.visibleTracks = (state = List(), action) => {
   }
 };
 
-exports.tuningTracks = (state = Map(), action) => {
+export const tuningTracks = (state = Map(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
       return action.payload.tuningTracks;
     case "CLEAR_MIDI_DATA":
-      return List();
+      return Map();
     default:
       return state;
   }
 };
 
-exports.smartTrack = (state = {}, action) => {
+export const smartTrack = (state = {}, action) => {
   switch (action.type) {
     case "SET_SMART_TRACK":
       return action.payload;
@@ -57,7 +57,7 @@ exports.smartTrack = (state = {}, action) => {
   }
 };
 
-exports.patterns = (state = List(), action) => {
+export const patterns = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
       return List(action.payload.patterns);
