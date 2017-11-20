@@ -1,13 +1,13 @@
 import RNFetchBlob from "react-native-fetch-blob";
 import { decode } from "base-64";
 import midiFileParser from "midi-file-parser";
-import { Map, List, Set } from "immutable";
+import { Map, List } from "immutable";
 
 import timingTrack from "./timing-track";
 import noteTrack from "./note-track";
 import patternTrack from "./pattern-track";
 
-module.exports = (filename, isAsset = false) => {
+export default function(filename, isAsset = false) {
   const path = isAsset === true ? RNFetchBlob.fs.asset(filename) : filename;
   return RNFetchBlob.fs
     .readFile(path, "base64")
@@ -23,15 +23,16 @@ module.exports = (filename, isAsset = false) => {
       var tuningTracks = Map();
       var patterns = List();
       var notes = Map();
+      var track = Map();
 
-      midi.tracks.forEach((arr, index) => {
+      midi.tracks.forEach(arr => {
         if (arr[0].text !== undefined) {
           // load guitar tracks
           if (
             arr[0].text.includes("FMP -") &&
             arr[0].text !== "FMP - Jam Bar"
           ) {
-            var track = noteTrack(arr, secondsForTicks);
+            track = noteTrack(arr, secondsForTicks);
             const trackName = track.get("name");
             const trackNotes = track.get("notes");
             const loadedTrackNotes = notes.get(trackName);
@@ -66,14 +67,13 @@ module.exports = (filename, isAsset = false) => {
 
           // load tuning tracks
           if (arr[0].text.includes("T -")) {
-            const name = arr[0].text.replace("T - ", "");
-            var track = noteTrack(arr, secondsForTicks);
+            track = noteTrack(arr, secondsForTicks);
             const tuningNotes = track
               .get("notes")
               .map(note => ({ fret: note.fret, string: note.string }))
               .sort((a, b) => a.string - b.string);
 
-            let fineTuning = track.get("fineTuneVal") || 0;
+            let fineTuning = track.get("fineTuneVal") || 8192;
             tuningTracks = tuningTracks.set(
               track.get("name"),
               Map({ fineTuning, notes: tuningNotes })
@@ -99,4 +99,4 @@ module.exports = (filename, isAsset = false) => {
       console.debug("error loading midi...");
       console.error(err);
     });
-};
+}

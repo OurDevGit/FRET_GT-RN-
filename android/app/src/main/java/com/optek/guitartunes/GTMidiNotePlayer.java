@@ -32,6 +32,8 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
     byte lsb = (byte) (fineTuning & 0x7F);
     byte msb = (byte) (fineTuning >> 7);
 
+    //Log.d("GTMidiNotePlayer", "fine: " + fineTuning + "; lsb: " + lsb + "; msb: " + msb);
+
     byte[] event = new byte[4];
     event[0] = (byte) (0xE0 | 0x00);
     event[1] = (byte) lsb;
@@ -60,10 +62,12 @@ public class GTMidiNotePlayer extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void start(int fineTuning) {
-    Log.d("GTMidiNotePlayer", "fineTuning: " + fineTuning);
     midiDriver.start();
     setGuitarInstrument();
-    //setFineTuning((int) fineTuning);
+
+    if (fineTuning != 8192) {
+      setFineTuning((int) fineTuning);
+    }
   }
 
   @ReactMethod

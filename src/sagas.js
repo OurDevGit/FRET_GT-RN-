@@ -375,23 +375,23 @@ function* watchToggleFavorite(action) {
 // SETTINGS
 
 function* watchSetCountdownTimerState(action) {
-  setCountdownTimerState(action.payload);
+  yield setCountdownTimerState(action.payload);
 }
 
 function* watchSetLeftHandState(action) {
-  setLeftHandState(action.payload);
+  yield setLeftHandState(action.payload);
 }
 
 function* watchSetAutoPartSwitching(action) {
-  setAutoPartSwitchingState(action.payload);
+  yield setAutoPartSwitchingState(action.payload);
 }
 
 function* watchCurrentNotation(action) {
-  setCurrentNotation(action.payload);
+  yield setCurrentNotation(action.payload);
 }
 
 function* watchSetTuningMode(action) {
-  setTuningMode(action.payload);
+  yield setTuningMode(action.payload);
 }
 
 function* mySaga() {

@@ -62,7 +62,7 @@ class Fretboard extends React.Component {
     }
 
     const tuningTrack = tuningTracks[track.name] || {
-      fineTuning: 0,
+      fineTuning: 8192,
       notes: []
     };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image, Text, StyleSheet, NativeModules } from "react-native";
+import { View, StyleSheet, NativeModules } from "react-native";
 import FretboardLabels from "./AudioFretboardLabels";
 import FretboardBackground from "./AudioFretboardBackground";
 import FretboardStrings from "./AudioFretboardStrings";
@@ -9,7 +9,7 @@ var noteInterval;
 
 class AudioTuner extends React.Component {
   render() {
-    const { currentNote, currentIndex, isBass } = this.props;
+    const { currentIndex, isBass } = this.props;
     const frets = [0, 1, 2, 3, 4, 5];
 
     return (

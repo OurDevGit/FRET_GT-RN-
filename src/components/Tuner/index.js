@@ -38,7 +38,7 @@ class Tuner extends React.Component {
     const isPhone = Dimensions.get("window").height < 500;
     setTuningParameters(track, currentNotation, tuningTrack.notes);
     const pitch = pitchForString(currentIndex);
-    const fineTuning = tuningTrack.fineTuning || 0;
+    const fineTuning = tuningTrack.fineTuning || 8192;
 
     var tuningInfo = "Standard Tuning";
     if (track.tuning !== undefined) {
@@ -121,7 +121,7 @@ class Tuner extends React.Component {
 
   noteButtons = () => {
     var buttons = [];
-    const { track, currentNotation } = this.props;
+    const { track } = this.props;
 
     for (var i = 0; i < 6; i++) {
       if (i < 4 || !track.isBass) {
