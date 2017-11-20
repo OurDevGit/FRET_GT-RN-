@@ -19,10 +19,16 @@ import {
 } from "../../midi-store";
 
 var idleTimer = NativeModules.GTIdleTimerController;
-this.playbackSeconds = 0.0;
+
 var controlFaderId = 0;
 
 class Vid extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.playbackSeconds = 0.0;
+  }
+
   state = {
     isPlaying: false,
     mediaDuration: 0,
