@@ -19,6 +19,8 @@ export const setStore = async store => {
     sorting
   } = store;
 
+  const liveMedia = media.filter(m => m.isLive === true);
+
   const listedMediaIds = uniq(
     flatten(
       values(subCategoryLists)
@@ -27,7 +29,7 @@ export const setStore = async store => {
     )
   );
 
-  const sortMedia = media.map(m => ({
+  const sortMedia = liveMedia.map(m => ({
     ...m,
     sortTitle:
       m.title !== undefined && m.title.toLowerCase().indexOf("the ") === 0
