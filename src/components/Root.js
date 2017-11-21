@@ -16,7 +16,12 @@ import Store from "./Store";
 import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
-import { startAppSession, stopAppSession } from "../metrics";
+import {
+  startAppSession,
+  stopAppSession,
+  startHomeView,
+  trackHomeView
+} from "../metrics";
 
 const Sections = {
   Home: 0,
@@ -174,7 +179,7 @@ class Root extends Component {
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevProps, nextState) {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
       if (prevProps.currentMedia !== this.props.currentMedia) {
@@ -203,6 +208,16 @@ class Root extends Component {
           this.setState(newState);
         }
       }
+    }
+
+    if (
+      nextState.currentSection === Sections.Home &&
+      !nextState.isShowingStore &&
+      !nextState.isShowingSettings
+    ) {
+      startHomeView();
+    } else {
+      trackHomeView();
     }
   }
 
@@ -242,6 +257,7 @@ class Root extends Component {
     if (this.Home) {
       this.Home.forceUpdate();
     }
+    startHomeView();
   };
 
   handleToggleSettings = () => {

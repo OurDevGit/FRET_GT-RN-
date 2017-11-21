@@ -1,11 +1,17 @@
 import Mixpanel from "react-native-mixpanel";
+var isShowingHome = false;
 
-// TODO
+// called in Root.js
 export const startHomeView = () => {
   Mixpanel.timeEvent("Home View");
+  isShowingHome = true;
 };
 
-// TODO
+// called in Root.js
 export const trackHomeView = () => {
-  Mixpanel.track("Home View");
+  if (isShowingHome) {
+    Mixpanel.track("Home View");
+  }
+
+  isShowingHome = false;
 };
