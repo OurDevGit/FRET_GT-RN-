@@ -1,6 +1,6 @@
 import { keyBy } from "lodash";
 import { uniq, values, flatten, includes } from "lodash";
-import { isPhone } from "../utils";
+import { getIsPhone } from "../utils";
 
 import { makeStore } from "./StorageFactory";
 
@@ -20,7 +20,7 @@ export const setStore = async store => {
     sorting
   } = store;
 
-  const deviceIsPhone = isPhone();
+  const deviceIsPhone = getIsPhone();
   const liveMedia = media.filter(m => {
     var isCompatible = true;
 

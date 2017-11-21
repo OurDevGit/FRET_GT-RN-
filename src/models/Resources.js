@@ -28,7 +28,6 @@ export const getLegal = () => getFile("legal.pdf");
 export const getHelp = async () => {
   console.debug("get help!");
   const isPhone = getIsPhone();
-  console.debug({ isPhone });
   const file = isPhone
     ? await getFile("help-iphone.pdf")
     : await getFile("help-ipad.pdf");
