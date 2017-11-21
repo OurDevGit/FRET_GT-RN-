@@ -7,6 +7,7 @@ import { List, Map } from "immutable";
 import Dimensions from "Dimensions";
 import VerticalContainer from "./VerticalContainer";
 import HorizontalContainer from "./HorizontalContainer";
+import { getIsPhone } from "../../utils";
 
 var guitarController = NativeModules.GTGuitarController;
 
@@ -27,7 +28,7 @@ class FretboardsRoot extends React.PureComponent {
       tracks,
       visibleTracks
     } = this.props;
-    const isPhone = Dimensions.get("window").height < 500;
+    const isPhone = getIsPhone();
 
     // empty tracks (mainly for video)
     var boardTracks = List([Map({ name: "" })]);

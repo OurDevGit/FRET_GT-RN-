@@ -17,6 +17,7 @@ import {
   timeForPrevStep,
   timeForNextStep
 } from "../../midi-store";
+import { getIsPhone } from "../../utils";
 
 var idleTimer = NativeModules.GTIdleTimerController;
 
@@ -54,7 +55,7 @@ class Vid extends React.Component {
 
     const mediaId = this.props.video !== undefined ? this.props.video.id : "";
     const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
-    const isPhone = Dimensions.get("window").height < 500;
+    const isPhone = getIsPhone();
     const midiFileName =
       this.props.currentVideoMidiFile.get("name") !== undefined
         ? `${this.props.currentVideoMidiFile.get("name")}.midi`
@@ -568,7 +569,7 @@ class Vid extends React.Component {
   handleVideoClose = () => {};
 
   handleFullscreen = () => {
-    const isPhone = Dimensions.get("window").height < 500;
+    const isPhone = getIsPhone();
 
     if (isPhone) {
       controlFaderId = -1;

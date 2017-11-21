@@ -16,6 +16,7 @@ import DigitalTuner from "./DigitalTuner";
 import AudioTuner from "./AudioTuner";
 import Note from "./NoteButton";
 import { setTuningParameters, pitchForString } from "./TuningPitch";
+import { getIsPhone } from "../../utils";
 
 var guitarController = NativeModules.GTGuitarController;
 
@@ -35,7 +36,7 @@ class Tuner extends React.Component {
       onClose
     } = this.props;
     const { currentNote, currentIndex } = this.state;
-    const isPhone = Dimensions.get("window").height < 500;
+    const isPhone = getIsPhone();
     setTuningParameters(track, currentNotation, tuningTrack.notes);
     const pitch = pitchForString(currentIndex);
     const fineTuning = tuningTrack.fineTuning || 8192;

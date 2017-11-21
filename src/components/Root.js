@@ -16,6 +16,7 @@ import Store from "./Store";
 import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
+import { getIsPhone } from "../utils";
 import {
   registerSuperProperties,
   startAppSession,
@@ -62,7 +63,7 @@ class Root extends Component {
     const isVideo = this.state.video !== null;
     const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
     const showLibraryButton = this.state.showAd && trackCount < 4;
-    const isPhone = Dimensions.get("window").height < 500;
+    const isPhone = getIsPhone();
 
     return (
       <Provider store={store}>

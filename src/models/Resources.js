@@ -1,5 +1,6 @@
 import { Dimensions } from "react-native";
 import { makeStore } from "./StorageFactory";
+import { getIsPhone } from "../utils";
 
 const SyncStore = makeStore("ResourceSync");
 const FilesStore = makeStore("ResourceFiles");
@@ -26,7 +27,7 @@ export const getLegal = () => getFile("legal.pdf");
 
 export const getHelp = async () => {
   console.debug("get help!");
-  const isPhone = Dimensions.get("window").width < 1024;
+  const isPhone = getIsPhone();
   console.debug({ isPhone });
   const file = isPhone
     ? await getFile("help-iphone.pdf")
@@ -37,6 +38,6 @@ export const getHelp = async () => {
 };
 
 export const getOverlay = () => {
-  const isPhone = Dimensions.get("window").width < 1024;
+  const isPhone = getIsPhone();
   return isPhone ? getFile("overlay-iphone.pdf") : getFile("overlay-ipad.pdf");
 };

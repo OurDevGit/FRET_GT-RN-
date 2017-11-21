@@ -2,6 +2,7 @@ import { Dimensions } from "react-native";
 import { fetchResource } from "../api";
 import { downloadFiles } from "../DownloadManager";
 import { getSync, setSync, setFile } from "../models/Resources";
+import { getIsPhone } from "../utils";
 
 const getNow = () => new Date().valueOf() / 1000;
 
@@ -21,7 +22,7 @@ const syncResource = async resource => {
 
 export const syncResources = async () => {
   const window = Dimensions.get("window");
-  const isPhone = Dimensions.get("window").width < 1024;
+  const isPhone = getIsPhone();
 
   syncResource("legal.pdf");
 

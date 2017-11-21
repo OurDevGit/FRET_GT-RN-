@@ -11,11 +11,12 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
 import AdPresentation from "./AdPresentation";
+import { getIsPhone } from "../utils";
 
 class AdContainer extends PureComponent {
   render() {
     const { ad, guitars } = this.props;
-    const isPhone = Dimensions.get("window").height < 500;
+    const isPhone = getIsPhone();
     const adURL = isPhone ? ad.get("phone") : ad.get("tablet");
     const aspectRatio = isPhone ? 7.26 : 6.64;
 

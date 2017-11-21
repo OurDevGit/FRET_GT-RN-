@@ -11,6 +11,7 @@ import PlaybackSecondary from "./PlaybackSecondary";
 import PlaybackCompact from "./Compact";
 import PlaybackTimelineCompact from "./Compact/Timeline";
 import { SmartFretModal } from "../modals";
+import { getIsPhone } from "../../utils";
 
 import Music from "./Music";
 import Midi from "./Midi";
@@ -49,7 +50,7 @@ class Song extends React.Component {
     const isCompact = this.props.height > 10 && this.props.height < 144;
     const savedLoops =
       this.props.loops === undefined ? emptyArray : this.props.loops;
-    const isPhone = Dimensions.get("window").height < 500;
+    const isPhone = getIsPhone();
     const isVideo = this.props.video !== undefined;
 
     return (

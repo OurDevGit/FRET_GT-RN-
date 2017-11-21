@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 import { getLoops, createOrUpdateLoop } from "../../models/Loops";
+import { getIsPhone } from "../../utils";
 
 import ModalButton from "./ModalButton";
 import Popover from "./Popover";
@@ -18,7 +19,7 @@ class BtnSaveLoopModal extends React.Component {
 
   render() {
     const existingName = this.props.currentLoop.get("name");
-    const isPhone = Dimensions.get("window").height < 500;
+    const isPhone = getIsPhone();
     const top = isPhone ? 0 : -300;
 
     return (
@@ -63,11 +64,9 @@ class BtnSaveLoopModal extends React.Component {
                   fontWeight: "400"
                 }}
               >
-                {existingName ? (
-                  `Please enter a new name for '${existingName}'`
-                ) : (
-                  "Please enter a name for the new loop"
-                )}
+                {existingName
+                  ? `Please enter a new name for '${existingName}'`
+                  : "Please enter a name for the new loop"}
               </Text>
 
               <TextInput
