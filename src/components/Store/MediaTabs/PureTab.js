@@ -258,13 +258,13 @@ class PureTab extends Component {
         searchResults
       });
 
-      setMediaCount(searchResults);
+      this.setMediaCount(searchResults);
     } else {
       this.setState({
         searchResults: null
       });
 
-      setMediaCount(this.props.media);
+      this.setMediaCount(this.props.media);
     }
   };
 
