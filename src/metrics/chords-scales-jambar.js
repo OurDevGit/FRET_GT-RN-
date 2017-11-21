@@ -1,26 +1,50 @@
 import Mixpanel from "react-native-mixpanel";
-
+var chordsAndScalesIsActive = false;
+var jamBarIsActive = false;
 // TODO: implement during development of chords and scales
+
+// called in metrics/app.js
+// TODO
 export const startChordsAndScales = () => {
-  Mixpanel.timeEvent("Chords and Scales");
+  if (chordsAndScalesIsActive) {
+    Mixpanel.timeEvent("Chords and Scales");
+  }
 };
 
-export const trackChordsAndScales = () => {
-  Mixpanel.track("Chords and Scales");
+// called in metrics/app.js
+// TODO
+export const trackChordsAndScales = isFinished => {
+  if (chordsAndScalesIsActive) {
+    Mixpanel.track("Chords and Scales");
+  }
+  chordsAndScalesIsActive = isFinished;
 };
 
+// called in metrics/app.js
+// TODO
 export const trackChordsAndScalesPattern = id => {
   Mixpanel.trackWithProperites("Chords and Scales Pattern", { id });
 };
 
+// called in metrics/app.js
+// TODO
 export const startJamBar = () => {
-  Mixpanel.timeEvent("JamBar");
+  if (jamBarIsActive) {
+    Mixpanel.timeEvent("JamBar");
+  }
 };
 
-export const trackJamBar = () => {
-  Mixpanel.track("JamBar");
+// called in metrics/app.js
+// TODO
+export const trackJamBar = isFinished => {
+  if (jamBarIsActive) {
+    Mixpanel.track("JamBar");
+  }
+  jamBarIsActive = isFinished;
 };
 
+// called in metrics/app.js
+// TODO
 export const trackJamBarPattern = id => {
-  Mixpanel.trackWithProperites("Chords and Scales Pattern", { id });
+  Mixpanel.trackWithProperites("JamBar Pattern Pattern", { id });
 };

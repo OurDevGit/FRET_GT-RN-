@@ -1,6 +1,6 @@
 import Mixpanel from "react-native-mixpanel";
 var activePartDates = {};
-var SMARTFretboardPart = "";
+var SMARTFretboardPart = undefined;
 
 // TODO
 export const addActivePart = part => {
@@ -13,18 +13,20 @@ export const removeActivePart = part => {
   delete activePartDates[part];
 };
 
+// called in metrics/app.js
 // TODO
 export const startActiveParts = () => {
-  activePartDates.forEach(part => {
-    activePartDates[part] = Date();
-  });
+  for (var key in activePartDates) {
+    activePartDates[key] = Date();
+  }
 };
 
+// called in metrics/app.js
 // TODO
 export const trackActiveParts = () => {
-  activePartDates.forEach(part => {
-    trackActivePart(part);
-  });
+  for (var key in activePartDates) {
+    trackActivePart(key);
+  }
 };
 
 // TODO
@@ -37,12 +39,20 @@ export const trackActivePart = Part => {
 
 // SMARTFretboard
 
+// called in metrics/app.js
+export const restartSMARTFretboard = () => {
+  if (SMARTFretboardPart !== undefined) {
+    Mixpanel.timeEvent("SMARTFretboard");
+  }
+};
+
 // TODO
 export const startSMARTFretboard = name => {
   SMARTFretboardPart = name;
   Mixpanel.timeEvent("SMARTFretboard");
 };
 
+// called in metrics/app.js
 // TODO
 export const trackSMARTFretboard = isFinished => {
   if (SMARTFretboardPart !== undefined) {

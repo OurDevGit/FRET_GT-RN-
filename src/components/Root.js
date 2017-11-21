@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, AppState } from "react-native";
 import { Provider, connect } from "react-redux";
 import Dimensions from "Dimensions";
 import AdContainer from "./AdContainer";
@@ -16,6 +16,7 @@ import Store from "./Store";
 import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
+import { startAppSession, stopAppSession } from "../metrics";
 
 const Sections = {
   Home: 0,
@@ -36,7 +37,8 @@ class Root extends Component {
     isShowingCountdownTimer: false,
     currentSection: Sections.Home,
     homeTrigger: null,
-    storeDetailMediaId: ""
+    storeDetailMediaId: "",
+    appState: AppState.currentState
   };
 
   render() {
@@ -163,6 +165,15 @@ class Root extends Component {
     this.props.requestBootstrap();
   }
 
+  componentDidMount() {
+    startAppSession();
+    AppState.addEventListener("change", this.handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener("change", this.handleAppStateChange);
+  }
+
   async componentDidUpdate(prevProps) {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
@@ -194,6 +205,24 @@ class Root extends Component {
       }
     }
   }
+
+  handleAppStateChange = nextAppState => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      startAppSession();
+    }
+
+    if (
+      this.state.appState === "active" &&
+      nextAppState.match(/inactive|background/)
+    ) {
+      stopAppSession();
+    }
+
+    this.setState({ appState: nextAppState });
+  };
 
   handleCloseStore = () => {
     this.setState({
@@ -278,7 +307,9 @@ Root.propTypes = {
   store: PropTypes.object,
   currentMedia: PropTypes.string,
   mediaForPlay: PropTypes.object,
-  countdownTimerState: PropTypes.bool.isRequired
+  countdownTimerState: PropTypes.bool.isRequired,
+  chooseMedia: PropTypes.func.isRequired,
+  requestBootstrap: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

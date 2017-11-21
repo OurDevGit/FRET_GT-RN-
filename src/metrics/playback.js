@@ -1,4 +1,5 @@
 import Mixpanel from "react-native-mixpanel";
+var currentTempo = 1;
 
 // TODO
 export const trackPlaybackPrevious = () => {
@@ -31,18 +32,31 @@ export const trackPlaybackVolume = Volume => {
 };
 
 // tempo
-// TODO
-export const startTempo = Tempo => {
-  if (Tempo !== 1) {
+// called in metrics/app.js
+export const restartTempo = () => {
+  if (currentTempo !== 1) {
     Mixpanel.timeEvent("Playback Tempo");
   }
 };
 
-// TODO
-export const trackTempo = Tempo => {
-  if (Tempo !== 1) {
-    Mixpanel.trackWithProperites("Playback Tempo", { Tempo });
+// called in metrics/app.js
+export const trackTempo = () => {
+  if (currentTempo !== 1) {
+    Mixpanel.trackWithProperites("Playback Tempo", { Tempo: currentTempo });
   }
+};
+
+// TODO
+export const startTempo = Tempo => {
+  if (currentTempo !== 1) {
+    Mixpanel.trackWithProperites("Playback Tempo", { Tempo: currentTempo });
+  }
+
+  if (Tempo !== 1) {
+    Mixpanel.timeEvent("Playback Tempo");
+  }
+
+  currentTempo = Tempo;
 };
 
 // scrubbing

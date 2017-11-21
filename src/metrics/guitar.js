@@ -19,31 +19,44 @@ export const updateGuitarPart = guitarId => {
   trackGuitarCount();
 };
 
+// called in metrics/app.js
 // TODO
 export const startConnectedGuitars = () => {
-  guitarDates.forEach(guitarId => {
-    guitarDates[guitarId] = Date();
-  });
+  for (var key in guitarDates) {
+    guitarDates[key] = Date();
+  }
 };
 
+// called in metrics/app.js
 // TODO
 export const trackConnectedGuitars = () => {
-  guitarDates.forEach(guitarId => {
-    trackGuitar(guitarId);
-  });
+  for (var key in guitarDates) {
+    trackGuitar(key);
+  }
 };
 
-// TODO
-const trackGuitarCount = () => {
-  if (guitarDates.length.length > 0) {
-    let Count = guitarDates.length;
+// called in metrics/app.js
+export const startGuitarCount = () => {
+  Mixpanel.timeEvent("Guitar Count");
+};
+
+// called internally and in metrics/app.js
+export const trackGuitarCount = () => {
+  var Count = 0;
+  for (var key in guitarDates) {
+    if (guitarDates.hasOwnProperty(key)) {
+      Count += 1;
+    }
+  }
+
+  if (Count > 0) {
     Mixpanel.trackWithProperites("Guitar Count", { Count });
   }
 
   Mixpanel.timeEvent("Guitar Count");
 };
 
-// TODO
+// called internally
 const trackGuitar = (guitarId, trackName) => {
   if (guitarDates[guitarId] !== undefined) {
     let Duration = Date() - guitarDates[guitarId];
