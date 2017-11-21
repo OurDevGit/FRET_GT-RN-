@@ -33,9 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNMixpanel(), new RecordingPackage(),
-          new RCTPdfView(), new RNMail(), new RNFetchBlobPackage(), new RecordingPackage(), new RCTPdfView(),
-          new RNMail(), new RNSentryPackage(MainApplication.this), new ReactVideoPackage(),
-          new InAppBillingBridgePackage(), new RNSoundPackage(), new GTReactPackage());
+          new RCTPdfView(), new RNMail(), new RNFetchBlobPackage(), new RNSentryPackage(MainApplication.this),
+          new ReactVideoPackage(), new InAppBillingBridgePackage(), new RNSoundPackage(), new GTReactPackage());
     }
   };
 
