@@ -1,5 +1,6 @@
 import { keyBy } from "lodash";
 import { uniq, values, flatten, includes } from "lodash";
+import { isPhone } from "../utils";
 
 import { makeStore } from "./StorageFactory";
 
@@ -19,7 +20,21 @@ export const setStore = async store => {
     sorting
   } = store;
 
-  const liveMedia = media.filter(m => m.isLive === true);
+  const deviceIsPhone = isPhone();
+  const liveMedia = media.filter(m => {
+    var isCompatible = true;
+
+    if (m.device) {
+      if (
+        (m.device === "phone" && deviceIsPhone === false) ||
+        (m.device === "tablet" && deviceIsPhone === true)
+      ) {
+        isCompatible = false;
+      }
+    }
+
+    return m.isLive === true && isCompatible;
+  });
 
   const listedMediaIds = uniq(
     flatten(
