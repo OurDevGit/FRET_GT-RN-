@@ -14,7 +14,11 @@ import FretboardStrings from "./FretboardStrings";
 import FretboardCapo from "./FretboardCapo";
 import SmartFretText from "../modals/SmartFretText";
 import Tuner from "../Tuner";
-import { startSMARTFretboard, trackSMARTFretboard } from "../../metrics";
+import {
+  startSMARTFretboard,
+  trackSMARTFretboard,
+  trackTuningTap
+} from "../../metrics";
 
 class Fretboard extends React.Component {
   state = {
@@ -223,6 +227,10 @@ class Fretboard extends React.Component {
   handleToggleTuner = frame => {
     const isShowingTuner = !this.state.isShowingTuner;
     this.setState({ isShowingTuner, tunerModalFrame: frame });
+
+    if (!isShowingTuner) {
+      trackTuningTap();
+    }
   };
 
   handleSMART = () => {

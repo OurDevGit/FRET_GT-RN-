@@ -3,7 +3,6 @@ import { View, Alert, NativeModules } from "react-native";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Map } from "immutable";
-import Dimensions from "Dimensions";
 
 import PlaybackPrimary from "./PlaybackPrimary";
 import PlaybackTimeline from "./PlaybackTimeline";
@@ -16,6 +15,8 @@ import { getIsPhone } from "../../utils";
 import Music from "./Music";
 import Midi from "./Midi";
 import { playerBackground } from "../../design";
+import { trackFretlightInfoTap, trackFretlightStatusTap } from "../../metrics";
+
 var idleTimer = NativeModules.GTIdleTimerController;
 
 import {
@@ -48,8 +49,6 @@ class Song extends React.Component {
       this.props.song !== undefined ? this.props.song.artworkURL : "";
     const mediaId = this.props.song !== undefined ? this.props.song.id : "";
     const isCompact = this.props.height > 10 && this.props.height < 144;
-    const savedLoops =
-      this.props.loops === undefined ? emptyArray : this.props.loops;
     const isPhone = getIsPhone();
     const isVideo = this.props.video !== undefined;
 
@@ -356,7 +355,7 @@ class Song extends React.Component {
     this.goToTime(this.state.playbackSeconds + 30);
   };
 
-  handleNextPress = marker => {
+  handleNextPress = () => {
     const { markers } = this.props;
     const seconds = this.state.playbackSeconds;
 
@@ -454,6 +453,7 @@ class Song extends React.Component {
   handleToggleFretlightAdmin = () => {
     this.setState({ isPlaying: false });
     this.props.onToggleFretlightAdmin(true);
+    trackFretlightStatusTap();
   };
 
   // INFO
@@ -463,6 +463,7 @@ class Song extends React.Component {
       "UNLEASH THE REAL POWER OF GUITAR TUNES!",
       "The Fretlight Guitar lights fingering positions right on the neck of a real guitar. Everything you see in Guitar Tunes will light in real-time right under your fingers!"
     );
+    trackFretlightInfoTap();
   };
 
   // STEP
@@ -495,18 +496,29 @@ class Song extends React.Component {
 }
 
 Song.propTypes = {
+  video: PropTypes.object,
   song: PropTypes.object,
+  markers: PropTypes.object,
+  currentLoop: PropTypes.object,
+  visibleTracks: PropTypes.object,
+  connectedDevices: PropTypes.number,
   countdownTimerState: PropTypes.bool.isRequired,
+  trackCount: PropTypes.number.isRequired,
   height: PropTypes.number,
   clearCurrentLoop: PropTypes.func,
   updateMidiData: PropTypes.func,
   clearMidiData: PropTypes.func,
   loopIsEnabled: PropTypes.bool,
   onToggleFretlightAdmin: PropTypes.func.isRequired,
-  onCountdownTimer: PropTypes.func.isRequired
+  onCountdownTimer: PropTypes.func.isRequired,
+  onToggleLibrary: PropTypes.func.isRequired,
+  updateTime: PropTypes.func.isRequired,
+  enableLoop: PropTypes.func.isRequired,
+  setCurrentLoop: PropTypes.func.isRequired,
+  onSelectTempo: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   return {
     markers: state.get("markers"),
     currentLoop: state.get("currentLoop"),

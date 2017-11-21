@@ -1,21 +1,16 @@
 import Mixpanel from "react-native-mixpanel";
 
-// TODO
-export const trackCategory = Title => {
-  Mixpanel.trackWithProperites("Library Category", { Title });
-};
-
-// TODO
+// called in Song.js and Video.js
 export const trackFretlightInfoTap = () => {
   Mixpanel.track("Fretlight Info Tap");
 };
 
-// TODO
+// called in Song.js and Video.js
 export const trackFretlightStatusTap = () => {
   Mixpanel.track("Fretlight Status Tap");
 };
 
-// TODO
+// called in AdContainer.js
 export const trackAdTap = (url, tracking) => {
   var props = {};
 
@@ -30,7 +25,7 @@ export const trackAdTap = (url, tracking) => {
   Mixpanel.trackWithProperites("Ad Tap", props);
 };
 
-// TODO
+// called in Fretboard.js
 export const trackTuningTap = () => {
   Mixpanel.track("Tuning Tap");
 };

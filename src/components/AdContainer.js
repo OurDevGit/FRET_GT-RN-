@@ -6,12 +6,15 @@ import {
   StyleSheet,
   Linking
 } from "react-native";
-import Dimensions from "Dimensions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
 import AdPresentation from "./AdPresentation";
 import { getIsPhone } from "../utils";
+import { trackAdTap } from "../metrics";
+import logoImage from "../images/logo-guitar-tunes.png";
+import logoGlow from "../images/logo-guitar-tunes-glow.png";
+import topImage from "../images/topiPhone.png";
 
 class AdContainer extends PureComponent {
   render() {
@@ -20,10 +23,7 @@ class AdContainer extends PureComponent {
     const adURL = isPhone ? ad.get("phone") : ad.get("tablet");
     const aspectRatio = isPhone ? 7.26 : 6.64;
 
-    const logo =
-      guitars.count() > 0
-        ? require("../images/logo-guitar-tunes-glow.png")
-        : require("../images/logo-guitar-tunes.png");
+    const logo = guitars.count() > 0 ? logoGlow : logoImage;
     return (
       <ImageBackground
         style={
@@ -31,7 +31,7 @@ class AdContainer extends PureComponent {
             ? styles.bgImageHidden
             : styles.bgImage
         }
-        source={require("../images/topiPhone.png")}
+        source={topImage}
       >
         <View style={styles.logoContainer}>
           <Image style={styles.logo} resizeMode={"contain"} source={logo} />
@@ -51,13 +51,11 @@ class AdContainer extends PureComponent {
 
   handleTap = () => {
     const url = this.props.ad.get("link");
+    const tracking = this.props.ad.get("tracking");
     Linking.openURL(url).catch(err => console.error("An error occurred", err));
+    trackAdTap(url, tracking);
   };
 }
-
-AdContainer.propTypes = {
-  ad: PropTypes.object.isRequired
-};
 
 const styles = StyleSheet.create({
   bgImage: {
@@ -81,6 +79,13 @@ const styles = StyleSheet.create({
     aspectRatio: 2.63
   }
 });
+
+AdContainer.propTypes = {
+  ad: PropTypes.object.isRequired,
+  guitars: PropTypes.object.isRequired,
+  visibleTracks: PropTypes.object.isRequired,
+  fetchAd: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => {
   return {

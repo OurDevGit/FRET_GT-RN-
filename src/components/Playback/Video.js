@@ -4,12 +4,7 @@ import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 import RNFetchBlob from "react-native-fetch-blob";
 import { Alert, NativeModules } from "react-native";
-import {
-  chapterForTime,
-  markerForTime,
-  midiForTime,
-  midiOffsetForTime
-} from "../../selectors";
+import { chapterForTime, markerForTime, midiForTime } from "../../selectors";
 import VideoPresentation from "./VideoPresentation";
 import {
   loadMidi,
@@ -18,6 +13,7 @@ import {
   timeForNextStep
 } from "../../midi-store";
 import { getIsPhone } from "../../utils";
+import { trackFretlightInfoTap, trackFretlightStatusTap } from "../../metrics";
 
 var idleTimer = NativeModules.GTIdleTimerController;
 
@@ -54,7 +50,6 @@ class Vid extends React.Component {
       this.props.video !== undefined ? this.props.video.artworkURL : "";
 
     const mediaId = this.props.video !== undefined ? this.props.video.id : "";
-    const savedLoops = this.props.loops === undefined ? [] : this.props.loops;
     const isPhone = getIsPhone();
     const midiFileName =
       this.props.currentVideoMidiFile.get("name") !== undefined
@@ -286,18 +281,12 @@ class Vid extends React.Component {
 
   handleProgress = progress => {
     const { currentTime, playableDuration } = progress;
-    const {
-      loopIsEnabled,
-      currentLoop,
-      updateTime,
-      videoChapters
-    } = this.props;
-    const currentProgress = currentTime / playableDuration;
+    const { loopIsEnabled, currentLoop, updateTime } = this.props;
 
     this.updateChaptersAndMarkers(currentTime);
 
     if (currentTime !== this.playbackSeconds) {
-      const loop = currentLoop.toJS() || { begin: -1, end: duration };
+      const loop = currentLoop.toJS() || { begin: -1, end: playableDuration };
 
       if (loopIsEnabled && currentTime >= loop.end && loop.begin > -1) {
         this.player.seek(loop.begin);
@@ -318,13 +307,7 @@ class Vid extends React.Component {
   };
 
   updateChaptersAndMarkers = time => {
-    const {
-      videoChapters,
-      videoMidiFiles,
-      currentVideoChapter,
-      currentVideoMarker,
-      currentVideoMidiFile
-    } = this.props;
+    const { videoChapters, videoMidiFiles, currentVideoChapter } = this.props;
 
     const chapter = chapterForTime(time, videoChapters);
     const marker = markerForTime(time, videoChapters);
@@ -484,7 +467,7 @@ class Vid extends React.Component {
 
   handleLoopBegin = () => {
     const begin = this.playbackSeconds;
-    const end = this.props.currentLoop.get("end") || this.props.duration;
+    const end = this.props.currentLoop.get("end") || this.state.mediaDuration;
 
     var loop = this.props.currentLoop.set("begin", begin);
     loop = begin > end ? loop.delete("end") : loop;
@@ -493,7 +476,8 @@ class Vid extends React.Component {
   };
 
   handleLoopEnd = () => {
-    const begin = this.props.currentLoop.get("begin") || this.props.duration;
+    const begin =
+      this.props.currentLoop.get("begin") || this.state.mediaDuration;
     const end = this.playbackSeconds;
 
     var loop = this.props.currentLoop.set("end", end);
@@ -513,6 +497,7 @@ class Vid extends React.Component {
   handleToggleFretlightAdmin = () => {
     this.setState({ isPlaying: false });
     this.props.onToggleFretlightAdmin(true);
+    trackFretlightStatusTap();
   };
 
   // INFO
@@ -522,6 +507,7 @@ class Vid extends React.Component {
       "UNLEASH THE REAL POWER OF GUITAR TUNES!",
       "The Fretlight Guitar lights fingering positions right on the neck of a real guitar. Everything you see in Guitar Tunes will light in real-time right under your fingers!"
     );
+    trackFretlightInfoTap();
   };
 
   // STEP
@@ -629,6 +615,10 @@ Vid.propTypes = {
   currentVideoChapter: PropTypes.object,
   currentVideoMarker: PropTypes.object,
   currentVideoMidiFile: PropTypes.object,
+  visibleTracks: PropTypes.object,
+  connectedDevices: PropTypes.number.isRequired,
+  currentLoop: PropTypes.object,
+  loopIsEnabled: PropTypes.bool.isRequired,
   updateMidiData: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
   updateTime: PropTypes.func.isRequired,
@@ -641,10 +631,14 @@ Vid.propTypes = {
   onToggleFretboards: PropTypes.func.isRequired,
   onToggleFretlightAdmin: PropTypes.func.isRequired,
   onClearMedia: PropTypes.func.isRequired,
-  onCountdownTimer: PropTypes.func.isRequired
+  onCountdownTimer: PropTypes.func.isRequired,
+  enableLoop: PropTypes.func.isRequired,
+  setCurrentLoop: PropTypes.func.isRequired,
+  clearCurrentLoop: PropTypes.func.isRequired,
+  onSelectTempo: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   return {
     markers: state.get("markers"),
     currentLoop: state.get("currentLoop"),
