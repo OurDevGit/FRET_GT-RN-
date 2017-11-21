@@ -27,7 +27,9 @@ class BtnHeartWithState extends React.PureComponent {
 }
 
 BtnHeartWithState.propTypes = {
-  mediaId: PropTypes.string.isRequired
+  isFilled: PropTypes.bool,
+  mediaId: PropTypes.string.isRequired,
+  toggleFavorite: PropTypes.func
 };
 
 const mapStateToPropsForHeart = (state, props) => {
@@ -41,7 +43,9 @@ export const BtnHeartSmart = connect(mapStateToPropsForHeart, actions)(
 );
 
 BtnHeartSmart.propTypes = {
-  mediaId: PropTypes.string.isRequired
+  isFilled: PropTypes.bool,
+  mediaId: PropTypes.string.isRequired,
+  toggleFavorite: PropTypes.func
 };
 
 const styles = StyleSheet.create({

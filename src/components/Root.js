@@ -23,7 +23,8 @@ import {
   startAppSession,
   stopAppSession,
   startHomeView,
-  trackHomeView
+  trackHomeView,
+  startMedia
 } from "../metrics";
 
 const Sections = {
@@ -212,6 +213,7 @@ class Root extends Component {
 
           const { mediaID, title, artist } = this.props.mediaForPlay;
           registerSuperProperties(mediaID, title, artist);
+          startMedia(mediaID);
         }
       }
     }

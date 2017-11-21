@@ -13,7 +13,12 @@ import {
   timeForNextStep
 } from "../../midi-store";
 import { getIsPhone } from "../../utils";
-import { trackFretlightInfoTap, trackFretlightStatusTap } from "../../metrics";
+import {
+  trackFretlightInfoTap,
+  trackFretlightStatusTap,
+  startPlayback,
+  stopPlayback
+} from "../../metrics";
 
 var idleTimer = NativeModules.GTIdleTimerController;
 
@@ -385,12 +390,18 @@ class Vid extends React.Component {
 
   updatePlayback = () => {
     if (this.state.playbackRate === 0) {
+      startPlayback();
       this.setState({
         isPlaying: true,
         videoRate: 1.0,
         playbackRate: 1.0
       });
     } else {
+      if (!this.state.isPlaying) {
+        startPlayback();
+      } else {
+        stopPlayback();
+      }
       this.setState({
         isPlaying: !this.state.isPlaying,
         videoRate: this.state.playbackRate

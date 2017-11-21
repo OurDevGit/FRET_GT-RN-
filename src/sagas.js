@@ -39,6 +39,7 @@ import {
   setCurrentNotation,
   setTuningMode
 } from "./models/Settings";
+import { trackFavorite } from "./metrics";
 
 const dirs = RNFetchBlob.fs.dirs;
 
@@ -287,6 +288,8 @@ function* watchToggleFavorite(action) {
   } else {
     deleteFave(mediaId);
   }
+
+  trackFavorite(mediaId, isFavorite);
 }
 
 // SETTINGS

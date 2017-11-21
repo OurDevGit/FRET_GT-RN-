@@ -15,7 +15,12 @@ import { getIsPhone } from "../../utils";
 import Music from "./Music";
 import Midi from "./Midi";
 import { playerBackground } from "../../design";
-import { trackFretlightInfoTap, trackFretlightStatusTap } from "../../metrics";
+import {
+  trackFretlightInfoTap,
+  trackFretlightStatusTap,
+  startPlayback,
+  stopPlayback
+} from "../../metrics";
 
 var idleTimer = NativeModules.GTIdleTimerController;
 
@@ -343,7 +348,13 @@ class Song extends React.Component {
         musicRate: 1.0,
         playbackRate: 1.0
       });
+      startPlayback();
     } else {
+      if (!this.state.isPlaying) {
+        startPlayback();
+      } else {
+        stopPlayback();
+      }
       this.setState({
         isPlaying: !this.state.isPlaying,
         musicRate: this.state.playbackRate

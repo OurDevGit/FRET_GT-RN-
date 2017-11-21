@@ -1,23 +1,23 @@
 import Mixpanel from "react-native-mixpanel";
 import { trackActiveParts } from "./fretboard";
 
-// TODO
+// called in Root.js
 export const startMedia = mediaId => {
   trackActiveParts;
   Mixpanel.trackWithProperties("Media Selected", { "Media ID": mediaId });
 };
 
-// TODO
+// called in Song.js and Video.js
 export const startPlayback = () => {
   Mixpanel.timeEvent("Media Playback");
 };
 
-// TODO
+// called in Song.js and Video.js
 export const stopPlayback = () => {
   Mixpanel.track("Media Playback");
 };
 
-// TODO
+// called in sagas.js
 export const trackFavorite = (mediaId, isFavorite) => {
   Mixpanel.trackWithProperties("Media Favorite", {
     "Media ID": mediaId,

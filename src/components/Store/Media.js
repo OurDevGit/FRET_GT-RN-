@@ -115,6 +115,7 @@ Media.propTypes = {
   category: PropTypes.object,
   subCategory: PropTypes.object,
   group: PropTypes.object,
+  style: PropTypes.number.isRequired,
   toggleFavorite: PropTypes.func.isRequired, // action creator
   deleteMedia: PropTypes.func.isRequired, // action creator
   onChoose: PropTypes.func.isRequired,
