@@ -17,6 +17,7 @@ import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 import {
+  registerSuperProperties,
   startAppSession,
   stopAppSession,
   startHomeView,
@@ -179,7 +180,7 @@ class Root extends Component {
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
-  async componentDidUpdate(prevProps, nextState) {
+  async componentDidUpdate(prevProps) {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
       if (prevProps.currentMedia !== this.props.currentMedia) {
@@ -206,14 +207,17 @@ class Root extends Component {
             currentSection
           };
           this.setState(newState);
+
+          const { mediaID, title, artist } = this.props.mediaForPlay;
+          registerSuperProperties(mediaID, title, artist);
         }
       }
     }
 
     if (
-      nextState.currentSection === Sections.Home &&
-      !nextState.isShowingStore &&
-      !nextState.isShowingSettings
+      this.state.currentSection === Sections.Home &&
+      !this.state.isShowingStore &&
+      !this.state.isShowingSettings
     ) {
       startHomeView();
     } else {
