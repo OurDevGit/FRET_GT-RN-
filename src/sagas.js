@@ -32,7 +32,6 @@ import {
 } from "./models/Settings";
 import * as actions from "./redux/actions";
 import { getMediaById, getDownloadedMediaFiles } from "./redux/selectors";
-import { doFreeMedia } from "./Config";
 import {
   setCountdownTimerState,
   setLeftHandState,
@@ -154,10 +153,10 @@ function* watchChooseMedia(action) {
   // 2. Download it if we own it.
 
   console.debug("going to ask Google IAB if we've bought that media");
-  var transactionDetails = { purchaseState: "PurchasedSuccessfully" };
-  if (doFreeMedia !== true) {
-    transactionDetails = yield fetchTransactionDetails(mediaId);
-  }
+  var transactionDetails; // = { purchaseState: "PurchasedSuccessfully" };
+  // if (doFreeMedia !== true) {
+  transactionDetails = yield fetchTransactionDetails(mediaId);
+  // }
 
   Sentry.captureBreadcrumb({
     message: "Got transaction details",
@@ -277,25 +276,26 @@ function* watchChooseMedia(action) {
 }
 
 function* watchRefreshStore(action) {
+  console.debug("refeshStore saga!");
   try {
     // get store from backend
     const storeRaw = yield Api.fetchStore();
-    // console.debug(JSON.stringify(storeRaw.media, null, 2));
+    // console.debug(JSON.stringify(storeRaw, null, 2));
     const storeDb = yield setStore(storeRaw);
     yield put(actions.storeLoaded(storeDb));
 
     // get store details from Google In-App Billing
-    if (doFreeMedia !== true) {
-      const mediaIds = Object.keys(storeDb.mediaById);
-      const productDetails = yield fetchProductDetails(mediaIds);
-      yield setProductDetails(productDetails);
-      yield put(actions.productDetailsLoaded(productDetails));
+    // if (doFreeMedia !== true) {
+    const mediaIds = Object.keys(storeDb.mediaById);
+    const productDetails = yield fetchProductDetails(mediaIds);
+    yield setProductDetails(productDetails);
+    yield put(actions.productDetailsLoaded(productDetails));
 
-      // load which products we own from Google
-      const purchasedMedia = yield fetchPurchases();
-      yield setPurchased(purchasedMedia);
-      yield put(actions.setPurchasedMedia(purchasedMedia));
-    }
+    // load which products we own from Google
+    const purchasedMedia = yield fetchPurchases();
+    yield setPurchased(purchasedMedia);
+    yield put(actions.setPurchasedMedia(purchasedMedia));
+    // }
 
     // load favorites
     const faves = yield getFaves();

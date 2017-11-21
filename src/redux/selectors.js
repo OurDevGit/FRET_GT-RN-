@@ -1,6 +1,5 @@
 import { List, Seq, Map, Stack } from "immutable";
 import { GetMediaButtonMode } from "../models/Media";
-import { filterComingSoon, doFreeMedia } from "../Config";
 import { isEqual } from "lodash";
 import memoize from "fast-memoize";
 
@@ -125,9 +124,11 @@ const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
   const mediaDetails =
     productDetails.get(mediaId.toLowerCase()) ||
     // if the above is null/undefined then we fall back to LOADING / COMING SOON
-    (detailsHaveLoaded === true
-      ? Map({ priceText: "COMING SOON" })
-      : Map({ priceText: "LOADING" }));
+    (singleMedia.get("isFree") === true
+      ? Map({ priceText: "FREE" })
+      : detailsHaveLoaded === true
+        ? Map({ priceText: "COMING SOON" })
+        : Map({ priceText: "LOADING" }));
 
   return singleMedia.set("productDetails", mediaDetails);
 };
@@ -175,21 +176,8 @@ const mergeMediaDetails = (state, mediaSections) => {
     const media = mediaSection.get("data");
     const detailsHaveLoaded = state.get("productDetailsHaveLoaded") === true;
 
-    // TEMP until the IAPs get filled out
-    const productDetails = state.get("productDetails") || Map();
-    const filteredData = doFreeMedia
-      ? media
-      : filterComingSoon === true
-        ? detailsHaveLoaded
-          ? media.filter(
-              m =>
-                productDetails.get(m.get("mediaID").toLowerCase()) !== undefined
-            )
-          : media
-        : media;
-
     // merge in product details and Get Mode for each media item
-    const newData = filteredData.map(m => {
+    const newData = media.map(m => {
       const withProductDetails = mergeProductDetails(
         state,
         m,
