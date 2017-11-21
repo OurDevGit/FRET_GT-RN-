@@ -14,6 +14,7 @@ import GuitarController from "./GuitarController";
 import CountdownTimer from "./CountdownTimer";
 import Store from "./Store";
 import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
+import { setTabIndex } from "../models/Store";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { getIsPhone } from "../utils";
@@ -291,7 +292,11 @@ class Root extends Component {
     this.props.chooseMedia(mediaId);
   };
 
-  handleHomeDetails = params => {
+  handleHomeDetails = async params => {
+    console.debug(params);
+
+    await setTabIndex(0);
+
     this.setState({
       isShowingStore: true,
       storeDetailMediaId: params.media_detail,
