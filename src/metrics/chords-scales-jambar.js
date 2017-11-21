@@ -1,5 +1,6 @@
 import Mixpanel from "react-native-mixpanel";
 
+// TODO: implement during development of chords and scales
 export const startChordsAndScales = () => {
   Mixpanel.timeEvent("Chords and Scales");
 };

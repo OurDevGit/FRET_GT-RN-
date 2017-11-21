@@ -1,6 +1,7 @@
 import Mixpanel from "react-native-mixpanel";
 var sessionIsActive = false;
 
+// TODO
 export const startAppSession = () => {
   sessionIsActive = true;
 
@@ -17,6 +18,7 @@ export const startAppSession = () => {
   Mixpanel.flush();
 };
 
+// TODO
 export const stopAppSession = () => {
   if (sessionIsActive) {
     sessionIsActive = false;

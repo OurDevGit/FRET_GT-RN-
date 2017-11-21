@@ -11,6 +11,7 @@ export * from "./playback";
 
 Mixpanel.sharedInstanceWithToken("307997d9f2627bce1d3753f8f2bdf988");
 
+// TODO
 export const registerSuperProperties = (device, mediaId, title, artist) => {
   const props = { device, mediaId, title, artist };
   Mixpanel.registerSuperProperties(props);
