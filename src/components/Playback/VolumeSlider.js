@@ -1,6 +1,7 @@
 import React from "react";
 import { Slider, NativeModules, DeviceEventEmitter } from "react-native";
 import PropTypes from "prop-types";
+import { trackPlaybackVolume } from "../../metrics";
 
 var volumeController = NativeModules.BSVolumeController;
 
@@ -34,12 +35,14 @@ class VolumeSlider extends React.Component {
 
   handleGetVolume = volume => {
     if (!this.state.isSettingVolume) {
+      trackPlaybackVolume(volume);
       this.setState({ playbackVolume: volume });
     }
   };
 
   handleSetVolume = volume => {
     volumeController.setVolume(volume);
+    trackPlaybackVolume(volume);
     this.setState({ volume: volume, isSettingVolume: true });
   };
 

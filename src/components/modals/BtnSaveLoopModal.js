@@ -1,14 +1,14 @@
 import React from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
-import Dimensions from "Dimensions";
-import { getLoops, createOrUpdateLoop } from "../../models/Loops";
+import { createOrUpdateLoop } from "../../models/Loops";
 import { getIsPhone } from "../../utils";
 
 import ModalButton from "./ModalButton";
 import Popover from "./Popover";
 import { BtnPhoneLoopSave } from "../StyleKit";
 import { ModalType } from "./ModalType";
+import { trackLoopSave } from "../../metrics";
 
 class BtnSaveLoopModal extends React.Component {
   state = {
@@ -24,7 +24,7 @@ class BtnSaveLoopModal extends React.Component {
 
     return (
       <ModalButton onPress={this.displayModal}>
-        {this.props.isPhone ? (
+        {isPhone ? (
           <BtnPhoneLoopSave
             style={{ width: 36, height: 36 }}
             color={"#222222"}
@@ -171,6 +171,7 @@ class BtnSaveLoopModal extends React.Component {
         const loop = this.props.currentLoop.set("name", name);
         this.props.onSetCurrentLoop(loop);
         createOrUpdateLoop(loop.toJS(), this.props.mediaId);
+        trackLoopSave(name);
         this.dismissModal();
       }
     }

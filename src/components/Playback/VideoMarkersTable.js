@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import {
   View,
@@ -8,7 +7,6 @@ import {
   TouchableOpacity,
   StyleSheet
 } from "react-native";
-import { chapterForTime, markerForTime } from "../../selectors";
 
 const styles = StyleSheet.create({
   bold: {
@@ -54,7 +52,7 @@ const VideoMarkersTable = ({
           offset: 40 * index,
           index
         })}
-        renderItem={({ item, index }) => {
+        renderItem={({ item }) => {
           const isActiveChapter =
             currentChapter !== undefined &&
             item.type === currentChapter.type &&
@@ -73,7 +71,7 @@ const VideoMarkersTable = ({
               <TouchableOpacity
                 style={{ flex: 1 }}
                 onPress={() => {
-                  onMarkerPress(item.begin);
+                  onMarkerPress(item.type, item.begin, item.name);
                 }}
               >
                 <View style={{ flex: 1, flexDirection: "row" }}>

@@ -17,7 +17,18 @@ import {
   trackFretlightInfoTap,
   trackFretlightStatusTap,
   startPlayback,
-  stopPlayback
+  stopPlayback,
+  trackPlaybackPrevious,
+  trackPlaybackRewind,
+  trackPlaybackPlay,
+  trackPlaybackForward,
+  trackPlaybackNext,
+  trackScrub,
+  trackMarkerTap,
+  trackChapterTap,
+  trackLoopToggle,
+  trackLoopLeft,
+  trackLoopRight
 } from "../../metrics";
 
 var idleTimer = NativeModules.GTIdleTimerController;
@@ -356,6 +367,7 @@ class Vid extends React.Component {
   // PLAYBACK METHODS
 
   handlePreviousPress = () => {
+    trackPlaybackPrevious();
     this.resetDisplayTimer();
     const { videoChapters } = this.props;
     const seconds = this.playbackSeconds || 0;
@@ -373,11 +385,13 @@ class Vid extends React.Component {
   };
 
   handleBackPress = () => {
+    trackPlaybackRewind();
     this.resetDisplayTimer();
     this.goToTime(this.playbackSeconds - 5);
   };
 
   handlePlayPausePress = () => {
+    trackPlaybackPlay();
     this.resetDisplayTimer();
 
     if (this.props.countdownTimerState && !this.state.isPlaying) {
@@ -410,11 +424,13 @@ class Vid extends React.Component {
   };
 
   handleForwardPress = () => {
+    trackPlaybackForward();
     this.resetDisplayTimer();
     this.goToTime(this.playbackSeconds + 30);
   };
 
   handleNextPress = () => {
+    trackPlaybackNext();
     this.resetDisplayTimer();
     const { videoChapters } = this.props;
     const seconds = this.playbackSeconds || 0;
@@ -433,7 +449,13 @@ class Vid extends React.Component {
 
   // TIMELINE METHODS
 
-  handleMarkerPress = time => {
+  handleMarkerPress = (type, time, name) => {
+    if (type === "chapter") {
+      trackChapterTap(name);
+    } else {
+      trackMarkerTap(name);
+    }
+
     this.props.clearCurrentLoop();
     this.goToTime(time + 0.01);
   };
@@ -444,6 +466,7 @@ class Vid extends React.Component {
   };
 
   handleSeek = progress => {
+    trackScrub(progress);
     const time = progress * this.state.mediaDuration;
     this.goToTime(time);
   };
@@ -473,6 +496,7 @@ class Vid extends React.Component {
   // LOOP METHODS
 
   handleLoopEnable = () => {
+    trackLoopToggle(!this.props.loopIsEnabled);
     this.props.enableLoop(!this.props.loopIsEnabled);
   };
 
@@ -483,6 +507,7 @@ class Vid extends React.Component {
     var loop = this.props.currentLoop.set("begin", begin);
     loop = begin > end ? loop.delete("end") : loop;
 
+    trackLoopLeft(begin);
     this.props.setCurrentLoop(loop);
   };
 
@@ -494,6 +519,7 @@ class Vid extends React.Component {
     var loop = this.props.currentLoop.set("end", end);
     loop = begin > end ? loop.set("begin", 0) : loop;
 
+    trackLoopRight(begin);
     this.props.setCurrentLoop(loop);
   };
 

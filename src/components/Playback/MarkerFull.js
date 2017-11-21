@@ -24,10 +24,10 @@ class Marker extends React.Component {
         }}
         onLayout={this.handleLayout}
         onPress={() => {
-          onMarkerPress(marker.time);
+          onMarkerPress(marker.time, marker.name);
         }}
         onLongPress={() => {
-          onMarkerLongPress(marker.time, end);
+          onMarkerLongPress(marker.time, end, marker.name);
         }}
       >
         {this.state.width > 0 && (

@@ -10,11 +10,11 @@ import { BtnLoopDelete } from "../StyleKit";
 import { getLoops, deleteLoop } from "../../models/Loops";
 
 import ModalButton from "./ModalButton";
-import TempoText from "./TempoText";
 import Popover from "./Popover";
 
 import { BtnPhoneMyLoops } from "../StyleKit";
 import { ModalType } from "./ModalType";
+import { trackMyLoopsTap } from "../../metrics";
 
 class BtnMyLoopsModal extends React.Component {
   state = {
@@ -247,6 +247,7 @@ class BtnMyLoopsModal extends React.Component {
       if (this.props.onForceControlsVisible !== undefined) {
         this.props.onForceControlsVisible(true);
       }
+      trackMyLoopsTap();
       this.setState({ modalIsVisible: true, modalFrame: frame, myLoops });
     }
   };
@@ -298,7 +299,8 @@ BtnMyLoopsModal.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
   onSetCurrentLoop: PropTypes.func.isRequired,
-  onForceControlsVisible: PropTypes.func
+  onForceControlsVisible: PropTypes.func,
+  onClearCurrentLoop: PropTypes.func
 };
 
 export default BtnMyLoopsModal;

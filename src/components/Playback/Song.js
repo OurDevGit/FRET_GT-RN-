@@ -19,7 +19,18 @@ import {
   trackFretlightInfoTap,
   trackFretlightStatusTap,
   startPlayback,
-  stopPlayback
+  stopPlayback,
+  trackPlaybackPrevious,
+  trackPlaybackRewind,
+  trackPlaybackPlay,
+  trackPlaybackForward,
+  trackPlaybackNext,
+  trackScrub,
+  trackMarkerTap,
+  trackMarkerHold,
+  trackLoopToggle,
+  trackLoopLeft,
+  trackLoopRight
 } from "../../metrics";
 
 var idleTimer = NativeModules.GTIdleTimerController;
@@ -315,6 +326,7 @@ class Song extends React.Component {
   handlePreviousPress = () => {
     const { markers } = this.props;
     const seconds = this.state.playbackSeconds;
+    trackPlaybackPrevious();
 
     if (markers.count() === 0 || markers.first().time > seconds) {
       this.goToTime(0);
@@ -329,10 +341,12 @@ class Song extends React.Component {
   };
 
   handleBackPress = () => {
+    trackPlaybackRewind();
     this.goToTime(this.state.playbackSeconds - 5);
   };
 
   handlePlayPausePress = () => {
+    trackPlaybackPlay();
     if (this.props.countdownTimerState && !this.state.isPlaying) {
       this.props.onCountdownTimer(true);
       setTimeout(() => this.updatePlayback(), 3000);
@@ -363,10 +377,12 @@ class Song extends React.Component {
   };
 
   handleForwardPress = () => {
+    trackPlaybackForward();
     this.goToTime(this.state.playbackSeconds + 30);
   };
 
   handleNextPress = () => {
+    trackPlaybackNext();
     const { markers } = this.props;
     const seconds = this.state.playbackSeconds;
 
@@ -384,12 +400,14 @@ class Song extends React.Component {
 
   // TIMELINE METHODS
 
-  handleMarkerPress = time => {
+  handleMarkerPress = (time, name) => {
+    trackMarkerTap(name);
     this.props.clearCurrentLoop();
     this.goToTime(time);
   };
 
-  handleMarkerLongPress = (begin, end) => {
+  handleMarkerLongPress = (begin, end, name) => {
+    trackMarkerHold(name);
     const loop = Map({ begin, end });
     this.props.setCurrentLoop(loop);
     this.goToTime(begin);
@@ -401,6 +419,7 @@ class Song extends React.Component {
   };
 
   handleSeek = progress => {
+    trackScrub(progress);
     this.setState({ seek: progress * this.state.mediaDuration });
   };
 
@@ -429,6 +448,7 @@ class Song extends React.Component {
   // LOOP METHODS
 
   handleLoopEnable = () => {
+    trackLoopToggle(!this.props.loopIsEnabled);
     this.props.enableLoop(!this.props.loopIsEnabled);
   };
 
@@ -439,6 +459,7 @@ class Song extends React.Component {
     var loop = this.props.currentLoop.set("begin", begin);
     loop = begin > end ? loop.delete("end") : loop;
 
+    trackLoopLeft(begin);
     this.props.setCurrentLoop(loop);
   };
 
@@ -450,6 +471,7 @@ class Song extends React.Component {
     var loop = this.props.currentLoop.set("end", end);
     loop = begin > end ? loop.set("begin", 0) : loop;
 
+    trackLoopRight(begin);
     this.props.setCurrentLoop(loop);
   };
 

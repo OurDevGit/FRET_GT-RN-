@@ -10,7 +10,7 @@ import Song from "./Song";
 import Video from "./Video";
 import { setTime } from "../../time-store";
 import { setMidiOffset, clearMidiOffset } from "../../midi-store";
-import { updateActiveParts } from "../../metrics";
+import { updateActiveParts, trackTempo, startTempo } from "../../metrics";
 
 class MediaPlayer extends Component {
   state = {
@@ -101,6 +101,8 @@ class MediaPlayer extends Component {
       this.props.updateVisibleTracks(List([first]));
       updateActiveParts([first.name]);
     }
+    trackTempo(tempo);
+    startTempo(tempo);
   };
 
   handleLayout = e => {
