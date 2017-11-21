@@ -104,21 +104,10 @@ function* doDownload(media, mediaId) {
 // (skip all this if the media is currently downloading or in an intermediate state)
 
 function* watchChooseMedia(action) {
-  Sentry.captureBreadcrumb({
-    message: "Media chosen",
-    category: "action",
-    data: { mediaId: action.payload }
-  });
   const mediaId = action.payload;
   const media = yield getMedia(mediaId);
   console.debug(`chose media: ${mediaId}`);
   console.debug(media);
-
-  Sentry.captureBreadcrumb({
-    message: "Media chosen 2",
-    category: "saga",
-    data: { media, mediaId }
-  });
 
   yield put(actions.setIntermediate(mediaId, true));
 
@@ -128,41 +117,17 @@ function* watchChooseMedia(action) {
     console.debug("we have this media, so we're going to play it now");
     yield put(actions.setCurrentMedia(mediaId));
 
-    Sentry.captureBreadcrumb({
-      message: "Media played",
-      category: "action",
-      data: { mediaId }
-    });
-
-    Sentry.captureMessage("Chosen Media played", {
-      level: SentrySeverity.Debug,
-      extra: { mediaId }
-    });
-
     return;
   }
 
   console.debug("we don't have that media...");
 
-  Sentry.captureBreadcrumb({
-    message: "Media is not downloaded",
-    category: "saga",
-    data: { mediaId }
-  });
-
   // 2. Download it if we own it.
 
-  console.debug("going to ask Google IAB if we've bought that media");
-  var transactionDetails; // = { purchaseState: "PurchasedSuccessfully" };
-  // if (doFreeMedia !== true) {
-  transactionDetails = yield fetchTransactionDetails(mediaId);
-  // }
-
-  Sentry.captureBreadcrumb({
-    message: "Got transaction details",
-    category: "saga",
-    data: { transactionDetails }
-  });
+  var transactionDetails =
+    media.isFree === true
+      ? { purchaseState: "PurchasedSuccessfully" }
+      : yield fetchTransactionDetails(mediaId);
 
   // if we already bought this, then download it and finish
   if (
@@ -171,69 +136,26 @@ function* watchChooseMedia(action) {
   ) {
     console.debug("We own this. Downloading the media now.");
 
-    Sentry.captureBreadcrumb({
-      message: "Media do Download",
-      category: "action",
-      data: { media, mediaId }
-    });
-
     yield doDownload(media, mediaId);
-
-    Sentry.captureMessage("Chosen Media downloaded", {
-      level: SentrySeverity.Debug,
-      extra: { mediaId }
-    });
 
     return;
   } else {
     console.debug("we have not bought it.");
-
-    Sentry.captureBreadcrumb({
-      message: "Media has not been purchased",
-      category: "saga",
-      data: { mediaId }
-    });
   }
 
   console.debug("going into getMode switch");
   console.debug(`getMode: ${media.getMode}`);
 
-  Sentry.captureBreadcrumb({
-    message: "Going into switch",
-    category: "saga",
-    data: { mediaId }
-  });
+  console.debug({ media });
 
   // 3. Buy the media
   const purchaseSuccess = yield doPurchase(media);
 
-  Sentry.captureBreadcrumb({
-    message: "Media tried to purchase",
-    category: "saga",
-    data: { purchaseSuccess }
-  });
-
   if (purchaseSuccess === true) {
     yield put(actions.addPurchasedMedia(mediaId));
-    Sentry.captureBreadcrumb({
-      message: "Media added to state",
-      category: "action",
-      data: { mediaId }
-    });
     console.debug(`added purchased ${mediaId}`);
 
-    Sentry.captureBreadcrumb({
-      message: "Media will start Download",
-      category: "saga",
-      data: { mediaId }
-    });
     yield doDownload(media, mediaId);
-
-    Sentry.captureBreadcrumb({
-      message: "Media did Download",
-      category: "saga",
-      data: { mediaId }
-    });
   }
 
   switch (media.getMode) {
@@ -268,11 +190,6 @@ function* watchChooseMedia(action) {
   }
 
   yield put(actions.setIntermediate(mediaId, false));
-
-  Sentry.captureMessage("Chosen Media went to bottom of Watcher", {
-    level: SentrySeverity.Debug,
-    extra: { mediaId }
-  });
 }
 
 function* watchRefreshStore(action) {
