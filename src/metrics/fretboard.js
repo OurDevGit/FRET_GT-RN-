@@ -36,7 +36,7 @@ export const trackActiveParts = () => {
 export const trackActivePart = Part => {
   if (activePartDates[Part] !== undefined) {
     let Duration = Date() - activePartDates[Part];
-    Mixpanel.trackWithProperites("Guitar Part", { Part, Duration });
+    Mixpanel.trackWithProperties("Guitar Part", { Part, Duration });
   }
 };
 
@@ -58,7 +58,7 @@ export const startSMARTFretboard = name => {
 export const trackSMARTFretboard = isFinished => {
   if (SMARTFretboardPart !== undefined) {
     let Part = SMARTFretboardPart;
-    Mixpanel.trackWithProperites("Guitar Part", { Part });
+    Mixpanel.trackWithProperties("Guitar Part", { Part });
 
     if (isFinished) {
       SMARTFretboardPart = undefined;

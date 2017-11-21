@@ -22,7 +22,7 @@ export const trackAdTap = (url, tracking) => {
     props["tracking"] = tracking;
   }
 
-  Mixpanel.trackWithProperites("Ad Tap", props);
+  Mixpanel.trackWithProperties("Ad Tap", props);
 };
 
 // called in Fretboard.js
@@ -31,40 +31,33 @@ export const trackTuningTap = () => {
 };
 
 // settings
-
-// TODO
+// all called in settings/index.js
 export const trackSettingsAbout = () => {
   Mixpanel.track("Settings About Tap");
 };
 
-// TODO
 export const trackSettingsHelp = () => {
   Mixpanel.track("Settings Help Tap");
 };
 
-// TODO
 export const trackSettingsControls = () => {
   Mixpanel.track("Settings Controls Tap");
 };
 
-// TODO
 export const trackSettingsCountdown = On => {
-  Mixpanel.trackWithProperites("Settings Countdown Toggle", { On });
+  Mixpanel.trackWithProperties("Settings Countdown Toggle", { On });
 };
 
-// TODO
 export const trackSettingsLefy = On => {
-  Mixpanel.trackWithProperites("Settings Left Toggle", { On });
+  Mixpanel.trackWithProperties("Settings Left Toggle", { On });
 };
 
-// TODO
 export const trackSettingsFretlightAutoPartSwitching = On => {
-  Mixpanel.trackWithProperites("Settings FretlightAutoPartSwitching Toggle", {
+  Mixpanel.trackWithProperties("Settings FretlightAutoPartSwitching Toggle", {
     On
   });
 };
 
-// TODO
 export const trackSettingsNoteNotation = Notation => {
-  Mixpanel.trackWithProperites("Settings Notation Selection", { Notation });
+  Mixpanel.trackWithProperties("Settings Notation Selection", { Notation });
 };

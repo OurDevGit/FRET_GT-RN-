@@ -4,7 +4,7 @@ import { trackActiveParts } from "./fretboard";
 // TODO
 export const startMedia = mediaId => {
   trackActiveParts;
-  Mixpanel.trackWithProperites("Media Selected", { "Media ID": mediaId });
+  Mixpanel.trackWithProperties("Media Selected", { "Media ID": mediaId });
 };
 
 // TODO
@@ -19,7 +19,7 @@ export const stopPlayback = () => {
 
 // TODO
 export const trackFavorite = (mediaId, isFavorite) => {
-  Mixpanel.trackWithProperites("Media Favorite", {
+  Mixpanel.trackWithProperties("Media Favorite", {
     "Media ID": mediaId,
     Favorite: isFavorite
   });

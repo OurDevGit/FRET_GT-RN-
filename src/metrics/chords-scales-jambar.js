@@ -23,7 +23,7 @@ export const trackChordsAndScales = isFinished => {
 // called in metrics/app.js
 // TODO
 export const trackChordsAndScalesPattern = id => {
-  Mixpanel.trackWithProperites("Chords and Scales Pattern", { id });
+  Mixpanel.trackWithProperties("Chords and Scales Pattern", { id });
 };
 
 // called in metrics/app.js
@@ -46,5 +46,5 @@ export const trackJamBar = isFinished => {
 // called in metrics/app.js
 // TODO
 export const trackJamBarPattern = id => {
-  Mixpanel.trackWithProperites("JamBar Pattern Pattern", { id });
+  Mixpanel.trackWithProperties("JamBar Pattern Pattern", { id });
 };

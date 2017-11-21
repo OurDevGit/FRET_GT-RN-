@@ -9,10 +9,11 @@ import {
   ScrollView,
   NetInfo
 } from "react-native";
+import PropTypes from "prop-types";
 import { FlatButton } from "../Material";
-import { Provider, connect } from "react-redux";
+import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
-import { PrimaryGold, Danger } from "../../design";
+import { PrimaryGold } from "../../design";
 import SwitchRow from "./SwitchRow";
 import PdfViewer from "./PdfViewer";
 import NotationsRow from "./NotationsRow";
@@ -24,6 +25,15 @@ import { BtnEmail, BtnEmailSignup } from "../StyleKit";
 import { sendSupportEmail } from "./email";
 import { registerEmail } from "../../api";
 import { getLegal, getHelp, getOverlay } from "../../models/Resources";
+import {
+  trackSettingsAbout,
+  trackSettingsHelp,
+  trackSettingsControls,
+  trackSettingsCountdown,
+  trackSettingsLefy,
+  trackSettingsFretlightAutoPartSwitching,
+  trackSettingsNoteNotation
+} from "../../metrics";
 
 class Settings extends React.Component {
   state = {
@@ -41,8 +51,6 @@ class Settings extends React.Component {
       currentNotation,
       onClose
     } = this.props;
-
-    console.debug("Render Settings");
 
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
@@ -170,33 +178,36 @@ class Settings extends React.Component {
 
   handleAboutPress = () => {
     this.setState({ isShowingAbout: !this.state.isShowingAbout });
+    trackSettingsAbout();
   };
 
   handleHelpPress = async () => {
-    console.debug("handleHelpPress!");
     const pdfFile = await getHelp();
     getHelp().then(helpFile => {
-      console.debug({ helpFile });
       this.setState({ pdfFile: helpFile });
     });
-    console.debug({ pdfFile });
     this.setState({ pdfFile });
+    trackSettingsHelp();
   };
 
   handleOverlayPress = async () => {
     const pdfFile = await getOverlay();
     this.setState({ pdfFile });
+    trackSettingsControls();
   };
 
   handleToggleCountdown = () => {
+    trackSettingsCountdown(!this.props.countdownTimerState);
     this.props.setCountdownTimerState(!this.props.countdownTimerState);
   };
 
   handleToggleLeftMode = () => {
+    trackSettingsLefy(!this.props.leftHandState);
     this.props.setLeftHandState(!this.props.leftHandState);
   };
 
   handleToggleAutoPartSwitching = () => {
+    trackSettingsFretlightAutoPartSwitching(!this.props.autoPartSwitchingState);
     this.props.setAutoPartSwitchingState(!this.props.autoPartSwitchingState);
   };
 
@@ -207,6 +218,7 @@ class Settings extends React.Component {
 
   handleNotationSelect = notation => {
     this.props.setCurrentNotation(notation);
+    trackSettingsNoteNotation(notation);
     this.setState({ isShowingNotationModal: false });
   };
 
@@ -288,6 +300,18 @@ const styles = StyleSheet.create({
   },
   scrollView: {}
 });
+
+Settings.propTypes = {
+  countdownTimerState: PropTypes.bool.isRequired,
+  leftHandState: PropTypes.bool.isRequired,
+  autoPartSwitchingState: PropTypes.bool.isRequired,
+  currentNotation: PropTypes.string.isRequired,
+  onClose: PropTypes.func.isRequired,
+  setCountdownTimerState: PropTypes.func.isRequired,
+  setLeftHandState: PropTypes.func.isRequired,
+  setAutoPartSwitchingState: PropTypes.func.isRequired,
+  setCurrentNotation: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => {
   return {

@@ -50,7 +50,7 @@ export const trackGuitarCount = () => {
   }
 
   if (Count > 0) {
-    Mixpanel.trackWithProperites("Guitar Count", { Count });
+    Mixpanel.trackWithProperties("Guitar Count", { Count });
   }
 
   Mixpanel.timeEvent("Guitar Count");
@@ -63,6 +63,6 @@ const trackGuitar = (guitarId, trackName) => {
     let Part = trackName;
     let Count = guitarDates.length;
 
-    Mixpanel.trackWithProperites("Guitar Connect", { Duration, Part, Count });
+    Mixpanel.trackWithProperties("Guitar Connect", { Duration, Part, Count });
   }
 };

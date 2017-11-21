@@ -28,7 +28,7 @@ export const trackPlaybackNext = () => {
 
 // TODO
 export const trackPlaybackVolume = Volume => {
-  Mixpanel.trackWithProperites("Playback Volume Change", { Volume });
+  Mixpanel.trackWithProperties("Playback Volume Change", { Volume });
 };
 
 // tempo
@@ -42,14 +42,14 @@ export const restartTempo = () => {
 // called in metrics/app.js
 export const trackTempo = () => {
   if (currentTempo !== 1) {
-    Mixpanel.trackWithProperites("Playback Tempo", { Tempo: currentTempo });
+    Mixpanel.trackWithProperties("Playback Tempo", { Tempo: currentTempo });
   }
 };
 
 // TODO
 export const startTempo = Tempo => {
   if (currentTempo !== 1) {
-    Mixpanel.trackWithProperites("Playback Tempo", { Tempo: currentTempo });
+    Mixpanel.trackWithProperties("Playback Tempo", { Tempo: currentTempo });
   }
 
   if (Tempo !== 1) {
@@ -62,46 +62,46 @@ export const startTempo = Tempo => {
 // scrubbing
 // TODO
 export const trackScrub = Percent => {
-  Mixpanel.trackWithProperites("Playback Scrub", { Percent });
+  Mixpanel.trackWithProperties("Playback Scrub", { Percent });
 };
 
 // markers
 // TODO
 export const trackMarkerTap = Name => {
-  Mixpanel.trackWithProperites("Marker Tap", { Name });
+  Mixpanel.trackWithProperties("Marker Tap", { Name });
 };
 
 // TODO
 export const trackMarkerHold = Name => {
-  Mixpanel.trackWithProperites("Marker Hold", { Name });
+  Mixpanel.trackWithProperties("Marker Hold", { Name });
 };
 
 // TODO
 export const trackChapterTap = Name => {
-  Mixpanel.trackWithProperites("Chapter Tap", { Name });
+  Mixpanel.trackWithProperties("Chapter Tap", { Name });
 };
 
 // loops
 // TODO
 export const trackLoopToggle = Enabled => {
-  Mixpanel.trackWithProperites("Loop Toggle", { Enabled });
+  Mixpanel.trackWithProperties("Loop Toggle", { Enabled });
 };
 
 // TODO
 export const trackLoopLeft = Time => {
   const Side = "Left";
-  Mixpanel.trackWithProperites("Loop Set", { Side, Time });
+  Mixpanel.trackWithProperties("Loop Set", { Side, Time });
 };
 
 // TODO
 export const trackLoopRight = Time => {
   const Side = "Right";
-  Mixpanel.trackWithProperites("Loop Set", { Side, Time });
+  Mixpanel.trackWithProperties("Loop Set", { Side, Time });
 };
 
 // TODO
 export const trackLoopSave = Name => {
-  Mixpanel.trackWithProperites("Loop Save", { Name });
+  Mixpanel.trackWithProperties("Loop Save", { Name });
 };
 
 // TODO
