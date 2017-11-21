@@ -14,6 +14,7 @@ import FretboardStrings from "./FretboardStrings";
 import FretboardCapo from "./FretboardCapo";
 import SmartFretText from "../modals/SmartFretText";
 import Tuner from "../Tuner";
+import { startSMARTFretboard, trackSMARTFretboard } from "../../metrics";
 
 class Fretboard extends React.Component {
   state = {
@@ -37,9 +38,7 @@ class Fretboard extends React.Component {
       trackIndex,
       scrollIndex,
       showSmart,
-      boardWidth,
-      setSmartTrack,
-      clearSmartTrack
+      boardWidth
     } = this.props;
     const hasAlternateTuning =
       track.tuning !== undefined || track.fullTuning !== undefined;
@@ -113,11 +112,7 @@ class Fretboard extends React.Component {
                     marginRight: isSmart ? 10 : 0,
                     marginBottom: isSmart ? 10 : 5
                   }}
-                  onPress={() => {
-                    isSmart
-                      ? clearSmartTrack()
-                      : setSmartTrack(track, this.state.isLeft);
-                  }}
+                  onPress={this.handleSMART}
                 >
                   <SmartFretText
                     color={PrimaryBlue}
@@ -228,6 +223,17 @@ class Fretboard extends React.Component {
   handleToggleTuner = frame => {
     const isShowingTuner = !this.state.isShowingTuner;
     this.setState({ isShowingTuner, tunerModalFrame: frame });
+  };
+
+  handleSMART = () => {
+    const { track, isSmart, setSmartTrack, clearSmartTrack } = this.props;
+    if (isSmart) {
+      trackSMARTFretboard();
+      clearSmartTrack();
+    } else {
+      startSMARTFretboard();
+      setSmartTrack(track, this.state.isLeft);
+    }
   };
 }
 

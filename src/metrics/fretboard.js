@@ -2,19 +2,23 @@ import Mixpanel from "react-native-mixpanel";
 var activePartDates = {};
 var SMARTFretboardPart = undefined;
 
-// TODO
+// called in Fretboards.js (scrolling) and Playback.js (STEP)
+export const updateActiveParts = parts => {
+  parts.forEach(part => (activePartDates[part] = Date()));
+};
+
+// called in TrackSelector.js
 export const addActivePart = part => {
   activePartDates[part] = Date();
 };
 
-// TODO
+// called in TrackSelector.js
 export const removeActivePart = part => {
   trackActivePart(part);
   delete activePartDates[part];
 };
 
 // called in metrics/app.js
-// TODO
 export const startActiveParts = () => {
   for (var key in activePartDates) {
     activePartDates[key] = Date();
@@ -22,14 +26,13 @@ export const startActiveParts = () => {
 };
 
 // called in metrics/app.js
-// TODO
 export const trackActiveParts = () => {
   for (var key in activePartDates) {
     trackActivePart(key);
   }
 };
 
-// TODO
+// called internally
 export const trackActivePart = Part => {
   if (activePartDates[Part] !== undefined) {
     let Duration = Date() - activePartDates[Part];
@@ -38,7 +41,6 @@ export const trackActivePart = Part => {
 };
 
 // SMARTFretboard
-
 // called in metrics/app.js
 export const restartSMARTFretboard = () => {
   if (SMARTFretboardPart !== undefined) {
@@ -46,14 +48,13 @@ export const restartSMARTFretboard = () => {
   }
 };
 
-// TODO
+// called in Fretboard.js
 export const startSMARTFretboard = name => {
   SMARTFretboardPart = name;
   Mixpanel.timeEvent("SMARTFretboard");
 };
 
-// called in metrics/app.js
-// TODO
+// called in metrics/app.js and Fretboard.js
 export const trackSMARTFretboard = isFinished => {
   if (SMARTFretboardPart !== undefined) {
     let Part = SMARTFretboardPart;

@@ -4,10 +4,10 @@ import PropTypes from "prop-types";
 import * as actions from "../../redux/actions";
 import { View, NativeModules } from "react-native";
 import { List, Map } from "immutable";
-import Dimensions from "Dimensions";
 import VerticalContainer from "./VerticalContainer";
 import HorizontalContainer from "./HorizontalContainer";
 import { getIsPhone } from "../../utils";
+import { updateActiveParts } from "../../metrics";
 
 var guitarController = NativeModules.GTGuitarController;
 
@@ -101,6 +101,7 @@ class FretboardsRoot extends React.PureComponent {
     this.setState({ selectedIndex: page });
     const track = this.props.tracks.get(page);
     this.props.updateVisibleTracks(List([track]));
+    updateActiveParts([track.name]);
     this.checkForAutoPartSwitching(track);
   }
 
@@ -108,6 +109,7 @@ class FretboardsRoot extends React.PureComponent {
     this.setState({ selectedIndex: page });
     const track = this.props.tracks.get(page);
     this.props.updateVisibleTracks(List([track]));
+    updateActiveParts([track.name]);
     this.checkForAutoPartSwitching(track);
   }
 
@@ -133,15 +135,19 @@ const mapStateToProps = state => {
 };
 
 FretboardsRoot.propTypes = {
+  guitars: PropTypes.object.isRequired,
   isVideo: PropTypes.bool.isRequired,
   isVisible: PropTypes.bool.isRequired,
+  autoPartSwitchingState: PropTypes.bool.isRequired,
   leftHandState: PropTypes.bool.isRequired,
   currentNotation: PropTypes.string.isRequired,
   deviceWidth: PropTypes.number.isRequired,
   deviceHeight: PropTypes.number.isRequired,
   availableFretboardCount: PropTypes.number.isRequired,
   tracks: PropTypes.object,
-  visibleTracks: PropTypes.object
+  visibleTracks: PropTypes.object,
+  updateVisibleTracks: PropTypes.func.isRequired,
+  updateGuitarSetting: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, actions)(FretboardsRoot);

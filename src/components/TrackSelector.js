@@ -1,16 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  Button,
-  NativeModules
-} from "react-native";
-import { List } from "immutable";
-
+import PropTypes from "prop-types";
+import { View, Text, TouchableOpacity, NativeModules } from "react-native";
 import * as actions from "../redux/actions";
 import { PrimaryGold } from "../design";
+import { addActivePart, removeActivePart } from "../metrics";
 
 var guitarController = NativeModules.GTGuitarController;
 
@@ -88,6 +82,7 @@ class TrackSelector extends Component {
         const tracks = visibleTracks.remove(visibleIndex);
         updateVisibleTracks(tracks);
         this.checkForAutoPartSwitching(tracks.last().toJS());
+        removeActivePart(track.get("name"));
       }
     } else {
       if (visibleTracks.count() < this.props.max) {
@@ -95,6 +90,7 @@ class TrackSelector extends Component {
         const newTracks = tracks.filter(tr => newVisible.includes(tr));
         updateVisibleTracks(newTracks);
         this.checkForAutoPartSwitching(newTracks.last().toJS());
+        addActivePart(track.get("name"));
       }
     }
   }
@@ -108,6 +104,16 @@ class TrackSelector extends Component {
     }
   }
 }
+
+TrackSelector.propTypes = {
+  max: PropTypes.number.isRequired,
+  tracks: PropTypes.object.isRequired,
+  visibleTracks: PropTypes.object.isRequired,
+  guitars: PropTypes.object.isRequired,
+  autoPartSwitchingState: PropTypes.bool.isRequired,
+  updateGuitarSetting: PropTypes.func.isRequired,
+  updateVisibleTracks: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => {
   return {

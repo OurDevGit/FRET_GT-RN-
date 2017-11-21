@@ -4,12 +4,13 @@ import { connect } from "react-redux";
 import { View } from "react-native";
 
 import * as actions from "../../redux/actions";
-import { List, Map } from "immutable";
+import { List } from "immutable";
 
 import Song from "./Song";
 import Video from "./Video";
 import { setTime } from "../../time-store";
 import { setMidiOffset, clearMidiOffset } from "../../midi-store";
+import { updateActiveParts } from "../../metrics";
 
 class MediaPlayer extends Component {
   state = {
@@ -84,7 +85,7 @@ class MediaPlayer extends Component {
     );
   }
 
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate(nextProps) {
     if (
       this.props.song !== nextProps.song ||
       this.props.video !== nextProps.video
@@ -98,6 +99,7 @@ class MediaPlayer extends Component {
     if (tempo === 0) {
       const first = this.props.visibleTracks.first();
       this.props.updateVisibleTracks(List([first]));
+      updateActiveParts([first.name]);
     }
   };
 
@@ -139,7 +141,8 @@ MediaPlayer.propTypes = {
   onToggleFretboards: PropTypes.func.isRequired,
   onToggleFretlightAdmin: PropTypes.func.isRequired,
   onClearMedia: PropTypes.func.isRequired,
-  onCountdownTimer: PropTypes.func.isRequired
+  onCountdownTimer: PropTypes.func.isRequired,
+  updateVisibleTracks: PropTypes.func.isRequired
 };
 
 export default connect(null, actions)(MediaPlayer);
