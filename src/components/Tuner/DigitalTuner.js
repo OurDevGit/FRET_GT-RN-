@@ -1,11 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Image, Text, StyleSheet } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
 import Recorder from "react-native-recording";
 import PitchFinder from "pitchfinder";
 import DigitalLight from "./DigitalLight";
 import DigitalNeedle from "./DigitalNeedle";
 import { fineTuningAdjustment } from "./TuningPitch";
+import background from "../../images/tuner-background.png";
+import housing from "../../images/tuner-housing.png";
 
 class DigitalTuner extends React.Component {
   constructor(props) {
@@ -23,26 +25,23 @@ class DigitalTuner extends React.Component {
   };
 
   render() {
-    const { currentNote } = this.props;
     const { rotation } = this.state;
+    const leftIsOn = rotation <= -3 || (rotation > -3 && rotation < 3);
+    const rightIsOn = rotation >= 3 || (rotation > -3 && rotation < 3);
     return (
       <View style={styles.container}>
         <View style={styles.innerContainer}>
           <Image
             style={styles.image}
-            source={require("../../images/tuner-background.png")}
+            source={background}
             resizeMode="contain"
           />
 
-          <DigitalLight type={"left"} isOn={rotation < -3} />
-          <DigitalLight type={"right"} isOn={rotation > 3} />
+          <DigitalLight type={"left"} isOn={leftIsOn} />
+          <DigitalLight type={"right"} isOn={rightIsOn} />
           <DigitalNeedle rotation={rotation} />
 
-          <Image
-            style={styles.housing}
-            source={require("../../images/tuner-housing.png")}
-            resizeMode="contain"
-          />
+          <Image style={styles.housing} source={housing} resizeMode="contain" />
         </View>
       </View>
     );
