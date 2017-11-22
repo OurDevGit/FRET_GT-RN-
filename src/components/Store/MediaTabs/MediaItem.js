@@ -2,7 +2,6 @@ import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { BtnDetails, BtnHeartSmart, BtnGetMediaProgress } from "../../StyleKit";
-import { GetMediaButtonMode } from "../../../models/Media";
 import MediaThumbnail from "./MediaThumbnail";
 
 class MediaItem extends PureComponent {
@@ -12,8 +11,7 @@ class MediaItem extends PureComponent {
 
   render() {
     // console.debug(`MediaItem render()`);
-    console.debug(`MediaItem render() ${this.props.title}`);
-    const hasFiles = this.props.getMode === GetMediaButtonMode.Play;
+    // console.debug(`MediaItem render() ${this.props.title}`);
 
     return (
       <TouchableOpacity onPress={this.handleTouch}>
