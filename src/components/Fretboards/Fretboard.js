@@ -229,7 +229,10 @@ class Fretboard extends React.Component {
     this.setState({ isShowingTuner, tunerModalFrame: frame });
 
     if (!isShowingTuner) {
+      this.props.dismissModal();
       trackTuningTap();
+    } else {
+      this.props.presentModal();
     }
   };
 
@@ -262,7 +265,9 @@ Fretboard.propTypes = {
   style: PropTypes.object.isRequired,
   setSmartTrack: PropTypes.func,
   clearSmartTrack: PropTypes.func,
-  setTuningMode: PropTypes.func.isRequired
+  setTuningMode: PropTypes.func.isRequired,
+  presentModal: PropTypes.func.isRequired,
+  dismissModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

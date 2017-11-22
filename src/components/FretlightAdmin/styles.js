@@ -1,4 +1,3 @@
-import { StyleSheet } from "react-native";
 import { PrimaryBlue } from "../../design";
 
 export const guitarModalStyles = {
@@ -24,16 +23,16 @@ export const guitarModalStyles = {
   },
   doneButton: {
     flex: -1,
-    height: 50,
-    width: 50
+    height: 70,
+    width: 70,
+    marginRight: 8
   },
   doneText: {
-    height: 50,
+    flex: 1,
     fontSize: 18,
     fontWeight: "600",
-    textAlign: "left",
+    textAlign: "right",
     marginLeft: 5,
-    height: 50,
     textAlignVertical: "center",
     color: PrimaryBlue
   },

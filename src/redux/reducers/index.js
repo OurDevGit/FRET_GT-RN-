@@ -41,6 +41,7 @@ import {
 } from "./settings";
 import { guitars } from "./guitar";
 import { intermediateMedia } from "./media";
+import { modalIsPresented } from "./app";
 
 const appReducer = combineReducers({
   ad,
@@ -84,7 +85,9 @@ const appReducer = combineReducers({
   leftHandState,
   autoPartSwitchingState,
   currentNotation,
-  tuningMode
+  tuningMode,
+  // App
+  modalIsPresented
 });
 
 export default appReducer;

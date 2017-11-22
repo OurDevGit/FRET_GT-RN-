@@ -180,6 +180,10 @@ class Vid extends React.Component {
         idleTimer.start();
       }
     }
+
+    if (this.props.modalIsPresented && !prevProps.modalIsPresented) {
+      this.setState({ isPlaying: false });
+    }
   }
 
   handlePlayerRegister = player => {
@@ -654,6 +658,7 @@ Vid.propTypes = {
   currentVideoMidiFile: PropTypes.object,
   visibleTracks: PropTypes.object,
   connectedDevices: PropTypes.number.isRequired,
+  modalIsPresented: PropTypes.bool.isRequired,
   currentLoop: PropTypes.object,
   loopIsEnabled: PropTypes.bool.isRequired,
   updateMidiData: PropTypes.func.isRequired,
@@ -687,7 +692,8 @@ const mapStateToProps = state => {
     currentVideoChapter: state.get("currentVideoChapter"),
     currentVideoMarker: state.get("currentVideoMarker"),
     currentVideoMidiFile: state.get("currentVideoMidiFile"),
-    connectedDevices: state.get("guitars").count()
+    connectedDevices: state.get("guitars").count(),
+    modalIsPresented: state.get("modalIsPresented")
   };
 };
 

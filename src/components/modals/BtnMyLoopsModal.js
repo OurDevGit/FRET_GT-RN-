@@ -1,6 +1,8 @@
 import React from "react";
 import { Alert, View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import * as actions from "../../redux/actions";
 import Dimensions from "Dimensions";
 import { Map } from "immutable";
 
@@ -248,6 +250,7 @@ class BtnMyLoopsModal extends React.Component {
         this.props.onForceControlsVisible(true);
       }
       trackMyLoopsTap();
+      this.props.presentModal();
       this.setState({ modalIsVisible: true, modalFrame: frame, myLoops });
     }
   };
@@ -256,6 +259,7 @@ class BtnMyLoopsModal extends React.Component {
     if (this.props.onForceControlsVisible !== undefined) {
       this.props.onForceControlsVisible(false);
     }
+    this.props.dismissModal();
     this.setState({ modalIsVisible: false, isEditing: false });
   };
 
@@ -300,7 +304,9 @@ BtnMyLoopsModal.propTypes = {
   isVideo: PropTypes.bool.isRequired,
   onSetCurrentLoop: PropTypes.func.isRequired,
   onForceControlsVisible: PropTypes.func,
-  onClearCurrentLoop: PropTypes.func
+  onClearCurrentLoop: PropTypes.func,
+  presentModal: PropTypes.func.isRequired,
+  dismissModal: PropTypes.func.isRequired
 };
 
-export default BtnMyLoopsModal;
+export default connect(null, actions)(BtnMyLoopsModal);

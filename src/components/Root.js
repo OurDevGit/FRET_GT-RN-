@@ -113,7 +113,7 @@ class Root extends Component {
               style={{
                 position: "absolute",
                 right: 20,
-                top: 5,
+                top: "3%",
                 flexDirection: "row"
               }}
             >
@@ -214,6 +214,7 @@ class Root extends Component {
           const { mediaID, title, artist } = this.props.mediaForPlay;
           registerSuperProperties(mediaID, title, artist);
           startMedia(mediaID);
+          this.props.dismissModal();
         }
       }
     }
@@ -248,6 +249,7 @@ class Root extends Component {
   };
 
   handleCloseStore = () => {
+    this.props.dismissModal();
     this.setState({
       isShowingStore: false,
       storeDetailMediaId: ""
@@ -269,6 +271,12 @@ class Root extends Component {
   };
 
   handleToggleSettings = () => {
+    if (this.state.isShowingSettings) {
+      this.props.dismissModal();
+    } else {
+      this.props.presentModal();
+    }
+
     this.setState({
       isShowingStore: false,
       isShowingSettings: !this.state.isShowingSettings
@@ -276,6 +284,7 @@ class Root extends Component {
   };
 
   handleToggleLibrary = () => {
+    this.props.presentModal();
     this.setState({
       isShowingStore: true
     });
@@ -337,7 +346,9 @@ Root.propTypes = {
   mediaForPlay: PropTypes.object,
   countdownTimerState: PropTypes.bool.isRequired,
   chooseMedia: PropTypes.func.isRequired,
-  requestBootstrap: PropTypes.func.isRequired
+  requestBootstrap: PropTypes.func.isRequired,
+  presentModal: PropTypes.func.isRequired,
+  dismissModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

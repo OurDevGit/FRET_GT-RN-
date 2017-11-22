@@ -49,7 +49,9 @@ class FretlightModal extends React.Component {
               this.props.onToggleFretlightAdmin(false);
             }}
           >
-            <Text style={guitarModalStyles.doneText}>Done</Text>
+            <Text numberOfLines={1} style={guitarModalStyles.doneText}>
+              Done
+            </Text>
           </TouchableOpacity>
         </View>
 
@@ -120,10 +122,12 @@ class FretlightModal extends React.Component {
 
   componentWillMount() {
     guitarController.startScanning();
+    this.props.presentModal();
   }
 
   componentWillUnmount() {
     guitarController.stopScanning();
+    this.props.dismissModal();
   }
 
   handleToggleScanning = bool => {
@@ -196,7 +200,9 @@ FretlightModal.propTypes = {
   tracks: PropTypes.object.isRequired,
   guitars: PropTypes.object.isRequired,
   onToggleFretlightAdmin: PropTypes.func.isRequired,
-  updateGuitarSetting: PropTypes.func.isRequired
+  updateGuitarSetting: PropTypes.func.isRequired,
+  presentModal: PropTypes.func.isRequired,
+  dismissModal: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

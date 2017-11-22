@@ -1,6 +1,8 @@
 import React from "react";
 import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import * as actions from "../../redux/actions";
 import { createOrUpdateLoop } from "../../models/Loops";
 import { getIsPhone } from "../../utils";
 
@@ -143,6 +145,7 @@ class BtnSaveLoopModal extends React.Component {
       if (this.props.onForceControlsVisible !== undefined) {
         this.props.onForceControlsVisible(true);
       }
+      this.props.presentModal();
       this.setState({ modalIsVisible: true });
     }
   };
@@ -151,6 +154,7 @@ class BtnSaveLoopModal extends React.Component {
     if (this.props.onForceControlsVisible !== undefined) {
       this.props.onForceControlsVisible(false);
     }
+    this.props.dismissModal();
     this.setState({ modalIsVisible: false });
   };
 
@@ -183,7 +187,9 @@ BtnSaveLoopModal.propTypes = {
   mediaId: PropTypes.string.isRequired,
   currentLoop: PropTypes.object.isRequired,
   onSetCurrentLoop: PropTypes.func.isRequired,
-  onForceControlsVisible: PropTypes.func
+  onForceControlsVisible: PropTypes.func,
+  presentModal: PropTypes.func.isRequired,
+  dismissModal: PropTypes.func.isRequired
 };
 
-export default BtnSaveLoopModal;
+export default connect(null, actions)(BtnSaveLoopModal);
