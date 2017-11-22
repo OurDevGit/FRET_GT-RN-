@@ -39,7 +39,7 @@ import {
   setCurrentNotation,
   setTuningMode
 } from "./models/Settings";
-import { trackFavorite } from "./metrics";
+import { trackFavorite, trackPurchase } from "./metrics";
 
 const dirs = RNFetchBlob.fs.dirs;
 
@@ -154,9 +154,13 @@ function* watchChooseMedia(action) {
 
   if (purchaseSuccess === true) {
     yield put(actions.addPurchasedMedia(mediaId));
+    yield doDownload(media, mediaId);
     console.debug(`added purchased ${mediaId}`);
 
-    yield doDownload(media, mediaId);
+    // track the purchase in MixPanel
+    const productDetails = yield getProductDetails();
+    const details = productDetails[mediaId.toLowerCase()];
+    trackPurchase(mediaId, media.title, details.priceValue, details.currency);
   }
 
   switch (media.getMode) {

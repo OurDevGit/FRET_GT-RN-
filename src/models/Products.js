@@ -1,6 +1,5 @@
 import InAppBilling from "react-native-billing";
 import { chunk } from "lodash";
-import { makeStore } from "./StorageFactory";
 
 var _openCount = 0;
 var _billingIsOpen = false;
