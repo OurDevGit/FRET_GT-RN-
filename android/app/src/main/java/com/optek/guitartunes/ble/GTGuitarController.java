@@ -91,6 +91,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
   public void startScanning() {
     logSentry("GTGuitarController startScanning");
     Intent intent = new Intent(context, ScanningActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     context.startActivity(intent);
   }
 
