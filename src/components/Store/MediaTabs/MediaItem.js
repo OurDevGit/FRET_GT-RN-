@@ -22,6 +22,7 @@ class MediaItem extends PureComponent {
             mediaId={this.props.id}
             hasPreview={
               (this.props.getMode === GetMediaButtonMode.Purchase ||
+                this.props.getMode === GetMediaButtonMode.Indeterminate ||
                 this.props.getMode === GetMediaButtonMode.ComingSoon) &&
               this.props.hasPreview
             }
