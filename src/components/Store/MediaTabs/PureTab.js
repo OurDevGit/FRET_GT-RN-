@@ -219,12 +219,18 @@ class PureTab extends Component {
         id={item.mediaID}
         title={item.title}
         hasPreview={
-          item.previewDuration !== undefined && item.previewDuration !== null
+          this.props.isStore &&
+          item.previewDuration !== undefined &&
+          item.previewDuration !== null
         }
-        isPreviewing={this.state.previewMediaId === item.mediaID}
+        isPreviewing={
+          this.props.isStore && this.state.previewMediaId === item.mediaID
+        }
         previewProgress={
-          this.state.previewMediaId === item.mediaID
-            ? this.state.previewProgress
+          this.props.isStore === true
+            ? this.state.previewMediaId === item.mediaID
+              ? this.state.previewProgress
+              : 0
             : 0
         }
         subtitle={item.artist}
