@@ -47,6 +47,12 @@ class DigitalTuner extends React.Component {
     );
   }
 
+  componentDidMount = () => {
+    if (this.props.currentPitch !== undefined) {
+      this.startRecording();
+    }
+  };
+
   componentWillUnmount = () => {
     Recorder.stop();
     this.isRecording = false;
@@ -54,15 +60,19 @@ class DigitalTuner extends React.Component {
 
   componentWillReceiveProps = nextProps => {
     if (nextProps.currentPitch !== undefined && !this.isRecording) {
-      Recorder.init(this.sampleRate, 2048);
-      Recorder.start();
-      Recorder.on("recording", data => {
-        this.handleData(data);
-      });
-      this.isRecording = true;
-      requestAnimationFrame(this.handleAnimationFrame);
+      this.startRecording();
     }
     this.frequencies = [];
+  };
+
+  startRecording = () => {
+    Recorder.init(this.sampleRate, 2048);
+    Recorder.start();
+    Recorder.on("recording", data => {
+      this.handleData(data);
+    });
+    this.isRecording = true;
+    requestAnimationFrame(this.handleAnimationFrame);
   };
 
   handleData = data => {
