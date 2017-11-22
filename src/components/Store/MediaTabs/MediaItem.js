@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { BtnDetails, BtnHeartSmart, BtnGetMediaProgress } from "../../StyleKit";
 import MediaThumbnail from "./MediaThumbnail";
+import { GetMediaButtonMode } from "../../../models/Media";
 
 class MediaItem extends PureComponent {
   state = {
@@ -19,7 +20,11 @@ class MediaItem extends PureComponent {
           <MediaThumbnail
             thumbUri={this.props.artworkURL}
             mediaId={this.props.id}
-            hasPreview={this.props.hasPreview}
+            hasPreview={
+              (this.props.getMode === GetMediaButtonMode.Purchase ||
+                this.props.getMode === GetMediaButtonMode.ComingSoon) &&
+              this.props.hasPreview
+            }
             onPreviewPress={this.handlePreviewPress}
             isPreviewing={this.props.isPreviewing}
             previewProgress={this.props.previewProgress}
