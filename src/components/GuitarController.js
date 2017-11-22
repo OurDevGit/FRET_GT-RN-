@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Alert, NativeModules, DeviceEventEmitter } from "react-native";
+import { View, NativeModules, DeviceEventEmitter } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../redux/actions";
@@ -10,6 +10,7 @@ import {
   unsubscribeToTimeUpdates
 } from "../time-store";
 import { notesForTrackAtTime } from "../midi-store";
+import { addGuitar, removeGuitar } from "../metrics";
 
 // This component manages the connection and notes for playback
 // Management of device profiles are handled in FretlightModal.js
@@ -43,14 +44,14 @@ class GuitarController extends Component {
     DeviceEventEmitter.addListener("GUITAR_LOST", id => {
       this.handleGuitarLost(id);
     });
-
+    /*
     DeviceEventEmitter.addListener("BLE_STATUS", status => {
       console.log(
         status === "SCANNING"
           ? "STARTED SCANNING FOR GUITARS"
           : "STOPPED SCANNING FOR GUITARS"
       );
-    });
+    });*/
   }
 
   componentDidMount() {
@@ -64,7 +65,7 @@ class GuitarController extends Component {
 
   handleTimeUpdate = time => {
     if (this.props.assignments !== {}) {
-      for (track in this.props.assignments) {
+      for (var track in this.props.assignments) {
         this.handleNotesForTrack(time, track);
       }
     }
@@ -108,8 +109,7 @@ class GuitarController extends Component {
   };
 
   handleGuitarConnected = async id => {
-    console.log("CONNECTED TO GUITAR: ", id);
-    const { tracks, assignGuitarToTrack } = this.props;
+    const { tracks } = this.props;
 
     var guitar = await getGuitar(id);
     if (guitar === null) {
@@ -125,24 +125,27 @@ class GuitarController extends Component {
     } else {
       guitar.track = tracks.first().get("name");
       this.props.updateGuitarSetting(Map(guitar));
+      addGuitar(id, guitar.track);
     }
   };
 
   handleGuitarDisconnected = id => {
-    console.log("DISCONNECTED FROM GUITAR: ", id);
     this.props.guitarDisconnected(id);
+    removeGuitar(id);
   };
 
   handleGuitarLost = async id => {
-    console.log("LOST GUITAR: ", id);
     this.props.guitarDisconnected(id);
+    removeGuitar(id);
   };
 }
 
 GuitarController.propTypes = {
   tracks: PropTypes.object,
   guitars: PropTypes.array,
-  assignments: PropTypes.object
+  assignments: PropTypes.object,
+  updateGuitarSetting: PropTypes.func.isRequired,
+  guitarDisconnected: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -159,8 +162,6 @@ const mapStateToProps = state => {
         assignments[guitar.track] = [...assignments[guitar.track], guitar.id];
       }
     });
-    //console.log("guitars: ", guitars);
-    //console.log("assignments: ", assignments);
   }
 
   return {

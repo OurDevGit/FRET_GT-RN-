@@ -4,12 +4,12 @@ var SMARTFretboardPart = undefined;
 
 // called in Fretboards.js (scrolling) and Playback.js (STEP)
 export const updateActiveParts = parts => {
-  parts.forEach(part => (activePartDates[part] = Date()));
+  parts.forEach(part => (activePartDates[part] = dateInSeconds()));
 };
 
 // called in TrackSelector.js
 export const addActivePart = part => {
-  activePartDates[part] = Date();
+  activePartDates[part] = dateInSeconds();
 };
 
 // called in TrackSelector.js
@@ -21,7 +21,7 @@ export const removeActivePart = part => {
 // called in metrics/app.js
 export const startActiveParts = () => {
   for (var key in activePartDates) {
-    activePartDates[key] = Date();
+    activePartDates[key] = dateInSeconds();
   }
 };
 
@@ -35,7 +35,7 @@ export const trackActiveParts = () => {
 // called internally
 export const trackActivePart = Part => {
   if (activePartDates[Part] !== undefined) {
-    let Duration = Date() - activePartDates[Part];
+    let Duration = dateInSeconds() - activePartDates[Part];
     Mixpanel.trackWithProperties("Guitar Part", { Part, Duration });
   }
 };
@@ -64,4 +64,8 @@ export const trackSMARTFretboard = isFinished => {
       SMARTFretboardPart = undefined;
     }
   }
+};
+
+const dateInSeconds = () => {
+  return Date.now() / 1000;
 };

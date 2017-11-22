@@ -2,18 +2,14 @@ import React from "react";
 import {
   View,
   Text,
-  TextInput,
   FlatList,
   TouchableOpacity,
-  Alert,
-  NativeModules,
-  KeyboardAvoidingView
+  NativeModules
 } from "react-native";
-import Dimensions from "Dimensions";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
-import { Map, List } from "immutable";
+import { Map } from "immutable";
 
 import { PrimaryBlue } from "../../design";
 import { startIdentification, stopIdentification } from "./identifier";
@@ -21,6 +17,7 @@ import GuitarRow from "./GuitarRow";
 import TrackModal from "./TrackModal";
 import { setGuitar } from "../../models/Guitars";
 import { guitarModalStyles } from "./styles";
+import { updateGuitarPart } from "../../metrics";
 
 var guitarController = NativeModules.GTGuitarController;
 
@@ -173,12 +170,14 @@ class FretlightModal extends React.Component {
     guitarController.clearAll(guitar.id);
     guitar.track = track;
     this.props.updateGuitarSetting(Map(guitar));
+    updateGuitarPart(guitar.id, track);
   };
 
   handleAssignAll = track => {
     guitarController.clearAllGuitars();
     this.props.guitars.forEach(guitar => {
       this.props.updateGuitarSetting(guitar.set("track", track));
+      updateGuitarPart(guitar.id, track);
     });
   };
 
@@ -196,7 +195,8 @@ FretlightModal.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   tracks: PropTypes.object.isRequired,
   guitars: PropTypes.object.isRequired,
-  onToggleFretlightAdmin: PropTypes.func.isRequired
+  onToggleFretlightAdmin: PropTypes.func.isRequired,
+  updateGuitarSetting: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

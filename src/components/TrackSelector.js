@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, NativeModules } from "react-native";
 import * as actions from "../redux/actions";
 import { PrimaryGold } from "../design";
-import { addActivePart, removeActivePart } from "../metrics";
+import { addActivePart, removeActivePart, updateGuitarPart } from "../metrics";
 
 var guitarController = NativeModules.GTGuitarController;
 
@@ -100,6 +100,7 @@ class TrackSelector extends Component {
       guitarController.clearAllGuitars();
       this.props.guitars.forEach(guitar => {
         this.props.updateGuitarSetting(guitar.set("track", track.name));
+        updateGuitarPart(guitar.id, track.name);
       });
     }
   }
