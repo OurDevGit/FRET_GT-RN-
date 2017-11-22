@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
 import { BtnDetails, BtnHeartSmart, BtnGetMediaProgress } from "../../StyleKit";
 import { GetMediaButtonMode } from "../../../models/Media";
+import MediaThumbnail from "./MediaThumbnail";
 
 class MediaItem extends PureComponent {
   state = {
@@ -11,16 +12,19 @@ class MediaItem extends PureComponent {
 
   render() {
     // console.debug(`MediaItem render()`);
-    // console.debug(`MediaItem render() ${this.props.title}`);
+    console.debug(`MediaItem render() ${this.props.title}`);
     const hasFiles = this.props.getMode === GetMediaButtonMode.Play;
 
     return (
       <TouchableOpacity onPress={this.handleTouch}>
         <View style={styles.row}>
-          <Image
-            source={{ uri: this.props.artworkURL }}
-            resizeMode="contain"
-            style={styles.thumb}
+          <MediaThumbnail
+            thumbUri={this.props.artworkURL}
+            mediaId={this.props.id}
+            hasPreview={this.props.hasPreview}
+            onPreviewPress={this.handlePreviewPress}
+            isPreviewing={this.props.isPreviewing}
+            previewProgress={this.props.previewProgress}
           />
           <View style={styles.titleContainer}>
             <Text style={styles.title}>{this.props.title}</Text>
@@ -47,12 +51,16 @@ class MediaItem extends PureComponent {
   };
 
   handleTouch = () => {
-    this.props.onPress(this.props.item);
+    this.props.onPress(this.props.id);
   };
 
   handleFavePress = () => {
     console.debug("press heart");
     this.props.onFavePress(this.props.id);
+  };
+
+  handlePreviewPress = () => {
+    this.props.onPreviewPress(this.props.id);
   };
 }
 
@@ -66,7 +74,7 @@ const styles = StyleSheet.create({
     padding: 5,
     flexDirection: "row"
   },
-  thumb: { width: 40, height: 40 },
+
   titleContainer: {
     flexDirection: "column",
     marginLeft: 10,
@@ -77,9 +85,11 @@ const styles = StyleSheet.create({
 });
 
 MediaItem.propTypes = {
-  item: PropTypes.object,
   getMode: PropTypes.string,
   title: PropTypes.string,
+  isPreviewing: PropTypes.bool.isRequired,
+  previewProgress: PropTypes.number.isRequired,
+  hasPreview: PropTypes.bool.isRequired,
   subtitle: PropTypes.string,
   details: PropTypes.string,
   id: PropTypes.string,
@@ -87,7 +97,8 @@ MediaItem.propTypes = {
   price: PropTypes.string,
   progress: PropTypes.number,
   onPress: PropTypes.func.isRequired,
-  onShowDetails: PropTypes.func.isRequired
+  onShowDetails: PropTypes.func.isRequired,
+  onPreviewPress: PropTypes.func.isRequired
 };
 
 export default MediaItem;

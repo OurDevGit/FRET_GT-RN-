@@ -206,13 +206,13 @@ class Store extends PureComponent {
     });
   };
 
-  handleChooseMedia = async media => {
+  handleChooseMedia = async mediaId => {
     // action
-    this.props.chooseMedia(media.mediaID);
+    this.props.chooseMedia(mediaId);
 
     // if we re-choose the current media, then nothing will change in props and the Store won't close.
     // In this case, we close manually here
-    if (media.mediaID === this.props.currentMedia) {
+    if (mediaId === this.props.currentMedia) {
       this.props.onClose();
     }
   };

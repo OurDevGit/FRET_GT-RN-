@@ -84,10 +84,9 @@ class Song extends React.Component {
           isPlaying={this.state.isPlaying}
           isSeeking={this.state.isSeeking}
           song={this.props.song}
-          volume={this.state.volume}
           onProgress={this.handleProgress}
           onData={this.handleMusicData}
-          onGetVolume={this.handleGetVolume}
+          isPreview={false}
         />
         <Midi
           midi={this.getMidi()}

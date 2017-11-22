@@ -6,6 +6,8 @@ import {
   BuyButton_priceText_fontSize_topText_bottomText,
   BtnCloudDownload_targetFrame_resizing,
   BtnCloudDownload,
+  PreviewPlay_isShowingPause,
+  PreviewProgress_angle,
   CircularProgress_targetFrame_resizing_angle,
   IndeterminateCircle_angle,
   BtnExpand_rotation
@@ -21,6 +23,14 @@ const BtnBuy = props => {
       style={{ width: 78 }}
     />
   );
+};
+
+export const PreviewPlay = () => {
+  return <PreviewPlay_isShowingPause isShowingPause={false} />;
+};
+
+export const PreviewProgress = ({ progress }) => {
+  return <PreviewProgress_angle angle={360 - progress * 360} />;
 };
 
 export const BtnDownload = props => {

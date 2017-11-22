@@ -3,8 +3,6 @@ import { View } from "react-native";
 import PropTypes from "prop-types";
 import Sound from "react-native-sound";
 
-var systemVolume = 0;
-
 class Music extends React.Component {
   songSound = null;
 
@@ -75,11 +73,20 @@ class Music extends React.Component {
     return audioFile;
   };
 
+  getUrl = obj => {
+    if (this.props.isPreview === true) {
+      return `https://guitar-tunes-media-data.s3.amazonaws.com/${obj.mediaID}/preview.m4a`;
+    } else {
+      const file = this.getAudio(obj);
+      return `http://localhost:8888${file}`;
+    }
+  };
+
   setPlaying = isPlaying => {
     if (this.songSound) {
       if (isPlaying === true) {
-        this.songSound.setSpeed(this.props.rate);
-        this.songSound.play();
+        console.debug("playing!");
+        this.songSound.setSpeed(this.props.rate).play();
       } else {
         this.songSound.setSpeed(0);
         this.songSound.pause();
@@ -95,15 +102,15 @@ class Music extends React.Component {
     }
 
     if (song) {
-      this.loadMusic(this.getAudio(song));
+      this.loadMusic(this.getUrl(song));
     }
   };
 
-  loadMusic = audio => {
-    const url = `http://localhost:8888${audio}`;
-    this.songSound = new Sound(url, Sound.MAIN_BUNDLE, (error, props) => {
+  loadMusic = url => {
+    console.debug(url);
+    this.songSound = new Sound(url, Sound.MAIN_BUNDLE, error => {
       if (error) {
-        console.log("failed to load the sound", error);
+        console.warn("failed to load the sound", error);
         return;
       } else {
         const duration = this.songSound.getDuration();
@@ -111,9 +118,10 @@ class Music extends React.Component {
           duration
         });
         this.setState({
-          file: audio,
           mediaDuration: duration
         });
+
+        this.setPlaying(this.props.isPlaying);
       }
     });
 
@@ -132,8 +140,6 @@ class Music extends React.Component {
           this.props.onProgress(progress);
         }
       });
-
-      this.props.on;
     }
   };
 }
@@ -145,7 +151,9 @@ Music.propTypes = {
   song: PropTypes.object,
   seek: PropTypes.number,
   onProgress: PropTypes.func.isRequired,
-  onData: PropTypes.func.isRequired
+  onPlayEnd: PropTypes.func,
+  onData: PropTypes.func.isRequired,
+  isPreview: PropTypes.bool.isRequired
 };
 
 export default Music;

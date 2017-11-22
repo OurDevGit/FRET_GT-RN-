@@ -14,6 +14,7 @@ import { flatMap, toArray, isFunction } from "lodash";
 import { selectMedia } from "../../../redux/selectors";
 import { filterMedia, getItemLayout, extractItemKey } from "./lib";
 import MediaItem from "./MediaItem";
+import Music from "../../Playback/Music";
 import { BtnExpand } from "../../StyleKit";
 
 const fuseOptions = {
@@ -60,7 +61,9 @@ NavigableHeader.propTypes = {
 class PureTab extends Component {
   state = {
     searchResults: null,
-    navigableOpenSection: null
+    navigableOpenSection: null,
+    previewMediaId: null,
+    previewProgress: 0
   };
 
   render() {
@@ -74,20 +77,34 @@ class PureTab extends Component {
       [];
 
     return (
-      <SectionList
-        stickySectionHeadersEnabled={
-          this.state.searchResults === null
-            ? this.props.isNavigableSubCategory !== true
-            : false
-        }
-        sections={sections}
-        renderSectionHeader={this.renderTableHeader}
-        renderItem={this.renderItem}
-        style={styles.list}
-        keyExtractor={extractItemKey}
-        getItemLayout={getItemLayout}
-        initialNumToRender={1}
-      />
+      <View>
+        {this.state.previewMediaId && (
+          <Music
+            rate={1}
+            isPlaying={true}
+            isSeeking={false}
+            song={{ mediaID: this.state.previewMediaId }}
+            onProgress={this.handlePreviewProgress}
+            onPlayEnd={this.handlePreviewEnd}
+            onData={this.handlePreviewData}
+            isPreview={true}
+          />
+        )}
+        <SectionList
+          stickySectionHeadersEnabled={
+            this.state.searchResults === null
+              ? this.props.isNavigableSubCategory !== true
+              : false
+          }
+          sections={sections}
+          renderSectionHeader={this.renderTableHeader}
+          renderItem={this.renderItem}
+          style={styles.list}
+          keyExtractor={extractItemKey}
+          getItemLayout={getItemLayout}
+          initialNumToRender={1}
+        />
+      </View>
     );
   }
 
@@ -123,6 +140,14 @@ class PureTab extends Component {
       thisSubCat.id !== nextSubCat.id ||
       thisGroup.id !== nextGroup.id ||
       this.state.navigableOpenSection !== nextState.navigableOpenSection
+    ) {
+      return true;
+    }
+
+    // media preview
+    if (
+      nextState.previewMediaId !== this.state.previewMediaId ||
+      nextState.previewProgress !== this.state.previewProgress
     ) {
       return true;
     }
@@ -193,16 +218,25 @@ class PureTab extends Component {
       <MediaItem
         id={item.mediaID}
         title={item.title}
+        hasPreview={
+          item.previewDuration !== undefined && item.previewDuration !== null
+        }
+        isPreviewing={this.state.previewMediaId === item.mediaID}
+        previewProgress={
+          this.state.previewMediaId === item.mediaID
+            ? this.state.previewProgress
+            : 0
+        }
         subtitle={item.artist}
         details={item.details}
         artworkURL={item.artworkURL}
         price={item.productDetails.priceText}
         getMode={item.getMode}
         progress={item.downloadProgress}
-        item={item}
         onShowDetails={this.props.onShowDetails}
         onPress={this.props.onChooseMedia}
         onFavePress={this.props.onFavePress}
+        onPreviewPress={this.handlePreviewPress}
       />
     );
   };
@@ -281,6 +315,46 @@ class PureTab extends Component {
 
     this.props.onMediaCount(mediaCount);
   };
+
+  handlePreviewPress = mediaId => {
+    if (mediaId === this.state.previewMediaId) {
+      this.setState({
+        previewMediaId: null,
+        previewProgress: 0
+      });
+    } else {
+      this.setState({
+        previewMediaId: mediaId,
+        previewProgress: 0
+      });
+    }
+  };
+
+  handlePreviewProgress = progress => {
+    const previewProgress = progress.currentTime / progress.duration;
+    if (
+      previewProgress === this.state.previewProgress &&
+      previewProgress > 0.9
+    ) {
+      this.setState({
+        previewMediaId: null,
+        previewProgress: 0
+      });
+    } else {
+      this.setState({
+        previewProgress
+      });
+    }
+  };
+
+  handlePreviewEnd = () => {
+    this.setState({
+      previewMediaId: null,
+      previewProgress: 0
+    });
+  };
+
+  handlePreviewData = () => {};
 }
 
 PureTab.propTypes = {
