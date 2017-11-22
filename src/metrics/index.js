@@ -9,7 +9,7 @@ export * from "./media";
 export * from "./monetization";
 export * from "./playback";
 
-Mixpanel.sharedInstanceWithToken("307997d9f2627bce1d3753f8f2bdf988");
+Mixpanel.sharedInstanceWithToken("f4d7c21c34d1d3642f111062ca91dc1d");
 
 // called in Root.js
 export const registerSuperProperties = (mediaId, Title, Artist) => {
