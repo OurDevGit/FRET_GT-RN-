@@ -85,7 +85,6 @@ class Music extends React.Component {
   setPlaying = isPlaying => {
     if (this.songSound) {
       if (isPlaying === true) {
-        console.debug("playing!");
         this.songSound.setSpeed(this.props.rate).play();
       } else {
         this.songSound.setSpeed(0);
@@ -107,7 +106,6 @@ class Music extends React.Component {
   };
 
   loadMusic = url => {
-    console.debug(url);
     this.songSound = new Sound(url, Sound.MAIN_BUNDLE, error => {
       if (error) {
         console.warn("failed to load the sound", error);
@@ -133,9 +131,23 @@ class Music extends React.Component {
       requestAnimationFrame(this.handleAnimationFrame);
       this.songSound.getCurrentTime(seconds => {
         if (this.songSound !== null) {
+          const currentTime = seconds;
+          const duration = this.songSound.getDuration();
+
+          if (this.props.isPreview) {
+            const fraction = currentTime / duration;
+            if (fraction < 0.1) {
+              this.songSound.setVolume(fraction * 10);
+            } else if (fraction > 0.9) {
+              this.songSound.setVolume((1 - fraction) * 10);
+            } else {
+              this.songSound.setVolume(1);
+            }
+          }
+
           const progress = {
-            currentTime: seconds,
-            duration: this.songSound.getDuration()
+            currentTime,
+            duration
           };
           this.props.onProgress(progress);
         }
