@@ -337,11 +337,17 @@ class PureTab extends Component {
   };
 
   handlePreviewProgress = progress => {
-    const previewProgress = progress.currentTime / progress.duration;
+    // console.debug(progress);
+
+    const previewProgress = Math.max(
+      progress.currentTime / progress.duration,
+      0
+    );
     if (
       previewProgress === this.state.previewProgress &&
-      previewProgress > 0.9
+      previewProgress > 0.99
     ) {
+      console.debug("resetting preview");
       this.setState({
         previewMediaId: null,
         previewProgress: 0
