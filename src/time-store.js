@@ -8,7 +8,7 @@ var updateSubscribers = () => {
 
 // setters - only used by Music.js and Video.js to update current time
 
-module.exports.setTime = time => {
+export const setTime = time => {
   if (currentTime !== time) {
     currentTime = time;
     updateSubscribers();
@@ -17,21 +17,21 @@ module.exports.setTime = time => {
 
 // getters
 
-module.exports.getCurrentTime = () => {
+export const getCurrentTime = () => {
   return currentTime;
 };
 
 // register callbacks
-module.exports.subscribeToTimeUpdates = callback => {
+export const subscribeToTimeUpdates = callback => {
   callbacks.push(callback);
   callback(currentTime);
 };
 
-module.exports.unsubscribeToTimeUpdates = callback => {
+export const unsubscribeToTimeUpdates = callback => {
   callbacks = callbacks.filter(cb => cb !== callback);
 };
 
-module.exports.clearTimeStore = callback => {
+export const clearTimeStore = () => {
   currentTime = 0;
   callbacks = [];
 };

@@ -7,7 +7,7 @@ var currentNotes = {};
 var currentTime = 0;
 var midiOffset = 0;
 
-exports.loadMidi = path => {
+export const loadMidi = path => {
   return MidiParser(path)
     .then(midi => {
       notes = midi.notes.toJS();
@@ -19,21 +19,21 @@ exports.loadMidi = path => {
     });
 };
 
-exports.clearMidi = () => {
+export const clearMidi = () => {
   notes = {};
   watchedNotes = {};
   currentNotes = {};
 };
 
-exports.setMidiOffset = offset => {
+export const setMidiOffset = offset => {
   midiOffset = offset === undefined ? 0 : offset;
 };
 
-exports.clearMidiOffset = () => {
+export const clearMidiOffset = () => {
   midiOffset = 0;
 };
 
-exports.notesForTrackAtTime = (track, time) => {
+export const notesForTrackAtTime = (track, time) => {
   if (notes[track] === undefined || time == -1) {
     return [];
   } else {
@@ -45,7 +45,7 @@ exports.notesForTrackAtTime = (track, time) => {
     }
 
     if (shouldProcessNotes) {
-      for (trackName in watchedNotes) {
+      for (var trackName in watchedNotes) {
         const trackNotes = watchedNotes[trackName];
         const active = trackNotes.filter(
           note => note.begin <= midiTime && note.end > midiTime
@@ -129,7 +129,7 @@ const timeForStep = (
   return adjustedTime;
 };
 
-exports.timeForPrevStep = (
+export const timeForPrevStep = (
   time,
   track,
   currentLoop,
@@ -146,7 +146,7 @@ exports.timeForPrevStep = (
   );
 };
 
-exports.timeForNextStep = (
+export const timeForNextStep = (
   time,
   track,
   currentLoop,
