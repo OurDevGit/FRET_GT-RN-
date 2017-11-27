@@ -9,7 +9,6 @@ export const updateActiveParts = parts => {
 
 // called in TrackSelector.js
 export const addActivePart = part => {
-  console.log("adding Guitar Part", part);
   activePartDates[part] = dateInSeconds();
 };
 
