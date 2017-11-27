@@ -55,6 +55,7 @@ export const notesForTrackAtTime = (track, time) => {
 
       currentTime = midiTime;
     }
+    //console.log(time, currentNotes[track]);
     return currentNotes[track];
   }
 };
@@ -81,9 +82,10 @@ const timeForStep = (
   });
 
   if (currentVideoMarker !== undefined) {
+    const begin = currentVideoMarker.get("begin") - midiOffset;
+    const end = currentVideoMarker.get("end") - midiOffset;
+
     timesForTrack = timesForTrack.filter(noteTime => {
-      const begin = currentVideoMarker.get("begin");
-      const end = currentVideoMarker.get("end");
       return begin <= noteTime && end > noteTime;
     });
   }
@@ -113,19 +115,19 @@ const timeForStep = (
         .map(note => Map({ fret: note.fret, string: note.string }));
 
       if (!currentNotes.equals(nextNotes)) {
-        newTime = noteTime;
+        newTime = noteTime + 0.01;
         return true;
       }
     });
 
     if (newTime > -1) {
-      return newTime;
+      return newTime + midiOffset;
     }
   }
 
   const sorted = List(timesForTrack).sort();
   const chosenTime = type === "PREV" ? sorted.last() : sorted.first();
-  const adjustedTime = chosenTime;
+  const adjustedTime = chosenTime + midiOffset;
   return adjustedTime;
 };
 
@@ -138,7 +140,7 @@ export const timeForPrevStep = (
 ) => {
   return timeForStep(
     "PREV",
-    time,
+    time - midiOffset,
     track,
     currentLoop,
     loopIsEnabled,
@@ -155,7 +157,7 @@ export const timeForNextStep = (
 ) => {
   return timeForStep(
     "NEXT",
-    time,
+    time - midiOffset,
     track,
     currentLoop,
     loopIsEnabled,

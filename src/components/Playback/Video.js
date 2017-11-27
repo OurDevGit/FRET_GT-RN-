@@ -326,6 +326,28 @@ class Vid extends React.Component {
     }
   };
 
+  goToTime = time => {
+    this.player.seek(time);
+
+    if (!this.state.isPlaying) {
+      this.playbackSeconds = time;
+      this.updateChaptersAndMarkers(time);
+      this.props.updateTime(time);
+    }
+
+    if (
+      this.props.currentLoop.get("begin") !== undefined &&
+      this.props.currentLoop.get("end")
+    ) {
+      if (
+        time < this.props.currentLoop.get("begin") ||
+        time > this.props.currentLoop.get("end")
+      ) {
+        this.props.enableLoop(false);
+      }
+    }
+  };
+
   updateChaptersAndMarkers = time => {
     const { videoChapters, videoMidiFiles, currentVideoChapter } = this.props;
 
@@ -347,28 +369,6 @@ class Vid extends React.Component {
 
     if (midi.get("name") === undefined && this.state.playbackRate === 0) {
       this.setState({ playbackRate: 1.0 });
-    }
-  };
-
-  goToTime = time => {
-    this.player.seek(time);
-
-    if (!this.state.isPlaying) {
-      this.playbackSeconds = time;
-      this.updateChaptersAndMarkers(time);
-      this.props.updateTime(time);
-    }
-
-    if (
-      this.props.currentLoop.get("begin") !== undefined &&
-      this.props.currentLoop.get("end")
-    ) {
-      if (
-        time < this.props.currentLoop.get("begin") ||
-        time > this.props.currentLoop.get("end")
-      ) {
-        this.props.enableLoop(false);
-      }
     }
   };
 
@@ -481,7 +481,6 @@ class Vid extends React.Component {
 
   handleSeekEnd = () => {
     this.setState({ isSeeking: false });
-    this.goToTime(this.state.seek);
   };
 
   // TEMPO METHODS
@@ -589,6 +588,7 @@ class Vid extends React.Component {
       loopIsEnabled,
       currentVideoMarker
     );
+
     this.goToTime(time);
   };
 
