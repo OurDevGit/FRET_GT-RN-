@@ -9,6 +9,7 @@ export const updateActiveParts = parts => {
 
 // called in TrackSelector.js
 export const addActivePart = part => {
+  console.log("adding Guitar Part", part);
   activePartDates[part] = dateInSeconds();
 };
 
@@ -36,6 +37,7 @@ export const trackActiveParts = () => {
 export const trackActivePart = Part => {
   if (activePartDates[Part] !== undefined) {
     let Duration = dateInSeconds() - activePartDates[Part];
+    console.log("Guitar Part", Part, Duration);
     Mixpanel.trackWithProperties("Guitar Part", { Part, Duration });
   }
 };

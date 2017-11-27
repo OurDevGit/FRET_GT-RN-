@@ -6,6 +6,7 @@ import { Map, List } from "immutable";
 import timingTrack from "./timing-track";
 import noteTrack from "./note-track";
 import patternTrack from "./pattern-track";
+import { addActivePart } from "../metrics";
 
 export default function(filename, isAsset = false) {
   const path = isAsset === true ? RNFetchBlob.fs.asset(filename) : filename;
@@ -86,6 +87,11 @@ export default function(filename, isAsset = false) {
           }
         }
       });
+
+      if (guitarTracks.count() > 0) {
+        const active = guitarTracks.first();
+        addActivePart(active.get("name"));
+      }
 
       return {
         markers,

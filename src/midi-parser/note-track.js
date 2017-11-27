@@ -1,6 +1,6 @@
-import { Map, List, Set } from "immutable";
+import { Map } from "immutable";
 
-module.exports = (track, secondsForTicks) => {
+export default (track, secondsForTicks) => {
   var name,
     shortName,
     tuning,
@@ -43,7 +43,7 @@ module.exports = (track, secondsForTicks) => {
       // determine tuning by (Tune ...) string in name
       if (edited.includes("(Tune ")) {
         var tuneIndex = edited.indexOf(" (Tune ");
-        var str = edited.slice(tuneIndex, edited.length);
+        str = edited.slice(tuneIndex, edited.length);
         str = str.replace(" (Tune ", "").replace(")", "");
 
         tuning = str;
@@ -53,7 +53,7 @@ module.exports = (track, secondsForTicks) => {
       // determine tuning by (DADG) string in name
       if (edited.includes("(")) {
         var parenIndex = edited.indexOf(" (");
-        var str = edited.slice(parenIndex, edited.length);
+        str = edited.slice(parenIndex, edited.length);
         str = str.replace(" (", "").replace(")", "");
 
         fullTuning = str;
