@@ -344,6 +344,10 @@ class Vid extends React.Component {
     if (!midi.equals(this.props.currentVideoMidiFile)) {
       this.props.setCurrentVideoMidiFile(midi);
     }
+
+    if (midi.get("name") === undefined && this.state.playbackRate === 0) {
+      this.setState({ playbackRate: 1.0 });
+    }
   };
 
   goToTime = time => {
