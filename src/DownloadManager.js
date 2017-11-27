@@ -160,13 +160,17 @@ const pruneDownloads = (store, allDownloads) => {
 
   // if any files are unknown, remove them
   const mediaDir = `${dirs.MainBundleDir}/Media`;
-  RNFetchBlob.fs.ls(mediaDir).then(list => {
-    list.forEach(filename => {
-      const filePath = `${mediaDir}/${filename}`;
-      if (knownFiles.indexOf(filePath) === -1) {
-        RNFetchBlob.fs.unlink(filePath);
-      }
-    });
+  RNFetchBlob.fs.exists(mediaDir).then(mdExists => {
+    if (mdExists === true) {
+      RNFetchBlob.fs.ls(mediaDir).then(list => {
+        list.forEach(filename => {
+          const filePath = `${mediaDir}/${filename}`;
+          if (knownFiles.indexOf(filePath) === -1) {
+            RNFetchBlob.fs.unlink(filePath);
+          }
+        });
+      });
+    }
   });
 };
 
