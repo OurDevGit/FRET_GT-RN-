@@ -78,24 +78,9 @@ function* fetchAd() {
 
 function* doDownload(media, mediaId) {
   const mediaFiles = yield downloadMedia(media);
-  Sentry.captureBreadcrumb({
-    message: "Media got files from API",
-    category: "saga",
-    data: { mediaFiles }
-  });
   // console.debug({ mediaFiles });
   yield setDownload(mediaId, mediaFiles);
-  Sentry.captureBreadcrumb({
-    message: "Media did set download",
-    category: "action",
-    data: { mediaId }
-  });
   yield put(actions.finishDownload(mediaId, mediaFiles));
-  Sentry.captureBreadcrumb({
-    message: "Media download finished",
-    category: "action",
-    data: { mediaFiles }
-  });
 }
 
 // When the user taps on a Media Item in the media list:
