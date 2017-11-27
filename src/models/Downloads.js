@@ -2,10 +2,6 @@ import { makeStore } from "./StorageFactory";
 
 const Downloads = makeStore("Downloads");
 
-export const getDownload = mediaId => {
-  return Downloads.getObj(mediaId);
-};
-
 export const getAllDownloads = async () => {
   const allKeys = await Downloads.getAllKeys();
   const allObjs = await Downloads.getObjs(allKeys);

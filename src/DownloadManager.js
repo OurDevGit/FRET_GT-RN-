@@ -1,5 +1,5 @@
 import RNFetchBlob from "react-native-fetch-blob";
-import { finishDownload, setDownloads } from "./redux/actions";
+import { finishDownload, setDownloads, deleteMedia } from "./redux/actions";
 import { setDownload, getAllDownloads } from "./models/Downloads";
 import { guid } from "./utils";
 import { throttle } from "lodash";
@@ -131,7 +131,32 @@ export const configureDownloadManager = async store => {
   const allDownloads = await getAllDownloads();
   store.dispatch(setDownloads(allDownloads));
 
+  pruneDownloads(store, allDownloads);
+
   // console.debug("DL manager is configured");
+};
+
+const pruneDownloads = (store, allDownloads) => {
+  const reverseMap = {};
+
+  // make a map from file to mediaId
+  Object.keys(allDownloads).forEach(mediaId => {
+    Object.values(allDownloads[mediaId]).forEach(file => {
+      reverseMap[file] = mediaId;
+    });
+  });
+
+  const knownFiles = Object.keys(reverseMap);
+
+  // if any file doesn't exist, delete that media
+  knownFiles.forEach(file => {
+    RNFetchBlob.fs.exists(file).then(doesExist => {
+      if (doesExist === false) {
+        const mediaId = reverseMap[file];
+        store.dispatch(deleteMedia(mediaId));
+      }
+    });
+  });
 };
 
 /*
