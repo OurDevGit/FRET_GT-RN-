@@ -64,8 +64,9 @@ class Song extends React.Component {
     const artworkURL =
       this.props.song !== undefined ? this.props.song.artworkURL : "";
     const mediaId = this.props.song !== undefined ? this.props.song.id : "";
-    const isCompact = this.props.height > 10 && this.props.height < 144;
     const isPhone = getIsPhone();
+    const isCompact =
+      this.props.height > 10 && this.props.height < 144 && !isPhone;
     const isVideo = this.props.video !== undefined;
 
     return (

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Picker, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { pure } from "recompose";
 
 import { BtnTempoModal, BtnMyLoopsModal } from "../../modals";

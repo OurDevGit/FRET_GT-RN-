@@ -1,32 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Button, Image, Text, TouchableOpacity } from "react-native";
+import { View, Image, Text } from "react-native";
 import { pure } from "recompose";
-import { PrimaryBlue, playerBackground } from "../../design";
+import { PrimaryBlue } from "../../design";
 import {
   BtnPrevious,
   BtnRewind,
   BtnPlay,
   BtnForward,
   BtnNext,
-  BtnHeartSmart
+  BtnHeartSmart,
+  PhoneVolumeIcon
 } from "../StyleKit";
 import VolumeSlider from "./VolumeSlider";
 
-const buttonStyle = {
-  flex: 1,
-  minWidth: 50,
-  marginHorizontal: 5,
-  color: PrimaryBlue,
-  fontSize: 24,
-  lineHeight: 32,
-  fontWeight: "bold",
-  textAlign: "center",
-  justifyContent: "center",
-  alignItems: "center"
-};
-
-const textStyle = { color: PrimaryBlue, fontSize: 20 };
 const primaryStyle = isPhone => {
   return isPhone
     ? { width: 32, height: 32, marginHorizontal: 6 }
@@ -93,7 +80,7 @@ const PlaybackPrimary = ({
         flex: 1.5,
         flexDirection: "row",
         justifyContent: "center",
-        alignItems: "flex-start"
+        alignItems: "center"
       }}
     >
       <BtnPrevious
@@ -132,24 +119,33 @@ const PlaybackPrimary = ({
       style={{
         flex: 1,
         marginRight: 6,
-        flexDirection: "column",
-        justifyContent: "center"
+        justifyContent: "center",
+        alignItems: "center"
       }}
     >
-      <VolumeSlider style={{ marginTop: isPhone ? 50 : 40, height: 44 }} />
-      <Text
-        style={{
-          position: "absolute",
-          top: 10,
-          width: "100%",
-          color: PrimaryBlue,
-          fontSize: isPhone ? 14 : 18,
-          textAlign: "center",
-          textAlignVertical: "bottom"
-        }}
-      >
-        Volume
-      </Text>
+      <VolumeSlider
+        style={{ width: "100%", height: 44, marginTop: isPhone ? 27 : 0 }}
+      />
+
+      {isPhone ? (
+        <PhoneVolumeIcon
+          style={{ position: "absolute", top: 0, width: 20, height: 20 }}
+        />
+      ) : (
+        <Text
+          style={{
+            position: "absolute",
+            top: "20%",
+            width: "100%",
+            color: PrimaryBlue,
+            fontSize: isPhone ? 14 : 18,
+            textAlign: "center",
+            textAlignVertical: "bottom"
+          }}
+        >
+          Volume
+        </Text>
+      )}
     </View>
 
     {!isPhone && (

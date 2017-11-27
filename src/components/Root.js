@@ -112,7 +112,7 @@ class Root extends Component {
             <View
               style={{
                 position: "absolute",
-                right: 20,
+                right: isPhone ? -4 : 20,
                 top: "3%",
                 flexDirection: "row"
               }}
