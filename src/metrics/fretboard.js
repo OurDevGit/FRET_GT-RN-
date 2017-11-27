@@ -36,7 +36,6 @@ export const trackActiveParts = () => {
 export const trackActivePart = Part => {
   if (activePartDates[Part] !== undefined) {
     let Duration = dateInSeconds() - activePartDates[Part];
-    console.log("Guitar Part", Part, Duration);
     Mixpanel.trackWithProperties("Guitar Part", { Part, Duration });
   }
 };
