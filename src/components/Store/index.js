@@ -19,10 +19,10 @@ class Store extends PureComponent {
     super(props);
 
     this.state = {
-      categoryIndex: props.categoryIndex || 0,
+      categoryIndex: 0,
       category: null,
       subCategory: null,
-      subCategoryIndex: props.subCategoryIndex || 0,
+      subCategoryIndex: 0,
       subCategories: [],
       media: [],
       isStore: true
@@ -242,8 +242,6 @@ class Store extends PureComponent {
 Store.propTypes = {
   currentMedia: PropTypes.string,
   detailMediaId: PropTypes.string,
-  categoryIndex: PropTypes.number,
-  subCategoryIndex: PropTypes.number,
   categories: PropTypes.array,
   subCategories: PropTypes.object,
   group: PropTypes.array,

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
 import { StoreLight, StoreDark, LibraryDark, LibraryLight } from "../../design";
 import LargeButton from "./LargeButton";
@@ -8,6 +9,7 @@ const extractKey = item => item.id;
 class Categories extends React.PureComponent {
   render() {
     const { categories, style, isStore } = this.props;
+
     return (
       <View style={{ flexDirection: "row" }}>
         <FlatList
@@ -52,5 +54,12 @@ class Categories extends React.PureComponent {
     );
   };
 }
+
+Categories.propTypes = {
+  categories: PropTypes.array,
+  isStore: PropTypes.bool.isRequired,
+  onChoose: PropTypes.func.isRequired,
+  selectedIndex: PropTypes.number
+};
 
 export default Categories;

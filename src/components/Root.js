@@ -14,7 +14,11 @@ import GuitarController from "./GuitarController";
 import CountdownTimer from "./CountdownTimer";
 import Store from "./Store";
 import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
-import { setTabIndex } from "../models/Store";
+import {
+  setTabIndex,
+  setCategoryIndex,
+  setSubCategoryIndex
+} from "../models/Store";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { getIsPhone } from "../utils";
@@ -37,8 +41,6 @@ class Root extends Component {
     song: null,
     video: null,
     showAd: true,
-    categoryIndex: 0,
-    subCategoryIndex: 0,
     showFretboards: true,
     isShowingStore: false,
     isShowingSettings: false,
@@ -161,8 +163,6 @@ class Root extends Component {
             <Store
               onClose={this.handleCloseStore}
               detailMediaId={this.state.storeDetailMediaId}
-              categoryIndex={this.state.categoryIndex}
-              subCategoryIndex={this.state.subCategoryIndex}
             />
           )}
         </View>
@@ -203,8 +203,6 @@ class Root extends Component {
 
           const newState = {
             isShowingStore: false,
-            categoryIndex: 0,
-            subCategoryIndex: 0,
             song,
             video,
             currentSection
@@ -304,15 +302,17 @@ class Root extends Component {
   };
 
   handleHomeDetails = async params => {
-    console.debug(params);
-
     await setTabIndex(0);
+    const categoryIndex = await setCategoryIndex(Number(params.category || 0));
+    const subCategoryIndex = await setSubCategoryIndex(
+      Number(params.subcategory || 0)
+    );
 
     this.setState({
       isShowingStore: true,
       storeDetailMediaId: params.media_detail,
-      categoryIndex: Number(params.category || 0),
-      subCategoryIndex: Number(params.subcategory || 0)
+      categoryIndex,
+      subCategoryIndex
     });
   };
 
