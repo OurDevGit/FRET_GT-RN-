@@ -135,7 +135,7 @@ const PlaybackPrimary = ({
         <Text
           style={{
             position: "absolute",
-            top: "20%",
+            top: "17%",
             width: "100%",
             color: PrimaryBlue,
             fontSize: isPhone ? 14 : 18,
