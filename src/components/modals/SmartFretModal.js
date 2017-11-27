@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 import * as actions from "../../redux/actions";
 
 import Popover from "./Popover";
 import { ModalType } from "./ModalType";
-import { PrimaryBlue, playerBackground } from "../../design";
+import { playerBackground } from "../../design";
 import SmartFretText from "./SmartFretText";
 import PlaybackPrimary from "../Playback/PlaybackPrimary";
 import PlaybackTimeline from "../Playback/PlaybackTimeline";
@@ -15,8 +15,14 @@ import PlaybackSecondary from "../Playback/PlaybackSecondary";
 import PlaybackCompact from "../Playback/Compact";
 import PlaybackTimelineCompact from "../Playback/Compact/Timeline";
 import Fretboard from "../Fretboards/Fretboard";
+import { startSMARTFretboard, trackSMARTFretboard } from "../../metrics";
 
 class SmartFretModal extends React.Component {
+  constructor(props) {
+    super(props);
+    this.isTracking = false;
+  }
+
   render() {
     const frets = this.props.track.lastFret - this.props.track.firstFret;
     const boardWidth = Dimensions.get("window").width;
@@ -205,8 +211,9 @@ class SmartFretModal extends React.Component {
     );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     const track = this.props.track || { name: "" };
+
     return (
       track.name !== nextProps.track.name ||
       this.props.isPlaying !== nextProps.isPlaying ||
@@ -215,15 +222,32 @@ class SmartFretModal extends React.Component {
       this.props.connectedDevices !== nextProps.connectedDevices
     );
   }
+
+  componentDidUpdate() {
+    const trackName = this.props.track.name;
+
+    if (trackName !== undefined && !this.isTracking) {
+      this.isTracking = true;
+      startSMARTFretboard(trackName);
+    }
+
+    if (trackName === undefined && this.isTracking) {
+      this.isTracking = false;
+      trackSMARTFretboard(true);
+    }
+  }
 }
 
 SmartFretModal.propTypes = {
   track: PropTypes.object,
   mediaId: PropTypes.string.isRequired,
   mediaTitle: PropTypes.string.isRequired,
+  artist: PropTypes.string.isRequired,
+  artworkURL: PropTypes.string.isRequired,
   trackCount: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  isCompact: PropTypes.bool.isRequired,
   leftHandState: PropTypes.bool.isRequired,
   currentNotation: PropTypes.string.isRequired,
   progress: PropTypes.number.isRequired,
@@ -250,10 +274,14 @@ SmartFretModal.propTypes = {
   onClearCurrentLoop: PropTypes.func.isRequired,
   onPrevStep: PropTypes.func.isRequired,
   onNextStep: PropTypes.func.isRequired,
-  onDisplayInfo: PropTypes.func.isRequired
+  onDisplayInfo: PropTypes.func.isRequired,
+  clearSmartTrack: PropTypes.func.isRequired,
+  onToggleFretlightAdmin: PropTypes.func.isRequired,
+  onToggleLibrary: PropTypes.func,
+  onSelectTempo: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
     track: state.get("smartTrack"),
     leftHandState: state.get("leftHandState"),

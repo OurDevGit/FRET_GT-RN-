@@ -58,7 +58,7 @@ export const startSMARTFretboard = name => {
 export const trackSMARTFretboard = isFinished => {
   if (SMARTFretboardPart !== undefined) {
     let Part = SMARTFretboardPart;
-    Mixpanel.trackWithProperties("Guitar Part", { Part });
+    Mixpanel.trackWithProperties("SMARTFretboard", { Part });
 
     if (isFinished) {
       SMARTFretboardPart = undefined;
