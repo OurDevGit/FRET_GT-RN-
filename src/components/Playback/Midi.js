@@ -2,7 +2,7 @@ import React from "react";
 import { View } from "react-native";
 import PropTypes from "prop-types";
 
-class Midi extends React.Component {
+class Midi extends React.PureComponent {
   render() {
     return <View style={{ position: "absolute" }} />;
   }
