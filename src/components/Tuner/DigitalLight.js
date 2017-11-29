@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
     height: 0,
     backgroundColor: "transparent",
     borderStyle: "solid",
-    borderLeftWidth: 25,
-    borderRightWidth: 25,
-    borderBottomWidth: 50,
+    borderLeftWidth: 23,
+    borderRightWidth: 23,
+    borderBottomWidth: 44,
     borderLeftColor: "transparent",
     borderRightColor: "transparent"
   },
@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
     bottom: "10%"
   },
   inset: {
-    borderLeftWidth: 20,
-    borderRightWidth: 20,
-    borderBottomWidth: 40,
+    borderLeftWidth: 17,
+    borderRightWidth: 17,
+    borderBottomWidth: 34,
     top: 7,
-    left: -20
+    left: -17
   },
   on: {
     borderBottomColor: "red"
