@@ -46,8 +46,7 @@ export class GetMediaButton extends Component {
   }
 
   handleProgress = (mediaId, progress) => {
-    // console.debug({ mediaId, progress });
-    // console.debug(this.props.mediaId);
+    // console.debug(`${mediaId}: ${progress}`);
 
     if (mediaId === this.props.mediaId) {
       var mode = this.props.mode;
@@ -56,6 +55,7 @@ export class GetMediaButton extends Component {
       } else if (progress < 1) {
         mode = GetMediaButtonMode.Downloading;
       } else if (progress >= 1) {
+        console.debug("progress is done!");
         mode = GetMediaButtonMode.Play;
       }
 
@@ -210,34 +210,35 @@ const BtnDownloading = ({ progress }) => {
 
   return (
     <Svg width="44" height="44">
-      <G>
-        <Circle
-          cx="21"
-          cy="20"
-          r="10.5"
-          fill="none"
-          stroke="rgb(76, 142, 162)"
-          strokeWidth="1"
-        />
-        <Circle
-          cx="21"
-          cy="20"
-          r="9.5"
-          fill="none"
-          stroke="rgb(76, 142, 162)"
-          strokeDasharray={60}
-          strokeDashoffset={60 - progress * 60}
-          strokeWidth="3"
-        />
-        <Rect
-          width="8"
-          height="8"
-          x="17.71"
-          y="15.91"
-          fill="rgb(76, 142, 162)"
-          stroke="none"
-        />
-      </G>
+      <Defs>
+        <G id="progress">
+          <G>
+            <Circle
+              r="11"
+              fill="none"
+              stroke="rgb(76, 142, 162)"
+              strokeWidth="1"
+            />
+            <Circle
+              r="10"
+              fill="none"
+              stroke="rgb(76, 142, 162)"
+              strokeDasharray={60}
+              strokeDashoffset={60 - progress * 60}
+              strokeWidth="3"
+            />
+            <Rect
+              width="8"
+              height="8"
+              x="-4"
+              y="-4"
+              fill="rgb(76, 142, 162)"
+              stroke="none"
+            />
+          </G>
+        </G>
+      </Defs>
+      <Use href="#progress" x="22" y="21" rotation="-90" />
     </Svg>
   );
 };
@@ -281,7 +282,6 @@ class IndetermindateProgress extends PureComponent {
   }
 
   handleRAF = () => {
-    // console.debug("handle RAF");
     if (this.isMounted_ === true) {
       this.setState({
         rotation: this.state.rotation + 1
