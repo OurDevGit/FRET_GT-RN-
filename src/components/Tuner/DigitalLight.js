@@ -29,9 +29,9 @@ const styles = StyleSheet.create({
     height: 0,
     backgroundColor: "transparent",
     borderStyle: "solid",
-    borderLeftWidth: 20,
-    borderRightWidth: 20,
-    borderBottomWidth: 40,
+    borderLeftWidth: 25,
+    borderRightWidth: 25,
+    borderBottomWidth: 50,
     borderLeftColor: "transparent",
     borderRightColor: "transparent"
   },
@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
     bottom: "10%"
   },
   inset: {
-    borderLeftWidth: 15,
-    borderRightWidth: 15,
-    borderBottomWidth: 30,
+    borderLeftWidth: 20,
+    borderRightWidth: 20,
+    borderBottomWidth: 40,
     top: 7,
-    left: -15
+    left: -20
   },
   on: {
     borderBottomColor: "red"
@@ -53,10 +53,10 @@ const styles = StyleSheet.create({
     borderBottomColor: "#8a0000"
   },
   left: {
-    transform: [{ rotate: "-90deg" }]
+    transform: [{ rotate: "90deg" }]
   },
   right: {
-    transform: [{ rotate: "90deg" }]
+    transform: [{ rotate: "-90deg" }]
   }
 });
 
