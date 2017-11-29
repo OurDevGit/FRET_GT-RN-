@@ -5,7 +5,7 @@ import { Text, View } from "react-native";
 const SmartFretText = ({ color, size, trackName }) => (
   <View
     style={{
-      height: size + 2,
+      height: 28,
       flexDirection: "row"
     }}
   >
