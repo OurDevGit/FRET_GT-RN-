@@ -150,6 +150,7 @@ class Vid extends React.Component {
       this.state.isFullscreen !== nextState.isFullscreen ||
       this.state.areControlsVisible !== nextState.areControlsVisible ||
       this.props.loopIsEnabled !== nextProps.loopIsEnabled ||
+      this.props.modalIsPresented !== nextProps.modalIsPresented ||
       !this.props.currentLoop.equals(nextProps.currentLoop) ||
       !this.props.currentVideoChapter.equals(nextProps.currentVideoChapter) ||
       !this.props.currentVideoMarker.equals(nextProps.currentVideoMarker) ||
