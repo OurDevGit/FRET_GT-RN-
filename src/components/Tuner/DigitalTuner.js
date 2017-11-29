@@ -21,7 +21,8 @@ class DigitalTuner extends React.Component {
   }
 
   state = {
-    rotation: 0
+    rotation: 0,
+    isHearingPitch: false
   };
 
   render() {
@@ -37,8 +38,14 @@ class DigitalTuner extends React.Component {
             resizeMode="contain"
           />
 
-          <DigitalLight type={"left"} isOn={leftIsOn} />
-          <DigitalLight type={"right"} isOn={rightIsOn} />
+          <DigitalLight
+            type={"left"}
+            isOn={leftIsOn && this.state.isHearingPitch}
+          />
+          <DigitalLight
+            type={"right"}
+            isOn={rightIsOn && this.state.isHearingPitch}
+          />
           <DigitalNeedle rotation={rotation} />
 
           <Image style={styles.housing} source={housing} resizeMode="contain" />
@@ -78,6 +85,11 @@ class DigitalTuner extends React.Component {
   handleData = data => {
     const { currentPitch, fineTuning } = this.props;
     const frequency = this.pitchFinder(data) || currentPitch.frequency;
+
+    if (this.isRecording) {
+      const isHearingPitch = this.pitchFinder(data) !== null;
+      this.setState({ isHearingPitch });
+    }
 
     this.frequencies.unshift(frequency);
     if (this.frequencies.length > 4) {
