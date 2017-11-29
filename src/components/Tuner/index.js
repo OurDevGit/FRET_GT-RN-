@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import PropTypes from "prop-types";
 import { onlyUpdateForKeys } from "recompose";
-import Dimensions from "Dimensions";
 import { FlatButton } from "../Material";
 import { PrimaryGold } from "../../design";
 import DigitalTuner from "./DigitalTuner";
@@ -64,9 +63,9 @@ class Tuner extends React.Component {
         >
           <TouchableOpacity activeOpacity={1} style={contentStyle}>
             <View style={styles.titlebar}>
-              <Text
-                style={styles.heading}
-              >{`Tuning for ${track.shortName}`}</Text>
+              <Text style={styles.heading}>{`Tuning for ${
+                track.shortName
+              }`}</Text>
               <View style={styles.barButtons}>
                 <FlatButton
                   title={isDigital ? "Go to Audible" : "Go to Digital"}
@@ -111,9 +110,6 @@ class Tuner extends React.Component {
 
   componentDidMount = () => {
     guitarController.clearAllGuitars();
-    this.props.assignedGuitars.forEach(guitar =>
-      guitarController.lightString(5, guitar.id)
-    );
   };
 
   componentWillUnmount = () => {
