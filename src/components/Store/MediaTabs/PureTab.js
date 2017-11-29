@@ -211,7 +211,7 @@ class PureTab extends Component {
 
   renderItem = ({ item, index }) => {
     // console.debug(`render item`);
-    // console.debug(`render item ${index}`);
+    // console.debug(`render item ${item.title}: ${item.mediaID}`);
     // console.debug(item);
 
     return (
@@ -411,6 +411,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state, ownProps) => {
   // console.debug("mapping state to props in PureTab");
+
   const media = selectMedia(
     state,
     ownProps.category,

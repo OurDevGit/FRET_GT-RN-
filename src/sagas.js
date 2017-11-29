@@ -2,7 +2,6 @@ import { call, put, takeEvery, takeLatest, select } from "redux-saga/effects";
 import * as Api from "./api";
 import RNFetchBlob from "react-native-fetch-blob";
 const fs = RNFetchBlob.fs;
-import { Sentry, SentrySeverity } from "react-native-sentry";
 import {
   fetchTransactionDetails,
   doPurchase,
@@ -77,10 +76,14 @@ function* fetchAd() {
 }
 
 function* doDownload(media, mediaId) {
-  const mediaFiles = yield downloadMedia(media);
-  // console.debug({ mediaFiles });
-  yield setDownload(mediaId, mediaFiles);
-  yield put(actions.finishDownload(mediaId, mediaFiles));
+  try {
+    const mediaFiles = yield downloadMedia(media);
+    // console.debug({ mediaFiles });
+    yield setDownload(mediaId, mediaFiles);
+    yield put(actions.finishDownload(mediaId, mediaFiles));
+  } catch (err) {
+    yield put(actions.deleteMedia(mediaId));
+  }
 }
 
 // When the user taps on a Media Item in the media list:
@@ -114,6 +117,11 @@ function* watchChooseMedia(action) {
     media.isFree === true
       ? { purchaseState: "PurchasedSuccessfully" }
       : yield fetchTransactionDetails(mediaId);
+
+  // In DEV-mode, you can download anything
+  if (__DEV__) {
+    transactionDetails = { purchaseState: "PurchasedSuccessfully" };
+  }
 
   // if we already bought this, then download it and finish
   if (

@@ -11,6 +11,14 @@ let _dispatchFinish = () => {
   console.warn("_dispatchFinish is not hooked up in DownloadManager");
 };
 
+const isEncryptedFileType = url => {
+  const parts = url.split(".");
+  const isMp4 = parts[parts.length - 1].toLowerCase().indexOf("mp4") === 0;
+  const isM4a = parts[parts.length - 1].toLowerCase().indexOf("m4a") === 0;
+
+  return isMp4 || isM4a;
+};
+
 // download 1 file
 const downloadFile = (
   url,
@@ -90,7 +98,26 @@ export const downloadFiles = (urls, dir, doRandomNames, progressCallback) => {
       })
       .then(res => {
         const dlPath = res.path();
-        filesMap[urlPath] = dlPath;
+
+        return RNFetchBlob.fs.stat(dlPath).then(stats => {
+          const headerSize = Number(res.respInfo.headers["Content-Length"]);
+          const paddedSize = isEncryptedFileType(url)
+            ? headerSize + 17
+            : headerSize;
+          if (stats.size === paddedSize) {
+            return { dlPath };
+          } else {
+            throw new Error("incomplete download");
+            return false;
+          }
+        });
+      })
+      .then(({ dlPath }) => {
+        if (dlPath) {
+          filesMap[urlPath] = dlPath;
+        } else {
+          console.debug("no dl Path");
+        }
       });
   });
 
@@ -104,22 +131,28 @@ export const downloadMediaFiles = async (files, mediaId) => {
   // set progress to -1 to indicate Indeterminate mode
   throttledUpdate(mediaId, -1);
 
-  const filesMap = await downloadFiles(
-    files.map(f => f.url),
-    "Media",
-    true,
-    progress => {
-      throttledUpdate(mediaId, progress);
-    }
-  );
+  try {
+    const filesMap = await downloadFiles(
+      files.map(f => f.url),
+      "Media",
+      true,
+      progress => {
+        throttledUpdate(mediaId, progress);
+      }
+    );
 
-  // finish download
-  console.debug("done with download");
-  updateSubscribers(mediaId, 1);
-  _dispatchFinish();
+    // finish download
+    console.debug("done with downloads");
+    console.debug({ filesMap });
+    throttledUpdate(mediaId, 1);
+    _dispatchFinish();
 
-  // console.debug(filesMap);
-  return filesMap;
+    // console.debug(filesMap);
+    return filesMap;
+  } catch (err) {
+    throttledUpdate(mediaId, 1);
+    throw err;
+  }
 };
 
 export const configureDownloadManager = async store => {

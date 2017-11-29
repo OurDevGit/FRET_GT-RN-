@@ -10,6 +10,8 @@ export const intermediateMedia = (state = Set(), action) => {
       return state.delete(action.payload);
     case "FINISH_DOWNLOAD":
       return state.delete(action.payload.mediaId);
+    case "REMOVE_DOWNLOAD":
+      return state.delete(action.payload);
     default:
       return state;
   }
