@@ -113,14 +113,15 @@ function* watchChooseMedia(action) {
 
   // 2. Download it if we own it.
 
-  var transactionDetails =
-    media.isFree === true
-      ? { purchaseState: "PurchasedSuccessfully" }
-      : yield fetchTransactionDetails(mediaId);
-
-  // In DEV-mode, you can download anything
+  var transactionDetails;
   if (__DEV__) {
+    console.debug("DEV mode, so giving free purchase");
     transactionDetails = { purchaseState: "PurchasedSuccessfully" };
+  } else {
+    transactionDetails =
+      media.isFree === true
+        ? { purchaseState: "PurchasedSuccessfully" }
+        : yield fetchTransactionDetails(mediaId);
   }
 
   // if we already bought this, then download it and finish
