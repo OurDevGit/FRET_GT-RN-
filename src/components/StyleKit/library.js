@@ -5,8 +5,6 @@ import { gtPcSizeable, ResizingBehavior } from "./lib";
 import {
   BuyButton_priceText_fontSize_topText_bottomText,
   BtnCloudDownload_targetFrame_resizing,
-  BtnCloudDownload,
-  PreviewPlay_isShowingPause,
   PreviewProgress_angle,
   CircularProgress_targetFrame_resizing_angle,
   IndeterminateCircle_angle,
@@ -23,10 +21,6 @@ const BtnBuy = props => {
       style={{ width: 78 }}
     />
   );
-};
-
-export const PreviewPlay = () => {
-  return <PreviewPlay_isShowingPause isShowingPause={false} />;
 };
 
 export const PreviewProgress = ({ progress }) => {
@@ -84,13 +78,6 @@ class IndetermindateProgress extends React.Component {
 }
 
 const BtnGetMedia = ({ mode, price = "ERR", progress, ...rest }) => {
-  // hard-returning the download button for debugging right now...
-  // return (
-  //   <BtnCloudDownload
-  //     style={{ backgroundColor: "#dfd", height: 44, width: 44 }}
-  //   />
-  // );
-
   switch (mode) {
     case GetMediaButtonMode.Play:
       return <View />;
@@ -166,7 +153,6 @@ export class BtnGetMediaProgress extends Component {
     // console.debug({ mediaId, progress });
 
     if (mediaId === this.props.mediaId) {
-      // console.debug(`progress: ${progress}`);
       var mode = this.props.mode;
       if (progress < 0) {
         mode = GetMediaButtonMode.Indeterminate;

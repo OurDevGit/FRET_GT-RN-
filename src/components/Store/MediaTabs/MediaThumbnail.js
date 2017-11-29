@@ -1,9 +1,32 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
 import { View, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { PreviewPlay, PreviewProgress } from "../../StyleKit";
+import { PreviewProgress } from "../../StyleKit";
+
+import Svg, { Circle, Path } from "react-native-svg";
 
 // https://guitar-tunes-media-data.s3.amazonaws.com/\(mediaId)/preview.m4a
+
+const PreviewPlay = () => (
+  <Svg height="44" width="44">
+    <Circle
+      id="previewPlay-oval"
+      stroke="none"
+      fill="rgb(76, 142, 162)"
+      fill-opacity="0.7"
+      cx="22.4"
+      cy="21.14"
+      r="12.5"
+    />
+    <Path
+      id="previewPlay-play"
+      fill-rule="evenodd"
+      stroke="none"
+      fill="rgb(255, 255, 255)"
+      d="M 18.84,26.37 L 18.84,15.28 28.9,20.82 18.84,26.37 Z M 18.84,26.37"
+    />
+  </Svg>
+);
 
 class MediaThumbnail extends PureComponent {
   render() {

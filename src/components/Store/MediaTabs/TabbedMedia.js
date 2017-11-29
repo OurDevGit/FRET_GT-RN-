@@ -1,6 +1,7 @@
-import React, { PureComponent } from "react";
+import React, { Component } from "react";
 import { StyleSheet, Text, Animated, I18nManager } from "react-native";
 import PropTypes from "prop-types";
+import { isEqual } from "lodash";
 
 import { TabViewAnimated, TabBar } from "react-native-tab-view";
 
@@ -62,7 +63,7 @@ renderIndicator.propTypes = {
   })
 };
 
-class TabbedMedia extends PureComponent {
+class TabbedMedia extends Component {
   // this.state also gets passed directly to `<TabViewAnimated />`
   state = {
     index: 0,
@@ -74,7 +75,6 @@ class TabbedMedia extends PureComponent {
   };
 
   render() {
-    // console.debug(`TabbedMedia render()`);
     const { category, subCategory, group, searchText } = this.props;
     return (
       <TabViewAnimated
@@ -146,6 +146,25 @@ class TabbedMedia extends PureComponent {
         );
     }
   };
+
+  // we use isEqual (from Lodash) instead of === because the cost of superfluous re-renders here is very high due to table rendering
+  shouldComponentUpdate(nextProps, nextState) {
+    var hasUpdates = false;
+
+    for (var key in nextProps) {
+      if (!isEqual(this.props[key], nextProps[key])) {
+        hasUpdates = true;
+      }
+    }
+
+    for (var key in nextState) {
+      if (!isEqual(this.state[key], nextState[key])) {
+        hasUpdates = true;
+      }
+    }
+
+    return hasUpdates;
+  }
 
   async componentWillMount() {
     const { tabIndex } = await getUIState();

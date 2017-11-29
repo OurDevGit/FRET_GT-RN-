@@ -12,7 +12,8 @@ const getSubCategories = (state, categoryId) =>
 const getGroups = (state, subCategoryId) =>
   state.get("groupsBySubCategoryId").get(subCategoryId);
 const getTitleSorting = (state, thing) =>
-  (state.get("storeSorting").get((thing || {}).id) || Map({ isTitle: false })
+  (
+    state.get("storeSorting").get((thing || {}).id) || Map({ isTitle: false })
   ).get("isTitle") === true;
 
 export const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
@@ -198,6 +199,8 @@ const mergeMediaDetails = (state, mediaSections) => {
 };
 
 const selectMediaRaw = (state, category, subCategory, group, isStore) => {
+  // console.time("selectMediaRaw");
+
   console.debug(`selectMediaRaw()`);
   // console.debug({ category });
   // console.debug({ subCategory });
@@ -207,13 +210,15 @@ const selectMediaRaw = (state, category, subCategory, group, isStore) => {
   const subCategoryIsTitleSort = getTitleSorting(state, subCategory);
   const groupIsTitleSort = getTitleSorting(state, group);
 
+  var result = null;
+
   if (category) {
     if (category.isClientSided === true) {
       const media = getClientSidedMedia(state, category, isStore);
-      return mergeMediaDetails(state, media);
+      result = mergeMediaDetails(state, media);
     } else if (subCategory === undefined || subCategory === null) {
       const media = getMediaForCategory(state, category, categoryIsTitleSort);
-      return mergeMediaDetails(state, media);
+      result = mergeMediaDetails(state, media);
     } else {
       const media = getMediaforSubCategory(
         state,
@@ -221,11 +226,12 @@ const selectMediaRaw = (state, category, subCategory, group, isStore) => {
         subCategoryIsTitleSort,
         groupIsTitleSort
       );
-      return mergeMediaDetails(state, media);
+      result = mergeMediaDetails(state, media);
     }
   }
 
-  return Seq();
+  // console.timeEnd("selectMediaRaw");
+  return result || Seq();
 };
 
 export const selectMedia = memoize(selectMediaRaw);

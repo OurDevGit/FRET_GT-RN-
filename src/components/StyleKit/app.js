@@ -3,7 +3,6 @@ import { TouchableOpacity } from "react-native";
 import { gtPcPressable, gtPcColorable } from "./lib";
 import {
   BtnLibrary_isPressed_redValue_greenValue_blueValue,
-  BtnDetails_isPressed,
   BtnHome_isHome,
   BtnSettings_isPressed
 } from "./styleKitComponents";
@@ -29,10 +28,4 @@ export const BtnSettings = props => {
   const BtnSettingsComp = gtPcPressable(BtnSettings_isPressed);
 
   return <BtnSettingsComp {...props} resizing={ResizingBehavior.AspectFit} />;
-};
-
-export const BtnDetails = props => {
-  const Comp = gtPcPressable(BtnDetails_isPressed);
-
-  return <Comp {...props} />;
 };

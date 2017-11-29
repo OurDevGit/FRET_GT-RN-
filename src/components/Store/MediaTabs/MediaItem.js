@@ -1,9 +1,52 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import { BtnDetails, BtnHeartSmart, BtnGetMediaProgress } from "../../StyleKit";
+import {
+  View,
+  Text as PlainText,
+  TouchableOpacity,
+  StyleSheet
+} from "react-native";
+import { BtnHeartSmart, BtnGetMediaProgress } from "../../StyleKit";
 import MediaThumbnail from "./MediaThumbnail";
 import { GetMediaButtonMode } from "../../../models/Media";
+import Svg, { G, Circle, Text, TSpan } from "react-native-svg";
+import GetMediaButton from "./GetMediaButton";
+
+const BtnDetails = ({ onPress }) => (
+  <TouchableOpacity onPress={onPress}>
+    <Svg height="44" width="44">
+      <G id="btnDetails-group">
+        <Circle
+          id="btnDetails-oval"
+          stroke="rgb(76, 142, 162)"
+          stroke-width="1"
+          stroke-miterlimit="10"
+          fill="none"
+          cx="22.4"
+          cy="21.14"
+          r="9.5"
+        />
+
+        <Text
+          fill="rgb(76, 142, 162)"
+          font-family="HelveticaNeue-Medium, 'Helvetica Neue', Helvetica, Arial, sans-serif"
+          font-size="12"
+          x="21"
+          y="12"
+          text-anchor="middle"
+        >
+          <TSpan x="21" y="25">
+            i
+          </TSpan>
+        </Text>
+      </G>
+    </Svg>
+  </TouchableOpacity>
+);
+
+BtnDetails.propTypes = {
+  onPress: PropTypes.func.isRequired
+};
 
 class MediaItem extends PureComponent {
   state = {
@@ -12,7 +55,13 @@ class MediaItem extends PureComponent {
 
   render() {
     // console.debug(`MediaItem render()`);
-    // console.debug(`MediaItem render() ${this.props.title}`);
+    // console.debug(`MediaItem render() ${this.props.title}: ${this.props.id}`);
+
+    const hasPreview =
+      (this.props.getMode === GetMediaButtonMode.Purchase ||
+        this.props.getMode === GetMediaButtonMode.Indeterminate ||
+        this.props.getMode === GetMediaButtonMode.ComingSoon) &&
+      this.props.hasPreview;
 
     return (
       <TouchableOpacity onPress={this.handleTouch}>
@@ -20,24 +69,19 @@ class MediaItem extends PureComponent {
           <MediaThumbnail
             thumbUri={this.props.artworkURL}
             mediaId={this.props.id}
-            hasPreview={
-              (this.props.getMode === GetMediaButtonMode.Purchase ||
-                this.props.getMode === GetMediaButtonMode.Indeterminate ||
-                this.props.getMode === GetMediaButtonMode.ComingSoon) &&
-              this.props.hasPreview
-            }
+            hasPreview={hasPreview}
             onPreviewPress={this.handlePreviewPress}
             isPreviewing={this.props.isPreviewing}
             previewProgress={this.props.previewProgress}
           />
           <View style={styles.titleContainer}>
-            <Text style={styles.title}>{this.props.title}</Text>
-            <Text style={styles.subtitle}>{this.props.subtitle}</Text>
+            <PlainText style={styles.title}>{this.props.title}</PlainText>
+            <PlainText style={styles.subtitle}>{this.props.subtitle}</PlainText>
           </View>
 
           <BtnDetails onPress={this.handleTapDetails} />
 
-          <BtnGetMediaProgress
+          <GetMediaButton
             mode={this.props.getMode}
             price={this.props.price}
             progress={this.props.progress}

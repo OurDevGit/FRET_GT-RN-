@@ -39,6 +39,7 @@
     "react-native-responsive": "^1.0.1",
     "react-native-sentry": "^0.30.2",
     "react-native-sound": "^0.10.4",
+    "react-native-svg": "^6.0.0",
     "react-native-tab-view": "0.0.69",
     "react-native-video": "^2.0.0",
     "react-redux": "^5.0.5",

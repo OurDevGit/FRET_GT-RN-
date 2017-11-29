@@ -104,7 +104,8 @@ class Store extends PureComponent {
       subCategory,
       subCategoryIndex
     );
-    this.handleChooseSubCategory(subCategory, subCategoryIndex);
+
+    // this.handleChooseSubCategory(subCategory, subCategoryIndex);
   }
 
   componentDidMount() {
@@ -144,7 +145,7 @@ class Store extends PureComponent {
     subCategory,
     subCategoryIndex
   ) => {
-    // console.debug(categoryIndex, category);
+    // console.debug(`choose category: ${categoryIndex}`); //, category);
 
     if (!category) {
       return;
@@ -179,31 +180,45 @@ class Store extends PureComponent {
         });
       } else {
         // select the first subcategory in this category
+        const subCategoryState = this.handleChooseSubCategory(
+          subCategory || subCategories[0],
+          subCategoryIndex || 0,
+          true
+        );
+
         this.setState({
           categoryIndex,
           category,
-          subCategories
+          subCategories,
+          ...subCategoryState
         });
-
-        this.handleChooseSubCategory(
-          subCategory || subCategories[0],
-          subCategoryIndex || 0
-        );
       }
     }
   };
 
-  handleChooseSubCategory = (subCategory, subCategoryIndex) => {
+  handleChooseSubCategory = (
+    subCategory,
+    subCategoryIndex,
+    skipSetState = false
+  ) => {
     if (!subCategory) {
       return;
     }
+    console.debug(`choose sub-category: ${subCategoryIndex}`);
+
     // const groups = this.props.groups[subCategory.id];
     setSubCategoryIndex(subCategoryIndex);
 
-    this.setState({
+    const newState = {
       subCategory,
       subCategoryIndex
-    });
+    };
+
+    if (skipSetState === false) {
+      this.setState(newState);
+    }
+
+    return newState;
   };
 
   handleChooseMedia = async mediaId => {

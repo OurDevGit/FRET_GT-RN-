@@ -3,6 +3,7 @@ package com.optek.guitartunes;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.horcrux.svg.SvgPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import cn.qiuxiang.react.recording.RecordingPackage;
@@ -32,7 +33,8 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), new RNMixpanel(), new RecordingPackage(),
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+            new SvgPackage(), new RNMixpanel(), new RecordingPackage(),
           new RCTPdfView(), new RNMail(), new RNFetchBlobPackage(), new RNSentryPackage(MainApplication.this),
           new ReactVideoPackage(), new InAppBillingBridgePackage(), new RNSoundPackage(), new GTReactPackage());
     }
