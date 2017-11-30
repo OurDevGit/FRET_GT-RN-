@@ -1,6 +1,6 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { WebView, Alert } from "react-native";
+import { WebView, Alert, Linking } from "react-native";
 import { connect } from "react-redux";
 import { Set } from "immutable";
 import { fromPairs } from "lodash";
@@ -19,12 +19,14 @@ class Home extends PureComponent {
         startInLoadingState={true}
         ref={ref => (this.webView = ref)}
         onMessage={this.handleWebMessage}
+        onNavigationStateChange={this.handleNavStateChange}
         injectedJavaScript={
           injectAnchors.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]
         }
         source={{
-          uri: `file://${this.state.indexFile}?trigger=${this.props
-            .reloadTrigger}`
+          uri: `file://${this.state.indexFile}?trigger=${
+            this.props.reloadTrigger
+          }`
         }}
       />
     );
@@ -83,6 +85,17 @@ class Home extends PureComponent {
         default:
           break;
       }
+    }
+  };
+
+  handleNavStateChange = event => {
+    // send web links out of app
+    if (
+      event.url.indexOf("https://") === 0 ||
+      event.url.indexOf("http://") === 0
+    ) {
+      this.webView.stopLoading();
+      Linking.openURL(event.url);
     }
   };
 
