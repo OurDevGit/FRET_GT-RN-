@@ -75,9 +75,9 @@ function* fetchAd() {
   }
 }
 
-function* doDownload(media, mediaId) {
+function* doDownload(media, mediaId, transactionDetails) {
   try {
-    const mediaFiles = yield downloadMedia(media);
+    const mediaFiles = yield downloadMedia(media, transactionDetails);
     // console.debug({ mediaFiles });
     yield setDownload(mediaId, mediaFiles);
     yield put(actions.finishDownload(mediaId, mediaFiles));
@@ -116,13 +116,18 @@ function* watchChooseMedia(action) {
   var transactionDetails;
   if (__DEV__) {
     console.debug("DEV mode, so giving free purchase");
-    transactionDetails = { purchaseState: "PurchasedSuccessfully" };
+    transactionDetails = {
+      purchaseState: "PurchasedSuccessfully",
+      developerTest: true
+    };
   } else {
     transactionDetails =
       media.isFree === true
-        ? { purchaseState: "PurchasedSuccessfully" }
+        ? { purchaseState: "PurchasedSuccessfully", isFree: true }
         : yield fetchTransactionDetails(mediaId);
   }
+
+  console.debug({ transactionDetails });
 
   // if we already bought this, then download it and finish
   if (
@@ -131,24 +136,23 @@ function* watchChooseMedia(action) {
   ) {
     console.debug("We own this. Downloading the media now.");
 
-    yield doDownload(media, mediaId);
+    yield doDownload(media, mediaId, transactionDetails);
 
     return;
   } else {
     console.debug("we have not bought it.");
   }
 
-  console.debug("going into getMode switch");
-  console.debug(`getMode: ${media.getMode}`);
-
   console.debug({ media });
 
   // 3. Buy the media
-  const purchaseSuccess = yield doPurchase(media);
+  const purchaseResult = yield doPurchase(media);
 
-  if (purchaseSuccess === true) {
+  console.debug({ purchaseResult });
+
+  if (purchaseResult.success === true) {
     yield put(actions.addPurchasedMedia(mediaId));
-    yield doDownload(media, mediaId);
+    yield doDownload(media, mediaId, purchaseResult.transactionDetails);
     console.debug(`added purchased ${mediaId}`);
 
     // track the purchase in MixPanel
@@ -157,16 +161,12 @@ function* watchChooseMedia(action) {
     trackPurchase(mediaId, media.title, details.priceValue, details.currency);
   }
 
+  console.debug("going into getMode switch");
+  console.debug(`getMode: ${media.getMode}`);
+
   switch (media.getMode) {
-    case GetMediaButtonMode.Purchase: {
+    case GetMediaButtonMode.Purchase:
       break;
-    }
-    case GetMediaButtonMode.Download: {
-      console.debug("do download!");
-      yield doDownload(media, mediaId);
-      // console.debug(downloadedMedia.toJS());
-      break;
-    }
     case GetMediaButtonMode.Downloading:
       break;
     case GetMediaButtonMode.ComingSoon:
@@ -176,12 +176,12 @@ function* watchChooseMedia(action) {
     case GetMediaButtonMode.Play:
       break;
     default: {
-      const purchaseSuccess = yield doPurchase(media);
-      if (purchaseSuccess === true) {
+      const purchaseResult = yield doPurchase(media);
+      if (purchaseResult.success === true) {
         console.debug("did purchase");
         yield put(actions.addPurchasedMedia(mediaId));
         console.debug(`added purchased ${mediaId}`);
-        yield doDownload(media, mediaId);
+        yield doDownload(media, mediaId, purchaseResult.transactionDetails);
       } else {
         console.debug("did NOT purchase");
       }

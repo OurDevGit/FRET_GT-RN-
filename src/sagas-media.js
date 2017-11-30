@@ -7,8 +7,8 @@ import { fetchMediaLinks } from "./api";
 import { downloadMediaFiles } from "./DownloadManager";
 
 export const doPurchase = async media => {
-  const purchaseSuccess = await makePurchase(media.mediaID);
-  return purchaseSuccess;
+  const purchaseResult = await makePurchase(media.mediaID);
+  return purchaseResult;
 };
 
 export const fetchTransactionDetails = async mediaId => {

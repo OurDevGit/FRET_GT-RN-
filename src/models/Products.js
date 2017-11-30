@@ -103,16 +103,15 @@ export const makePurchase = async mediaId => {
   await openBilling();
 
   var success = false;
+  var transactionDetails = null;
   try {
     const productId = mediaId.toLowerCase();
     // const productId = "android.test.purchased";
     // console.debug({ productId });
     const purchaseDetails = await InAppBilling.purchase(productId);
-    const transactionStatus = await InAppBilling.getPurchaseTransactionDetails(
+    transactionDetails = await InAppBilling.getPurchaseTransactionDetails(
       productId
     );
-
-    console.debug({ transactionStatus });
 
     success = true;
   } catch (error) {
@@ -124,7 +123,7 @@ export const makePurchase = async mediaId => {
 
   await closeBilling();
 
-  return success;
+  return { success, transactionDetails };
 };
 
 const normalizeProductDetails = details => {
