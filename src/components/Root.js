@@ -18,6 +18,7 @@ import {
   setTabIndex,
   setCategoryIndex,
   setSubCategoryIndex,
+  setOpenSectionIndex,
   setSearch
 } from "../models/Store";
 import { getMediaForPlay } from "../redux/selectors";
@@ -304,21 +305,18 @@ class Root extends Component {
 
   handleHomeDetails = async params => {
     // Go to the Store tab and the All Content Category
+    // console.debug(params);
+
     await setTabIndex(0);
-    const categoryIndex = await setCategoryIndex(Number(params.category || 0));
-    const subCategoryIndex = await setSubCategoryIndex(
-      Number(params.subcategory || 0)
-    );
+    await setCategoryIndex(Number(params.category || 0));
+    await setSubCategoryIndex(Number(params.subcategory || 0));
     await setSearch(params.search ? decodeURIComponent(params.search) : "");
+    await setOpenSectionIndex(Number(params.group));
 
-    console.debug(params);
-
-    var newState = {
+    this.setState({
       isShowingStore: true,
       storeDetailMediaId: params.media_detail
-    };
-
-    this.setState(newState);
+    });
   };
 
   handleToggleAd = bool => {

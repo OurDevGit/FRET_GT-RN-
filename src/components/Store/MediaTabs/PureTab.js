@@ -17,6 +17,8 @@ import MediaItem from "./MediaItem";
 import Music from "../../Playback/Music";
 import { BtnExpand } from "../../StyleKit";
 
+import { getUIState, setOpenSectionIndex } from "../../../models/Store";
+
 const fuseOptions = {
   shouldSort: true,
   threshold: 0.3,
@@ -102,7 +104,7 @@ class PureTab extends Component {
           style={styles.list}
           keyExtractor={extractItemKey}
           getItemLayout={getItemLayout}
-          initialNumToRender={1}
+          initialNumToRender={10}
         />
       </View>
     );
@@ -156,7 +158,7 @@ class PureTab extends Component {
     return false;
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     // console.log("PureTab will receive props");
     // console.log(nextProps);
 
@@ -187,7 +189,32 @@ class PureTab extends Component {
       nextProps.isNavigableSubCategory === true &&
       this.props.isNavigableSubCategory === false
     ) {
-      this.setState({ navigableOpenSection: "_ALLCLOSED" });
+      // if UIState has an "open section index", we need to open that up
+      // otherwise, set _ALLCLOSED
+      const { openSectionIndex } = await getUIState();
+      let didSetOpenSection = false;
+      if (!isNaN(openSectionIndex)) {
+        if (nextProps.media) {
+          if (nextProps.media.get(openSectionIndex)) {
+            const sectionTitle = nextProps.media
+              .get(openSectionIndex)
+              .get("title");
+
+            if (sectionTitle) {
+              this.setState({
+                navigableOpenSection: sectionTitle
+              });
+
+              await setOpenSectionIndex(null);
+              didSetOpenSection = true;
+            }
+          }
+        }
+      }
+
+      if (didSetOpenSection === false) {
+        this.setState({ navigableOpenSection: "_ALLCLOSED" });
+      }
     }
 
     // changing FROM navigable sub categories

@@ -204,7 +204,7 @@ class Store extends PureComponent {
     if (!subCategory) {
       return;
     }
-    console.debug(`choose sub-category: ${subCategoryIndex}`);
+    // console.debug(`choose sub-category: ${subCategoryIndex}`);
 
     // const groups = this.props.groups[subCategory.id];
     setSubCategoryIndex(subCategoryIndex);

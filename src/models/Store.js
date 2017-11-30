@@ -124,6 +124,10 @@ export const setGroupIndex = async index => {
   return Store.setObj("groupIndex", index);
 };
 
+export const setOpenSectionIndex = async index => {
+  return Store.setObj("openSectionIndex", index);
+};
+
 export const setTabIndex = async index => {
   return Store.setObj("tabIndex", index);
 };
@@ -138,13 +142,16 @@ export const getUIState = async () => {
   const groupIndex = await Store.getObj("groupIndex");
   const tabIndex = (await Store.getObj("tabIndex")) || 0;
   const search = (await Store.getObj("search")) || "";
+  const openSectionIndex_ = await Store.getObj("openSectionIndex");
+  const openSectionIndex = isNaN(openSectionIndex_) ? null : openSectionIndex_;
 
   return {
     categoryIndex,
     subCategoryIndex,
     groupIndex,
     tabIndex,
-    search
+    search,
+    openSectionIndex
   };
 };
 

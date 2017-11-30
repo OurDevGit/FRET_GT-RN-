@@ -151,13 +151,13 @@ class TabbedMedia extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     var hasUpdates = false;
 
-    for (var key in nextProps) {
+    for (let key in nextProps) {
       if (!isEqual(this.props[key], nextProps[key])) {
         hasUpdates = true;
       }
     }
 
-    for (var key in nextState) {
+    for (let key in nextState) {
       if (!isEqual(this.state[key], nextState[key])) {
         hasUpdates = true;
       }
