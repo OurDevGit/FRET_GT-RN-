@@ -11,6 +11,8 @@ import MediaDetails from "./MediaDetails";
 import FacebookIcon from "./social_icons/Facebook";
 import TwitterIcon from "./social_icons/Twitter";
 
+import { getUIState, setSearch } from "../../models/Store";
+
 class Media extends React.PureComponent {
   state = {
     searchText: "",
@@ -79,14 +81,18 @@ class Media extends React.PureComponent {
     );
   }
 
-  componentWillMount() {
+  async componentWillMount() {
+    const { search } = await getUIState();
+
     this.setState({
-      detailMediaId: this.props.detailMediaId
+      detailMediaId: this.props.detailMediaId,
+      searchText: search
     });
   }
 
-  handleChangeText = text => {
+  handleChangeText = async text => {
     this.setState({ searchText: text });
+    await setSearch(text);
   };
 
   handleShowDetails = detailMediaId => {

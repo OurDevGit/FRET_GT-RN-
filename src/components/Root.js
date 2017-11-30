@@ -17,7 +17,8 @@ import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
 import {
   setTabIndex,
   setCategoryIndex,
-  setSubCategoryIndex
+  setSubCategoryIndex,
+  setSearch
 } from "../models/Store";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
@@ -53,7 +54,7 @@ class Root extends Component {
   };
 
   render() {
-    console.debug(`Root render()`);
+    // console.debug(`Root render()`);
     const { store, visibleTracks } = this.props;
     const deviceWidth = Dimensions.get("window").width;
     const deviceHeight = Dimensions.get("window").height;
@@ -302,18 +303,22 @@ class Root extends Component {
   };
 
   handleHomeDetails = async params => {
+    // Go to the Store tab and the All Content Category
     await setTabIndex(0);
     const categoryIndex = await setCategoryIndex(Number(params.category || 0));
     const subCategoryIndex = await setSubCategoryIndex(
       Number(params.subcategory || 0)
     );
+    await setSearch(params.search ? decodeURIComponent(params.search) : "");
 
-    this.setState({
+    console.debug(params);
+
+    var newState = {
       isShowingStore: true,
-      storeDetailMediaId: params.media_detail,
-      categoryIndex,
-      subCategoryIndex
-    });
+      storeDetailMediaId: params.media_detail
+    };
+
+    this.setState(newState);
   };
 
   handleToggleAd = bool => {

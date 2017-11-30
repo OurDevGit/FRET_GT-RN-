@@ -128,17 +128,23 @@ export const setTabIndex = async index => {
   return Store.setObj("tabIndex", index);
 };
 
+export const setSearch = async search => {
+  return Store.setObj("search", search);
+};
+
 export const getUIState = async () => {
   const categoryIndex = await Store.getObj("categoryIndex");
   const subCategoryIndex = await Store.getObj("subCategoryIndex");
   const groupIndex = await Store.getObj("groupIndex");
   const tabIndex = (await Store.getObj("tabIndex")) || 0;
+  const search = (await Store.getObj("search")) || "";
 
   return {
     categoryIndex,
     subCategoryIndex,
     groupIndex,
-    tabIndex
+    tabIndex,
+    search
   };
 };
 
