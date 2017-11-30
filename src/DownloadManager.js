@@ -143,7 +143,7 @@ export const downloadMediaFiles = async (files, mediaId) => {
 
     // finish download
     console.debug("done with downloads");
-    throttledUpdate(mediaId, 1);
+    updateSubscribers(mediaId, 1);
     _dispatchFinish();
 
     // console.debug(filesMap);
