@@ -121,9 +121,11 @@ const getMediaforSubCategory = (
 
 const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
   const productDetails = state.get("productDetails") || Map();
-  const mediaId = singleMedia.get("mediaID");
+  // console.debug(productDetails.toJS());
+  const mediaId = singleMedia.get("mediaID").toLowerCase();
+  const mediaProductDetails = productDetails.get(mediaId);
   const mediaDetails =
-    productDetails.get(mediaId.toLowerCase()) ||
+    mediaProductDetails ||
     // if the above is null/undefined then we fall back to LOADING / COMING SOON
     (singleMedia.get("isFree") === true
       ? Map({ priceText: "FREE" })
@@ -200,8 +202,6 @@ const mergeMediaDetails = (state, mediaSections) => {
 
 const selectMediaRaw = (state, category, subCategory, group, isStore) => {
   // console.time("selectMediaRaw");
-
-  console.debug(`selectMediaRaw()`);
   // console.debug({ category });
   // console.debug({ subCategory });
   // console.debug({ group });
