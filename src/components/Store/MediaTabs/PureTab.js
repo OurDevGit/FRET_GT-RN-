@@ -162,7 +162,8 @@ class PureTab extends Component {
 
     // do search
     if (
-      this.props.searchText !== nextProps.searchText &&
+      (this.props.searchText !== nextProps.searchText ||
+        this.props.media !== nextProps.media) &&
       nextProps.searchText.length > 1
     ) {
       this.doSearch(nextProps.searchText, nextProps.media);
@@ -279,20 +280,20 @@ class PureTab extends Component {
   };
 
   doSearch = (searchText, immMedia) => {
-    console.debug("new search");
+    // console.debug("new search");
 
     const media = immMedia.toJS();
     const allMedia = flatMap(media, m => toArray(m.data));
 
-    console.debug(searchText);
-    console.debug(allMedia);
+    // console.debug(`Searching for ${searchText} in ${allMedia.length} Medias`);
 
     const fuse = new Fuse(allMedia, fuseOptions);
     if (fuse) {
+      // console.debug("has Fuse");
       const result = fuse.search(searchText);
       const searchResults = [{ data: result }];
 
-      console.debug(searchResults);
+      // console.debug(searchResults);
 
       this.setState({
         searchResults
