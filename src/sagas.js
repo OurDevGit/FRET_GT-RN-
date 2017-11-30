@@ -96,7 +96,7 @@ function* watchChooseMedia(action) {
   const mediaId = action.payload;
   const media = yield getMedia(mediaId);
   console.debug(`chose media: ${mediaId}`);
-  console.debug(media);
+  // console.debug(media);
 
   yield put(actions.setIntermediate(mediaId, true));
 
@@ -192,7 +192,7 @@ function* watchChooseMedia(action) {
 }
 
 function* watchRefreshStore(action) {
-  console.debug("refeshStore saga!");
+  // console.debug("refeshStore saga!");
   try {
     // get store from backend
     const storeRaw = yield Api.fetchStore();
@@ -200,10 +200,18 @@ function* watchRefreshStore(action) {
     const storeDb = yield setStore(storeRaw);
     yield put(actions.storeLoaded(storeDb));
 
+    // load favorites
+    const faves = yield getFaves();
+    yield put(actions.setFavorites(faves));
+
     // get store details from Google In-App Billing
-    // if (doFreeMedia !== true) {
     const mediaIds = Object.keys(storeDb.mediaById);
+    // console.debug("asking IAB for details");
+    // console.debug(mediaIds);
     const productDetails = yield fetchProductDetails(mediaIds);
+
+    console.debug(productDetails);
+
     yield setProductDetails(productDetails);
     yield put(actions.productDetailsLoaded(productDetails));
 
@@ -211,16 +219,10 @@ function* watchRefreshStore(action) {
     const purchasedMedia = yield fetchPurchases();
     yield setPurchased(purchasedMedia);
     yield put(actions.setPurchasedMedia(purchasedMedia));
-    // }
-
-    // load favorites
-    const faves = yield getFaves();
-    yield put(actions.setFavorites(faves));
   } catch (error) {
     console.debug(error);
     console.debug(error.stack);
   }
-  // this.props.storeLoaded(storeObjects); // dispatch
 }
 
 function* watchDeleteMedia(action) {
@@ -249,8 +251,6 @@ function watchDeleteAllMedia() {
 }
 
 function* watchBootstrap() {
-  console.debug("do some bootstrapping");
-
   // Settings
   const autoPartSwitching = yield getAutoPartSwitchingState();
   const countdownTimer = yield getCountdownTimerState();
