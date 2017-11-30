@@ -210,8 +210,6 @@ function* watchRefreshStore(action) {
     // console.debug(mediaIds);
     const productDetails = yield fetchProductDetails(mediaIds);
 
-    console.debug(productDetails);
-
     yield setProductDetails(productDetails);
     yield put(actions.productDetailsLoaded(productDetails));
 
