@@ -317,7 +317,11 @@ class Root extends Component {
     this.setState({
       song: null,
       video: null,
-      showAd: true
+      showAd: true,
+      priorSection: null,
+      currentSection: Sections.Home,
+      homeTrigger: Math.random(),
+      isShowingCountdownTimer: false
     });
   };
 
