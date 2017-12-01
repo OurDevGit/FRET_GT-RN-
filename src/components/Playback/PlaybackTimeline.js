@@ -1,14 +1,11 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, Dimensions, Text } from "react-native";
+import { View, Text } from "react-native";
 
 import { PrimaryBlue } from "../../design";
-
 import Playhead from "./Playhead";
 import PlaybackMarkers from "./PlaybackMarkers";
 import LoopFlag from "./PlaybackTimelineLoopFlag.js";
-
-import { BtnDownload, BtnDownloading } from "../StyleKit";
 import {
   subscribeToTimeUpdates,
   unsubscribeToTimeUpdates
@@ -26,7 +23,6 @@ class PlaybackTimeline extends Component {
     const {
       duration,
       markers,
-      videoMarkers,
       currentLoop,
       currentVideoMarker,
       currentVideoChapter,
@@ -86,7 +82,7 @@ class PlaybackTimeline extends Component {
 
         <Text
           style={{
-            width: 40,
+            width: 64,
             height: 20,
             marginTop: 15,
             marginHorizontal: 15,
@@ -137,7 +133,7 @@ class PlaybackTimeline extends Component {
 
         <Text
           style={{
-            width: 40,
+            width: 64,
             height: 20,
             marginTop: 15,
             marginHorizontal: 15,
@@ -220,7 +216,6 @@ class PlaybackTimeline extends Component {
       ignorePropsProgress: true
     });
     this.props.onSeekStart();
-    console.log("START");
   };
 
   handlePlayheadPanEnd = () => {
@@ -293,9 +288,11 @@ class PlaybackTimeline extends Component {
       return "00:00";
     var minutes = Math.floor(time / 60);
     if (minutes < 10) minutes = "0" + minutes;
+    if (minutes.length === 1) minutes = `${minutes}0`;
 
     var seconds = Math.floor(time - minutes * 60);
-    if (seconds < 10) seconds = "0" + seconds;
+    seconds = seconds < 10 ? `0${seconds}` : `${seconds}`;
+    if (seconds.length === 1) seconds = `${seconds}0`;
 
     return minutes + ":" + seconds;
   };
@@ -306,8 +303,10 @@ PlaybackTimeline.propTypes = {
   progress: PropTypes.number,
   markers: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
   videoMarkers: PropTypes.array,
+  currentViewoChapter: PropTypes.object,
   currentLoop: PropTypes.object,
   currentVideoMarker: PropTypes.object,
+  currentVideoChapter: PropTypes.object,
   loopIsEnabled: PropTypes.bool,
   isVideo: PropTypes.bool,
   isFullscreen: PropTypes.bool,
