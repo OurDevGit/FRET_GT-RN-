@@ -188,7 +188,7 @@ class BtnChapterModal extends React.Component {
   };
 
   handlePress = marker => {
-    this.props.onMarkerPress(marker.begin);
+    this.props.onMarkerPress(marker.type, marker.begin, marker.name);
     this.props.onForceControlsVisible(false);
     this.dismissModal();
   };
