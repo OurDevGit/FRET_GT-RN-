@@ -124,14 +124,28 @@ const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
   // console.debug(productDetails.toJS());
   const mediaId = singleMedia.get("mediaID").toLowerCase();
   const mediaProductDetails = productDetails.get(mediaId);
-  const mediaDetails =
-    mediaProductDetails ||
-    // if the above is null/undefined then we fall back to LOADING / COMING SOON
-    (singleMedia.get("isFree") === true
-      ? Map({ priceText: "FREE" })
-      : detailsHaveLoaded === true
-        ? Map({ priceText: "COMING SOON" })
-        : Map({ priceText: "LOADING" }));
+
+  var mediaDetails;
+
+  if (mediaProductDetails) {
+    const forceComingSoon =
+      (mediaProductDetails.get("description") || "").toLowerCase().trim() ===
+      "comingsoon";
+
+    if (forceComingSoon) {
+      console.debug("forcing COMING SOON via description");
+      mediaDetails = Map({ priceText: "COMING SOON" });
+    } else {
+      mediaDetails = mediaProductDetails;
+    }
+  } else {
+    mediaDetails =
+      singleMedia.get("isFree") === true
+        ? Map({ priceText: "FREE" })
+        : detailsHaveLoaded === true
+          ? Map({ priceText: "COMING SOON" })
+          : Map({ priceText: "LOADING" });
+  }
 
   return singleMedia.set("productDetails", mediaDetails);
 };
