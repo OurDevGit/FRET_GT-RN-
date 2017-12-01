@@ -35,7 +35,8 @@ import {
 
 const Sections = {
   Home: 0,
-  Playback: 1
+  Playback: 1,
+  ChordsAndScales: 2
 };
 
 class Root extends Component {
@@ -48,6 +49,7 @@ class Root extends Component {
     isShowingSettings: false,
     isShowingFretlightAdmin: false,
     isShowingCountdownTimer: false,
+    priorSection: null,
     currentSection: Sections.Home,
     homeTrigger: null,
     storeDetailMediaId: "",
@@ -258,17 +260,33 @@ class Root extends Component {
   };
 
   handleHomePress = () => {
+    const { priorSection, currentSection } = this.state;
+    var nextSection;
+    var newPriorSection;
+
+    if (currentSection === Sections.Home && priorSection !== null) {
+      nextSection = priorSection;
+      newPriorSection = priorSection;
+
+      trackHomeView();
+    } else {
+      nextSection = Sections.Home;
+      newPriorSection = currentSection;
+
+      startHomeView();
+    }
+
     this.setState({
       isShowingStore: false,
       isShowingSettings: false,
-      currentSection: Sections.Home,
+      currentSection: nextSection,
+      priorSection: newPriorSection,
       homeTrigger: Math.random()
     });
 
     if (this.Home) {
       this.Home.forceUpdate();
     }
-    startHomeView();
   };
 
   handleToggleSettings = () => {
