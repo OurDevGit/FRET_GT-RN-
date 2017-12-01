@@ -78,12 +78,18 @@ class Fretboard extends React.Component {
       >
         {!isHidingLabels && (
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              marginBottom: isPhone ? -2 : 0
+            }}
           >
             <Text
               style={{
+                height: 24,
                 fontSize: isPhone ? 13 : 17,
-                marginBottom: 1
+                marginBottom: 1,
+                textAlignVertical: "center"
               }}
             >
               {isSmart ? " " : track.name || " "}
@@ -142,7 +148,11 @@ class Fretboard extends React.Component {
               >
                 <TunerButton
                   hasAlternateTuning={hasAlternateTuning}
-                  size={{ width: 40, height: 40 }}
+                  style={{
+                    marginTop: isPhone ? 4 : 0,
+                    width: isPhone ? 35 : 40,
+                    height: isPhone ? 35 : 40
+                  }}
                 />
               </TouchableOpacity>
             </View>
