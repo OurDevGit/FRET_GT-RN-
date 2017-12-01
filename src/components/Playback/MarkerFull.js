@@ -13,7 +13,7 @@ class Marker extends React.Component {
     const adjustedLeft = left - (this.state.width - 30) / 2;
 
     return (
-      <TouchableOpacity
+      <View
         key={marker.name}
         style={{
           position: "absolute",
@@ -23,12 +23,6 @@ class Marker extends React.Component {
           alignItems: "center"
         }}
         onLayout={this.handleLayout}
-        onPress={() => {
-          onMarkerPress(marker.time, marker.name);
-        }}
-        onLongPress={() => {
-          onMarkerLongPress(marker.time, end, marker.name);
-        }}
       >
         {this.state.width > 0 && (
           <View
@@ -42,14 +36,24 @@ class Marker extends React.Component {
             transform: [{ rotate: "-45deg" }]
           }}
         >
-          <Text
-            style={{
-              fontSize: 17,
-              color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`
+          <TouchableOpacity
+            onPress={() => {
+              onMarkerPress(marker.time, marker.name);
+            }}
+            onLongPress={() => {
+              onMarkerLongPress(marker.time, end, marker.name);
             }}
           >
-            {marker.name}
-          </Text>
+            <Text
+              style={{
+                fontSize: 17,
+                color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`
+              }}
+            >
+              {marker.name}
+            </Text>
+          </TouchableOpacity>
+
           <Text
             style={{
               fontSize: 17,
@@ -59,7 +63,7 @@ class Marker extends React.Component {
             {marker.name}
           </Text>
         </View>
-      </TouchableOpacity>
+      </View>
     );
   }
 

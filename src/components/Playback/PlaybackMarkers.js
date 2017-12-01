@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { View, Button, Text, TouchableOpacity } from "react-native";
-import { PrimaryBlue } from "../../design";
+import { View } from "react-native";
 import MarkerFull from "./MarkerFull";
 import MarkerAbbreviated from "./MarkerAbbreviated";
 
@@ -22,7 +21,7 @@ class PlaybackMarkers extends React.Component {
     );
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps) {
     if (!nextProps.markers) return false;
 
     return (
@@ -54,7 +53,7 @@ class PlaybackMarkers extends React.Component {
     ) {
       var buttons = [];
 
-      var buttons = markers.map((marker, index) => {
+      buttons = markers.map((marker, index) => {
         var percent = marker.time / duration;
         var x = left - 15 + operationalWidth * percent;
 
