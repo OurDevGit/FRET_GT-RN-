@@ -205,6 +205,7 @@ class Root extends Component {
 
           const newState = {
             isShowingStore: false,
+            showFretboards: true,
             song,
             video,
             currentSection
