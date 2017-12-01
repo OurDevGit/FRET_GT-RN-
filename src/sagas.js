@@ -193,6 +193,10 @@ function* watchChooseMedia(action) {
 
 function* watchRefreshStore(action) {
   // console.debug("refeshStore saga!");
+  // load favorites
+  const faves = yield getFaves();
+  yield put(actions.setFavorites(faves));
+
   try {
     // get store from backend
     const storeRaw = yield Api.fetchStore();
@@ -200,16 +204,11 @@ function* watchRefreshStore(action) {
     const storeDb = yield setStore(storeRaw);
     yield put(actions.storeLoaded(storeDb));
 
-    // load favorites
-    const faves = yield getFaves();
-    yield put(actions.setFavorites(faves));
-
     // get store details from Google In-App Billing
     const mediaIds = Object.keys(storeDb.mediaById);
-    // console.debug("asking IAB for details");
+    console.debug("asking IAB for details");
     // console.debug(mediaIds);
     const productDetails = yield fetchProductDetails(mediaIds);
-
     yield setProductDetails(productDetails);
     yield put(actions.productDetailsLoaded(productDetails));
 
