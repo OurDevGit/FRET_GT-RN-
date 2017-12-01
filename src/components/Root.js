@@ -194,7 +194,9 @@ class Root extends Component {
         if (this.props.mediaForPlay.id !== undefined) {
           var song = null;
           var video = null;
+          var showAd = true;
           const currentSection = Sections.Playback;
+          const isPhone = getIsPhone();
 
           if (
             this.props.mediaForPlay.isSong === true ||
@@ -203,6 +205,7 @@ class Root extends Component {
             song = this.props.mediaForPlay;
           } else if (this.props.mediaForPlay.isVideo === true) {
             video = this.props.mediaForPlay;
+            showAd = !isPhone;
           }
 
           const newState = {
@@ -210,6 +213,7 @@ class Root extends Component {
             showFretboards: true,
             song,
             video,
+            showAd,
             currentSection
           };
           this.setState(newState);
@@ -339,6 +343,7 @@ class Root extends Component {
   };
 
   handleToggleAd = bool => {
+    console.log("showAd", bool);
     this.setState({ showAd: bool });
   };
 
