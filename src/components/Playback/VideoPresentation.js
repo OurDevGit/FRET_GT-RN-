@@ -1,7 +1,6 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View } from "react-native";
 
 import Midi from "./Midi";
 import PlaybackVideoPrimary from "./PlaybackVideoPrimary";
@@ -10,15 +9,6 @@ import PlaybackSecondary from "./PlaybackSecondary";
 import { playerBackground } from "../../design";
 import { BtnVideoExitFullScreen, BtnToggleFretboard } from "../StyleKit";
 import { BtnChapterModal } from "../modals";
-
-const styles = StyleSheet.create({
-  bold: {
-    fontWeight: "800"
-  },
-  normal: {
-    fontWeight: "200"
-  }
-});
 
 const VideoPresentation = props => {
   return (

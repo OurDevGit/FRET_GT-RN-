@@ -10,5 +10,14 @@ export const guid = () => {
 };
 
 export const getIsPhone = () => {
-  return Dimensions.get("window").height < 500;
+  let width = Dimensions.get("window").width;
+  let height = Dimensions.get("window").height;
+  let max = Math.max(width, height);
+  let min = Math.min(width, height);
+  let ratio = max / min;
+
+  let isSmall = width < 1024 || height < 500;
+  let isWide = ratio > 1.7;
+
+  return isSmall || isWide;
 };
