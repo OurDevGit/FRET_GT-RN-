@@ -5,11 +5,11 @@ import { setIndex, getIndex, setSync, getSync } from "../../models/HomeCache";
 export const getIndexFile = () => getIndex();
 
 export const sync = async () => {
-  console.debug(`fetching Home`);
+  // console.debug(`fetching Home`);
   const syncTime = await getSync();
   const homeFiles = await fetchHome(syncTime);
 
-  console.debug(`going to download ${homeFiles.length} files`);
+  // console.debug(`going to download ${homeFiles.length} files`);
 
   const downloadedFiles = await downloadFiles(homeFiles, "Home", false);
 

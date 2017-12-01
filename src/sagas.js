@@ -206,8 +206,10 @@ function* watchRefreshStore(action) {
 
     // get store details from Google In-App Billing
     const mediaIds = Object.keys(storeDb.mediaById);
-    console.debug("asking IAB for details");
+
+    // console.debug("asking IAB for details");
     // console.debug(mediaIds);
+
     const productDetails = yield fetchProductDetails(mediaIds);
     yield setProductDetails(productDetails);
     yield put(actions.productDetailsLoaded(productDetails));

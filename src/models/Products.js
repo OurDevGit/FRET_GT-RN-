@@ -77,8 +77,8 @@ export const fetchProductDetails = async mediaIds => {
     } catch (error) {}
   }
 
-  console.debug(`got ${productDetails.length} total product details`);
-  console.debug(JSON.stringify(productDetails, null, 2));
+  // console.debug(`got ${productDetails.length} total product details`);
+  // console.debug(JSON.stringify(productDetails, null, 2));
 
   // close the billing channel
   await closeBilling();
