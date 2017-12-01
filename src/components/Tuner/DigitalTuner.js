@@ -84,7 +84,7 @@ class DigitalTuner extends React.Component {
 
   handleData = data => {
     const { currentPitch, fineTuning } = this.props;
-    const frequency = this.pitchFinder(data) || currentPitch.frequency;
+    const frequency = this.pitchFinder(data) || currentPitch.frequency - 15;
 
     if (this.isRecording) {
       const isHearingPitch = this.pitchFinder(data) !== null;
