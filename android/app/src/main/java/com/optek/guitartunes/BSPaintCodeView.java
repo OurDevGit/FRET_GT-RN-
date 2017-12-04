@@ -23,6 +23,8 @@ import com.facebook.react.bridge.ReadableMap;
 
 public class BSPaintCodeView extends View {
 
+  private static final String TAG = "BSPaintCodeView";
+
   public String drawMethod = "BtnLoopLeft";
   public ReadableArray drawArgs;
   public String styleKitClass = "com.optek.guitartunes.GuitarTunesStyleKit";
@@ -71,17 +73,17 @@ public class BSPaintCodeView extends View {
       Method foundMethod = null;
       boolean usesContext = false;
 
-      Log.d("BSPaintCodeView", "onDraw: " + methodName);
+      // Log.d(TAG, "onDraw: " + methodName);
 
       foundMethod = findCanvasOnlyMatch(allMethods, methodName);
       if (foundMethod == null) {
-        Log.d("BSPaintCodeView", "Canvas-only not found, looking for Context version");
+        // Log.d(TAG, "Canvas-only not found, looking for Context version");
         foundMethod = findContextMatch(allMethods, methodName);
         usesContext = true;
       }
 
       if (foundMethod != null) {
-        Log.w("BSPaintCodeView", "found a matching draw method.");
+        // Log.w(TAG, "found a matching draw method.");
 
         try {
           ArrayList drawArgsList = this.drawArgs.toArrayList();
@@ -91,8 +93,7 @@ public class BSPaintCodeView extends View {
           }
           ArrayList paintCodeArgs = convertArgs(drawArgsList);
 
-          Log.d("BSPaintCodeView",
-              "dynamically invoking " + foundMethod.toString() + " with: " + paintCodeArgs.toString());
+          // Log.d(TAG, "dynamically invoking " + foundMethod.toString() + " with: " + paintCodeArgs.toString());
 
           foundMethod.invoke(null, paintCodeArgs.toArray());
         } catch (InvocationTargetException e) {
@@ -101,11 +102,11 @@ public class BSPaintCodeView extends View {
           e.printStackTrace();
         }
       } else {
-        Log.w("BSPaintCodeView", "no matching draw method found.");
+        // Log.w(TAG, "no matching draw method found.");
         // TODO: Inform the user that their draw method couldn't be found
       }
     } catch (ClassNotFoundException e) {
-      Log.e("BSPaintCodeView", e.toString());
+      // Log.e(TAG, e.toString());
     }
   }
 
@@ -114,9 +115,9 @@ public class BSPaintCodeView extends View {
 
     Method foundMethod = findMatchWithDefaults(allMethods, methodName, args);
     if (foundMethod != null) {
-      Log.d("BSPaintCodeView", "found a method");
+      // Log.d(TAG, "found a method");
     } else {
-      Log.d("BSPaintCodeView", "no method found");
+      // Log.d(TAG, "no method found");
     }
 
     return foundMethod;
@@ -129,9 +130,9 @@ public class BSPaintCodeView extends View {
 
     Method foundMethod = findMatchWithDefaults(allMethods, methodName, args);
     if (foundMethod != null) {
-      Log.d("BSPaintCodeView", "found a method");
+      // Log.d(TAG, "found a method");
     } else {
-      Log.d("BSPaintCodeView", "no method found");
+      // Log.d(TAG, "no method found");
     }
     return foundMethod;
   }
@@ -142,16 +143,16 @@ public class BSPaintCodeView extends View {
       // check method name
       if (method.getName().equals(methodName)) {
         Type[] methodParamTypes = method.getGenericParameterTypes();
-        Log.d("BSPaintCodeView", methodParamTypes.toString());
+        // Log.d(TAG, methodParamTypes.toString());
 
         if (methodParamTypes.length == this.drawArgs.size() + defaultArgs.length) {
 
           // compare the method params with the default args and if any are different then return null early
           for (int i = 0; i < defaultArgs.length; i++) {
             if (methodParamTypes[i].toString().equals(defaultArgs[i]) == false) {
-              Log.d("BSPaintCodeView", "right number of args, but default arg type mismatch");
-              Log.d("BSPaintCodeView", methodParamTypes[i].toString());
-              Log.d("BSPaintCodeView", defaultArgs[i]);
+              // Log.d(TAG, "right number of args, but default arg type mismatch");
+              // Log.d(TAG, methodParamTypes[i].toString());
+              // Log.d(TAG, defaultArgs[i]);
               return null;
             }
           }
@@ -175,7 +176,7 @@ public class BSPaintCodeView extends View {
             return method;
           }
         } else {
-          // Log.d("BSPaintCodeView", "right name, wrong number of arguments");
+          // Log.d(TAG, "right name, wrong number of arguments");
         }
       } // method name check
     } // for allMethods
@@ -248,7 +249,7 @@ public class BSPaintCodeView extends View {
 
   // https://stackoverflow.com/questions/3735927/java-instantiating-an-enum-using-reflection
   private Object makeResizingBehavior(String behavior) {
-    Log.d("BSPaintCodeView", "making resizing behavior: " + behavior);
+    // Log.d(TAG, "making resizing behavior: " + behavior);
     String behaviorVal = behavior.split("\\.")[1];
 
     try {
@@ -256,16 +257,16 @@ public class BSPaintCodeView extends View {
       Field field = klass.getDeclaredField(behaviorVal);
 
       if (field.getType().isEnum()) {
-        Log.d("BSPaintCodeView", "is Enum!");
+        // Log.d(TAG, "is Enum!");
         Object resizeBehavior = Enum.valueOf((Class<Enum>) field.getType(), behaviorVal);
-        Log.d("BSPaintCodeView", resizeBehavior.toString());
+        // Log.d(TAG, resizeBehavior.toString());
         return resizeBehavior;
       }
     } catch (ClassNotFoundException e) {
-      Log.d("BSPaintCodeView", "Couldn't create ResizingBehavior class for " + this.styleKitClass);
+      // Log.d(TAG, "Couldn't create ResizingBehavior class for " + this.styleKitClass);
     } catch (NoSuchFieldException e) {
-      Log.d("BSPaintCodeView", "ResizingBehavior getDeclareField failed...");
-      Log.e("BSPaintCodeView", e.toString());
+      // Log.d(TAG, "ResizingBehavior getDeclareField failed...");
+      // Log.e(TAG, e.toString());
       return null;
     }
 
@@ -278,51 +279,50 @@ public class BSPaintCodeView extends View {
 
     // iterate through the args and replace them one by one
     for (Object object : args) {
-      Log.d("BSPaintCodeView", object.getClass().getName());
+      // Log.d(TAG, object.getClass().getName());
 
       // ResizingBehavior
       if (isResizingBehavior(object)) {
-        Log.d("BSPaintCodeView", "is a ResizingBehavior String");
+        // Log.d(TAG, "is a ResizingBehavior String");
         Object resizingBehavior = makeResizingBehavior((String) object);
-        Log.d("BSPaintCodeView", "made it!");
+        // Log.d(TAG, "made it!");
         newArgs.add(resizingBehavior);
 
         // String to String
       } else if (object instanceof String) {
-        Log.d("BSPaintCodeView", "converting String");
+        // Log.d(TAG, "converting String");
         newArgs.add(object);
         // Float to float
       } else if (object.getClass().getName().equals("java.lang.Float")) {
-        Log.d("BSPaintCodeView", "converting Float");
+        // Log.d(TAG, "converting Float");
         newArgs.add(((Float) object).floatValue());
 
         // Double to float
       } else if (object.getClass().getName().equals("java.lang.Double")) {
-        Log.d("BSPaintCodeView", "converting Double");
+        // Log.d(TAG, "converting Double");
         newArgs.add(((Double) object).floatValue());
 
         // Boolean to boolean
       } else if (object.getClass().getName().equals("java.lang.Boolean")) {
-        Log.d("BSPaintCodeView", "converting Boolean");
+        // Log.d(TAG, "converting Boolean");
         newArgs.add(((Boolean) object).booleanValue());
 
         // Point to PointF
       } else if (isPoint(object)) {
-        Log.d("BSPaintCodeView", "Doing Point");
+        // Log.d(TAG, "Doing Point");
         HashMap point = (HashMap) object;
         PointF jPoint = makePointF(point);
         newArgs.add(jPoint);
 
         // Rect to RectF
       } else if (isRect(object)) {
-        Log.d("BSPaintCodeView", "Doing HashMap");
+        // Log.d(TAG, "Doing HashMap");
         HashMap rect = (HashMap) object;
         RectF jRect = makeRectF(rect);
         newArgs.add(jRect);
       } else {
-        Log.w("BSPaintCodeView", "adding arg object without converting it: " + object.toString());
-        Log.w("BSPaintCodeView", "adding arg object without converting it: " + object.getClass().getName());
-        // Log.w("BSPaintCodeView", "adding arg object without converting it: " + object.getTypeName());
+        // Log.w(TAG, "adding arg object without converting it: " + object.toString());
+        // Log.w(TAG, "adding arg object without converting it: " + object.getClass().getName());
         newArgs.add(object);
       }
     }
