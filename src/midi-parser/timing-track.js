@@ -81,7 +81,6 @@ const timingTrack = (track, header) => {
       var name = event.text.replace("FMP -  ", "").replace("FMP - ", "");
       var time = secondsForTicks(totalTicks);
       markers.push({ name: name, time: time });
-      console.log(name, event);
     }
   });
 
