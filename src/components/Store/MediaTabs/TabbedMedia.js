@@ -103,7 +103,7 @@ class TabbedMedia extends Component {
             subCategory={this.props.subCategory}
             group={this.props.group}
             searchText={this.props.searchText}
-            isNavigableSubCategory={this.props.isNavigableSubCategory}
+            isExpandable={this.props.isExpandable}
             onShowDetails={this.props.onShowDetails}
             onFavePress={this.props.onFavePress}
             onChooseMedia={this.handleChooseMedia}
@@ -119,7 +119,7 @@ class TabbedMedia extends Component {
             subCategory={this.props.subCategory}
             group={this.props.group}
             searchText={this.props.searchText}
-            isNavigableSubCategory={this.props.isNavigableSubCategory}
+            isExpandable={this.props.isExpandable}
             onShowDetails={this.props.onShowDetails}
             onFavePress={this.props.onFavePress}
             onChooseMedia={this.handleChooseMedia}
@@ -135,7 +135,7 @@ class TabbedMedia extends Component {
             subCategory={this.props.subCategory}
             group={this.props.group}
             searchText={this.props.searchText}
-            isNavigableSubCategory={this.props.isNavigableSubCategory}
+            isExpandable={this.props.isExpandable}
             onShowDetails={this.props.onShowDetails}
             onFavePress={this.props.onFavePress}
             onChooseMedia={this.handleChooseMedia}
@@ -203,7 +203,7 @@ TabbedMedia.propTypes = {
   onChoose: PropTypes.func.isRequired,
   onFavePress: PropTypes.func.isRequired,
   onMediaCount: PropTypes.func.isRequired,
-  isNavigableSubCategory: PropTypes.bool.isRequired,
+  isExpandable: PropTypes.bool.isRequired,
   category: PropTypes.object,
   subCategory: PropTypes.object,
   group: PropTypes.object,

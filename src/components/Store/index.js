@@ -68,8 +68,9 @@ class Store extends PureComponent {
             onIsStoreChange={this.handleIsStoreChange}
             onChoose={this.handleChooseMedia}
             onClose={this.props.onClose}
-            isNavigableSubCategory={
-              (this.state.subCategory || {}).isNavigable === true
+            isExpandable={
+              (this.state.subCategory || {}).isNavigable === true ||
+              (this.state.category || {}).isGrouped === true
             }
           />
         </KeyboardAvoidingView>

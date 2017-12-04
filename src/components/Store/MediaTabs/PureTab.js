@@ -95,7 +95,7 @@ class PureTab extends Component {
         <SectionList
           stickySectionHeadersEnabled={
             this.state.searchResults === null
-              ? this.props.isNavigableSubCategory !== true
+              ? this.props.isExpandable !== true
               : false
           }
           sections={sections}
@@ -185,10 +185,7 @@ class PureTab extends Component {
     }
 
     // changing TO navigable sub categories
-    if (
-      nextProps.isNavigableSubCategory === true &&
-      this.props.isNavigableSubCategory === false
-    ) {
+    if (nextProps.isExpandable === true && this.props.isExpandable === false) {
       // if UIState has an "open section index", we need to open that up
       // otherwise, set _ALLCLOSED
       const { openSectionIndex } = await getUIState();
@@ -218,10 +215,7 @@ class PureTab extends Component {
     }
 
     // changing FROM navigable sub categories
-    if (
-      nextProps.isNavigableSubCategory === false &&
-      this.props.isNavigableSubCategory === true
-    ) {
+    if (nextProps.isExpandable === false && this.props.isExpandable === true) {
       this.setState({ navigableOpenSection: null });
     }
   }
@@ -280,11 +274,7 @@ class PureTab extends Component {
     if (section.title === undefined) {
       return <HiddenTableHeader />;
     } else {
-      if (
-        this.state.searchResults === null
-          ? this.props.isNavigableSubCategory
-          : false
-      ) {
+      if (this.state.searchResults === null ? this.props.isExpandable : false) {
         return (
           <NavigableHeader
             section={section}
@@ -339,7 +329,7 @@ class PureTab extends Component {
   setMediaCount = sections => {
     var media = isFunction(sections.toJS) ? sections.toJS() : sections;
 
-    if (this.props.isNavigableSubCategory === true) {
+    if (this.props.isExpandable === true) {
       media = media.filter(m => m.title === this.state.navigableOpenSection);
     }
 
@@ -399,7 +389,7 @@ class PureTab extends Component {
 
 PureTab.propTypes = {
   media: PropTypes.object,
-  isNavigableSubCategory: PropTypes.bool.isRequired,
+  isExpandable: PropTypes.bool.isRequired,
   onShowDetails: PropTypes.func.isRequired,
   onFavePress: PropTypes.func.isRequired,
   onChooseMedia: PropTypes.func.isRequired,

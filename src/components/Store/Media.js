@@ -64,7 +64,7 @@ class Media extends React.PureComponent {
           onIsStoreChange={this.props.onIsStoreChange}
           onFavePress={this.handleFavePress}
           // TODO: take this out and move it down the component chain
-          isNavigableSubCategory={this.props.isNavigableSubCategory}
+          isExpandable={this.props.isExpandable}
           onShowDetails={this.handleShowDetails}
           onMediaCount={this.handleMediaCount}
         />
@@ -115,7 +115,7 @@ class Media extends React.PureComponent {
 }
 
 Media.propTypes = {
-  isNavigableSubCategory: PropTypes.bool.isRequired,
+  isExpandable: PropTypes.bool.isRequired,
   detailMediaId: PropTypes.string,
   media: PropTypes.object,
   category: PropTypes.object,
