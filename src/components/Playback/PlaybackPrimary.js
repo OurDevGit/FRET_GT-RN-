@@ -123,29 +123,20 @@ const PlaybackPrimary = ({
         alignItems: "center"
       }}
     >
-      <VolumeSlider
-        style={{ width: "100%", height: 44, marginTop: isPhone ? 27 : 0 }}
-      />
-
       {isPhone ? (
-        <PhoneVolumeIcon
-          style={{ position: "absolute", top: 0, width: 20, height: 20 }}
-        />
+        <PhoneVolumeIcon style={{ width: 20, height: 20 }} />
       ) : (
         <Text
           style={{
-            position: "absolute",
-            top: "17%",
-            width: "100%",
             color: PrimaryBlue,
             fontSize: isPhone ? 14 : 18,
-            textAlign: "center",
-            textAlignVertical: "bottom"
+            textAlign: "center"
           }}
         >
           Volume
         </Text>
       )}
+      <VolumeSlider style={{ width: "100%", height: isPhone ? 22 : 44 }} />
     </View>
 
     {!isPhone && (
