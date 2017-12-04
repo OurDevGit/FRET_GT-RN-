@@ -63,34 +63,39 @@ class MediaItem extends PureComponent {
         this.props.getMode === GetMediaButtonMode.ComingSoon) &&
       this.props.hasPreview;
 
-    return (
-      <TouchableOpacity onPress={this.handleTouch}>
-        <View style={styles.row}>
-          <MediaThumbnail
-            thumbUri={this.props.artworkURL}
-            mediaId={this.props.id}
-            hasPreview={hasPreview}
-            onPreviewPress={this.handlePreviewPress}
-            isPreviewing={this.props.isPreviewing}
-            previewProgress={this.props.previewProgress}
-          />
-          <View style={styles.titleContainer}>
-            <PlainText style={styles.title}>{this.props.title}</PlainText>
-            <PlainText style={styles.subtitle}>{this.props.subtitle}</PlainText>
-          </View>
-
-          <BtnDetails onPress={this.handleTapDetails} />
-
-          <GetMediaButton
-            mode={this.props.getMode}
-            price={this.props.price}
-            progress={this.props.progress}
-            mediaId={this.props.id}
-          />
-
-          <BtnHeartSmart mediaId={this.props.id} />
+    const mediaRow = (
+      <View style={styles.row}>
+        <MediaThumbnail
+          thumbUri={this.props.artworkURL}
+          mediaId={this.props.id}
+          hasPreview={hasPreview}
+          onPreviewPress={this.handlePreviewPress}
+          isPreviewing={this.props.isPreviewing}
+          previewProgress={this.props.previewProgress}
+        />
+        <View style={styles.titleContainer}>
+          <PlainText style={styles.title}>{this.props.title}</PlainText>
+          <PlainText style={styles.subtitle}>{this.props.subtitle}</PlainText>
         </View>
-      </TouchableOpacity>
+
+        <BtnDetails onPress={this.handleTapDetails} />
+
+        <GetMediaButton
+          mode={this.props.getMode}
+          price={this.props.price}
+          progress={this.props.progress}
+          mediaId={this.props.id}
+        />
+
+        <BtnHeartSmart mediaId={this.props.id} />
+      </View>
+    );
+
+    // only put it in a Touchable if it's not COMING SOON
+    return this.props.price.toLowerCase().trim() !== "coming soon" ? (
+      <TouchableOpacity onPress={this.handleTouch}>{mediaRow}</TouchableOpacity>
+    ) : (
+      mediaRow
     );
   }
 
