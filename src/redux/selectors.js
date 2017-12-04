@@ -127,7 +127,7 @@ const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
 
   var mediaDetails;
 
-  if (mediaProductDetails) {
+  if (mediaProductDetails && singleMedia.get("isFree") !== true) {
     const forceComingSoon =
       (mediaProductDetails.get("description") || "").toLowerCase().trim() ===
       "comingsoon";
