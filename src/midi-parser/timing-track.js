@@ -22,13 +22,13 @@ const abbreviation = (first, index) => {
   }
 };
 
-module.exports = (track, header) => {
+const timingTrack = (track, header) => {
   var microsecondsPerTick = 0;
   var totalTicks = 0;
   var tempos = [];
   var markers = [];
 
-  secondsForTicks = ticks => {
+  const secondsForTicks = ticks => {
     var microseconds = 0;
     var totalTicks = 0;
 
@@ -48,7 +48,7 @@ module.exports = (track, header) => {
 
     if (ticks > totalTicks) {
       var lastTempo = tempos[tempos.length - 1];
-      var diff = ticks - totalTicks;
+      diff = ticks - totalTicks;
       microseconds += diff * lastTempo.rate;
     }
 
@@ -74,12 +74,14 @@ module.exports = (track, header) => {
 
     if (
       event.type === "meta" &&
+      event.subtype === "marker" &&
       event.text !== undefined &&
       event.text.includes("FMP -")
     ) {
       var name = event.text.replace("FMP -  ", "").replace("FMP - ", "");
       var time = secondsForTicks(totalTicks);
       markers.push({ name: name, time: time });
+      console.log(name, event);
     }
   });
 
@@ -91,3 +93,5 @@ module.exports = (track, header) => {
 
   return { markers: markers, secondsForTicks: secondsForTicks };
 };
+
+export default timingTrack;
