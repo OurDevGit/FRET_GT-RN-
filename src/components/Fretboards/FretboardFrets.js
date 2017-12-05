@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, StyleSheet, Text } from "react-native";
-import { List, Map } from "immutable";
+import { View, StyleSheet } from "react-native";
 import FretboardNote from "./FretboardNote";
 import {
   subscribeToTimeUpdates,
@@ -10,8 +8,6 @@ import {
 } from "../../time-store";
 import { notesForTrackAtTime } from "../../midi-store";
 import { getNotation } from "./notations";
-
-// TODO: IMPLEMENT TUNING ADJUSTMENT
 
 const noteStyles = StyleSheet.create({
   noteContainer: {
@@ -50,8 +46,7 @@ class FretboardFrets extends React.Component {
       currentNotation,
       boardWidth,
       fretHeight,
-      onLayout,
-      onToggleOrientation
+      onLayout
     } = this.props;
 
     return (
@@ -98,13 +93,6 @@ class FretboardFrets extends React.Component {
       this.currentTime !== 0 ||
       this.props.track.name !== ""
     ) {
-      for (key in this.noteRefs) {
-        const noteRef = this.noteRefs[key];
-        if (noteRef !== undefined) {
-          noteRef.hide();
-        }
-      }
-
       this.handleTimeUpdate(this.currentTime);
     }
   }
@@ -137,7 +125,6 @@ class FretboardFrets extends React.Component {
               }
             }
           });
-
           on.forEach(note => {
             if (this.noteRefs[note.ref] !== undefined) {
               this.noteRefs[note.ref].show();
@@ -152,6 +139,12 @@ class FretboardFrets extends React.Component {
         });
       }
       this.prevOn = on;
+    } else {
+      this.prevOn.forEach(note => {
+        if (this.noteRefs[note.ref] !== undefined) {
+          this.noteRefs[note.ref].hide();
+        }
+      });
     }
     this.currentTime = time;
   };
@@ -228,6 +221,8 @@ class FretboardFrets extends React.Component {
 
 FretboardFrets.propTypes = {
   track: PropTypes.object.isRequired,
+  trackIndex: PropTypes.number.isRequired,
+  scrollIndex: PropTypes.number.isRequired,
   isSmart: PropTypes.bool.isRequired,
   isLeft: PropTypes.bool.isRequired,
   currentNotation: PropTypes.string.isRequired,
