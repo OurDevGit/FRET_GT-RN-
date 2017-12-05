@@ -21,15 +21,16 @@ export const fetchTransactionDetails = async mediaId => {
 };
 
 export const downloadMedia = async (media, transactionDetails) => {
-  // const mediaId = media.mediaID;
-
   const links = await fetchMediaLinks(media.mediaID, transactionDetails);
   // console.debug(`got links!`);
   // console.debug(links);
 
-  const paths = await downloadMediaFiles(links, media.mediaID);
-  return paths;
-  // console.debug(paths);
+  if (links.errorMessage !== undefined) {
+    throw new Error(links.errorMessage);
+  } else {
+    const paths = await downloadMediaFiles(links, media.mediaID);
+    return paths;
+  }
 };
 
 export const deleteMedia = async mediaId => {};

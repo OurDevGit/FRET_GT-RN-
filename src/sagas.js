@@ -82,6 +82,8 @@ function* doDownload(media, mediaId, transactionDetails) {
     yield setDownload(mediaId, mediaFiles);
     yield put(actions.finishDownload(mediaId, mediaFiles));
   } catch (err) {
+    // console.log("error downloading media");
+    // console.error(err);
     yield put(actions.deleteMedia(mediaId));
   }
 }
@@ -113,19 +115,10 @@ function* watchChooseMedia(action) {
 
   // 2. Download it if we own it.
 
-  var transactionDetails;
-  if (__DEV__) {
-    console.debug("DEV mode, so giving free purchase");
-    transactionDetails = {
-      purchaseState: "PurchasedSuccessfully",
-      developerTest: true
-    };
-  } else {
-    transactionDetails =
-      media.isFree === true
-        ? { purchaseState: "PurchasedSuccessfully", isFree: true }
-        : yield fetchTransactionDetails(mediaId);
-  }
+  var transactionDetails =
+    media.isFree === true
+      ? { purchaseState: "PurchasedSuccessfully", isFree: true }
+      : yield fetchTransactionDetails(mediaId);
 
   // console.debug({ transactionDetails });
 
