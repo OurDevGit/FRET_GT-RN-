@@ -127,7 +127,7 @@ function* watchChooseMedia(action) {
         : yield fetchTransactionDetails(mediaId);
   }
 
-  console.debug({ transactionDetails });
+  // console.debug({ transactionDetails });
 
   // if we already bought this, then download it and finish
   if (

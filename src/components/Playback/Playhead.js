@@ -96,7 +96,7 @@ class Playhead extends Component {
         // what is happening!
 
         // gestureState.d{x,y} will be set to zero now
-        console.log("grant!");
+        // console.log("grant!");
 
         this.setState({
           dragLeft: this.props.scrollLeft
