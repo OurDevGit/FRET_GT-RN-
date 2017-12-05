@@ -70,8 +70,11 @@ class GuitarController extends Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.tracks !== undefined && prevProps.tracks !== undefined) {
-      if (!this.props.tracks.equals(prevProps.tracks)) {
-        if (this.props.assignments !== {}) {
+      if (this.props.assignments !== {}) {
+        if (
+          !this.props.tracks.equals(prevProps.tracks) ||
+          !this.isEqual(this.props.assignments, prevProps.assignments)
+        ) {
           guitarController.clearAllGuitars();
           this.prevOn = {};
           let time = getCurrentTime();
@@ -82,6 +85,24 @@ class GuitarController extends Component {
       }
     }
   }
+
+  isEqual = (a, b) => {
+    var aProps = Object.getOwnPropertyNames(a);
+    var bProps = Object.getOwnPropertyNames(b);
+
+    if (aProps.length != bProps.length) {
+      return false;
+    }
+
+    for (var i = 0; i < aProps.length; i++) {
+      var propName = aProps[i];
+      if (a[propName] !== b[propName]) {
+        return false;
+      }
+    }
+
+    return true;
+  };
 
   handleNotesForTrack = (time, track) => {
     if (time !== 0) {
