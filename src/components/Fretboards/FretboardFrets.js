@@ -30,12 +30,13 @@ const noteStyles = StyleSheet.create({
   }
 });
 
-class FretboardFrets extends React.Component {
+class FretboardFrets extends Component {
   constructor(props) {
     super(props);
     this.noteRefs = {};
     this.prevOn = [];
     this.currentTime = 0;
+    this.isMounted_ = false;
   }
 
   render() {
@@ -79,10 +80,14 @@ class FretboardFrets extends React.Component {
   }
 
   componentDidMount() {
+    this.isMounted_ = true;
     subscribeToTimeUpdates(this.handleTimeUpdate);
+
+    requestAnimationFrame(this.handleAnimationFrame);
   }
 
   componentWillUnmount() {
+    this.isMounted_ = false;
     unsubscribeToTimeUpdates(this.handleTimeUpdate);
   }
 
@@ -98,12 +103,20 @@ class FretboardFrets extends React.Component {
   }
 
   handleTimeUpdate = time => {
+    this.currentTime = time;
+  };
+
+  handleAnimationFrame = () => {
+    if (this.isMounted_ !== true) {
+      return;
+    }
+
     if (
-      time !== 0 &&
+      this.currentTime !== 0 &&
       this.props.track.name !== "" &&
       this.props.trackIndex === this.props.scrollIndex
     ) {
-      const on = notesForTrackAtTime(this.props.track.name, time);
+      const on = notesForTrackAtTime(this.props.track.name, this.currentTime);
 
       if (on.length > 0) {
         if (this.prevOn.length === 0) {
@@ -146,7 +159,10 @@ class FretboardFrets extends React.Component {
         }
       });
     }
-    this.currentTime = time;
+
+    if (this.isMounted_ === true) {
+      requestAnimationFrame(this.handleAnimationFrame);
+    }
   };
 
   frets = (track, isSmart, isLeft, boardWidth, fretHeight, currentNotation) => {
