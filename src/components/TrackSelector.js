@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity, NativeModules } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import * as actions from "../redux/actions";
 import { PrimaryGold } from "../design";
 import { addActivePart, removeActivePart, updateGuitarPart } from "../metrics";
-
-var guitarController = NativeModules.GTGuitarController;
 
 class TrackSelector extends Component {
   render() {
@@ -97,7 +95,6 @@ class TrackSelector extends Component {
 
   checkForAutoPartSwitching(track) {
     if (this.props.autoPartSwitchingState) {
-      guitarController.clearAllGuitars();
       this.props.guitars.forEach(guitar => {
         this.props.updateGuitarSetting(guitar.set("track", track.name));
         updateGuitarPart(guitar.id, track.name);

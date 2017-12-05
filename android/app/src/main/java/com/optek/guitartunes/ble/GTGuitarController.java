@@ -15,6 +15,8 @@ import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableArray;
 
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
@@ -134,6 +136,18 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
     FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
     if (guitar != null) {
       guitar.setNote(string, fret, isOn);
+    }
+  }
+
+  @ReactMethod
+  public void setNotes(ReadableArray notes, String guitarId) {
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
+
+    if (guitar != null) {
+      for (int i = 0; i < notes.size(); i++) {
+        ReadableMap note = (ReadableMap) notes.getMap(i);
+        guitar.setNote(note.getInt("string"), note.getInt("fret"), note.getBoolean("isOn"));
+      }
     }
   }
 
