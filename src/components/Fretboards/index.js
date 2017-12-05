@@ -2,14 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import * as actions from "../../redux/actions";
-import { View, NativeModules } from "react-native";
+import { View } from "react-native";
 import { List, Map } from "immutable";
 import VerticalContainer from "./VerticalContainer";
 import HorizontalContainer from "./HorizontalContainer";
 import { getIsPhone } from "../../utils";
 import { updateActiveParts } from "../../metrics";
-
-var guitarController = NativeModules.GTGuitarController;
 
 class FretboardsRoot extends React.PureComponent {
   state = {
@@ -115,7 +113,6 @@ class FretboardsRoot extends React.PureComponent {
 
   checkForAutoPartSwitching(track) {
     if (this.props.autoPartSwitchingState) {
-      guitarController.clearAllGuitars();
       this.props.guitars.forEach(guitar => {
         this.props.updateGuitarSetting(guitar.set("track", track.get("name")));
       });
