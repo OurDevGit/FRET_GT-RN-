@@ -200,6 +200,7 @@ class Root extends Component {
 
           if (
             this.props.mediaForPlay.isSong === true ||
+            this.props.mediaForPlay.isLesson === true ||
             this.props.mediaForPlay.isJamAlong === true
           ) {
             song = this.props.mediaForPlay;
