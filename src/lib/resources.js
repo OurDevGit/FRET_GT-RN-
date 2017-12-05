@@ -24,13 +24,13 @@ export const syncResources = async () => {
   const window = Dimensions.get("window");
   const isPhone = getIsPhone();
 
-  syncResource("legal.pdf");
+  syncResource("android/legal.pdf");
 
   if (isPhone) {
-    syncResource("help-iphone.pdf");
-    syncResource("overlay-iphone.pdf");
+    syncResource("android/help-phone.pdf");
+    syncResource("android/overlay-phone.pdf");
   } else {
-    syncResource("help-ipad.pdf");
-    syncResource("overlay-ipad.pdf");
+    syncResource("android/help-tablet.pdf");
+    syncResource("android/overlay-tablet.pdf");
   }
 };
