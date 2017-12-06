@@ -3,17 +3,12 @@
   "version": "0.5.10",
   "private": true,
   "scripts": {
-    "start":
-      "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "test": "jest",
-    "stylekit":
-      "node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
-    "clean":
-      "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd ..",
-    "cleanjs":
-      "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
-    "build":
-      "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
+    "stylekit": "node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
+    "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd ..",
+    "cleanjs": "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
+    "build": "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
     "dev": "react-native run-android",
     "rel": "react-native run-android --variant=release",
     "lint": "eslint -c .eslintrc - ext .js src"
@@ -41,7 +36,6 @@
     "react-native-mixpanel": "0.0.16",
     "react-native-pdf": "^2.0.4",
     "react-native-recording": "^0.2.0",
-    "react-native-responsive": "^1.0.1",
     "react-native-sentry": "^0.30.2",
     "react-native-sound": "^0.10.4",
     "react-native-svg": "^6.0.0",
