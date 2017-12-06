@@ -69,6 +69,7 @@ class PlaybackMarkers extends React.Component {
               left={x}
               onMarkerPress={onMarkerPress}
               onMarkerLongPress={onMarkerLongPress}
+              height={height}
             />
           );
         } else {

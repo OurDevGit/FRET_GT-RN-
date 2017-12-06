@@ -3,6 +3,11 @@ import PropTypes from "prop-types";
 import { View, Text, TouchableOpacity } from "react-native";
 import { PrimaryBlue } from "../../design";
 
+const lengthForHeight = h => {
+  const hypot = h * Math.cos(Math.PI / 4);
+  return hypot;
+};
+
 class Marker extends React.Component {
   state = {
     width: 0
@@ -33,7 +38,13 @@ class Marker extends React.Component {
         <View
           style={{
             flexDirection: "row",
-            transform: [{ rotate: "-45deg" }]
+            alignItems: "flex-end",
+            width: lengthForHeight(this.props.height) * 2,
+            transform: [
+              { translateX: 5 },
+              { translateY: this.props.height < 125 ? -5 : 0 },
+              { rotate: "-45deg" }
+            ]
           }}
         >
           <TouchableOpacity
@@ -47,21 +58,16 @@ class Marker extends React.Component {
             <Text
               style={{
                 fontSize: 17,
-                color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`
+                color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
+                width: lengthForHeight(this.props.height),
+                textAlign: "right"
               }}
+              numberOfLines={1}
+              ellipsizeMode="tail"
             >
               {marker.name}
             </Text>
           </TouchableOpacity>
-
-          <Text
-            style={{
-              fontSize: 17,
-              color: "rgba(0, 0, 0, 0.0)"
-            }}
-          >
-            {marker.name}
-          </Text>
         </View>
       </View>
     );
@@ -79,7 +85,8 @@ Marker.propTypes = {
   left: PropTypes.number.isRequired,
   end: PropTypes.number.isRequired,
   onMarkerPress: PropTypes.func.isRequired,
-  onMarkerLongPress: PropTypes.func.isRequired
+  onMarkerLongPress: PropTypes.func.isRequired,
+  height: PropTypes.number.isRequired
 };
 
 export default Marker;
