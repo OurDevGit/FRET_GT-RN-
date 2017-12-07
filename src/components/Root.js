@@ -92,6 +92,7 @@ class Root extends Component {
               onClearMedia={this.handleClearMedia}
               onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
               onCountdownTimer={this.handleCountdownTimer}
+              isShowingAd={this.state.showAd}
             />
           )}
           {(this.state.song !== null || this.state.video !== null) &&
@@ -200,7 +201,8 @@ class Root extends Component {
 
           if (
             this.props.mediaForPlay.isSong === true ||
-            this.props.mediaForPlay.isLesson === true ||
+            (this.props.mediaForPlay.isLesson === true &&
+              this.props.mediaForPlay.isVideo !== true) ||
             this.props.mediaForPlay.isJamAlong === true
           ) {
             song = this.props.mediaForPlay;
