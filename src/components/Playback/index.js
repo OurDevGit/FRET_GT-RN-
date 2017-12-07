@@ -69,6 +69,7 @@ class MediaPlayer extends Component {
               onClearMedia={this.props.onClearMedia}
               onToggleFretlightAdmin={this.props.onToggleFretlightAdmin}
               onCountdownTimer={this.props.onCountdownTimer}
+              isShowingAd={this.props.isShowingAd}
             />
           )}
       </View>
@@ -144,7 +145,8 @@ MediaPlayer.propTypes = {
   onToggleFretlightAdmin: PropTypes.func.isRequired,
   onClearMedia: PropTypes.func.isRequired,
   onCountdownTimer: PropTypes.func.isRequired,
-  updateVisibleTracks: PropTypes.func.isRequired
+  updateVisibleTracks: PropTypes.func.isRequired,
+  isShowingAd: PropTypes.bool.isRequired
 };
 
 export default connect(null, actions)(MediaPlayer);

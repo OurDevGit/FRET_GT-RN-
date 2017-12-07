@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
-import Video from "react-native-video";
+import { default as VideoPlayer } from "react-native-video";
 import { pure } from "recompose";
 import { PrimaryBlue } from "../../design";
 import {
@@ -157,7 +157,7 @@ class PlaybackVideoPrimary extends React.Component {
             backgroundColor: "black"
           }}
         >
-          <Video
+          <VideoPlayer
             style={{ width: "100%", height: "100%" }}
             source={{
               uri: `http://localhost:8888${videoUri}`

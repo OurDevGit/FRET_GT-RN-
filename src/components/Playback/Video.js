@@ -40,22 +40,22 @@ class Vid extends React.Component {
     super(props);
 
     this.playbackSeconds = 0.0;
-  }
 
-  state = {
-    isPlaying: false,
-    mediaDuration: 0,
-    playbackRate: 1,
-    videoRate: 1,
-    videoUri: null,
-    naturalSize: { height: 240, width: 320 },
-    midiFiles: [],
-    title: "Loading...",
-    quickLoops: [],
-    isFullscreen: Dimensions.get("window").height < 500,
-    areControlsVisible: true,
-    forceControlsVisible: false
-  };
+    this.state = {
+      isPlaying: false,
+      mediaDuration: 0,
+      playbackRate: 1,
+      videoRate: 1,
+      videoUri: null,
+      naturalSize: { height: 240, width: 320 },
+      midiFiles: [],
+      title: "Loading...",
+      quickLoops: [],
+      isFullscreen: props.isShowingAd !== true,
+      areControlsVisible: true,
+      forceControlsVisible: false
+    };
+  }
 
   render() {
     const mediaTitle =
@@ -682,7 +682,8 @@ Vid.propTypes = {
   enableLoop: PropTypes.func.isRequired,
   setCurrentLoop: PropTypes.func.isRequired,
   clearCurrentLoop: PropTypes.func.isRequired,
-  onSelectTempo: PropTypes.func.isRequired
+  onSelectTempo: PropTypes.func.isRequired,
+  isShowingAd: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = state => {
