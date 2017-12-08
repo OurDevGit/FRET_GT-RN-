@@ -75,8 +75,6 @@ class GuitarController extends Component {
           !this.props.tracks.equals(prevProps.tracks) ||
           !this.isEqual(this.props.assignments, prevProps.assignments)
         ) {
-          guitarController.clearAllGuitars();
-          this.prevOn = {};
           let time = getCurrentTime();
           for (var track in this.props.assignments) {
             this.handleNotesForTrack(time, track);
@@ -108,30 +106,31 @@ class GuitarController extends Component {
     if (time !== 0) {
       const currentNotes = notesForTrackAtTime(track, time);
       const guitarIds = this.props.assignments[track];
-      const prevNotes = this.prevOn[track] || {};
-      var updates = [];
 
-      for (var noteKey in currentNotes) {
-        if (prevNotes[noteKey] === undefined) {
-          const note = { ...currentNotes[noteKey], isOn: true };
-          updates.push(note);
+      guitarIds.forEach(guitarId => {
+        const prevNotes = this.prevOn[guitarId] || {};
+        var updates = [];
+
+        for (var noteKey in currentNotes) {
+          if (prevNotes[noteKey] === undefined) {
+            const note = { ...currentNotes[noteKey], isOn: true };
+            updates.push(note);
+          }
         }
-      }
 
-      for (noteKey in prevNotes) {
-        if (currentNotes[noteKey] === undefined) {
-          const note = { ...prevNotes[noteKey], isOn: false };
-          updates.push(note);
+        for (noteKey in prevNotes) {
+          if (currentNotes[noteKey] === undefined) {
+            const note = { ...prevNotes[noteKey], isOn: false };
+            updates.push(note);
+          }
         }
-      }
 
-      if (updates.length > 0) {
-        guitarIds.forEach(guitarId => {
+        if (updates.length > 0) {
           guitarController.setNotes(updates, guitarId);
-        });
-      }
+        }
 
-      this.prevOn[track] = currentNotes;
+        this.prevOn[guitarId] = currentNotes;
+      });
     } else {
       guitarController.clearAllGuitars();
     }
