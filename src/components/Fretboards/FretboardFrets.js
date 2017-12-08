@@ -10,27 +10,6 @@ import {
 import { notesForTrackAtTime } from "../../midi-store";
 import { getNotation } from "./notations";
 
-const noteStyles = StyleSheet.create({
-  noteContainer: {
-    flex: 1,
-    aspectRatio: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 1
-  },
-  noteView: {
-    flex: -1,
-    aspectRatio: 1,
-    backgroundColor: "#17A3E3",
-    borderRadius: 1000,
-    alignItems: "center"
-  },
-  noteText: {
-    height: "100%",
-    textAlignVertical: "center"
-  }
-});
-
 class FretboardFrets extends Component {
   constructor(props) {
     super(props);
@@ -203,7 +182,6 @@ class FretboardFrets extends Component {
         views.push(
           <FretboardNote
             key={i}
-            styles={noteStyles}
             notation={getNotation(fretIndex, i, isLeft, currentNotation)}
             boardWidth={boardWidth}
             fretHeight={fretHeight}
