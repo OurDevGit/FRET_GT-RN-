@@ -86,31 +86,34 @@ export default (track, secondsForTicks) => {
         ) {
           const string = noteOn.channel - 10;
           const fret = noteOn.noteNumber - stringOffset[string];
-          const note = {
-            begin: parseFloat(noteOn.begin.toFixed(3)),
-            end: parseFloat(secondsForTicks(totalTicks).toFixed(3)),
-            fret: fret,
-            string: string,
-            ref: `${fret}-${string}`
-          };
 
-          notes.push(note);
+          if (fret > -1 && fret < 24) {
+            const note = {
+              begin: parseFloat(noteOn.begin.toFixed(3)),
+              end: parseFloat(secondsForTicks(totalTicks).toFixed(3)),
+              fret: fret,
+              string: string,
+              ref: `${fret}-${string}`
+            };
+
+            notes.push(note);
+
+            if (firstFret === undefined || firstFret > fret) {
+              firstFret = fret;
+            }
+
+            if (lastFret === undefined || lastFret < fret) {
+              lastFret = fret;
+            }
+
+            // handling if frets are below 0 (bass)
+            if (firstFret < 0) {
+              lastFret += firstFret;
+              firstFret = 0;
+            }
+          }
 
           notesOn.splice(i, 1);
-
-          if (firstFret === undefined || firstFret > fret) {
-            firstFret = fret;
-          }
-
-          if (lastFret === undefined || lastFret < fret) {
-            lastFret = fret;
-          }
-
-          // handling if frets are below 0 (bass)
-          if (firstFret < 0) {
-            lastFret += firstFret;
-            firstFret = 0;
-          }
         }
       }
 

@@ -47,9 +47,14 @@ export const notesForTrackAtTime = (track, time) => {
     if (shouldProcessNotes) {
       for (var trackName in watchedNotes) {
         const trackNotes = watchedNotes[trackName];
-        const active = trackNotes.filter(
-          note => note.begin <= midiTime && note.end > midiTime
-        );
+        var active = {};
+
+        trackNotes.forEach(note => {
+          if (note.begin <= midiTime && note.end > midiTime) {
+            active[note.ref] = note;
+          }
+        });
+
         currentNotes[trackName] = active;
       }
 

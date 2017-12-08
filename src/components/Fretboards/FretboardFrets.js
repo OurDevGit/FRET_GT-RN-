@@ -4,7 +4,8 @@ import { View, StyleSheet } from "react-native";
 import FretboardNote from "./FretboardNote";
 import {
   subscribeToTimeUpdates,
-  unsubscribeToTimeUpdates
+  unsubscribeToTimeUpdates,
+  getCurrentTime
 } from "../../time-store";
 import { notesForTrackAtTime } from "../../midi-store";
 import { getNotation } from "./notations";
@@ -34,7 +35,7 @@ class FretboardFrets extends Component {
   constructor(props) {
     super(props);
     this.noteRefs = {};
-    this.prevOn = [];
+    this.prevNotes = {};
     this.currentTime = 0;
     this.isMounted_ = false;
   }
@@ -82,7 +83,7 @@ class FretboardFrets extends Component {
   componentDidMount() {
     this.isMounted_ = true;
     subscribeToTimeUpdates(this.handleTimeUpdate);
-
+    this.currentTime = getCurrentTime();
     requestAnimationFrame(this.handleAnimationFrame);
   }
 
@@ -98,7 +99,7 @@ class FretboardFrets extends Component {
       this.currentTime !== 0 ||
       this.props.track.name !== ""
     ) {
-      this.handleTimeUpdate(this.currentTime);
+      this.currentTime = getCurrentTime();
     }
   }
 
@@ -116,48 +117,28 @@ class FretboardFrets extends Component {
       this.props.track.name !== "" &&
       this.props.trackIndex === this.props.scrollIndex
     ) {
-      const on = notesForTrackAtTime(this.props.track.name, this.currentTime);
+      const trackName = this.props.track.name;
+      const currentNotes = notesForTrackAtTime(trackName, this.currentTime);
+      var shownNotes = {};
 
-      if (on.length > 0) {
-        if (this.prevOn.length === 0) {
-          on.forEach(note => {
-            if (this.noteRefs[note.ref] !== undefined) {
-              this.noteRefs[note.ref].show();
-            }
-          });
-        } else {
-          this.prevOn.forEach(note => {
-            const index = on.findIndex(
-              onNote =>
-                onNote.fret === note.fret && onNote.string === note.string
-            );
-
-            if (index === -1) {
-              if (this.noteRefs[note.ref] !== undefined) {
-                this.noteRefs[note.ref].hide();
-              }
-            }
-          });
-          on.forEach(note => {
-            if (this.noteRefs[note.ref] !== undefined) {
-              this.noteRefs[note.ref].show();
-            }
-          });
+      for (var noteKey in currentNotes) {
+        const note = currentNotes[noteKey];
+        if (this.noteRefs[note.ref] !== undefined) {
+          this.noteRefs[note.ref].show();
+          shownNotes[noteKey] = note;
         }
-      } else {
-        this.prevOn.forEach(note => {
+      }
+
+      for (noteKey in this.prevNotes) {
+        if (currentNotes[noteKey] === undefined) {
+          const note = this.prevNotes[noteKey];
           if (this.noteRefs[note.ref] !== undefined) {
             this.noteRefs[note.ref].hide();
           }
-        });
-      }
-      this.prevOn = on;
-    } else {
-      this.prevOn.forEach(note => {
-        if (this.noteRefs[note.ref] !== undefined) {
-          this.noteRefs[note.ref].hide();
         }
-      });
+      }
+
+      this.prevNotes = shownNotes;
     }
 
     if (this.isMounted_ === true) {

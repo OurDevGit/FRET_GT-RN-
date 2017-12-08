@@ -107,38 +107,27 @@ class GuitarController extends Component {
   handleNotesForTrack = (time, track) => {
     if (time !== 0) {
       const currentNotes = notesForTrackAtTime(track, time);
-      const prevNotes = this.prevOn[track] || [];
       const guitarIds = this.props.assignments[track];
+      const prevNotes = this.prevOn[track] || {};
+      var updates = [];
 
-      const notesToTurnOn = currentNotes
-        .filter(note => {
-          const index = prevNotes.findIndex(
-            prevNote =>
-              prevNote.fret === note.fret && prevNote.string === note.string
-          );
-          return index === -1;
-        })
-        .map(note => {
-          return { string: note.string, fret: note.fret, isOn: true };
-        });
+      for (var noteKey in currentNotes) {
+        if (prevNotes[noteKey] === undefined) {
+          const note = { ...currentNotes[noteKey], isOn: true };
+          updates.push(note);
+        }
+      }
 
-      const notesToTurnOff = prevNotes
-        .filter(note => {
-          const index = currentNotes.findIndex(
-            newNote =>
-              newNote.fret === note.fret && newNote.string === note.string
-          );
-          return index === -1;
-        })
-        .map(note => {
-          return { string: note.string, fret: note.fret, isOn: false };
-        });
+      for (noteKey in prevNotes) {
+        if (currentNotes[noteKey] === undefined) {
+          const note = { ...prevNotes[noteKey], isOn: false };
+          updates.push(note);
+        }
+      }
 
-      const notesToSend = [...notesToTurnOn, ...notesToTurnOff];
-
-      if (notesToSend.length > 0) {
+      if (updates.length > 0) {
         guitarIds.forEach(guitarId => {
-          guitarController.setNotes(notesToSend, guitarId);
+          guitarController.setNotes(updates, guitarId);
         });
       }
 
@@ -172,13 +161,11 @@ class GuitarController extends Component {
   handleGuitarDisconnected = id => {
     this.props.guitarDisconnected(id);
     removeGuitar(id);
-    console.log("GUITAR DISCONNECTED");
   };
 
   handleGuitarLost = id => {
     this.props.guitarDisconnected(id);
     removeGuitar(id);
-    console.log("GUITAR LOST");
   };
 }
 
