@@ -96,8 +96,8 @@ android {
 
     defaultConfig {
         applicationId "com.optek.guitartunes"
-        minSdkVersion 16
-        targetSdkVersion 22
+        minSdkVersion 23
+        targetSdkVersion 25
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
         ndk {
