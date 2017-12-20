@@ -39,12 +39,12 @@
       <activity
           android:name="com.optek.guitartunes.ble.ScanningActivity"
           android:label="@string/title_activity_ble"
-          android:theme = "@android:style/Theme.NoDisplay">
+          android:theme = "@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
       </activity>
       <activity
           android:name=".GuitarActivity"
           android:label="@string/title_activity_guitar"
-          android:theme = "@android:style/Theme.NoDisplay">
+          android:theme = "@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
       </activity>
     </application>
 
