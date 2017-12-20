@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.optek.fretlight.sdk.Fretlight;
 import com.optek.fretlight.sdk.FretlightClient;
@@ -23,6 +25,7 @@ public class ScanningActivity extends Activity {
   private FretlightGuitar.Delegate mGuitarDelegate = new GuitarDelegate();
   private Guitars mGuitars;
   private GuitarEmitter guitarEmitter;
+  private Boolean hasUpdatedConnections = false;
 
   private void logSentry(String message) {
     Sentry.record(new BreadcrumbBuilder().setMessage(message).build());
@@ -37,7 +40,12 @@ public class ScanningActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     Log.d("GTGuitarController", "onCreate()");
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_scanner);
+
+    Window window = getWindow();
+
+    window.setLayout(100, 100);
+    window.setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL, WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL);
+    window.setContentView(R.layout.activity_scanner);
 
     mGuitars = Guitars.getInstance();
     guitarEmitter = GuitarEmitter.getInstance();
@@ -82,7 +90,6 @@ public class ScanningActivity extends Activity {
     // Initialize fretlight client.
     // This will re-acquire the bluetooth hardware.
     mFretlightClient.initialize();
-
     startScanning();
   }
 
@@ -91,7 +98,15 @@ public class ScanningActivity extends Activity {
     Log.d("GTGuitarController", "onStop()");
     super.onStop();
     stopScanning();
-    guitarEmitter.emit("BLE_STATUS", "COMPLETE");
+
+    Log.d("GTGuitarController", "hasUpdatedConnections: " + hasUpdatedConnections);
+
+    if (hasUpdatedConnections == true) {
+      guitarEmitter.emit("BLE_STATUS", "RESTARTING");
+    } else {
+      guitarEmitter.emit("BLE_STATUS", "COMPLETE");
+    }
+    hasUpdatedConnections = false;
   }
 
   // Check if user agreed to enable BT.
@@ -126,6 +141,7 @@ public class ScanningActivity extends Activity {
 
   private void handleConnectedGuitar(final FretlightGuitar guitar) {
     Log.d("GTGuitarController", "handleConnectedGuitar");
+    hasUpdatedConnections = true;
     // Adding to the UI needs to happen on UI thread.
     runOnUiThread(new Runnable() {
       @Override
@@ -137,6 +153,7 @@ public class ScanningActivity extends Activity {
 
   private void handleDisconnectedGuitar(final FretlightGuitar guitar) {
     Log.d("GTGuitarController", "handleDisconnectedGuitar");
+    hasUpdatedConnections = true;
     // Adding to the UI needs to happen on UI thread.
     runOnUiThread(new Runnable() {
       @Override

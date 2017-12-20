@@ -1,6 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import Dimensions from "Dimensions";
+import { View, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import { GuitarConnectedIcon } from "../StyleKit";
 import NameModal from "./NameModal";
@@ -89,6 +88,19 @@ const GuitarRow = ({
       </View>
     </View>
   );
+};
+
+GuitarRow.propTypes = {
+  index: PropTypes.number.isRequired,
+  guitar: PropTypes.object.isRequired,
+  guitars: PropTypes.array.isRequired,
+  tracks: PropTypes.array.isRequired,
+  isPhone: PropTypes.bool.isRequired,
+  onRename: PropTypes.func.isRequired,
+  onAssignTrack: PropTypes.func.isRequired,
+  onLeft: PropTypes.func.isRequired,
+  onBass: PropTypes.func.isRequired,
+  onToggleScanning: PropTypes.func.isRequired
 };
 
 export default GuitarRow;

@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-  KeyboardAvoidingView
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
 
 import ModalButton from "../modals/ModalButton";
@@ -21,7 +14,7 @@ class NameModal extends React.Component {
   };
 
   render() {
-    const { guitar, guitars, isPhone } = this.props;
+    const { guitar, isPhone } = this.props;
 
     return (
       <ModalButton onPress={this.displayModal}>
@@ -163,7 +156,9 @@ NameModal.propTypes = {
   guitar: PropTypes.object.isRequired,
   guitars: PropTypes.array.isRequired,
   isPhone: PropTypes.bool.isRequired,
-  onRename: PropTypes.func.isRequired
+  onRename: PropTypes.func.isRequired,
+  onToggleScanning: PropTypes.func.isRequired,
+  onForceControlsVisible: PropTypes.func
 };
 
 export default NameModal;
