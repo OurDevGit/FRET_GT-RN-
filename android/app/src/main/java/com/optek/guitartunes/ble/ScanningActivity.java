@@ -25,7 +25,6 @@ public class ScanningActivity extends Activity {
   private FretlightGuitar.Delegate mGuitarDelegate = new GuitarDelegate();
   private Guitars mGuitars;
   private GuitarEmitter guitarEmitter;
-  private Boolean hasUpdatedConnections = false;
 
   private void logSentry(String message) {
     Sentry.record(new BreadcrumbBuilder().setMessage(message).build());
@@ -98,15 +97,6 @@ public class ScanningActivity extends Activity {
     Log.d("GTGuitarController", "onStop()");
     super.onStop();
     stopScanning();
-
-    Log.d("GTGuitarController", "hasUpdatedConnections: " + hasUpdatedConnections);
-
-    if (hasUpdatedConnections == true) {
-      guitarEmitter.emit("BLE_STATUS", "RESTARTING");
-    } else {
-      guitarEmitter.emit("BLE_STATUS", "COMPLETE");
-    }
-    hasUpdatedConnections = false;
   }
 
   // Check if user agreed to enable BT.
@@ -141,7 +131,6 @@ public class ScanningActivity extends Activity {
 
   private void handleConnectedGuitar(final FretlightGuitar guitar) {
     Log.d("GTGuitarController", "handleConnectedGuitar");
-    hasUpdatedConnections = true;
     // Adding to the UI needs to happen on UI thread.
     runOnUiThread(new Runnable() {
       @Override
@@ -153,7 +142,6 @@ public class ScanningActivity extends Activity {
 
   private void handleDisconnectedGuitar(final FretlightGuitar guitar) {
     Log.d("GTGuitarController", "handleDisconnectedGuitar");
-    hasUpdatedConnections = true;
     // Adding to the UI needs to happen on UI thread.
     runOnUiThread(new Runnable() {
       @Override
