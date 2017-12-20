@@ -252,11 +252,9 @@ class Fretboard extends React.Component {
           }
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          console.log("You can use microphone");
           this.setState({ isShowingTuner: true, tunerModalFrame: frame });
           this.props.presentModal();
         } else {
-          console.log("Microphone permission denied");
           Alert.alert(
             "Permission Denied",
             "You will be able to enjoy the rest of the app without using your microphone. You can change permission the next time you want to tune your guitar."
