@@ -9,11 +9,11 @@
 ## Development
 
 1. start your emulator or connect device over USB
-    1. start your emulator
-        1. `cd ~/Library/Android/sdk/tools`
-        1. `emulator -list-avds`
-        1. `emulator @[DEVICE_NAME]`
-    1. connect to device  _(TODO: write device debugging section)_
+   1. start your emulator
+      1. `cd ~/Library/Android/sdk/tools`
+      1. `emulator -list-avds`
+      1. `emulator @[DEVICE_NAME]`
+   1. connect to device _(TODO: write device debugging section)_
 1. `npm start`
 1. `react-native run-android`
 1. `react-native log-android` (optional)
@@ -22,10 +22,10 @@ The general development cycle is:
 
 1. Make some changes
 1. Reload in the app (on emulator or device).  
-    **Tip:** You can enable "Live Reload" and "Hot Reloading" in the RN app menu. Both are ways to make it so you don't have to manually reload every time. They work differently both have their own pro's/con's
+   **Tip:** You can enable "Live Reload" and "Hot Reloading" in the RN app menu. Both are ways to make it so you don't have to manually reload every time. They work differently both have their own pro's/con's
 1. When you make some changes and they don't seem to be showing up:
-    1. Run `react-native run-android` again.
-    1. If that doesn't work, `control-c` the JS server and run `npm start` again, followed by a manual reload in the app
+   1. Run `react-native run-android` again.
+   1. If that doesn't work, `control-c` the JS server and run `npm start` again, followed by a manual reload in the app
 
 ## In the Emulator
 
@@ -53,8 +53,8 @@ After generating new Java code, run `node makeStyleKit.js -j /com/optek/guitartu
 
 1. Update Android Studio every once in a while by opening. It will prompt you for updates when opening.2
 1. In Android Studio, go to the menu
-    1. Tools -> Android -> SDK Manager
-    1. Under Android SDK, choose the SDK Tools tabs and find updates
+   1. Tools -> Android -> SDK Manager
+   1. Under Android SDK, choose the SDK Tools tabs and find updates
 1. To update to the latest React Native (can be dangerous), run `react-native-git-upgrade`
 
 # When things don't work
@@ -67,9 +67,10 @@ After generating new Java code, run `node makeStyleKit.js -j /com/optek/guitartu
 1. `rm -rf node_modules && npm install` and then `npm start`
 
 ## Continuous Crashing
+
 Sometimes, you get into a loop where it seems like the app crashes on start no matter what you do. One approach to to take the the Root view back to basics and start a process of elimination. Below is a minimal Root view that you can paste in. You should also **uninstall the app** and run `react-native run-android`
 
-``` JSX
+```JSX
 import React from "react";
 import { View, Text } from "react-native";
 
@@ -82,8 +83,17 @@ export default Root;
 
 _note_: the keystore file is not in Git. It is in 1password.
 
+* Change version number in `package.json`
 * `npm run build`
-* `react-native run-android --variant=release` to test the build  
+* In Chrome, open https://play.google.com/apps/publish/?account=8124299321342365078#AppDashboardPlace:p=com.optek.guitartunes
+* Release Management
+* App releases
+* Manage Alpha (or Beta)
+* Hit Create Release button
+
+## Testing (optional)
+
+* `react-native run-android --variant=release` to test the build
 * `open android/app/build/outputs/apk/` to find the release apk
 
 Version is set via `package.json` with [this technique](https://medium.com/@andr3wjack/versioning-react-native-apps-407469707661)
@@ -91,9 +101,11 @@ Version is set via `package.json` with [this technique](https://medium.com/@andr
 # Flexbox
 
 [React Native uses Flexbox for layout](https://facebook.github.io/react-native/docs/flexbox.html). There is one caveat:
+
 > Flexbox works the same way in React Native as it does in CSS on the web, with a few exceptions. The defaults are different, with **flexDirection defaulting to column instead of row**, and the **flex parameter only supporting a single number**.
 
 ## Useful Flexbox pages:
+
 [CSSReference.io](http://cssreference.io/flexbox/)  
 [Flexbox Patterns](http://www.flexboxpatterns.com/home)  
-[Flexbox Cheatsheet](http://yoksel.github.io/flex-cheatsheet/)  
+[Flexbox Cheatsheet](http://yoksel.github.io/flex-cheatsheet/)
