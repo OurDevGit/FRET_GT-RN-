@@ -1,7 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  PermissionsAndroid
+} from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 
 import * as actions from "../../redux/actions";
@@ -234,15 +240,38 @@ class Fretboard extends React.Component {
     this.props.setTuningMode(mode);
   };
 
-  handleToggleTuner = frame => {
-    const isShowingTuner = !this.state.isShowingTuner;
-    this.setState({ isShowingTuner, tunerModalFrame: frame });
-
-    if (!isShowingTuner) {
+  handleToggleTuner = async frame => {
+    if (this.state.isShowingTuner === false) {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.RECORD_AUDIO,
+          {
+            title: "Microphone Access",
+            message:
+              "Guitar Tunes needs permission to use your microphone so you can tune your guitar"
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          console.log("You can use microphone");
+          this.setState({ isShowingTuner: true, tunerModalFrame: frame });
+          this.props.presentModal();
+        } else {
+          console.log("Microphone permission denied");
+          Alert.alert(
+            "Permission Denied",
+            "You will be able to enjoy the rest of the app without using your microphone. You can change permission the next time you want to tune your guitar."
+          );
+        }
+      } catch (err) {
+        Alert.alert(
+          "Permission Error",
+          "There was an error checking permission for this service. Please try again later."
+        );
+      }
+    } else {
+      this.setState({ isShowingTuner: false });
       this.props.dismissModal();
       trackTuningTap();
-    } else {
-      this.props.presentModal();
     }
   };
 
