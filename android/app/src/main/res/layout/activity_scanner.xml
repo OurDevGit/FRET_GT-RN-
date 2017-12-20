@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:onClick="onDoneClick"
         android:text="@string/done"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="end"
+        android:visibility="visible"
         />
 
 </LinearLayout>

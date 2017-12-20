@@ -4,6 +4,7 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
+  DeviceEventEmitter,
   NativeModules
 } from "react-native";
 import PropTypes from "prop-types";
@@ -123,6 +124,13 @@ class FretlightModal extends React.Component {
   componentWillMount() {
     guitarController.startScanning();
     this.props.presentModal();
+
+    DeviceEventEmitter.addListener("BLE_STATUS", status => {
+      if (status === "COMPLETE") {
+        console.log("CLOSE ADMIN");
+        this.props.onToggleFretlightAdmin(false);
+      }
+    });
   }
 
   componentWillUnmount() {

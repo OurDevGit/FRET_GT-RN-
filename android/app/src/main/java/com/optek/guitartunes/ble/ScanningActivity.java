@@ -30,6 +30,7 @@ public class ScanningActivity extends Activity {
 
   public void onDoneClick(final View view) {
     Log.d("GTGuitarController", "Done");
+    finishWithResult("DONE");
   }
 
   @Override
@@ -56,7 +57,6 @@ public class ScanningActivity extends Activity {
     if (getIntent().getBooleanExtra("EXIT", false)) {
       finishWithResult("COMPLETE");
     }
-
   }
 
   @Override
@@ -91,6 +91,7 @@ public class ScanningActivity extends Activity {
     Log.d("GTGuitarController", "onStop()");
     super.onStop();
     stopScanning();
+    guitarEmitter.emit("BLE_STATUS", "COMPLETE");
   }
 
   // Check if user agreed to enable BT.
