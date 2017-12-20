@@ -10,6 +10,7 @@ import android.widget.Button;
 import com.optek.fretlight.sdk.Fretlight;
 import com.optek.fretlight.sdk.FretlightClient;
 import com.optek.fretlight.sdk.FretlightGuitar;
+import com.optek.guitartunes.R;
 
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;

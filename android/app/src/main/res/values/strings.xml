@@ -2,6 +2,6 @@
     <string name="app_name">GuitarTunes</string>
     <string name="title_activity_ble">Guitar</string>
     <string name="title_activity_guitar">Guitar</string>
-    <string name="activity_done">Done</string>
+    <string name="done">Done</string>
     <string name="RNB_GOOGLE_PLAY_LICENSE_KEY">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgQ13JK/zIAXiJRW/q+tZgcathlP9WtHdd0kUeowJvOkI/5PJ6gW3kmY6/dASySBcleiVG+3EQ7itimEpky+RsIt6HZAHl1zhZq+T4sxXLvavTWq5iVxe//jXkK2ne6Cxr5juBm2YDaYgshF1CVOXD97WNTgy8Cgq44e+MjbLnO+qL+6rXpVWCLYNIjTGBp+d46/mFSwV/oZzxfqFPvT01LaxjlMDTuR38cFJgbDgGABvly6pTLGVw2KEIfOyFS1K0PeOfLwGnlw+eXXvCGgzgPjGE6WY6RpqeQSGylD1gAurz+zqPsdf2NoKrap6jgp5llvG2qzPSm4XRxbzyIgGsQIDAQAB</string>
 </resources>
