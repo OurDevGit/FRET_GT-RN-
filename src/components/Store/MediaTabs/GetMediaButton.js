@@ -208,6 +208,9 @@ const BtnDownloading = ({ progress }) => {
   // We show progress by changing the stroke dash on the Circle. See:
   // https://jakearchibald.com/2013/animated-line-drawing-svg/
 
+  const r10 = 10;
+  const circumference = 2 * Math.PI * r10;
+
   return (
     <Svg width="44" height="44">
       <Defs>
@@ -220,11 +223,11 @@ const BtnDownloading = ({ progress }) => {
               strokeWidth="1"
             />
             <Circle
-              r="10"
+              r={r10}
               fill="none"
               stroke="rgb(76, 142, 162)"
-              strokeDasharray={60}
-              strokeDashoffset={60 - progress * 60}
+              strokeDasharray={circumference}
+              strokeDashoffset={circumference - progress * circumference}
               strokeWidth="3"
             />
             <Rect

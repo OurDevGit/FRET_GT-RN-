@@ -62,7 +62,13 @@ const urlToPath = url => {
 };
 
 // download multiple files
-export const downloadFiles = (urls, dir, doRandomNames, progressCallback) => {
+export const downloadFiles = (
+  urls,
+  totalSize,
+  dir,
+  doRandomNames,
+  progressCallback
+) => {
   let progressMap = {};
   let filesMap = {};
 
@@ -73,7 +79,7 @@ export const downloadFiles = (urls, dir, doRandomNames, progressCallback) => {
       (prev, curr) => {
         return {
           received: prev.received + curr.received,
-          total: prev.total + curr.total
+          total: totalSize
         };
       },
       { received: 0, total: 0 }
@@ -132,8 +138,11 @@ export const downloadMediaFiles = async (files, mediaId) => {
   throttledUpdate(mediaId, -1);
 
   try {
+    const totalSize = files.reduce((prev, curr) => prev + curr.size, 0);
+
     const filesMap = await downloadFiles(
       files.map(f => f.url),
+      totalSize,
       "Media",
       true,
       progress => {

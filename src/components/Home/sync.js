@@ -11,7 +11,7 @@ export const sync = async () => {
 
   // console.debug(`going to download ${homeFiles.length} files`);
 
-  const downloadedFiles = await downloadFiles(homeFiles, "Home", false);
+  const downloadedFiles = await downloadFiles(homeFiles, 0, "Home", false);
 
   const indexFile = downloadedFiles["home/index.html"];
   await setIndex(indexFile);

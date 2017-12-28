@@ -1,4 +1,3 @@
-import { Dimensions } from "react-native";
 import { fetchResource } from "../api";
 import { downloadFiles } from "../DownloadManager";
 import { getSync, setSync, setFile } from "../models/Resources";
@@ -13,7 +12,7 @@ const syncResource = async resource => {
   if (url === null || url === undefined) {
     return null;
   } else {
-    const localFiles = await downloadFiles([url], "Resources", false);
+    const localFiles = await downloadFiles([url], 0, "Resources", false);
     const file = localFiles[resource];
     await setSync(resource, getNow());
     await setFile(resource, file);
@@ -21,7 +20,6 @@ const syncResource = async resource => {
 };
 
 export const syncResources = async () => {
-  const window = Dimensions.get("window");
   const isPhone = getIsPhone();
 
   syncResource("android/legal.pdf");
