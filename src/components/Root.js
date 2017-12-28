@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, AppState } from "react-native";
+import { Alert, View, AppState, PermissionsAndroid } from "react-native";
 import { Provider, connect } from "react-redux";
 import Dimensions from "Dimensions";
 import AdContainer from "./AdContainer";
@@ -362,8 +362,34 @@ class Root extends Component {
     }
   };
 
-  handleToggleFretlightAdmin = bool => {
-    this.setState({ isShowingFretlightAdmin: bool });
+  handleToggleFretlightAdmin = async bool => {
+    if (bool == true) {
+      try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+          {
+            title: "Location Access for Bluetooth",
+            message:
+              "Guitar Tunes needs permission to use Location so we can connect to your Fretlight. Android includes Bluetooth in that service."
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          this.setState({ isShowingFretlightAdmin: true });
+        } else {
+          Alert.alert(
+            "Permission Denied",
+            "You will be able to enjoy the rest of the app without Location permitted. You can change permission the next time you want to connect with your Fretlight"
+          );
+        }
+      } catch (err) {
+        Alert.alert(
+          "Permission Error",
+          "There was an error checking permission for this service. Please try again later."
+        );
+      }
+    } else {
+      this.setState({ isShowingFretlightAdmin: false });
+    }
   };
 
   handleCountdownTimer = bool => {
