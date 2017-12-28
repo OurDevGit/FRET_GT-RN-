@@ -55,7 +55,7 @@ class MediaDetails extends React.PureComponent {
             >
               {hasFiles === true && (
                 <FlatButton
-                  title="Archive Files"
+                  title="Archive File"
                   style={{ color: Danger }}
                   onPress={onArchiveFiles}
                 />
