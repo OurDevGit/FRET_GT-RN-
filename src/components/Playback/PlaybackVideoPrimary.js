@@ -81,28 +81,24 @@ class PlaybackVideoPrimary extends React.Component {
               flex: 1,
               flexDirection: "column",
               justifyContent: "space-between",
-              alignItems: "flex-start"
+              alignItems: "center",
+              marginRight: 7
             }}
           >
             <Image
               source={{ uri: artworkURL }}
               resizeMode="contain"
               style={{
-                flex: 2,
+                flex: 1,
                 aspectRatio: 1,
-                margin: 7
+                marginBottom: 7,
+                maxWidth: "100%"
               }}
             />
 
-            <View
-              style={{
-                flex: 1,
-                justifyContent: "center"
-              }}
-            >
+            <View>
               <Text
                 style={{
-                  flex: 1,
                   color: PrimaryBlue,
                   fontSize: 18,
                   textAlignVertical: "bottom"
@@ -112,7 +108,6 @@ class PlaybackVideoPrimary extends React.Component {
               </Text>
               <Text
                 style={{
-                  flex: 1,
                   fontSize: 16
                 }}
               >
@@ -122,27 +117,28 @@ class PlaybackVideoPrimary extends React.Component {
 
             <View
               style={{
-                flex: 1,
                 width: "100%",
                 marginRight: 6,
-                flexDirection: "column",
-                justifyContent: "flex-end"
+                marginBottom: -10,
+                flexDirection: "column"
               }}
             >
-              <VolumeSlider style={{ width: "100%", height: 44 }} />
               <Text
                 style={{
-                  position: "absolute",
-                  bottom: 40,
                   width: "100%",
                   color: PrimaryBlue,
                   fontSize: isPhone ? 14 : 18,
-                  textAlign: "center",
-                  textAlignVertical: "bottom"
+                  textAlign: "center"
                 }}
               >
                 Volume
               </Text>
+              <VolumeSlider
+                style={{
+                  width: "100%",
+                  height: 40
+                }}
+              />
             </View>
           </View>
         )}
@@ -353,7 +349,8 @@ PlaybackVideoPrimary.propTypes = {
   onNextPress: PropTypes.func.isRequired,
   onMarkerPress: PropTypes.func.isRequired,
   onDisplayControls: PropTypes.func.isRequired,
-  onFullscreen: PropTypes.func.isRequired
+  onFullscreen: PropTypes.func.isRequired,
+  onVideoLoad: PropTypes.func.isRequired
 };
 
 export default pure(PlaybackVideoPrimary);
