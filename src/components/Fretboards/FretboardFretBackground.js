@@ -1,6 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { View, TouchableWithoutFeedback } from "react-native";
 import FretMarkers from "./FretboardMarkers";
 
@@ -8,7 +7,7 @@ const frets = (track, isSmart, isLeft, boardWidth, onToggleOrientation) => {
   var frets = [];
   const first = isSmart ? track.firstFret : 0;
   const last = isSmart ? track.lastFret : 23;
-  const diff = last - first;
+  // const diff = last - first;
 
   for (let i = first; i <= last; i++) {
     let color = "black";

@@ -30,11 +30,18 @@ const markers = (fret, isLeft) => {
     );
   } else if (fretCheck(fret, 12, isLeft)) {
     return (
-      <View>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "space-around",
+          height: "100%",
+          width: "100%",
+          paddingVertical: "50%"
+        }}
+      >
         <View
           style={{
             width: "26%",
-            marginVertical: "45%",
             aspectRatio: 1,
             backgroundColor: "#CCCCCC",
             borderRadius: 1000,
@@ -44,7 +51,6 @@ const markers = (fret, isLeft) => {
         <View
           style={{
             width: "26%",
-            marginVertical: "45%",
             aspectRatio: 1,
             backgroundColor: "#CCCCCC",
             borderRadius: 1000,
