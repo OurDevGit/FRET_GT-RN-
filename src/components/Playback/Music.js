@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 import PropTypes from "prop-types";
 import Sound from "react-native-sound";
 
@@ -75,7 +75,9 @@ class Music extends React.Component {
 
   getUrl = obj => {
     if (this.props.isPreview === true) {
-      return `https://guitar-tunes-media-data.s3.amazonaws.com/${obj.mediaID}/preview.m4a`;
+      return `https://guitar-tunes-media-data.s3.amazonaws.com/${
+        obj.mediaID
+      }/preview.m4a`;
     } else {
       const file = this.getAudio(obj);
       return `http://localhost:8888${file}`;
@@ -108,18 +110,22 @@ class Music extends React.Component {
   loadMusic = url => {
     this.songSound = new Sound(url, Sound.MAIN_BUNDLE, error => {
       if (error) {
-        console.warn("failed to load the sound", error);
+        Alert.alert(
+          "Song Loading Error",
+          "There was a problem loading this song. If this issue persists, please Archive the song in your library and download it again."
+        );
         return;
       } else {
-        const duration = this.songSound.getDuration();
-        this.props.onData({
-          duration
-        });
-        this.setState({
-          mediaDuration: duration
-        });
-
-        this.setPlaying(this.props.isPlaying);
+        if (this.songSound !== null) {
+          const duration = this.songSound.getDuration();
+          this.props.onData({
+            duration
+          });
+          this.setState({
+            mediaDuration: duration
+          });
+          this.setPlaying(this.props.isPlaying);
+        }
       }
     });
 
