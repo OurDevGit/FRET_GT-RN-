@@ -45,7 +45,7 @@ class BtnMyLoopsModal extends React.Component {
       allLoops = myLoops;
     }
 
-    allLoops = [...allLoops, { name: "None" }];
+    allLoops = [...allLoops, { name: "Clear Current Loop" }];
 
     const height = Math.min(
       100 + allLoops.length * 42,
@@ -135,7 +135,7 @@ class BtnMyLoopsModal extends React.Component {
                       color: PrimaryBlue,
                       opacity:
                         currentLoop.get("name") === item.name &&
-                        item.name !== "None" &&
+                        item.name !== "Clear Current Loop" &&
                         item.name !== "SMARTLOOPS™" &&
                         item.name !== "USER LOOPS"
                           ? 1.0
@@ -145,7 +145,7 @@ class BtnMyLoopsModal extends React.Component {
                     ✓
                   </Text>
                   {isEditing &&
-                    item.name !== "None" &&
+                    item.name !== "Clear Current Loop" &&
                     item.name !== "SMARTLOOPS™" &&
                     item.name !== "USER LOOPS" &&
                     index > myLoopsFirstIndex && (
@@ -167,7 +167,7 @@ class BtnMyLoopsModal extends React.Component {
                     <TouchableOpacity
                       style={{ flex: 1 }}
                       onPress={() => {
-                        item.name === "None"
+                        item.name === "Clear Current Loop"
                           ? this.handleClearLoop()
                           : this.handleSelectLoop(item);
                       }}

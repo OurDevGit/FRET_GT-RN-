@@ -3,6 +3,8 @@ package com.optek.guitartunes.ble;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.lang.Object;
+import java.util.concurrent.CopyOnWriteArrayList;
 import android.util.Log;
 
 import io.sentry.Sentry;
@@ -11,7 +13,7 @@ import io.sentry.event.BreadcrumbBuilder;
 import com.optek.fretlight.sdk.FretlightGuitar;
 
 public class Guitars implements Iterable<FretlightGuitar> {
-  private List<FretlightGuitar> mGuitars = new ArrayList<>();
+  private List<FretlightGuitar> mGuitars = new CopyOnWriteArrayList<>();
   private ChangeListener listener;
 
   private static final Guitars sInstance = new Guitars();
