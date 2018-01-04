@@ -90,7 +90,7 @@ class SmartFretModal extends React.Component {
             />
           </View>
 
-          {isCompact ? (
+          {this.props.isPhone ? (
             <View
               style={{
                 flex: 1,
