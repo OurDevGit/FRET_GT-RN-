@@ -1,6 +1,15 @@
 import React, { PureComponent } from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Modal,
+  TouchableOpacity,
+  Text
+} from "react-native";
+import { FlatButton } from "../Material";
+import { PrimaryGold } from "../../design";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
@@ -33,48 +42,59 @@ class Store extends PureComponent {
 
   render() {
     // console.debug(`Store render()`);
+    const onClose = () => console.debug("close");
     return (
-      <View
-        style={{
-          width: "100%",
-          height: "100%",
-          position: "absolute",
-          flexDirection: "row",
-          backgroundColor: "white"
-        }}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        onRequestClose={this.props.onClose}
       >
-        <Categories
-          categories={this.props.categories}
-          onChoose={this.handleChooseCategory}
-          style={{ width: 90, flexGrow: 0 }}
-          selectedIndex={this.state.categoryIndex}
-          isStore={this.state.isStore}
-        />
+        <TouchableOpacity style={styles.container} onPress={this.props.onClose}>
+          <View activeOpacity={1} style={styles.content}>
+            <View
+              style={{
+                width: "100%",
+                height: "100%",
+                // position: "absolute",
+                flexDirection: "row",
+                backgroundColor: "white"
+              }}
+            >
+              <Categories
+                categories={this.props.categories}
+                onChoose={this.handleChooseCategory}
+                style={{ width: 90, flexGrow: 0 }}
+                selectedIndex={this.state.categoryIndex}
+                isStore={this.state.isStore}
+              />
 
-        <SubCategories
-          subCategories={this.state.subCategories}
-          onChoose={this.handleChooseSubCategory}
-          style={{ width: 90, flexGrow: 0 }}
-          selectedIndex={this.state.subCategoryIndex}
-          isStore={this.state.isStore}
-        />
-        <KeyboardAvoidingView style={styles.media} behavior="padding">
-          <Media
-            detailMediaId={this.props.detailMediaId || ""}
-            style={styles.media}
-            category={this.state.category}
-            subCategory={this.state.subCategory}
-            group={this.state.group}
-            onIsStoreChange={this.handleIsStoreChange}
-            onChoose={this.handleChooseMedia}
-            onClose={this.props.onClose}
-            isExpandable={
-              (this.state.subCategory || {}).isNavigable === true ||
-              (this.state.category || {}).isGrouped === true
-            }
-          />
-        </KeyboardAvoidingView>
-      </View>
+              <SubCategories
+                subCategories={this.state.subCategories}
+                onChoose={this.handleChooseSubCategory}
+                style={{ width: 90, flexGrow: 0 }}
+                selectedIndex={this.state.subCategoryIndex}
+                isStore={this.state.isStore}
+              />
+              <KeyboardAvoidingView style={styles.media} behavior="padding">
+                <Media
+                  detailMediaId={this.props.detailMediaId || ""}
+                  style={styles.media}
+                  category={this.state.category}
+                  subCategory={this.state.subCategory}
+                  group={this.state.group}
+                  onIsStoreChange={this.handleIsStoreChange}
+                  onChoose={this.handleChooseMedia}
+                  onClose={this.props.onClose}
+                  isExpandable={
+                    (this.state.subCategory || {}).isNavigable === true ||
+                    (this.state.category || {}).isGrouped === true
+                  }
+                />
+              </KeyboardAvoidingView>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </Modal>
     );
   }
 
@@ -268,7 +288,27 @@ Store.propTypes = {
 const styles = StyleSheet.create({
   media: {
     flexGrow: 1
-  }
+  },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(1,1,1,0.5)",
+    width: "100%",
+    height: "100%"
+  },
+  content: {
+    width: "90%",
+    height: "90%"
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: "800",
+    marginHorizontal: 4,
+    height: 50,
+    textAlignVertical: "center",
+    marginLeft: 10
+  },
+  scrollView: {}
 });
 
 const mapStateToProps = state => {
