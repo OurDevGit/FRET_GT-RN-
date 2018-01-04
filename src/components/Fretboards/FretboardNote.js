@@ -1,34 +1,20 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
+import NoteSvg from "./NoteSvg";
 
 const styles = StyleSheet.create({
-  noteContainer: {
+  container: {
     flex: 1,
     aspectRatio: 1,
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 1
-  },
-  noteView: {
-    flex: -1,
-    aspectRatio: 1,
-    backgroundColor: "#17A3E3",
-    borderRadius: 1000,
-    alignItems: "center"
-  },
-  noteText: {
-    height: "100%",
-    textAlignVertical: "center"
   }
 });
 
-const makeHeightStyle = fretHeight => {
-  return [styles.noteView, { height: fretHeight / 6 - 2 }];
-};
-
-const makeSizeStyle = fretHeight => {
-  return [styles.noteText, { fontSize: fretHeight / 6 / 2 }];
+const getNoteSize = fretHeight => {
+  return fretHeight / 6 - 2;
 };
 
 class FretboardNote extends React.Component {
@@ -39,8 +25,7 @@ class FretboardNote extends React.Component {
 
     this.state = {
       isVisible: false,
-      heightStyle: makeHeightStyle(props.fretHeight),
-      sizeStyle: makeSizeStyle(props.fretHeight)
+      noteSize: getNoteSize(props.fretHeight)
     };
   }
 
@@ -49,15 +34,17 @@ class FretboardNote extends React.Component {
 
     return (
       <View
-        style={styles.noteContainer}
+        style={styles.container}
         opacity={0}
         ref={ref => (this.fretView = ref)}
       >
-        <View style={this.state.heightStyle}>
-          <Text style={this.state.sizeStyle} numberOfLines={1}>
-            {notation}
-          </Text>
-        </View>
+        <NoteSvg
+          notation={notation}
+          size={this.state.noteSize}
+          backgroundColor="#17A3E3"
+          outlineColor="#17A3E3"
+          textColor="#000000"
+        />
       </View>
     );
   }
@@ -79,8 +66,7 @@ class FretboardNote extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.fretHeight !== this.props.fretHeight) {
       this.setState({
-        heightStyle: makeHeightStyle(nextProps.fretHeight),
-        sizeStyle: makeSizeStyle(nextProps.fretHeight)
+        noteSize: getNoteSize(nextProps.fretHeight)
       });
     }
   }

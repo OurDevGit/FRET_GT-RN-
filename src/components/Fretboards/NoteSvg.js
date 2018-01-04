@@ -19,13 +19,13 @@ const NoteSvg = ({
       fillRule="evenodd"
     >
       <Circle
-        id="Oval"
+        id="circle"
         stroke={outlineColor}
-        strokeWidth="7"
+        strokeWidth="6"
         fill={backgroundColor}
         cx="50"
         cy="50"
-        r="46"
+        r="43"
       />
       {
         {
@@ -158,7 +158,7 @@ const NoteSvg = ({
               />
             </G>
           ),
-          "F#": (
+          "F♯": (
             <G
               id="F#"
               transform="translate(24.000000, 13.000000)"
@@ -174,7 +174,7 @@ const NoteSvg = ({
               />
             </G>
           ),
-          "G#": (
+          "G♯": (
             <G
               id="G#"
               transform="translate(15.000000, 13.000000)"
@@ -190,7 +190,7 @@ const NoteSvg = ({
               />
             </G>
           ),
-          "A#": (
+          "A♯": (
             <G
               id="A#"
               transform="translate(20.000000, 13.000000)"
@@ -206,7 +206,7 @@ const NoteSvg = ({
               />
             </G>
           ),
-          "C#": (
+          "C♯": (
             <G
               id="C#"
               transform="translate(17.000000, 13.000000)"
@@ -222,7 +222,7 @@ const NoteSvg = ({
               />
             </G>
           ),
-          "D#": (
+          "D♯": (
             <G
               id="D#"
               transform="translate(20.000000, 13.000000)"
