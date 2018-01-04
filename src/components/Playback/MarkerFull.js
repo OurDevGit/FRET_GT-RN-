@@ -26,6 +26,7 @@ class Marker extends React.Component {
           left: adjustedLeft,
           height: "100%",
           alignItems: "center"
+          // backgroundColor: "yellow"
         }}
         onLayout={this.handleLayout}
       >
@@ -39,15 +40,17 @@ class Marker extends React.Component {
           style={{
             flexDirection: "row",
             alignItems: "flex-end",
-            width: lengthForHeight(this.props.height) * 2,
+            width: lengthForHeight(this.props.height),
+            // backgroundColor: "blue",
             transform: [
-              { translateX: 5 },
-              { translateY: this.props.height < 125 ? -5 : 0 },
-              { rotate: "-45deg" }
+              { rotate: "-45deg" },
+              { translateX: lengthForHeight(this.props.height) / -2 },
+              { translateY: this.props.height < 125 ? -5 : 0 }
             ]
           }}
         >
           <TouchableOpacity
+            // style={{ backgroundColor: "red" }}
             onPress={() => {
               onMarkerPress(marker.time, marker.name);
             }}
