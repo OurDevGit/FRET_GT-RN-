@@ -112,7 +112,7 @@ class Music extends React.Component {
       if (error) {
         Alert.alert(
           "Song Loading Error",
-          "There was a problem loading this song. If this issue persists, please Archive the song in your library and download it again."
+          "There was a problem loading this song. If this issue persists, please Archive the song in your library by tapping the (i) button and 'Archive File', and then download it again."
         );
         return;
       } else {
