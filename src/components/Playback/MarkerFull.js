@@ -25,8 +25,8 @@ class Marker extends React.Component {
           top: 0,
           left: adjustedLeft,
           height: "100%",
-          alignItems: "center"
-          // backgroundColor: "yellow"
+          alignItems: "center",
+          backgroundColor: "yellow"
         }}
         onLayout={this.handleLayout}
       >
@@ -50,7 +50,7 @@ class Marker extends React.Component {
           }}
         >
           <TouchableOpacity
-            // style={{ backgroundColor: "red" }}
+            style={{ backgroundColor: "red" }}
             onPress={() => {
               onMarkerPress(marker.time, marker.name);
             }}
@@ -58,18 +58,20 @@ class Marker extends React.Component {
               onMarkerLongPress(marker.time, end, marker.name);
             }}
           >
-            <Text
-              style={{
-                fontSize: 17,
-                color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
-                width: lengthForHeight(this.props.height),
-                textAlign: "right"
-              }}
-              numberOfLines={1}
-              ellipsizeMode="tail"
-            >
-              {marker.name}
-            </Text>
+            <View>
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
+                  width: lengthForHeight(this.props.height),
+                  textAlign: "right"
+                }}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {marker.name}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
