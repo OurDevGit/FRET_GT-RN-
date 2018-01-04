@@ -1,6 +1,6 @@
 import RNFetchBlob from "react-native-fetch-blob";
 import { finishDownload, setDownloads, deleteMedia } from "./redux/actions";
-import { setDownload, getAllDownloads } from "./models/Downloads";
+import { getAllDownloads } from "./models/Downloads";
 import { guid } from "./utils";
 import { throttle } from "lodash";
 
@@ -114,7 +114,6 @@ export const downloadFiles = (
             return { dlPath };
           } else {
             throw new Error("incomplete download");
-            return false;
           }
         });
       })
@@ -136,6 +135,7 @@ export const downloadFiles = (
 export const downloadMediaFiles = async (files, mediaId) => {
   // set progress to -1 to indicate Indeterminate mode
   throttledUpdate(mediaId, -1);
+  let isFailed = false;
 
   try {
     const totalSize = files.reduce((prev, curr) => prev + curr.size, 0);
@@ -146,19 +146,24 @@ export const downloadMediaFiles = async (files, mediaId) => {
       "Media",
       true,
       progress => {
-        throttledUpdate(mediaId, progress);
+        if (isFailed === false) {
+          throttledUpdate(mediaId, progress);
+        } else {
+          console.debug("no progress after failure");
+        }
       }
     );
 
     // finish download
-    console.debug("done with downloads");
+    // console.debug("done with downloads");
     updateSubscribers(mediaId, 1);
     _dispatchFinish();
 
     // console.debug(filesMap);
     return filesMap;
   } catch (err) {
-    throttledUpdate(mediaId, 1);
+    isFailed = true;
+    updateSubscribers(mediaId, 1);
     throw err;
   }
 };

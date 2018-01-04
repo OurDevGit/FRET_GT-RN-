@@ -82,7 +82,7 @@ function* doDownload(media, mediaId, transactionDetails) {
     yield setDownload(mediaId, mediaFiles);
     yield put(actions.finishDownload(mediaId, mediaFiles));
   } catch (err) {
-    // console.log("error downloading media");
+    // console.debug("error downloading media");
     // console.error(err);
     yield put(actions.deleteMedia(mediaId));
   }
