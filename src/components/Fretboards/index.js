@@ -91,24 +91,34 @@ class FretboardsRoot extends React.PureComponent {
   }
 
   onScrollEnd(e) {
-    let contentOffset = e.nativeEvent.contentOffset;
-    let viewSize = e.nativeEvent.layoutMeasurement;
+    if (this.props.tracks.count() > 0) {
+      let contentOffset = e.nativeEvent.contentOffset;
+      let viewSize = e.nativeEvent.layoutMeasurement;
 
-    // Divide the horizontal offset by the width of the view to see which page is visible
-    let page = Math.round(contentOffset.x / viewSize.width);
-    this.setState({ selectedIndex: page });
-    const track = this.props.tracks.get(page);
-    this.props.updateVisibleTracks(List([track]));
-    updateActiveParts([track.name]);
-    this.checkForAutoPartSwitching(track);
+      // Divide the horizontal offset by the width of the view to see which page is visible
+      let page = Math.round(contentOffset.x / viewSize.width);
+      this.setState({ selectedIndex: page });
+      const track = this.props.tracks.get(page);
+
+      if (track !== undefined) {
+        this.props.updateVisibleTracks(List([track]));
+        updateActiveParts([track.name]);
+        this.checkForAutoPartSwitching(track);
+      }
+    }
   }
 
   handlePagePress(page) {
-    this.setState({ selectedIndex: page });
-    const track = this.props.tracks.get(page);
-    this.props.updateVisibleTracks(List([track]));
-    updateActiveParts([track.name]);
-    this.checkForAutoPartSwitching(track);
+    if (this.props.tracks.count() > 0) {
+      this.setState({ selectedIndex: page });
+      const track = this.props.tracks.get(page);
+
+      if (track !== undefined) {
+        this.props.updateVisibleTracks(List([track]));
+        updateActiveParts([track.name]);
+        this.checkForAutoPartSwitching(track);
+      }
+    }
   }
 
   checkForAutoPartSwitching(track) {
