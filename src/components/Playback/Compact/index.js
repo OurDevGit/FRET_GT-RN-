@@ -37,6 +37,7 @@ const PlaybackCompact = ({
   isPlaying,
   isPhone,
   isVideo,
+  isSmart,
   tempo,
   loopIsEnabled,
   currentLoop,
@@ -63,7 +64,7 @@ const PlaybackCompact = ({
   >
     <View
       style={{
-        flex: 1.5,
+        flex: 1.2,
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
@@ -136,13 +137,13 @@ const PlaybackCompact = ({
 
     <View
       style={{
-        flex: 1.5,
+        flex: 1.2,
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center"
+        alignItems: "center",
+        paddingLeft: 30
       }}
     >
-      <View style={{ width: 30 }} />
       <View
         style={{
           flex: 1,
@@ -155,6 +156,7 @@ const PlaybackCompact = ({
           color={PrimaryBlue}
           currentTempo={tempo}
           isPhone={isPhone}
+          isSmart={isSmart}
           onSelectTempo={onSelectTempo}
         />
       </View>
@@ -168,7 +170,7 @@ const PlaybackCompact = ({
       >
         {isPhone ? (
           <BtnPhoneLoopToggle
-            style={{ flex: 1, width: 36, height: 36 }}
+            style={{ width: 36, height: 36 }}
             loopsEnabled={loopIsEnabled}
             color={PrimaryBlue}
             onPress={onLoopEnable}
@@ -210,6 +212,7 @@ PlaybackCompact.propTypes = {
   trackCount: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  isSmart: PropTypes.bool.isRequired,
   isVideo: PropTypes.bool.isRequired,
   tempo: PropTypes.number.isRequired,
   loopIsEnabled: PropTypes.bool.isRequired,

@@ -2,7 +2,7 @@ import React, { PureComponent } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { onlyUpdateForKeys } from "recompose";
-import { View, Picker, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import {
   LoopLeft,
   LoopRight,
@@ -11,9 +11,7 @@ import {
   BtnFretlightInfo,
   BtnPrevStep,
   BtnNextStep,
-  BtnPhoneLoopToggle,
-  BtnPhoneLoopSave,
-  BtnPhoneMyLoops
+  BtnPhoneLoopToggle
 } from "../StyleKit";
 import { PrimaryBlue } from "../../design";
 import { BtnTempoModal, BtnSaveLoopModal, BtnMyLoopsModal } from "../modals";
@@ -40,7 +38,6 @@ class PlaybackSecondary extends PureComponent {
       loopIsEnabled,
       currentLoop,
       quickLoops,
-      connectedDevices,
       currentVideoMidiFile,
       isPhone,
       isVideo,
@@ -74,6 +71,7 @@ class PlaybackSecondary extends PureComponent {
           currentTempo={tempo}
           color={"#222222"}
           isPhone={isPhone}
+          isSmart={false}
           currentVideoMidiFile={currentVideoMidiFile}
           onSelectTempo={onSelectTempo}
           onForceControlsVisible={onForceControlsVisible}
@@ -90,7 +88,7 @@ class PlaybackSecondary extends PureComponent {
               style={{
                 width: 40,
                 height: 40,
-                marginLeft: 5
+                marginLeft: isPhone ? 0 : 5
               }}
               color={PrimaryBlue}
               onPress={onPrevStep}
@@ -99,8 +97,7 @@ class PlaybackSecondary extends PureComponent {
               style={{
                 width: 40,
                 height: 40,
-                marginLeft: 40,
-                marginLeft: 5
+                marginLeft: isPhone ? 10 : 40
               }}
               color={PrimaryBlue}
               onPress={onNextStep}

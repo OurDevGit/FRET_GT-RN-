@@ -27,7 +27,7 @@ class SmartFretModal extends React.Component {
     const frets = this.props.track.lastFret - this.props.track.firstFret;
     const boardWidth = Dimensions.get("window").width;
     const boardHeight = Math.min(
-      boardWidth / frets * 4,
+      boardWidth / frets * (this.props.isPhone ? 4 : 3),
       Dimensions.get("window").height - 150
     );
     const playbackHeight = Dimensions.get("window").height - boardHeight - 40;
@@ -90,7 +90,7 @@ class SmartFretModal extends React.Component {
             />
           </View>
 
-          {isCompact ? (
+          {this.props.isPhone ? (
             <View
               style={{
                 flex: 1,
@@ -104,6 +104,7 @@ class SmartFretModal extends React.Component {
                 isPlaying={this.props.isPlaying}
                 isVideo={false}
                 isPhone={this.props.isPhone}
+                isSmart={true}
                 tempo={this.props.tempo}
                 loopIsEnabled={this.props.loopIsEnabled}
                 currentLoop={this.props.currentLoop}
@@ -224,14 +225,19 @@ class SmartFretModal extends React.Component {
   }
 
   componentDidUpdate() {
-    const trackName = this.props.track.name;
+    const { tempo, track, isPhone, onSelectTempo } = this.props;
 
-    if (trackName !== undefined && !this.isTracking) {
+    if (track.name !== undefined && !this.isTracking) {
       this.isTracking = true;
-      startSMARTFretboard(trackName);
+      startSMARTFretboard(track.name);
+
+      // set tempo to 1.0 if we're phone and in STEP mode
+      if (isPhone && tempo === 0) {
+        onSelectTempo(1.0);
+      }
     }
 
-    if (trackName === undefined && this.isTracking) {
+    if (track.name === undefined && this.isTracking) {
       this.isTracking = false;
       trackSMARTFretboard(true);
     }
