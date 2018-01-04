@@ -80,7 +80,7 @@ class BtnTempoModal extends React.Component {
                 index
               })}
               ItemSeparatorComponent={this.separator}
-              renderItem={({ item, index }) => (
+              renderItem={({ item }) => (
                 <View
                   style={{ width: "100%", height: 40, flexDirection: "row" }}
                 >
@@ -133,11 +133,13 @@ class BtnTempoModal extends React.Component {
   };
 
   handleSelectTempo = tempo => {
-    this.props.onSelectTempo(tempo);
-    if (this.props.onForceControlsVisible !== undefined) {
-      this.props.onForceControlsVisible(false);
+    if (tempo > 0 || !this.props.isSmart || !this.props.isPhone) {
+      this.props.onSelectTempo(tempo);
+      if (this.props.onForceControlsVisible !== undefined) {
+        this.props.onForceControlsVisible(false);
+      }
+      this.setState({ modalIsVisible: false });
     }
-    this.setState({ modalIsVisible: false });
   };
 }
 
@@ -167,6 +169,7 @@ BtnTempoModal.propTypes = {
   currentTempo: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  isSmart: PropTypes.bool.isRequired,
   currentVideoMidiFile: PropTypes.string,
   onSelectTempo: PropTypes.func.isRequired,
   onForceControlsVisible: PropTypes.func

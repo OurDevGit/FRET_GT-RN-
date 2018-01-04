@@ -7,6 +7,8 @@ const labels = (style, track, isSmart, isLeft, boardWidth) => {
   const first = isSmart ? track.firstFret : 0;
   const last = isSmart ? track.lastFret : 23;
   const diff = last - first;
+  const labelHeight = Math.min(48, boardWidth / diff / 2);
+  const labelSize = Math.min(32, boardWidth / diff / 3.5);
 
   for (var i = first; i <= last; i++) {
     var label = "Nut";
@@ -20,12 +22,12 @@ const labels = (style, track, isSmart, isLeft, boardWidth) => {
         key={i}
         style={{
           flex: 1,
-          height: boardWidth / diff / 2
+          height: labelHeight
         }}
       >
         <Text
           style={{
-            fontSize: boardWidth / diff / 3.5,
+            fontSize: labelSize,
             textAlign: "center"
           }}
         >
