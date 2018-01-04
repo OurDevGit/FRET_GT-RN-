@@ -13,7 +13,7 @@ const getGroups = (state, subCategoryId) =>
   state.get("groupsBySubCategoryId").get(subCategoryId);
 const getTitleSorting = (state, thing) =>
   (
-    state.get("storeSorting").get((thing || {}).id) || Map({ isTitle: false })
+    state.get("storeSorting").get((thing || {}).id) || Map({ isTitle: true })
   ).get("isTitle") === true;
 
 export const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
@@ -99,7 +99,7 @@ const getMediaforSubCategory = (
     const media = groups.map(group => {
       const mediaIds = getMediaByListId(state, group.get("id")) || List();
       const data = getMediaForIds(state, mediaIds).sort((m1, m2) => {
-        return groupIsTitleSort
+        return groupIsTitleSort === true
           ? m1.get("sortTitle").localeCompare(m2.get("sortTitle"))
           : m1.get("sortArtist").localeCompare(m2.get("sortArtist"));
       });
