@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View, FlatList } from "react-native";
 import Fretboard from "./Fretboard";
@@ -76,27 +75,28 @@ class HorizontalContainer extends React.Component {
             }}
           />
         </View>
-
-        <PageControl
-          style={{
-            position: "absolute",
-            left: 0,
-            right: 0,
-            bottom: 7
-          }}
-          indicatorStyle={{
-            marginLeft: 5,
-            marginRight: 5,
-            width: 8,
-            height: 8,
-            borderRadius: 5
-          }}
-          count={this.props.tracks.count()}
-          currentPage={this.props.currentPage}
-          offColor="gray"
-          onColor="white"
-          onPage={this.handlePage.bind(this)}
-        />
+        {this.props.tracks.count() > 1 && (
+          <PageControl
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              bottom: 7
+            }}
+            indicatorStyle={{
+              marginLeft: 5,
+              marginRight: 5,
+              width: 8,
+              height: 8,
+              borderRadius: 5
+            }}
+            count={this.props.tracks.count()}
+            currentPage={this.props.currentPage}
+            offColor="gray"
+            onColor="white"
+            onPage={this.handlePage.bind(this)}
+          />
+        )}
       </View>
     );
   }
