@@ -155,7 +155,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void clearAll(String guitarId) {
-    FretlightGuitar guitar = (guitarId);
+    FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
     if (guitar != null) {
       guitar.allOff();
     }
@@ -163,18 +163,12 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void clearAllGuitars() {
-    runOnUiThread(new Runnable() {
-      @Override
-      public void run() {
-        for (FretlightGuitar mGuit : mGuitars) {
-          FretlightGuitar guitar = checkForConnectedGuitar(mGuit.getName());
-          if (guitar != null) {
-            guitar.allOff();
-          }
-        }
+    for (FretlightGuitar mGuit : mGuitars) {
+      FretlightGuitar guitar = checkForConnectedGuitar(mGuit.getName());
+      if (guitar != null) {
+        guitar.allOff();
       }
-    });
-
+    }
   }
 
   // SETTINGS
