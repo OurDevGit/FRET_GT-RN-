@@ -54,3 +54,4 @@ fastlane/screenshots
 /react-native-video
 /src/lesson.mp4
 /_java
+.vscode
