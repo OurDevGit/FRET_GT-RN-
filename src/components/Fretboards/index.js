@@ -98,17 +98,21 @@ class FretboardsRoot extends React.PureComponent {
     let page = Math.round(contentOffset.x / viewSize.width);
     this.setState({ selectedIndex: page });
     const track = this.props.tracks.get(page);
-    this.props.updateVisibleTracks(List([track]));
-    updateActiveParts([track.name]);
-    this.checkForAutoPartSwitching(track);
+    if (track !== undefined) {
+      this.props.updateVisibleTracks(List([track]));
+      updateActiveParts([track.name]);
+      this.checkForAutoPartSwitching(track);
+    }
   }
 
   handlePagePress(page) {
     this.setState({ selectedIndex: page });
     const track = this.props.tracks.get(page);
-    this.props.updateVisibleTracks(List([track]));
-    updateActiveParts([track.name]);
-    this.checkForAutoPartSwitching(track);
+    if (track !== undefined) {
+      this.props.updateVisibleTracks(List([track]));
+      updateActiveParts([track.name]);
+      this.checkForAutoPartSwitching(track);
+    }
   }
 
   checkForAutoPartSwitching(track) {
