@@ -329,10 +329,6 @@ class PureTab extends Component {
   setMediaCount = sections => {
     var media = isFunction(sections.toJS) ? sections.toJS() : sections;
 
-    if (this.props.isExpandable === true) {
-      media = media.filter(m => m.title === this.state.navigableOpenSection);
-    }
-
     const mediaCount = media.reduce((prev, curr) => {
       return prev + curr.data.length;
     }, 0);
