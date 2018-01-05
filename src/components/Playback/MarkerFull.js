@@ -21,6 +21,7 @@ class Marker extends React.Component {
       <View
         key={marker.name}
         style={{
+          backgroundColor: "yellow",
           position: "absolute",
           top: 0,
           left: adjustedLeft,
@@ -37,6 +38,7 @@ class Marker extends React.Component {
 
         <View
           style={{
+            backgroundColor: "blue",
             flexDirection: "row",
             alignItems: "flex-end",
             width: lengthForHeight(this.props.height) * 2,
@@ -55,18 +57,24 @@ class Marker extends React.Component {
               onMarkerLongPress(marker.time, end, marker.name);
             }}
           >
-            <Text
+            <View
               style={{
-                fontSize: 17,
-                color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
-                width: lengthForHeight(this.props.height),
-                textAlign: "right"
+                backgroundColor: "red"
               }}
-              numberOfLines={1}
-              ellipsizeMode="tail"
             >
-              {marker.name}
-            </Text>
+              <Text
+                style={{
+                  fontSize: 17,
+                  color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
+                  width: lengthForHeight(this.props.height),
+                  textAlign: "right"
+                }}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {marker.name}
+              </Text>
+            </View>
           </TouchableOpacity>
         </View>
       </View>
