@@ -1,11 +1,7 @@
 import React from "react";
-import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { View } from "react-native";
 import Fretboard from "./Fretboard";
-
-const keyExtractor = (item, index) => index;
-const emptyTrack = { name: undefined, isBass: false };
 
 class VerticalContainer extends React.Component {
   state = {
