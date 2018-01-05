@@ -74,8 +74,20 @@ class MediaItem extends PureComponent {
           previewProgress={this.props.previewProgress}
         />
         <View style={styles.titleContainer}>
-          <PlainText style={styles.title}>{this.props.title}</PlainText>
-          <PlainText style={styles.subtitle}>{this.props.subtitle}</PlainText>
+          <PlainText
+            numberOfLines={2}
+            style={styles.title}
+            ellipsizeMode="tail"
+          >
+            {this.props.title}
+          </PlainText>
+          <PlainText
+            numberOfLines={1}
+            style={styles.subtitle}
+            ellipsizeMode="tail"
+          >
+            {this.props.subtitle}
+          </PlainText>
         </View>
 
         <BtnDetails onPress={this.handleTapDetails} />
@@ -131,9 +143,10 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: "column",
     marginLeft: 10,
-    flexGrow: 1
+    flexGrow: 1,
+    flex: 1
   },
-  title: { fontSize: 12, width: "100%", color: "#4f4f4f" },
+  title: { fontSize: 12, width: "100%", color: "#4f4f4f", maxHeight: 30 },
   subtitle: { fontSize: 10, width: "100%", color: "#8f8e94" }
 });
 
