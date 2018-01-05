@@ -10,7 +10,8 @@ import { sync, getIndexFile } from "./sync";
 class Home extends PureComponent {
   //`http://guitar-tunes-open.s3.amazonaws.com/home/index.html?trigger=${this.props.reloadTrigger}`
   state = {
-    indexFile: null
+    indexFile: null,
+    reloadTrigger: 0
   };
 
   render() {
@@ -25,7 +26,7 @@ class Home extends PureComponent {
         }
         source={{
           uri: `file://${this.state.indexFile}?trigger=${
-            this.props.reloadTrigger
+            this.state.reloadTrigger
           }`
         }}
       />
@@ -42,6 +43,15 @@ class Home extends PureComponent {
 
     this.setState({
       indexFile
+    });
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    this.setState({
+      reloadTrigger:
+        nextProps.reloadTrigger + nextProps.dlMediaIdsDidChange
+          ? Math.random()
+          : 0
     });
   }
 
@@ -118,13 +128,22 @@ class Home extends PureComponent {
 Home.propTypes = {
   onChoose: PropTypes.func.isRequired,
   onDetails: PropTypes.func.isRequired,
-  reloadTrigger: PropTypes.number
+  reloadTrigger: PropTypes.number,
+  dlMediaIdsDidChange: PropTypes.bool
 };
 
+var _lastDlMediaIds = Set();
+
 const mapStateToProps = state => {
+  // console.debug("mapping state in Home");
+
   // get downloads and purchases from state
   const downloadedMediaIds = Set.fromKeys(state.get("downloadedMedia"));
   const purchasedIds = state.get("purchasedMedia");
+
+  // if the downloaded media ids change, we need to set a prop accordingly so that we know to reload the web view (by setting a new trigger query param in componentWillReceiveProps)
+  const dlMediaIdsDidChange = downloadedMediaIds.equals(_lastDlMediaIds);
+  _lastDlMediaIds = downloadedMediaIds;
 
   // purchases will be lowercase for Google IAB, but we need the upper-case versions
   const allMediaIds = getAllMedia(state)
@@ -145,7 +164,11 @@ const mapStateToProps = state => {
     }))
     .toJS();
 
-  return { purchasedMedia, downloadedMediaIds: downloadedMediaIds };
+  return {
+    purchasedMedia,
+    downloadedMediaIds: downloadedMediaIds,
+    dlMediaIdsDidChange
+  };
 };
 
 export default connect(mapStateToProps)(Home);
