@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { FlatButton } from "../Material";
 import { PrimaryGold } from "../../design";
+import { getIsPhone } from "../../utils";
 import { connect } from "react-redux";
 
 import * as actions from "../../redux/actions";
@@ -22,6 +23,19 @@ import {
 import Categories from "./Categories";
 import SubCategories from "./SubCategories";
 import Media from "./Media";
+
+const ModalOnTablet = ({ onClose, children }) =>
+  getIsPhone() ? (
+    children
+  ) : (
+    <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
+      <TouchableOpacity style={styles.container} onPress={onClose}>
+        <View activeOpacity={1} style={styles.content}>
+          {children}
+        </View>
+      </TouchableOpacity>
+    </Modal>
+  );
 
 class Store extends PureComponent {
   constructor(props) {
@@ -42,59 +56,50 @@ class Store extends PureComponent {
 
   render() {
     // console.debug(`Store render()`);
-    const onClose = () => console.debug("close");
     return (
-      <Modal
-        animationType="fade"
-        transparent={true}
-        onRequestClose={this.props.onClose}
-      >
-        <TouchableOpacity style={styles.container} onPress={this.props.onClose}>
-          <View activeOpacity={1} style={styles.content}>
-            <View
-              style={{
-                width: "100%",
-                height: "100%",
-                // position: "absolute",
-                flexDirection: "row",
-                backgroundColor: "white"
-              }}
-            >
-              <Categories
-                categories={this.props.categories}
-                onChoose={this.handleChooseCategory}
-                style={{ width: 90, flexGrow: 0 }}
-                selectedIndex={this.state.categoryIndex}
-                isStore={this.state.isStore}
-              />
+      <ModalOnTablet onClose={this.props.onClose}>
+        <View
+          style={{
+            width: "100%",
+            height: "100%",
+            position: getIsPhone() ? "absolute" : "relative",
+            flexDirection: "row",
+            backgroundColor: "white"
+          }}
+        >
+          <Categories
+            categories={this.props.categories}
+            onChoose={this.handleChooseCategory}
+            style={{ width: 90, flexGrow: 0 }}
+            selectedIndex={this.state.categoryIndex}
+            isStore={this.state.isStore}
+          />
 
-              <SubCategories
-                subCategories={this.state.subCategories}
-                onChoose={this.handleChooseSubCategory}
-                style={{ width: 90, flexGrow: 0 }}
-                selectedIndex={this.state.subCategoryIndex}
-                isStore={this.state.isStore}
-              />
-              <KeyboardAvoidingView style={styles.media} behavior="padding">
-                <Media
-                  detailMediaId={this.props.detailMediaId || ""}
-                  style={styles.media}
-                  category={this.state.category}
-                  subCategory={this.state.subCategory}
-                  group={this.state.group}
-                  onIsStoreChange={this.handleIsStoreChange}
-                  onChoose={this.handleChooseMedia}
-                  onClose={this.props.onClose}
-                  isExpandable={
-                    (this.state.subCategory || {}).isNavigable === true ||
-                    (this.state.category || {}).isGrouped === true
-                  }
-                />
-              </KeyboardAvoidingView>
-            </View>
-          </View>
-        </TouchableOpacity>
-      </Modal>
+          <SubCategories
+            subCategories={this.state.subCategories}
+            onChoose={this.handleChooseSubCategory}
+            style={{ width: 90, flexGrow: 0 }}
+            selectedIndex={this.state.subCategoryIndex}
+            isStore={this.state.isStore}
+          />
+          <KeyboardAvoidingView style={styles.media} behavior="padding">
+            <Media
+              detailMediaId={this.props.detailMediaId || ""}
+              style={styles.media}
+              category={this.state.category}
+              subCategory={this.state.subCategory}
+              group={this.state.group}
+              onIsStoreChange={this.handleIsStoreChange}
+              onChoose={this.handleChooseMedia}
+              onClose={this.props.onClose}
+              isExpandable={
+                (this.state.subCategory || {}).isNavigable === true ||
+                (this.state.category || {}).isGrouped === true
+              }
+            />
+          </KeyboardAvoidingView>
+        </View>
+      </ModalOnTablet>
     );
   }
 
