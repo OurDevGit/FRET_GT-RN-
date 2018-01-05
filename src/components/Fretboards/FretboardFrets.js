@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, StyleSheet } from "react-native";
+import { View } from "react-native";
 import FretboardNote from "./FretboardNote";
 import {
   subscribeToTimeUpdates,
@@ -102,7 +102,10 @@ class FretboardFrets extends Component {
 
       for (var noteKey in currentNotes) {
         const note = currentNotes[noteKey];
-        if (this.noteRefs[note.ref] !== undefined) {
+        if (
+          this.noteRefs[note.ref] !== undefined &&
+          this.noteRefs[note.ref] !== null
+        ) {
           this.noteRefs[note.ref].show();
           shownNotes[noteKey] = note;
         }
@@ -111,7 +114,10 @@ class FretboardFrets extends Component {
       for (noteKey in this.prevNotes) {
         if (currentNotes[noteKey] === undefined) {
           const note = this.prevNotes[noteKey];
-          if (this.noteRefs[note.ref] !== undefined) {
+          if (
+            this.noteRefs[note.ref] !== undefined &&
+            this.noteRefs[note.ref] !== null
+          ) {
             this.noteRefs[note.ref].hide();
           }
         }
