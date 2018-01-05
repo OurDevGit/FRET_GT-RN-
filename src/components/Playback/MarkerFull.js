@@ -39,8 +39,6 @@ class Marker extends React.Component {
         <View
           style={{
             backgroundColor: "blue",
-            flexDirection: "row",
-            alignItems: "flex-end",
             width: lengthForHeight(this.props.height) * 2,
             transform: [
               { translateX: 5 },
