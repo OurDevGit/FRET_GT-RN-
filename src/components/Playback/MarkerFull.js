@@ -38,7 +38,7 @@ class Marker extends React.Component {
 
         <View
           style={{
-            backgroundColor: "blue",
+            // backgroundColor: "blue",
             width: lengthForHeight(this.props.height) * 2,
             transform: [
               { translateX: 5 },
@@ -48,6 +48,9 @@ class Marker extends React.Component {
           }}
         >
           <TouchableOpacity
+            style={{
+              backgroundColor: "blue"
+            }}
             onPressIn={() => console.log(`marker press IN: ${marker.name}`)}
             onPressOut={() => console.log(`marker press OUT: ${marker.name}`)}
             onPress={() => {
@@ -60,9 +63,11 @@ class Marker extends React.Component {
             }}
           >
             <View
-              style={{
-                backgroundColor: "red"
-              }}
+              style={
+                {
+                  // backgroundColor: "red"
+                }
+              }
             >
               <Text
                 style={{
