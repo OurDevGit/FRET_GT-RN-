@@ -48,10 +48,14 @@ class Marker extends React.Component {
           }}
         >
           <TouchableOpacity
+            onPressIn={() => console.log(`marker press IN: ${marker.name}`)}
+            onPressOut={() => console.log(`marker press OUT: ${marker.name}`)}
             onPress={() => {
+              console.log(`marker was pressed: ${marker.name}`);
               onMarkerPress(marker.time, marker.name);
             }}
             onLongPress={() => {
+              console.log(`marker was long-pressed: ${marker.name}`);
               onMarkerLongPress(marker.time, end, marker.name);
             }}
           >
