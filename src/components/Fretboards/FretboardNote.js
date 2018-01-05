@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet } from "react-native";
 import NoteSvg from "./NoteSvg";
+import { Sentry } from "react-native-sentry";
 
 const styles = StyleSheet.create({
   container: {
@@ -51,6 +52,12 @@ class FretboardNote extends React.Component {
 
   show = () => {
     if (this.isVisible_ !== true) {
+      Sentry.captureBreadcrumb({
+        message: "Turning fret ON via setNativeProps",
+        category: "setNativeProps",
+        level: "debug"
+      });
+
       this.fretView.setNativeProps({ opacity: 1 });
       this.isVisible_ = true;
     }
@@ -58,6 +65,12 @@ class FretboardNote extends React.Component {
 
   hide = () => {
     if (this.isVisible_ !== false) {
+      Sentry.captureBreadcrumb({
+        message: "Turning fret OFF via setNativeProps",
+        category: "setNativeProps",
+        level: "debug"
+      });
+
       this.fretView.setNativeProps({ opacity: 0 });
       this.isVisible_ = false;
     }
