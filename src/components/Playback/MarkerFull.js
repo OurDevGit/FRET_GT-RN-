@@ -25,8 +25,7 @@ class Marker extends React.Component {
           top: 0,
           left: adjustedLeft,
           height: "100%",
-          alignItems: "center",
-          backgroundColor: "yellow"
+          alignItems: "center"
         }}
         onLayout={this.handleLayout}
       >
@@ -40,17 +39,15 @@ class Marker extends React.Component {
           style={{
             flexDirection: "row",
             alignItems: "flex-end",
-            width: lengthForHeight(this.props.height),
-            // backgroundColor: "blue",
+            width: lengthForHeight(this.props.height) * 2,
             transform: [
-              { rotate: "-45deg" },
-              { translateX: lengthForHeight(this.props.height) / -2 },
-              { translateY: this.props.height < 125 ? -5 : 0 }
+              { translateX: 5 },
+              { translateY: this.props.height < 125 ? -5 : 0 },
+              { rotate: "-45deg" }
             ]
           }}
         >
           <TouchableOpacity
-            style={{ backgroundColor: "red" }}
             onPress={() => {
               onMarkerPress(marker.time, marker.name);
             }}
@@ -58,20 +55,18 @@ class Marker extends React.Component {
               onMarkerLongPress(marker.time, end, marker.name);
             }}
           >
-            <View>
-              <Text
-                style={{
-                  fontSize: 17,
-                  color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
-                  width: lengthForHeight(this.props.height),
-                  textAlign: "right"
-                }}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {marker.name}
-              </Text>
-            </View>
+            <Text
+              style={{
+                fontSize: 17,
+                color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
+                width: lengthForHeight(this.props.height),
+                textAlign: "right"
+              }}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {marker.name}
+            </Text>
           </TouchableOpacity>
         </View>
       </View>
