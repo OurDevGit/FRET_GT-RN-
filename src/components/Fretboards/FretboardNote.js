@@ -39,13 +39,15 @@ class FretboardNote extends React.Component {
         opacity={0}
         ref={ref => (this.fretView = ref)}
       >
-        <NoteSvg
-          notation={notation}
-          size={this.state.noteSize}
-          backgroundColor="#17A3E3"
-          outlineColor="#17A3E3"
-          textColor="#000000"
-        />
+        {this.state.noteSize > 0 && (
+          <NoteSvg
+            notation={notation}
+            size={this.state.noteSize}
+            backgroundColor="#17A3E3"
+            outlineColor="#17A3E3"
+            textColor="#000000"
+          />
+        )}
       </View>
     );
   }
