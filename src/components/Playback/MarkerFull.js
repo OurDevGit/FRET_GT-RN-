@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import { PrimaryBlue } from "../../design";
 
 const lengthForHeight = h => {
@@ -10,24 +10,26 @@ const lengthForHeight = h => {
 
 class Marker extends React.Component {
   state = {
-    width: 0
+    width: 0,
+    isDown: false
   };
 
   render() {
-    const { marker, left, end, onMarkerPress, onMarkerLongPress } = this.props;
+    const { marker, left } = this.props;
     const adjustedLeft = left - (this.state.width - 30) / 2;
 
     return (
       <View
         key={marker.name}
         style={{
-          backgroundColor: "yellow",
           position: "absolute",
           top: 0,
           left: adjustedLeft,
           height: "100%",
-          alignItems: "center"
+          alignItems: "center",
+          opacity: this.state.isDown ? 0.4 : 1.0
         }}
+        pointerEvents="box-none"
         onLayout={this.handleLayout}
       >
         {this.state.width > 0 && (
@@ -38,7 +40,6 @@ class Marker extends React.Component {
 
         <View
           style={{
-            // backgroundColor: "blue",
             width: lengthForHeight(this.props.height) * 2,
             transform: [
               { translateX: 5 },
@@ -46,47 +47,49 @@ class Marker extends React.Component {
               { rotate: "-45deg" }
             ]
           }}
+          pointerEvents="box-none"
         >
-          <TouchableOpacity
+          <Text
+            onStartShouldSetResponder={() => true}
+            onResponderGrant={() => this.handlePressDown()}
+            onResponderRelease={() => this.handlePressUp()}
+            onResponderTerminate={() => this.handlePressUp()}
             style={{
-              backgroundColor: "blue"
+              fontSize: 17,
+              color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
+              maxWidth: lengthForHeight(this.props.height),
+              textAlign: "right"
             }}
-            onPressIn={() => console.log(`marker press IN: ${marker.name}`)}
-            onPressOut={() => console.log(`marker press OUT: ${marker.name}`)}
-            onPress={() => {
-              console.log(`marker was pressed: ${marker.name}`);
-              onMarkerPress(marker.time, marker.name);
-            }}
-            onLongPress={() => {
-              console.log(`marker was long-pressed: ${marker.name}`);
-              onMarkerLongPress(marker.time, end, marker.name);
-            }}
+            numberOfLines={1}
+            ellipsizeMode="tail"
           >
-            <View
-              style={
-                {
-                  // backgroundColor: "red"
-                }
-              }
-            >
-              <Text
-                style={{
-                  fontSize: 17,
-                  color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
-                  width: lengthForHeight(this.props.height),
-                  textAlign: "right"
-                }}
-                numberOfLines={1}
-                ellipsizeMode="tail"
-              >
-                {marker.name}
-              </Text>
-            </View>
-          </TouchableOpacity>
+            {marker.name}
+          </Text>
         </View>
       </View>
     );
   }
+
+  handlePressDown = () => {
+    const { marker, end, onMarkerLongPress } = this.props;
+    this.setState({ isDown: true });
+
+    setTimeout(() => {
+      if (this.state.isDown) {
+        this.setState({ isDown: false });
+        onMarkerLongPress(marker.time, end, marker.name);
+      }
+    }, 850);
+  };
+
+  handlePressUp = () => {
+    const { marker, onMarkerPress } = this.props;
+
+    if (this.state.isDown) {
+      this.setState({ isDown: false });
+      onMarkerPress(marker.time, marker.name);
+    }
+  };
 
   handleLayout = e => {
     this.setState({
