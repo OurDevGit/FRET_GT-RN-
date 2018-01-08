@@ -41,6 +41,7 @@ class Marker extends React.Component {
         <View
           style={{
             width: lengthForHeight(this.props.height) * 2,
+            height: 25,
             transform: [
               { translateX: 5 },
               { translateY: this.props.height < 125 ? -5 : 0 },
@@ -49,22 +50,31 @@ class Marker extends React.Component {
           }}
           pointerEvents="box-none"
         >
-          <Text
-            onStartShouldSetResponder={() => true}
-            onResponderGrant={() => this.handlePressDown()}
-            onResponderRelease={() => this.handlePressUp()}
-            onResponderTerminate={() => this.handlePressUp()}
+          <View
             style={{
-              fontSize: 17,
-              color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
-              maxWidth: lengthForHeight(this.props.height),
-              textAlign: "right"
+              width: lengthForHeight(this.props.height),
+              height: 25,
+              flexDirection: "row",
+              justifyContent: "flex-end"
             }}
-            numberOfLines={1}
-            ellipsizeMode="tail"
           >
-            {marker.name}
-          </Text>
+            <Text
+              onStartShouldSetResponder={() => true}
+              onResponderGrant={() => this.handlePressDown()}
+              onResponderRelease={() => this.handlePressUp()}
+              onResponderTerminate={() => this.handlePressUp()}
+              style={{
+                maxWidth: lengthForHeight(this.props.height),
+                fontSize: 17,
+                color: `rgba(0, 0, 0, ${this.state.width === 0 ? 0.0 : 1.0})`,
+                textAlign: "right"
+              }}
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            >
+              {marker.name}
+            </Text>
+          </View>
         </View>
       </View>
     );
