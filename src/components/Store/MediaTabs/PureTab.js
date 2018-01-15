@@ -327,11 +327,28 @@ class PureTab extends Component {
   };
 
   setMediaCount = sections => {
-    var media = isFunction(sections.toJS) ? sections.toJS() : sections;
+    var mediaCount = 0;
 
-    const mediaCount = media.reduce((prev, curr) => {
-      return prev + curr.data.length;
-    }, 0);
+    if (
+      this.state.navigableOpenSection === null ||
+      this.state.navigableOpenSection === "_ALLCLOSED"
+    ) {
+      // total up all media in all sections
+      var media = isFunction(sections.toJS) ? sections.toJS() : sections;
+
+      mediaCount = media.reduce((prev, curr) => {
+        return prev + curr.data.length;
+      }, 0);
+    } else {
+      // get the total for just the open section
+
+      mediaCount =
+        sections
+          .filter(s => s.get("title") === this.state.navigableOpenSection)
+          .get(0)
+          .get("data")
+          .count() || 0;
+    }
 
     this.props.onMediaCount(mediaCount);
   };
