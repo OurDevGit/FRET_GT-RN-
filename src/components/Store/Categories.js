@@ -45,7 +45,7 @@ class Categories extends React.PureComponent {
             onLayout={this.handleLayout}
             onScroll={this.handleScroll}
             ref={r => (this.list = r)}
-            onMomentumScrollEnd={this.handleScrollEnd}
+            onMomentumScrollEnd={this.handleMomentumEnd}
           />
           <TouchableHighlight
             style={{ width: "100%", height: 20, backgroundColor: "#ff00ff" }}
@@ -63,12 +63,6 @@ class Categories extends React.PureComponent {
         />
       </View>
     );
-  }
-
-  componentDidMount() {
-    // Dirty hack
-    this.list.scrollResponderHandleStartShouldSetResponder = () => true;
-    console.debug(this.list);
   }
 
   renderItem = ({ item, index }) => {
@@ -95,9 +89,6 @@ class Categories extends React.PureComponent {
   };
 
   handleLayout = evt => {
-    console.debug({ evt });
-    console.debug(evt.nativeEvent.layout.height);
-
     const availableHeight = evt.nativeEvent.layout.height;
     const buttonHeight = Math.min(availableHeight / 4, 120);
 
@@ -109,10 +100,9 @@ class Categories extends React.PureComponent {
   handleScroll = evt => {
     // console.debug(evt.nativeEvent);
     const scrollY = evt.nativeEvent.contentOffset.y;
-    // console.debug(scrollY);
-    const bottom =
-      // evt.nativeEvent.contentSize.height +
-      scrollY + evt.nativeEvent.layoutMeasurement.height;
+    // console.debug(this.scrollY_);
+    const bottom = scrollY + evt.nativeEvent.layoutMeasurement.height;
+    const contentHeight = evt.nativeEvent.contentSize.height;
 
     if (scrollY === 0) {
       console.debug("top");
@@ -120,9 +110,7 @@ class Categories extends React.PureComponent {
         topEnabled: false,
         bottomEnabled: true
       });
-    } else if (
-      Math.round(bottom) === Math.round(evt.nativeEvent.contentSize.height)
-    ) {
+    } else if (Math.round(bottom) === Math.round(contentHeight)) {
       console.debug("bottom");
       this.setState({
         topEnabled: true,
@@ -135,26 +123,21 @@ class Categories extends React.PureComponent {
       // console.debug(Math.round(row));
       // this.snapToIndex(row);
       this.setState({
-        topEnabled: false,
-        bottomEnabled: false
+        topEnabled: true,
+        bottomEnabled: true
       });
     }
-
-    // clearTimeout(this.scrollTimeout_);
-    // this.scrollTimeout_ = setTimeout(this.handleScrollTimeout, 500);
   };
 
-  // handleScrollTimeout = () => {
-  //   console.debug("s t");
-  // };
-
-  handleScrollEnd = evt => {
+  handleMomentumEnd = evt => {
     const scrollY = evt.nativeEvent.contentOffset.y;
-    console.debug({ scrollY });
-    const row = scrollY / evt.nativeEvent.contentSize.height * 4;
-    console.debug({ row });
-    console.debug(Math.round(row));
-    this.snapToIndex(row);
+    const contentHeight = evt.nativeEvent.contentSize.height;
+    const buttonCount = Math.round(contentHeight / this.state.buttonHeight);
+    const progress = scrollY / contentHeight;
+    const row = Math.round(progress * buttonCount);
+    console.debug({ scrollY, contentHeight, buttonCount, row });
+    // console.debug(Math.round(row));
+    this.snapToRow(row, false);
   };
 
   handleTouchEnd = evt => {
@@ -163,7 +146,7 @@ class Categories extends React.PureComponent {
 
   handleUp = () => {
     const index = Math.max(this.props.selectedIndex - 4, 0);
-    this.snapToIndex(index);
+    this.snapToRow(index);
   };
 
   handleDown = () => {
@@ -171,10 +154,10 @@ class Categories extends React.PureComponent {
       this.props.selectedIndex + 4,
       this.props.categories.length - 4
     );
-    this.snapToIndex(index);
+    this.snapToRow(index);
   };
 
-  snapToIndex = (index, doSelect = true) => {
+  snapToRow = (index, doSelect = true) => {
     const item = this.props.categories[index];
     this.list.scrollToIndex({ animated: true, index });
 
