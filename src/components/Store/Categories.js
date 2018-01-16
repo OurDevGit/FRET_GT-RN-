@@ -1,21 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, FlatList, TouchableHighlight, Text } from "react-native";
+import { View, FlatList, TouchableHighlight } from "react-native";
 import { StoreLight, StoreDark, LibraryDark, LibraryLight } from "../../design";
 import LargeButton from "./LargeButton";
 import { UpArrow, DownArrow } from "./PageArrows";
 
+const defaultButtonHeight = 90;
 const extractKey = item => item.id;
 
 class Categories extends React.PureComponent {
   state = {
-    buttonHeight: 90,
+    buttonHeight: defaultButtonHeight,
     upEnabled: false,
-    downEnabled: true
+    downEnabled: true,
+    showPaginationButtons: false
   };
 
   render() {
-    const { categories, style, isStore } = this.props;
+    console.debug("Categories render()");
+    console.debug(this.props.selectedIndex);
+    const { categories, isStore } = this.props;
 
     return (
       <View style={{ flexDirection: "row" }}>
@@ -26,38 +30,48 @@ class Categories extends React.PureComponent {
           }}
           onPressOut={() => console.debug("out")}
         >
-          <TouchableHighlight
-            style={{ width: "100%", height: 24, backgroundColor: "#ff00ff" }}
-            onPress={this.handleUp}
-            activeOpacity={0.1}
-            underlayColor="#00ff00"
-            enabled={false}
-          >
-            <View>
-              <UpArrow enabled={this.state.upEnabled} store={true} />
-            </View>
-          </TouchableHighlight>
+          {this.state.showPaginationButtons && (
+            <TouchableHighlight
+              style={{
+                width: "100%",
+                height: 24,
+                backgroundColor: isStore ? StoreDark : LibraryDark
+              }}
+              onPress={this.handleUp}
+              activeOpacity={0.1}
+              underlayColor="#00ff00"
+              enabled={false}
+            >
+              <View>
+                <UpArrow enabled={this.state.upEnabled} store={true} />
+              </View>
+            </TouchableHighlight>
+          )}
           <FlatList
             scrollEnabled={true}
             data={categories}
+            extraData={this.props.selectedIndex}
             renderItem={this.renderItem}
             keyExtractor={extractKey}
-            style={{
-              ...style
-            }}
             onLayout={this.handleLayout}
             onScroll={this.handleScroll}
             ref={r => (this.list = r)}
             onMomentumScrollEnd={this.handleMomentumEnd}
           />
-          <TouchableHighlight
-            style={{ width: "100%", height: 24, backgroundColor: "#ff00ff" }}
-            onPress={this.handleDown}
-          >
-            <View>
-              <DownArrow enabled={this.state.downEnabled} store={true} />
-            </View>
-          </TouchableHighlight>
+          {this.state.showPaginationButtons && (
+            <TouchableHighlight
+              style={{
+                width: "100%",
+                height: 24,
+                backgroundColor: isStore ? StoreDark : LibraryDark
+              }}
+              onPress={this.handleDown}
+            >
+              <View>
+                <DownArrow enabled={this.state.downEnabled} store={true} />
+              </View>
+            </TouchableHighlight>
+          )}
         </View>
         <View
           style={{
@@ -80,6 +94,8 @@ class Categories extends React.PureComponent {
       title = item.libraryTitle;
     }
 
+    console.debug(this.props.selectedIndex, index);
+
     return (
       <LargeButton
         id={item.id}
@@ -95,10 +111,22 @@ class Categories extends React.PureComponent {
 
   handleLayout = evt => {
     const availableHeight = evt.nativeEvent.layout.height;
-    const buttonHeight = Math.min(availableHeight / 4, 120);
+    var buttonHeight = Math.min(availableHeight / 4, 120);
+    const defaultTotalHeight =
+      this.props.categories.length * defaultButtonHeight;
+
+    var showPaginationButtons = this.state.showPaginationButtons;
+
+    if (defaultTotalHeight <= availableHeight) {
+      buttonHeight = defaultButtonHeight;
+      showPaginationButtons = false;
+    } else {
+      showPaginationButtons = true;
+    }
 
     this.setState({
-      buttonHeight
+      buttonHeight,
+      showPaginationButtons
     });
   };
 

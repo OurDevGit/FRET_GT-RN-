@@ -5,11 +5,8 @@ import {
   StyleSheet,
   KeyboardAvoidingView,
   Modal,
-  TouchableOpacity,
-  Text
+  TouchableOpacity
 } from "react-native";
-import { FlatButton } from "../Material";
-import { PrimaryGold } from "../../design";
 import { getIsPhone } from "../../utils";
 import { connect } from "react-redux";
 
@@ -21,7 +18,6 @@ import {
 } from "../../models/Store";
 
 import Categories from "./Categories";
-import SubCategories from "./SubCategories";
 import Media from "./Media";
 
 const ModalOnTablet = ({ onClose, children }) =>
@@ -36,6 +32,11 @@ const ModalOnTablet = ({ onClose, children }) =>
       </TouchableOpacity>
     </Modal>
   );
+
+ModalOnTablet.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired
+};
 
 class Store extends PureComponent {
   constructor(props) {
@@ -55,7 +56,8 @@ class Store extends PureComponent {
   isMounted_ = false;
 
   render() {
-    // console.debug(`Store render()`);
+    console.debug(`Store render()`);
+    console.debug(this.state.categoryIndex);
     return (
       <ModalOnTablet onClose={this.props.onClose}>
         <View
@@ -75,8 +77,8 @@ class Store extends PureComponent {
             isStore={this.state.isStore}
           />
 
-          <SubCategories
-            subCategories={this.state.subCategories}
+          <Categories
+            categories={this.state.subCategories}
             onChoose={this.handleChooseSubCategory}
             style={{ width: 90, flexGrow: 0 }}
             selectedIndex={this.state.subCategoryIndex}
@@ -303,7 +305,7 @@ const styles = StyleSheet.create({
   },
   content: {
     width: "90%",
-    height: "90%"
+    height: "50%"
   },
   heading: {
     fontSize: 24,
