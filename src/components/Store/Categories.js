@@ -100,7 +100,6 @@ class Categories extends React.PureComponent {
   handleScroll = evt => {
     // console.debug(evt.nativeEvent);
     const scrollY = evt.nativeEvent.contentOffset.y;
-    // console.debug(this.scrollY_);
     const bottom = scrollY + evt.nativeEvent.layoutMeasurement.height;
     const contentHeight = evt.nativeEvent.contentSize.height;
 
@@ -117,11 +116,6 @@ class Categories extends React.PureComponent {
         bottomEnabled: false
       });
     } else {
-      // console.debug("mid");
-      // const row = scrollY / evt.nativeEvent.contentSize.height * 4;
-      // console.debug({ row });
-      // console.debug(Math.round(row));
-      // this.snapToIndex(row);
       this.setState({
         topEnabled: true,
         bottomEnabled: true
@@ -135,8 +129,7 @@ class Categories extends React.PureComponent {
     const buttonCount = Math.round(contentHeight / this.state.buttonHeight);
     const progress = scrollY / contentHeight;
     const row = Math.round(progress * buttonCount);
-    console.debug({ scrollY, contentHeight, buttonCount, row });
-    // console.debug(Math.round(row));
+    // console.debug({ scrollY, contentHeight, buttonCount, row });
     this.snapToRow(row, false);
   };
 
