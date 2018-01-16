@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 import { View, FlatList, TouchableHighlight, Text } from "react-native";
 import { StoreLight, StoreDark, LibraryDark, LibraryLight } from "../../design";
 import LargeButton from "./LargeButton";
+import { UpArrow, DownArrow } from "./PageArrows";
 
 const extractKey = item => item.id;
 
 class Categories extends React.PureComponent {
   state = {
     buttonHeight: 90,
-    topEnabled: false,
-    bottomEnabled: true
+    upEnabled: false,
+    downEnabled: true
   };
 
   render() {
@@ -26,13 +27,15 @@ class Categories extends React.PureComponent {
           onPressOut={() => console.debug("out")}
         >
           <TouchableHighlight
-            style={{ width: "100%", height: 20, backgroundColor: "#ff00ff" }}
+            style={{ width: "100%", height: 24, backgroundColor: "#ff00ff" }}
             onPress={this.handleUp}
             activeOpacity={0.1}
             underlayColor="#00ff00"
             enabled={false}
           >
-            <Text>---</Text>
+            <View>
+              <UpArrow enabled={this.state.upEnabled} store={true} />
+            </View>
           </TouchableHighlight>
           <FlatList
             scrollEnabled={true}
@@ -48,10 +51,12 @@ class Categories extends React.PureComponent {
             onMomentumScrollEnd={this.handleMomentumEnd}
           />
           <TouchableHighlight
-            style={{ width: "100%", height: 20, backgroundColor: "#ff00ff" }}
+            style={{ width: "100%", height: 24, backgroundColor: "#ff00ff" }}
             onPress={this.handleDown}
           >
-            <Text>---</Text>
+            <View>
+              <DownArrow enabled={this.state.downEnabled} store={true} />
+            </View>
           </TouchableHighlight>
         </View>
         <View
@@ -106,19 +111,19 @@ class Categories extends React.PureComponent {
     if (scrollY === 0) {
       console.debug("top");
       this.setState({
-        topEnabled: false,
-        bottomEnabled: true
+        upEnabled: false,
+        downEnabled: true
       });
     } else if (Math.round(bottom) === Math.round(contentHeight)) {
       console.debug("bottom");
       this.setState({
-        topEnabled: true,
-        bottomEnabled: false
+        upEnabled: true,
+        downEnabled: false
       });
     } else {
       this.setState({
-        topEnabled: true,
-        bottomEnabled: true
+        upEnabled: true,
+        downEnabled: true
       });
     }
   };
