@@ -15,12 +15,16 @@ class BtnTempoModal extends React.Component {
   };
 
   render() {
-    var tempos = defaultTempos;
+    var tempos = defaultTempos();
+    console.log(!this.props.isSmart || !this.props.isPhone, defaultTempos());
 
-    if (this.props.currentVideoMidiFile === undefined) {
-      tempos[19] = 0.1;
-    } else if (this.props.currentVideoMidiFile !== null) {
-      tempos[19] = 0.1;
+    if (!this.props.isSmart || !this.props.isPhone) {
+      if (
+        this.props.currentVideoMidiFile === undefined ||
+        this.props.currentVideoMidiFile !== null
+      ) {
+        tempos[19] = 0.1;
+      }
     }
 
     var currentIndex = tempos.indexOf(this.props.currentTempo);
@@ -133,37 +137,37 @@ class BtnTempoModal extends React.Component {
   };
 
   handleSelectTempo = tempo => {
-    if (tempo > 0 || !this.props.isSmart || !this.props.isPhone) {
-      this.props.onSelectTempo(tempo);
-      if (this.props.onForceControlsVisible !== undefined) {
-        this.props.onForceControlsVisible(false);
-      }
-      this.setState({ modalIsVisible: false });
+    this.props.onSelectTempo(tempo);
+    if (this.props.onForceControlsVisible !== undefined) {
+      this.props.onForceControlsVisible(false);
     }
+    this.setState({ modalIsVisible: false });
   };
 }
 
-var defaultTempos = [
-  1.25,
-  1.2,
-  1.115,
-  1.1,
-  1.05,
-  1.0,
-  0.95,
-  0.9,
-  0.85,
-  0.8,
-  0.75,
-  0.7,
-  0.65,
-  0.6,
-  0.55,
-  0.5,
-  0.45,
-  0.4,
-  0.35
-];
+const defaultTempos = () => {
+  return [
+    1.25,
+    1.2,
+    1.115,
+    1.1,
+    1.05,
+    1.0,
+    0.95,
+    0.9,
+    0.85,
+    0.8,
+    0.75,
+    0.7,
+    0.65,
+    0.6,
+    0.55,
+    0.5,
+    0.45,
+    0.4,
+    0.35
+  ];
+};
 
 BtnTempoModal.propTypes = {
   currentTempo: PropTypes.number.isRequired,
