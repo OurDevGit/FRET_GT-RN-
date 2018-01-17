@@ -53,11 +53,7 @@ class Store extends PureComponent {
     };
   }
 
-  isMounted_ = false;
-
   render() {
-    console.debug(`Store render()`);
-    console.debug(this.state.categoryIndex);
     return (
       <ModalOnTablet onClose={this.props.onClose}>
         <View
@@ -76,14 +72,15 @@ class Store extends PureComponent {
             selectedIndex={this.state.categoryIndex}
             isStore={this.state.isStore}
           />
-
-          <Categories
-            categories={this.state.subCategories}
-            onChoose={this.handleChooseSubCategory}
-            style={{ width: 90, flexGrow: 0 }}
-            selectedIndex={this.state.subCategoryIndex}
-            isStore={this.state.isStore}
-          />
+          {this.state.subCategories.length > 0 && (
+            <Categories
+              categories={this.state.subCategories}
+              onChoose={this.handleChooseSubCategory}
+              style={{ width: 90, flexGrow: 0 }}
+              selectedIndex={this.state.subCategoryIndex}
+              isStore={this.state.isStore}
+            />
+          )}
           <KeyboardAvoidingView style={styles.media} behavior="padding">
             <Media
               detailMediaId={this.props.detailMediaId || ""}
@@ -110,6 +107,7 @@ class Store extends PureComponent {
 
     // load the sub/category index from props or fall back to the saved UI State
     const uiState = await getUIState();
+
     const categoryIndex =
       this.state.categoryIndex === 0
         ? uiState.categoryIndex
@@ -137,14 +135,8 @@ class Store extends PureComponent {
   }
 
   componentDidMount() {
-    this.isMounted_ = true;
-
     // sync with the backend
     this.props.refreshStore();
-  }
-
-  componentWillUnmount() {
-    this.isMounted_ = false;
   }
 
   componentWillReceiveProps(newProps) {
@@ -167,21 +159,13 @@ class Store extends PureComponent {
     }
   }
 
-  handleChooseCategory = async (
+  handleChooseCategory = (
     category,
     categoryIndex,
     subCategory,
     subCategoryIndex
   ) => {
-    // console.debug(`choose category: ${categoryIndex}`); //, category);
-
     if (!category) {
-      return;
-    }
-
-    await setCategoryIndex(categoryIndex);
-    // since this function is async, the component can unmount here
-    if (this.isMounted_ !== true) {
       return;
     }
 
@@ -222,6 +206,8 @@ class Store extends PureComponent {
         });
       }
     }
+
+    setCategoryIndex(categoryIndex);
   };
 
   handleChooseSubCategory = (
@@ -234,9 +220,6 @@ class Store extends PureComponent {
     }
     // console.debug(`choose sub-category: ${subCategoryIndex}`);
 
-    // const groups = this.props.groups[subCategory.id];
-    setSubCategoryIndex(subCategoryIndex);
-
     const newState = {
       subCategory,
       subCategoryIndex
@@ -245,6 +228,8 @@ class Store extends PureComponent {
     if (skipSetState === false) {
       this.setState(newState);
     }
+
+    setSubCategoryIndex(subCategoryIndex);
 
     return newState;
   };

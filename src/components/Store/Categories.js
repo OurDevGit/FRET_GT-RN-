@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, FlatList, TouchableHighlight } from "react-native";
+import { View, FlatList, TouchableOpacity } from "react-native";
 import { StoreLight, StoreDark, LibraryDark, LibraryLight } from "../../design";
 import LargeButton from "./LargeButton";
 import { UpArrow, DownArrow } from "./PageArrows";
@@ -17,8 +17,6 @@ class Categories extends React.PureComponent {
   };
 
   render() {
-    console.debug("Categories render()");
-    console.debug(this.props.selectedIndex);
     const { categories, isStore } = this.props;
 
     return (
@@ -31,7 +29,7 @@ class Categories extends React.PureComponent {
           onPressOut={() => console.debug("out")}
         >
           {this.state.showPaginationButtons && (
-            <TouchableHighlight
+            <TouchableOpacity
               style={{
                 width: "100%",
                 height: 24,
@@ -39,13 +37,11 @@ class Categories extends React.PureComponent {
               }}
               onPress={this.handleUp}
               activeOpacity={0.1}
-              underlayColor="#00ff00"
-              enabled={false}
             >
               <View>
                 <UpArrow enabled={this.state.upEnabled} store={true} />
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
           )}
           <FlatList
             scrollEnabled={true}
@@ -59,7 +55,7 @@ class Categories extends React.PureComponent {
             onMomentumScrollEnd={this.handleMomentumEnd}
           />
           {this.state.showPaginationButtons && (
-            <TouchableHighlight
+            <TouchableOpacity
               style={{
                 width: "100%",
                 height: 24,
@@ -70,7 +66,7 @@ class Categories extends React.PureComponent {
               <View>
                 <DownArrow enabled={this.state.downEnabled} store={true} />
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
           )}
         </View>
         <View
@@ -93,8 +89,6 @@ class Categories extends React.PureComponent {
     ) {
       title = item.libraryTitle;
     }
-
-    console.debug(this.props.selectedIndex, index);
 
     return (
       <LargeButton
@@ -131,7 +125,6 @@ class Categories extends React.PureComponent {
   };
 
   handleScroll = evt => {
-    // console.debug(evt.nativeEvent);
     const scrollY = evt.nativeEvent.contentOffset.y;
     const bottom = scrollY + evt.nativeEvent.layoutMeasurement.height;
     const contentHeight = evt.nativeEvent.contentSize.height;
@@ -143,7 +136,6 @@ class Categories extends React.PureComponent {
         downEnabled: true
       });
     } else if (Math.round(bottom) === Math.round(contentHeight)) {
-      console.debug("bottom");
       this.setState({
         upEnabled: true,
         downEnabled: false
@@ -171,11 +163,19 @@ class Categories extends React.PureComponent {
   };
 
   handleUp = () => {
+    if (this.state.upEnabled !== true) {
+      return;
+    }
+
     const index = Math.max(this.props.selectedIndex - 4, 0);
     this.snapToRow(index);
   };
 
   handleDown = () => {
+    if (this.state.downEnabled !== true) {
+      return;
+    }
+
     const index = Math.min(
       this.props.selectedIndex + 4,
       this.props.categories.length - 4
