@@ -17,7 +17,7 @@ class Categories extends React.PureComponent {
   };
 
   render() {
-    const { categories, isStore } = this.props;
+    const { categories, isStore, selectedIndex } = this.props;
 
     return (
       <View style={{ flexDirection: "row" }}>
@@ -39,14 +39,14 @@ class Categories extends React.PureComponent {
               activeOpacity={0.1}
             >
               <View>
-                <UpArrow enabled={this.state.upEnabled} store={true} />
+                <UpArrow enabled={this.state.upEnabled} store={isStore} />
               </View>
             </TouchableOpacity>
           )}
           <FlatList
             scrollEnabled={true}
             data={categories}
-            extraData={this.props.selectedIndex}
+            extraData={{ selectedIndex, isStore }}
             renderItem={this.renderItem}
             keyExtractor={extractKey}
             onLayout={this.handleLayout}
@@ -64,7 +64,7 @@ class Categories extends React.PureComponent {
               onPress={this.handleDown}
             >
               <View>
-                <DownArrow enabled={this.state.downEnabled} store={true} />
+                <DownArrow enabled={this.state.downEnabled} store={isStore} />
               </View>
             </TouchableOpacity>
           )}
