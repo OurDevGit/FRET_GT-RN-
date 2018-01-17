@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
   },
   content: {
     width: "90%",
-    height: "50%"
+    height: "90%"
   },
   heading: {
     fontSize: 24,
