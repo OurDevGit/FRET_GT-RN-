@@ -45,7 +45,7 @@ class Root extends Component {
     video: null,
     showAd: true,
     showFretboards: true,
-    isShowingStore: true,
+    isShowingStore: false,
     isShowingSettings: false,
     isShowingFretlightAdmin: false,
     isShowingCountdownTimer: false,
