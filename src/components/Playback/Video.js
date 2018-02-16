@@ -151,6 +151,7 @@ class Vid extends React.Component {
       this.state.areControlsVisible !== nextState.areControlsVisible ||
       this.props.loopIsEnabled !== nextProps.loopIsEnabled ||
       this.props.modalIsPresented !== nextProps.modalIsPresented ||
+      this.props.appIsClosing !== nextProps.appIsClosing ||
       !this.props.currentLoop.equals(nextProps.currentLoop) ||
       !this.props.currentVideoChapter.equals(nextProps.currentVideoChapter) ||
       !this.props.currentVideoMarker.equals(nextProps.currentVideoMarker) ||
@@ -182,7 +183,10 @@ class Vid extends React.Component {
       }
     }
 
-    if (this.props.modalIsPresented && !prevProps.modalIsPresented) {
+    if (
+      (this.props.modalIsPresented && !prevProps.modalIsPresented) ||
+      (this.props.appIsClosing && !prevProps.appIsClosing)
+    ) {
       this.setState({ isPlaying: false });
     }
   }
@@ -664,6 +668,7 @@ Vid.propTypes = {
   visibleTracks: PropTypes.object,
   connectedDevices: PropTypes.number.isRequired,
   modalIsPresented: PropTypes.bool.isRequired,
+  appIsClosing: PropTypes.bool.isRequired,
   currentLoop: PropTypes.object,
   loopIsEnabled: PropTypes.bool.isRequired,
   updateMidiData: PropTypes.func.isRequired,
@@ -699,7 +704,8 @@ const mapStateToProps = state => {
     currentVideoMarker: state.get("currentVideoMarker"),
     currentVideoMidiFile: state.get("currentVideoMidiFile"),
     connectedDevices: state.get("guitars").count(),
-    modalIsPresented: state.get("modalIsPresented")
+    modalIsPresented: state.get("modalIsPresented"),
+    appIsClosing: state.get("appIsClosing")
   };
 };
 

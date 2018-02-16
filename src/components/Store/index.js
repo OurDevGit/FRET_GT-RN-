@@ -25,11 +25,12 @@ const ModalOnTablet = ({ onClose, children }) =>
     children
   ) : (
     <Modal animationType="fade" transparent={true} onRequestClose={onClose}>
-      <TouchableOpacity style={styles.container} onPress={onClose}>
+      <View style={styles.container}>
+        <TouchableOpacity style={StyleSheet.absoluteFill} onPress={onClose} />
         <View activeOpacity={1} style={styles.content}>
           {children}
         </View>
-      </TouchableOpacity>
+      </View>
     </Modal>
   );
 
@@ -81,22 +82,23 @@ class Store extends PureComponent {
               isStore={this.state.isStore}
             />
           )}
-          <KeyboardAvoidingView style={styles.media} behavior="padding">
-            <Media
-              detailMediaId={this.props.detailMediaId || ""}
-              style={styles.media}
-              category={this.state.category}
-              subCategory={this.state.subCategory}
-              group={this.state.group}
-              onIsStoreChange={this.handleIsStoreChange}
-              onChoose={this.handleChooseMedia}
-              onClose={this.props.onClose}
-              isExpandable={
-                (this.state.subCategory || {}).isNavigable === true ||
-                (this.state.category || {}).isGrouped === true
-              }
-            />
-          </KeyboardAvoidingView>
+          <View style={{ flexShrink: 1 }}>
+            <KeyboardAvoidingView style={styles.media} behavior="padding">
+              <Media
+                detailMediaId={this.props.detailMediaId || ""}
+                category={this.state.category}
+                subCategory={this.state.subCategory}
+                group={this.state.group}
+                onIsStoreChange={this.handleIsStoreChange}
+                onChoose={this.handleChooseMedia}
+                onClose={this.props.onClose}
+                isExpandable={
+                  (this.state.subCategory || {}).isNavigable === true ||
+                  (this.state.category || {}).isGrouped === true
+                }
+              />
+            </KeyboardAvoidingView>
+          </View>
         </View>
       </ModalOnTablet>
     );
@@ -278,9 +280,6 @@ Store.propTypes = {
 };
 
 const styles = StyleSheet.create({
-  media: {
-    flexGrow: 1
-  },
   container: {
     justifyContent: "center",
     alignItems: "center",

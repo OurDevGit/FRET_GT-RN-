@@ -5,7 +5,7 @@ export const trackFretlightInfoTap = () => {
   Mixpanel.track("Fretlight Info Tap");
 };
 
-// called in Song.js and Video.js
+// called in Song.js and Video.js and chords-and-scales/index.js
 export const trackFretlightStatusTap = () => {
   Mixpanel.track("Fretlight Status Tap");
 };

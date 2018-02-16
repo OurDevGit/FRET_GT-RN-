@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Alert } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import * as actions from "../../redux/actions";
-import { createOrUpdateLoop } from "../../models/Loops";
+import { createOrUpdateLoop, getLoops } from "../../models/Loops";
 import { getIsPhone } from "../../utils";
 
 import ModalButton from "./ModalButton";
@@ -128,12 +128,12 @@ class BtnSaveLoopModal extends React.Component {
       </ModalButton>
     );
   }
-  /*
+
   async componentWillMount() {
     this.setState({ myLoops: await getLoops(this.props.mediaId) });
-  }*/
+  }
 
-  displayModal = () => {
+  displayModal = async () => {
     const begin = this.props.currentLoop.get("begin");
     const end = this.props.currentLoop.get("end");
     if (begin === undefined && end == undefined) {
@@ -146,7 +146,8 @@ class BtnSaveLoopModal extends React.Component {
         this.props.onForceControlsVisible(true);
       }
       this.props.presentModal();
-      this.setState({ modalIsVisible: true });
+      let myLoops = await getLoops(this.props.mediaId);
+      this.setState({ modalIsVisible: true, myLoops });
     }
   };
 
@@ -170,7 +171,10 @@ class BtnSaveLoopModal extends React.Component {
     } else {
       const matching = this.state.myLoops.filter(loop => loop.name === name);
       if (matching.length > 0) {
-        Alert.alert("Existing Name", "Please give your loop another name");
+        Alert.alert(
+          "Existing Name",
+          `You already have a loop named ${name} for this media. Please give it a different name`
+        );
       } else {
         const loop = this.props.currentLoop.set("name", name);
         this.props.onSetCurrentLoop(loop);

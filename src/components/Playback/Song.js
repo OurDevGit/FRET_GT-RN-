@@ -245,7 +245,10 @@ class Song extends React.Component {
       }
     }
 
-    if (this.props.modalIsPresented && !prevProps.modalIsPresented) {
+    if (
+      (this.props.modalIsPresented && !prevProps.modalIsPresented) ||
+      (this.props.appIsClosing && !prevProps.appIsClosing)
+    ) {
       this.setState({ isPlaying: false });
     }
   }
@@ -544,6 +547,7 @@ Song.propTypes = {
   visibleTracks: PropTypes.object,
   connectedDevices: PropTypes.number,
   modalIsPresented: PropTypes.bool.isRequired,
+  appIsClosing: PropTypes.bool.isRequired,
   countdownTimerState: PropTypes.bool.isRequired,
   trackCount: PropTypes.number.isRequired,
   height: PropTypes.number,
@@ -567,7 +571,8 @@ const mapStateToProps = state => {
     loopIsEnabled: state.get("loopIsEnabled"),
     visibleTracks: state.get("visibleTracks"),
     connectedDevices: state.get("guitars").count(),
-    modalIsPresented: state.get("modalIsPresented")
+    modalIsPresented: state.get("modalIsPresented"),
+    appIsClosing: state.get("appIsClosing")
   };
 };
 

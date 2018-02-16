@@ -6,7 +6,7 @@ import FretMarkers from "./FretboardMarkers";
 const frets = (track, isSmart, isLeft, boardWidth, onToggleOrientation) => {
   var frets = [];
   const first = isSmart ? track.firstFret : 0;
-  const last = isSmart ? track.lastFret : 23;
+  const last = isSmart ? track.lastFret : 22;
   // const diff = last - first;
 
   for (let i = first; i <= last; i++) {

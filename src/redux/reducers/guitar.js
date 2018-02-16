@@ -1,6 +1,6 @@
-import { Map, List } from "immutable";
+import { List } from "immutable";
 
-exports.guitars = (state = List(), action) => {
+export const guitars = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_GUITAR": {
       const guitar = action.payload;
@@ -14,8 +14,16 @@ exports.guitars = (state = List(), action) => {
       }
     }
 
+    case "ASSIGN_ALL_GUITARS": {
+      const updates = state.map(guitar =>
+        guitar.set("track", action.payload.trackName)
+      );
+
+      return updates;
+    }
+
     case "GUITAR_DISCONNECTED": {
-      const { guitarId, trackName } = action.payload;
+      const { guitarId } = action.payload;
       const index = state.indexOf(
         assignment => assignment.guitarId === guitarId
       );
@@ -29,6 +37,7 @@ exports.guitars = (state = List(), action) => {
 
       return updates;
     }
+
     default:
       return state;
   }

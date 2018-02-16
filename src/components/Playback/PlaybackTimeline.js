@@ -12,12 +12,16 @@ import {
 } from "../../time-store";
 
 class PlaybackTimeline extends Component {
-  state = {
-    layout: { width: 1, x: 0 },
-    containerLayout: { width: 1 },
-    progress: this.props.progress,
-    ignorePropsProgress: false
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      layout: { width: 1, x: 0 },
+      containerLayout: { width: 1 },
+      progress: props.progress,
+      ignorePropsProgress: false
+    };
+  }
 
   render() {
     const {
@@ -156,7 +160,13 @@ class PlaybackTimeline extends Component {
 
   handleTimeUpdate = time => {
     if (this.state.ignorePropsProgress === false && time > -1) {
-      this.setState({ progress: time / this.props.duration });
+      if (this.props.duration === 0) {
+        this.setState({
+          progress: 0
+        });
+      } else {
+        this.setState({ progress: time / this.props.duration });
+      }
     }
   };
 
@@ -215,7 +225,10 @@ class PlaybackTimeline extends Component {
     this.setState({
       ignorePropsProgress: true
     });
-    this.props.onSeekStart();
+
+    if (this.props.onSeekStart !== undefined) {
+      this.props.onSeekStart();
+    }
   };
 
   handlePlayheadPanEnd = () => {

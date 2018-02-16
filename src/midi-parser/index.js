@@ -22,7 +22,7 @@ export default function(filename, isAsset = false) {
 
       var guitarTracks = List();
       var tuningTracks = Map();
-      var patterns = List();
+      var jamBar = Map({ patterns: List() });
       var notes = Map();
       var track = Map();
 
@@ -83,7 +83,8 @@ export default function(filename, isAsset = false) {
 
           // load jambar track
           if (arr[0].text.includes("FMP - Jam Bar")) {
-            patterns = List(patternTrack(arr, secondsForTicks));
+            let patterns = patternTrack(arr, secondsForTicks);
+            jamBar = Map({ patterns });
           }
         }
       });
@@ -97,7 +98,7 @@ export default function(filename, isAsset = false) {
         markers,
         guitarTracks,
         tuningTracks,
-        patterns,
+        jamBar,
         notes
       };
     })

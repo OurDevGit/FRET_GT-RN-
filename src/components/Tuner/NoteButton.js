@@ -1,9 +1,12 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View, TouchableOpacity, Image, Text, StyleSheet } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet } from "react-native";
 
 const NoteButton = ({ index, note, currentIndex, onPress }) => {
   const backgroundColor = index === currentIndex ? "#17A3E3" : "#EEEEEE";
+  const chars = note.split("");
+  const key = chars[0];
+  const step = chars.length > 1 ? chars[1] : "";
 
   return (
     <TouchableOpacity
@@ -13,9 +16,13 @@ const NoteButton = ({ index, note, currentIndex, onPress }) => {
         onPress(note, index);
       }}
     >
-      <Text numberOfLines={1} style={styles.text}>
-        {note}
-      </Text>
+      {/* TEXT / NOTATION */}
+      <View style={styles.text}>
+        <Text style={styles.notation} numberOfLines={1}>
+          {key}
+        </Text>
+        <Text style={styles.step}>{step}</Text>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -35,9 +42,23 @@ const styles = StyleSheet.create({
     alignItems: "center"
   },
   text: {
-    height: "100%",
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    flexWrap: "nowrap"
+  },
+  notation: {
+    fontSize: 22,
+    textAlign: "right",
+    textAlignVertical: "center"
+  },
+  step: {
+    fontFamily: "Titillium Web_bold",
+    fontSize: 18,
+    textAlign: "left",
     textAlignVertical: "center",
-    fontSize: 22
+    marginTop: "-8%",
+    marginLeft: "-1%"
   }
 });
 

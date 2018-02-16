@@ -19,11 +19,11 @@ import {
   trackJamBar
 } from "./chords-scales-jambar";
 
-var sessionIsActive = false;
+var sessionIsActive_ = false;
 
 // called in Root.js
 export const startAppSession = () => {
-  sessionIsActive = true;
+  sessionIsActive_ = true;
 
   restartTempo();
   restartSMARTFretboard();
@@ -39,8 +39,8 @@ export const startAppSession = () => {
 
 // called in Root.js
 export const stopAppSession = () => {
-  if (sessionIsActive) {
-    sessionIsActive = false;
+  if (sessionIsActive_) {
+    sessionIsActive_ = false;
     Mixpanel.track("App Session");
 
     trackTempo();

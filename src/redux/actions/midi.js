@@ -21,3 +21,13 @@ export const setSmartTrack = (track, isLeft) => ({
 export const clearSmartTrack = () => ({
   type: "CLEAR_SMART_TRACK"
 });
+
+export const setChordsAndScales = bool => ({
+  type: "SET_CHORDS_AND_SCALES",
+  payload: bool
+});
+
+export const setJamBar = bool => ({
+  type: "SET_JAMBAR",
+  payload: bool
+});

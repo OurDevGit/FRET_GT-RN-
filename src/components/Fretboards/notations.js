@@ -10,7 +10,7 @@ export const getNotation = (fret, string, isLeft, currentNotation) => {
     var remainder = adjusted % scale.length;
 
     if (remainder < 0) {
-      remainder = scale.count + remainder;
+      remainder = scale.length + remainder;
     }
 
     return scale[remainder];

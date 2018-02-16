@@ -1,20 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
 import PropTypes from "prop-types";
-import { View, Text } from "react-native";
-import FretboardNote from "./FretboardNote";
+import { View } from "react-native";
 import { FretCapo } from "../StyleKit";
 
 const capo = (track, isSmart, isLeft, boardWidth, fretHeight) => {
   if (fretHeight > 0) {
     var frets = [];
     const first = isSmart ? track.firstFret : 0;
-    const last = isSmart ? track.lastFret : 23;
+    const last = isSmart ? track.lastFret : 22;
     const diff = last - first;
     const fretWidth = boardWidth / diff;
 
     for (var i = first; i <= last; i++) {
-      const isVisible = track.capo === (isLeft ? 23 - i : i);
+      const isVisible = track.capo === (isLeft ? 22 - i : i);
       frets.push(
         <View key={i} style={{ flex: 1 }}>
           {isVisible && (

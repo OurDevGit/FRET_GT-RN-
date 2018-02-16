@@ -9,10 +9,12 @@ import {
   PermissionsAndroid
 } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
-
+import { isEqual } from "lodash";
+import { clearCurrentPattern } from "../../midi-store";
 import * as actions from "../../redux/actions";
 import { PrimaryBlue } from "../../design";
 import { TunerButton } from "../StyleKit";
+import FretboardTitleLabel from "./FretboardTitleLabel";
 import FretboardLabels from "./FretboardFretLabels";
 import FretboardBackground from "./FretboardFretBackground";
 import FretboardFrets from "./FretboardFrets";
@@ -39,81 +41,44 @@ class Fretboard extends React.Component {
       style,
       track,
       tuningTracks,
-      guitars,
+      jamBarTrack,
+      isShowingJamBar,
       isPhone,
       isSmart,
       isHidingLabels,
-      tuningMode,
       currentNotation,
       trackIndex,
-      scrollIndex,
       showSmart,
       boardWidth
     } = this.props;
-    const hasAlternateTuning =
-      track.tuning !== undefined || track.fullTuning !== undefined;
-
-    const assigned = guitars
-      .filter(item => item.track === track.name)
-      .map((item, index) => {
-        const name =
-          item.name !== undefined
-            ? item.name.replace("'s Fretlight", "")
-            : `Fretlight ${index + 1}`;
-        return { ...item, name };
-      });
-
-    var assignedLabel = "";
-    if (assigned.length > 0) {
-      assignedLabel = "  |  Assigned to:";
-      assigned.forEach(item => (assignedLabel += ` ${item.name},`));
-      assignedLabel = assignedLabel.replace(/,\s*$/, "");
-    }
 
     const tuningTrack = tuningTracks[track.name] || {
       fineTuning: 8192,
       notes: []
     };
 
+    let showJamBarButton =
+      jamBarTrack.get("patterns").count() > 0 &&
+      !isSmart &&
+      track.name !== "chordsAndScales";
+    let boardTrack =
+      isShowingJamBar && trackIndex < 1 ? { name: "jamBar" } : track;
+
     return (
-      <View
-        style={{
-          ...style,
-          backgroundColor: "#E6D9B9"
-        }}
-      >
+      <View style={[style, { backgroundColor: "#E6D9B9" }]}>
         {!isHidingLabels && (
           <View
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              marginBottom: isPhone ? -2 : 0
+              marginBottom: isPhone ? -2 : -2
             }}
           >
-            <Text
-              style={{
-                height: 24,
-                fontSize: isPhone ? 13 : 17,
-                marginBottom: 1,
-                textAlignVertical: "center"
-              }}
-            >
-              {isSmart ? " " : track.name || " "}
-
-              {!isSmart && (
-                <Text
-                  numberOfLines={1}
-                  ellipsizeMode={"tail"}
-                  style={{
-                    fontSize: isPhone ? 13 : 17,
-                    marginBottom: 1,
-                    color: "#4e3200"
-                  }}
-                >
-                  {assignedLabel}
-                </Text>
-              )}
-            </Text>
+            <FretboardTitleLabel
+              track={boardTrack}
+              isPhone={isPhone}
+              isSmart={isSmart}
+            />
 
             <View
               style={{
@@ -122,6 +87,40 @@ class Fretboard extends React.Component {
                 justifyContent: "flex-end"
               }}
             >
+              {showJamBarButton && (
+                <TouchableOpacity
+                  style={{
+                    flexDirection: "row",
+                    marginRight: 20,
+                    marginBottom: 5
+                  }}
+                  onPress={this.handleJamBar}
+                >
+                  <Text
+                    style={{
+                      height: "100%",
+                      fontWeight: "800",
+                      textAlignVertical: "center",
+                      fontSize: isPhone ? 13 : 16,
+                      marginHorizontal: 1,
+                      color: PrimaryBlue
+                    }}
+                  >
+                    JAM
+                  </Text>
+                  <Text
+                    style={{
+                      height: "100%",
+                      textAlignVertical: "center",
+                      fontSize: isPhone ? 13 : 16,
+                      color: PrimaryBlue
+                    }}
+                  >
+                    Bar™
+                  </Text>
+                </TouchableOpacity>
+              )}
+
               {showSmart && (
                 <TouchableOpacity
                   style={{
@@ -132,35 +131,35 @@ class Fretboard extends React.Component {
                 >
                   <SmartFretText
                     color={PrimaryBlue}
-                    size={isSmart ? (isPhone ? 16 : 20) : isPhone ? 13 : 17}
+                    size={isSmart ? (isPhone ? 16 : 20) : isPhone ? 13 : 16}
                   />
                 </TouchableOpacity>
               )}
-
-              <TouchableOpacity
-                style={{
-                  flex: -1,
-                  marginTop: -8,
-                  marginBottom: -14,
-                  marginLeft: 10
-                }}
-                ref={ref => (this.btnTuner = ref)}
-                onPress={() => {
-                  this.btnTuner.measure((fx, fy, width, height, px, py) => {
-                    const frame = { x: px, y: py, width, height };
-                    this.handleToggleTuner(frame);
-                  });
-                }}
-              >
-                <TunerButton
-                  hasAlternateTuning={hasAlternateTuning}
+              {!isSmart && (
+                <TouchableOpacity
                   style={{
-                    marginTop: isPhone ? 4 : 0,
-                    width: isPhone ? 35 : 40,
-                    height: isPhone ? 35 : 40
+                    flex: -1,
+                    marginTop: -8,
+                    marginBottom: -14,
+                    marginLeft: 10
                   }}
-                />
-              </TouchableOpacity>
+                  ref={ref => (this.btnTuner = ref)}
+                  onPress={() => {
+                    this.btnTuner.measure((fx, fy, width, height, px, py) => {
+                      const frame = { x: px, y: py, width, height };
+                      this.handleToggleTuner(frame);
+                    });
+                  }}
+                >
+                  <TunerButton
+                    style={{
+                      marginTop: isPhone ? 3 : 0,
+                      width: isPhone ? 32 : 36,
+                      height: isPhone ? 32 : 36
+                    }}
+                  />
+                </TouchableOpacity>
+              )}
             </View>
 
             {this.state.isShowingTuner && (
@@ -168,10 +167,7 @@ class Fretboard extends React.Component {
                 origin={this.state.tunerModalFrame}
                 track={track}
                 tuningTrack={tuningTrack}
-                isDigital={tuningMode === "digital"}
-                assignedGuitars={assigned}
                 currentNotation={this.props.currentNotation}
-                onToggleTuningMode={this.handleToggleTuningMode}
                 onClose={this.handleToggleTuner}
               />
             )}
@@ -198,17 +194,22 @@ class Fretboard extends React.Component {
             isLeft={this.state.isLeft}
             boardWidth={boardWidth}
           />
-          <FretboardFrets
-            track={track}
-            isSmart={isSmart}
-            trackIndex={trackIndex}
-            scrollIndex={scrollIndex}
-            isLeft={this.state.isLeft}
-            currentNotation={currentNotation}
-            fretHeight={this.state.fretHeight}
-            onLayout={this.handleLayout.bind(this)}
-            boardWidth={boardWidth}
-          />
+
+          {track.name !== "" && (
+            <FretboardFrets
+              track={boardTrack}
+              tuningTrack={tuningTrack}
+              isShowingJamBar={isShowingJamBar}
+              isSmart={isSmart}
+              trackIndex={trackIndex}
+              isLeft={this.state.isLeft}
+              currentNotation={currentNotation}
+              fretHeight={this.state.fretHeight}
+              onLayout={this.handleLayout.bind(this)}
+              boardWidth={boardWidth}
+            />
+          )}
+
           <FretboardCapo
             track={track}
             isSmart={isSmart}
@@ -225,6 +226,22 @@ class Fretboard extends React.Component {
     this.setState({ isLeft: this.props.leftHandState });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !isEqual(this.state.fretHeight, nextState.fretHeight) ||
+      !isEqual(this.state.isLeft, nextState.isLeft) ||
+      !isEqual(this.state.isShowingTuner, nextState.isShowingTuner) ||
+      !isEqual(this.props.track, nextProps.track) ||
+      !isEqual(this.props.tuningTracks, nextProps.tuningTracks) ||
+      !isEqual(this.props.jamBarTrack, nextProps.jamBarTrack) ||
+      !isEqual(this.props.boardWidth, nextProps.boardWidth) ||
+      !isEqual(this.props.leftHandState, nextProps.leftHandState) ||
+      !isEqual(this.props.currentNotation, nextProps.currentNotation) ||
+      (!isEqual(this.props.isShowingJamBar, nextProps.isShowingJamBar) &&
+        this.props.trackIndex < 1)
+    );
+  }
+
   handleLayout(e) {
     this.setState({
       fretHeight: e.nativeEvent.layout.height
@@ -233,11 +250,6 @@ class Fretboard extends React.Component {
 
   handleToggleOrientation = () => {
     this.setState({ isLeft: !this.state.isLeft });
-  };
-
-  handleToggleTuningMode = () => {
-    const mode = this.props.tuningMode === "digital" ? "audio" : "digital";
-    this.props.setTuningMode(mode);
   };
 
   handleToggleTuner = async frame => {
@@ -273,6 +285,15 @@ class Fretboard extends React.Component {
     }
   };
 
+  handleJamBar = () => {
+    const { track, isShowingJamBar, setJamBar, assignAllGuitars } = this.props;
+    let trackName = isShowingJamBar ? track.name : "jamBar";
+
+    clearCurrentPattern();
+    setJamBar(!isShowingJamBar);
+    assignAllGuitars(trackName);
+  };
+
   handleSMART = () => {
     const { track, isSmart, setSmartTrack, clearSmartTrack } = this.props;
     if (isSmart) {
@@ -290,28 +311,28 @@ Fretboard.propTypes = {
   isHidingLabels: PropTypes.bool,
   leftHandState: PropTypes.bool.isRequired,
   currentNotation: PropTypes.string.isRequired,
-  tuningMode: PropTypes.string.isRequired,
   track: PropTypes.object.isRequired,
   tuningTracks: PropTypes.object.isRequired,
-  guitars: PropTypes.array.isRequired,
+  jamBarTrack: PropTypes.object.isRequired,
+  isShowingJamBar: PropTypes.bool.isRequired,
   showSmart: PropTypes.bool.isRequired,
   isSmart: PropTypes.bool.isRequired,
   boardWidth: PropTypes.number.isRequired,
   trackIndex: PropTypes.number.isRequired,
-  scrollIndex: PropTypes.number.isRequired,
-  style: PropTypes.object.isRequired,
+  style: PropTypes.array.isRequired,
+  setJamBar: PropTypes.func.isRequired,
   setSmartTrack: PropTypes.func,
   clearSmartTrack: PropTypes.func,
-  setTuningMode: PropTypes.func.isRequired,
   presentModal: PropTypes.func.isRequired,
-  dismissModal: PropTypes.func.isRequired
+  dismissModal: PropTypes.func.isRequired,
+  assignAllGuitars: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
   return {
     tuningTracks: state.get("tuningTracks").toJS(),
-    guitars: state.get("guitars").toJS(),
-    tuningMode: state.get("tuningMode")
+    jamBarTrack: state.get("jamBarTrack"),
+    isShowingJamBar: state.get("isShowingJamBar")
   };
 };
 
@@ -319,10 +340,10 @@ export default connect(mapStateToProps, actions)(
   onlyUpdateForKeys([
     "track",
     "tuningTracks",
-    "guitars",
-    "tuningMode",
+    "jamBarTrack",
     "boardWidth",
     "leftHandState",
-    "currentNotation"
+    "currentNotation",
+    "isShowingJamBar"
   ])(Fretboard)
 );

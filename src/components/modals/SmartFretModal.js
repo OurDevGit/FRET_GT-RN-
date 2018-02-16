@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 import * as actions from "../../redux/actions";
+import { Map } from "immutable";
 
 import Popover from "./Popover";
 import { ModalType } from "./ModalType";
@@ -30,8 +31,6 @@ class SmartFretModal extends React.Component {
       boardWidth / frets * (this.props.isPhone ? 4 : 3),
       Dimensions.get("window").height - 150
     );
-    const playbackHeight = Dimensions.get("window").height - boardHeight - 40;
-    const isCompact = playbackHeight < 150;
 
     return (
       <Popover
@@ -200,12 +199,14 @@ class SmartFretModal extends React.Component {
             boardWidth={boardWidth}
             trackIndex={-1}
             scrollIndex={-1}
-            style={{
-              width: boardWidth,
-              height: boardHeight,
-              paddingTop: 5,
-              paddingBottom: 15
-            }}
+            style={[
+              {
+                width: boardWidth,
+                height: boardHeight,
+                paddingTop: 5,
+                paddingBottom: 15
+              }
+            ]}
           />
         </View>
       </Popover>
@@ -220,6 +221,7 @@ class SmartFretModal extends React.Component {
       this.props.isPlaying !== nextProps.isPlaying ||
       this.props.tempo !== nextProps.tempo ||
       this.props.loopIsEnabled !== nextProps.loopIsEnabled ||
+      !this.props.currentLoop.equals(nextProps.currentLoop) ||
       this.props.connectedDevices !== nextProps.connectedDevices
     );
   }

@@ -10,10 +10,18 @@ import FretboardsContainer from "./Fretboards";
 import TrackSelector from "./TrackSelector";
 import FretlightAdmin from "./FretlightAdmin";
 import Settings from "./Settings";
+import ChordsAndScales from "./chords-and-scales";
+import JamBar from "./jam-bar";
 import GuitarController from "./GuitarController";
 import CountdownTimer from "./CountdownTimer";
+import UserForm from "./user-form";
 import Store from "./Store";
-import { BtnLibrary, BtnHome, BtnSettings } from "./StyleKit";
+import {
+  BtnLibrary,
+  BtnHome,
+  BtnSettings,
+  BtnChordsAndScales
+} from "./StyleKit";
 import {
   setTabIndex,
   setCategoryIndex,
@@ -24,6 +32,7 @@ import {
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { getIsPhone } from "../utils";
+import { loadJamBarData } from "./jam-bar/utils";
 import {
   registerSuperProperties,
   startAppSession,
@@ -49,6 +58,7 @@ class Root extends Component {
     isShowingSettings: false,
     isShowingFretlightAdmin: false,
     isShowingCountdownTimer: false,
+    isShowingUserForm: false,
     priorSection: null,
     currentSection: Sections.Home,
     homeTrigger: null,
@@ -70,15 +80,24 @@ class Root extends Component {
 
     const isVideo = this.state.video !== null;
     const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
-    const showLibraryButton = this.state.showAd && trackCount < 4;
+    const showLibraryButton =
+      this.state.showAd &&
+      trackCount < 4 &&
+      (!this.props.isShowingJamBar || !getIsPhone());
+    const shouldShowFretboards =
+      ((this.state.song !== null || this.state.video !== null) &&
+        this.state.currentSection === Sections.Playback) ||
+      this.state.currentSection === Sections.ChordsAndScales;
     const isPhone = getIsPhone();
+    const shouldShowAd =
+      (!this.props.isShowingJamBar || !getIsPhone()) && this.state.showAd;
 
     return (
       <Provider store={store}>
         <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <GuitarController />
 
-          {this.state.showAd && <AdContainer />}
+          {shouldShowAd && <AdContainer />}
 
           {this.state.currentSection === Sections.Playback && (
             <Playback
@@ -92,19 +111,27 @@ class Root extends Component {
               onClearMedia={this.handleClearMedia}
               onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
               onCountdownTimer={this.handleCountdownTimer}
-              isShowingAd={this.state.showAd}
+              isShowingAd={shouldShowAd}
             />
           )}
-          {(this.state.song !== null || this.state.video !== null) &&
-            this.state.currentSection === Sections.Playback && (
-              <FretboardsContainer
-                isVideo={isVideo}
-                isVisible={this.state.showFretboards}
-                deviceWidth={deviceWidth}
-                deviceHeight={deviceHeight}
-                availableFretboardCount={availableFretboardCount}
-              />
-            )}
+
+          {this.state.currentSection === Sections.ChordsAndScales && (
+            <ChordsAndScales
+              onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
+            />
+          )}
+
+          {this.props.isShowingJamBar && <JamBar />}
+
+          {shouldShowFretboards && (
+            <FretboardsContainer
+              isVideo={isVideo}
+              isVisible={this.state.showFretboards}
+              deviceWidth={deviceWidth}
+              deviceHeight={deviceHeight}
+              availableFretboardCount={availableFretboardCount}
+            />
+          )}
 
           {this.state.currentSection === Sections.Home && (
             <Home
@@ -133,6 +160,13 @@ class Root extends Component {
                   }}
                 >
                   <BtnHome onPress={this.handleHomePress} />
+                  <BtnChordsAndScales
+                    style={{ flex: 1, width: 44, height: 44, marginLeft: -6 }}
+                    onPress={this.handleChordsAndScalesPress}
+                    isChordsAndScales={
+                      this.state.currentSection === Sections.ChordsAndScales
+                    }
+                  />
                   <BtnLibrary
                     color={"#FFFFFF"}
                     onPress={this.handleToggleLibrary}
@@ -170,6 +204,10 @@ class Root extends Component {
               detailMediaId={this.state.storeDetailMediaId}
             />
           )}
+
+          {this.state.isShowingUserForm && (
+            <UserForm onClose={this.handleDismissUserForm} />
+          )}
         </View>
       </Provider>
     );
@@ -177,6 +215,7 @@ class Root extends Component {
 
   async componentWillMount() {
     this.props.requestBootstrap();
+    loadJamBarData();
   }
 
   componentDidMount() {
@@ -245,6 +284,7 @@ class Root extends Component {
       this.state.appState.match(/inactive|background/) &&
       nextAppState === "active"
     ) {
+      this.props.setAppClosing(false);
       startAppSession();
     }
 
@@ -252,6 +292,7 @@ class Root extends Component {
       this.state.appState === "active" &&
       nextAppState.match(/inactive|background/)
     ) {
+      this.props.setAppClosing(true);
       stopAppSession();
     }
 
@@ -264,6 +305,16 @@ class Root extends Component {
       isShowingStore: false,
       storeDetailMediaId: ""
     });
+  };
+
+  handlePresentUserForm = () => {
+    this.props.dismissModal();
+    this.setState({ isShowingUserForm: true });
+  };
+
+  handleDismissUserForm = () => {
+    this.props.dismissModal();
+    this.setState({ isShowingUserForm: false });
   };
 
   handleHomePress = () => {
@@ -294,6 +345,29 @@ class Root extends Component {
     if (this.Home) {
       this.Home.forceUpdate();
     }
+    this.props.setJamBar(false);
+    startHomeView();
+  };
+
+  handleChordsAndScalesPress = () => {
+    this.props.setChordsAndScales();
+
+    const { visibleTracks, guitars, updateGuitarSetting } = this.props;
+    const isShowingCS = this.state.currentSection === Sections.ChordsAndScales;
+    const firstTrack = visibleTracks[0] || {};
+    var trackName = isShowingCS ? firstTrack.name : "chordsAndScales";
+
+    if (trackName !== undefined) {
+      guitars.forEach(guitar => {
+        updateGuitarSetting(guitar.set("track", trackName));
+      });
+    }
+
+    this.setState({
+      isShowingStore: false,
+      isShowingSettings: false,
+      currentSection: Sections.ChordsAndScales
+    });
   };
 
   handleToggleSettings = () => {
@@ -311,9 +385,22 @@ class Root extends Component {
 
   handleToggleLibrary = () => {
     this.props.presentModal();
-    this.setState({
-      isShowingStore: true
-    });
+
+    const { song, video, currentSection } = this.state;
+    if (
+      (song !== null || video !== null) &&
+      (currentSection === Sections.ChordsAndScales ||
+        currentSection === Sections.Home)
+    ) {
+      this.setState({
+        isShowingStore: true,
+        currentSection: Sections.Playback
+      });
+    } else {
+      this.setState({
+        isShowingStore: true
+      });
+    }
   };
 
   handleClearMedia = () => {
@@ -401,14 +488,20 @@ class Root extends Component {
 
 Root.propTypes = {
   visibleTracks: PropTypes.object,
+  guitars: PropTypes.object,
   store: PropTypes.object,
   currentMedia: PropTypes.string,
   mediaForPlay: PropTypes.object,
+  isShowingJamBar: PropTypes.bool.isRequired,
   countdownTimerState: PropTypes.bool.isRequired,
   chooseMedia: PropTypes.func.isRequired,
   requestBootstrap: PropTypes.func.isRequired,
   presentModal: PropTypes.func.isRequired,
-  dismissModal: PropTypes.func.isRequired
+  dismissModal: PropTypes.func.isRequired,
+  setAppClosing: PropTypes.func.isRequired,
+  setChordsAndScales: PropTypes.func.isRequired,
+  setJamBar: PropTypes.func.isRequired,
+  updateGuitarSetting: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -418,7 +511,9 @@ const mapStateToProps = state => {
     currentMedia,
     mediaForPlay,
     visibleTracks: state.get("visibleTracks"),
-    countdownTimerState: state.get("countdownTimerState")
+    countdownTimerState: state.get("countdownTimerState"),
+    isShowingJamBar: state.get("isShowingJamBar"),
+    guitars: state.get("guitars")
   };
 };
 

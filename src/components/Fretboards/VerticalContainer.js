@@ -1,71 +1,66 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import Fretboard from "./Fretboard";
 
 class VerticalContainer extends React.Component {
-  state = {
-    height: 0,
-    width: 0
-  };
-
   render() {
+    const width = this.props.deviceWidth;
+    const height = this.props.boardHeight;
+    const paddingTop = 8; //this.props.tracks.count() < 3 ? "0.5%" : 0;
+    const paddingBottom = 5; //this.props.tracks.count() < 3 ? "1%" : 0;
+
     return (
-      <View
-        style={{ flex: 1, flexDirection: "column", backgroundColor: "#E6D9B9" }}
-        onLayout={this.handleLayout.bind(this)}
-      >
-        {this.fretboards()}
+      <View style={styles.container}>
+        {this.props.tracks.map(track => {
+          const fretRange = track.get("lastFret") - track.get("firstFret");
+          const showSmart =
+            track.get("name") !== "" && !this.props.isVideo && fretRange < 12;
+
+          return (
+            <Fretboard
+              key={track.get("name")}
+              isPhone={this.props.isPhone}
+              leftHandState={this.props.leftHandState}
+              currentNotation={this.props.currentNotation}
+              showSmart={showSmart}
+              track={track.toJS()}
+              isSmart={false}
+              boardWidth={width}
+              trackIndex={-1}
+              scrollIndex={-1}
+              style={[
+                styles.board,
+                {
+                  width,
+                  height,
+                  paddingTop,
+                  paddingBottom
+                }
+              ]}
+            />
+          );
+        })}
       </View>
     );
-  }
-
-  fretboards() {
-    return this.props.tracks.map(track => {
-      const fretRange = track.get("lastFret") - track.get("firstFret");
-      const showSmart =
-        track.get("name") !== "" && !this.props.isVideo && fretRange < 12;
-      return (
-        <Fretboard
-          key={track.get("name")}
-          isPhone={this.props.isPhone}
-          leftHandState={this.props.leftHandState}
-          currentNotation={this.props.currentNotation}
-          showSmart={showSmart}
-          track={track.toJS()}
-          isSmart={false}
-          boardWidth={this.state.width}
-          trackIndex={-1}
-          scrollIndex={-1}
-          style={{
-            flex: 1,
-            width: this.state.width,
-            height: this.state.height,
-            paddingTop: this.props.tracks.count() < 4 ? "0.5%" : 0,
-            paddingBottom: this.props.tracks.count() < 4 ? "1%" : 6,
-            paddingHorizontal: "1%"
-          }}
-        />
-      );
-    });
   }
 
   shouldComponentUpdate(nextProps) {
     return (
       this.props.currentNotation !== nextProps.currentNotation ||
       !this.props.tracks.equals(nextProps.tracks) ||
-      nextProps.tracks.count() === 0 ||
-      this.state.width === 0
+      nextProps.tracks.count() === 0
     );
   }
-
-  handleLayout(e) {
-    this.setState({
-      height: e.nativeEvent.layout.height,
-      width: e.nativeEvent.layout.width
-    });
-  }
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, flexDirection: "column", backgroundColor: "#E6D9B9" },
+  board: {
+    flex: 1,
+    paddingHorizontal: "1%"
+  }
+});
 
 VerticalContainer.propTypes = {
   isPhone: PropTypes.bool.isRequired,
@@ -73,6 +68,7 @@ VerticalContainer.propTypes = {
   leftHandState: PropTypes.bool.isRequired,
   currentNotation: PropTypes.string.isRequired,
   deviceWidth: PropTypes.number.isRequired,
+  boardHeight: PropTypes.number.isRequired,
   tracks: PropTypes.object
 };
 

@@ -3,8 +3,21 @@ import PropTypes from "prop-types";
 import { View, TouchableOpacity, Image } from "react-native";
 
 const AdPresentation = ({ onTap, imageUrl, aspectRatio }) => (
-  <View style={{ flex: 1, marginVertical: 10, alignItems: "center" }}>
-    <TouchableOpacity onPress={onTap} style={{ flex: 1, aspectRatio }}>
+  <View
+    style={{
+      flex: 1,
+      marginVertical: 10,
+      alignItems: "center"
+    }}
+  >
+    <TouchableOpacity
+      onPress={onTap}
+      style={{
+        flex: 1,
+        aspectRatio,
+        maxWidth: "42%"
+      }}
+    >
       <Image
         style={{
           flex: 1

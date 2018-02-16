@@ -26,7 +26,6 @@ export const setFile = async (resource, file) =>
 export const getLegal = () => getFile("legal.pdf");
 
 export const getHelp = async () => {
-  console.debug("get help!");
   const isPhone = getIsPhone();
   const file = isPhone
     ? await getFile("help-phone.pdf")

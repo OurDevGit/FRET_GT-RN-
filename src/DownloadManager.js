@@ -90,41 +90,47 @@ export const downloadFiles = (
     return progress;
   };
 
-  const filePromises = urls.map(url => {
-    const urlPath = urlToPath(url);
-    return downloadFile(url, dir, doRandomNames, urlPath)
-      .progress({ interval: 250 }, (received, total) => {
-        progressMap[url] = {
-          received: Number(received),
-          total: Number(total)
-        };
-        if (progressCallback !== undefined) {
-          progressCallback(makeProgress());
-        }
-      })
-      .then(res => {
-        const dlPath = res.path();
+  var filePromises = [];
+  try {
+    filePromises = urls.map(url => {
+      const urlPath = urlToPath(url);
+      return downloadFile(url, dir, doRandomNames, urlPath)
+        .progress({ interval: 250 }, (received, total) => {
+          progressMap[url] = {
+            received: Number(received),
+            total: Number(total)
+          };
+          if (progressCallback !== undefined) {
+            progressCallback(makeProgress());
+          }
+        })
+        .then(res => {
+          const dlPath = res.path();
 
-        return RNFetchBlob.fs.stat(dlPath).then(stats => {
-          const headerSize = Number(res.respInfo.headers["Content-Length"]);
-          const paddedSize = isEncryptedFileType(url)
-            ? headerSize + 17
-            : headerSize;
-          if (stats.size === paddedSize) {
-            return { dlPath };
+          return RNFetchBlob.fs.stat(dlPath).then(stats => {
+            const headerSize = Number(res.respInfo.headers["Content-Length"]);
+            const paddedSize = isEncryptedFileType(url)
+              ? headerSize + 17
+              : headerSize;
+            if (stats.size === paddedSize) {
+              return { dlPath };
+            } else {
+              throw new Error("incomplete download");
+            }
+          });
+        })
+        .then(({ dlPath }) => {
+          if (dlPath) {
+            filesMap[urlPath] = dlPath;
           } else {
-            throw new Error("incomplete download");
+            console.debug("no dl Path");
           }
         });
-      })
-      .then(({ dlPath }) => {
-        if (dlPath) {
-          filesMap[urlPath] = dlPath;
-        } else {
-          console.debug("no dl Path");
-        }
-      });
-  });
+    });
+  } catch (err) {
+    console.log("caught error making file promises");
+    filePromises = [];
+  }
 
   const allProms = Promise.all(filePromises);
   return allProms.then(() => {

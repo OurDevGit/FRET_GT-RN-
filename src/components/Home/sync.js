@@ -10,16 +10,20 @@ export const sync = async () => {
   const homeFiles = await fetchHome(syncTime);
 
   // console.debug(`going to download ${homeFiles.length} files`);
+  try {
+    const downloadedFiles = await downloadFiles(homeFiles, 0, "Home", false);
+    const indexFile = downloadedFiles["home/index.html"];
+    await setIndex(indexFile);
+    const now = new Date().valueOf() / 1000;
+    await setSync(now);
 
-  const downloadedFiles = await downloadFiles(homeFiles, 0, "Home", false);
+    return indexFile;
+  } catch (err) {
+    console.log("error donwloading home files");
 
-  const indexFile = downloadedFiles["home/index.html"];
-  await setIndex(indexFile);
-  const now = new Date().valueOf() / 1000;
-  await setSync(now);
+    return "";
+  }
 
-  console.debug("did sync Home");
-  console.debug({ now });
-
-  return indexFile;
+  // console.debug("did sync Home");
+  // console.debug({ now });
 };

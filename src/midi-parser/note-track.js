@@ -2,6 +2,7 @@ import { Map } from "immutable";
 
 export default (track, secondsForTicks) => {
   var name,
+    fullName,
     shortName,
     tuning,
     fullTuning,
@@ -9,7 +10,6 @@ export default (track, secondsForTicks) => {
     isBass,
     firstFret,
     lastFret;
-
   var notes = [];
   var notesOn = [];
   var totalTicks = 0;
@@ -22,6 +22,7 @@ export default (track, secondsForTicks) => {
       (event.text.includes("FMP -") || event.text.includes("T -"))
     ) {
       // removing track info from track name
+      fullName = event.text;
       var edited = event.text.replace("FMP - ", "");
       edited = edited.replace("T - ", "");
       edited = edited.replace("Gtr", "Guitar ");
@@ -87,7 +88,7 @@ export default (track, secondsForTicks) => {
           const string = noteOn.channel - 10;
           const fret = noteOn.noteNumber - stringOffset[string];
 
-          if (fret > -1 && fret < 24) {
+          if ((fret > -1 && fret < 24) || fullName.includes("T -")) {
             const note = {
               begin: parseFloat(noteOn.begin.toFixed(3)),
               end: parseFloat(secondsForTicks(totalTicks).toFixed(3)),
@@ -138,7 +139,7 @@ export default (track, secondsForTicks) => {
   }
 
   if (lastFret === undefined) {
-    lastFret = 23;
+    lastFret = 22;
   }
 
   const diff = lastFret - firstFret;

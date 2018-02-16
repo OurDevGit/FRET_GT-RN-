@@ -23,4 +23,10 @@ public class MainActivity extends ReactActivity {
         super.onActivityResult(requestCode, resultCode, data);
         MainApplication.getCallbackManager().onActivityResult(requestCode, resultCode, data);
     }
+
+    // this keeps MainActivity active, so that React Native doesn't unmount/remount the root Component
+    @Override
+    public void invokeDefaultOnBackPressed() {
+        moveTaskToBack(true);
+    }
 }

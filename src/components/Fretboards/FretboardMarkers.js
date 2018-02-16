@@ -4,7 +4,7 @@ import { View } from "react-native";
 
 const bar = { position: "absolute", width: "100%", height: "100%" };
 const fretCheck = (fret, number, isLeft) => {
-  return fret === (isLeft ? 23 - number : number);
+  return fret === (isLeft ? 22 - number : number);
 };
 const markers = (fret, isLeft) => {
   if (

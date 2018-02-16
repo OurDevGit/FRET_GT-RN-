@@ -5,7 +5,8 @@ import {
   guitarTracks,
   visibleTracks,
   tuningTracks,
-  patterns,
+  jamBarTrack,
+  isShowingJamBar,
   smartTrack
 } from "./midi";
 import { currentLoop, loopIsEnabled } from "./loop";
@@ -41,7 +42,7 @@ import {
 } from "./settings";
 import { guitars } from "./guitar";
 import { intermediateMedia } from "./media";
-import { modalIsPresented } from "./app";
+import { modalIsPresented, appIsClosing } from "./app";
 
 const appReducer = combineReducers({
   ad,
@@ -55,7 +56,8 @@ const appReducer = combineReducers({
   guitarTracks,
   visibleTracks,
   tuningTracks,
-  patterns,
+  jamBarTrack,
+  isShowingJamBar,
   smartTrack,
   currentLoop,
   loopIsEnabled,
@@ -87,7 +89,8 @@ const appReducer = combineReducers({
   currentNotation,
   tuningMode,
   // App
-  modalIsPresented
+  modalIsPresented,
+  appIsClosing
 });
 
 export default appReducer;

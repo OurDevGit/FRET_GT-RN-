@@ -14,3 +14,8 @@ export const presentModal = () => ({
 export const dismissModal = () => ({
   type: "DISMISS_MODAL"
 });
+
+export const setAppClosing = bool => ({
+  type: "APP_IS_CLOSING",
+  payload: bool
+});

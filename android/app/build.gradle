@@ -166,6 +166,8 @@ dependencies {
     compile project(':react-native-billing')
     compile project(':react-native-video-exoplayer')
     compile project(':react-native-sound')
+    compile project(':react-native-sqlite-storage')
+    compile project(':react-native-wheel')
     compile(name:'mididriver-1.14', ext:'aar')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile 'com.android.support:appcompat-v7:23.0.1'

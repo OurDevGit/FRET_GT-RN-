@@ -12,10 +12,14 @@ const syncResource = async resource => {
   if (url === null || url === undefined) {
     return null;
   } else {
-    const localFiles = await downloadFiles([url], 0, "Resources", false);
-    const file = localFiles[resource];
-    await setSync(resource, getNow());
-    await setFile(resource, file);
+    try {
+      const localFiles = await downloadFiles([url], 0, "Resources", false);
+      const file = localFiles[resource];
+      await setSync(resource, getNow());
+      await setFile(resource, file);
+    } catch (err) {
+      console.log("failed to download Resource");
+    }
   }
 };
 

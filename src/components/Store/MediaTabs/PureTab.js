@@ -341,13 +341,28 @@ class PureTab extends Component {
       }, 0);
     } else {
       // get the total for just the open section
+      try {
+        const openSections = sections.filter(
+          s => s.get("title") === this.state.navigableOpenSection
+        );
 
-      mediaCount =
-        sections
-          .filter(s => s.get("title") === this.state.navigableOpenSection)
-          .get(0)
-          .get("data")
-          .count() || 0;
+        if (openSections.has(0)) {
+          mediaCount =
+            openSections
+              .get(0)
+              .get("data")
+              .count() || 0;
+        }
+      } catch (err) {
+        // We are seeing an error here in Sentry that doesn't make a lot of sense, so we're logging some details here and rethrowing
+
+        //https://sentry.io/big-swing/guitartunesrn/issues/436529141/events/12486954204/
+
+        console.error(err);
+        console.log(JSON.stringify(sections));
+
+        throw err;
+      }
     }
 
     this.props.onMediaCount(mediaCount);

@@ -1,15 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, TextInput, Text } from "react-native";
+import { View, Text } from "react-native";
 
 import * as actions from "../../redux/actions";
-import { PrimaryGold } from "../../design";
-import { FlatButton } from "../Material";
 import TabbedMedia from "./MediaTabs/TabbedMedia";
 import MediaDetails from "./MediaDetails";
-import FacebookIcon from "./social_icons/Facebook";
-import TwitterIcon from "./social_icons/Twitter";
+import TopControls from "./TopControls";
 
 import { getUIState, setSearch } from "../../models/Store";
 
@@ -21,62 +18,46 @@ class Media extends React.PureComponent {
   };
 
   render() {
-    // console.debug(`Media render()`);
     return (
-      <View style={this.props.style}>
+      <View
+        style={{
+          flexDirection: "column",
+          height: "100%",
+          backgroundColor: "#f5f5f5"
+        }}
+      >
+        <TopControls
+          onSearch={this.handleChangeText}
+          onClose={this.props.onClose}
+        />
         <View
           style={{
-            width: "100%",
-            height: 44,
-            backgroundColor: "#fafafa",
-            flexDirection: "row",
-            alignItems: "center"
+            flex: 1
           }}
         >
-          <TextInput
-            disableFullscreenUI={true}
-            returnKeyType="search"
-            placeholder="Search"
-            placeholderTextColor="lightgray"
-            inlineImageLeft="search_icon"
-            style={{
-              flexGrow: 1,
-              marginRight: 8
-            }}
-            onChangeText={this.handleChangeText}
-            value={this.state.searchText}
+          <TabbedMedia
+            category={this.props.category}
+            subCategory={this.props.subCategory}
+            group={this.props.group}
+            searchText={this.state.searchText}
+            onChoose={this.props.onChoose}
+            onIsStoreChange={this.props.onIsStoreChange}
+            onFavePress={this.handleFavePress}
+            // TODO: take this out and move it down the component chain
+            isExpandable={this.props.isExpandable}
+            onShowDetails={this.handleShowDetails}
+            onMediaCount={this.handleMediaCount}
           />
-          <Text>{this.state.mediaCount}</Text>
-          <FacebookIcon />
-          <TwitterIcon />
-          <FlatButton
-            title="Close"
-            style={{ color: PrimaryGold }}
-            onPress={this.props.onClose}
+          <MediaDetails
+            isVisible={this.state.detailMediaId !== ""}
+            mediaId={this.state.detailMediaId}
+            onClose={() => this.setState({ detailMediaId: "" })}
+            onArchiveFiles={() => {
+              this.handleArchiveFiles(this.state.detailMediaId);
+              this.setState({ detailMediaId: "" });
+            }}
           />
         </View>
-        <TabbedMedia
-          category={this.props.category}
-          subCategory={this.props.subCategory}
-          group={this.props.group}
-          searchText={this.state.searchText}
-          onChoose={this.props.onChoose}
-          onIsStoreChange={this.props.onIsStoreChange}
-          onFavePress={this.handleFavePress}
-          // TODO: take this out and move it down the component chain
-          isExpandable={this.props.isExpandable}
-          onShowDetails={this.handleShowDetails}
-          onMediaCount={this.handleMediaCount}
-        />
-        <MediaDetails
-          isVisible={this.state.detailMediaId !== ""}
-          mediaId={this.state.detailMediaId}
-          onClose={() => this.setState({ detailMediaId: "" })}
-          onArchiveFiles={() => {
-            this.handleArchiveFiles(this.state.detailMediaId);
-            this.setState({ detailMediaId: "" });
-          }}
-        />
       </View>
     );
   }
@@ -112,6 +93,12 @@ class Media extends React.PureComponent {
   handleFavePress = mediaId => {
     this.props.toggleFavorite(mediaId);
   };
+
+  handleClear = () => {
+    this.setState({
+      searchText: ""
+    });
+  };
 }
 
 Media.propTypes = {
@@ -121,7 +108,6 @@ Media.propTypes = {
   category: PropTypes.object,
   subCategory: PropTypes.object,
   group: PropTypes.object,
-  style: PropTypes.number.isRequired,
   toggleFavorite: PropTypes.func.isRequired, // action creator
   deleteMedia: PropTypes.func.isRequired, // action creator
   onChoose: PropTypes.func.isRequired,

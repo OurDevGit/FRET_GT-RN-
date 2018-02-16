@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
-import Dimensions from "Dimensions";
 
 import ModalButton from "../modals/ModalButton";
 import Popover from "../modals/Popover";
@@ -16,10 +15,17 @@ class TrackModal extends React.Component {
 
   render() {
     const { guitar, tracks, isPhone } = this.props;
-    const color = this.props.color || "#222222";
     var currentIndex = -1;
     const height = Math.min(300, tracks.length * 40 + 90);
     var pStyle = { ...trackModalStyles.popover, height };
+    var trackName;
+
+    if (guitar !== undefined) {
+      trackName =
+        guitar.track === "chordsAndScales" ? "Chords & Scales" : guitar.track;
+
+      trackName = trackName === "jamBar" ? "JAMBar™" : trackName;
+    }
 
     if (guitar === undefined) {
       pStyle.top = this.state.modalFrame.y - height - 10;
@@ -36,7 +42,7 @@ class TrackModal extends React.Component {
           <Text style={trackModalStyles.bottomButton}>Assign Part to All</Text>
         ) : (
           <Text style={trackModalStyles.button}>
-            Assigned Part: {guitar.track}
+            Assigned Part: {trackName}
           </Text>
         )}
 
@@ -71,50 +77,56 @@ class TrackModal extends React.Component {
                 index
               })}
               ItemSeparatorComponent={this.separator}
-              renderItem={({ item, index }) => (
-                <View
-                  style={{ width: "100%", height: 40, flexDirection: "row" }}
-                >
-                  <TouchableOpacity
-                    style={{ flex: 1 }}
-                    onPress={() => {
-                      this.handleSelectTrack(item.name);
-                    }}
+              renderItem={({ item, index }) => {
+                let name =
+                  item.name === "chordsAndScales"
+                    ? "Chords & Scales"
+                    : item.name;
+                return (
+                  <View
+                    style={{ width: "100%", height: 40, flexDirection: "row" }}
                   >
-                    <View style={{ flex: 1, flexDirection: "row" }}>
-                      {guitar && (
-                        <View
+                    <TouchableOpacity
+                      style={{ flex: 1 }}
+                      onPress={() => {
+                        this.handleSelectTrack(item.name);
+                      }}
+                    >
+                      <View style={{ flex: 1, flexDirection: "row" }}>
+                        {guitar && (
+                          <View
+                            style={{
+                              width: 12,
+                              marginRight: 5
+                            }}
+                          >
+                            {currentIndex === index && (
+                              <Text
+                                style={{
+                                  height: "100%",
+                                  textAlignVertical: "center"
+                                }}
+                              >
+                                ✔︎
+                              </Text>
+                            )}
+                          </View>
+                        )}
+
+                        <Text
                           style={{
-                            width: 12,
-                            marginRight: 5
+                            flex: 1,
+                            fontSize: 18,
+                            textAlignVertical: "center"
                           }}
                         >
-                          {currentIndex === index && (
-                            <Text
-                              style={{
-                                height: "100%",
-                                textAlignVertical: "center"
-                              }}
-                            >
-                              ✔︎
-                            </Text>
-                          )}
-                        </View>
-                      )}
-
-                      <Text
-                        style={{
-                          flex: 1,
-                          fontSize: 18,
-                          textAlignVertical: "center"
-                        }}
-                      >
-                        {item.name}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              )}
+                          {name}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                );
+              }}
             />
           </Popover>
         )}
@@ -157,6 +169,7 @@ TrackModal.propTypes = {
   guitar: PropTypes.object,
   tracks: PropTypes.array.isRequired,
   isPhone: PropTypes.bool.isRequired,
+  color: PropTypes.string,
   onAssignTrack: PropTypes.func,
   onAssignAllTrack: PropTypes.func
 };

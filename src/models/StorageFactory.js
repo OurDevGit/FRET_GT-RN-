@@ -23,7 +23,9 @@ export const makeStore = storeName => {
     getObj: async key => {
       try {
         const nameKey = makeNamespacedKey(storeName, key);
+        // console.debug(`going to AsyncStorage for item: ${nameKey}`);
         let itemString = await AsyncStorage.getItem(nameKey);
+        // console.debug(`got value for ${nameKey}`);
         return JSON.parse(itemString);
       } catch (error) {
         console.error(error);
@@ -37,7 +39,9 @@ export const makeStore = storeName => {
         const namespacedKeys = keys.map(key =>
           makeNamespacedKey(storeName, key)
         );
+        // console.debug(`going to AsyncStorage for items: ${namespacedKeys}`);
         const objs = await AsyncStorage.multiGet(namespacedKeys);
+        // console.debug(`got _${objs.length}_ values`);
         const keyValsNamespaced = fromPairs(objs);
         const keyValsPlainKeys = mapKeys(keyValsNamespaced, (val, key) =>
           unNamespaceKey(storeName, key)

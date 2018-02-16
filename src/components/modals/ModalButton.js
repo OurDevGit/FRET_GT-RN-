@@ -1,18 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { TouchableOpacity } from "react-native";
 
 class ModalButton extends React.Component {
   render() {
     return (
-      <TouchableOpacity ref="Touchable" onPress={this.handlePress}>
+      <TouchableOpacity
+        ref={ref => (this.touchable = ref)}
+        onPress={this.handlePress}
+      >
         {this.props.children}
       </TouchableOpacity>
     );
   }
 
   handlePress = () => {
-    this.refs.Touchable.measure((fx, fy, width, height, px, py) => {
+    this.touchable.measure((fx, fy, width, height, px, py) => {
       const frame = { x: px, y: py, width, height };
       this.props.onPress(frame);
     });

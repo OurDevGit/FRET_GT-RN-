@@ -31,6 +31,8 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
   private Guitars mGuitars;
   GuitarEmitter guitarEmitter;
 
+  private static final String TAG = "GT-GuitarController";
+
   public GTGuitarController(ReactApplicationContext context) {
     super(context);
 
@@ -135,6 +137,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
   public void setNote(int string, int fret, boolean isOn, String guitarId) {
     FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
     if (guitar != null) {
+      Log.d(TAG, "setting one note for a guitar");
       guitar.setNote(string, fret, isOn);
     }
   }
@@ -144,6 +147,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
     FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
 
     if (guitar != null) {
+      Log.d(TAG, "setting _" + notes.size() + "_ notes for a guitar");
       for (int i = 0; i < notes.size(); i++) {
         ReadableMap note = (ReadableMap) notes.getMap(i);
         guitar.setNote(note.getInt("string"), note.getInt("fret"), note.getBoolean("isOn"));

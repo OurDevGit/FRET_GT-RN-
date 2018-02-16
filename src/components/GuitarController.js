@@ -12,6 +12,7 @@ import {
 } from "../time-store";
 import { notesForTrackAtTime } from "../midi-store";
 import { addGuitar, removeGuitar } from "../metrics";
+import { isEqual } from "lodash";
 
 // This component manages the connection and notes for playback
 // Management of device profiles are handled in FretlightModal.js
@@ -21,7 +22,11 @@ var guitarController = NativeModules.GTGuitarController;
 class GuitarController extends Component {
   constructor(props) {
     super(props);
+    this.currentTime = 0;
+    this.isMounted_ = false;
     this.prevOn = {};
+    this.prevCurrentNotes = {};
+    this.hasCleared = false;
   }
 
   state = {
@@ -45,28 +50,19 @@ class GuitarController extends Component {
     DeviceEventEmitter.addListener("GUITAR_LOST", id => {
       this.handleGuitarLost(id);
     });
-
-    //DeviceEventEmitter.addListener("BLE_STATUS", status => {
-    //  console.log(status === "SCANNING" ? "STARTED SCANNING FOR GUITARS" : "STOPPED SCANNING FOR GUITARS");
-    //});
   }
 
   componentDidMount() {
+    this.isMounted_ = true;
     guitarController.registerEmitter();
     subscribeToTimeUpdates(this.handleTimeUpdate);
+    requestAnimationFrame(this.handleAnimationFrame);
   }
 
   componentWillUnmount() {
+    this.isMounted_ = false;
     unsubscribeToTimeUpdates(this.handleTimeUpdate);
   }
-
-  handleTimeUpdate = time => {
-    if (this.props.assignments !== {}) {
-      for (var track in this.props.assignments) {
-        this.handleNotesForTrack(time, track);
-      }
-    }
-  };
 
   componentDidUpdate(prevProps) {
     if (this.props.tracks !== undefined && prevProps.tracks !== undefined) {
@@ -102,9 +98,37 @@ class GuitarController extends Component {
     return true;
   };
 
+  handleTimeUpdate = time => {
+    this.currentTime = time;
+  };
+
+  handleAnimationFrame = () => {
+    if (this.isMounted_ !== true) {
+      return;
+    }
+
+    if (this.props.assignments !== {}) {
+      for (var track in this.props.assignments) {
+        this.handleNotesForTrack(this.currentTime, track);
+      }
+    }
+
+    if (this.isMounted_ === true) {
+      requestAnimationFrame(this.handleAnimationFrame);
+    }
+  };
+
   handleNotesForTrack = (time, track) => {
-    if (time !== 0) {
-      const currentNotes = notesForTrackAtTime(track, time);
+    var noteTrack = this.props.isShowingJamBar ? "jamBar" : track;
+    if (time !== 0 || track === "jamBar") {
+      const currentNotes = notesForTrackAtTime(noteTrack, time);
+
+      // end early if the notes haven't changed since last time
+      if (isEqual(currentNotes, this.prevCurrentNotes)) {
+        return;
+      }
+      this.prevCurrentNotes = currentNotes;
+
       const guitarIds = this.props.assignments[track];
 
       guitarIds.forEach(guitarId => {
@@ -130,9 +154,13 @@ class GuitarController extends Component {
         }
 
         this.prevOn[guitarId] = currentNotes;
+        this.hasCleared = false;
       });
     } else {
-      guitarController.clearAllGuitars();
+      if (this.hasCleared === false) {
+        guitarController.clearAllGuitars();
+        this.hasCleared = true;
+      }
     }
   };
 
@@ -172,6 +200,7 @@ GuitarController.propTypes = {
   tracks: PropTypes.object,
   guitars: PropTypes.array,
   assignments: PropTypes.object,
+  isShowingJamBar: PropTypes.bool.isRequired,
   updateGuitarSetting: PropTypes.func.isRequired,
   guitarDisconnected: PropTypes.func.isRequired
 };
@@ -194,6 +223,7 @@ const mapStateToProps = state => {
 
   return {
     tracks: state.get("visibleTracks"),
+    isShowingJamBar: state.get("isShowingJamBar"),
     guitars,
     assignments
   };

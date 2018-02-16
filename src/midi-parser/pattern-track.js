@@ -1,6 +1,6 @@
 import { List, Map } from "immutable";
 
-module.exports = (track, secondsForTicks) => {
+export default (track, secondsForTicks) => {
   var patterns = List();
   var totalTicks = 0;
 
@@ -12,11 +12,19 @@ module.exports = (track, secondsForTicks) => {
     if (event.subtype === "text" && event.text !== undefined) {
       if (event.text.includes("@IMP_PATTERN_SCALE")) {
         var arr = event.text.split(":");
-        var time = secondsForTicks(totalTicks);
-        patterns.push(Map({ key: arr[2], scale: arr[1], time: time }));
+        let key = arr[2];
+        let type = toTitleCase(arr[1]);
+        var begin = secondsForTicks(totalTicks);
+        patterns = patterns.push(Map({ key, type, begin }));
       }
     }
   });
 
   return patterns;
+};
+
+const toTitleCase = str => {
+  return str.replace(/\w\S*/g, function(txt) {
+    return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+  });
 };

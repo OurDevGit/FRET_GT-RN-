@@ -1,4 +1,6 @@
 import React from "react";
+import { connect } from "react-redux";
+import * as actions from "../../redux/actions";
 import {
   View,
   Modal,
@@ -31,7 +33,7 @@ class Tuner extends React.Component {
       origin,
       currentNotation,
       tuningTrack,
-      isDigital,
+      tuningMode,
       onClose
     } = this.props;
     const { currentNote, currentIndex } = this.state;
@@ -39,7 +41,7 @@ class Tuner extends React.Component {
     setTuningParameters(track, currentNotation, tuningTrack.notes);
     const pitch = pitchForString(currentIndex);
     const fineTuning = tuningTrack.fineTuning || 8192;
-
+    const isDigital = tuningMode === "digital";
     var tuningInfo = "Standard Tuning";
     if (track.tuning !== undefined) {
       tuningInfo = `Custom Tuning: ${track.tuning}`;
@@ -63,16 +65,18 @@ class Tuner extends React.Component {
         >
           <TouchableOpacity activeOpacity={1} style={contentStyle}>
             <View style={styles.titlebar}>
-              <Text style={styles.heading}>{`Tuning for ${
-                track.shortName
-              }`}</Text>
+              <Text style={styles.heading}>
+                {track.shortName !== undefined
+                  ? `Tuning for ${track.shortName}`
+                  : "Tuning"}
+              </Text>
               <View style={styles.barButtons}>
                 <FlatButton
                   title={isDigital ? "Go to Audible" : "Go to Digital"}
                   style={{
                     color: PrimaryGold
                   }}
-                  onPress={this.handleToggleMode}
+                  onPress={this.handleToggleTuningMode}
                 />
 
                 <FlatButton
@@ -137,16 +141,17 @@ class Tuner extends React.Component {
     return buttons;
   };
 
-  handleToggleMode = () => {
-    this.props.onToggleTuningMode();
-  };
-
   handleNotePress = (currentNote, currentIndex) => {
     guitarController.clearAllGuitars();
     this.props.assignedGuitars.forEach(guitar =>
       guitarController.lightString(5 - currentIndex, guitar.id)
     );
     this.setState({ currentNote, currentIndex });
+  };
+
+  handleToggleTuningMode = () => {
+    const mode = this.props.tuningMode === "digital" ? "audio" : "digital";
+    this.props.setTuningMode(mode);
   };
 }
 
@@ -217,18 +222,38 @@ const styles = StyleSheet.create({
 Tuner.propTypes = {
   track: PropTypes.object.isRequired,
   tuningTrack: PropTypes.object,
-  isDigital: PropTypes.bool.isRequired,
+  tuningMode: PropTypes.string.isRequired,
   assignedGuitars: PropTypes.array.isRequired,
   origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,
-  onToggleTuningMode: PropTypes.func.isRequired,
+  setTuningMode: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 
-export default onlyUpdateForKeys([
-  "track",
-  "tuningTrack",
-  "guitars",
-  "assignedGuitars",
-  "origin"
-])(Tuner);
+const mapStateToProps = (state, ownProps) => {
+  const assignedGuitars = state
+    .get("guitars")
+    .toJS()
+    .filter(item => item.track === ownProps.track.name)
+    .map((item, index) => {
+      const name =
+        item.name !== undefined
+          ? item.name.replace("'s Fretlight", "")
+          : `Fretlight ${index + 1}`;
+      return { ...item, name };
+    });
+
+  const tuningMode = state.get("tuningMode");
+  return { assignedGuitars, tuningMode };
+};
+
+export default connect(mapStateToProps, actions)(
+  onlyUpdateForKeys([
+    "track",
+    "tuningTrack",
+    "tuningMode",
+    "guitars",
+    "assignedGuitars",
+    "origin"
+  ])(Tuner)
+);

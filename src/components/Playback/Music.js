@@ -4,6 +4,11 @@ import PropTypes from "prop-types";
 import Sound from "react-native-sound";
 
 class Music extends React.Component {
+  constructor(props) {
+    super(props);
+    this.isMounted_ = false;
+  }
+
   songSound = null;
 
   render() {
@@ -11,11 +16,13 @@ class Music extends React.Component {
   }
 
   componentDidMount() {
+    this.isMounted_ = true;
     requestAnimationFrame(this.handleAnimationFrame);
     this.resetSong(this.props.song);
   }
 
   componentWillUnmount() {
+    this.isMounted_ = false;
     console.debug("Music did unmount");
     this.resetSong();
   }
@@ -133,6 +140,10 @@ class Music extends React.Component {
   };
 
   handleAnimationFrame = () => {
+    if (this.isMounted_ !== true) {
+      return;
+    }
+
     if (this.songSound !== null) {
       requestAnimationFrame(this.handleAnimationFrame);
       this.songSound.getCurrentTime(seconds => {

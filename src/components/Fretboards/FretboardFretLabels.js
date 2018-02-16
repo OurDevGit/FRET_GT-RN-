@@ -5,10 +5,10 @@ import { View, Text } from "react-native";
 const labels = (style, track, isSmart, isLeft, boardWidth) => {
   var frets = [];
   const first = isSmart ? track.firstFret : 0;
-  const last = isSmart ? track.lastFret : 23;
+  const last = isSmart ? track.lastFret : 22;
   const diff = last - first;
-  const labelHeight = Math.min(48, boardWidth / diff / 2);
-  const labelSize = Math.min(32, boardWidth / diff / 3.5);
+  const labelHeight = Math.min(34, boardWidth / diff / 2.5);
+  const labelSize = Math.min(24, boardWidth / diff / 4);
 
   for (var i = first; i <= last; i++) {
     var label = "Nut";

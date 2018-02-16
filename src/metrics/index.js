@@ -8,6 +8,7 @@ export * from "./home";
 export * from "./media";
 export * from "./monetization";
 export * from "./playback";
+export * from "./user";
 
 Mixpanel.sharedInstanceWithToken("f4d7c21c34d1d3642f111062ca91dc1d");
 

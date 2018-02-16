@@ -2,6 +2,47 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet, TouchableWithoutFeedback } from "react-native";
 
+class PageControl extends React.PureComponent {
+  state = {
+    currentPage: 0,
+    opacity: 1
+  };
+
+  render() {
+    const { style, count } = this.props;
+    return (
+      <View style={[styles.container, style, { opacity: this.state.opacity }]}>
+        {count > 0 && this.getPages()}
+      </View>
+    );
+  }
+
+  getPages = () => {
+    const { indicatorStyle, count, onColor, offColor, onPage } = this.props;
+    const { currentPage } = this.state;
+    var arr = [];
+    for (var i = 0; i < count; i++) {
+      const backgroundColor = i === currentPage ? onColor : offColor;
+      const index = i;
+      arr.push(
+        <TouchableWithoutFeedback key={i} onPress={() => onPage(index)}>
+          <View style={[indicatorStyle, { backgroundColor }]} />
+        </TouchableWithoutFeedback>
+      );
+    }
+
+    return arr;
+  };
+
+  setPage = currentPage => {
+    this.setState({ currentPage });
+  };
+
+  setJamBar = bool => {
+    this.setState({ currentPage: 0, opacity: bool ? 0 : 1 });
+  };
+}
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: "transparent",
@@ -11,42 +52,11 @@ const styles = StyleSheet.create({
   }
 });
 
-const pages = (count, currentPage, style, offColor, onColor, onPage) => {
-  var arr = [];
-  for (var i = 0; i < count; i++) {
-    const backgroundColor = i === currentPage ? onColor : offColor;
-    arr.push(
-      <TouchableWithoutFeedback key={i} onPress={onPage.bind(this, i)}>
-        <View style={{ ...style, backgroundColor }} />
-      </TouchableWithoutFeedback>
-    );
-  }
-
-  return arr;
-};
-
-const PageControl = ({
-  style,
-  indicatorStyle,
-  count,
-  currentPage,
-  onColor,
-  offColor,
-  onPage
-}) => {
-  return (
-    <View style={[styles.container, style]}>
-      {count > 0 &&
-        pages(count, currentPage, indicatorStyle, offColor, onColor, onPage)}
-    </View>
-  );
-};
-
 PageControl.propTypes = {
-  style: PropTypes.object.isRequired,
-  indicatorStyle: PropTypes.object.isRequired,
+  style: PropTypes.oneOfType([PropTypes.number, PropTypes.object]).isRequired,
+  indicatorStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object])
+    .isRequired,
   count: PropTypes.number.isRequired,
-  currentPage: PropTypes.number.isRequired,
   onColor: PropTypes.string.isRequired,
   offColor: PropTypes.string.isRequired,
   onPage: PropTypes.func.isRequired

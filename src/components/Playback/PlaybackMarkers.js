@@ -23,7 +23,6 @@ class PlaybackMarkers extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     if (!nextProps.markers) return false;
-
     return (
       !nextProps.markers.equals(this.props.markers) ||
       nextProps.duration !== this.props.duration ||
@@ -65,8 +64,8 @@ class PlaybackMarkers extends React.Component {
             <MarkerFull
               key={index}
               marker={marker}
-              end={end}
-              left={x}
+              end={Math.round(end)}
+              left={Math.round(x)}
               onMarkerPress={onMarkerPress}
               onMarkerLongPress={onMarkerLongPress}
               height={height}

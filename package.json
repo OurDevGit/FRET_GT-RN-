@@ -1,6 +1,6 @@
 {
   "name": "GuitarTunes",
-  "version": "1.0.2",
+  "version": "1.1.5",
   "private": true,
   "scripts": {
     "start":
@@ -32,8 +32,8 @@
     "pitchfinder": "^2.0.7",
     "prop-types": "^15.5.10",
     "re-reselect": "^0.5.0",
-    "react": "^16.0.0",
-    "react-native": "^0.50.3",
+    "react": "^16.2.0",
+    "react-native": "^0.53.0",
     "react-native-billing": "^2.3.1",
     "react-native-fbsdk": "^0.7.0",
     "react-native-fetch-blob": "github:big-swing/react-native-fetch-blob",
@@ -42,11 +42,13 @@
     "react-native-mixpanel": "0.0.16",
     "react-native-pdf": "^2.0.4",
     "react-native-recording": "^0.2.0",
-    "react-native-sentry": "^0.30.2",
+    "react-native-sentry": "^0.33.0",
     "react-native-sound": "^0.10.4",
+    "react-native-sqlite-storage": "^3.3.4",
     "react-native-svg": "^6.0.0",
     "react-native-tab-view": "0.0.69",
     "react-native-video": "^2.0.0",
+    "react-native-wheel": "github:big-swing/react-native-wheel",
     "react-redux": "^5.0.5",
     "recompose": "^0.25.1",
     "redux": "^3.6.0",

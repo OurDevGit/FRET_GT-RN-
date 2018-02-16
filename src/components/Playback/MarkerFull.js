@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, Text } from "react-native";
 import { PrimaryBlue } from "../../design";
+import { isEqual } from "lodash";
 
 const lengthForHeight = h => {
   const hypot = h * Math.cos(Math.PI / 4);
@@ -17,7 +18,6 @@ class Marker extends React.Component {
   render() {
     const { marker, left } = this.props;
     const adjustedLeft = left - (this.state.width - 30) / 2;
-
     return (
       <View
         key={marker.name}
@@ -80,6 +80,15 @@ class Marker extends React.Component {
     );
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return (
+      !isEqual(nextProps.marker, this.props.marker) ||
+      !isEqual(nextProps.left, this.props.left) ||
+      !isEqual(nextProps.end, this.props.end) ||
+      !isEqual(nextState.width, this.state.width)
+    );
+  }
+
   handlePressDown = () => {
     const { marker, end, onMarkerLongPress } = this.props;
     this.setState({ isDown: true });
@@ -103,7 +112,7 @@ class Marker extends React.Component {
 
   handleLayout = e => {
     this.setState({
-      width: e.nativeEvent.layout.width
+      width: Math.round(e.nativeEvent.layout.width)
     });
   };
 }

@@ -52,8 +52,12 @@ class AdContainer extends PureComponent {
   handleTap = () => {
     const url = this.props.ad.get("link");
     const tracking = this.props.ad.get("tracking");
-    Linking.openURL(url).catch(err => console.error("An error occurred", err));
-    trackAdTap(url, tracking);
+    if (typeof url === "string") {
+      Linking.openURL(url).catch(err =>
+        console.error("An error occurred", err)
+      );
+      trackAdTap(url, tracking);
+    }
   };
 }
 

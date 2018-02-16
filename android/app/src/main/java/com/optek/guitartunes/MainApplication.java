@@ -8,6 +8,7 @@ import com.horcrux.svg.SvgPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import cn.qiuxiang.react.recording.RecordingPackage;
+import org.pgsqlite.SQLitePluginPackage;
 import org.wonday.pdf.RCTPdfView;
 import com.chirag.RNMail.RNMail;
 import io.sentry.RNSentryPackage;
@@ -18,6 +19,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
+import com.heng.wheel.WheelPackage;
 
 // Facebook SDK
 import com.facebook.FacebookSdk;
@@ -40,9 +42,9 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(new MainReactPackage(), new SvgPackage(), new RNMixpanel(),
-          new RecordingPackage(), new RCTPdfView(), new RNMail(), new RNFetchBlobPackage(),
+          new RecordingPackage(), new SQLitePluginPackage(), new RCTPdfView(), new RNMail(), new RNFetchBlobPackage(),
           new RNSentryPackage(MainApplication.this), new ReactVideoPackage(), new InAppBillingBridgePackage(),
-          new RNSoundPackage(), new GTReactPackage(), new FBSDKPackage(mCallbackManager));
+          new RNSoundPackage(), new GTReactPackage(), new WheelPackage(), new FBSDKPackage(mCallbackManager));
     }
   };
 

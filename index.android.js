@@ -6,7 +6,10 @@ import Root from "./src/components/Root";
 import configureStore from "./src/configureStore";
 import { configureDownloadManager } from "./src/DownloadManager";
 import { syncResources } from "./src/lib/resources";
+import { syncChordsAndScales } from "./src/lib/chords_and_scales";
 import { getSalt } from "./src/models/Crypto";
+
+console.debug("index.android.js");
 
 const crypto = NativeModules.GTCrypto;
 
@@ -36,10 +39,19 @@ if (__DEV__) {
 const _store = configureStore();
 configureDownloadManager(_store);
 syncResources();
+syncChordsAndScales();
 
-export default class GuitarTunes extends Component {
+class GuitarTunes extends Component {
   render() {
     return <Root store={_store} />;
+  }
+
+  componentDidMount() {
+    console.debug("root did mount");
+  }
+
+  componentWillUnmount() {
+    console.debug("root umounting");
   }
 }
 

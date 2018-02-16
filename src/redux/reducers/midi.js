@@ -15,6 +15,8 @@ export const guitarTracks = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
       return List(action.payload.guitarTracks);
+    case "SET_CHORDS_AND_SCALES":
+      return List([Map({ name: "chordsAndScales" })]);
     case "CLEAR_MIDI_DATA":
       return List();
     default:
@@ -26,10 +28,14 @@ export const visibleTracks = (state = List(), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
       return List([action.payload.guitarTracks.first()]);
-    case "CLEAR_MIDI_DATA":
-      return List();
+    case "SET_JAMBAR":
+      return List([state.first()]);
     case "UPDATE_VISIBLE_TRACKS":
       return action.payload;
+    case "SET_CHORDS_AND_SCALES":
+      return List([Map({ name: "chordsAndScales" })]);
+    case "CLEAR_MIDI_DATA":
+      return List();
     default:
       return state;
   }
@@ -57,12 +63,27 @@ export const smartTrack = (state = {}, action) => {
   }
 };
 
-export const patterns = (state = List(), action) => {
+export const jamBarTrack = (state = Map({ patterns: List() }), action) => {
   switch (action.type) {
     case "UPDATE_MIDI_DATA":
-      return List(action.payload.patterns);
+      return action.payload.jamBar;
     case "CLEAR_MIDI_DATA":
-      return List();
+      return Map({ patterns: List() });
+    default:
+      return state;
+  }
+};
+
+export const isShowingJamBar = (state = false, action) => {
+  switch (action.type) {
+    case "SET_JAMBAR":
+      return action.payload;
+    case "UPDATE_VISIBLE_TRACKS":
+      return false;
+    case "SET_CHORDS_AND_SCALES":
+      return false;
+    case "CLEAR_MIDI_DATA":
+      return false;
     default:
       return state;
   }

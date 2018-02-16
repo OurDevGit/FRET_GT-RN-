@@ -16,8 +16,6 @@ class BtnTempoModal extends React.Component {
 
   render() {
     var tempos = defaultTempos();
-    console.log(!this.props.isSmart || !this.props.isPhone, defaultTempos());
-
     if (!this.props.isSmart || !this.props.isPhone) {
       if (
         this.props.currentVideoMidiFile === undefined ||

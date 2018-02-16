@@ -133,7 +133,6 @@ const mergeProductDetails = (state, singleMedia, detailsHaveLoaded) => {
       "comingsoon";
 
     if (forceComingSoon) {
-      console.debug("forcing COMING SOON via description");
       mediaDetails = Map({ priceText: "COMING SOON" });
     } else {
       mediaDetails = mediaProductDetails;

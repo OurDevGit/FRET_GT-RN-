@@ -15,6 +15,20 @@ export const setTime = time => {
   }
 };
 
+// setters - only used by chords-and-scales/index
+// when showing a pattern, we set time to:
+// 10 seconds : roots ON
+// 20 seconds : roots OFF
+export const setPatternRootOn = () => {
+  currentTime = 10;
+  updateSubscribers();
+};
+
+export const setPatternRootOff = () => {
+  currentTime = 20;
+  updateSubscribers();
+};
+
 // getters
 
 export const getCurrentTime = () => {

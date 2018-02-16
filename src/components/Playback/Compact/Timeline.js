@@ -128,7 +128,10 @@ class Timeline extends Component {
     this.setState({
       ignorePropsProgress: true
     });
-    this.props.onSeekStart();
+
+    if (this.props.onSeekStart !== undefined) {
+      this.props.onSeekStart();
+    }
   };
 
   handlePlayheadPanEnd = () => {

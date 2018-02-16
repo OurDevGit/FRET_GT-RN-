@@ -4,3 +4,4 @@ export * from "./media";
 export * from "./email";
 export * from "./home";
 export * from "./resources";
+export * from "./chords_and_scales";

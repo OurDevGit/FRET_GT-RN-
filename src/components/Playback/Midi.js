@@ -42,6 +42,7 @@ class Midi extends React.PureComponent {
 
 Midi.propTypes = {
   loadMidi: PropTypes.func.isRequired,
+  clearMidi: PropTypes.func.isRequired,
   clearMidiData: PropTypes.func.isRequired,
   onData: PropTypes.func.isRequired,
   midi: PropTypes.string
