@@ -1,10 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import Dimensions from "Dimensions";
 import * as actions from "../../redux/actions";
-import { Map } from "immutable";
 
 import Popover from "./Popover";
 import { ModalType } from "./ModalType";
@@ -31,6 +30,7 @@ class SmartFretModal extends React.Component {
       boardWidth / frets * (this.props.isPhone ? 4 : 3),
       Dimensions.get("window").height - 150
     );
+    const fontSize = this.props.isPhone ? 16 : 18;
 
     return (
       <Popover
@@ -43,48 +43,18 @@ class SmartFretModal extends React.Component {
         isVisible={this.props.track.name !== undefined}
         onDismiss={this.props.clearSmartTrack}
       >
-        <View
-          style={{
-            flex: 1
-          }}
-        >
-          <View
-            style={{
-              width: "100%",
-              height: 40,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "black"
-            }}
-          >
+        <View style={{ flex: 1 }}>
+          <View style={styles.container}>
             <TouchableOpacity
-              style={{
-                flex: -1,
-                position: "absolute",
-                left: 4,
-                height: "100%"
-              }}
+              style={styles.doneButton}
               onPress={this.props.clearSmartTrack}
             >
-              <Text
-                style={{
-                  fontSize: this.props.isPhone ? 16 : 18,
-                  fontWeight: "600",
-                  textAlign: "left",
-                  marginLeft: 5,
-                  height: "100%",
-                  textAlignVertical: "center",
-                  color: "white"
-                }}
-              >
-                Done
-              </Text>
+              <Text style={[styles.doneText, { fontSize }]}>Done</Text>
             </TouchableOpacity>
 
             <SmartFretText
               color={"white"}
-              size={this.props.isPhone ? 16 : 18}
+              fontSize={this.props.isPhone ? 16 : 18}
               trackName={this.props.track.name}
             />
           </View>
@@ -245,6 +215,31 @@ class SmartFretModal extends React.Component {
     }
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: 40,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "black"
+  },
+  doneButton: {
+    flex: -1,
+    position: "absolute",
+    left: 4,
+    height: "100%"
+  },
+  doneText: {
+    fontWeight: "600",
+    textAlign: "left",
+    marginLeft: 5,
+    height: "100%",
+    textAlignVertical: "center",
+    color: "white"
+  }
+});
 
 SmartFretModal.propTypes = {
   track: PropTypes.object,

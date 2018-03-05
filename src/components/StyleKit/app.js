@@ -6,7 +6,8 @@ import {
   BtnLibrary_isPressed_redValue_greenValue_blueValue,
   BtnHome_isHome,
   BtnSettings_isPressed,
-  BtnChordsAndScales_targetFrame_resizing_isChordsAndScales
+  BtnChordsAndScales_targetFrame_resizing_isChordsAndScales,
+  BtnDetails_isPressed
 } from "./styleKitComponents";
 import { ResizingBehavior } from "./lib";
 
@@ -18,10 +19,10 @@ export const BtnLibrary = props => {
   return <BtnLibraryComp {...props} resizing={ResizingBehavior.AspectFit} />;
 };
 
-export const BtnHome = ({ onPress, ...rest }) => {
+export const BtnHome = ({ isHome, onPress, ...rest }) => {
   return (
     <TouchableOpacity onPress={onPress}>
-      <BtnHome_isHome isHome={false} {...rest} />
+      <BtnHome_isHome isHome={isHome} {...rest} />
     </TouchableOpacity>
   );
 };
@@ -48,5 +49,6 @@ export const BtnChordsAndScales = props => {
 };
 
 BtnHome.propTypes = {
+  isHome: PropTypes.bool.isRequired,
   onPress: PropTypes.func.isRequired
 };

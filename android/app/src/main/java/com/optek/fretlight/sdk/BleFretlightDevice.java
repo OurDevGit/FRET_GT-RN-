@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2016        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -65,7 +65,11 @@ class BleFretlightDevice implements FretlightDevice
 	public boolean connect(final String deviceAddress)
 	{
 		mDeviceAddress = deviceAddress;
-		return mBleClient.connect(mDeviceAddress);
+		if (!isConnected()) {
+			return mBleClient.connect(mDeviceAddress);
+		}
+		mDelegate.deviceConnected(this);
+		return true;
 	}
 
 	@Override
@@ -86,8 +90,7 @@ class BleFretlightDevice implements FretlightDevice
 	public void resume()
 	{
 		// If we were previously connected to a device, then reconnect.
-		if (mDeviceAddress != null)
-		{
+		if (mDeviceAddress != null) {
 			mBleClient.connect(mDeviceAddress);
 			//mBleClient.startMonitoringRssiValue();
 		}
@@ -139,8 +142,7 @@ class BleFretlightDevice implements FretlightDevice
 	private FretlightDevice getOrCreateFretlightDevice(final BluetoothDevice device)
 	{
 		FretlightDevice fretlightDevice = mDevices.get(device);
-		if (fretlightDevice == null)
-		{
+		if (fretlightDevice == null) {
 			final BleClient client = new BleClient(mContext);
 			fretlightDevice = new BleFretlightDevice(mContext, client);
 		}
@@ -172,10 +174,8 @@ class BleFretlightDevice implements FretlightDevice
 		{
 			final String deviceName = device.getName();
 			Log.d(TAG, "Available Services for \"" + deviceName + "\"");
-			for (BluetoothGattService service : mBleClient.getCachedServices())
-			{
-				if (service.getUuid().equals(BleFretlightProfile.Service.GUITAR))
-				{
+			for (BluetoothGattService service : mBleClient.getCachedServices()) {
+				if (service.getUuid().equals(BleFretlightProfile.Service.GUITAR)) {
 					final String serviceName = BleNamesResolver.resolveServiceName(service.getUuid().toString().toLowerCase(Locale.getDefault()));
 					Log.d(TAG, "...Service=\"" + serviceName + "\"");
 					mBleClient.getCharacteristicsForService(service);
@@ -188,10 +188,8 @@ class BleFretlightDevice implements FretlightDevice
 		{
 			final String serviceName = BleNamesResolver.resolveServiceName(service.getUuid().toString().toLowerCase(Locale.getDefault()));
 			Log.d(TAG, "Available Characteristics for \"" + serviceName + "\"");
-			for (BluetoothGattCharacteristic characteristic : characteristics)
-			{
-				if (characteristic.getUuid().equals(BleFretlightProfile.Characteristic.FRETBOARD))
-				{
+			for (BluetoothGattCharacteristic characteristic : characteristics) {
+				if (characteristic.getUuid().equals(BleFretlightProfile.Characteristic.FRETBOARD)) {
 					final String characteristicName = BleNamesResolver.resolveCharacteristicName(characteristic.getUuid().toString().toLowerCase(Locale.getDefault()));
 					Log.d(TAG, "...Characteristic=\"" + characteristicName + "\"");
 					mFretboard = characteristic;

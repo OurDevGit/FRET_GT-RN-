@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 import FretboardNote from "./FretboardNote";
 import {
@@ -24,32 +24,14 @@ class FretboardFrets extends Component {
   }
 
   render() {
-    const {
-      track,
-      tuningTrack,
-      isSmart,
-      isLeft,
-      currentNotation,
-      boardWidth,
-      fretHeight,
-      onLayout
-    } = this.props;
-
+    const { track, boardWidth, onLayout } = this.props;
+    const paddingVertical = track.isBass
+      ? boardWidth * 0.005
+      : boardWidth * 0.003;
     return (
       <View
         pointerEvents={"none"}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          paddingVertical: track.isBass
-            ? boardWidth * 0.005
-            : boardWidth * 0.003,
-          flexDirection: "row",
-          justifyContent: "space-between"
-        }}
+        style={[styles.container, { paddingVertical }]}
         onLayout={onLayout}
       >
         {this.frets()}
@@ -80,7 +62,8 @@ class FretboardFrets extends Component {
 
     if (
       prevProps.isShowingJamBar !== this.props.isShowingJamBar ||
-      prevProps.isLeft !== this.props.isLeft
+      prevProps.isLeft !== this.props.isLeft ||
+      prevProps.tunerIsActive !== this.props.tunerIsActive
     ) {
       this.forceUpdateNotes = true;
     }
@@ -108,9 +91,11 @@ class FretboardFrets extends Component {
       const trackName = this.props.track.name;
       const currentNotes = notesForTrackAtTime(trackName, this.currentTime);
       const notesAreSame = isEqual(currentNotes, this.prevCurrentNotes);
+      var notesAreReady = true;
 
       if (!notesAreSame || this.forceUpdateNotes) {
         // console.debug("notes are different");
+
         var shownNotes = {};
 
         for (var noteKey in currentNotes) {
@@ -121,6 +106,11 @@ class FretboardFrets extends Component {
           ) {
             this.noteRefs[note.ref].show();
             shownNotes[noteKey] = note;
+          } else {
+            if (note.fret <= 22) {
+              notesAreReady = false;
+              break;
+            }
           }
         }
 
@@ -136,8 +126,10 @@ class FretboardFrets extends Component {
           }
         }
 
-        this.prevCurrentNotes = currentNotes;
-        this.prevNotes = shownNotes;
+        // checking to see if notes are ready
+        // if not, don't define prev notes
+        this.prevCurrentNotes = notesAreReady ? currentNotes : {};
+        this.prevNotes = notesAreReady ? shownNotes : {};
         this.forceUpdateNotes = false;
       }
     } else {
@@ -179,14 +171,7 @@ class FretboardFrets extends Component {
       for (var i = first; i <= last; i++) {
         frets.push(
           <View key={i} style={{ flex: 1 }}>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center"
-              }}
-            >
+            <View style={styles.fret}>
               {this.notes(
                 track,
                 tuningTrack.notes,
@@ -257,9 +242,28 @@ class FretboardFrets extends Component {
   };
 }
 
+const styles = StyleSheet.create({
+  container: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+  fret: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center"
+  }
+});
+
 FretboardFrets.propTypes = {
   track: PropTypes.object.isRequired,
   tuningTrack: PropTypes.object.isRequired,
+  tunerIsActive: PropTypes.bool.isRequired,
   isShowingJamBar: PropTypes.bool.isRequired,
   trackIndex: PropTypes.number.isRequired,
   isSmart: PropTypes.bool.isRequired,
@@ -278,5 +282,6 @@ export default onlyUpdateForKeys([
   "isLeft",
   "currentNotation",
   "boardWidth",
-  "fretHeight"
+  "fretHeight",
+  "tunerIsActive"
 ])(FretboardFrets);

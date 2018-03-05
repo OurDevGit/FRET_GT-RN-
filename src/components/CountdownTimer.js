@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Animated, View, Text, StyleSheet } from "react-native";
+import { Animated, View, StyleSheet } from "react-native";
 import Dimensions from "Dimensions";
 import PropTypes from "prop-types";
 
@@ -11,10 +11,11 @@ class CountdownTimer extends Component {
 
   render() {
     const { number, numAnim } = this.state;
-    console.log(number, numAnim);
+    const fontSize = Dimensions.get("window").height * 0.6;
+    //console.log(number, numAnim);
     return (
       <View style={styles.container}>
-        <Animated.Text style={[styles.number, { fontSize: numAnim }]}>
+        <Animated.Text style={[styles.number, { opacity: numAnim, fontSize }]}>
           {number}
         </Animated.Text>
       </View>
@@ -29,15 +30,6 @@ class CountdownTimer extends Component {
     });
   }
 
-  shrinkNumber = () => {
-    const fontSize = Dimensions.get("window").height * 0.6;
-    this.setState({ numAnim: new Animated.Value(fontSize) });
-    Animated.timing(this.state.numAnim, {
-      toValue: 1,
-      duration: 850
-    }).start();
-  };
-
   updateCount = () => {
     if (this.state.number > 1) {
       this.setState({ number: this.state.number - 1 });
@@ -46,6 +38,15 @@ class CountdownTimer extends Component {
     } else {
       this.props.onComplete(false);
     }
+  };
+
+  shrinkNumber = () => {
+    //const fontSize = Dimensions.get("window").height * 0.6;
+    this.setState({ numAnim: new Animated.Value(1) });
+    Animated.timing(this.state.numAnim, {
+      toValue: 0,
+      duration: 850
+    }).start();
   };
 }
 

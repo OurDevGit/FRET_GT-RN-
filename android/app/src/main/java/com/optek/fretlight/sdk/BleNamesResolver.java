@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -28,8 +28,7 @@ class BleNamesResolver
 	static public String resolveServiceName(final String uuid)
 	{
 		String result = mServices.get(uuid);
-		if (result == null)
-		{
+		if (result == null) {
 			result = "Unknown Service";
 		}
 		return result;
@@ -38,15 +37,13 @@ class BleNamesResolver
 	static public String resolveCharacteristicName(final String uuid)
 	{
 		String result = mCharacteristics.get(uuid);
-		if (result == null)
-		{
+		if (result == null) {
 			result = "Unknown Characteristic";
 		}
 		return result;
 	}
 
-	static
-	{
+	static {
 		mServices.put(BleFretlightProfile.Service.GUITAR.toString(), "Guitar");
 
 		mCharacteristics.put(BleFretlightProfile.Characteristic.FRETBOARD.toString(), "Fretboard");

@@ -1,12 +1,10 @@
 import { List, Seq, Map, Stack } from "immutable";
 import { GetMediaButtonMode } from "../models/Media";
-import { isEqual } from "lodash";
 import memoize from "fast-memoize";
 
 const getMediaByListIds = state => state.get("mediaByListId");
 const getMediaByListId = (state, id) => getMediaByListIds(state).get(id);
 const getFaves = state => state.get("favorites");
-const getPurchasedMedia = state => state.get("purchasedMedia");
 const getSubCategories = (state, categoryId) =>
   state.get("subCategoriesByCategoryId").get(categoryId);
 const getGroups = (state, subCategoryId) =>
@@ -16,31 +14,25 @@ const getTitleSorting = (state, thing) =>
     state.get("storeSorting").get((thing || {}).id) || Map({ isTitle: true })
   ).get("isTitle") === true;
 
-export const getAllMedia = state => state.get("mediaById").valueSeq() || Seq();
+export const getAllMedia = state => state.get("listedMedia") || Seq();
 export const getDownloadedMediaFiles = (state, mediaId) =>
   state.get("downloadedMedia").get(mediaId);
 export const getMediaById = (state, mediaId) =>
   state.get("mediaById").get(mediaId);
 
-const getClientSidedMedia = (state, obj, isStore) => {
+const getClientSidedMedia = (state, obj) => {
   switch (obj.title) {
     case "All Content": {
-      const allMedia = state.get("listedMedia").sort((m1, m2) => {
-        return m1.get("sortTitle").localeCompare(m2.get("sortTitle"));
+      const allMedia = getAllMedia(state).sort((media1, media2) => {
+        return media1.get("sortTitle").localeCompare(media2.get("sortTitle"));
       });
       return List([Map({ data: allMedia })]);
     }
     case "Wishlist": {
       const allMedia = getAllMedia(state);
       const faves = getFaves(state);
-      const purchased = getPurchasedMedia(state);
       const favedMedia = allMedia
-        .filter(
-          media =>
-            faves.includes(media.get("mediaID")) &&
-            purchased.includes(media.get("mediaID").toLowerCase()) ===
-              (isStore === true ? false : true)
-        )
+        .filter(media => faves.includes(media.get("mediaID")))
         .sort((m1, m2) => {
           return m1.get("sortTitle").localeCompare(m2.get("sortTitle"));
         });
@@ -227,7 +219,7 @@ const selectMediaRaw = (state, category, subCategory, group, isStore) => {
 
   if (category) {
     if (category.isClientSided === true) {
-      const media = getClientSidedMedia(state, category, isStore);
+      const media = getClientSidedMedia(state, category);
       result = mergeMediaDetails(state, media);
     } else if (subCategory === undefined || subCategory === null) {
       const media = getMediaForCategory(state, category, categoryIsTitleSort);

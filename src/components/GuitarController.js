@@ -69,8 +69,16 @@ class GuitarController extends Component {
       if (this.props.assignments !== {}) {
         if (
           !this.props.tracks.equals(prevProps.tracks) ||
-          !this.isEqual(this.props.assignments, prevProps.assignments)
+          !this.isEqual(this.props.assignments, prevProps.assignments) ||
+          this.props.tunerIsActive !== prevProps.tunerIsActive ||
+          this.props.bleMenuIsActive !== prevProps.bleMenuIsActive
         ) {
+          guitarController.clearAllGuitars();
+          this.prevCurrentNotes = {};
+          this.prevOn = {};
+          this.hasCleared = true;
+
+          this.prevCurrentNotes = {};
           let time = getCurrentTime();
           for (var track in this.props.assignments) {
             this.handleNotesForTrack(time, track);
@@ -78,6 +86,24 @@ class GuitarController extends Component {
         }
       }
     }
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    var hasUpdates = false;
+
+    for (var key in nextProps) {
+      if (!isEqual(this.props[key], nextProps[key])) {
+        hasUpdates = true;
+      }
+    }
+
+    for (key in nextState) {
+      if (!isEqual(this.state[key], nextState[key])) {
+        hasUpdates = true;
+      }
+    }
+
+    return hasUpdates;
   }
 
   isEqual = (a, b) => {
@@ -120,15 +146,20 @@ class GuitarController extends Component {
 
   handleNotesForTrack = (time, track) => {
     var noteTrack = this.props.isShowingJamBar ? "jamBar" : track;
-    if (time !== 0 || track === "jamBar") {
+
+    if (
+      (time !== 0 || track === "jamBar") &&
+      !this.props.tunerIsActive &&
+      !this.props.bleMenuIsActive
+    ) {
       const currentNotes = notesForTrackAtTime(noteTrack, time);
 
       // end early if the notes haven't changed since last time
       if (isEqual(currentNotes, this.prevCurrentNotes)) {
         return;
       }
-      this.prevCurrentNotes = currentNotes;
 
+      this.prevCurrentNotes = currentNotes;
       const guitarIds = this.props.assignments[track];
 
       guitarIds.forEach(guitarId => {
@@ -152,13 +183,14 @@ class GuitarController extends Component {
         if (updates.length > 0) {
           guitarController.setNotes(updates, guitarId);
         }
-
         this.prevOn[guitarId] = currentNotes;
         this.hasCleared = false;
       });
     } else {
       if (this.hasCleared === false) {
         guitarController.clearAllGuitars();
+        this.prevCurrentNotes = {};
+        this.prevOn = {};
         this.hasCleared = true;
       }
     }
@@ -200,6 +232,8 @@ GuitarController.propTypes = {
   tracks: PropTypes.object,
   guitars: PropTypes.array,
   assignments: PropTypes.object,
+  tunerIsActive: PropTypes.bool.isRequired,
+  bleMenuIsActive: PropTypes.bool.isRequired,
   isShowingJamBar: PropTypes.bool.isRequired,
   updateGuitarSetting: PropTypes.func.isRequired,
   guitarDisconnected: PropTypes.func.isRequired
@@ -223,6 +257,8 @@ const mapStateToProps = state => {
 
   return {
     tracks: state.get("visibleTracks"),
+    tunerIsActive: state.get("tunerIsActive"),
+    bleMenuIsActive: state.get("bleMenuIsActive"),
     isShowingJamBar: state.get("isShowingJamBar"),
     guitars,
     assignments

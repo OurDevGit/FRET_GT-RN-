@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2016        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -56,12 +56,9 @@ abstract class BleScanner
 	public static BleScanner create(BluetoothAdapter adapter, Delegate delegate)
 	{
 		// We support two different ble scanners depending on os version.
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-		{
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			return new BleScanner_API21(adapter, delegate);
-		}
-		else
-		{
+		} else {
 			return new BleScanner_API19(adapter, delegate);
 		}
 	}

@@ -128,7 +128,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void lightString(int string, String guitarId) {
-    for (int i = 1; i < 23; i++) {
+    for (int i = 0; i < 23; i++) {
       setNote(string, i, true, guitarId);
     }
   }
@@ -137,7 +137,6 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
   public void setNote(int string, int fret, boolean isOn, String guitarId) {
     FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
     if (guitar != null) {
-      Log.d(TAG, "setting one note for a guitar");
       guitar.setNote(string, fret, isOn);
     }
   }
@@ -147,9 +146,9 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
     FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
 
     if (guitar != null) {
-      Log.d(TAG, "setting _" + notes.size() + "_ notes for a guitar");
       for (int i = 0; i < notes.size(); i++) {
         ReadableMap note = (ReadableMap) notes.getMap(i);
+        //Log.d(TAG, "string: " + note.getInt("string") + "fret: " + note.getInt("fret") + "isOn: " + note.getBoolean("isOn"));
         guitar.setNote(note.getInt("string"), note.getInt("fret"), note.getBoolean("isOn"));
       }
     }
@@ -159,6 +158,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void clearAll(String guitarId) {
+    Log.d(TAG, "clearing guitar");
     FretlightGuitar guitar = checkForConnectedGuitar(guitarId);
     if (guitar != null) {
       guitar.allOff();
@@ -167,6 +167,7 @@ public class GTGuitarController extends ReactContextBaseJavaModule {
 
   @ReactMethod
   public void clearAllGuitars() {
+    Log.d(TAG, "clearing all guitars");
     for (FretlightGuitar mGuit : mGuitars) {
       FretlightGuitar guitar = checkForConnectedGuitar(mGuit.getName());
       if (guitar != null) {

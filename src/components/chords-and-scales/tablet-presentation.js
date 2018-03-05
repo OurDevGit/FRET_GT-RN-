@@ -259,7 +259,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30
   },
   titlebar: {
-    height: 34,
     width: "100%",
     flexDirection: "row",
     alignItems: "flex-end",
@@ -268,19 +267,17 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     marginRight: 20,
-    textAlignVertical: "bottom",
-    height: 30
+    textAlignVertical: "bottom"
   },
   titleButton: {
-    height: "100%",
     marginLeft: 50
   },
   titleButtonText: {
     textAlignVertical: "bottom",
-    height: 30,
     fontSize: 20,
     color: "#777777",
-    marginTop: -2
+    marginTop: -2,
+    marginBottom: 3
   },
   ui: {
     flex: 1,

@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2016        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -18,22 +18,27 @@
 package com.optek.fretlight.sdk;
 
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 public class FretlightExecutor
 {
-	private final ScheduledExecutorService mExecutor;
+	private final ExecutorService mExecutor;
+	private final ScheduledExecutorService mUpdateExecutor;
 	private final CopyOnWriteArrayList<Runnable> mRunnables = new CopyOnWriteArrayList<>();
 
 	public FretlightExecutor(long updateInterval)
 	{
-		// For serializing our section writes.
-		mExecutor = Executors.newSingleThreadScheduledExecutor();
+		// For executing our note updates.
+		mExecutor = Executors.newSingleThreadExecutor();
 
-		// Start the update scheduler.
-		mExecutor.scheduleAtFixedRate(new Updater(), 0, updateInterval, TimeUnit.MILLISECONDS);
+		// For serializing our section writes.
+		mUpdateExecutor = Executors.newSingleThreadScheduledExecutor();
+
+		// Start the update executor.
+		mUpdateExecutor.scheduleWithFixedDelay(new Updater(), 0, updateInterval, TimeUnit.MILLISECONDS);
 	}
 
 	public void start(Runnable runnable)
@@ -43,7 +48,7 @@ public class FretlightExecutor
 
 	public void execute(Runnable runnable)
 	{
-		mExecutor.execute(runnable);
+		mUpdateExecutor.execute(runnable);
 	}
 
 	// ------------------------------------------------------------------------
@@ -55,8 +60,7 @@ public class FretlightExecutor
 		@Override
 		public void run()
 		{
-			for (Runnable r : mRunnables)
-			{
+			for (Runnable r : mRunnables) {
 				r.run();
 			}
 		}

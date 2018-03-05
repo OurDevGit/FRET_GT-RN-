@@ -61,12 +61,18 @@ NavigableHeader.propTypes = {
 };
 
 class PureTab extends Component {
-  state = {
-    searchResults: null,
-    navigableOpenSection: null,
-    previewMediaId: null,
-    previewProgress: 0
-  };
+  constructor(props) {
+    super(props);
+
+    const navigableOpenSection = props.isExpandable ? "_ALLCLOSED" : null;
+
+    this.state = {
+      searchResults: null,
+      navigableOpenSection,
+      previewMediaId: null,
+      previewProgress: 0
+    };
+  }
 
   render() {
     const sections =
@@ -327,6 +333,11 @@ class PureTab extends Component {
   };
 
   setMediaCount = sections => {
+    if (sections === null || sections === undefined) {
+      this.props.onMediaCount(0);
+      return;
+    }
+
     var mediaCount = 0;
 
     if (
@@ -342,9 +353,13 @@ class PureTab extends Component {
     } else {
       // get the total for just the open section
       try {
-        const openSections = sections.filter(
-          s => s.get("title") === this.state.navigableOpenSection
-        );
+        const openSections = sections.filter(s => {
+          if (s === undefined) {
+            return false;
+          } else {
+            s.get("title") === this.state.navigableOpenSection;
+          }
+        });
 
         if (openSections.has(0)) {
           mediaCount =

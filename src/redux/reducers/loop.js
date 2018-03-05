@@ -1,6 +1,6 @@
 import { Map } from "immutable";
 
-exports.currentLoop = (state = Map(), action) => {
+export const currentLoop = (state = Map(), action) => {
   switch (action.type) {
     case "SET_CURRENT_LOOP":
       return action.payload;
@@ -15,7 +15,7 @@ exports.currentLoop = (state = Map(), action) => {
   }
 };
 
-exports.loopIsEnabled = (state = true, action) => {
+export const loopIsEnabled = (state = true, action) => {
   switch (action.type) {
     case "ENABLE_LOOP":
       return action.payload;

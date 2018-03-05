@@ -113,11 +113,11 @@ class Tuner extends React.Component {
   }
 
   componentDidMount = () => {
-    guitarController.clearAllGuitars();
+    this.props.toggleTuner(true);
   };
 
   componentWillUnmount = () => {
-    guitarController.clearAllGuitars();
+    this.props.toggleTuner(false);
   };
 
   noteButtons = () => {
@@ -227,6 +227,7 @@ Tuner.propTypes = {
   origin: PropTypes.object.isRequired,
   currentNotation: PropTypes.string.isRequired,
   setTuningMode: PropTypes.func.isRequired,
+  toggleTuner: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired
 };
 

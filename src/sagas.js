@@ -75,6 +75,21 @@ function* fetchAd() {
   }
 }
 
+function* fetchConfig() {
+  // console.log(`fetchConfig!`);
+
+  try {
+    const config = yield call(Api.fetchConfig);
+    // console.log("got config");
+    // console.log(config);
+    yield put({ type: "CONFIG_FETCH_SUCCEEDED", payload: config });
+  } catch (e) {
+    // console.log(`error fetching config`);
+    // console.log(e);
+    yield put({ type: "CONFIG_FETCH_FAILED", payload: e.message });
+  }
+}
+
 function* doDownload(media, mediaId, transactionDetails) {
   try {
     const mediaFiles = yield downloadMedia(media, transactionDetails);
@@ -306,6 +321,7 @@ function* watchSetTuningMode(action) {
 
 function* mySaga() {
   yield takeLatest("AD_FETCH_REQUESTED", fetchAd);
+  yield takeLatest("CONFIG_FETCH_REQUESTED", fetchConfig);
   yield takeEvery("CHOOSE_MEDIA", watchChooseMedia);
   yield takeLatest("REFRESH_STORE", watchRefreshStore);
   yield takeEvery("DELETE_MEDIA", watchDeleteMedia);

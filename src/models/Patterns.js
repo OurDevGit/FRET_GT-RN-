@@ -12,7 +12,7 @@ const dbName = "Chords and Scales";
 const Patterns = makeStore("HomeCache");
 
 export const getSync = async () => {
-  const sync = await Patterns.getObj("SYNC");
+  const sync = (await Patterns.getObj("SYNC")) || 0;
   const syncTime = sync;
 
   // return 1488549848 / 1000; // use this to force a sync for testing
@@ -45,7 +45,7 @@ const getDb = async () => {
 export const importNewPatterns = async patterns => {
   // console.debug("import new patterns");
   // console.debug(patterns.length);
-  // console.debug(patterns);
+  //console.debug("importNewPatterns", patterns);
 
   const buildDelete = pattern =>
     `DELETE FROM chords_and_scales WHERE patternId = "${pattern.patternId}"`;
@@ -128,7 +128,9 @@ export const getAllCsCategories = async () => {
 
   const rows = (await db.executeSql(
     `SELECT * FROM chords_and_scales WHERE category != "undefined"`
-  ))[0].rows.raw();
+  ))[0].rows
+    .raw()
+    .sort((a, b) => a.sortIndex - b.sortIndex);
 
   const categories = rows.map(r => r.category);
   return Array.from(new Set(categories));
@@ -154,7 +156,9 @@ const rowsForSelections = async (category, type, key, position) => {
   }
 
   const db = await getDb();
-  const rows = (await db.executeSql(query, params))[0].rows.raw();
+  const rows = (await db.executeSql(query, params))[0].rows
+    .raw()
+    .sort((a, b) => a.sortIndex - b.sortIndex);
 
   return rows;
 };

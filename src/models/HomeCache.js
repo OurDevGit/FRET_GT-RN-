@@ -2,9 +2,16 @@ import { makeStore } from "./StorageFactory";
 
 const HomeCache = makeStore("HomeCache");
 
-export const getIndex = async () => HomeCache.getObj("INDEX");
+export const getPages = async () => {
+  let index = await HomeCache.getObj("INDEX");
+  let firstRun = await HomeCache.getObj("FIRST_RUN");
+  return { index, firstRun };
+};
 
-export const setIndex = async index => HomeCache.setObj("INDEX", index);
+export const setPages = async (indexPath, firstRunPath) => {
+  HomeCache.setObj("INDEX", indexPath);
+  HomeCache.setObj("FIRST_RUN", firstRunPath);
+};
 
 export const getSync = async () => {
   const sync = await HomeCache.getObj("SYNC");

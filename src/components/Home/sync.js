@@ -1,25 +1,29 @@
 import { fetchHome } from "../../api";
 import { downloadFiles } from "../../DownloadManager";
-import { setIndex, getIndex, setSync, getSync } from "../../models/HomeCache";
+import { setPages, getPages, setSync, getSync } from "../../models/HomeCache";
 
-export const getIndexFile = () => getIndex();
+export const getHomePages = () => getPages();
 
-export const sync = async () => {
-  // console.debug(`fetching Home`);
+export const sync = async (environment, device, level, forceUpdate) => {
+  if (forceUpdate) {
+    await setSync(0);
+  }
   const syncTime = await getSync();
-  const homeFiles = await fetchHome(syncTime);
+  const homeFiles = await fetchHome(environment, device, level, syncTime);
 
-  // console.debug(`going to download ${homeFiles.length} files`);
   try {
     const downloadedFiles = await downloadFiles(homeFiles, 0, "Home", false);
-    const indexFile = downloadedFiles["home/index.html"];
-    await setIndex(indexFile);
+    const env = environment === "sandbox" ? "STAGING/home" : "home";
+    const path = `${env}-${device}-${level}`;
+    const index = downloadedFiles[`${path}/index.html`];
+    const firstRun = downloadedFiles[`${path}/first-run.html`];
+
+    await setPages(index, firstRun);
     const now = new Date().valueOf() / 1000;
     await setSync(now);
-
-    return indexFile;
+    return { index, firstRun };
   } catch (err) {
-    console.log("error donwloading home files");
+    console.log("error downloading home files");
 
     return "";
   }

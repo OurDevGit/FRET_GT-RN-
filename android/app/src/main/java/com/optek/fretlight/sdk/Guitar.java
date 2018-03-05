@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2016        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -22,6 +22,8 @@ package com.optek.fretlight.sdk;
  */
 class Guitar implements FretlightGuitar
 {
+	private static final String TAG = "FL-Guitar";
+
 	// Fretlight device and delegate.
 	private final FretlightDevice mDevice;
 	private final FretlightDevice.Delegate mDeviceDelegate = new DeviceDelegate();
@@ -141,8 +143,7 @@ class Guitar implements FretlightGuitar
 	@Override
 	public void allOn()
 	{
-		if (mDisplayEnabled)
-		{
+		if (mDisplayEnabled) {
 			// Turn all lights on.
 			mFretboard.allOn();
 		}
@@ -151,8 +152,7 @@ class Guitar implements FretlightGuitar
 	@Override
 	public void setNote(final int string, final int fret, final boolean on)
 	{
-		if (mDisplayEnabled)
-		{
+		if (mDisplayEnabled) {
 			mFretboard.setNote(string, fret, on);
 		}
 	}
@@ -160,8 +160,7 @@ class Guitar implements FretlightGuitar
 	@Override
 	public void setDisplayEnable(final boolean enable)
 	{
-		if (!enable)
-		{
+		if (!enable) {
 			allOff();
 		}
 
@@ -177,12 +176,14 @@ class Guitar implements FretlightGuitar
 		@Override
 		public void deviceConnected(final FretlightDevice device)
 		{
+			Log.d(TAG, "Connected Guitar=\"" + device.getName() + "\"");
 			mDelegate.guitarConnected(Guitar.this);
 		}
 
 		@Override
 		public void deviceDisconnected(final FretlightDevice device)
 		{
+			Log.d(TAG, "Disconnected Guitar=\"" + device.getName() + "\"");
 			mDelegate.guitarDisconnected(Guitar.this);
 		}
 	}

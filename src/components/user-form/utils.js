@@ -14,8 +14,8 @@ export const getBirthdates = () => {
   let latestYear = new Date().getFullYear() - 8;
   var years = [];
 
-  for (var i = latestYear; i < latestYear - 72; i--) {
-    years.push(i);
+  for (var i = latestYear; i >= latestYear - 72; i--) {
+    years.push(`${i}`);
   }
 
   return years;

@@ -29,6 +29,7 @@ import {
   setOpenSectionIndex,
   setSearch
 } from "../models/Store";
+import { getUserBirthdate, getUserLevel } from "../models/User";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { getIsPhone } from "../utils";
@@ -49,22 +50,27 @@ const Sections = {
 };
 
 class Root extends Component {
-  state = {
-    song: null,
-    video: null,
-    showAd: true,
-    showFretboards: true,
-    isShowingStore: false,
-    isShowingSettings: false,
-    isShowingFretlightAdmin: false,
-    isShowingCountdownTimer: false,
-    isShowingUserForm: false,
-    priorSection: null,
-    currentSection: Sections.Home,
-    homeTrigger: null,
-    storeDetailMediaId: "",
-    appState: AppState.currentState
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      song: null,
+      video: null,
+      showAd: true,
+      showFretboards: true,
+      isShowingStore: false,
+      isShowingSettings: false,
+      isShowingCountdownTimer: false,
+      isShowingUserForm: false,
+      priorSection: null,
+      currentSection: Sections.Home,
+      storeDetailMediaId: "",
+      appState: AppState.currentState,
+      homePage: "index",
+      userBirthdate: undefined,
+      userExperienceLevel: undefined
+    };
+  }
 
   render() {
     // console.debug(`Root render()`);
@@ -78,6 +84,7 @@ class Root extends Component {
       availableFretboardCount = 4;
     }
 
+    const isHome = this.state.currentSection === Sections.Home;
     const isVideo = this.state.video !== null;
     const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
     const showLibraryButton =
@@ -91,6 +98,7 @@ class Root extends Component {
     const isPhone = getIsPhone();
     const shouldShowAd =
       (!this.props.isShowingJamBar || !getIsPhone()) && this.state.showAd;
+    this.Home = undefined;
 
     return (
       <Provider store={store}>
@@ -136,9 +144,13 @@ class Root extends Component {
           {this.state.currentSection === Sections.Home && (
             <Home
               ref={ref => (this.Home = ref)}
+              userLevel={this.state.userExperienceLevel}
+              homePage={this.state.homePage}
               onChoose={this.handleHomeChoose}
               onDetails={this.handleHomeDetails}
-              reloadTrigger={this.state.homeTrigger}
+              onUpdateLevel={this.handleHomeUserLevelUpdate}
+              onChordsAndScales={this.handleChordsAndScalesPress}
+              onPageLoad={this.handleHomePageLoad}
             />
           )}
 
@@ -159,7 +171,7 @@ class Root extends Component {
                     justifyContent: "flex-end"
                   }}
                 >
-                  <BtnHome onPress={this.handleHomePress} />
+                  <BtnHome isHome={isHome} onPress={this.handleHomePress} />
                   <BtnChordsAndScales
                     style={{ flex: 1, width: 44, height: 44, marginLeft: -6 }}
                     onPress={this.handleChordsAndScalesPress}
@@ -183,7 +195,7 @@ class Root extends Component {
               <TrackSelector max={availableFretboardCount} />
             )}
 
-          {this.state.isShowingFretlightAdmin && (
+          {this.props.bleMenuIsActive && (
             <FretlightAdmin
               isPhone={isPhone}
               onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
@@ -191,7 +203,11 @@ class Root extends Component {
           )}
 
           {this.state.isShowingSettings && (
-            <Settings onClose={this.handleToggleSettings} />
+            <Settings
+              savedBirthdate={this.state.userBirthdate}
+              onPresentUserForm={this.handlePresentUserForm}
+              onClose={this.handleToggleSettings}
+            />
           )}
 
           {this.state.isShowingCountdownTimer && (
@@ -206,7 +222,12 @@ class Root extends Component {
           )}
 
           {this.state.isShowingUserForm && (
-            <UserForm onClose={this.handleDismissUserForm} />
+            <UserForm
+              ref={ref => (this.Home = ref)}
+              savedBirthdate={this.state.userBirthdate}
+              savedExperienceLevel={this.state.userExperienceLevel}
+              onClose={this.handleDismissUserForm}
+            />
           )}
         </View>
       </Provider>
@@ -216,6 +237,13 @@ class Root extends Component {
   async componentWillMount() {
     this.props.requestBootstrap();
     loadJamBarData();
+
+    let userBirthdate = await getUserBirthdate();
+    let userExperienceLevel = await getUserLevel();
+    let isShowingUserForm =
+      userBirthdate === undefined || userExperienceLevel === undefined;
+
+    this.setState({ userBirthdate, userExperienceLevel, isShowingUserForm });
   }
 
   componentDidMount() {
@@ -308,45 +336,45 @@ class Root extends Component {
   };
 
   handlePresentUserForm = () => {
-    this.props.dismissModal();
+    this.props.presentModal();
     this.setState({ isShowingUserForm: true });
   };
 
-  handleDismissUserForm = () => {
+  handleDismissUserForm = (userBirthdate, userExperienceLevel) => {
     this.props.dismissModal();
-    this.setState({ isShowingUserForm: false });
+    this.setState({
+      isShowingUserForm: false,
+      isShowingSettings: false,
+      currentSection: Sections.Home,
+      homePage: "firstRun",
+      userBirthdate,
+      userExperienceLevel
+    });
   };
 
   handleHomePress = () => {
-    const { priorSection, currentSection } = this.state;
-    var nextSection;
-    var newPriorSection;
-
-    if (currentSection === Sections.Home && priorSection !== null) {
-      nextSection = priorSection;
-      newPriorSection = priorSection;
-
-      trackHomeView();
-    } else {
-      nextSection = Sections.Home;
-      newPriorSection = currentSection;
-
+    if (this.state.currentSection !== Sections.Home) {
+      this.props.setJamBar(false);
       startHomeView();
-    }
 
-    this.setState({
-      isShowingStore: false,
-      isShowingSettings: false,
-      currentSection: nextSection,
-      priorSection: newPriorSection,
-      homeTrigger: Math.random()
-    });
-
-    if (this.Home) {
-      this.Home.forceUpdate();
+      this.setState({
+        isShowingStore: false,
+        isShowingSettings: false,
+        currentSection: Sections.Home,
+        priorSection: this.state.currentSection
+      });
+    } else if (this.state.homePage !== "index") {
+      this.setState({ homePage: "index" });
     }
-    this.props.setJamBar(false);
-    startHomeView();
+  };
+
+  handleHomeUserLevelUpdate = userExperienceLevel => {
+    this.setState({ userExperienceLevel, homePage: "index" });
+  };
+
+  handleHomePageLoad = page => {
+    const homePage = page.includes("index.html") ? "index" : "firstRun";
+    this.setState({ homePage });
   };
 
   handleChordsAndScalesPress = () => {
@@ -410,7 +438,6 @@ class Root extends Component {
       showAd: true,
       priorSection: null,
       currentSection: Sections.Home,
-      homeTrigger: Math.random(),
       isShowingCountdownTimer: false
     });
   };
@@ -437,7 +464,6 @@ class Root extends Component {
   };
 
   handleToggleAd = bool => {
-    console.log("showAd", bool);
     this.setState({ showAd: bool });
   };
 
@@ -461,7 +487,7 @@ class Root extends Component {
           }
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          this.setState({ isShowingFretlightAdmin: true });
+          this.props.toggleBLEMenu(true);
         } else {
           Alert.alert(
             "Permission Denied",
@@ -475,7 +501,7 @@ class Root extends Component {
         );
       }
     } else {
-      this.setState({ isShowingFretlightAdmin: false });
+      this.props.toggleBLEMenu(false);
     }
   };
 
@@ -493,6 +519,7 @@ Root.propTypes = {
   currentMedia: PropTypes.string,
   mediaForPlay: PropTypes.object,
   isShowingJamBar: PropTypes.bool.isRequired,
+  bleMenuIsActive: PropTypes.bool.isRequired,
   countdownTimerState: PropTypes.bool.isRequired,
   chooseMedia: PropTypes.func.isRequired,
   requestBootstrap: PropTypes.func.isRequired,
@@ -501,7 +528,8 @@ Root.propTypes = {
   setAppClosing: PropTypes.func.isRequired,
   setChordsAndScales: PropTypes.func.isRequired,
   setJamBar: PropTypes.func.isRequired,
-  updateGuitarSetting: PropTypes.func.isRequired
+  updateGuitarSetting: PropTypes.func.isRequired,
+  toggleBLEMenu: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {
@@ -513,7 +541,8 @@ const mapStateToProps = state => {
     visibleTracks: state.get("visibleTracks"),
     countdownTimerState: state.get("countdownTimerState"),
     isShowingJamBar: state.get("isShowingJamBar"),
-    guitars: state.get("guitars")
+    guitars: state.get("guitars"),
+    bleMenuIsActive: state.get("bleMenuIsActive")
   };
 };
 

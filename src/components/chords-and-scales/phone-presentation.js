@@ -284,7 +284,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: isCompact() ? 12 : 15
   },
   titlebar: {
-    height: isCompact() ? 22 : 24,
     width: "100%",
     flexDirection: "row",
     alignItems: "flex-end",
@@ -293,11 +292,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: isCompact() ? 18 : 19,
     marginRight: isCompact() ? 14 : 20,
-    textAlignVertical: "bottom",
-    height: isCompact() ? 20 : 22
+    textAlignVertical: "bottom"
   },
   titleButton: {
-    height: "100%",
     marginLeft: 30
   },
   titleButtonText: {

@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 import appReducer from "./redux/reducers";
 import fetchAd from "./sagas";
+import fetchConfig from "./sagas";
 
 const configureStore = () => {
   const initialState = Immutable.fromJS({
@@ -18,6 +19,7 @@ const configureStore = () => {
     applyMiddleware(sagaMiddleware)
   );
   sagaMiddleware.run(fetchAd);
+  sagaMiddleware.run(fetchConfig);
 
   return store;
 };

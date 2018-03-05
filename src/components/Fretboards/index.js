@@ -107,7 +107,9 @@ class FretboardsRoot extends React.PureComponent {
   componentWillUpdate(nextProps) {
     if (
       this.pageControl !== undefined &&
-      this.horizontalContainer !== undefined
+      this.pageControl !== null &&
+      this.horizontalContainer !== undefined &&
+      this.horizontalContainer !== null
     ) {
       this.pageControl.setJamBar(nextProps.isShowingJamBar);
       this.horizontalContainer.setJamBar(nextProps.isShowingJamBar);

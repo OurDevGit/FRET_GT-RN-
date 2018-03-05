@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -23,7 +23,6 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +30,8 @@ import java.util.Map;
 /**
  * Client interface to BLE Fretlight guitars.
  */
-class BleFretlightClient implements FretlightClient {
+class BleFretlightClient implements FretlightClient
+{
 	private final Activity mContext;
 	private final BleClient mBleClient;
 	private final BleClient.Delegate mBleClientDelegate;
@@ -41,7 +41,8 @@ class BleFretlightClient implements FretlightClient {
 	private Delegate mDelegate = Delegate.NULL;
 	private boolean mScanning;
 
-	public BleFretlightClient(final Activity context, final BleClient bleClient) {
+	public BleFretlightClient(final Activity context, final BleClient bleClient)
+	{
 		mContext = context;
 		mBleClient = bleClient;
 		mBleClientDelegate = new BleClientDelegate();
@@ -52,27 +53,32 @@ class BleFretlightClient implements FretlightClient {
 	}
 
 	@Override
-	public boolean initialize() {
+	public boolean initialize()
+	{
 		return mBleClient.initialize();
 	}
 
 	@Override
-	public void setDelegate(Delegate delegate) {
+	public void setDelegate(Delegate delegate)
+	{
 		mDelegate = delegate != null ? delegate : Delegate.NULL;
 	}
 
 	@Override
-	public boolean isBleAvailable() {
+	public boolean isBleAvailable()
+	{
 		return mBleClient.isBleAvailable();
 	}
 
 	@Override
-	public boolean isBleEnabled() {
+	public boolean isBleEnabled()
+	{
 		return mBleClient.isBleEnabled();
 	}
 
 	@Override
-	public void askUserToEnableBle(final int requestCode) {
+	public void askUserToEnableBle(final int requestCode)
+	{
 		// BT is not turned on - ask user to make it enabled.
 		final Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
 		mContext.startActivityForResult(enableBtIntent, requestCode);
@@ -80,27 +86,28 @@ class BleFretlightClient implements FretlightClient {
 	}
 
 	@Override
-	public void startScanning() {
-		Log.d("BleFretlightClient", "startScanning");
+	public void startScanning()
+	{
 		mScanning = true;
 		mBleClient.startScanning(BleFretlightProfile.Service.GUITAR);
 	}
 
 	@Override
-	public void stopScanning() {
-		Log.d("BleFretlightClient", "stopScanning");
+	public void stopScanning()
+	{
 		mBleClient.stopScanning();
 		mScanning = false;
 	}
 
 	@Override
-	public boolean isScanning() {
-		Log.d("BleFretlightClient", "isScanning");
+	public boolean isScanning()
+	{
 		return mScanning;
 	}
 
 	@Override
-	public void connectToGuitar(final String deviceAddress) {
+	public void connectToGuitar(final String deviceAddress)
+	{
 		// Create a BleClient for the provided bluetooth device.
 		//final BleClient client = new BleClient(mContext);
 
@@ -121,7 +128,8 @@ class BleFretlightClient implements FretlightClient {
 	// Private Implementation
 	// ------------------------------------------------------------------------
 
-	private FretlightGuitar createGuitar(Context context, BluetoothDevice device) {
+	private FretlightGuitar createGuitar(Context context, BluetoothDevice device)
+	{
 		// Create a BleClient for the provided bluetooth device.
 		final BleClient client = new BleClient(context);
 
@@ -138,7 +146,8 @@ class BleFretlightClient implements FretlightClient {
 	}
 
 	// Gets cached guitar or creates a new one for the given bluetooth device.
-	private FretlightGuitar getGuitarForDevice(final Context context, final BluetoothDevice device) {
+	private FretlightGuitar getGuitarForDevice(final Context context, final BluetoothDevice device)
+	{
 		// Do we have this guitar in cache?
 		FretlightGuitar guitar = mGuitars.get(device);
 		if (guitar == null) {
@@ -155,21 +164,25 @@ class BleFretlightClient implements FretlightClient {
 	// BleClientDelegate
 	// ------------------------------------------------------------------------
 
-	private class BleClientDelegate extends BleClient.Delegate.Adapter {
+	private class BleClientDelegate extends BleClient.Delegate.Adapter
+	{
 		@Override
-		public void bleDeviceFound(final BluetoothDevice device) {
+		public void bleDeviceFound(final BluetoothDevice device)
+		{
 			final FretlightGuitar guitar = getGuitarForDevice(mContext, device);
 			mDelegate.guitarFound(guitar);
 		}
 
 		@Override
-		public void bleDeviceConnected(final BluetoothGatt gatt, final BluetoothDevice device) {
+		public void bleDeviceConnected(final BluetoothGatt gatt, final BluetoothDevice device)
+		{
 			final FretlightGuitar guitar = getGuitarForDevice(mContext, device);
 			mDelegate.guitarConnected(guitar);
 		}
 
 		@Override
-		public void bleDeviceDisconnected(final BluetoothGatt gatt, final BluetoothDevice device) {
+		public void bleDeviceDisconnected(final BluetoothGatt gatt, final BluetoothDevice device)
+		{
 			final FretlightGuitar guitar = getGuitarForDevice(mContext, device);
 			mDelegate.guitarDisconnected(guitar);
 		}

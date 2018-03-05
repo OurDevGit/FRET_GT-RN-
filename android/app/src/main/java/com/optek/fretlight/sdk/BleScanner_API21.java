@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2016        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -54,8 +54,7 @@ class BleScanner_API21 extends BleScanner
 		public void onBatchScanResults(List<ScanResult> results)
 		{
 			Log.d(TAG, "Discovered %d devices!", results.size());
-			for (ScanResult result : results)
-			{
+			for (ScanResult result : results) {
 				processResult(result);
 			}
 		}
@@ -97,8 +96,7 @@ class BleScanner_API21 extends BleScanner
 			.build();
 
 		final BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
-		if (scanner != null)
-		{
+		if (scanner != null) {
 			scanner.startScan(filters, settings, mScanCallback);
 		}
 	}
@@ -107,8 +105,7 @@ class BleScanner_API21 extends BleScanner
 	public void stopScanning()
 	{
 		final BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
-		if (scanner != null)
-		{
+		if (scanner != null) {
 			scanner.stopScan(mScanCallback);
 		}
 	}

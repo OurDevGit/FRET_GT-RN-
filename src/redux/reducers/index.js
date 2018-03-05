@@ -40,9 +40,9 @@ import {
   currentNotation,
   tuningMode
 } from "./settings";
-import { guitars } from "./guitar";
+import { guitars, tunerIsActive, bleMenuIsActive } from "./guitar";
 import { intermediateMedia } from "./media";
-import { modalIsPresented, appIsClosing } from "./app";
+import { modalIsPresented, appIsClosing, appConfig } from "./app";
 
 const appReducer = combineReducers({
   ad,
@@ -82,6 +82,8 @@ const appReducer = combineReducers({
   favorites,
   // Guitars
   guitars,
+  tunerIsActive,
+  bleMenuIsActive,
   // Settings
   countdownTimerState,
   leftHandState,
@@ -90,7 +92,8 @@ const appReducer = combineReducers({
   tuningMode,
   // App
   modalIsPresented,
-  appIsClosing
+  appIsClosing,
+  appConfig
 });
 
 export default appReducer;

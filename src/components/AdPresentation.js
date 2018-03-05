@@ -15,7 +15,7 @@ const AdPresentation = ({ onTap, imageUrl, aspectRatio }) => (
       style={{
         flex: 1,
         aspectRatio,
-        maxWidth: "42%"
+        maxWidth: "39%"
       }}
     >
       <Image

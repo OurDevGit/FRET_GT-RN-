@@ -1,56 +1,44 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Text, View } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 
-const SmartFretText = ({ color, size, trackName }) => (
-  <View
-    style={{
-      height: 24,
-      flexDirection: "row"
-    }}
-  >
-    <Text
-      style={{
-        height: "100%",
-        fontWeight: "800",
-        textAlignVertical: "center",
-        fontSize: size,
-        marginHorizontal: 2,
-        color: color
-      }}
-    >
-      SMART
-    </Text>
-    <Text
-      style={{
-        height: "100%",
-        textAlignVertical: "center",
-        fontSize: size,
-        color: color
-      }}
-    >
-      Fretboard™
-    </Text>
+const SmartFretText = ({ color, fontSize, trackName }) => (
+  <View style={styles.container}>
+    <Text style={[styles.smartText, { fontSize, color }]}>SMART</Text>
+    <Text style={[styles.fretboardText, { fontSize, color }]}>Fretboard™</Text>
 
     {trackName && (
-      <Text
-        style={{
-          height: "100%",
-          textAlignVertical: "center",
-          fontSize: size,
-          color: color,
-          marginLeft: 5
-        }}
-      >
+      <Text style={[styles.fretboardText, { fontSize, color }]}>
         for {trackName}
       </Text>
     )}
   </View>
 );
 
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row"
+  },
+  smartText: {
+    height: "100%",
+    fontWeight: "800",
+    textAlignVertical: "center",
+    marginHorizontal: 2
+  },
+  fretboardText: {
+    height: "100%",
+    textAlignVertical: "center"
+  },
+  trackText: {
+    height: "100%",
+    textAlignVertical: "center",
+    marginLeft: 5
+  }
+});
+
 SmartFretText.propTypes = {
   color: PropTypes.string.isRequired,
-  size: PropTypes.number.isRequired,
+  fontSize: PropTypes.number.isRequired,
   trackName: PropTypes.string
 };
 

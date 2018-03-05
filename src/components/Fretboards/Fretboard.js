@@ -6,7 +6,8 @@ import {
   Text,
   TouchableOpacity,
   Alert,
-  PermissionsAndroid
+  PermissionsAndroid,
+  StyleSheet
 } from "react-native";
 import { onlyUpdateForKeys } from "recompose";
 import { isEqual } from "lodash";
@@ -41,6 +42,7 @@ class Fretboard extends React.Component {
       style,
       track,
       tuningTracks,
+      tunerIsActive,
       jamBarTrack,
       isShowingJamBar,
       isPhone,
@@ -67,54 +69,26 @@ class Fretboard extends React.Component {
     return (
       <View style={[style, { backgroundColor: "#E6D9B9" }]}>
         {!isHidingLabels && (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              marginBottom: isPhone ? -2 : -2
-            }}
-          >
+          <View style={styles.titleContainer}>
             <FretboardTitleLabel
               track={boardTrack}
               isPhone={isPhone}
               isSmart={isSmart}
             />
 
-            <View
-              style={{
-                flex: 1,
-                flexDirection: "row",
-                justifyContent: "flex-end"
-              }}
-            >
+            <View style={styles.buttonContainer}>
               {showJamBarButton && (
                 <TouchableOpacity
-                  style={{
-                    flexDirection: "row",
-                    marginRight: 20,
-                    marginBottom: 5
-                  }}
+                  style={styles.jamBarButton}
                   onPress={this.handleJamBar}
                 >
                   <Text
-                    style={{
-                      height: "100%",
-                      fontWeight: "800",
-                      textAlignVertical: "center",
-                      fontSize: isPhone ? 13 : 16,
-                      marginHorizontal: 1,
-                      color: PrimaryBlue
-                    }}
+                    style={[styles.jamText, { fontSize: isPhone ? 13 : 16 }]}
                   >
                     JAM
                   </Text>
                   <Text
-                    style={{
-                      height: "100%",
-                      textAlignVertical: "center",
-                      fontSize: isPhone ? 13 : 16,
-                      color: PrimaryBlue
-                    }}
+                    style={[styles.barText, { fontSize: isPhone ? 13 : 16 }]}
                   >
                     Bar™
                   </Text>
@@ -123,26 +97,24 @@ class Fretboard extends React.Component {
 
               {showSmart && (
                 <TouchableOpacity
-                  style={{
-                    marginRight: isSmart ? 10 : 0,
-                    marginBottom: isSmart ? 10 : 5
-                  }}
+                  style={[
+                    styles.smartFretButton,
+                    {
+                      marginRight: isSmart ? 10 : 0,
+                      marginBottom: isSmart ? 10 : 5
+                    }
+                  ]}
                   onPress={this.handleSMART}
                 >
                   <SmartFretText
                     color={PrimaryBlue}
-                    size={isSmart ? (isPhone ? 16 : 20) : isPhone ? 13 : 16}
+                    fontSize={isSmart ? (isPhone ? 16 : 20) : isPhone ? 13 : 16}
                   />
                 </TouchableOpacity>
               )}
               {!isSmart && (
                 <TouchableOpacity
-                  style={{
-                    flex: -1,
-                    marginTop: -8,
-                    marginBottom: -14,
-                    marginLeft: 10
-                  }}
+                  style={styles.tunerButton}
                   ref={ref => (this.btnTuner = ref)}
                   onPress={() => {
                     this.btnTuner.measure((fx, fy, width, height, px, py) => {
@@ -199,6 +171,7 @@ class Fretboard extends React.Component {
             <FretboardFrets
               track={boardTrack}
               tuningTrack={tuningTrack}
+              tunerIsActive={tunerIsActive}
               isShowingJamBar={isShowingJamBar}
               isSmart={isSmart}
               trackIndex={trackIndex}
@@ -306,6 +279,49 @@ class Fretboard extends React.Component {
   };
 }
 
+const styles = StyleSheet.create({
+  titleContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: -2
+  },
+  buttonContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end"
+  },
+  jamBarButton: {
+    minHeight: 20,
+    alignContent: "center",
+    flexDirection: "row",
+    marginRight: 20,
+    marginBottom: 5
+  },
+  smartFretButton: {
+    minHeight: 20,
+    flexDirection: "row",
+    alignContent: "center"
+  },
+  jamText: {
+    height: "100%",
+    fontWeight: "800",
+    textAlignVertical: "center",
+    marginHorizontal: 1,
+    color: PrimaryBlue
+  },
+  barText: {
+    height: "100%",
+    textAlignVertical: "center",
+    color: PrimaryBlue
+  },
+  tunerButton: {
+    flex: -1,
+    marginTop: -8,
+    marginBottom: -14,
+    marginLeft: 10
+  }
+});
+
 Fretboard.propTypes = {
   isPhone: PropTypes.bool.isRequired,
   isHidingLabels: PropTypes.bool,
@@ -331,6 +347,7 @@ Fretboard.propTypes = {
 const mapStateToProps = state => {
   return {
     tuningTracks: state.get("tuningTracks").toJS(),
+    tunerIsActive: state.get("tunerIsActive"),
     jamBarTrack: state.get("jamBarTrack"),
     isShowingJamBar: state.get("isShowingJamBar")
   };
@@ -340,6 +357,7 @@ export default connect(mapStateToProps, actions)(
   onlyUpdateForKeys([
     "track",
     "tuningTracks",
+    "tunerIsActive",
     "jamBarTrack",
     "boardWidth",
     "leftHandState",

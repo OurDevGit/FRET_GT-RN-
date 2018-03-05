@@ -58,7 +58,7 @@ class FretlightModal extends React.Component {
         {guitars.count() > 0 ? (
           <FlatList
             style={{ flex: 1 }}
-            keyExtractor={(item, index) => index}
+            keyExtractor={(item, index) => `${index}`}
             data={guitars.toJS()}
             initialNumToRender={10}
             ItemSeparatorComponent={this.separator}
@@ -178,6 +178,7 @@ class FretlightModal extends React.Component {
   };
 
   handleAssignAll = track => {
+    console.log("clearing guitars in Fretlight Admin Assign All");
     guitarController.clearAllGuitars();
     this.props.guitars.forEach(guitar => {
       this.props.updateGuitarSetting(guitar.set("track", track));

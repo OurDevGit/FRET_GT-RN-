@@ -77,20 +77,22 @@ class TabbedMedia extends Component {
   render() {
     const { category, subCategory, group, searchText } = this.props;
     return (
-      <TabViewAnimated
-        style={styles.container}
-        navigationState={{
-          category,
-          subCategory,
-          group,
-          searchText,
-          ...this.state
-        }}
-        renderScene={this.renderScene}
-        renderHeader={renderHeader}
-        onIndexChange={this.handleIndexChange}
-        lazy={true}
-      />
+      category !== null && (
+        <TabViewAnimated
+          style={styles.container}
+          navigationState={{
+            category,
+            subCategory,
+            group,
+            searchText,
+            ...this.state
+          }}
+          renderScene={this.renderScene}
+          renderHeader={renderHeader}
+          onIndexChange={this.handleIndexChange}
+          lazy={true}
+        />
+      )
     );
   }
 

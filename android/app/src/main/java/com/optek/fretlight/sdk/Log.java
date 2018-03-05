@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -26,6 +26,11 @@ class Log
 	public static void setDelegate(LogDelegate delegate)
 	{
 		sDelegate = delegate != null ? delegate : LogDelegate.NULL;
+	}
+
+	public static boolean hasDelegate()
+	{
+		return sDelegate != LogDelegate.NULL;
 	}
 
 	public static void d(String tag, String message, Object... params)

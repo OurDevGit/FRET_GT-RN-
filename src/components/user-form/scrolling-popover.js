@@ -8,6 +8,7 @@ import {
   FlatList
 } from "react-native";
 import { getIsPhone } from "../../utils";
+import { Popover } from "./utils";
 
 const ScrollingPopover = ({
   type,
@@ -31,9 +32,11 @@ const ScrollingPopover = ({
     >
       <View style={[styles.container, { ...frame }]}>
         <FlatList
-          keyExtractor={(item, index) => index}
+          keyExtractor={(item, index) => index.toString()}
           data={items}
-          initialScrollIndex={selectedIndex}
+          initialScrollIndex={
+            type === Popover.ExperienceLevel ? 0 : selectedIndex
+          }
           getItemLayout={(data, index) => ({
             length: 45,
             offset: 45 * index,

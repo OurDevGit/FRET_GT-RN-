@@ -9,8 +9,6 @@ import { syncResources } from "./src/lib/resources";
 import { syncChordsAndScales } from "./src/lib/chords_and_scales";
 import { getSalt } from "./src/models/Crypto";
 
-console.debug("index.android.js");
-
 const crypto = NativeModules.GTCrypto;
 
 getSalt().then(salt => {
@@ -46,13 +44,13 @@ class GuitarTunes extends Component {
     return <Root store={_store} />;
   }
 
-  componentDidMount() {
-    console.debug("root did mount");
-  }
+  // componentDidMount() {
+  //   console.debug("root did mount");
+  // }
 
-  componentWillUnmount() {
-    console.debug("root umounting");
-  }
+  // componentWillUnmount() {
+  //   console.debug("root umounting");
+  // }
 }
 
 AppRegistry.registerComponent("GuitarTunes", () => GuitarTunes);

@@ -1,4 +1,5 @@
 export * from "./ad";
+export * from "./config";
 export * from "./store";
 export * from "./media";
 export * from "./email";

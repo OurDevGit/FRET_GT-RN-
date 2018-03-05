@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, FlatList, TouchableOpacity } from "react-native";
+import { clamp } from "lodash";
 import { StoreLight, StoreDark, LibraryDark, LibraryLight } from "../../design";
 import LargeButton from "./LargeButton";
 import { UpArrow, DownArrow } from "./PageArrows";
@@ -154,11 +155,12 @@ class Categories extends React.PureComponent {
     const buttonCount = Math.round(contentHeight / this.state.buttonHeight);
     const progress = scrollY / contentHeight;
     const row = Math.round(progress * buttonCount);
+    const index = clamp(row, 0, this.props.categories.length - 1);
+    this.snapToRow(index);
     // console.debug({ scrollY, contentHeight, buttonCount, row });
-    this.snapToRow(row, false);
   };
 
-  handleTouchEnd = evt => {
+  handleTouchEnd = () => {
     console.debug("touch end");
   };
 
@@ -167,7 +169,8 @@ class Categories extends React.PureComponent {
       return;
     }
 
-    const index = Math.max(this.props.selectedIndex - 4, 0);
+    const { selectedIndex, categories } = this.props;
+    const index = clamp(selectedIndex - 4, 0, categories.length - 1);
     this.snapToRow(index);
   };
 
@@ -176,10 +179,8 @@ class Categories extends React.PureComponent {
       return;
     }
 
-    const index = Math.min(
-      this.props.selectedIndex + 4,
-      this.props.categories.length - 4
-    );
+    const { selectedIndex, categories } = this.props;
+    const index = clamp(selectedIndex + 4, 0, categories.length - 4);
     this.snapToRow(index);
   };
 

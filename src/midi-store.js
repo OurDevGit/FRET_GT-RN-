@@ -89,6 +89,7 @@ export const notesForTrackAtTime = (track, time) => {
 
       currentTime = midiTime;
     }
+
     return currentNotes[track];
   }
 };

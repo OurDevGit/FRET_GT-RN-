@@ -42,3 +42,21 @@ export const guitars = (state = List(), action) => {
       return state;
   }
 };
+
+export const tunerIsActive = (state = false, action) => {
+  switch (action.type) {
+    case "TOGGLE_TUNER":
+      return action.payload;
+    default:
+      return state;
+  }
+};
+
+export const bleMenuIsActive = (state = false, action) => {
+  switch (action.type) {
+    case "TOGGLE_BLE_MENU":
+      return action.payload;
+    default:
+      return state;
+  }
+};

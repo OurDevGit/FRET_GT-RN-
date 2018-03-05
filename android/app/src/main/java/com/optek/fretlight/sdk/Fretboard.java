@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2016        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -17,231 +17,193 @@
 
 package com.optek.fretlight.sdk;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Represents the fretboard LED data.
  */
-class Fretboard
-{
-	private static final String TAG = "FL-Fretboard";
+class Fretboard {
+  private static final String TAG = "FL-Fretboard";
 
-	private final FretlightDevice mDevice;
+  private final FretlightDevice mDevice;
 
-	private final Section mTopSection;
-	private final Section mMiddleSection;
-	private final Section mBottomSection;
+  private final List<Section> mSections = new ArrayList<>();
 
-	private boolean mLefty;
-	private boolean mBass;
+  private int mSectionNum;
+  private boolean mLefty;
+  private boolean mBass;
 
-	public Fretboard(final FretlightDevice device)
-	{
-		mDevice = device;
+  public Fretboard(final FretlightDevice device) {
+    mDevice = device;
 
-		// Start the executor.
-		mDevice.getExecutor().start(new Updater());
+    // Start the executor.
+    mDevice.getExecutor().start(new Updater());
 
-		// Create our three sections of fretlight data.
-		mTopSection = new Section(Section.ID.TOP);
-		mMiddleSection = new Section(Section.ID.MIDDLE);
-		mBottomSection = new Section(Section.ID.BOTTOM);
-	}
+    // Create our three sections of fretlight data.
+    mSections.add(new Section(Section.TOP));
+    mSections.add(new Section(Section.MIDDLE));
+    mSections.add(new Section(Section.BOTTOM));
+  }
 
-	public void setLefty(final boolean lefty)
-	{
-		mLefty = lefty;
-	}
+  public void setLefty(final boolean lefty) {
+    mLefty = lefty;
+  }
 
-	public boolean isLefty()
-	{
-		return mLefty;
-	}
+  public boolean isLefty() {
+    return mLefty;
+  }
 
-	public void setBass(final boolean bass)
-	{
-		mBass = bass;
-	}
+  public void setBass(final boolean bass) {
+    mBass = bass;
+  }
 
-	public boolean isBass()
-	{
-		return mBass;
-	}
+  public boolean isBass() {
+    return mBass;
+  }
 
-	public void clearAll()
-	{
-		mDevice.getExecutor().execute(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				mTopSection.allLightsOff();
-				mMiddleSection.allLightsOff();
-				mBottomSection.allLightsOff();
-			}
-		});
-	}
+  public void allOn() {
+    mDevice.getExecutor().execute(new Runnable() {
+      @Override
+      public void run() {
+        // Turn everything on
+        for (Section section : mSections) {
+          section.allLightsOn();
+        }
+      }
+    });
+  }
 
-	public void allOn()
-	{
-		mDevice.getExecutor().execute(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				// Turn everything on
-				mTopSection.allLightsOn();
-				mMiddleSection.allLightsOn();
-				mBottomSection.allLightsOn();
-			}
-		});
-	}
+  public void allOff() {
+    mDevice.getExecutor().execute(new Runnable() {
+      @Override
+      public void run() {
+        // Turn everything off
+        for (Section section : mSections) {
+          section.allLightsOff();
+        }
+      }
+    });
+  }
 
-	public void allOff()
-	{
-		mDevice.getExecutor().execute(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				// Turn everything off
-				mBottomSection.allLightsOff();
-				mMiddleSection.allLightsOff();
-				mTopSection.allLightsOff();
-			}
-		});
-	}
+  // ------------------------------------------------------------------------
+  // Package Private Implementation
+  // ------------------------------------------------------------------------
 
-	public void setNote(final int string, final int fret, final boolean on)
-	{
-		mDevice.getExecutor().execute(new Runnable()
-		{
-			@Override
-			public void run()
-			{
-				log_v("setNote string=" + string + " fret=" + fret + " state=" + on);
+  public void setNote(final int string, final int fret, final boolean on) {
+    mDevice.getExecutor().execute(new Runnable() {
+      @Override
+      public void run() {
+        Log.v(TAG, "setNote string=" + string + " fret=" + fret + " state=" + on);
 
-				int missingStrings = mBass && mLefty ? 2 : 0;
-				int physicalString = string;
-				if (physicalString < missingStrings)
-				{
-					return;
-				}
-				else
-				{
-					physicalString -= missingStrings;
-				}
+        int missingStrings = mBass && mLefty ? 2 : 0;
+        int physicalString = string;
+        if (physicalString < missingStrings) {
+          return;
+        } else {
+          physicalString -= missingStrings;
+        }
 
-				if (0 > fret || 0 > physicalString || 5 < physicalString || 22 < fret)
-				{
-					return;
-				}
+        if (0 > fret || 0 > physicalString || 5 < physicalString || 22 < fret) {
+          return;
+        }
 
-				Section section = null;
-				int sectionIndex = 0;
+        int sectionType = Section.INVALID;
+        int sectionIndex = 0;
 
-				int stringBit;
-				if (mLefty)
-				{
-					stringBit = (int) Math.pow(2.0f, (float) physicalString);
-				}
-				else
-				{
-					stringBit = (int) Math.pow(2.0f, (float) (5 - physicalString));
-				}
+        if (fret < 8) {
+          sectionType = Section.TOP;
+          sectionIndex = fret;
+        } else if (fret < 16) {
+          sectionType = Section.MIDDLE;
+          sectionIndex = fret - 8;
+        } else if (fret < 22) {
+          sectionType = Section.BOTTOM;
+          sectionIndex = fret - 16;
+        }
 
-				if (fret < 8)
-				{
-					section = mTopSection;
-					sectionIndex = fret;
-				}
-				else if (fret < 16)
-				{
-					section = mMiddleSection;
-					sectionIndex = fret - 8;
-				}
-				else if (fret < 22)
-				{
-					section = mBottomSection;
-					sectionIndex = fret - 16;
-				}
+        if (sectionType != Section.INVALID) {
+          Section section = mSections.get(sectionType - 1);
 
-				if (section != null)
-				{
-					if (on)
-					{
-						section.setLightsOn(sectionIndex, stringBit);
-					}
-					else
-					{
-						int mask = (0xFF ^ stringBit);
-						section.setLightsOff(sectionIndex, mask);
-					}
-				}
-			}
-		});
-	}
+          int stringBit = (int) Math.pow(2.0f, (float) (5 - physicalString));
+          if (mLefty) {
+            stringBit = (int) Math.pow(2.0f, (float) physicalString);
+          }
 
-	// ------------------------------------------------------------------------
-	// Private Implementation
-	// ------------------------------------------------------------------------
+          if (on) {
+            section.setLightsOn(sectionIndex, stringBit);
+          } else {
+            section.setLightsOff(sectionIndex, (0xFF ^ stringBit));
+          }
+        }
+      }
+    });
+  }
 
-	private void update()
-	{
-		if (mTopSection.isDirty())
-		{
-			log_v("- UPDATE TOP SECTION -");
-			writeSectionData(mTopSection);
-		}
-		else if (mMiddleSection.isDirty())
-		{
-			log_v("- UPDATE MIDDLE SECTION -");
-			writeSectionData(mMiddleSection);
-		}
-		else if (mBottomSection.isDirty())
-		{
-			log_v("- UPDATE BOTTOM SECTION -");
-			writeSectionData(mBottomSection);
-		}
-	}
+  // ------------------------------------------------------------------------
+  // Private Implementation
+  // ------------------------------------------------------------------------
 
-	private void writeSectionData(final Section section)
-	{
-		final byte data[] = section.getData();
-		logSection(data);
-		mDevice.write(data);
-	}
+  private Section nextSection() {
+    mSectionNum++;
+    if (mSectionNum > Section.NUM_SECTIONS) {
+      mSectionNum = Section.FIRST;
+    }
+    return mSections.get(mSectionNum - 1);
+  }
 
-	private void logSection(final byte[] data)
-	{
-		final StringBuilder builder = new StringBuilder();
-		for (final byte b : data)
-		{
-			builder.append(String.format("%02X", b));
-			builder.append(":");
-		}
-		builder.setLength(builder.length() - 1);
-		log_d("WRITE SECTION DATA - " + builder.toString());
-	}
+  private void update() {
+    // NOTE: You must only update one section per call to this function
+    // or else you risk overwhelming the guitar and causing errors.
 
-	private void log_d(String message, Object... args)
-	{
-		Log.d(TAG, message, args);
-	}
+    Section section = nextSection();
+    if (section.isDirty()) {
+      writeSectionData(section);
+    }
+  }
 
-	private void log_v(String message, Object... args)
-	{
-		Log.v(TAG, message, args);
-	}
+  private class Updater implements Runnable {
+    @Override
+    public void run() {
+      // NOTE: You must only update one section per call to this function
+      // or else you risk overwhelming the guitar and causing errors.
 
-	// ------------------------------------------------------------------------
-	// Updater
-	// ------------------------------------------------------------------------
+      Section section = nextSection();
+      if (section.isDirty()) {
+        writeSectionData(section);
+      }
+    }
+  }
 
-	private class Updater implements Runnable
-	{
-		@Override
-		public void run()
-		{
-			update();
-		}
-	}
+  private static long lastTime;
+
+  private void writeSectionData(final Section section) {
+    final byte data[] = section.getData();
+
+    if (Log.hasDelegate()) {
+      logSection(data);
+
+      long currentTime = System.currentTimeMillis();
+      long deltaTime = currentTime - lastTime;
+      lastTime = currentTime;
+
+      if (deltaTime >= 15) {
+        Log.d(TAG, "Writing to device. Write interval = %d ms", deltaTime);
+      } else {
+        Log.d(TAG, "ERROR writing to device too fast!!! - Write interval = %d ms", deltaTime);
+      }
+    }
+
+    mDevice.write(data);
+  }
+
+  private void logSection(final byte[] data) {
+    final StringBuilder builder = new StringBuilder();
+    for (final byte b : data) {
+      builder.append(String.format("%02X", b));
+      builder.append(":");
+    }
+    builder.setLength(builder.length() - 1);
+    Log.d(TAG, "WRITE SECTION DATA - " + builder.toString());
+  }
 }

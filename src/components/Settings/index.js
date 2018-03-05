@@ -20,6 +20,7 @@ import NotationsRow from "./NotationsRow";
 import NotationsModal from "./NotationsModal";
 import EmailSignupModal from "./EmailSignupModal";
 import LabelRow from "./LabelRow";
+import BirthdateRow from "./BirthdateRow";
 import AboutModal from "./AboutModal";
 import { BtnEmail, BtnEmailSignup } from "../StyleKit";
 import { sendSupportEmail } from "./email";
@@ -49,6 +50,8 @@ class Settings extends React.Component {
       leftHandState,
       autoPartSwitchingState,
       currentNotation,
+      savedBirthdate,
+      onPresentUserForm,
       onClose
     } = this.props;
 
@@ -134,6 +137,11 @@ class Settings extends React.Component {
                   color={"#333333"}
                 />
               </LabelRow>
+
+              <BirthdateRow
+                savedBirthdate={savedBirthdate}
+                onPress={onPresentUserForm}
+              />
 
               <LabelRow
                 color="blue"
@@ -306,11 +314,14 @@ Settings.propTypes = {
   leftHandState: PropTypes.bool.isRequired,
   autoPartSwitchingState: PropTypes.bool.isRequired,
   currentNotation: PropTypes.string.isRequired,
+  savedBirthdate: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   setCountdownTimerState: PropTypes.func.isRequired,
   setLeftHandState: PropTypes.func.isRequired,
   setAutoPartSwitchingState: PropTypes.func.isRequired,
-  setCurrentNotation: PropTypes.func.isRequired
+  setCurrentNotation: PropTypes.func.isRequired,
+  onPresentUserForm: PropTypes.func.isRequired,
+  deleteAllMedia: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => {

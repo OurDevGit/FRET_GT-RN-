@@ -19,3 +19,7 @@ export const setAppClosing = bool => ({
   type: "APP_IS_CLOSING",
   payload: bool
 });
+
+export const fetchConfig = () => ({
+  type: "CONFIG_FETCH_REQUESTED"
+});

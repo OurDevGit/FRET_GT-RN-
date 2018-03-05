@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { View, FlatList, StyleSheet } from "react-native";
 import Fretboard from "./Fretboard";
 
-const keyExtractor = (item, index) => index;
+const keyExtractor = (item, index) => `${index}`;
 const emptyTrack = { name: undefined, isBass: false };
 
 class HorizontalContainer extends React.Component {

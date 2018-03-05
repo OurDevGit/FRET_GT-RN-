@@ -276,7 +276,8 @@ Store.propTypes = {
   subCategories: PropTypes.object,
   group: PropTypes.array,
   chooseMedia: PropTypes.func.isRequired, // action
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
+  refreshStore: PropTypes.func
 };
 
 const styles = StyleSheet.create({

@@ -1,61 +1,128 @@
-import React, { PureComponent } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { WebView, Alert, Linking } from "react-native";
+import {
+  View,
+  WebView,
+  Alert,
+  Linking,
+  ActivityIndicator,
+  StyleSheet,
+  NetInfo
+} from "react-native";
 import { connect } from "react-redux";
-import { Set } from "immutable";
+import * as actions from "../../redux/actions";
 import { fromPairs } from "lodash";
-import { getAllMedia } from "../../redux/selectors";
-import { sync, getIndexFile } from "./sync";
+import { sync, getHomePages } from "./sync";
+import { setUserLevel } from "../../models/User";
+import { recordExperienceLevel } from "../../metrics";
+import { getPathParams, getLevelForInt } from "./utils";
+import { injectAnchors } from "./injection";
+import { mapStateToProps } from "./map-state-props";
 
-class Home extends PureComponent {
-  //`http://guitar-tunes-open.s3.amazonaws.com/home/index.html?trigger=${this.props.reloadTrigger}`
+class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.isMounted_ = false;
+  }
+
   state = {
-    indexFile: null,
+    indexFile: "RELOAD",
     reloadTrigger: 0
   };
 
   render() {
+    const { indexFile } = this.state;
+    const { userLevel } = this.props;
+    const { device, level } = getPathParams(userLevel);
+    const path = `home-${device}-${level}`;
+    const isReloading = indexFile === null ? true : !indexFile.includes(path);
+    const uri = `file://${indexFile}?trigger=${this.state.reloadTrigger}`;
+    const injection = injectAnchors
+      .toString()
+      .match(/function[^{]+\{([\s\S]*)\}$/)[1];
+
+    this.webView = undefined;
+
     return (
-      <WebView
-        startInLoadingState={true}
-        ref={ref => (this.webView = ref)}
-        onMessage={this.handleWebMessage}
-        onNavigationStateChange={this.handleNavStateChange}
-        injectedJavaScript={
-          injectAnchors.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]
-        }
-        source={{
-          uri: `file://${this.state.indexFile}?trigger=${
-            this.state.reloadTrigger
-          }`
-        }}
-      />
+      <View style={styles.container}>
+        {isReloading ? (
+          <ActivityIndicator size="small" color="#3D9BFF" />
+        ) : (
+          <WebView
+            ref={ref => (this.webView = ref)}
+            injectedJavaScript={injection}
+            source={{ uri }}
+            onMessage={this.handleWebMessage}
+            onNavigationStateChange={this.handleNavStateChange}
+          />
+        )}
+      </View>
     );
   }
 
-  async componentWillMount() {
-    var indexFile = await getIndexFile();
-    this.setState({
-      indexFile
-    });
+  componentWillMount() {
+    if (this.props.userLevel !== undefined) {
+      this.checkIndexFile(this.props.userLevel, this.props.homePage);
+    }
+  }
 
-    indexFile = await sync();
+  componentDidMount() {
+    this.props.fetchConfig();
+    this.isMounted_ = true;
+  }
 
-    this.setState({
-      indexFile
-    });
+  componentWillUnmount() {
+    this.isMounted_ = false;
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    const shouldUpdate =
+      this.props.homePage !== nextState.homePage ||
+      this.props.purchasedMedia.length !== nextProps.purchasedMedia.length;
+
+    return shouldUpdate;
   }
 
   async componentWillReceiveProps(nextProps) {
-    this.setState({
-      reloadTrigger:
-        nextProps.reloadTrigger + nextProps.dlMediaIdsDidChange
-          ? Math.random()
-          : 0
-    });
+    if (nextProps.userLevel !== undefined) {
+      await this.checkIndexFile(nextProps.userLevel, nextProps.homePage);
+    }
   }
 
-  handleWebMessage = event => {
+  checkIndexFile = async (userLevel, page) => {
+    const { device, level } = getPathParams(userLevel);
+
+    // loading local files (if available)
+    var homePages = await getHomePages();
+    var indexFile = homePages[page];
+
+    const prefix =
+      this.props.environment === "sandbox" ? "Home/STAGING" : "Home";
+    const path = `${prefix}/home-${device}-${level}`;
+    const forceUpdate = indexFile === null ? true : !indexFile.includes(path);
+    var reloadTrigger = Date.now();
+
+    if (this.isMounted_ === false) {
+      return;
+    } else if (forceUpdate) {
+      this.setState({ indexFile: "RELOAD" });
+    } else if (indexFile !== this.state.indexFile) {
+      this.setState({ indexFile, reloadTrigger });
+    }
+
+    // syncing remote files
+    homePages = await sync(this.props.environment, device, level, forceUpdate);
+    indexFile = homePages[page];
+
+    if (this.isMounted_ === false) {
+      return;
+    } else if (indexFile !== undefined) {
+      reloadTrigger = Date.now();
+      this.setState({ indexFile });
+    }
+  };
+
+  handleWebMessage = async event => {
     const data = event.nativeEvent.data;
     const message = JSON.parse(data);
 
@@ -92,9 +159,39 @@ class Home extends PureComponent {
           this.props.onDetails(params);
           break;
         }
+        case "//library": {
+          console.log("library");
+          break;
+        }
+        case "//chords-scales": {
+          this.props.onChordsAndScales();
+          break;
+        }
+        case "//user": {
+          const isConnected = await NetInfo.isConnected.fetch();
+
+          if (isConnected) {
+            const levelInt = search.split("=")[1] || "";
+            const level = getLevelForInt(levelInt);
+
+            if (level !== undefined) {
+              setUserLevel(level);
+              recordExperienceLevel(level);
+              this.props.onUpdateLevel(level);
+            }
+          } else {
+            Alert.alert(
+              "No Internet Connection",
+              "It appears you're not connected to the internet. Please check your connection and try again"
+            );
+          }
+          break;
+        }
         default:
           break;
       }
+    } else if (protocol === "file:") {
+      this.props.onPageLoad(pathname);
     }
   };
 
@@ -125,94 +222,28 @@ class Home extends PureComponent {
   };
 }
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center"
+  }
+});
+
 Home.propTypes = {
+  userLevel: PropTypes.string,
+  homePage: PropTypes.string.isRequired,
+  downloadedMediaIds: PropTypes.object,
+  purchasedMedia: PropTypes.array,
+  dlMediaIdsDidChange: PropTypes.bool,
+  environment: PropTypes.string,
   onChoose: PropTypes.func.isRequired,
   onDetails: PropTypes.func.isRequired,
-  reloadTrigger: PropTypes.number,
-  dlMediaIdsDidChange: PropTypes.bool
+  onUpdateLevel: PropTypes.func.isRequired,
+  onChordsAndScales: PropTypes.func.isRequired,
+  onPageLoad: PropTypes.func.isRequired,
+  fetchConfig: PropTypes.func.isRequired
 };
 
-var _lastDlMediaIds = Set();
-
-const mapStateToProps = state => {
-  // console.debug("mapping state in Home");
-
-  // get downloads and purchases from state
-  const downloadedMediaIds = Set.fromKeys(state.get("downloadedMedia"));
-  const purchasedIds = state.get("purchasedMedia");
-
-  // if the downloaded media ids change, we need to set a prop accordingly so that we know to reload the web view (by setting a new trigger query param in componentWillReceiveProps)
-  const dlMediaIdsDidChange = downloadedMediaIds.equals(_lastDlMediaIds);
-  _lastDlMediaIds = downloadedMediaIds;
-
-  // purchases will be lowercase for Google IAB, but we need the upper-case versions
-  const allMediaIds = getAllMedia(state)
-    .toJS()
-    .map(m => m.mediaID);
-  const purchasedMediaIds = allMediaIds.filter(id =>
-    purchasedIds.includes(id.toLowerCase())
-  );
-
-  // combine downloads and purchases
-  const allIds = downloadedMediaIds.union(purchasedMediaIds);
-
-  // map them for what the webview expects
-  const purchasedMedia = allIds
-    .map(id => ({
-      purchaseId: id,
-      isCached: downloadedMediaIds.includes(id)
-    }))
-    .toJS();
-
-  return {
-    purchasedMedia,
-    downloadedMediaIds: downloadedMediaIds,
-    dlMediaIdsDidChange
-  };
-};
-
-export default connect(mapStateToProps)(Home);
-
-/*
- * This function is going to be stringified and then injected and runs INSIDE the in-app browser that loads Home.
- * Therefore, you can't use ES6 here or anything you've imported into this file.
- * to get the body text: injectAnchors.toString().match(/function[^{]+\{([\s\S]*)\}$/)[1]
- */
-
-function injectAnchors() {
-  window.callback = null;
-
-  window.handlePurchases = function(purchases) {
-    window.callback(null, purchases);
-    window.callback = null;
-  };
-
-  // retrieves objects saved to the persistent store
-  window.optek = {
-    app: {
-      purchases: function(newCallback) {
-        window.callback = newCallback;
-        window.postMessage(JSON.stringify("GET_PURCHASES"));
-      }
-    }
-  };
-
-  var anchors = document.getElementsByTagName("a");
-  for (var i in anchors) {
-    anchors[i].onclick = function(event) {
-      var anchor = event.currentTarget;
-      var href = anchor.href;
-      var protocol = anchor.protocol;
-      var pathname = anchor.pathname;
-      var search = anchor.search;
-      window.postMessage(
-        JSON.stringify({
-          href: href,
-          protocol: protocol,
-          pathname: pathname,
-          search: search
-        })
-      );
-    };
-  }
-}
+export default connect(mapStateToProps, actions)(Home);

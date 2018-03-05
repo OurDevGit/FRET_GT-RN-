@@ -43,7 +43,7 @@ class Media extends React.PureComponent {
             onChoose={this.props.onChoose}
             onIsStoreChange={this.props.onIsStoreChange}
             onFavePress={this.handleFavePress}
-            // TODO: take this out and move it down the component chain
+            // TODO: take this out and move it down the component branch
             isExpandable={this.props.isExpandable}
             onShowDetails={this.handleShowDetails}
             onMediaCount={this.handleMediaCount}

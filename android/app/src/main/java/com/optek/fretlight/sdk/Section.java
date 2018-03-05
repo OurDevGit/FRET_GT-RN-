@@ -1,6 +1,6 @@
 /******************************************************************************
  *   ____     _____    _______   ______    _  __                              *
- *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015        *
+ *  / __ \   |  __ \  |__   __| |  ____|  | |/ /    Copyright (c) 2015 - 2018 *
  * | |  | |  | |__) |    | |    | |__     | ' /     Optek Music Systems, Inc. *
  * | |  | |  |  ___/     | |    |  __|    |  <      All Rights Reserved       *
  * | |__| |  | |         | |    | |____   | . \                               *
@@ -19,23 +19,13 @@ package com.optek.fretlight.sdk;
 
 class Section
 {
-	// Enum to identify sections.
-	public enum ID
-	{
-		TOP(1), MIDDLE(2), BOTTOM(3);
+	static final int INVALID = 0;
+	static final int FIRST = 1;
+	static final int TOP = 1;
+	static final int MIDDLE = 2;
+	static final int BOTTOM = 3;
 
-		private final int mValue;
-
-		ID(final int value)
-		{
-			mValue = value;
-		}
-
-		public int getValue()
-		{
-			return mValue;
-		}
-	}
+	static final int NUM_SECTIONS = 3;
 
 	private static final byte NO_STRINGS = 0;
 	private static final byte E_STRING_LOW = 1;
@@ -68,7 +58,7 @@ class Section
 	//byte[7] - fretH        // Not used in kNeckSectionBottom
 
 	// The ID of the section
-	private final ID mID;
+	private final int mSectionID;
 
 	// The LED data for this section.
 	private static final int SECTION_SIZE = 8;
@@ -77,51 +67,55 @@ class Section
 	// The calculated Fretlight data.
 	private byte[] mData = new byte[SECTION_SIZE];
 
-	public Section(final Section.ID id)
+	private boolean mDirty;
+
+	public Section(final int id)
 	{
-		mID = id;
+		mSectionID = id;
 	}
 
-	public Section.ID getID()
+	public int getID()
 	{
-		return mID;
+		return mSectionID;
 	}
 
 	public boolean isDirty()
 	{
-		return mData == null;
+		return mDirty;
 	}
 
 	public void allLightsOn()
 	{
 		setAllOn(mStates);
-		setDirty();
+		mDirty = true;
 	}
 
 	public void allLightsOff()
 	{
 		setAllOff(mStates);
-		setDirty();
+		mDirty = true;
 	}
 
 	public void setLightsOn(final int index, final int mask)
 	{
 		mStates[index] |= mask;
-		setDirty();
+		mDirty = true;
 	}
 
 	public void setLightsOff(final int index, final int mask)
 	{
 		mStates[index] &= mask;
-		setDirty();
+		mDirty = true;
 	}
 
 	public byte[] getData()
 	{
-		if (mData == null)
-		{
-			// The mData field is null so recalculate the data.
-			mData = calculateFretlightData(mStates);
+		if (mDirty) {
+			// We are dirty so recalculate the data.
+			calculateFretlightData(mStates);
+
+			// We are clean.
+			mDirty = false;
 		}
 		return mData;
 	}
@@ -129,12 +123,6 @@ class Section
 	// ------------------------------------------------------------------------
 	// Private Implementation
 	// ------------------------------------------------------------------------
-
-	private void setDirty()
-	{
-		// Set mData to null to force recalculation on next request.
-		mData = null;
-	}
 
 	private void setAllOff(final byte[] states)
 	{
@@ -148,13 +136,12 @@ class Section
 
 	private void setPattern(final byte[] states, final byte pattern)
 	{
-		for (int i = 0; i < SECTION_SIZE; i++)
-		{
+		for (int i = 0; i < SECTION_SIZE; i++) {
 			states[i] = pattern;
 		}
 	}
 
-	private byte[] calculateFretlightData(final byte[] states)
+	private void calculateFretlightData(final byte[] states)
 	{
 		// Set the appropriate bits in the output buffer based
 		// on the state of the provided LED states.
@@ -177,8 +164,6 @@ class Section
 		// So everything is sort of "backwards" bitwise speaking
 		//
 
-		byte[] data = new byte[SECTION_SIZE];
-
 		final byte fretA = states[FRET_A];
 		final byte fretB = states[FRET_B];
 		final byte fretC = states[FRET_C];
@@ -188,20 +173,18 @@ class Section
 		final byte fretG = states[FRET_G];
 		final byte fretH = states[FRET_H];
 
-		data[7] = 0; // HID report 0
+		mData[7] = 0; // HID report 0
 
 		// Get LED states for every item in this section.
-		data[5] = (byte) ((fretA << 2) | ((fretB & 0x30) >> 4));              // fretA (ignore two high bits) plus two bits of fret B
-		data[4] = (byte) (((fretB & 0xf) << 4) | ((fretC & 0x3c) >> 2));      // 4 bits of fretB plus 4 bits of Fret C
-		data[3] = (byte) (((fretC & 0x3) << 6) | (fretD & 0x3f));             // 2 bits of fretC plus Fret D (ignore high two bits)
-		data[2] = (byte) ((fretE << 2) | ((fretF & 0x30) >> 4));              // fretE (ignore high two bits) plus two bits of fret F
-		data[1] = (byte) (((fretF & 0xf) << 4) | ((fretG & 0x3c) >> 2));      // 4 bits of fretF plus 4 bits of Fret G
-		data[0] = (byte) (((fretG & 0x3) << 6) | (fretH & 0x3f));             // 2 bits of fretG plus Fret H (ignore high two bits)
+		mData[5] = (byte) ((fretA << 2) | ((fretB & 0x30) >> 4));              // fretA (ignore two high bits) plus two bits of fret B
+		mData[4] = (byte) (((fretB & 0xf) << 4) | ((fretC & 0x3c) >> 2));      // 4 bits of fretB plus 4 bits of Fret C
+		mData[3] = (byte) (((fretC & 0x3) << 6) | (fretD & 0x3f));             // 2 bits of fretC plus Fret D (ignore high two bits)
+		mData[2] = (byte) ((fretE << 2) | ((fretF & 0x30) >> 4));              // fretE (ignore high two bits) plus two bits of fret F
+		mData[1] = (byte) (((fretF & 0xf) << 4) | ((fretG & 0x3c) >> 2));      // 4 bits of fretF plus 4 bits of Fret G
+		mData[0] = (byte) (((fretG & 0x3) << 6) | (fretH & 0x3f));             // 2 bits of fretG plus Fret H (ignore high two bits)
 
 		// Identify the correct section of the neck.
-		data[6] = (byte) mID.getValue();
-
-		return data;
+		mData[6] = (byte) mSectionID;
 	}
 }
 
