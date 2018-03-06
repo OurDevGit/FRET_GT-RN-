@@ -17,7 +17,7 @@ class EmailSignupModal extends React.Component {
   };
 
   render() {
-    const { onCancel } = this.props;
+    const { title, message, onCancel } = this.props;
 
     return (
       <Modal animationType="fade" transparent={true} onRequestClose={onCancel}>
@@ -28,16 +28,14 @@ class EmailSignupModal extends React.Component {
         >
           <View style={styles.container} onPress={onCancel}>
             <View style={styles.content}>
-              <Text style={styles.heading}>Register for Updates</Text>
-
-              <Text style={styles.label}>
-                Enter your email address to stay up to date on Guitar Tunes
-              </Text>
+              <Text style={styles.heading}>{title}</Text>
+              <Text style={styles.label}>{message}</Text>
 
               <TextInput
                 style={styles.input}
                 autoFocus={true}
                 placeholder={"Email"}
+                autoCapitalize={"none"}
                 onChangeText={this.handleTextInput}
                 onSubmitEditing={this.handleComplete}
               />
@@ -109,7 +107,6 @@ const styles = StyleSheet.create({
     textAlignVertical: "center"
   },
   label: {
-    flex: 1,
     fontSize: 18,
     textAlignVertical: "center"
   },
@@ -139,6 +136,8 @@ const styles = StyleSheet.create({
 });
 
 EmailSignupModal.propTypes = {
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
   onCancel: PropTypes.func.isRequired,
   onComplete: PropTypes.func
 };

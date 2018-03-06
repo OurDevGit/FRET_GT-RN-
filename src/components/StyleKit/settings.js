@@ -3,7 +3,8 @@ import { TouchableOpacity } from "react-native";
 import { gtPcPressable, gtPcColorable, gtPcSizeable } from "./lib";
 import {
   BtnMail_targetFrame_resizing,
-  BtnMailSignup_targetFrame_resizing
+  BtnMailSignup_targetFrame_resizing,
+  BtnMailContest_targetFrame_resizing
 } from "./styleKitComponents";
 import { ResizingBehavior } from "./lib";
 
@@ -22,5 +23,15 @@ export const BtnEmailSignup = props => {
 
   return (
     <BtnEmailSignupComp {...props} resizing={ResizingBehavior.AspectFit} />
+  );
+};
+
+export const BtnContestSignup = props => {
+  const BtnContestSignupComp = gtPcSizeable(
+    gtPcColorable(BtnMailContest_targetFrame_resizing)
+  );
+
+  return (
+    <BtnContestSignupComp {...props} resizing={ResizingBehavior.AspectFit} />
   );
 };

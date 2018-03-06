@@ -109,6 +109,18 @@ export const BtnMailSignup_targetFrame_resizing = props => <PaintCode
   {...props}
 />
 
+export const BtnMailContest = props => <PaintCode
+  drawMethod="BtnMailContest"
+  drawArgs={[]}
+  {...props}
+/>
+
+export const BtnMailContest_targetFrame_resizing = props => <PaintCode
+  drawMethod="BtnMailContest"
+  drawArgs={["targetFrame","resizing"]}
+  {...props}
+/>
+
 export const BtnCloudDownload = props => <PaintCode
   drawMethod="BtnCloudDownload"
   drawArgs={[]}

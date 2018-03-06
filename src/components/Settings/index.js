@@ -22,9 +22,9 @@ import EmailSignupModal from "./EmailSignupModal";
 import LabelRow from "./LabelRow";
 import BirthdateRow from "./BirthdateRow";
 import AboutModal from "./AboutModal";
-import { BtnEmail, BtnEmailSignup } from "../StyleKit";
+import { BtnEmail, BtnEmailSignup, BtnContestSignup } from "../StyleKit";
 import { sendSupportEmail } from "./email";
-import { registerEmail } from "../../api";
+import { registerEmail, registerContestEmail } from "../../api";
 import { getLegal, getHelp, getOverlay } from "../../models/Resources";
 import {
   trackSettingsAbout,
@@ -41,6 +41,7 @@ class Settings extends React.Component {
     isShowingAbout: false,
     isShowingNotationModal: false,
     isShowingEmailSignup: false,
+    isShowingContestSignup: false,
     notationModalFrame: {},
     pdfFile: null
   };
@@ -138,6 +139,16 @@ class Settings extends React.Component {
                 />
               </LabelRow>
 
+              <LabelRow
+                label={"Enter Monthly Contest"}
+                onPress={this.handleToggleContestSignupModal}
+              >
+                <BtnContestSignup
+                  style={{ width: 50, height: 50 }}
+                  color={"#333333"}
+                />
+              </LabelRow>
+
               <BirthdateRow
                 savedBirthdate={savedBirthdate}
                 onPress={onPresentUserForm}
@@ -157,8 +168,23 @@ class Settings extends React.Component {
 
               {this.state.isShowingEmailSignup && (
                 <EmailSignupModal
+                  title={"Register for Updates"}
+                  message={
+                    "Enter your email address to stay up to date on Guitar Tunes"
+                  }
                   onCancel={this.handleToggleEmailSignupModal}
                   onComplete={this.handleEmailSignup}
+                />
+              )}
+
+              {this.state.isShowingContestSignup && (
+                <EmailSignupModal
+                  title={"Enter Monthly Contest"}
+                  message={
+                    "Enter your email address to be entered into our monthly giveaway. One entry per person. No purchase necessary. See Contest details at www.guitartunes.com"
+                  }
+                  onCancel={this.handleToggleContestSignupModal}
+                  onComplete={this.handleContestSignup}
                 />
               )}
             </ScrollView>
@@ -247,6 +273,23 @@ class Settings extends React.Component {
     }
   };
 
+  handleToggleContestSignupModal = async () => {
+    let isShowingContestSignup = !this.state.isShowingContestSignup;
+    if (this.state.isShowingContestSignup) {
+      this.setState({ isShowingContestSignup });
+    } else {
+      const isConnected = await NetInfo.isConnected.fetch();
+      if (isConnected) {
+        this.setState({ isShowingContestSignup });
+      } else {
+        Alert.alert(
+          "No Internet Connection",
+          "It appears you're not connected to the internet. Please check your connection and try again"
+        );
+      }
+    }
+  };
+
   handleEmailSignup = async email => {
     const isConnected = await NetInfo.isConnected.fetch();
     if (isConnected) {
@@ -257,6 +300,27 @@ class Settings extends React.Component {
         Alert.alert("Thanks! We'll keep you posted on new Songs & Features!");
       } else {
         Alert.alert("There was a problem registering. Please try again later.");
+      }
+    } else {
+      Alert.alert(
+        "No Internet Connection",
+        "It appears you're not connected to the internet. Please check your connection and try again"
+      );
+    }
+  };
+
+  handleContestSignup = async email => {
+    const isConnected = await NetInfo.isConnected.fetch();
+    if (isConnected) {
+      let response = await registerContestEmail(email);
+      this.setState({ isShowingContestSignup: false });
+
+      if (response.status === 200) {
+        Alert.alert(
+          "You're entered, good luck! Winner(s) will be contacted by email only. See Contest rules at www.guitartunes.com!"
+        );
+      } else {
+        Alert.alert("There was a problem entering. Please try again later.");
       }
     } else {
       Alert.alert(
