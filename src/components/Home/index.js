@@ -97,8 +97,10 @@ class Home extends React.Component {
     var indexFile = homePages[page];
 
     const prefix =
-      this.props.environment === "sandbox" ? "Home/STAGING" : "Home";
-    const path = `${prefix}/home-${device}-${level}`;
+      this.props.environment === "sandbox"
+        ? "home-android/STAGING/home"
+        : "home-android/LIVE/home";
+    const path = `${prefix}-${device}-${level}`;
     const forceUpdate = indexFile === null ? true : !indexFile.includes(path);
     var reloadTrigger = Date.now();
 
