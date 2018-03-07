@@ -5,7 +5,11 @@ import { Popover, getBirthdates, getExperienceLevels } from "./utils";
 import { Modal, Alert } from "react-native";
 import { getIsPhone } from "../../utils";
 import Presentation from "./presentation";
-import { setUserBirthdate, setUserLevel } from "../../models/User";
+import {
+  setUserBirthdate,
+  setUserLevel,
+  getUserLevel
+} from "../../models/User";
 import { recordBirthYear, recordExperienceLevel } from "../../metrics";
 
 const birthdates = getBirthdates();
@@ -150,12 +154,14 @@ class UserForm extends Component {
   handleSubmission = async () => {
     const { birthdate, experienceLevel } = this.state;
     if (birthdate !== undefined && experienceLevel !== undefined) {
+      const savedLevel = await getUserLevel();
+      const shouldLoadFirstRun = savedLevel === undefined;
       setUserBirthdate(birthdate);
       setUserLevel(experienceLevel);
 
       recordBirthYear(parseInt(birthdate));
       recordExperienceLevel(experienceLevel);
-      this.props.onClose(birthdate, experienceLevel);
+      this.props.onClose(birthdate, experienceLevel, shouldLoadFirstRun);
     } else {
       Alert.alert(
         "Incomplete Form",

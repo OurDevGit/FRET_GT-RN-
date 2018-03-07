@@ -340,13 +340,17 @@ class Root extends Component {
     this.setState({ isShowingUserForm: true });
   };
 
-  handleDismissUserForm = (userBirthdate, userExperienceLevel) => {
+  handleDismissUserForm = (
+    userBirthdate,
+    userExperienceLevel,
+    shouldLoadFirstRun
+  ) => {
     this.props.dismissModal();
     this.setState({
       isShowingUserForm: false,
       isShowingSettings: false,
       currentSection: Sections.Home,
-      homePage: "firstRun",
+      homePage: shouldLoadFirstRun ? "firstRun" : "index",
       userBirthdate,
       userExperienceLevel
     });
