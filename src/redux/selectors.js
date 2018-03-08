@@ -1,3 +1,5 @@
+// @flow
+
 import { List, Seq, Map, Stack } from "immutable";
 import { GetMediaButtonMode } from "../models/Media";
 import memoize from "fast-memoize";
@@ -13,14 +15,18 @@ const getTitleSorting = (state, thing) =>
   (
     state.get("storeSorting").get((thing || {}).id) || Map({ isTitle: true })
   ).get("isTitle") === true;
+const getHasDownloadedFiles = (state, mediaID: string) =>
+  getDownloadedMediaFiles(state, mediaID) !== undefined;
+const getIsPurchased = (state, mediaID: string) =>
+  state.get("purchasedMedia").has(mediaID.toLowerCase());
 
 export const getAllMedia = state => state.get("listedMedia") || Seq();
-export const getDownloadedMediaFiles = (state, mediaId) =>
+export const getDownloadedMediaFiles = (state, mediaId: string) =>
   state.get("downloadedMedia").get(mediaId);
-export const getMediaById = (state, mediaId) =>
+export const getMediaById = (state, mediaId: string) =>
   state.get("mediaById").get(mediaId);
 
-const getClientSidedMedia = (state, obj) => {
+const getClientSidedMedia = (state, obj, isStore: boolean) => {
   switch (obj.title) {
     case "All Content": {
       const allMedia = getAllMedia(state).sort((media1, media2) => {
@@ -33,6 +39,16 @@ const getClientSidedMedia = (state, obj) => {
       const faves = getFaves(state);
       const favedMedia = allMedia
         .filter(media => faves.includes(media.get("mediaID")))
+        .filter(
+          // filter downloaded media from Store wishlist
+          media =>
+            isStore ? !getHasDownloadedFiles(state, media.get("mediaID")) : true
+        )
+        .filter(
+          // filter purchases from Store wishlist
+          media =>
+            isStore ? !getIsPurchased(state, media.get("mediaID")) : true
+        )
         .sort((m1, m2) => {
           return m1.get("sortTitle").localeCompare(m2.get("sortTitle"));
         });
@@ -148,8 +164,8 @@ const mergeGetMode = (state, singleMedia) => {
   const isIntermediate = state.get("intermediateMedia").includes(mediaId);
 
   // is purchased
-  const purchasedMedia = state.get("purchasedMedia");
-  const isPurchased = purchasedMedia.has(mediaId.toLowerCase());
+  // const purchasedMedia = state.get("purchasedMedia");
+  const isPurchased = getIsPurchased(state, mediaId); // purchasedMedia.has(mediaId.toLowerCase());
 
   // is downloaded
   const mediaFiles = getDownloadedMediaFiles(state, mediaId);
@@ -205,7 +221,13 @@ const mergeMediaDetails = (state, mediaSections) => {
   return mediaWithProductDetails;
 };
 
-const selectMediaRaw = (state, category, subCategory, group, isStore) => {
+const selectMediaRaw = (
+  state,
+  category,
+  subCategory,
+  group,
+  isStore: boolean
+) => {
   // console.time("selectMediaRaw");
   // console.debug({ category });
   // console.debug({ subCategory });
@@ -219,7 +241,7 @@ const selectMediaRaw = (state, category, subCategory, group, isStore) => {
 
   if (category) {
     if (category.isClientSided === true) {
-      const media = getClientSidedMedia(state, category);
+      const media = getClientSidedMedia(state, category, isStore);
       result = mergeMediaDetails(state, media);
     } else if (subCategory === undefined || subCategory === null) {
       const media = getMediaForCategory(state, category, categoryIsTitleSort);
