@@ -15,6 +15,7 @@ import JamBar from "./jam-bar";
 import GuitarController from "./GuitarController";
 import CountdownTimer from "./CountdownTimer";
 import UserForm from "./user-form";
+import ReleaseNotes from "./ReleaseNotes";
 import Store from "./Store";
 import {
   BtnLibrary,
@@ -29,16 +30,12 @@ import {
   setOpenSectionIndex,
   setSearch
 } from "../models/Store";
-import {
-  getUserBirthdate,
-  getUserLevel,
-  getViewedAppVersion,
-  setViewedAppVersion
-} from "../models/User";
+import { getUserBirthdate, getUserLevel } from "../models/User";
 import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { getIsPhone } from "../utils";
 import { loadJamBarData } from "./jam-bar/utils";
+
 import {
   registerSuperProperties,
   startAppSession,
@@ -234,6 +231,8 @@ class Root extends Component {
               onClose={this.handleDismissUserForm}
             />
           )}
+
+          <ReleaseNotes />
         </View>
       </Provider>
     );
@@ -310,10 +309,6 @@ class Root extends Component {
     } else {
       trackHomeView();
     }
-
-    if (this.props.releaseVersion !== prevProps.releaseVersion) {
-      this.checkReleaseNotes();
-    }
   }
 
   handleAppStateChange = nextAppState => {
@@ -322,7 +317,6 @@ class Root extends Component {
       nextAppState === "active"
     ) {
       this.props.setAppClosing(false);
-      this.checkReleaseNotes();
       startAppSession();
     }
 
@@ -335,14 +329,6 @@ class Root extends Component {
     }
 
     this.setState({ appState: nextAppState });
-  };
-
-  checkReleaseNotes = async () => {
-    let savedVersion = await getViewedAppVersion();
-    let releaseVersion = this.props.releaseVersion;
-
-    console.log("checkReleaseNotes", savedVersion, releaseVersion);
-    // setViewedAppVersion
   };
 
   handleCloseStore = () => {
@@ -542,7 +528,6 @@ Root.propTypes = {
   mediaForPlay: PropTypes.object,
   isShowingJamBar: PropTypes.bool.isRequired,
   bleMenuIsActive: PropTypes.bool.isRequired,
-  releaseVersion: PropTypes.string,
   countdownTimerState: PropTypes.bool.isRequired,
   chooseMedia: PropTypes.func.isRequired,
   requestBootstrap: PropTypes.func.isRequired,
@@ -565,8 +550,7 @@ const mapStateToProps = state => {
     countdownTimerState: state.get("countdownTimerState"),
     isShowingJamBar: state.get("isShowingJamBar"),
     guitars: state.get("guitars"),
-    bleMenuIsActive: state.get("bleMenuIsActive"),
-    releaseVersion: state.get("appConfig").get("releaseVersion")
+    bleMenuIsActive: state.get("bleMenuIsActive")
   };
 };
 
