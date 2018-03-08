@@ -1,3 +1,5 @@
+// @flow
+
 import { makeStore } from "./StorageFactory";
 import { union } from "lodash";
 
@@ -10,27 +12,19 @@ export const loadPurchased = async () => {
   return purchased || [];
 };
 
-export const getIsPurchased = async mediaId => {
+export const getIsPurchased = async (mediaId: string) => {
   const purchased = await loadPurchased();
   return purchased.includes(mediaId);
 };
 
-export const setPurchased = async mediaIds =>
+export const setPurchased = async (mediaIds: string[]) =>
   await Purchases.setObj(PURCHASED_MEDIA, mediaIds);
 
-export const addPurchase = async mediaId => {
-  const isAlreadyPurchased = await getIsPurchased(mediaId);
-  if (isAlreadyPurchased) {
-    return true;
-  } else {
-    const purchased = await loadPurchased();
-    await Purchases.setObj(PURCHASED_MEDIA, purchased.concat(mediaId));
-
-    return true;
-  }
+export const addPurchase = async (mediaId: string) => {
+  await addPurchases([mediaId.toLowerCase()]);
 };
 
-export const addPurchases = async mediaIds => {
+export const addPurchases = async (mediaIds: string[]) => {
   const purchased = await loadPurchased();
   const updatedPurchases = union(purchased, mediaIds);
   await Purchases.setObj(PURCHASED_MEDIA, updatedPurchases);
