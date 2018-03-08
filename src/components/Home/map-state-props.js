@@ -36,7 +36,6 @@ export const mapStateToProps = state => {
 
   const releaseVersion = state.get("appConfig").get("releaseVersion");
   const environment = getEnvironmentFromVersions(releaseVersion, version);
-
   return {
     purchasedMedia,
     environment,
@@ -46,19 +45,22 @@ export const mapStateToProps = state => {
 };
 
 const getEnvironmentFromVersions = (releaseVersion, currentVersion) => {
-  var environment = "production";
-
   if (releaseVersion !== undefined) {
-    const release = releaseVersion.split(".");
-    const current = currentVersion.split(".");
-    if (
-      current[0] > release[0] ||
-      current[1] > release[1] ||
+    const release = releaseVersion.split(".").map(str => parseInt(str));
+    const current = currentVersion.split(".").map(str => parseInt(str));
+
+    if (current[0] > release[0]) {
+      return "sandbox";
+    } else if (current[0] === release[0] && current[1] > release[1]) {
+      return "sandbox";
+    } else if (
+      current[0] === release[0] &&
+      current[1] === release[1] &&
       current[2] > release[2]
     ) {
-      environment = "sandbox";
+      return "sandbox";
     }
   }
 
-  return environment;
+  return "production";
 };

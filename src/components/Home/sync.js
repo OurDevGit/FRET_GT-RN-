@@ -10,21 +10,24 @@ export const sync = async (environment, device, level, forceUpdate) => {
   }
   const syncTime = await getSync();
   const homeFiles = await fetchHome(environment, device, level, syncTime);
-
+  console.log("syncTime", syncTime);
   try {
     const downloadedFiles = await downloadFiles(homeFiles, 0, "Home", false);
-    const env = environment === "sandbox" ? "STAGING/home" : "home";
+    const env =
+      environment === "sandbox"
+        ? "home-android/STAGING/home"
+        : "home-android/LIVE/home";
     const path = `${env}-${device}-${level}`;
     const index = downloadedFiles[`${path}/index.html`];
     const firstRun = downloadedFiles[`${path}/first-run.html`];
-
     await setPages(index, firstRun);
     const now = new Date().valueOf() / 1000;
     await setSync(now);
+    console.log("index", index);
+    console.log("firstRun", firstRun);
     return { index, firstRun };
   } catch (err) {
-    console.log("error downloading home files");
-
+    console.log("ERROR DOWNLOADING HOME FILES");
     return "";
   }
 
