@@ -1,3 +1,5 @@
+// @flow
+
 import { call, put, takeEvery, takeLatest, select } from "redux-saga/effects";
 import * as Api from "./api";
 import RNFetchBlob from "react-native-fetch-blob";
@@ -13,7 +15,7 @@ import {
   addFave,
   deleteFave
 } from "./models/Media";
-import { setPurchased, loadPurchased } from "./models/Purchases";
+import { setPurchased, addPurchase, loadPurchased } from "./models/Purchases";
 import { setDownload, removeDownload } from "./models/Downloads";
 import { fetchProductDetails, fetchPurchases } from "./models/Products";
 import {
@@ -95,6 +97,7 @@ function* doDownload(media, mediaId, transactionDetails) {
     const mediaFiles = yield downloadMedia(media, transactionDetails);
     // console.debug({ mediaFiles });
     yield setDownload(mediaId, mediaFiles);
+    yield put(actions.addPurchasedMedia(mediaId));
     yield put(actions.finishDownload(mediaId, mediaFiles));
   } catch (err) {
     // console.debug("error downloading media");
@@ -142,8 +145,10 @@ function* watchChooseMedia(action) {
     transactionDetails !== null &&
     transactionDetails.purchaseState === "PurchasedSuccessfully"
   ) {
-    console.debug("We own this. Downloading the media now.");
+    console.debug("We own this (or its free). Downloading the media now.");
 
+    console.debug({ mediaId });
+    addPurchase(mediaId);
     yield doDownload(media, mediaId, transactionDetails);
 
     return;
@@ -160,6 +165,7 @@ function* watchChooseMedia(action) {
 
   if (purchaseResult.success === true) {
     yield put(actions.addPurchasedMedia(mediaId));
+    yield addPurchase(mediaId);
     yield doDownload(media, mediaId, purchaseResult.transactionDetails);
     console.debug(`added purchased ${mediaId}`);
 
