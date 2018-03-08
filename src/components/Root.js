@@ -172,16 +172,16 @@ class Root extends Component {
                   }}
                 >
                   <BtnHome isHome={isHome} onPress={this.handleHomePress} />
+                  <BtnLibrary
+                    color={"#FFFFFF"}
+                    onPress={this.handleToggleLibrary}
+                  />
                   <BtnChordsAndScales
                     style={{ flex: 1, width: 44, height: 44, marginLeft: -6 }}
                     onPress={this.handleChordsAndScalesPress}
                     isChordsAndScales={
                       this.state.currentSection === Sections.ChordsAndScales
                     }
-                  />
-                  <BtnLibrary
-                    color={"#FFFFFF"}
-                    onPress={this.handleToggleLibrary}
                   />
                   <BtnSettings onPress={this.handleToggleSettings} />
                 </View>
