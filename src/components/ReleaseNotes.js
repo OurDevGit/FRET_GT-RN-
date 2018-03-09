@@ -12,6 +12,7 @@ import { FlatButton } from "./Material";
 import { pure } from "recompose";
 import { PrimaryBlue } from "../design";
 import { version } from "../../package";
+import { getIsPhone } from "../utils";
 import { getViewedAppVersion, setViewedAppVersion } from "../models/User";
 
 class ReleaseNotes extends React.Component {
@@ -28,23 +29,26 @@ class ReleaseNotes extends React.Component {
     return (
       <Modal
         visible={this.state.url !== undefined}
-        animationType="slide"
+        transparent={true}
+        animationType="fade"
         onRequestClose={this.onClose}
       >
-        <View style={styles.container}>
-          <View style={styles.toolbar}>
-            <FlatButton
-              style={{ color: PrimaryBlue }}
-              title="Close"
-              onPress={this.onClose}
+        <View style={styles.shader}>
+          <View style={styles.container}>
+            <View style={styles.toolbar}>
+              <FlatButton
+                style={{ color: PrimaryBlue }}
+                title="Close"
+                onPress={this.onClose}
+              />
+            </View>
+            <WebView
+              style={styles.web}
+              startInLoadingState={true}
+              automaticallyAdjustContentInsets={true}
+              source={{ uri: this.state.url }}
             />
           </View>
-          <WebView
-            style={styles.web}
-            startInLoadingState={true}
-            automaticallyAdjustContentInsets={true}
-            source={{ uri: this.state.url }}
-          />
         </View>
       </Modal>
     );
@@ -87,23 +91,33 @@ class ReleaseNotes extends React.Component {
   };
 }
 
+const sizeMod = getIsPhone() ? 0.6 : 0.4;
+
 const styles = StyleSheet.create({
-  container: {
+  shader: {
     flex: 1,
-    width: "100%",
-    justifyContent: "flex-start",
+    backgroundColor: "rgba(1,1,1,0.5)",
+    justifyContent: "center",
     alignItems: "center"
   },
+  container: {
+    width: Dimensions.get("window").width * sizeMod,
+    height: Dimensions.get("window").height * sizeMod,
+    justifyContent: "flex-start",
+    alignItems: "center",
+    backgroundColor: "white"
+  },
   toolbar: {
-    height: 50,
+    height: 44,
     width: "100%",
     alignItems: "flex-end",
     borderBottomColor: "lightgray",
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
+    backgroundColor: "lightgray"
   },
   web: {
-    width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height - 50
+    width: Dimensions.get("window").width * sizeMod,
+    height: Dimensions.get("window").height * sizeMod - 50
   }
 });
 
