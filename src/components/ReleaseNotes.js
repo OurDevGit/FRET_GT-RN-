@@ -72,11 +72,11 @@ class ReleaseNotes extends React.Component {
 
   checkReleaseNotes = async () => {
     const isConnected = await NetInfo.isConnected.fetch();
-    let savedVersion = await getViewedAppVersion();
+    const savedVersion = await getViewedAppVersion();
 
     if (savedVersion !== version && isConnected) {
-      let str = version.split(".").join("-");
-      let url = `https://guitartunes.com/pages/android-${str})`;
+      const str = version.split(".").join("-");
+      const url = `https://www.guitartunes.com/pages/android-${str}`;
       await setViewedAppVersion(version);
       this.setState({ url });
     }
