@@ -15,6 +15,7 @@ import JamBar from "./jam-bar";
 import GuitarController from "./GuitarController";
 import CountdownTimer from "./CountdownTimer";
 import UserForm from "./user-form";
+import ReleaseNotes from "./ReleaseNotes";
 import Store from "./Store";
 import {
   BtnLibrary,
@@ -34,6 +35,7 @@ import { getMediaForPlay } from "../redux/selectors";
 import * as actions from "../redux/actions";
 import { getIsPhone } from "../utils";
 import { loadJamBarData } from "./jam-bar/utils";
+
 import {
   registerSuperProperties,
   startAppSession,
@@ -229,6 +231,8 @@ class Root extends Component {
               onClose={this.handleDismissUserForm}
             />
           )}
+
+          <ReleaseNotes />
         </View>
       </Provider>
     );

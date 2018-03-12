@@ -10,7 +10,6 @@ export const sync = async (environment, device, level, forceUpdate) => {
   }
   const syncTime = await getSync();
   const homeFiles = await fetchHome(environment, device, level, syncTime);
-  // console.log("syncTime", syncTime);
   try {
     const downloadedFiles = await downloadFiles(homeFiles, 0, "Home", false);
     const env =
@@ -23,8 +22,6 @@ export const sync = async (environment, device, level, forceUpdate) => {
     await setPages(index, firstRun);
     const now = new Date().valueOf() / 1000;
     await setSync(now);
-    // console.log("index", index);
-    // console.log("firstRun", firstRun);
     return { index, firstRun };
   } catch (err) {
     console.log("ERROR DOWNLOADING HOME FILES");
