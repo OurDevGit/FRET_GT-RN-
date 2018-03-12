@@ -4,11 +4,12 @@ import {
   Dimensions,
   View,
   StyleSheet,
+  Text,
   Modal,
   NetInfo,
+  TouchableOpacity,
   WebView
 } from "react-native";
-import { FlatButton } from "./Material";
 import { pure } from "recompose";
 import { PrimaryBlue } from "../design";
 import { version } from "../../package";
@@ -36,11 +37,11 @@ class ReleaseNotes extends React.Component {
         <View style={styles.shader}>
           <View style={styles.container}>
             <View style={styles.toolbar}>
-              <FlatButton
-                style={{ color: PrimaryBlue }}
-                title="Close"
-                onPress={this.onClose}
-              />
+              <View style={styles.spacer} />
+              <Text style={styles.title}>Release Notes</Text>
+              <TouchableOpacity style={styles.button} onPress={this.onClose}>
+                <Text style={styles.buttonText}>DONE</Text>
+              </TouchableOpacity>
             </View>
             <WebView
               style={styles.web}
@@ -76,7 +77,7 @@ class ReleaseNotes extends React.Component {
 
   checkReleaseNotes = async () => {
     const isConnected = await NetInfo.isConnected.fetch();
-    const savedVersion = await getViewedAppVersion();
+    const savedVersion = undefined; //await getViewedAppVersion();
 
     if (savedVersion !== version && isConnected) {
       const str = version.split(".").join("-");
@@ -108,13 +109,23 @@ const styles = StyleSheet.create({
     backgroundColor: "white"
   },
   toolbar: {
-    height: 44,
+    height: 40,
     width: "100%",
-    alignItems: "flex-end",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     borderBottomColor: "lightgray",
     borderBottomWidth: 1,
     backgroundColor: "lightgray"
   },
+  spacer: { width: 90 },
+  title: {
+    fontSize: 18,
+    fontWeight: "800",
+    color: PrimaryBlue
+  },
+  button: { marginRight: 15 },
+  buttonText: { fontSize: 14, color: PrimaryBlue },
   web: {
     width: Dimensions.get("window").width * sizeMod,
     height: Dimensions.get("window").height * sizeMod - 50
