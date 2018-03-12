@@ -61,3 +61,11 @@ export const trackSettingsFretlightAutoPartSwitching = On => {
 export const trackSettingsNoteNotation = Notation => {
   Mixpanel.trackWithProperties("Settings Notation Selection", { Notation });
 };
+
+export const trackEmailUpdateTap = () => {
+  Mixpanel.track("Email Update Tap");
+};
+
+export const trackEmailContestTap = () => {
+  Mixpanel.track("Email Contest Tap");
+};
