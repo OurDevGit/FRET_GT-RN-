@@ -77,7 +77,7 @@ class ReleaseNotes extends React.Component {
 
   checkReleaseNotes = async () => {
     const isConnected = await NetInfo.isConnected.fetch();
-    const savedVersion = undefined; //await getViewedAppVersion();
+    const savedVersion = await getViewedAppVersion();
 
     if (savedVersion !== version && isConnected) {
       const str = version.split(".").join("-");
