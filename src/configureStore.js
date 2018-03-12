@@ -3,8 +3,7 @@ import { createStore, applyMiddleware } from "redux";
 // import logger from "redux-logger";
 import createSagaMiddleware from "redux-saga";
 import appReducer from "./redux/reducers";
-import fetchAd from "./sagas";
-import fetchConfig from "./sagas";
+import mySaga from "./sagas";
 
 const configureStore = () => {
   const initialState = Immutable.fromJS({
@@ -18,8 +17,7 @@ const configureStore = () => {
     // applyMiddleware(logger, sagaMiddleware)
     applyMiddleware(sagaMiddleware)
   );
-  sagaMiddleware.run(fetchAd);
-  sagaMiddleware.run(fetchConfig);
+  sagaMiddleware.run(mySaga);
 
   return store;
 };
