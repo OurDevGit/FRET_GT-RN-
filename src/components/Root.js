@@ -447,7 +447,6 @@ class Root extends Component {
   };
 
   handleHomeChoose = mediaId => {
-    console.debug("buy media");
     this.props.chooseMedia(mediaId);
   };
 
