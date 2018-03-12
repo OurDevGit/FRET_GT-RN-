@@ -33,7 +33,9 @@ import {
   trackSettingsCountdown,
   trackSettingsLefy,
   trackSettingsFretlightAutoPartSwitching,
-  trackSettingsNoteNotation
+  trackSettingsNoteNotation,
+  trackEmailUpdateTap,
+  trackEmailContestTap
 } from "../../metrics";
 
 class Settings extends React.Component {
@@ -263,6 +265,7 @@ class Settings extends React.Component {
     } else {
       const isConnected = await NetInfo.isConnected.fetch();
       if (isConnected) {
+        trackEmailUpdateTap();
         this.setState({ isShowingEmailSignup });
       } else {
         Alert.alert(
@@ -280,6 +283,7 @@ class Settings extends React.Component {
     } else {
       const isConnected = await NetInfo.isConnected.fetch();
       if (isConnected) {
+        trackEmailContestTap();
         this.setState({ isShowingContestSignup });
       } else {
         Alert.alert(
