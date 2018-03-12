@@ -152,8 +152,6 @@ function* watchChooseMedia(action) {
     yield doDownload(media, mediaId, transactionDetails);
 
     return;
-  } else {
-    console.debug("we have not bought it.");
   }
 
   console.debug({ media });
@@ -173,36 +171,9 @@ function* watchChooseMedia(action) {
     const productDetails = yield getProductDetails();
     const details = productDetails[mediaId.toLowerCase()];
     trackPurchase(mediaId, media.title, details.priceValue, details.currency);
+  } else {
+    yield put(actions.setIntermediate(mediaId, false));
   }
-
-  console.debug("going into getMode switch");
-  console.debug(`getMode: ${media.getMode}`);
-
-  switch (media.getMode) {
-    case GetMediaButtonMode.Purchase:
-      break;
-    case GetMediaButtonMode.Downloading:
-      break;
-    case GetMediaButtonMode.ComingSoon:
-      break;
-    case GetMediaButtonMode.Indeterminate:
-      break;
-    case GetMediaButtonMode.Play:
-      break;
-    default: {
-      const purchaseResult = yield doPurchase(media);
-      if (purchaseResult.success === true) {
-        console.debug("did purchase");
-        yield put(actions.addPurchasedMedia(mediaId));
-        console.debug(`added purchased ${mediaId}`);
-        yield doDownload(media, mediaId, purchaseResult.transactionDetails);
-      } else {
-        console.debug("did NOT purchase");
-      }
-    }
-  }
-
-  yield put(actions.setIntermediate(mediaId, false));
 }
 
 function* watchRefreshStore(action) {
