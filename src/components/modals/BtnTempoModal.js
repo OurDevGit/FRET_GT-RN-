@@ -72,7 +72,7 @@ class BtnTempoModal extends React.Component {
             </View>
 
             <FlatList
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => `${index}`}
               data={tempos}
               initialScrollIndex={currentIndex}
               initialNumToRender={19}
