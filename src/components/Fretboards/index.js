@@ -4,14 +4,14 @@ import PropTypes from "prop-types";
 import * as actions from "../../redux/actions";
 import { View, StyleSheet } from "react-native";
 import { List, Map } from "immutable";
-import { onlyUpdateForKeys } from "recompose";
 import VerticalContainer from "./VerticalContainer";
 import HorizontalContainer from "./HorizontalContainer";
 import { getIsPhone } from "../../utils";
 import { updateActiveParts } from "../../metrics";
+import { isEqual } from "lodash";
 import PageControl from "./PageControl";
 
-class FretboardsRoot extends React.PureComponent {
+class FretboardsRoot extends React.Component {
   render() {
     const {
       isVideo,
@@ -73,6 +73,7 @@ class FretboardsRoot extends React.PureComponent {
             currentNotation={currentNotation}
             deviceWidth={deviceWidth}
             tracks={boardTracks}
+            scrollIndex={this.scrollIndex_}
             ref={ref => (this.horizontalContainer = ref)}
             onScrollEnd={this.onScrollEnd.bind(this)}
             onPage={this.handlePagePress.bind(this)}
@@ -104,6 +105,30 @@ class FretboardsRoot extends React.PureComponent {
     );
   }
 
+  shouldComponentUpdate(nextProps) {
+    var hasUpdates = false;
+    const keys = [
+      "tracks",
+      "isVisible",
+      "leftHandState",
+      "currentNotation",
+      "isShowingJamBar"
+    ];
+
+    for (var key in nextProps) {
+      if (!isEqual(this.props[key], nextProps[key])) {
+        if (
+          keys.indexOf(key) > -1 ||
+          (key === "visibleTracks" && !getIsPhone())
+        ) {
+          hasUpdates = true;
+        }
+      }
+    }
+
+    return hasUpdates;
+  }
+
   componentWillUpdate(nextProps) {
     if (
       this.pageControl !== undefined &&
@@ -128,6 +153,7 @@ class FretboardsRoot extends React.PureComponent {
 
       if (track !== undefined) {
         updateActiveParts([track.name]);
+        this.props.updateVisibleTracks(List([track]));
         this.checkForAutoPartSwitching(track);
       }
     }
@@ -195,13 +221,4 @@ FretboardsRoot.propTypes = {
   assignAllGuitars: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps, actions)(
-  onlyUpdateForKeys([
-    "tracks",
-    "visibleTracks",
-    "isVisible",
-    "leftHandState",
-    "currentNotation",
-    "isShowingJamBar"
-  ])(FretboardsRoot)
-);
+export default connect(mapStateToProps, actions)(FretboardsRoot);
