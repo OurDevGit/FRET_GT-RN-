@@ -413,7 +413,18 @@ class Song extends React.Component {
 
   handleMarkerPress = (time, name) => {
     trackMarkerTap(name);
-    this.props.clearCurrentLoop();
+
+    const begin = this.props.currentLoop.get("begin");
+    const end = this.props.currentLoop.get("end");
+
+    if (begin !== undefined && time < begin) {
+      this.props.clearCurrentLoop();
+    }
+
+    if (end !== undefined && time > end) {
+      this.props.clearCurrentLoop();
+    }
+
     this.goToTime(time);
   };
 
