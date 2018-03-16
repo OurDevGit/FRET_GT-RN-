@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
+import { List } from "immutable";
 import { View, Text, TouchableOpacity } from "react-native";
 import * as actions from "../redux/actions";
 import { PrimaryGold } from "../design";
@@ -94,7 +95,11 @@ class TrackSelector extends Component {
         this.checkChangeFretlightAssignments(tracks.first().toJS(), true);
       }
     } else {
-      if (visibleTracks.count() < this.props.max) {
+      if (this.props.currentTempo === 0) {
+        updateVisibleTracks(List([track]));
+        this.checkChangeFretlightAssignments(track.toJS());
+        addActivePart(track.get("name"));
+      } else if (visibleTracks.count() < this.props.max) {
         const newVisible = visibleTracks.push(track);
         const newTracks = tracks.filter(tr => newVisible.includes(tr));
         updateVisibleTracks(newTracks);
@@ -120,6 +125,7 @@ TrackSelector.propTypes = {
   visibleTracks: PropTypes.object.isRequired,
   guitars: PropTypes.object.isRequired,
   isShowingJamBar: PropTypes.bool.isRequired,
+  currentTempo: PropTypes.number.isRequired,
   autoPartSwitchingState: PropTypes.bool.isRequired,
   updateGuitarSetting: PropTypes.func.isRequired,
   updateVisibleTracks: PropTypes.func.isRequired,
@@ -132,6 +138,7 @@ const mapStateToProps = state => {
     visibleTracks: state.get("visibleTracks"),
     guitars: state.get("guitars"),
     isShowingJamBar: state.get("isShowingJamBar"),
+    currentTempo: state.get("currentTempo"),
     autoPartSwitchingState: state.get("autoPartSwitchingState")
   };
 };

@@ -102,6 +102,7 @@ class MediaPlayer extends Component {
       this.props.updateVisibleTracks(List([first]));
       updateActiveParts([first.name]);
     }
+    this.props.updateTempo(tempo);
     trackTempo(tempo);
     startTempo(tempo);
   };
@@ -146,6 +147,7 @@ MediaPlayer.propTypes = {
   onClearMedia: PropTypes.func.isRequired,
   onCountdownTimer: PropTypes.func.isRequired,
   updateVisibleTracks: PropTypes.func.isRequired,
+  updateTempo: PropTypes.func.isRequired,
   isShowingAd: PropTypes.bool.isRequired
 };
 

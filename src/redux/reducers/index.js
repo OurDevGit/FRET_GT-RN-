@@ -40,6 +40,7 @@ import {
   currentNotation,
   tuningMode
 } from "./settings";
+import { currentTempo } from "./tempo";
 import { guitars, tunerIsActive, bleMenuIsActive } from "./guitar";
 import { intermediateMedia } from "./media";
 import { modalIsPresented, appIsClosing, appConfig } from "./app";
@@ -80,6 +81,8 @@ const appReducer = combineReducers({
   // Current Media
   currentMedia,
   favorites,
+  // Tempo
+  currentTempo,
   // Guitars
   guitars,
   tunerIsActive,

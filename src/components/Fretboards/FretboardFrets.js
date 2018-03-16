@@ -19,6 +19,7 @@ class FretboardFrets extends Component {
     this.prevNotes = {};
     this.prevCurrentNotes = {};
     this.currentTime = 0;
+    this.prevTime = -1;
     this.isMounted_ = false;
     this.forceUpdateNotes = false;
   }
@@ -85,7 +86,8 @@ class FretboardFrets extends Component {
     if (
       this.props.track.name === "jamBar" ||
       this.forceUpdateNotes === true ||
-      (this.currentTime !== 0 && this.props.track.name !== "")
+      this.currentTime !== this.prevTime ||
+      this.props.track.name !== ""
     ) {
       // removed: this.props.trackIndex === this.props.scrollIndex
       const trackName = this.props.track.name;
@@ -131,6 +133,7 @@ class FretboardFrets extends Component {
         this.prevCurrentNotes = notesAreReady ? currentNotes : {};
         this.prevNotes = notesAreReady ? shownNotes : {};
         this.forceUpdateNotes = false;
+        this.prevTime = this.currentTime;
       }
     } else {
       // console.debug("notes are same");

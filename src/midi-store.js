@@ -63,7 +63,7 @@ export const notesForTrackAtTime = (track, time) => {
     }
 
     return active;
-  } else if (notes[track] === undefined || time <= 0) {
+  } else if (notes[track] === undefined || time < 0) {
     return {};
   } else {
     const midiTime = time - midiOffset;
@@ -141,6 +141,10 @@ const timeForStep = (
   });
 
   if (filtered.count() > 0) {
+    if (filtered.count() === 1 && filtered.first() === 0) {
+      return time + midiOffset;
+    }
+
     const sorted =
       type === "PREV"
         ? List(filtered)
@@ -170,9 +174,13 @@ const timeForStep = (
   }
 
   const sorted = List(timesForTrack).sort();
-  const chosenTime = type === "PREV" ? sorted.last() : sorted.first();
-  const adjustedTime = chosenTime + midiOffset;
-  return adjustedTime;
+  if (sorted.count() === 1 || sorted.first() === 0) {
+    return time + midiOffset;
+  } else {
+    const chosenTime = type === "PREV" ? sorted.last() : sorted.first();
+    const adjustedTime = chosenTime + midiOffset;
+    return adjustedTime;
+  }
 };
 
 export const timeForPrevStep = (
