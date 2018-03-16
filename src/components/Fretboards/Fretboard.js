@@ -66,6 +66,10 @@ class Fretboard extends React.Component {
     let boardTrack =
       isShowingJamBar && trackIndex < 1 ? { name: "jamBar" } : track;
 
+    let shouldShowSmart = isShowingJamBar ? false : showSmart;
+    console.log("isShowingJamBar", isShowingJamBar);
+    console.log("shouldShowSmart", shouldShowSmart);
+
     return (
       <View style={[style, { backgroundColor: "#E6D9B9" }]}>
         {!isHidingLabels && (
@@ -95,7 +99,7 @@ class Fretboard extends React.Component {
                 </TouchableOpacity>
               )}
 
-              {showSmart && (
+              {shouldShowSmart && (
                 <TouchableOpacity
                   style={[
                     styles.smartFretButton,
@@ -333,6 +337,7 @@ Fretboard.propTypes = {
   isShowingJamBar: PropTypes.bool.isRequired,
   showSmart: PropTypes.bool.isRequired,
   isSmart: PropTypes.bool.isRequired,
+  tunerIsActive: PropTypes.bool.isRequired,
   boardWidth: PropTypes.number.isRequired,
   trackIndex: PropTypes.number.isRequired,
   style: PropTypes.array.isRequired,
