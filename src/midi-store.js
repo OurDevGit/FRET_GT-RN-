@@ -174,7 +174,7 @@ const timeForStep = (
   }
 
   const sorted = List(timesForTrack).sort();
-  if (sorted.count() === 1 || sorted.first() === 0) {
+  if (sorted.count() === 0 || (sorted.count() === 1 && sorted.first() === 0)) {
     return time + midiOffset;
   } else {
     const chosenTime = type === "PREV" ? sorted.last() : sorted.first();
