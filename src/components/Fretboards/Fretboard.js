@@ -67,8 +67,6 @@ class Fretboard extends React.Component {
       isShowingJamBar && trackIndex < 1 ? { name: "jamBar" } : track;
 
     let shouldShowSmart = isShowingJamBar ? false : showSmart;
-    console.log("isShowingJamBar", isShowingJamBar);
-    console.log("shouldShowSmart", shouldShowSmart);
 
     return (
       <View style={[style, { backgroundColor: "#E6D9B9" }]}>
