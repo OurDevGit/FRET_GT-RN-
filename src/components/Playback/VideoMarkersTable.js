@@ -43,7 +43,7 @@ const VideoMarkersTable = ({
         Select Chapter
       </Text>
       <FlatList
-        keyExtractor={(item, index) => index}
+        keyExtractor={(item, index) => `${index}`}
         data={videoMarkers}
         initialScrollIndex={0}
         initialNumToRender={videoMarkers.length < 20 ? videoMarkers.length : 20}

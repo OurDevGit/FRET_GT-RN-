@@ -118,7 +118,7 @@ class BtnMyLoopsModal extends React.Component {
             </View>
 
             <FlatList
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => `${index}`}
               data={allLoops}
               ItemSeparatorComponent={this.separator}
               renderItem={({ item, index }) => (
