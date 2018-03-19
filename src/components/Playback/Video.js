@@ -1,7 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import Dimensions from "Dimensions";
 import RNFetchBlob from "react-native-fetch-blob";
 import { Alert, NativeModules } from "react-native";
 import { chapterForTime, markerForTime, midiForTime } from "../../selectors";
@@ -40,6 +39,7 @@ class Vid extends React.Component {
     super(props);
 
     this.playbackSeconds = 0.0;
+    this.nextVideoLoop = undefined;
 
     this.state = {
       isPlaying: false,
@@ -100,7 +100,7 @@ class Vid extends React.Component {
         onLoadMidi={this.loadMidiName}
         onMidiData={this.props.updateMidiData}
         onClearMidi={clearMidi}
-        onClearMidiData={this.props.clearMidiData}
+        onClearMidiData={this.handleClearMidiData}
         onProgress={this.handleProgress}
         onEnd={this.handleEnd}
         onError={this.handleError}
@@ -300,6 +300,16 @@ class Vid extends React.Component {
       .catch(err => {
         console.error(err);
       });
+  };
+
+  handleClearMidiData = () => {
+    console.log("CLEAR MIDI DATA");
+    this.props.clearMidiData();
+
+    if (this.nextVideoLoop !== undefined) {
+      this.props.setCurrentLoop(this.nextVideoLoop);
+      this.nextVideoLoop = undefined;
+    }
   };
 
   // PROGRESS METHODS
@@ -536,8 +546,14 @@ class Vid extends React.Component {
   };
 
   handleSetCurrentLoop = loop => {
-    const begin = loop.get("begin");
-    this.goToTime(begin);
+    const midi = midiForTime(loop.get("begin"), this.props.videoMidiFiles);
+    const willChangeMidi = !this.props.currentVideoMidiFile.equals(midi);
+
+    if (willChangeMidi) {
+      this.nextVideoLoop = loop;
+    }
+
+    this.goToTime(loop.get("begin"));
     this.props.setCurrentLoop(loop);
   };
 
