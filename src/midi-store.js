@@ -116,8 +116,8 @@ const timeForStep = (
   var timesForTrack = Set(notesForTrack.map(note => note.begin));
 
   timesForTrack = timesForTrack.filter(noteTime => {
-    const begin = currentLoop.get("begin") - midiOffset;
-    const end = currentLoop.get("end") - midiOffset;
+    const begin = currentLoop.get("begin") - midiOffset || undefined;
+    const end = currentLoop.get("end") - midiOffset || undefined;
     if (loopIsEnabled && begin !== undefined && end !== undefined) {
       return begin <= noteTime && end > noteTime;
     } else {
