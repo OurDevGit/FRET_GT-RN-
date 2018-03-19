@@ -4,6 +4,7 @@ export const Popover = {
 };
 
 export const ExperienceLevel = {
+  TriedButQuit: "Tried but Quit",
   Beginner: "Beginner",
   Intermediate_1: "Intermediate I",
   Intermediate_2: "Intermediate II",
@@ -23,6 +24,7 @@ export const getBirthdates = () => {
 
 export const getExperienceLevels = () => {
   return [
+    ExperienceLevel.TriedButQuit,
     ExperienceLevel.Beginner,
     ExperienceLevel.Intermediate_1,
     ExperienceLevel.Intermediate_2,

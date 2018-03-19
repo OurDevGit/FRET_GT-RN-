@@ -88,6 +88,21 @@ class UserFormPresentation extends React.Component {
             </View>
             <View style={styles.levelView}>
               <Text style={styles.level}>
+                <Text style={styles.levelTitle}>Tried but Quit:</Text> You tried
+                to play at some point in your life, maybe even recently, but it
+                was just too difficult. You still have the desire to play a song
+                or a riff, or even spend some time learning if it could just be
+                easier! Guitar Tunes lets you play your favorite song (the
+                actual artist recording), slow it down and watch a virtual
+                fretboard light up the riff, the chords, the solo’s and even the
+                bass part so you can play quicker and easier than ever before.
+                Video lessons work the same way – no more guessing where to put
+                your fingers. See everything the teacher plays on the virtual
+                fretboard.
+              </Text>
+            </View>
+            <View style={styles.levelView}>
+              <Text style={styles.level}>
                 <Text style={styles.levelTitle}>Beginner:</Text> Never played
                 before or just starting out? Maybe you&#39;ve tried a few chords
                 or someone showed you a riff? The step-by-step Beginner course

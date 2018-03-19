@@ -6,7 +6,7 @@ export const getPathParams = userLevel => {
   var level;
 
   switch (userLevel) {
-    case ExperienceLevel.Beginner:
+    case (ExperienceLevel.Beginner, ExperienceLevel.TriedButQuit):
       level = "beginner";
       break;
     case ExperienceLevel.Intermediate_1:
@@ -28,6 +28,9 @@ export const getPathParams = userLevel => {
 export const getLevelForInt = levelInt => {
   var level;
   switch (levelInt) {
+    case "0":
+      level = ExperienceLevel.TriedButQuit;
+      break;
     case "1":
       level = ExperienceLevel.Beginner;
       break;
