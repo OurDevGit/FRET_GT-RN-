@@ -578,36 +578,24 @@ class Vid extends React.Component {
   // STEP
 
   handlePrevStep = () => {
-    const {
-      visibleTracks,
-      currentLoop,
-      loopIsEnabled,
-      currentVideoMarker
-    } = this.props;
     const time = timeForPrevStep(
       this.playbackSeconds,
-      visibleTracks.first().get("name"),
-      currentLoop,
-      loopIsEnabled,
-      currentVideoMarker
+      this.props.visibleTracks.first().get("name"),
+      this.props.currentLoop,
+      this.props.loopIsEnabled,
+      this.props.currentVideoMarker
     );
 
     this.goToTime(time);
   };
 
   handleNextStep = () => {
-    const {
-      visibleTracks,
-      currentLoop,
-      loopIsEnabled,
-      currentVideoMarker
-    } = this.props;
     const time = timeForNextStep(
       this.playbackSeconds,
-      visibleTracks.first().get("name"),
-      currentLoop,
-      loopIsEnabled,
-      currentVideoMarker
+      this.props.visibleTracks.first().get("name"),
+      this.props.currentLoop,
+      this.props.loopIsEnabled,
+      this.props.currentVideoMarker
     );
 
     this.goToTime(time);

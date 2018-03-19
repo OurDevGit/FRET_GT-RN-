@@ -116,8 +116,8 @@ const timeForStep = (
   var timesForTrack = Set(notesForTrack.map(note => note.begin));
 
   timesForTrack = timesForTrack.filter(noteTime => {
-    const begin = currentLoop.get("begin");
-    const end = currentLoop.get("end");
+    const begin = currentLoop.get("begin") - midiOffset;
+    const end = currentLoop.get("end") - midiOffset;
     if (loopIsEnabled && begin !== undefined && end !== undefined) {
       return begin <= noteTime && end > noteTime;
     } else {
@@ -136,7 +136,7 @@ const timeForStep = (
 
   const filtered = timesForTrack.filter(noteTime => {
     return type === "PREV"
-      ? noteTime < time
+      ? noteTime < time - 0.0002
       : time === 0 ? noteTime >= 0 : noteTime > time;
   });
 
@@ -163,7 +163,7 @@ const timeForStep = (
         .map(note => Map({ fret: note.fret, string: note.string }));
 
       if (!currentNotes.equals(nextNotes)) {
-        newTime = noteTime + 0.01;
+        newTime = noteTime + 0.0001;
         return true;
       }
     });
