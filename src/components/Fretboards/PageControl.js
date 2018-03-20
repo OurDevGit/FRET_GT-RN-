@@ -25,8 +25,14 @@ class PageControl extends React.PureComponent {
       const backgroundColor = i === currentPage ? onColor : offColor;
       const index = i;
       arr.push(
-        <TouchableWithoutFeedback key={i} onPress={() => onPage(index)}>
-          <View style={[indicatorStyle, { backgroundColor }]} />
+        <TouchableWithoutFeedback
+          key={i}
+          style={styles.button}
+          onPress={() => onPage(index)}
+        >
+          <View style={styles.button}>
+            <View style={[indicatorStyle, { backgroundColor }]} />
+          </View>
         </TouchableWithoutFeedback>
       );
     }
@@ -49,6 +55,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "row"
+  },
+  button: {
+    width: 22,
+    height: 22,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "transparent"
   }
 });
 

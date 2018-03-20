@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet, ViewPagerAndroid, Image } from "react-native";
+import { PrimaryBlue } from "../../design";
 import PageControl from "../Fretboards/PageControl";
 
 class ImageScroller extends React.Component {
@@ -16,6 +17,9 @@ class ImageScroller extends React.Component {
           style={styles.scroller}
           initialPage={0}
           onPageSelected={this.handleScroll}
+          ref={ref => {
+            this.pager = ref;
+          }}
         >
           <View style={styles.page} key="1">
             <Image
@@ -37,16 +41,25 @@ class ImageScroller extends React.Component {
           indicatorStyle={styles.pageControlIndicator}
           count={2}
           offColor="gray"
-          onColor="white"
+          onColor={PrimaryBlue}
+          ref={ref => (this.pageControl = ref)}
           currentPage={this.state.currentPage}
-          onPage={() => {}}
+          onPage={this.handlePage}
         />
       </View>
     );
   }
 
   handleScroll = e => {
-    this.setState({ currentPage: e.nativeEvent.position });
+    const currentPage = e.nativeEvent.position;
+    this.pageControl.setPage(currentPage);
+    this.setState({ currentPage });
+  };
+
+  handlePage = currentPage => {
+    this.pager.setPage(currentPage);
+    this.pageControl.setPage(currentPage);
+    this.setState({ currentPage });
   };
 }
 
@@ -65,7 +78,8 @@ const styles = StyleSheet.create({
   },
   pageControl: {
     width: "100%",
-    height: 20
+    height: 25,
+    marginTop: 10
   },
   pageControlIndicator: {
     marginLeft: 5,
