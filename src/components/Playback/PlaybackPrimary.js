@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { View, Image, StyleSheet, Text } from "react-native";
+import Dimensions from "Dimensions";
 import { pure } from "recompose";
 import { PrimaryBlue } from "../../design";
 import { getIsPhone } from "../../utils";
@@ -13,6 +14,7 @@ import {
   BtnHeartSmart,
   PhoneVolumeIcon
 } from "../StyleKit";
+import MediaTitle from "./MediaTitle";
 import VolumeSlider from "./VolumeSlider";
 
 const primaryStyle = {
@@ -21,79 +23,71 @@ const primaryStyle = {
   marginHorizontal: getIsPhone() ? 6 : 10
 };
 
-const PlaybackPrimary = props => (
-  <View style={styles.container}>
-    <View style={styles.top}>
-      <Image
-        source={{ uri: props.artworkURL }}
-        resizeMode="contain"
-        style={styles.art}
-      />
+const PlaybackPrimary = props => {
+  return (
+    <View style={styles.container}>
+      <View style={styles.top}>
+        <Image
+          source={{ uri: props.artworkURL }}
+          resizeMode="contain"
+          style={styles.art}
+        />
 
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>
-          {props.title}
-          <Text style={styles.artist}>{"\n" + props.artist}</Text>
-        </Text>
+        <MediaTitle title={props.title} artist={props.artist} />
       </View>
-    </View>
 
-    <View
-      style={{
-        flex: 1.5,
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center"
-      }}
-    >
-      <BtnPrevious
-        style={primaryStyle}
-        color={PrimaryBlue}
-        onPress={props.onPreviousPress}
-      />
+      <View style={styles.buttonContainer}>
+        <BtnPrevious
+          style={primaryStyle}
+          color={PrimaryBlue}
+          onPress={props.onPreviousPress}
+        />
 
-      <BtnRewind
-        style={primaryStyle}
-        color={PrimaryBlue}
-        onPress={props.onBackPress}
-      />
+        <BtnRewind
+          style={primaryStyle}
+          color={PrimaryBlue}
+          onPress={props.onBackPress}
+        />
 
-      <BtnPlay
-        isShowingPause={props.isPlaying}
-        style={primaryStyle}
-        color={PrimaryBlue}
-        onPress={props.onPlayPausePress}
-      />
+        <BtnPlay
+          isShowingPause={props.isPlaying}
+          style={primaryStyle}
+          color={PrimaryBlue}
+          onPress={props.onPlayPausePress}
+        />
 
-      <BtnForward
-        style={primaryStyle}
-        color={PrimaryBlue}
-        onPress={props.onForwardPress}
-      />
+        <BtnForward
+          style={primaryStyle}
+          color={PrimaryBlue}
+          onPress={props.onForwardPress}
+        />
 
-      <BtnNext
-        style={primaryStyle}
-        color={PrimaryBlue}
-        onPress={props.onNextPress}
-      />
-    </View>
+        <BtnNext
+          style={primaryStyle}
+          color={PrimaryBlue}
+          onPress={props.onNextPress}
+        />
+      </View>
 
-    <View style={styles.volumeContainer}>
-      {props.isPhone ? (
-        <PhoneVolumeIcon style={{ width: 20, height: 20 }} />
-      ) : (
-        <Text style={styles.volumeText}>Volume</Text>
+      <View style={styles.volumeContainer}>
+        {props.isPhone ? (
+          <PhoneVolumeIcon style={{ width: 20, height: 20 }} />
+        ) : (
+          <Text style={styles.volumeText}>Volume</Text>
+        )}
+        <VolumeSlider
+          style={{ width: "100%", height: getIsPhone() ? 22 : 44 }}
+        />
+      </View>
+
+      {!props.isPhone && (
+        <View style={styles.favorite}>
+          <BtnHeartSmart mediaId={props.mediaId} />
+        </View>
       )}
-      <VolumeSlider style={{ width: "100%", height: getIsPhone() ? 22 : 44 }} />
     </View>
-
-    {!props.isPhone && (
-      <View style={styles.favorite}>
-        <BtnHeartSmart mediaId={props.mediaId} />
-      </View>
-    )}
-  </View>
-);
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -113,13 +107,12 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
     marginRight: 6
   },
-  textContainer: { flex: 1, justifyContent: "center" },
-  title: {
-    flex: 1,
-    color: PrimaryBlue,
-    fontSize: getIsPhone() ? 15 : 18
+  buttonContainer: {
+    flex: 1.5,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
   },
-  artist: { fontSize: getIsPhone() ? 13 : 16, color: "black" },
   button: {
     width: getIsPhone() ? 32 : 50,
     height: getIsPhone() ? 32 : 50,
@@ -140,6 +133,7 @@ const styles = StyleSheet.create({
 });
 
 PlaybackPrimary.propTypes = {
+  height: PropTypes.number.isRequired,
   mediaId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   artist: PropTypes.string.isRequired,

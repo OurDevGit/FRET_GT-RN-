@@ -140,6 +140,7 @@ class Song extends React.Component {
         ) : (
           <View style={{ flex: 1 }}>
             <PlaybackPrimary
+              height={this.props.height}
               mediaId={mediaId}
               title={mediaTitle}
               artist={artist}
