@@ -23,3 +23,13 @@ export const getIsPhone = () => {
 
   return isPhone;
 };
+
+export const getIsVeryWide = () => {
+  const width = Dimensions.get("window").width;
+  const height = Dimensions.get("window").height;
+  const max = Math.max(width, height);
+  const min = Math.min(width, height);
+  const ratio = max / min;
+
+  return ratio > 1.9;
+};
