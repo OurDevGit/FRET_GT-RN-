@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 
 import { PrimaryBlue } from "../../../design";
 
@@ -36,26 +36,9 @@ class Timeline extends Component {
     const endLeft = loop.end / duration;
 
     return (
-      <View
-        style={{
-          width: "100%",
-          height: 20,
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "flex-end"
-        }}
-        onLayout={this.handleContainerLayout}
-      >
+      <View style={styles.container} onLayout={this.handleContainerLayout}>
         <View style={{ flex: 1, height: 18 }} onLayout={this.handleLayout}>
-          <View
-            style={{
-              position: "absolute",
-              height: 2,
-              width: "100%",
-              backgroundColor: PrimaryBlue,
-              bottom: 0
-            }}
-          />
+          <View style={styles.timeline} />
         </View>
 
         {loop.begin > -1 && (
@@ -156,6 +139,7 @@ class Timeline extends Component {
 
 Timeline.propTypes = {
   duration: PropTypes.number.isRequired,
+  progress: PropTypes.number.isRequired,
   markers: PropTypes.object.isRequired,
   currentLoop: PropTypes.object.isRequired,
   loopIsEnabled: PropTypes.bool.isRequired,
@@ -166,10 +150,21 @@ Timeline.propTypes = {
   onMarkerLongPress: PropTypes.func.isRequired
 };
 
-const mapStateToProps = (state, ownProps) => {
-  return {
-    progress: state.get("time") / ownProps.duration
-  };
-};
+const styles = StyleSheet.create({
+  container: {
+    width: "100%",
+    height: 20,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-end"
+  },
+  timeline: {
+    position: "absolute",
+    height: 2,
+    width: "100%",
+    backgroundColor: PrimaryBlue,
+    bottom: 0
+  }
+});
 
 export default Timeline;

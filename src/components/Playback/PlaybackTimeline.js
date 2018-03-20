@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 
 import { PrimaryBlue } from "../../design";
 import Playhead from "./Playhead";
@@ -61,15 +61,14 @@ class PlaybackTimeline extends Component {
 
     return (
       <View
-        style={{
-          flex: isVideo ? -1 : 2,
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "flex-start",
-          marginHorizontal: isVideo && !isFullscreen ? "10%" : 10,
-          marginTop: 8,
-          marginBottom: isVideo ? 20 : -10
-        }}
+        style={[
+          styles.container,
+          {
+            flex: isVideo ? -1 : 2,
+            marginHorizontal: isVideo && !isFullscreen ? "10%" : 5,
+            marginBottom: isVideo ? 20 : -10
+          }
+        ]}
         onLayout={this.handleContainerLayout}
       >
         {!isVideo && (
@@ -84,29 +83,18 @@ class PlaybackTimeline extends Component {
           />
         )}
 
-        <Text
-          style={{
-            width: 64,
-            height: 20,
-            marginTop: 15,
-            marginHorizontal: 15,
-            textAlign: "center"
-          }}
-        >
-          {elapsed}
-        </Text>
+        <Text style={styles.time}>{elapsed}</Text>
         <View
           style={{ flex: 1, top: 15, height: 18 }}
           onLayout={this.handleLayout}
         >
           <View
-            style={{
-              position: "absolute",
-              height: 1,
-              width: "100%",
-              backgroundColor: isFullscreen ? "black" : PrimaryBlue,
-              top: 10
-            }}
+            style={[
+              styles.timeline,
+              {
+                backgroundColor: isFullscreen ? "black" : PrimaryBlue
+              }
+            ]}
           />
         </View>
 
@@ -135,17 +123,7 @@ class PlaybackTimeline extends Component {
           />
         )}
 
-        <Text
-          style={{
-            width: 64,
-            height: 20,
-            marginTop: 15,
-            marginHorizontal: 15,
-            textAlign: "center"
-          }}
-        >
-          {"-" + remaining}
-        </Text>
+        <Text style={[styles.time, styles.remaining]}>{"-" + remaining}</Text>
       </View>
     );
   }
@@ -310,6 +288,33 @@ class PlaybackTimeline extends Component {
     return minutes + ":" + seconds;
   };
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "flex-start",
+    marginTop: 8
+  },
+  time: {
+    width: 62,
+    height: 20,
+    marginTop: 15,
+    marginLeft: -6,
+    marginRight: 0,
+    textAlign: "center"
+  },
+  remaining: {
+    marginLeft: 0,
+    marginRight: -6
+  },
+  timeline: {
+    position: "absolute",
+    height: 1,
+    width: "100%",
+    top: 10
+  }
+});
 
 PlaybackTimeline.propTypes = {
   duration: PropTypes.number,
