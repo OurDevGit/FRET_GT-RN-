@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { View, StyleSheet, ViewPagerAndroid, Image } from "react-native";
 import { PrimaryBlue } from "../../design";
 import PageControl from "../Fretboards/PageControl";
+import { getIsPhone } from "../../utils";
 
 class ImageScroller extends React.Component {
   state = {
@@ -42,6 +43,7 @@ class ImageScroller extends React.Component {
           count={2}
           offColor="gray"
           onColor={PrimaryBlue}
+          size={22}
           ref={ref => (this.pageControl = ref)}
           currentPage={this.state.currentPage}
           onPage={this.handlePage}
@@ -78,8 +80,8 @@ const styles = StyleSheet.create({
   },
   pageControl: {
     width: "100%",
-    height: 25,
-    marginTop: 10
+    height: 22,
+    marginTop: getIsPhone() ? 0 : 10
   },
   pageControlIndicator: {
     marginLeft: 5,

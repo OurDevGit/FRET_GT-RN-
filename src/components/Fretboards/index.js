@@ -97,6 +97,7 @@ class FretboardsRoot extends React.Component {
             count={this.props.tracks.count()}
             offColor="gray"
             onColor="white"
+            size={16}
             ref={ref => (this.pageControl = ref)}
             onPage={this.handlePagePress.bind(this)}
           />
@@ -184,7 +185,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     left: 0,
     right: 0,
-    bottom: 7
+    bottom: 2
   },
   indicator: {
     marginLeft: 5,

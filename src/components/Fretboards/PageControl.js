@@ -18,19 +18,22 @@ class PageControl extends React.PureComponent {
   }
 
   getPages = () => {
-    const { indicatorStyle, count, onColor, offColor, onPage } = this.props;
+    const {
+      indicatorStyle,
+      count,
+      onColor,
+      offColor,
+      onPage,
+      size
+    } = this.props;
     const { currentPage } = this.state;
     var arr = [];
     for (var i = 0; i < count; i++) {
       const backgroundColor = i === currentPage ? onColor : offColor;
       const index = i;
       arr.push(
-        <TouchableWithoutFeedback
-          key={i}
-          style={styles.button}
-          onPress={() => onPage(index)}
-        >
-          <View style={styles.button}>
+        <TouchableWithoutFeedback key={i} onPress={() => onPage(index)}>
+          <View style={[styles.button, { width: size }]}>
             <View style={[indicatorStyle, { backgroundColor }]} />
           </View>
         </TouchableWithoutFeedback>
@@ -57,8 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: "row"
   },
   button: {
-    width: 22,
-    height: 22,
+    aspectRatio: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "transparent"
@@ -70,6 +72,7 @@ PageControl.propTypes = {
   indicatorStyle: PropTypes.oneOfType([PropTypes.number, PropTypes.object])
     .isRequired,
   count: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
   onColor: PropTypes.string.isRequired,
   offColor: PropTypes.string.isRequired,
   onPage: PropTypes.func.isRequired
