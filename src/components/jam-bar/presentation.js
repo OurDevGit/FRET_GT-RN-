@@ -2,10 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import { pure } from "recompose";
-import { getIsPhone } from "../../utils";
+import { getIsPhone, getIsVeryWide } from "../../utils";
 import { Table } from "./utils";
 import JamPicker from "./JamPicker";
-let height = getIsPhone() ? 80 : 110;
+
+let height = getIsPhone() ? (getIsVeryWide() ? 70 : 80) : 110;
 
 const JamBarPresentation = ({
   currentType,

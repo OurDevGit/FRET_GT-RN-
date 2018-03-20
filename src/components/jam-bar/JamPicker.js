@@ -17,7 +17,7 @@ const JamPicker = ({ type, items, height, selectedItem, onSelection }) => {
     <View style={[styles.container, { flex: width }]}>
       {items.length > 0 && (
         <WheelView
-          style={[styles.picker, { height: height }]}
+          style={[styles.picker, { height }]}
           itemsVisible={3}
           isLoop={false}
           textSize={getIsPhone() ? 14 : 18}
