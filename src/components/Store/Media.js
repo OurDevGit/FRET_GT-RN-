@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 
 import * as actions from "../../redux/actions";
 import TabbedMedia from "./MediaTabs/TabbedMedia";
@@ -29,6 +29,7 @@ class Media extends React.PureComponent {
         <TopControls
           onSearch={this.handleChangeText}
           onClose={this.props.onClose}
+          mediaCount={this.state.mediaCount}
         />
         <View
           style={{
