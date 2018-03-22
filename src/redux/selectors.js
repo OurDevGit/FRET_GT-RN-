@@ -20,10 +20,10 @@ const getHasDownloadedFiles = (state, mediaID: string) =>
 const getIsPurchased = (state, mediaID: string) =>
   state.get("purchasedMedia").has(mediaID.toLowerCase());
 
-export const getAllMedia = state => state.get("listedMedia") || Seq();
-export const getDownloadedMediaFiles = (state, mediaId: string) =>
+export const getAllMedia = (state: any) => state.get("listedMedia") || Seq();
+export const getDownloadedMediaFiles = (state: any, mediaId: string) =>
   state.get("downloadedMedia").get(mediaId);
-export const getMediaById = (state, mediaId: string) =>
+export const getMediaById = (state: any, mediaId: string) =>
   state.get("mediaById").get(mediaId);
 
 const getClientSidedMedia = (state, obj, isStore: boolean) => {
@@ -263,7 +263,7 @@ const selectMediaRaw = (
 
 export const selectMedia = memoize(selectMediaRaw);
 
-export const getMediaForPlay = (state, mediaId) => {
+export const getMediaForPlay = (state: any, mediaId: string) => {
   const files = state.get("downloadedMedia").get(mediaId) || Map();
   const details = state.get("mediaById").get(mediaId) || Map();
 

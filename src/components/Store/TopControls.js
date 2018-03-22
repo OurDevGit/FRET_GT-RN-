@@ -1,6 +1,7 @@
+// @flow
+
 import React, { Component } from "react";
 import { View, TextInput, TouchableOpacity, Text } from "react-native";
-import PropTypes from "prop-types";
 
 import { PrimaryGold } from "../../design";
 import { FlatButton } from "../Material";
@@ -8,7 +9,17 @@ import FacebookIcon from "./social_icons/Facebook";
 import TwitterIcon from "./social_icons/Twitter";
 import X from "./X";
 
-class TopControls extends Component {
+type Props = {
+  onSearch: string => void,
+  onClose: () => void,
+  mediaCount: number
+};
+
+type State = {
+  searchText: string
+};
+
+class TopControls extends Component<Props, State> {
   state = {
     searchText: ""
   };
@@ -58,7 +69,7 @@ class TopControls extends Component {
             <X />
           </TouchableOpacity>
         </View>
-        <Text>{this.state.mediaCount}</Text>
+        <Text>{this.props.mediaCount}</Text>
         <FacebookIcon />
         <TwitterIcon />
         <FlatButton
@@ -70,7 +81,7 @@ class TopControls extends Component {
     );
   }
 
-  handleChangeText = text => {
+  handleChangeText = (text: string) => {
     this.setState({
       searchText: text
     });
@@ -82,10 +93,5 @@ class TopControls extends Component {
     this.handleChangeText("");
   };
 }
-
-TopControls.propTypes = {
-  onSearch: PropTypes.func.isRequired,
-  onClose: PropTypes.func.isRequired
-};
 
 export default TopControls;
