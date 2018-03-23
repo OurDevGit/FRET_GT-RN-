@@ -232,17 +232,21 @@ Tuner.propTypes = {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const assignedGuitars = state
-    .get("guitars")
-    .toJS()
-    .filter(item => item.track === ownProps.track.name)
-    .map((item, index) => {
-      const name =
-        item.name !== undefined
-          ? item.name.replace("'s Fretlight", "")
-          : `Fretlight ${index + 1}`;
-      return { ...item, name };
-    });
+  const guitars = state.get("guitars").toJS();
+  const assigned = state.get("isShowingJamBar")
+    ? guitars
+    : guitars.filter(item => item.track === ownProps.track.name);
+
+  const assignedGuitars =
+    assigned.length === 0
+      ? []
+      : assigned.map((item, index) => {
+          const name =
+            item.name !== undefined
+              ? item.name.replace("'s Fretlight", "")
+              : `Fretlight ${index + 1}`;
+          return { ...item, name };
+        });
 
   const tuningMode = state.get("tuningMode");
   return { assignedGuitars, tuningMode };

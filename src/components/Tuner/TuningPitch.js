@@ -15,7 +15,7 @@ const tuningPitch = (defaultNote, string, octave) => {
       const mod = tuningNotes[tuningIndex].fret;
       let adjusted = index + mod;
 
-      if (adjusted > allNotes.length) {
+      if (adjusted >= allNotes.length) {
         let remainder = adjusted % allNotes.length;
         index = remainder;
       } else if (adjusted < 0) {
@@ -52,7 +52,6 @@ export const setTuningParameters = (track, notation, tuningTrackNotes) => {
       allFrequencies.push(item.frequency * Math.pow(2, octave - 4))
     );
   }
-
   stringPitches = track.isBass
     ? [
         tuningPitch("E", 5, 1),
