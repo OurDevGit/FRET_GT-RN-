@@ -42,9 +42,20 @@ syncResources();
 syncChordsAndScales();
 
 // Firebase messaging
+firebase.messaging().subscribeToTopic("allusers");
+firebase
+  .messaging()
+  .getInitialNotification()
+  .then(message => {
+    console.debug({ message });
+  });
 firebase.messaging().onMessage(message => {
   console.debug({ message });
 });
+firebase
+  .messaging()
+  .getToken()
+  .then(token => console.debug({ token }));
 
 // Firebase admob
 firebase.admob().initialize();
