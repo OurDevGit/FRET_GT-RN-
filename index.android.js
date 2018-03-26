@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { AppRegistry, NativeModules } from "react-native";
 import RNFetchBlob from "react-native-fetch-blob";
+import firebase from "react-native-firebase";
 
 import Root from "./src/components/Root";
 import configureStore from "./src/configureStore";
@@ -34,10 +35,19 @@ if (__DEV__) {
   });
 }
 
+// Redux store and initial state
 const _store = configureStore();
 configureDownloadManager(_store);
 syncResources();
 syncChordsAndScales();
+
+// Firebase messaging
+firebase.messaging().onMessage(message => {
+  console.debug({ message });
+});
+
+// Firebase admob
+firebase.admob().initialize();
 
 class GuitarTunes extends Component {
   render() {

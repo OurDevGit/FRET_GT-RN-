@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "111724761265",
+    "firebase_url": "https://guitartunesmain.firebaseio.com",
+    "project_id": "guitartunesmain",
+    "storage_bucket": "guitartunesmain.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111724761265:android:32733fe3a6da9222",
+        "android_client_info": {
+          "package_name": "com.optek.guitartunes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111724761265-p1tvngdbqvva2pdu7j9260hpo81n9vgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY7UORnzg5qew-nsFwP-p7T7DnjwgImQo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

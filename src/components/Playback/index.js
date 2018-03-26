@@ -32,6 +32,7 @@ class MediaPlayer extends Component {
             <Song
               song={this.props.song}
               trackCount={trackCount}
+              currentMedia={this.props.currentMedia}
               countdownTimerState={this.props.countdownTimerState}
               height={this.state.layout.height}
               updateMidiData={this.props.updateMidiData}
@@ -125,6 +126,7 @@ class MediaPlayer extends Component {
 MediaPlayer.propTypes = {
   song: PropTypes.object,
   video: PropTypes.object,
+  currentMedia: PropTypes.object,
   countdownTimerState: PropTypes.bool.isRequired,
   visibleTracks: PropTypes.object,
   videoChapters: PropTypes.object,

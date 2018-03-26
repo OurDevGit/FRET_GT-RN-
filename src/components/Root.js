@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Alert, View, AppState, PermissionsAndroid } from "react-native";
 import { Provider, connect } from "react-redux";
 import Dimensions from "Dimensions";
-import AdContainer from "./AdContainer";
+import Header from "./Header";
 import Playback from "./Playback";
 import Home from "./Home";
 import FretboardsContainer from "./Fretboards";
@@ -17,12 +17,7 @@ import CountdownTimer from "./CountdownTimer";
 import UserForm from "./user-form";
 import ReleaseNotes from "./ReleaseNotes";
 import Store from "./Store";
-import {
-  BtnLibrary,
-  BtnHome,
-  BtnSettings,
-  BtnChordsAndScales
-} from "./StyleKit";
+
 import {
   setTabIndex,
   setCategoryIndex,
@@ -58,7 +53,6 @@ class Root extends Component {
     this.state = {
       song: null,
       video: null,
-      showAd: true,
       showFretboards: true,
       isShowingStore: false,
       isShowingSettings: false,
@@ -87,19 +81,17 @@ class Root extends Component {
     }
 
     const isHome = this.state.currentSection === Sections.Home;
+    const isChordsAndScales =
+      this.state.currentSection === Sections.ChordsAndScales;
     const isVideo = this.state.video !== null;
     const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
-    const showLibraryButton =
-      this.state.showAd &&
-      trackCount < 4 &&
-      (!this.props.isShowingJamBar || !getIsPhone());
+    const shouldShowHeader = !this.props.isShowingJamBar || !getIsPhone();
+    // const showLibraryButton = trackCount < 4 && (!this.props.isShowingJamBar || !getIsPhone());
     const shouldShowFretboards =
       ((this.state.song !== null || this.state.video !== null) &&
         this.state.currentSection === Sections.Playback) ||
       this.state.currentSection === Sections.ChordsAndScales;
     const isPhone = getIsPhone();
-    const shouldShowAd =
-      (!this.props.isShowingJamBar || !getIsPhone()) && this.state.showAd;
     this.Home = undefined;
 
     return (
@@ -107,10 +99,21 @@ class Root extends Component {
         <View style={{ backgroundColor: "white", flexGrow: 1 }}>
           <GuitarController />
 
-          {shouldShowAd && <AdContainer />}
+          {shouldShowHeader && (
+            <Header
+              isHome={isHome}
+              isChordsAndScales={isChordsAndScales}
+              onHomePress={this.handleHomePress}
+              onToggleLibrary={this.handleToggleLibrary}
+              onChordsAndScalesPress={this.handleChordsAndScalesPress}
+              onToggleSettings={this.handleToggleSettings}
+              isFirstRun={this.state.homePage === "firstRun" && isHome}
+            />
+          )}
 
           {this.state.currentSection === Sections.Playback && (
             <Playback
+              currentMedia={this.props.mediaForPlay}
               song={this.state.song}
               video={this.state.video}
               visibleTracks={this.props.visibleTracks}
@@ -121,7 +124,7 @@ class Root extends Component {
               onClearMedia={this.handleClearMedia}
               onToggleFretlightAdmin={this.handleToggleFretlightAdmin}
               onCountdownTimer={this.handleCountdownTimer}
-              isShowingAd={shouldShowAd}
+              isShowingAd={shouldShowHeader}
             />
           )}
 
@@ -154,41 +157,6 @@ class Root extends Component {
               onChordsAndScales={this.handleChordsAndScalesPress}
               onPageLoad={this.handleHomePageLoad}
             />
-          )}
-
-          {showLibraryButton && (
-            <View
-              style={{
-                position: "absolute",
-                right: isPhone ? -4 : 20,
-                top: "3%",
-                flexDirection: "row"
-              }}
-            >
-              {!this.state.isShowingStore && (
-                <View
-                  style={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyContent: "flex-end"
-                  }}
-                >
-                  <BtnHome isHome={isHome} onPress={this.handleHomePress} />
-                  <BtnLibrary
-                    color={"#FFFFFF"}
-                    onPress={this.handleToggleLibrary}
-                  />
-                  <BtnChordsAndScales
-                    style={{ flex: 1, width: 44, height: 44, marginLeft: -6 }}
-                    onPress={this.handleChordsAndScalesPress}
-                    isChordsAndScales={
-                      this.state.currentSection === Sections.ChordsAndScales
-                    }
-                  />
-                  <BtnSettings onPress={this.handleToggleSettings} />
-                </View>
-              )}
-            </View>
           )}
 
           {availableFretboardCount > 1 &&

@@ -197,7 +197,7 @@ const mergeMediaDetails = (state, mediaSections) => {
 
   // const productDetails = state.get("productDetails") || Map();
   const mediaWithProductDetails = mediaSections.map(mediaSection => {
-    const media = mediaSection.get("data");
+    const media: any = mediaSection.get("data");
     const detailsHaveLoaded = state.get("productDetailsHaveLoaded") === true;
 
     // merge in product details and Get Mode for each media item

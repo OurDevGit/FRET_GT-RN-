@@ -2,6 +2,11 @@ import React from "react";
 import { View, Alert } from "react-native";
 import PropTypes from "prop-types";
 import Sound from "react-native-sound";
+import firebase from "react-native-firebase";
+
+// its kinda weird to have the interstitial here, but its also
+// the most definitive place where playback pauses
+const adUnitId = "ca-app-pub-7411519305767770/5405440707";
 
 class Music extends React.Component {
   constructor(props) {
@@ -39,6 +44,18 @@ class Music extends React.Component {
     // new pause/play
     if (newProps.isPlaying !== this.props.isPlaying) {
       this.setPlaying(newProps.isPlaying);
+
+      if (newProps.isPlaying !== true) {
+        console.debug("possibly show ad");
+
+        const now = new Date();
+        const timeDiff = now.valueOf() - this.state.loadDate.valueOf();
+        const timeout = 3000;
+        if (timeDiff > timeout && this.props.isFree === true) {
+          console.debug("show ad!");
+          this.ad_.show();
+        }
+      }
     }
 
     // new seek
@@ -128,9 +145,23 @@ class Music extends React.Component {
           this.props.onData({
             duration
           });
+
           this.setState({
-            mediaDuration: duration
+            mediaDuration: duration,
+            loadDate: new Date()
           });
+
+          const request = new firebase.admob.AdRequest();
+          this.ad_ = firebase.admob().interstitial(adUnitId);
+          this.ad_.loadAd(request.build());
+          this.ad_.on("onAdLoaded", () => {
+            console.log("Advert ready to show.");
+          });
+          this.ad_.on("onAdFailedToLoad", evt => {
+            console.log("Ad failed to load.");
+            console.debug(evt);
+          });
+
           this.setPlaying(this.props.isPlaying);
         }
       }
@@ -176,6 +207,7 @@ class Music extends React.Component {
 Music.propTypes = {
   rate: PropTypes.number.isRequired,
   isPlaying: PropTypes.bool,
+  isFree: PropTypes.bool,
   isSeeking: PropTypes.bool,
   song: PropTypes.object,
   seek: PropTypes.number,

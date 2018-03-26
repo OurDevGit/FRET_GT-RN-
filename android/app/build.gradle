@@ -103,6 +103,8 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -147,14 +149,16 @@ android {
     aaptOptions {
         noCompress "json"
     }
-
-    // https://github.com/zo0r/react-native-push-notification/issues/328
-    dexOptions {
-        jumboMode true
-    }
 }
 
 dependencies {
+    compile(project(':react-native-firebase')) {
+        transitive = false
+    }
+    compile "com.google.android.gms:play-services-base:11.8.0"
+    compile "com.google.firebase:firebase-messaging:11.8.0"
+    compile 'com.google.firebase:firebase-core:11.8.0'
+    compile "com.google.firebase:firebase-ads:11.8.0"
     compile project(':react-native-fbsdk')
     compile project(':react-native-svg')
     compile project(':react-native-mixpanel')
@@ -181,3 +185,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services'

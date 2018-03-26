@@ -1,5 +1,3 @@
-// @flow
-
 import { call, put, takeEvery, takeLatest, select } from "redux-saga/effects";
 import * as Api from "./api";
 import RNFetchBlob from "react-native-fetch-blob";
@@ -9,12 +7,7 @@ import {
   doPurchase,
   downloadMedia
 } from "./sagas-media";
-import {
-  GetMediaButtonMode,
-  getFaves,
-  addFave,
-  deleteFave
-} from "./models/Media";
+import { getFaves, addFave, deleteFave } from "./models/Media";
 import { setPurchased, addPurchase, loadPurchased } from "./models/Purchases";
 import { setDownload, removeDownload } from "./models/Downloads";
 import { fetchProductDetails, fetchPurchases } from "./models/Products";
@@ -176,7 +169,7 @@ function* watchChooseMedia(action) {
   }
 }
 
-function* watchRefreshStore(action) {
+function* watchRefreshStore() {
   // console.debug("refeshStore saga!");
   // load favorites
   const faves = yield getFaves();

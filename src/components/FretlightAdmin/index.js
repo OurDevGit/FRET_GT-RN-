@@ -4,7 +4,8 @@ import {
   Text,
   FlatList,
   TouchableOpacity,
-  NativeModules
+  NativeModules,
+  StyleSheet
 } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -15,6 +16,7 @@ import { PrimaryBlue } from "../../design";
 import { startIdentification, stopIdentification } from "./identifier";
 import GuitarRow from "./GuitarRow";
 import TrackModal from "./TrackModal";
+import BannerAdPresentation from "../BannerAdPresentation";
 import { setGuitar } from "../../models/Guitars";
 import { guitarModalStyles } from "./styles";
 import { updateGuitarPart } from "../../metrics";
@@ -42,7 +44,12 @@ class FretlightModal extends React.Component {
       >
         {/* Top Bar */}
         <View style={guitarModalStyles.toolbar}>
-          <Text style={guitarModalStyles.titleText}>Fretlight Status</Text>
+          <Text style={[guitarModalStyles.titleText, styles.title]}>
+            Fretlight Status
+          </Text>
+          <View style={styles.bannerContainer}>
+            <BannerAdPresentation isBluetooth={true} />
+          </View>
           <TouchableOpacity
             style={guitarModalStyles.doneButton}
             onPress={() => {
@@ -195,6 +202,15 @@ class FretlightModal extends React.Component {
     this.setState({ isIdentifying: !this.state.isIdentifying });
   };
 }
+
+const styles = StyleSheet.create({
+  title: {
+    flex: 0
+  },
+  bannerContainer: {
+    flex: 1
+  }
+});
 
 FretlightModal.propTypes = {
   isPhone: PropTypes.bool.isRequired,

@@ -91,6 +91,7 @@ class Song extends React.Component {
           onProgress={this.handleProgress}
           onData={this.handleMusicData}
           isPreview={false}
+          isFree={this.props.currentMedia.isFree === true}
         />
         <Midi
           midi={this.getMidi()}
@@ -555,6 +556,7 @@ Song.propTypes = {
   video: PropTypes.object,
   song: PropTypes.object,
   markers: PropTypes.object,
+  currentMedia: PropTypes.object,
   currentLoop: PropTypes.object,
   visibleTracks: PropTypes.object,
   connectedDevices: PropTypes.number,
