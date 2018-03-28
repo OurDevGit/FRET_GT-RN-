@@ -32,6 +32,7 @@ const ScrollingPopover = ({
     >
       <View style={[styles.container, { ...frame }]}>
         <FlatList
+          removeClippedSubviews={false}
           keyExtractor={(item, index) => index.toString()}
           data={items}
           initialScrollIndex={
