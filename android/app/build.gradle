@@ -98,8 +98,8 @@ android {
         applicationId "com.optek.guitartunes"
         minSdkVersion 23
         targetSdkVersion 25
-        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+        versionCode buildVersionCode
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
