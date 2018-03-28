@@ -407,6 +407,8 @@ class Root extends Component {
   };
 
   handleClearMedia = () => {
+    this.props.chooseMedia("");
+
     this.setState({
       song: null,
       video: null,
