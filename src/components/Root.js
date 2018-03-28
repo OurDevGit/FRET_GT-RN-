@@ -64,7 +64,8 @@ class Root extends Component {
       appState: AppState.currentState,
       homePage: "index",
       userBirthdate: undefined,
-      userExperienceLevel: undefined
+      userExperienceLevel: undefined,
+      showAd: true
     };
   }
 
@@ -84,14 +85,12 @@ class Root extends Component {
     const isChordsAndScales =
       this.state.currentSection === Sections.ChordsAndScales;
     const isVideo = this.state.video !== null;
-    const trackCount = visibleTracks !== undefined ? visibleTracks.count() : 0;
-    const shouldShowHeader = !this.props.isShowingJamBar || !getIsPhone();
-    // const showLibraryButton = trackCount < 4 && (!this.props.isShowingJamBar || !getIsPhone());
+    const isPhone = getIsPhone();
+    const shouldShowHeader = this.state.showAd;
     const shouldShowFretboards =
       ((this.state.song !== null || this.state.video !== null) &&
         this.state.currentSection === Sections.Playback) ||
       this.state.currentSection === Sections.ChordsAndScales;
-    const isPhone = getIsPhone();
     this.Home = undefined;
 
     return (
@@ -249,6 +248,8 @@ class Root extends Component {
             video = this.props.mediaForPlay;
             showAd = !isPhone;
           }
+
+          console.debug({ showAd });
 
           const newState = {
             isShowingStore: false,
@@ -439,6 +440,7 @@ class Root extends Component {
   };
 
   handleToggleAd = bool => {
+    console.debug("toggle ad");
     this.setState({ showAd: bool });
   };
 
