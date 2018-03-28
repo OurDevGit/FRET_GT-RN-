@@ -53,7 +53,7 @@ class Music extends React.Component {
         const timeout = 3000;
         if (timeDiff > timeout && this.props.isFree === true) {
           console.debug("show ad!");
-          this.ad_.show();
+          this.interstitialAd_.show();
         }
       }
     }
@@ -152,12 +152,12 @@ class Music extends React.Component {
           });
 
           const request = new firebase.admob.AdRequest();
-          this.ad_ = firebase.admob().interstitial(adUnitId);
-          this.ad_.loadAd(request.build());
-          this.ad_.on("onAdLoaded", () => {
+          this.interstitialAd_ = firebase.admob().interstitial(adUnitId);
+          this.interstitialAd_.loadAd(request.build());
+          this.interstitialAd_.on("onAdLoaded", () => {
             console.log("Advert ready to show.");
           });
-          this.ad_.on("onAdFailedToLoad", evt => {
+          this.interstitialAd_.on("onAdFailedToLoad", evt => {
             console.log("Ad failed to load.");
             console.debug(evt);
           });
