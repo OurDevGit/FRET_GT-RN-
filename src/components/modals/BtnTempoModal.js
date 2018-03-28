@@ -76,6 +76,7 @@ class BtnTempoModal extends React.Component {
               data={tempos}
               initialScrollIndex={currentIndex}
               initialNumToRender={19}
+              removeClippedSubviews={false}
               getItemLayout={(item, index) => ({
                 length: 40,
                 offset: 40 * index,
