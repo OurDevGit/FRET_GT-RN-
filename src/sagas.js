@@ -111,6 +111,13 @@ function* watchChooseMedia(action) {
   console.debug(`chose media: ${mediaId}`);
   // console.debug(media);
 
+  // clearing media
+  if (mediaId === "" || mediaId === null || mediaId === undefined) {
+    console.log("CLEAR in saga!");
+    yield put(actions.setCurrentMedia(null));
+    return;
+  }
+
   yield put(actions.setIntermediate(mediaId, true));
 
   // 1. Play the media if they have it
