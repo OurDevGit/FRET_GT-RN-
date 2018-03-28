@@ -78,11 +78,13 @@ class BannerAdPresentation extends PureComponent<Props, State> {
   handleLayout = (e: SyntheticEvent) => {
     var bannerSize = "LEADERBOARD";
 
-    if (e.nativeEvent.layout.width < 728) {
+    const { width, height } = e.nativeEvent.layout;
+
+    if (width < 728 || height < 90) {
       bannerSize = "FULL_BANNER";
     }
 
-    if (e.nativeEvent.layout.width < 468) {
+    if (width < 468 || height < 60) {
       bannerSize = "BANNER";
     }
 
