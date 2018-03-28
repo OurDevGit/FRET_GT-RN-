@@ -249,8 +249,6 @@ class Root extends Component {
             showAd = !isPhone;
           }
 
-          console.debug({ showAd });
-
           const newState = {
             isShowingStore: false,
             showFretboards: true,
@@ -440,7 +438,6 @@ class Root extends Component {
   };
 
   handleToggleAd = bool => {
-    console.debug("toggle ad");
     this.setState({ showAd: bool });
   };
 
