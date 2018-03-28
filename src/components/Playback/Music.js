@@ -7,6 +7,8 @@ import firebase from "react-native-firebase";
 // its kinda weird to have the interstitial here, but its also
 // the most definitive place where playback pauses
 const adUnitId = "ca-app-pub-7411519305767770/5405440707";
+// const adTimeout = 1000; // for testing
+const adTimeout = 90000;
 
 class Music extends React.Component {
   constructor(props) {
@@ -45,16 +47,8 @@ class Music extends React.Component {
     if (newProps.isPlaying !== this.props.isPlaying) {
       this.setPlaying(newProps.isPlaying);
 
-      if (newProps.isPlaying !== true) {
-        console.debug("possibly show ad");
-
-        const now = new Date();
-        const timeDiff = now.valueOf() - this.state.loadDate.valueOf();
-        const timeout = 3000;
-        if (timeDiff > timeout && this.props.isFree === true) {
-          console.debug("show ad!");
-          this.interstitialAd_.show();
-        }
+      if (newProps.isPlaying === false) {
+        this.checkToShowAd();
       }
     }
 
@@ -151,18 +145,9 @@ class Music extends React.Component {
             loadDate: new Date()
           });
 
-          const request = new firebase.admob.AdRequest();
-          this.interstitialAd_ = firebase.admob().interstitial(adUnitId);
-          this.interstitialAd_.loadAd(request.build());
-          this.interstitialAd_.on("onAdLoaded", () => {
-            console.log("Advert ready to show.");
-          });
-          this.interstitialAd_.on("onAdFailedToLoad", evt => {
-            console.log("Ad failed to load.");
-            console.debug(evt);
-          });
-
           this.setPlaying(this.props.isPlaying);
+
+          this.loadAd();
         }
       }
     });
@@ -200,6 +185,29 @@ class Music extends React.Component {
           this.props.onProgress(progress);
         }
       });
+    }
+  };
+
+  loadAd = () => {
+    const request = new firebase.admob.AdRequest();
+    this.interstitialAd_ = firebase.admob().interstitial(adUnitId);
+    this.interstitialAd_.loadAd(request.build());
+    this.interstitialAd_.on("onAdLoaded", () => {
+      console.log("Ad loaded.");
+    });
+    this.interstitialAd_.on("onAdFailedToLoad", evt => {
+      console.log("Ad failed to load.", evt);
+    });
+  };
+
+  checkToShowAd = () => {
+    console.debug("possibly show ad");
+
+    const now = new Date();
+    const timeDiff = now.valueOf() - this.state.loadDate.valueOf();
+    if (timeDiff > adTimeout && this.props.isFree === true) {
+      console.debug("show ad!");
+      this.interstitialAd_.show();
     }
   };
 }
