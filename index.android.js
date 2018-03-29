@@ -43,6 +43,7 @@ syncChordsAndScales();
 
 // Firebase messaging
 firebase.messaging().subscribeToTopic("allusers");
+
 firebase
   .messaging()
   .getInitialNotification()
@@ -51,7 +52,18 @@ firebase
   });
 firebase.messaging().onMessage(message => {
   console.debug({ message });
+  if (message.local_notification) {
+    return;
+  }
+
+  firebase.messaging().createLocalNotification({
+    ...message.fcm,
+    local_notification: true, // prevent loop
+    show_in_foreground: true,
+    priority: "high"
+  });
 });
+
 firebase
   .messaging()
   .getToken()
