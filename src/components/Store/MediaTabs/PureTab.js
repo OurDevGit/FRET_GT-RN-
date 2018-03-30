@@ -116,11 +116,33 @@ class PureTab extends Component {
     );
   }
 
-  componentWillMount() {
+  async componentDidMount() {
     if (this.props.searchText.length > 1) {
       this.doSearch(this.props.searchText, this.props.media);
     } else {
       this.setMediaCount(this.props.media);
+    }
+
+    const { openSectionIndex } = await getUIState();
+    const { media } = this.props;
+
+    console.debug({ openSectionIndex });
+
+    if (!isNaN(openSectionIndex)) {
+      console.debug(`open section index is a number ${openSectionIndex}`);
+      if (media) {
+        if (media.get(openSectionIndex)) {
+          const sectionTitle = media.get(openSectionIndex).get("title");
+
+          if (sectionTitle) {
+            this.setState({
+              navigableOpenSection: sectionTitle
+            });
+
+            await setOpenSectionIndex(null);
+          }
+        }
+      }
     }
   }
 
@@ -196,7 +218,11 @@ class PureTab extends Component {
       // otherwise, set _ALLCLOSED
       const { openSectionIndex } = await getUIState();
       let didSetOpenSection = false;
+
+      console.debug({ openSectionIndex });
+
       if (!isNaN(openSectionIndex)) {
+        console.debug(`open section index is a number ${openSectionIndex}`);
         if (nextProps.media) {
           if (nextProps.media.get(openSectionIndex)) {
             const sectionTitle = nextProps.media
@@ -226,7 +252,7 @@ class PureTab extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  async componentDidUpdate(prevProps, prevState) {
     // opening/closing sections
     if (prevState.navigableOpenSection !== this.state.navigableOpenSection) {
       if (this.state.searchResults !== null) {
