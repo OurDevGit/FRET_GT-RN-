@@ -20,7 +20,9 @@ const AboutModal = ({ onClose }) => {
         activeOpacity={1}
       >
         <Image style={styles.image} source={source} resizeMode="contain" />
-        <Text style={styles.label}>{`Version ${packageJson.version}`}</Text>
+        <Text style={styles.label}>{`Version ${packageJson.version} (${
+          packageJson.build
+        })`}</Text>
       </TouchableOpacity>
     </Modal>
   );
