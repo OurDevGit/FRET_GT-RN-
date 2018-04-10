@@ -16,3 +16,8 @@ Mixpanel.sharedInstanceWithToken("f4d7c21c34d1d3642f111062ca91dc1d");
 export const registerSuperProperties = (mediaId, Title, Artist) => {
   Mixpanel.registerSuperProperties({ mediaId, Title, Artist });
 };
+
+export const registerUserSuperProperties = (BirthYear, PlayLevel) => {
+  console.log("metrics BirthYear", BirthYear, "PlayLevel", PlayLevel);
+  Mixpanel.registerSuperProperties({ BirthYear, PlayLevel });
+};

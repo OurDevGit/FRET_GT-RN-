@@ -33,6 +33,7 @@ import { loadJamBarData } from "./jam-bar/utils";
 
 import {
   registerSuperProperties,
+  registerUserSuperProperties,
   startAppSession,
   stopAppSession,
   startHomeView,
@@ -214,6 +215,10 @@ class Root extends Component {
     let isShowingUserForm =
       userBirthdate === undefined || userExperienceLevel === undefined;
 
+    if (userBirthdate !== undefined && userExperienceLevel !== undefined) {
+      registerUserSuperProperties(parseInt(userBirthdate), userExperienceLevel);
+    }
+
     this.setState({ userBirthdate, userExperienceLevel, isShowingUserForm });
   }
 
@@ -316,6 +321,7 @@ class Root extends Component {
     userExperienceLevel,
     shouldLoadFirstRun
   ) => {
+    registerUserSuperProperties(parseInt(userBirthdate), userExperienceLevel);
     this.props.dismissModal();
     this.setState({
       isShowingUserForm: false,
