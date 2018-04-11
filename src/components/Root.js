@@ -225,6 +225,7 @@ class Root extends Component {
   componentDidMount() {
     startAppSession();
     AppState.addEventListener("change", this.handleAppStateChange);
+    this.props.refreshStore();
   }
 
   componentWillUnmount() {
@@ -503,6 +504,7 @@ Root.propTypes = {
   isShowingJamBar: PropTypes.bool.isRequired,
   bleMenuIsActive: PropTypes.bool.isRequired,
   countdownTimerState: PropTypes.bool.isRequired,
+  refreshStore: PropTypes.func.isRequired,
   chooseMedia: PropTypes.func.isRequired,
   requestBootstrap: PropTypes.func.isRequired,
   presentModal: PropTypes.func.isRequired,
