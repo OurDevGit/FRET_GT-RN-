@@ -6,6 +6,7 @@ import com.facebook.react.ReactApplication;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.admob.RNFirebaseAdMobPackage;
 import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
+import io.invertase.firebase.config.RNFirebaseRemoteConfigPackage;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.horcrux.svg.SvgPackage;
 import com.kevinejohn.RNMixpanel.RNMixpanel;
@@ -48,7 +49,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RecordingPackage(), new SQLitePluginPackage(), new RCTPdfView(), new RNMail(), new RNFetchBlobPackage(),
           new RNSentryPackage(MainApplication.this), new ReactVideoPackage(), new InAppBillingBridgePackage(),
           new RNSoundPackage(), new GTReactPackage(), new WheelPackage(), new FBSDKPackage(mCallbackManager),
-          new RNFirebasePackage(), new RNFirebaseMessagingPackage(), new RNFirebaseAdMobPackage());
+          new RNFirebasePackage(), new RNFirebaseMessagingPackage(), new RNFirebaseAdMobPackage(),
+          new RNFirebaseRemoteConfigPackage());
     }
   };
 

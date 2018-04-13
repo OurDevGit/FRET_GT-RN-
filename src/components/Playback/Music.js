@@ -1,12 +1,15 @@
 import React from "react";
-import { View, Alert } from "react-native";
+import {
+  View,
+  Alert
+} from "react-native";
 import PropTypes from "prop-types";
 import Sound from "react-native-sound";
 import firebase from "react-native-firebase";
 
 // its kinda weird to have the interstitial here, but its also
 // the most definitive place where playback pauses
-const adUnitId = "ca-app-pub-7411519305767770/5405440707";
+const interstitialUnitId = "ca-app-pub-7411519305767770/5405440707";
 // const adTimeout = 1000; // for testing
 const adTimeout = 90000;
 
@@ -19,7 +22,7 @@ class Music extends React.Component {
   songSound = null;
 
   render() {
-    return <View />;
+    return <View / > ;
   }
 
   componentDidMount() {
@@ -93,9 +96,7 @@ class Music extends React.Component {
 
   getUrl = obj => {
     if (this.props.isPreview === true) {
-      return `https://guitar-tunes-media-data.s3.amazonaws.com/${
-        obj.mediaID
-      }/preview.m4a`;
+      return `https://guitar-tunes-media-data.s3.amazonaws.com/${obj.mediaID}/preview.m4a`;
     } else {
       const file = this.getAudio(obj);
       return `http://localhost:8888${file}`;
@@ -188,16 +189,30 @@ class Music extends React.Component {
     }
   };
 
-  loadAd = () => {
-    const request = new firebase.admob.AdRequest();
-    this.interstitialAd_ = firebase.admob().interstitial(adUnitId);
-    this.interstitialAd_.loadAd(request.build());
-    this.interstitialAd_.on("onAdLoaded", () => {
-      console.log("Ad loaded.");
+  loadAd = async () => {
+    const disableInterstitialBox = await firebase
+      .config()
+      .getValue("disable_interstitial");
+
+    const disableInterstitial = disableInterstitialBox.val() === true;
+    console.debug({
+      disableInterstitial
     });
-    this.interstitialAd_.on("onAdFailedToLoad", evt => {
-      console.log("Ad failed to load.", evt);
-    });
+
+    if (disableInterstitial !== true) {
+      const request = new firebase.admob.AdRequest();
+      this.interstitialAd_ = firebase.admob().interstitial(interstitialUnitId);
+      this.interstitialAd_.loadAd(request.build());
+      this.interstitialAd_.on("onAdLoaded", () => {
+        console.log("Ad loaded.");
+      });
+      this.interstitialAd_.on("onAdFailedToLoad", evt => {
+        console.log("Ad failed to load.", evt);
+      });
+    } else {
+      console.debug("skipping interstitial");
+      this.interstitialAd_ = undefined;
+    }
   };
 
   checkToShowAd = () => {
@@ -207,7 +222,12 @@ class Music extends React.Component {
     const timeDiff = now.valueOf() - this.state.loadDate.valueOf();
     if (timeDiff > adTimeout && this.props.isFree === true) {
       console.debug("show ad!");
-      this.interstitialAd_.show();
+      if (this.interstitialAd_) {
+        console.debug("trying to show ad");
+        this.interstitialAd_.show();
+      } else {
+        console.debug("no ad");
+      }
     }
   };
 }

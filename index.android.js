@@ -72,6 +72,20 @@ firebase
 // Firebase admob
 firebase.admob().initialize();
 
+// Firebase Remote Config
+if (__DEV__) {
+  firebase.config().enableDeveloperMode();
+}
+firebase.config().setDefaults({
+  disable_interstitial: true
+});
+firebase
+  .config()
+  .fetch()
+  .then(() => {
+    return firebase.config().activateFetched();
+  });
+
 class GuitarTunes extends Component {
   render() {
     return <Root store={_store} />;

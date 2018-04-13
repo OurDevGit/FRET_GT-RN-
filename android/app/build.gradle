@@ -159,6 +159,7 @@ dependencies {
     compile "com.google.firebase:firebase-messaging:11.8.0"
     compile 'com.google.firebase:firebase-core:11.8.0'
     compile "com.google.firebase:firebase-ads:11.8.0"
+    compile "com.google.firebase:firebase-config:11.8.0"
     compile project(':react-native-fbsdk')
     compile project(':react-native-svg')
     compile project(':react-native-mixpanel')
