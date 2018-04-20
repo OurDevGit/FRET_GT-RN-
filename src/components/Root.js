@@ -232,6 +232,16 @@ class Root extends Component {
     AppState.removeEventListener("change", this.handleAppStateChange);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.isShowingJamBar !== nextProps.isShowingJamBar) {
+      if (getIsPhone()) {
+        this.setState({
+          showAd: nextProps.isShowingJamBar !== true
+        });
+      }
+    }
+  }
+
   async componentDidUpdate(prevProps) {
     // hide the store when selecting new Current Media
     if (this.props.currentMedia !== null) {
