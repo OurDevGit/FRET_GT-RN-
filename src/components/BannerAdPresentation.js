@@ -1,7 +1,7 @@
 // @flow
 
 import React, { PureComponent, SyntheticEvent } from "react";
-import { View, StyleSheet, Alert } from "react-native";
+import { View, StyleSheet } from "react-native";
 import firebase from "react-native-firebase";
 const AdRequest = firebase.admob.AdRequest;
 
