@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
 import PropTypes from "prop-types";
+import Dimensions from "Dimensions";
 
 import ModalButton from "../modals/ModalButton";
 import Popover from "../modals/Popover";
@@ -15,6 +16,9 @@ class TrackModal extends React.Component {
 
   render() {
     const { guitar, tracks, isPhone } = this.props;
+    const { modalFrame } = this.state;
+    const screenWidth = Dimensions.get("window").width;
+
     var currentIndex = -1;
     const height = Math.min(300, tracks.length * 40 + 90);
     var pStyle = { ...trackModalStyles.popover, height };
@@ -28,14 +32,14 @@ class TrackModal extends React.Component {
     }
 
     if (guitar === undefined) {
-      pStyle.top = this.state.modalFrame.y - height - 10;
-      pStyle.left = this.state.modalFrame.x + 20;
+      pStyle.top = modalFrame.y - height - 10;
+      pStyle.left = modalFrame.x + 20;
     } else {
       currentIndex = tracks.findIndex(item => item.name === guitar.track);
-      pStyle.top = isPhone ? 20 : Math.max(100, this.state.modalFrame.y - 380);
-      pStyle.left = this.state.modalFrame.x + this.state.modalFrame.width + 10;
+      pStyle.top = isPhone ? 20 : Math.max(100, modalFrame.y - 380);
+      pStyle.left = modalFrame.x + modalFrame.width + 10;
+      pStyle.left = Math.min(pStyle.left, screenWidth - pStyle.width - 10);
     }
-
     return (
       <ModalButton onPress={this.displayModal}>
         {guitar === undefined ? (
@@ -67,7 +71,7 @@ class TrackModal extends React.Component {
             </View>
 
             <FlatList
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => `${index}`}
               data={tracks}
               initialScrollIndex={0}
               initialNumToRender={5}

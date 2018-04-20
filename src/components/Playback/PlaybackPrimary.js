@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
 });
 
 PlaybackPrimary.propTypes = {
-  height: PropTypes.number.isRequired,
+  height: PropTypes.number,
   mediaId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   artist: PropTypes.string.isRequired,
