@@ -16,6 +16,10 @@ class BtnTempoModal extends React.Component {
 
   render() {
     var tempos = defaultTempos();
+    const { modalFrame } = this.state;
+    const screenWidth = Dimensions.get("window").width;
+    const screenHeight = Dimensions.get("window").height;
+
     if (!this.props.isSmart || !this.props.isPhone) {
       if (
         this.props.currentVideoMidiFile === undefined ||
@@ -29,12 +33,13 @@ class BtnTempoModal extends React.Component {
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
     const color = this.props.color || "#222222";
 
-    const height = this.props.isPhone
-      ? Dimensions.get("window").height - 40
-      : 400;
-    const top = this.props.isPhone
-      ? 20
-      : Math.max(100, this.state.modalFrame.y - 380);
+    const height = this.props.isPhone ? screenHeight - 40 : 400;
+    const top = this.props.isPhone ? 20 : Math.max(100, modalFrame.y - 380);
+    const width = 170;
+
+    var left = modalFrame.x + modalFrame.width + 10;
+    console.log(modalFrame, screenWidth);
+    left = Math.min(left, screenWidth - width - 4);
 
     return (
       <ModalButton onPress={this.displayModal}>
@@ -49,10 +54,10 @@ class BtnTempoModal extends React.Component {
             type={ModalType.Position}
             style={{
               position: "absolute",
-              top: top,
-              left: this.state.modalFrame.x + this.state.modalFrame.width + 10,
-              width: 180,
-              height: height,
+              top,
+              left,
+              width,
+              height,
               padding: 20,
               backgroundColor: "white"
             }}
