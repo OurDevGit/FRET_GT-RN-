@@ -17,7 +17,6 @@ import CountdownTimer from "./CountdownTimer";
 import UserForm from "./user-form";
 import ReleaseNotes from "./ReleaseNotes";
 import Store from "./Store";
-
 import {
   setTabIndex,
   setCategoryIndex,
@@ -348,6 +347,8 @@ class Root extends Component {
     if (this.state.currentSection !== Sections.Home) {
       this.props.setJamBar(false);
       startHomeView();
+
+      this.handleClearMedia();
 
       this.setState({
         isShowingStore: false,
