@@ -23,16 +23,19 @@ type State = {
 };
 
 const getUnitId = props => {
+  // console.debug("getting unit id for props:");
+  // console.debug(props);
+
   var unitId = "ca-app-pub-7411519305767770/9269815470";
 
   if (props.isBluetooth) {
     unitId = "ca-app-pub-7411519305767770/6017854220";
   } else if (props.isFirstRun) {
     unitId = "ca-app-pub-7411519305767770/2440010797";
-  } else if (props.isHome) {
-    unitId = "ca-app-pub-7411519305767770/9269815470";
   } else if (props.isChordsAndScales) {
     unitId = "ca-app-pub-7411519305767770/5522142153";
+  } else if (props.isHome) {
+    unitId = "ca-app-pub-7411519305767770/9269815470";
   } else if (props.currentMedia) {
     if (props.currentMedia.isSong) {
       unitId = "ca-app-pub-7411519305767770/5826282536";
@@ -45,7 +48,7 @@ const getUnitId = props => {
     }
   }
 
-  console.debug(unitId);
+  // console.debug(`unit id: ${unitId}`);
 
   return unitId;
 };
