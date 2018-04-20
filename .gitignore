@@ -55,3 +55,4 @@ fastlane/screenshots
 /src/lesson.mp4
 /_java
 .vscode
+/android/gradle.properties.release
