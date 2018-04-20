@@ -1,20 +1,15 @@
 {
-  "name": "GuitarTunes",
+  "name": "guitar-tunes",
   "version": "1.2.1",
   "build": 10304,
   "private": true,
   "scripts": {
-    "start":
-      "node node_modules/react-native/local-cli/cli.js start --reset-cache",
+    "start": "node node_modules/react-native/local-cli/cli.js start --reset-cache",
     "test": "jest",
-    "stylekit":
-      "node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
-    "clean":
-      "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd ..",
-    "cleanjs":
-      "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
-    "build":
-      "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
+    "stylekit": "node makeStyleKit.js -j /com/optek/guitartunes/GuitarTunesStyleKit.java -s src/components/StyleKit/styleKitComponents.js",
+    "clean": "watchman watch-del-all && rm -rf $TMPDIR/react-* && cd android && ./gradlew clean && cd ..",
+    "cleanjs": "watchman watch-del-all && rm -rf node_modules && npm install && rm -rf $TMPDIR/react-*",
+    "build": "cd android && ./gradlew assembleRelease && cd .. && open android/app/build/outputs/apk/",
     "dev": "react-native run-android",
     "rel": "react-native run-android --variant=release",
     "lint": "eslint -c .eslintrc - ext .js src",
@@ -25,7 +20,6 @@
     "base-64": "^0.1.0",
     "base64-arraybuffer": "^0.1.5",
     "fast-memoize": "^2.2.8",
-    "flow-bin": "^0.68.0",
     "fuse.js": "^3.1.0",
     "immutable": "^3.8.2",
     "lodash": "^4.17.4",
@@ -35,8 +29,8 @@
     "pitchfinder": "^2.0.7",
     "prop-types": "^15.5.10",
     "re-reselect": "^0.5.0",
-    "react": "^16.2.0",
-    "react-native": "^0.53.0",
+    "react": "^16.3.1",
+    "react-native": "^0.55.3",
     "react-native-billing": "^2.3.1",
     "react-native-fbsdk": "^0.7.0",
     "react-native-fetch-blob": "github:big-swing/react-native-fetch-blob",
@@ -46,7 +40,7 @@
     "react-native-mixpanel": "0.0.16",
     "react-native-pdf": "^2.0.4",
     "react-native-recording": "^0.2.0",
-    "react-native-sentry": "^0.33.0",
+    "react-native-sentry": "^0.35.3",
     "react-native-sound": "^0.10.4",
     "react-native-sqlite-storage": "^3.3.4",
     "react-native-svg": "^6.0.0",
@@ -69,7 +63,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react-native": "2.0.0",
     "commander": "^2.11.0",
-    "flow-bin": "^0.63.0",
+    "flow-bin": "^0.68.0",
     "eslint": "^4.8.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-react": "^7.4.0",
