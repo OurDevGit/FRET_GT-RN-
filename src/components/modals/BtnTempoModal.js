@@ -38,7 +38,6 @@ class BtnTempoModal extends React.Component {
     const width = 170;
 
     var left = modalFrame.x + modalFrame.width + 10;
-    console.log(modalFrame, screenWidth);
     left = Math.min(left, screenWidth - width - 4);
 
     return (
