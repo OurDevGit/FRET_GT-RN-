@@ -272,8 +272,6 @@ class Song extends React.Component {
     return midiFile;
   };
 
-  // getAudio
-
   // DATA METHODS
 
   handleMusicData = data => {

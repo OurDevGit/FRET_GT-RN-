@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { View, Alert } from "react-native";
 import PropTypes from "prop-types";
 
 class Midi extends React.PureComponent {
@@ -31,6 +31,12 @@ class Midi extends React.PureComponent {
           this.props.onData(midi);
         })
         .catch(err => {
+          Alert.alert(
+            "MIDI Error",
+            `(2) We encountered an error when loading MIDI from file: ${err}`,
+            [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+            { cancelable: false }
+          );
           console.debug("error loading midi");
           console.debug(err);
         });

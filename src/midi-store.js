@@ -1,5 +1,6 @@
 import { List, Map, Set } from "immutable";
 import MidiParser from "./midi-parser";
+import { Alert } from "react-native";
 
 var notes = {};
 var watchedNotes = {};
@@ -17,6 +18,12 @@ export const loadMidi = path => {
       return midi;
     })
     .catch(err => {
+      Alert.alert(
+        "MIDI Error",
+        `(1) We encountered an error when loading MIDI from file: ${err}`,
+        [{ text: "OK", onPress: () => console.log("OK Pressed") }],
+        { cancelable: false }
+      );
       // TODO: should probably handle this
       console.log(err);
     });
@@ -137,7 +144,9 @@ const timeForStep = (
   const filtered = timesForTrack.filter(noteTime => {
     return type === "PREV"
       ? noteTime < time - 0.0002
-      : time === 0 ? noteTime >= 0 : noteTime > time;
+      : time === 0
+        ? noteTime >= 0
+        : noteTime > time;
   });
 
   if (filtered.count() > 0) {
