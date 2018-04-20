@@ -22,7 +22,7 @@ const buttonStyle = {
   minWidth: 50,
   height: 30,
   marginHorizontal: 6,
-  paddingTop: 4,
+  paddingTop: 10,
   fontSize: 20,
   lineHeight: 20,
   textAlign: "center",
