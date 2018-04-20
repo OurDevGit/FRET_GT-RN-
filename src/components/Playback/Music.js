@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  View,
-  Alert
-} from "react-native";
+import { View, Alert } from "react-native";
 import PropTypes from "prop-types";
 import Sound from "react-native-sound";
 import firebase from "react-native-firebase";
@@ -22,7 +19,7 @@ class Music extends React.Component {
   songSound = null;
 
   render() {
-    return <View / > ;
+    return <View />;
   }
 
   componentDidMount() {
@@ -96,7 +93,9 @@ class Music extends React.Component {
 
   getUrl = obj => {
     if (this.props.isPreview === true) {
-      return `https://guitar-tunes-media-data.s3.amazonaws.com/${obj.mediaID}/preview.m4a`;
+      return `https://guitar-tunes-media-data.s3.amazonaws.com/${
+        obj.mediaID
+      }/preview.m4a`;
     } else {
       const file = this.getAudio(obj);
       return `http://localhost:8888${file}`;
