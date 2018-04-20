@@ -53,7 +53,6 @@ class Song extends React.Component {
     playbackProgress: 0.0,
     playbackSeconds: 0.0,
     musicRate: 1,
-    playbackRate: 1,
     seek: -1
   };
 
@@ -111,7 +110,7 @@ class Song extends React.Component {
               isPhone={isPhone}
               isVideo={isVideo}
               isSmart={false}
-              tempo={this.state.playbackRate}
+              tempo={this.props.currentTempo}
               loopIsEnabled={this.props.loopIsEnabled}
               currentLoop={this.props.currentLoop}
               onToggleLibrary={this.props.onToggleLibrary}
@@ -169,7 +168,7 @@ class Song extends React.Component {
             />
             <PlaybackSecondary
               mediaId={mediaId}
-              tempo={this.state.playbackRate}
+              tempo={this.props.currentTempo}
               loopIsEnabled={this.props.loopIsEnabled}
               isPhone={isPhone}
               isVideo={false}
@@ -204,7 +203,7 @@ class Song extends React.Component {
           markers={this.props.markers}
           currentLoop={this.props.currentLoop}
           loopIsEnabled={this.props.loopIsEnabled}
-          tempo={this.state.playbackRate}
+          tempo={this.props.currentTempo}
           connectedDevices={this.props.connectedDevices}
           onPreviousPress={this.handlePreviousPress}
           onBackPress={this.handleBackPress}
@@ -371,11 +370,11 @@ class Song extends React.Component {
   };
 
   updatePlayback = () => {
-    if (this.state.playbackRate === 0) {
+    if (this.props.currentTempo === 0) {
+      this.props.onSelectTempo(1);
       this.setState({
         isPlaying: true,
-        musicRate: 1.0,
-        playbackRate: 1.0
+        musicRate: 1.0
       });
       startPlayback();
     } else {
@@ -386,7 +385,7 @@ class Song extends React.Component {
       }
       this.setState({
         isPlaying: !this.state.isPlaying,
-        musicRate: this.state.playbackRate
+        musicRate: this.props.currentTempo
       });
     }
   };
@@ -458,7 +457,7 @@ class Song extends React.Component {
 
   handleSelectTempo = tempo => {
     this.props.onSelectTempo(tempo);
-    var newState = { playbackRate: tempo };
+    var newState = {};
 
     if (this.state.isPlaying) {
       newState.musicRate = tempo;
@@ -560,6 +559,7 @@ Song.propTypes = {
   markers: PropTypes.object,
   currentMedia: PropTypes.object,
   currentLoop: PropTypes.object,
+  currentTempo: PropTypes.number.isRequired,
   visibleTracks: PropTypes.object,
   connectedDevices: PropTypes.number,
   modalIsPresented: PropTypes.bool.isRequired,
@@ -588,7 +588,8 @@ const mapStateToProps = state => {
     visibleTracks: state.get("visibleTracks"),
     connectedDevices: state.get("guitars").count(),
     modalIsPresented: state.get("modalIsPresented"),
-    appIsClosing: state.get("appIsClosing")
+    appIsClosing: state.get("appIsClosing"),
+    currentTempo: state.get("currentTempo")
   };
 };
 
