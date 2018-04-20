@@ -644,7 +644,11 @@ class Vid extends React.Component {
     this.setState({ areControlsVisible: true });
 
     setTimeout(() => {
-      if (currentId === controlFaderId && !this.state.forceControlsVisible) {
+      if (
+        currentId === controlFaderId &&
+        !this.state.forceControlsVisible &&
+        this.state.playbackRate > 0
+      ) {
         this.setState({ areControlsVisible: false });
       }
     }, 3000);
