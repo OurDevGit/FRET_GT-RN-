@@ -332,11 +332,14 @@ class PureTab extends Component {
     // console.debug("new search");
 
     const media = immMedia.toJS();
-    const allMedia = flatMap(media, m => toArray(m.data));
+    const filteredMedia = filterMedia(
+      media,
+      this.props.tabIndex,
+      this.state.navigableOpenSection
+    );
+    const flatMedia = flatMap(filteredMedia, m => toArray(m.data));
 
-    // console.debug(`Searching for ${searchText} in ${allMedia.length} Medias`);
-
-    const fuse = new Fuse(allMedia, fuseOptions);
+    const fuse = new Fuse(flatMedia, fuseOptions);
     if (fuse) {
       // console.debug("has Fuse");
       const result = fuse.search(searchText);

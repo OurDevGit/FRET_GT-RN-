@@ -1,4 +1,3 @@
-import React from "react";
 import { GetMediaButtonMode } from "../../../models/Media";
 
 export const filterMedia = (media, tabIndex, navigableOpenSection) => {
