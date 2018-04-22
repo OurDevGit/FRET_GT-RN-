@@ -20,6 +20,7 @@ export const loopIsEnabled = (state = true, action) => {
     case "ENABLE_LOOP":
       return action.payload;
     case "SET_CURRENT_LOOP":
+    case "SET_CURRENT_MEDIA":
       return true;
     case "DISABLE_LOOP":
       return false;
