@@ -7,14 +7,13 @@ import Dimensions from "Dimensions";
 import { Map } from "immutable";
 
 import { PrimaryBlue } from "../../design";
-import { BtnLoopDelete } from "../StyleKit";
 
 import { getLoops, deleteLoop } from "../../models/Loops";
 
 import ModalButton from "./ModalButton";
 import Popover from "./Popover";
 
-import { BtnPhoneMyLoops } from "../StyleKit";
+import { BtnLoopDelete, BtnPhoneMyLoops } from "../StyleKit";
 import { ModalType } from "./ModalType";
 import { trackMyLoopsTap } from "../../metrics";
 
@@ -30,7 +29,6 @@ class BtnMyLoopsModal extends React.Component {
     const { quickLoops, currentLoop, color, isPhone, isVideo } = this.props;
     const { isEditing, modalFrame, myLoops } = this.state;
     var allLoops = [];
-    var myLoopsFirstIndex = 0;
 
     if (isVideo) {
       if (quickLoops.length > 0) {
@@ -38,7 +36,6 @@ class BtnMyLoopsModal extends React.Component {
       }
 
       if (myLoops.length > 0) {
-        myLoopsFirstIndex = allLoops.length;
         allLoops = [...allLoops, { name: "USER LOOPS" }, ...myLoops];
       }
     } else {
@@ -121,34 +118,34 @@ class BtnMyLoopsModal extends React.Component {
               keyExtractor={(item, index) => `${index}`}
               data={allLoops}
               ItemSeparatorComponent={this.separator}
-              renderItem={({ item, index }) => (
-                <View
-                  style={{ width: "100%", height: 40, flexDirection: "row" }}
-                >
-                  <Text
-                    style={{
-                      height: "100%",
-                      textAlignVertical: "center",
-                      fontSize: 18,
-                      fontWeight: "400",
-                      marginRight: 10,
-                      color: PrimaryBlue,
-                      opacity:
-                        currentLoop.get("name") === item.name &&
-                        item.name !== "Clear Current Loop" &&
-                        item.name !== "SMARTLOOPS™" &&
-                        item.name !== "USER LOOPS"
-                          ? 1.0
-                          : 0.0
-                    }}
+              renderItem={({ item }) => {
+                const canDelete =
+                  isEditing &&
+                  myLoops.findIndex(loop => loop.id === item.id) > -1;
+                return (
+                  <View
+                    style={{ width: "100%", height: 40, flexDirection: "row" }}
                   >
-                    ✓
-                  </Text>
-                  {isEditing &&
-                    item.name !== "Clear Current Loop" &&
-                    item.name !== "SMARTLOOPS™" &&
-                    item.name !== "USER LOOPS" &&
-                    index > myLoopsFirstIndex && (
+                    <Text
+                      style={{
+                        height: "100%",
+                        textAlignVertical: "center",
+                        fontSize: 18,
+                        fontWeight: "400",
+                        marginRight: 10,
+                        color: PrimaryBlue,
+                        opacity:
+                          currentLoop.get("name") === item.name &&
+                          item.name !== "Clear Current Loop" &&
+                          item.name !== "SMARTLOOPS™" &&
+                          item.name !== "USER LOOPS"
+                            ? 1.0
+                            : 0.0
+                      }}
+                    >
+                      ✓
+                    </Text>
+                    {canDelete && (
                       <BtnLoopDelete
                         style={{
                           width: 30,
@@ -163,41 +160,43 @@ class BtnMyLoopsModal extends React.Component {
                       />
                     )}
 
-                  {item.name !== "SMARTLOOPS™" && item.name !== "USER LOOPS" ? (
-                    <TouchableOpacity
-                      style={{ flex: 1 }}
-                      onPress={() => {
-                        item.name === "Clear Current Loop"
-                          ? this.handleClearLoop()
-                          : this.handleSelectLoop(item);
-                      }}
-                    >
+                    {item.name !== "SMARTLOOPS™" &&
+                    item.name !== "USER LOOPS" ? (
+                      <TouchableOpacity
+                        style={{ flex: 1 }}
+                        onPress={() => {
+                          item.name === "Clear Current Loop"
+                            ? this.handleClearLoop()
+                            : this.handleSelectLoop(item);
+                        }}
+                      >
+                        <Text
+                          style={{
+                            height: "100%",
+                            textAlignVertical: "center",
+                            fontSize: 18
+                          }}
+                        >
+                          {item.name}
+                        </Text>
+                      </TouchableOpacity>
+                    ) : (
                       <Text
                         style={{
+                          marginLeft: -20,
                           height: "100%",
                           textAlignVertical: "center",
-                          fontSize: 18
+                          fontSize: 18,
+                          fontWeight: "800",
+                          color: "#888888"
                         }}
                       >
                         {item.name}
                       </Text>
-                    </TouchableOpacity>
-                  ) : (
-                    <Text
-                      style={{
-                        marginLeft: -20,
-                        height: "100%",
-                        textAlignVertical: "center",
-                        fontSize: 18,
-                        fontWeight: "800",
-                        color: "#888888"
-                      }}
-                    >
-                      {item.name}
-                    </Text>
-                  )}
-                </View>
-              )}
+                    )}
+                  </View>
+                );
+              }}
             />
           </Popover>
         )}
