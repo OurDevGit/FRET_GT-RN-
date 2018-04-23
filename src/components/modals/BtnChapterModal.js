@@ -104,10 +104,10 @@ class BtnChapterModal extends React.Component {
             </Text>
 
             <FlatList
-              keyExtractor={(item, index) => index}
+              keyExtractor={(item, index) => `${index}`}
               data={videoMarkers}
               ItemSeparatorComponent={this.separator}
-              renderItem={({ item, index }) => {
+              renderItem={({ item }) => {
                 const isActiveChapter =
                   currentChapter !== undefined &&
                   item.type === currentChapter.type &&
