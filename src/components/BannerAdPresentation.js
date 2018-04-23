@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     justifyContent: "center",
-    // height: "100%",
+    height: "100%",
     width: "100%"
   }
 });

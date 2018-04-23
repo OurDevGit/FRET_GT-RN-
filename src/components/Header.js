@@ -119,7 +119,7 @@ class AdContainer extends PureComponent<Props> {
 const styles = StyleSheet.create({
   bgImage: {
     height: "17%",
-    maxHeight: 80,
+    maxHeight: getIsPhone() ? 80 : 90,
     width: "100%",
     flexDirection: "row",
     alignItems: "center"
