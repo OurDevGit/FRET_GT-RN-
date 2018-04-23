@@ -70,7 +70,7 @@ const ScrollingPopover = ({
                 </Text>
 
                 <Text style={itemStyle} pointerEvents={"none"}>
-                  {item.replace("b", "♭")}
+                  {type !== "Key" ? item : item.replace("b", "♭")}
                 </Text>
               </TouchableOpacity>
             </View>

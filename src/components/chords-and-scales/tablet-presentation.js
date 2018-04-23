@@ -214,9 +214,10 @@ const ChordsAndScalesTabletPresentation = props => {
           </View>
 
           {/* IMAGE SCROLLVIEW */}
-          {(props.chart || props.photo) && (
-            <ImageScroller chart={props.chart} photo={props.photo} />
-          )}
+          {(props.chart || props.photo) &&
+            props.currentPosition !== "All" && (
+              <ImageScroller chart={props.chart} photo={props.photo} />
+            )}
         </View>
       </View>
 
