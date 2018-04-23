@@ -260,11 +260,12 @@ const ChordsAndScalesPhonePresentation = props => {
         </Modal>
       </View>
       {/* IMAGE SCROLLVIEW */}
-      {(props.chart || props.photo) && (
-        <View style={{ flex: 1, paddingTop: 10 }}>
-          <ImageScroller chart={props.chart} photo={props.photo} />
-        </View>
-      )}
+      {(props.chart || props.photo) &&
+        props.currentPosition !== "All" && (
+          <View style={{ flex: 1, paddingTop: 10 }}>
+            <ImageScroller chart={props.chart} photo={props.photo} />
+          </View>
+        )}
     </View>
   );
 };
