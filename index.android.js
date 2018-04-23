@@ -44,14 +44,13 @@ syncChordsAndScales();
 // Firebase messaging
 firebase.messaging().subscribeToTopic("allusers");
 
-firebase
-  .messaging()
-  .getInitialNotification()
-  .then(message => {
-    console.debug({ message });
-  });
+// firebase
+//   .messaging()
+//   .getInitialNotification()
+//   .then(message => {
+//   });
+
 firebase.messaging().onMessage(message => {
-  console.debug({ message });
   if (message.local_notification) {
     return;
   }
@@ -64,10 +63,11 @@ firebase.messaging().onMessage(message => {
   });
 });
 
-firebase
-  .messaging()
-  .getToken()
-  .then(token => console.debug({ token }));
+// useful for debugging and sending yourself a message
+// firebase
+//   .messaging()
+//   .getToken()
+//   .then(token => console.debug({ token }));
 
 // Firebase admob
 firebase.admob().initialize();
