@@ -6,6 +6,7 @@ class ModalButton extends React.Component {
   render() {
     return (
       <TouchableOpacity
+        disabled={this.props.disabled || false}
         ref={ref => (this.touchable = ref)}
         onPress={this.handlePress}
       >
@@ -23,6 +24,7 @@ class ModalButton extends React.Component {
 }
 
 ModalButton.propTypes = {
+  disabled: PropTypes.bool,
   children: PropTypes.array.isRequired,
   onPress: PropTypes.func.isRequired
 };

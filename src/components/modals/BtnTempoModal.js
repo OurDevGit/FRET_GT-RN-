@@ -19,6 +19,8 @@ class BtnTempoModal extends React.Component {
     const { modalFrame } = this.state;
     const screenWidth = Dimensions.get("window").width;
     const screenHeight = Dimensions.get("window").height;
+    var color = this.props.color || "#222222";
+    var isDisabled = false;
 
     if (!this.props.isSmart || !this.props.isPhone) {
       if (
@@ -26,12 +28,14 @@ class BtnTempoModal extends React.Component {
         this.props.currentVideoMidiFile !== null
       ) {
         tempos[19] = 0.1;
+      } else {
+        isDisabled = true;
+        color = "#888888";
       }
     }
 
     var currentIndex = tempos.indexOf(this.props.currentTempo);
     currentIndex = currentIndex > -1 ? currentIndex : tempos.length - 1;
-    const color = this.props.color || "#222222";
 
     const height = this.props.isPhone ? screenHeight - 40 : 400;
     const top = this.props.isPhone ? 20 : Math.max(100, modalFrame.y - 380);
@@ -41,7 +45,7 @@ class BtnTempoModal extends React.Component {
     left = Math.min(left, screenWidth - width - 4);
 
     return (
-      <ModalButton onPress={this.displayModal}>
+      <ModalButton disabled={isDisabled} onPress={this.displayModal}>
         <TempoText
           color={color}
           tempo={this.props.currentTempo}

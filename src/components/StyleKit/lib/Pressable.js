@@ -14,7 +14,10 @@ export const gtPcPressable = WrappedComponent => {
       delete pressableProps.onPress;
 
       return (
-        <TouchableOpacity onPress={this.handlePress}>
+        <TouchableOpacity
+          disabled={this.props.disabled || false}
+          onPress={this.handlePress}
+        >
           <View style={doDebugPcButtons ? styles.buttonDebug : styles.button}>
             <WrappedComponent {...pressableProps} />
           </View>
@@ -30,6 +33,7 @@ export const gtPcPressable = WrappedComponent => {
   }
 
   PaintCodePressable.propTypes = {
+    disabled: PropTypes.bool,
     onPress: PropTypes.func
   };
 
