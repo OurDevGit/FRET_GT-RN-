@@ -23,16 +23,15 @@ class BtnSaveLoopModal extends React.Component {
     const existingName = this.props.currentLoop.get("name");
     const isPhone = getIsPhone();
     const top = isPhone ? 0 : -300;
+    const disabled = !this.props.isEnabled || false;
+    const color = disabled ? "#888888" : "#222222";
 
     return (
-      <ModalButton onPress={this.displayModal}>
+      <ModalButton disabled={disabled} onPress={this.displayModal}>
         {isPhone ? (
-          <BtnPhoneLoopSave
-            style={{ width: 36, height: 36 }}
-            color={"#222222"}
-          />
+          <BtnPhoneLoopSave style={{ width: 36, height: 36 }} color={color} />
         ) : (
-          <Text style={this.props.style}>Save Loop</Text>
+          <Text style={[this.props.style, { color }]}>Save Loop</Text>
         )}
 
         {this.state.modalIsVisible && (
@@ -187,6 +186,7 @@ class BtnSaveLoopModal extends React.Component {
 }
 
 BtnSaveLoopModal.propTypes = {
+  isEnabled: PropTypes.bool,
   style: PropTypes.object.isRequired,
   mediaId: PropTypes.string.isRequired,
   currentLoop: PropTypes.object.isRequired,

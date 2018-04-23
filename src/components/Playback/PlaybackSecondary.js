@@ -55,6 +55,9 @@ class PlaybackSecondary extends PureComponent {
       onToggleFretlightAdmin
     } = this.props;
 
+    const isEnabled = this.props.currentVideoMidiFile !== null;
+    const btnColor = isEnabled ? "#222222" : "#888888";
+
     return (
       <View
         style={{
@@ -109,12 +112,13 @@ class PlaybackSecondary extends PureComponent {
           <BtnPhoneLoopToggle
             style={{ width: 40, height: 40 }}
             loopsEnabled={loopIsEnabled}
-            color={"#222222"}
+            color={btnColor}
+            disabled={!isEnabled}
             onPress={onLoopEnable}
           />
         ) : (
-          <TouchableOpacity onPress={onLoopEnable}>
-            <Text style={buttonStyle}>
+          <TouchableOpacity disabled={!isEnabled} onPress={onLoopEnable}>
+            <Text style={[buttonStyle, { color: btnColor }]}>
               {loopIsEnabled ? "Loop ON" : "Loop OFF"}
             </Text>
           </TouchableOpacity>
@@ -123,26 +127,30 @@ class PlaybackSecondary extends PureComponent {
         {isPhone ? (
           <PhoneLoopLeft
             style={{ width: 36, height: 36 }}
-            isEnabled={true}
+            isEnabled={isEnabled}
+            disabled={!isEnabled}
             onPress={onLoopBegin}
           />
         ) : (
           <LoopLeft
             style={{ width: 30, height: 30 }}
-            isEnabled={true}
+            isEnabled={isEnabled}
+            disabled={!isEnabled}
             onPress={onLoopBegin}
           />
         )}
         {isPhone ? (
           <PhoneLoopRight
             style={{ width: 36, height: 36 }}
-            isEnabled={true}
+            isEnabled={isEnabled}
+            disabled={!isEnabled}
             onPress={onLoopEnd}
           />
         ) : (
           <LoopRight
             style={{ width: 30, height: 30 }}
-            isEnabled={true}
+            isEnabled={isEnabled}
+            disabled={!isEnabled}
             onPress={onLoopEnd}
           />
         )}
@@ -152,6 +160,7 @@ class PlaybackSecondary extends PureComponent {
           mediaId={mediaId}
           currentLoop={currentLoop}
           isPhone={isPhone}
+          isEnabled={isEnabled}
           onSetCurrentLoop={onSetCurrentLoop}
           onForceControlsVisible={onForceControlsVisible}
         />
