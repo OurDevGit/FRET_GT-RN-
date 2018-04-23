@@ -68,8 +68,7 @@ export const getPattern = async (category, type, key, position) => {
       let chordType = pattern.type.replace(" Chords", "");
       patternNotes = await getPatternNotes("Chords", chordType, key);
     } else if (pattern.noteData.scale !== undefined) {
-      let scaleType = pattern.noteData.scale.csType;
-      patternNotes = await getPatternNotes("Scales", scaleType, key);
+      patternNotes = await getPatternNotes("Scales", pattern.type, key);
     } else if (pattern.noteData.interval !== undefined) {
       let intervalType = pattern.noteData.interval.csType;
       let secondKey = getIntervalSecondKey(intervalType, key);
@@ -129,7 +128,6 @@ export const allNotesPattern = () => {
 
 export const getPatternNotes = async (category, type, key) => {
   let patterns = await getCsPatterns(category, type, key);
-
   let patternNotes = patterns.reduce((arr, pattern) => {
     if (pattern.noteData.notes !== undefined) {
       return arr.concat(pattern.noteData.notes);
