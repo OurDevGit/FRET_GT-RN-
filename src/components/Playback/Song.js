@@ -408,23 +408,45 @@ class Song extends React.Component {
 
   handleForwardPress = () => {
     trackPlaybackForward();
-    this.goToTime(this.state.playbackSeconds + 30);
+
+    const { loopIsEnabled } = this.props;
+    const begin = this.props.currentLoop.get("begin") || 0;
+    const end = this.props.currentLoop.get("end");
+    var newTime = this.state.playbackSeconds + 30;
+
+    if (end !== undefined && newTime > end && loopIsEnabled) {
+      this.goToTime(begin);
+    } else {
+      this.goToTime(newTime);
+    }
   };
 
   handleNextPress = () => {
     trackPlaybackNext();
-    const { markers } = this.props;
+    const { loopIsEnabled, markers } = this.props;
+    const begin = this.props.currentLoop.get("begin") || 0;
+    const end = this.props.currentLoop.get("end");
     const seconds = this.state.playbackSeconds;
+    var newTime = seconds;
 
-    if (markers.count() === 0 || markers.last().time < seconds) {
-      this.goToTime(0);
+    if (
+      markers.count() === 0 ||
+      markers.last().time < this.state.playbackSeconds
+    ) {
+      newTime = 0;
     } else {
       for (let marker of markers) {
         if (marker.time > seconds) {
-          this.goToTime(marker.time);
+          newTime = marker.time;
           break;
         }
       }
+    }
+
+    if (end !== undefined && newTime > end && loopIsEnabled) {
+      this.goToTime(begin);
+    } else {
+      this.goToTime(newTime);
     }
   };
 
@@ -440,7 +462,7 @@ class Song extends React.Component {
       this.props.clearCurrentLoop();
     }
 
-    if (end !== undefined && time > end) {
+    if (end !== undefined && time >= end) {
       this.props.clearCurrentLoop();
     }
 
@@ -449,8 +471,10 @@ class Song extends React.Component {
 
   handleMarkerLongPress = (begin, end, name) => {
     trackMarkerHold(name);
+
     const loop = Map({ begin, end });
     this.props.setCurrentLoop(loop);
+
     this.goToTime(begin);
   };
 
