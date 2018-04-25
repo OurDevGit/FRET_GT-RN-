@@ -88,6 +88,7 @@ class Song extends React.Component {
           isSeeking={this.state.isSeeking}
           song={this.props.song}
           onProgress={this.handleProgress}
+          onComplete={this.handleCompletion}
           onData={this.handleMusicData}
           isPreview={false}
           isFree={this.props.currentMedia.isFree === true}
@@ -313,7 +314,6 @@ class Song extends React.Component {
       const currentProgress = currentTime / duration;
       if (currentProgress != playbackProgress || currentTime !== seconds) {
         const loop = currentLoop.toJS() || { begin: -1, end: duration };
-
         if (loopIsEnabled && currentTime >= loop.end && loop.begin > -1) {
           if (loop.end > duration - 0.25) {
             this.setState({ isPlaying: false });
@@ -330,6 +330,24 @@ class Song extends React.Component {
           updateTime(currentTime);
         }
       }
+    }
+  };
+
+  handleCompletion = () => {
+    console.log("completion");
+    this.setState({ isPlaying: false });
+    const { loopIsEnabled, currentLoop, updateTime } = this.props;
+    const loop = currentLoop.toJS() || { begin: -1 };
+    if (loopIsEnabled && loop.begin > -1) {
+      this.setState({ seek: loop.begin, isPlaying: true });
+    } else {
+      this.setState({
+        playbackProgress: 0,
+        playbackSeconds: 0,
+        seek: -1
+      });
+
+      updateTime(0);
     }
   };
 
