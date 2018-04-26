@@ -449,7 +449,17 @@ class Vid extends React.Component {
   handleForwardPress = () => {
     trackPlaybackForward();
     this.resetDisplayTimer();
-    this.goToTime(this.playbackSeconds + 30);
+
+    const { loopIsEnabled } = this.props;
+    const begin = this.props.currentLoop.get("begin") || 0;
+    const end = this.props.currentLoop.get("end");
+    var newTime = this.playbackSeconds + 30;
+
+    if (end !== undefined && newTime > end && loopIsEnabled) {
+      this.goToTime(begin);
+    } else {
+      this.goToTime(newTime);
+    }
   };
 
   handleNextPress = () => {
