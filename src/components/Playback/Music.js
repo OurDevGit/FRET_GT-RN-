@@ -139,9 +139,15 @@ class Music extends React.Component {
       } else {
         if (this.songSound !== null) {
           const duration = this.songSound.getDuration();
-          this.props.onData({
-            duration
-          });
+          this.props.onData({ duration });
+
+          console.log("SONG LOADED WITH DURATION", duration);
+          if (duration === null || duration === undefined || duration === 0) {
+            Alert.alert(
+              "Song Data Error",
+              "There was reading the data for this song. If this issue persists, please Archive the song in your library by tapping the (i) button and 'Archive File', and then download it again."
+            );
+          }
 
           this.setState({
             mediaDuration: duration,
