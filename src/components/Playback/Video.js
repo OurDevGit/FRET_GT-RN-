@@ -464,19 +464,57 @@ class Vid extends React.Component {
 
   handleNextPress = () => {
     trackPlaybackNext();
-    this.resetDisplayTimer();
-    const { videoChapters } = this.props;
-    const seconds = this.playbackSeconds || 0;
+    const { loopIsEnabled, markers } = this.props;
+    const begin = this.props.currentLoop.get("begin") || 0;
+    const end = this.props.currentLoop.get("end");
+    const seconds = this.state.playbackSeconds;
+    var newTime = seconds;
 
-    if (videoChapters.count() === 0 || videoChapters.last().time < seconds) {
-      this.goToTime(0);
+    if (
+      markers.count() === 0 ||
+      markers.last().time < this.state.playbackSeconds
+    ) {
+      newTime = 0;
     } else {
-      for (let chapter of videoChapters) {
-        if (chapter.begin > seconds) {
-          this.goToTime(chapter.begin + 0.1);
+      for (let marker of markers) {
+        if (marker.time > seconds) {
+          newTime = marker.time;
           break;
         }
       }
+    }
+
+    if (end !== undefined && newTime > end && loopIsEnabled) {
+      this.goToTime(begin);
+    } else {
+      this.goToTime(newTime);
+    }
+  };
+
+  handleNextPress = () => {
+    trackPlaybackNext();
+    this.resetDisplayTimer();
+    const { loopIsEnabled, videoChapters } = this.props;
+    const begin = this.props.currentLoop.get("begin") || 0;
+    const end = this.props.currentLoop.get("end");
+    const seconds = this.playbackSeconds || 0;
+    var newTime = this.playbackSeconds;
+
+    if (videoChapters.count() === 0 || videoChapters.last().time < seconds) {
+      newTime = 0;
+    } else {
+      for (let chapter of videoChapters) {
+        if (chapter.begin > seconds) {
+          newTime = chapter.begin + 0.1;
+          break;
+        }
+      }
+    }
+
+    if (end !== undefined && newTime > end && loopIsEnabled) {
+      this.goToTime(begin);
+    } else {
+      this.goToTime(newTime);
     }
   };
 
