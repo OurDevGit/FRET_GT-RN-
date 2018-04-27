@@ -105,7 +105,10 @@ class Music extends React.Component {
   setPlaying = isPlaying => {
     if (this.songSound) {
       if (isPlaying === true) {
-        this.songSound.setSpeed(this.props.rate).play();
+        this.songSound.setSpeed(this.props.rate);
+        this.songSound.play(() => {
+          this.props.onComplete();
+        });
       } else {
         this.songSound.setSpeed(0);
         this.songSound.pause();
@@ -136,9 +139,15 @@ class Music extends React.Component {
       } else {
         if (this.songSound !== null) {
           const duration = this.songSound.getDuration();
-          this.props.onData({
-            duration
-          });
+          this.props.onData({ duration });
+
+          console.log("SONG LOADED WITH DURATION", duration);
+          if (duration === null || duration === undefined || duration === 0) {
+            Alert.alert(
+              "Song Data Error",
+              "There was reading the data for this song. If this issue persists, please Archive the song in your library by tapping the (i) button and 'Archive File', and then download it again."
+            );
+          }
 
           this.setState({
             mediaDuration: duration,
@@ -239,6 +248,7 @@ Music.propTypes = {
   song: PropTypes.object,
   seek: PropTypes.number,
   onProgress: PropTypes.func.isRequired,
+  onComplete: PropTypes.func.isRequired,
   onPlayEnd: PropTypes.func,
   onData: PropTypes.func.isRequired,
   isPreview: PropTypes.bool.isRequired

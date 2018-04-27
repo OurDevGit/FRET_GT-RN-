@@ -64,7 +64,7 @@ class PlaybackMarkers extends React.Component {
             <MarkerFull
               key={index}
               marker={marker}
-              end={Math.round(end)}
+              end={end}
               left={Math.round(x)}
               onMarkerPress={onMarkerPress}
               onMarkerLongPress={onMarkerLongPress}

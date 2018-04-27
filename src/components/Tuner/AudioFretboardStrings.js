@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { View, StyleSheet } from "react-native";
 
 const AudioFretboardStrings = ({ currentString, isBass }) => {
-  const strings = isBass ? [0, 1, 2, 3] : [0, 1, 2, 3, 4, 5];
+  const strings = isBass ? [2, 3, 4, 5] : [0, 1, 2, 3, 4, 5];
   const origHeight = isBass ? 4 : 2;
 
   return (
