@@ -4,20 +4,20 @@ const filteredItem = (items, predicate) => {
   return items === undefined ? Map() : Map(items.filter(predicate).first());
 };
 
-exports.chapterForTime = (time, items) => {
+export const chapterForTime = (time, items) => {
   return filteredItem(
     items,
     item => item.type === "chapter" && item.begin <= time && item.end >= time
   );
 };
 
-exports.markerForTime = (time, items) => {
+export const markerForTime = (time, items) => {
   return filteredItem(
     items,
     item => item.type === "marker" && item.begin <= time && item.end >= time
   );
 };
 
-exports.midiForTime = (time, items) => {
+export const midiForTime = (time, items) => {
   return filteredItem(items, item => item.begin <= time && item.end >= time);
 };

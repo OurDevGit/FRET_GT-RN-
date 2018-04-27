@@ -278,10 +278,7 @@ class PlaybackTimeline extends Component {
 
   getOffsetElapsed = (progress, duration, marker) => {
     if (marker !== undefined && marker.begin !== undefined) {
-      const time = progress * duration;
-      const adjusted = time - marker.begin;
-      const offset = adjusted / (marker.end - marker.begin);
-      return isNaN(offset) ? 0 : offset;
+      return progress * duration - marker.begin;
     } else {
       return isNaN(progress) ? 0 : progress * duration;
     }
