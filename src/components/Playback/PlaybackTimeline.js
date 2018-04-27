@@ -38,21 +38,23 @@ class PlaybackTimeline extends Component {
     } = this.props;
     const { progress, layout, containerLayout } = this.state;
 
-    const offsetProgress = this.offsetProgress(
+    const offsetProgress = this.getOffsetProgress(
       progress,
       duration,
       currentVideoChapter,
       currentVideoMarker
     );
-    const offsetDuration = this.offsetDuration(
+    const offsetDuration = this.getOffsetDuration(
       duration,
       currentVideoChapter,
       currentVideoMarker
     );
 
-    const elapsed = this.formattedTime(offsetDuration * offsetProgress);
+    const elapsed = this.formattedTime(
+      this.getOffsetElapsed(progress, duration, currentVideoMarker)
+    );
     const remaining = this.formattedTime(
-      offsetDuration - offsetDuration * offsetProgress
+      this.getOffsetRemaining(progress, duration, currentVideoMarker)
     );
 
     const loop = currentLoop.toJS() || { begin: -1, end: -1 };
@@ -248,7 +250,7 @@ class PlaybackTimeline extends Component {
     }
   };
 
-  offsetProgress = (progress, duration, chapter, marker) => {
+  getOffsetProgress = (progress, duration, chapter, marker) => {
     if (marker !== undefined && marker.begin !== undefined) {
       const time = progress * duration;
       const adjusted = time - marker.begin;
@@ -264,7 +266,7 @@ class PlaybackTimeline extends Component {
     }
   };
 
-  offsetDuration = (duration, chapter, marker) => {
+  getOffsetDuration = (duration, chapter, marker) => {
     if (marker !== undefined && marker.begin !== undefined) {
       return marker.end - marker.begin;
     } else if (chapter !== undefined && chapter.begin !== undefined) {
@@ -272,6 +274,28 @@ class PlaybackTimeline extends Component {
     } else {
       return duration;
     }
+  };
+
+  getOffsetElapsed = (progress, duration, marker) => {
+    if (marker !== undefined && marker.begin !== undefined) {
+      const time = progress * duration;
+      const adjusted = time - marker.begin;
+      const offset = adjusted / (marker.end - marker.begin);
+      return isNaN(offset) ? 0 : offset;
+    } else {
+      return isNaN(progress) ? 0 : progress * duration;
+    }
+  };
+
+  getOffsetRemaining = (progress, duration, marker) => {
+    var val;
+    if (marker !== undefined && marker.begin !== undefined) {
+      val = marker.end - marker.begin;
+    } else {
+      val = duration;
+    }
+
+    return val - this.getOffsetElapsed(progress, duration, marker);
   };
 
   formattedTime = time => {
