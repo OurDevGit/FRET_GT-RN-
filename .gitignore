@@ -56,3 +56,4 @@ fastlane/screenshots
 /_java
 .vscode
 /android/gradle.properties.release
+/android/gradle.properties.keys
