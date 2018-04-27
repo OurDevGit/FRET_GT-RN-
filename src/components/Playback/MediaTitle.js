@@ -6,15 +6,19 @@ import { getIsPhone } from "../../utils";
 
 class MediaTitle extends React.Component {
   state = {
-    height: -1
+    height: -1,
+    subtitleLayout: { height: -1, y: -1 }
   };
 
   render() {
-    const { height } = this.state;
+    const { height, subtitleLayout } = this.state;
     const fontSize = getIsPhone() ? 12 : 18;
-    const title = height > 0 ? this.props.title : "";
-    const artist = height > 0 ? this.props.artist : "";
+    const title = height > 0 ? this.props.title.trim() : "";
+    const artist = height > 0 ? this.props.artist.trim() : "";
     const numberOfLines = parseInt(height / fontSize);
+
+    const subtitleTooTall = subtitleLayout.height + subtitleLayout.y > height;
+
     return (
       <View style={styles.container} onLayout={this.handleLayout}>
         <Text
@@ -23,8 +27,12 @@ class MediaTitle extends React.Component {
           ellipsizeMode="tail"
         >
           {title}
-          <Text style={styles.artist}>{"\n" + artist}</Text>
         </Text>
+        {subtitleTooTall !== true && (
+          <Text style={styles.artist} onLayout={this.handleSubtitleLayout}>
+            {artist}
+          </Text>
+        )}
       </View>
     );
   }
@@ -32,16 +40,26 @@ class MediaTitle extends React.Component {
   handleLayout = e => {
     this.setState({ height: e.nativeEvent.layout.height });
   };
+
+  handleSubtitleLayout = e => {
+    this.setState({ subtitleLayout: e.nativeEvent.layout });
+  };
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, justifyContent: "center" },
+  container: {
+    flex: 1
+    // justifyContent: "center"
+  },
   title: {
-    flex: 1,
+    // flex: 1,
     color: PrimaryBlue,
     fontSize: getIsPhone() ? 12 : 18
   },
-  artist: { fontSize: getIsPhone() ? 10 : 16, color: "black" }
+  artist: {
+    fontSize: getIsPhone() ? 10 : 16,
+    color: "black"
+  }
 });
 
 MediaTitle.propTypes = {

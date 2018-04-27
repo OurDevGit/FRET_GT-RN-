@@ -59,10 +59,7 @@ class Song extends React.Component {
   render() {
     const mediaTitle =
       this.props.song !== undefined ? this.props.song.title : "";
-    const artist =
-      this.props.song !== undefined && this.props.height > 200
-        ? this.props.song.artist
-        : "";
+    const artist = this.props.song !== undefined ? this.props.song.artist : "";
     const artworkURL =
       this.props.song !== undefined ? this.props.song.artworkURL : "";
     const mediaId = this.props.song !== undefined ? this.props.song.id : "";
