@@ -631,7 +631,8 @@ class Vid extends React.Component {
       this.props.visibleTracks.first().get("name"),
       this.props.currentLoop,
       this.props.loopIsEnabled,
-      this.props.currentVideoMarker
+      this.props.currentVideoMarker,
+      this.props.currentVideoChapter
     );
 
     this.goToTime(time);
@@ -643,7 +644,8 @@ class Vid extends React.Component {
       this.props.visibleTracks.first().get("name"),
       this.props.currentLoop,
       this.props.loopIsEnabled,
-      this.props.currentVideoMarker
+      this.props.currentVideoMarker,
+      this.props.currentVideoChapter
     );
 
     this.goToTime(time);

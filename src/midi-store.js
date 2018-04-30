@@ -117,24 +117,40 @@ const timeForStep = (
   track,
   currentLoop,
   loopIsEnabled,
-  currentVideoMarker
+  currentVideoMarker,
+  currentVideoChapter
 ) => {
   const notesForTrack = Set(notes[track]);
   var timesForTrack = Set(notesForTrack.map(note => note.begin));
 
-  timesForTrack = timesForTrack.filter(noteTime => {
-    const begin = currentLoop.get("begin") - midiOffset || undefined;
-    const end = currentLoop.get("end") - midiOffset || undefined;
-    if (loopIsEnabled && begin !== undefined && end !== undefined) {
-      return begin <= noteTime && end > noteTime;
-    } else {
-      return true;
-    }
-  });
+  timesForTrack = timesForTrack
+    .filter(noteTime => {
+      const begin = currentLoop.get("begin") - midiOffset || undefined;
+      const end = currentLoop.get("end") - midiOffset || undefined;
+      if (loopIsEnabled && begin !== undefined && end !== undefined) {
+        return begin <= noteTime && end > noteTime;
+      } else {
+        return true;
+      }
+    })
+    .sort();
 
-  if (currentVideoMarker !== undefined) {
+  if (
+    currentVideoMarker !== undefined &&
+    currentVideoMarker.get("begin") !== undefined
+  ) {
     const begin = currentVideoMarker.get("begin") - midiOffset;
     const end = currentVideoMarker.get("end") - midiOffset;
+
+    timesForTrack = timesForTrack.filter(noteTime => {
+      return begin <= noteTime && end > noteTime;
+    });
+  } else if (
+    currentVideoChapter !== undefined &&
+    currentVideoChapter.get("begin") !== undefined
+  ) {
+    const begin = currentVideoChapter.get("begin") - midiOffset;
+    const end = currentVideoChapter.get("end") - midiOffset;
 
     timesForTrack = timesForTrack.filter(noteTime => {
       return begin <= noteTime && end > noteTime;
@@ -187,7 +203,7 @@ const timeForStep = (
     return time + midiOffset;
   } else {
     const chosenTime = type === "PREV" ? sorted.last() : sorted.first();
-    const adjustedTime = chosenTime + midiOffset;
+    const adjustedTime = chosenTime + midiOffset + 0.0001;
     return adjustedTime;
   }
 };
@@ -197,7 +213,8 @@ export const timeForPrevStep = (
   track,
   currentLoop,
   loopIsEnabled,
-  currentVideoMarker
+  currentVideoMarker,
+  currentVideoChapter
 ) => {
   return timeForStep(
     "PREV",
@@ -205,7 +222,8 @@ export const timeForPrevStep = (
     track,
     currentLoop,
     loopIsEnabled,
-    currentVideoMarker
+    currentVideoMarker,
+    currentVideoChapter
   );
 };
 
@@ -214,7 +232,8 @@ export const timeForNextStep = (
   track,
   currentLoop,
   loopIsEnabled,
-  currentVideoMarker
+  currentVideoMarker,
+  currentVideoChapter
 ) => {
   return timeForStep(
     "NEXT",
@@ -222,6 +241,7 @@ export const timeForNextStep = (
     track,
     currentLoop,
     loopIsEnabled,
-    currentVideoMarker
+    currentVideoMarker,
+    currentVideoChapter
   );
 };
