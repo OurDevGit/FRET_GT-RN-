@@ -163,7 +163,7 @@ export const downloadMediaFiles = async (files, mediaId) => {
     // finish download
     // console.debug("done with downloads");
     updateSubscribers(mediaId, 1);
-    _dispatchFinish();
+    _dispatchFinish(mediaId, filesMap);
 
     // console.debug(filesMap);
     return filesMap;
@@ -175,9 +175,8 @@ export const downloadMediaFiles = async (files, mediaId) => {
 };
 
 export const configureDownloadManager = async store => {
-  _dispatchFinish = fileMap => {
-    console.debug("finishing DL");
-    store.dispatch(finishDownload(fileMap));
+  _dispatchFinish = (mediaId, filesMap) => {
+    store.dispatch(finishDownload(mediaId, filesMap));
   };
 
   const allDownloads = await getAllDownloads();
