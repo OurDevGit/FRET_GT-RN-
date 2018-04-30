@@ -77,7 +77,7 @@ class Home extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     const shouldUpdate =
-      this.props.homePage !== nextState.homePage ||
+      this.state.indexFile !== nextState.indexFile ||
       this.props.purchasedMedia.length !== nextProps.purchasedMedia.length;
 
     return shouldUpdate;
