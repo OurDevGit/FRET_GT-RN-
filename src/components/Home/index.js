@@ -27,7 +27,8 @@ class Home extends React.Component {
 
   state = {
     indexFile: "RELOAD",
-    reloadTrigger: 0
+    reloadTrigger: 0,
+    tappedMediaId: undefined
   };
 
   render() {
@@ -69,6 +70,16 @@ class Home extends React.Component {
   componentDidMount() {
     this.props.fetchConfig();
     this.isMounted_ = true;
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    // if the media we tapped comes through, play it
+    if (this.props.downloadedMediaIds.contains(this.state.tappedMediaId)) {
+      this.props.onChoose(this.state.tappedMediaId);
+      this.setState({
+        tappedMediaId: undefined
+      });
+    }
   }
 
   componentWillUnmount() {
@@ -144,6 +155,9 @@ class Home extends React.Component {
         case "//purchase": {
           const mediaId = search.split("=")[1] || "";
           console.debug(`Choose ${mediaId}`);
+          this.setState({
+            tappedMediaId: mediaId
+          });
           this.props.onChoose(mediaId);
           if (this.props.downloadedMediaIds.includes(mediaId) !== true) {
             Alert.alert(null, "Your Media is downloading.", [{ text: "OK" }]);
