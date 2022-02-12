@@ -61,7 +61,7 @@
     "reselect": "^3.0.1"
   },
   "devDependencies": {
-    "ajv": "^5.2.3",
+    "ajv": "^6.12.3",
     "babel-eslint": "^7.2.3",
     "babel-jest": "20.0.3",
     "babel-plugin-transform-remove-console": "^6.8.5",
